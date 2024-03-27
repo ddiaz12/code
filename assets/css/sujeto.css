@@ -1,0 +1,24 @@
+.cuerpo-sujeto{
+    
+}
+
+.navbar-custom {
+    background-color: #8B0000; /* Fondo rojo tinto */
+}
+
+.div-escudo {
+    width:  11%;
+    margin-right: 4px;
+    margin-left: 0px;
+}
+
+#logo{
+    width: 100%;
+}
+
+@media screen and (max-width: 850px) {
+    .div-escudo {
+        display: none;
+    }
+    
+}
