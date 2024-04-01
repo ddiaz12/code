@@ -116,31 +116,62 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
+                    <h1 class="mt-4">Tables</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url("home/home_sujeto") ?>">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Tables</li>
                     </ol>
-                    <div class="row">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <div class="card h-100 d-flex align-items-center card-regulacion">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Regulaciones</h5>
-                                    <p class="card-text text-regulacion">Administra cualquier normativa de caracter general.</p>
-                                    <a href="#" class="btn btn-primary btn-regulacion">administrar</a>
-                                </div>
-                            </div>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            Oficinas
                         </div>
-                        <div class="col-sm-6">
-                            <div class="card h-100 d-flex align-items-center card-oficina">
-                                <div class="card-body card-oficinas text-center">
-                                    <h5 class="card-title">Oficinas</h5>
-                                    <p class="card-text">Administrar usuarios de la plataforma del Catálogo Nacional de Trámites y Servicios.</p>
-                                    <a href="<?php echo base_url("vista/oficina") ?>" class="btn btn-primary btn-oficina">administrar</a>
-                                </div>
-                            </div>
+                        <div class="card-body">
+                            <table id="datatablesSimple">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                        <th>Fecha actualizacion</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                        <th>Fecha actualizacion</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <?php foreach ($oficinas as $oficina) : ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $oficina->id_oficina ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $oficina->nombre ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $oficina->tipo ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $oficina->fecha ?>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm rounded-circle me-2"><i class="fas fa-edit"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm rounded-circle"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
                 </div>
             </main>
 
@@ -161,4 +192,13 @@
         </div>
         <!-- Contenido -->
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#datatablesSimple').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                }
+            });
+        });
+    </script>
 </body>

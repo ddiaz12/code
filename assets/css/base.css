@@ -1,0 +1,54 @@
+/* home */
+
+.navbar-custom {
+    background-color: #8B0000; /* Fondo rojo tinto */
+}
+
+.div-escudo {
+    width:  11%;
+    margin-right: 4px;
+    margin-left: 0px;
+}
+
+#logo{
+    width: 100%;
+}
+
+.card-regulacion{
+    border: solid;
+}
+
+.card-oficina{
+    border: solid;
+    
+}
+
+.btn-regulacion{
+    text-transform: uppercase; 
+}
+
+.btn-oficina{
+    text-transform: uppercase; 
+    background-image: linear-gradient(to bottom, #fd7e14 5%, #ffd43b 95%);
+}
+
+/* sujeto - oficinas */
+
+/* Aplicar espaciado entre las celdas */
+#datatablesSimple td,
+#datatablesSimple th {
+    padding: 8px; 
+}
+
+/* Agregar margen alrededor de la tabla */
+#datatablesSimple {
+    margin-bottom: 20px; 
+}
+
+
+@media screen and (max-width: 850px) {
+    .div-escudo {
+        display: none;
+    }
+    
+}
