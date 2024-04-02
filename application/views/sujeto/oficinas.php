@@ -15,10 +15,6 @@
 
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-            </div>
         </form>
         <!-- Navbar Search-->
 
@@ -122,6 +118,42 @@
                         </li>
                         <li class="breadcrumb-item active">Tables</li>
                     </ol>
+                    <!-- Botón para abrir el modal -->
+                    <div class="d-flex justify-content-end mb-3">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarOficina">
+                            <i class="fas fa-plus-circle me-1"></i> Agregar Oficina
+                        </button>
+                    </div>
+                    <!-- Modal para agregar oficina -->
+                    <div class="modal fade" id="modalAgregarOficina" tabindex="-1" aria-labelledby="modalAgregarOficinaLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalAgregarOficinaLabel">Agregar Oficina</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Formulario de agregar oficina -->
+                                    <form class="row g-3" action="<?php echo base_url('vista/agregar_oficina'); ?>" method="post">
+                                        <div class="col-md-6">
+                                            <label for="inputNombre" class="form-label">Nombre</label>
+                                            <input type="text" class="form-control" id="inputNombre" name="nombre">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputTipo" class="form-label">Tipo</label>
+                                            <input type="text" class="form-control" id="inputTipo" name="tipo">
+                                        </div>
+                                        <!-- Agrega aquí los demás campos del formulario -->
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fin del modal para agregar oficina -->
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>

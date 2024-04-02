@@ -12,4 +12,8 @@ class OficinaModel extends CI_Model {
         return $query->result();
     }
 
+    public function insertar_oficina($data) {
+        $this->db->insert('cat_oficina', $data);
+    }
+
 }
