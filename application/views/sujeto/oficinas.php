@@ -4,13 +4,15 @@
         <!-- Navbar Brand-->
         <div class="div-escudo">
             <a class="navbar-brand" href="<?php echo base_url("home/home_sujeto") ?>">
-                <img src="<?php echo base_url("assets/") ?>img/escudo_2021.svg" alt="Escudo del gobierno del estado" id="logo">
+                <img src="<?php echo base_url("assets/") ?>img/logo2.jpg" alt="Escudo del gobierno del estado"
+                    id="logo">
             </a>
         </div>
         <!-- Navbar Brand-->
 
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
         <!-- Sidebar Toggle-->
 
         <!-- Navbar Search-->
@@ -21,7 +23,8 @@
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Settings</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
@@ -37,66 +40,24 @@
 
     <div id="layoutSidenav">
         <!-- Menu -->
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
+        <div id="layoutSidenav_nav" class="div-menu">
+            <nav class="sb-sidenav sb-sidenav-white" id="sidenavAccordion">
+                <div class="sb-sidenav-menu menu-custom">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
                         <a class="nav-link" href="<?php echo base_url("home/home_sujeto") ?>">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
+                            <div class="sb-nav-link-icon div-home"><i class="fa-solid fa-house icon-home"></i></div>
                         </a>
-                        <div class="sb-sidenav-menu-heading">Interface</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Layouts
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Pages
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                    Authentication
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="login.html">Login</a>
-                                        <a class="nav-link" href="register.html">Register</a>
-                                        <a class="nav-link" href="password.html">Forgot Password</a>
-                                    </nav>
-                                </div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                    Error
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="401.html">401 Page</a>
-                                        <a class="nav-link" href="404.html">404 Page</a>
-                                        <a class="nav-link" href="500.html">500 Page</a>
-                                    </nav>
-                                </div>
-                            </nav>
-                        </div>
-                        <div class="sb-sidenav-menu-heading">Addons</div>
                         <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-scale-balanced icon-balanced"></i></div>
                         </a>
                         <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard-user icon-user"></i></div>
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-gear icon-gear"></i></div>
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-info icon-info"></i></div>
                         </a>
                     </div>
                 </div>
@@ -112,29 +73,51 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Tables</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="<?php echo base_url("home/home_sujeto") ?>">Dashboard</a>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url("home/home_sujeto") ?>">Home</a>
                         </li>
                         <li class="breadcrumb-item active">Tables</li>
                     </ol>
                     <!-- Botón para abrir el modal -->
                     <div class="d-flex justify-content-end mb-3">
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarOficina">
+                        <button type="button" class="btn btn-success " data-bs-toggle="modal"
+                            data-bs-target="#modalAgregarOficina">
                             <i class="fas fa-plus-circle me-1"></i> Agregar Oficina
                         </button>
                     </div>
                     <!-- Modal para agregar oficina -->
-                    <div class="modal fade" id="modalAgregarOficina" tabindex="-1" aria-labelledby="modalAgregarOficinaLabel" aria-hidden="true">
+                    <div class="modal fade" id="modalAgregarOficina" tabindex="-1"
+                        aria-labelledby="modalAgregarOficinaLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="modalAgregarOficinaLabel">Agregar Oficina</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <!-- Formulario de agregar oficina -->
-                                    <form class="row g-3" action="<?php echo base_url('vista/agregar_oficina'); ?>" method="post">
+                                    <form class="row g-3" action="<?php echo base_url('vista/agregar_oficina'); ?>"
+                                        method="post">
+                                        <div class="form-group">
+                                            <label for="selectSujeto">Sujeto obligado</label>
+                                            <select class="form-control" id="selectSujeto" required>
+                                                <option disabled>Selecciona una opción</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="selectUnidad">Unidad administrativa</label>
+                                            <select class="form-control" id="selectUnidad" required>
+                                                <option disabled>Selecciona una opción</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputNombre">Nombre</label>
+                                            <input type="text" class="form-control" id="inputNombre"
+                                            placeholder="Nombre completo" required>
+                                            <small id="emailHelp" class="form-text text-muted">We'll never share your
+                                                email with anyone else.</small>
+                                        </div>
                                         <div class="col-md-6">
                                             <label for="inputNombre" class="form-label">Nombre</label>
                                             <input type="text" class="form-control" id="inputNombre" name="nombre">
@@ -143,22 +126,23 @@
                                             <label for="inputTipo" class="form-label">Tipo</label>
                                             <input type="text" class="form-control" id="inputTipo" name="tipo">
                                         </div>
+
                                         <!-- Agrega aquí los demás campos del formulario -->
+
+                                        <!-- Botón "Guardar" dentro del formulario -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
                                     </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                     <!-- Fin del modal para agregar oficina -->
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            Oficinas
-                        </div>
                         <div class="card-body">
                             <table id="datatablesSimple">
                                 <thead>
@@ -170,17 +154,9 @@
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Tipo</th>
-                                        <th>Fecha actualizacion</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </tfoot>
+
                                 <tbody>
-                                    <?php foreach ($oficinas as $oficina) : ?>
+                                    <?php foreach ($oficinas as $oficina): ?>
                                         <tr>
                                             <td>
                                                 <?php echo $oficina->id_oficina ?>
@@ -195,8 +171,11 @@
                                                 <?php echo $oficina->fecha ?>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-sm rounded-circle me-2"><i class="fas fa-edit"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm rounded-circle"><i class="fas fa-trash"></i></button>
+                                                <button type="button" class="btn btn-primary btn-sm rounded-circle me-2"><i
+                                                        class="fas fa-edit"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm rounded-circle"
+                                                    data-id_oficina="<?php echo $oficina->id_oficina ?>"><i
+                                                        class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -212,6 +191,10 @@
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div class="text-muted div-info">Contacto: Secretaria de Desarrollo Económico
+                            Complejo Administrativo del Gobierno del Estado de Colima
+                            Tercer Anillo Perf. S/N, El Diezmo, 28010 31231620000
+                        </div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;
@@ -224,13 +207,30 @@
         </div>
         <!-- Contenido -->
     </div>
+
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#datatablesSimple').DataTable({
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
                 }
             });
         });
+
+        $(document).ready(function () {
+            $('.btn-danger').click(function () {
+                var id = $(this).data('id_oficina');
+
+                $.ajax({
+                    url: '<?php echo base_url('vista/eliminar_oficina/') ?>' + id,
+                    type: 'POST',
+                    success: function (result) {
+                        // Recargar la página o hacer algo con el resultado
+                        location.reload();
+                    }
+                });
+            });
+        });
     </script>
+
 </body>

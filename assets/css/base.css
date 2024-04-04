@@ -1,35 +1,100 @@
 /* home */
 
 .navbar-custom {
-    background-color: #8B0000; /* Fondo rojo tinto */
+	background-color: #8b0000; /* Fondo rojo tinto */
 }
 
 .div-escudo {
-    width:  11%;
-    margin-right: 4px;
-    margin-left: 0px;
+	width: 10%;
+    margin: 0 4px 5px 5px;
 }
 
-#logo{
-    width: 100%;
+#logo {
+	width: 100%;
 }
 
-.card-regulacion{
-    border: solid;
+.fa-solid.fa-user-large {
+    font-size: 2em; /* Ajusta este valor a tu gusto */
 }
 
-.card-oficina{
-    border: solid;
-    
+#sidenavAccordion {
+	width: 100%;
 }
 
-.btn-regulacion{
-    text-transform: uppercase; 
+#sidebarToggle {
+    display: none;
 }
 
-.btn-oficina{
-    text-transform: uppercase; 
-    background-image: linear-gradient(to bottom, #fd7e14 5%, #ffd43b 95%);
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
+	overflow-y: visible;
+}
+
+.div-contenido{
+    background-image: url('../img/flor.png');
+    background-repeat: no-repeat;
+    background-position: 70px top;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+    padding-left: 150px;
+    top: 56px;
+}
+
+.px-4 {
+    padding-right: 3rem !important;
+    padding-left: 1rem !important;
+}
+
+.menu-custom {
+	width: 40%;
+	padding-left: 20px;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
+	width: 100px;
+}
+
+
+
+.div-home {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #f8f9fa;
+}
+
+.icon-home,
+.icon-balanced,
+.icon-user,
+.icon-gear,
+.icon-info {
+    color: rgb(8, 8, 8);
+    font-size: 20px; /* Ajusta el tamaño del icono aquí */
+    margin: 15px 0 10px 0;
+}
+
+.titulo-menu{
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 5%;
+}
+
+
+.card-regulacion {
+	border: solid;
+}
+
+.card-oficina {
+	border: solid;
+}
+
+.btn-regulacion {
+	text-transform: uppercase;
+    background-color: #FFA94D;
+}
+
+.btn-oficina {
+	text-transform: uppercase;
+	background-color: #FFA94D;
 }
 
 /* sujeto - oficinas */
@@ -37,18 +102,47 @@
 /* Aplicar espaciado entre las celdas */
 #datatablesSimple td,
 #datatablesSimple th {
-    padding: 8px; 
+	padding: 8px;
 }
 
 /* Agregar margen alrededor de la tabla */
 #datatablesSimple {
-    margin-bottom: 20px; 
+	margin-bottom: 20px;
+}
+
+.div-info{
+    text-align: center;
+    margin: 0 40px 0 10px;
 }
 
 
-@media screen and (max-width: 850px) {
-    .div-escudo {
+@media screen and (max-width: 990px) {
+	.div-escudo {
+		display: none;
+	}
+
+    .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+        padding-left: 225px;
+        top: 56px;
+    }
+
+    #sidebarToggle {
+        display:block;
+    }
+
+    .div-info{
         display: none;
     }
-    
+
 }
+
+@media screen and (min-width: 1000px) {
+    .div-card {
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+

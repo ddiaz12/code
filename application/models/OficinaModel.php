@@ -16,4 +16,11 @@ class OficinaModel extends CI_Model {
         $this->db->insert('cat_oficina', $data);
     }
 
+    public function eliminar_oficina($id)
+    {
+        // Eliminar la oficina con el ID proporcionado
+        $this->db->where('id_oficina', $id);
+        $this->db->delete('cat_oficina');
+    }
+
 }

@@ -4,7 +4,8 @@
         <!-- Navbar Brand-->
         <div class="div-escudo">
             <a class="navbar-brand" href="<?php echo base_url("home/home_sujeto") ?>">
-                <img src="<?php echo base_url("assets/") ?>img/escudo_2021.svg" alt="Escudo del gobierno del estado" id="logo">
+                <img src="<?php echo base_url("assets/") ?>img/logo2.jpg" alt="Escudo del gobierno del estado"
+                    id="logo">
             </a>
         </div>
         <!-- Navbar Brand-->
@@ -22,7 +23,8 @@
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="fa-solid fa-user fa-2x"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Settings</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
@@ -38,66 +40,24 @@
 
     <div id="layoutSidenav">
         <!-- Menu -->
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
+        <div id="layoutSidenav_nav" class="div-menu">
+            <nav class="sb-sidenav sb-sidenav-white" id="sidenavAccordion">
+                <div class="sb-sidenav-menu menu-custom">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
                         <a class="nav-link" href="<?php echo base_url("home/home_sujeto") ?>">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
+                            <div class="sb-nav-link-icon div-home"><i class="fa-solid fa-house icon-home"></i></div>
                         </a>
-                        <div class="sb-sidenav-menu-heading">Interface</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Layouts
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Pages
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                    Authentication
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="login.html">Login</a>
-                                        <a class="nav-link" href="register.html">Register</a>
-                                        <a class="nav-link" href="password.html">Forgot Password</a>
-                                    </nav>
-                                </div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                    Error
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="401.html">401 Page</a>
-                                        <a class="nav-link" href="404.html">404 Page</a>
-                                        <a class="nav-link" href="500.html">500 Page</a>
-                                    </nav>
-                                </div>
-                            </nav>
-                        </div>
-                        <div class="sb-sidenav-menu-heading">Addons</div>
                         <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-scale-balanced icon-balanced"></i></div>
                         </a>
                         <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard-user icon-user"></i></div>
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-gear icon-gear"></i></div>
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-info icon-info"></i></div>
                         </a>
                     </div>
                 </div>
@@ -108,31 +68,32 @@
             </nav>
         </div>
         <!-- Menu -->
-
+        
         <!-- Contenido -->
-        <div id="layoutSidenav_content">
-            <main>
+        <div id="layoutSidenav_content" class="div-contenido">
+            <main class="main-contenido">
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
+                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
+
                     <div class="row">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
+                        <div class="col-sm-6 mb-3 mb-sm-0 div-card">
                             <div class="card h-100 d-flex align-items-center card-regulacion">
                                 <div class="card-body text-center">
                                     <h5 class="card-title">Regulaciones</h5>
-                                    <p class="card-text text-regulacion">Administra cualquier normativa de caracter general.</p>
+                                    <p class="card-text text-regulacion">Administra cualquier normativa de caracter
+                                        general.</p>
                                     <a href="#" class="btn btn-primary btn-regulacion">administrar</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 div-card">
                             <div class="card h-100 d-flex align-items-center card-oficina">
                                 <div class="card-body card-oficinas text-center">
                                     <h5 class="card-title">Oficinas</h5>
-                                    <p class="card-text">Administrar usuarios de la plataforma del Catálogo Nacional de Trámites y Servicios.</p>
-                                    <a href="<?php echo base_url("vista/oficina") ?>" class="btn btn-primary btn-oficina">administrar</a>
+                                    <p class="card-text">Administrar usuarios de la plataforma del Catálogo Nacional de
+                                        Trámites y Servicios.</p>
+                                    <a href="<?php echo base_url("vista/oficina") ?>"
+                                        class="btn btn-primary btn-oficina">administrar</a>
                                 </div>
                             </div>
                         </div>
@@ -146,6 +107,10 @@
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                        <div class="text-muted div-info">Contacto: Secretaria de Desarrollo Económico
+                            Complejo Administrativo del Gobierno del Estado de Colima
+                            Tercer Anillo Perf. S/N, El Diezmo, 28010 31231620000
+                        </div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;
