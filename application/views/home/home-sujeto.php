@@ -81,12 +81,30 @@
                                         Cursos</a></li>
                             </ul>
                         </div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-gear icon-gear"></i></div>
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-info icon-info"></i></div>
-                        </a>
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownGear"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-gear icon-gear"></i></div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownGear">
+                                <h6 class="dropdown-header">Ayuda</h6>
+                                <li><a class="dropdown-item" href="#">Sujeto obligado</a></li>
+                                <li><a class="dropdown-item" href="#">Unidades administrativas</a></li>
+                                <li><a class="dropdown-item" href="#">Oficinas</a></li>
+                                <li><a class="dropdown-item" href="#">Usuarios</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownInfo"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-info icon-info"></i></div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownInfo">
+                                <h6 class="dropdown-header">Información</h6>
+                                <li><a class="dropdown-item" href="#">Guias</a></li>
+                                <li><a class="dropdown-item" href="#">Log de versiones</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">

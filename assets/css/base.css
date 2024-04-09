@@ -1,7 +1,16 @@
 /* home */
 
+@font-face {
+    font-family: 'Geomanist';
+    src: url('../fonts/Geomanist-Regular.otf');
+}
+
+* {
+    font-family: 'Geomanist', sans-serif;
+}
+
 .navbar-custom {
-	background-color: #923244
+	background-color: #612233
     ;
 }
 
