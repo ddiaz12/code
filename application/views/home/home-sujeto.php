@@ -11,7 +11,8 @@
         <!-- Navbar Brand-->
 
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
         <!-- Sidebar Toggle-->
 
         <!-- Navbar Search-->
@@ -20,8 +21,13 @@
         </form>
         <!-- Navbar Search-->
 
+
+
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item">
+                <a class="nav-link" href="mailto:example@example.com"><i class="fa-solid fa-envelope fa-2x"></i></a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fa-solid fa-user fa-2x"></i></a>
@@ -47,16 +53,38 @@
                         <a class="nav-link" href="<?php echo base_url("home/home_sujeto") ?>">
                             <div class="sb-nav-link-icon div-home"><i class="fa-solid fa-house icon-home"></i></div>
                         </a>
-                        <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-scale-balanced icon-balanced"></i></div>
-                        </a>
-                        <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard-user icon-user"></i></div>
-                        </a>
-                        <a class="nav-link" href="tables.html">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownBalanced"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-scale-balanced icon-balanced"></i>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownBalanced">
+                                <h6 class="dropdown-header">Regulaciones</h6>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-inbox icon-inbox"></i> Mi
+                                        buzon</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-paper-plane icon-sent"></i>
+                                        Enviadas</a></li>
+                                <li><a class="dropdown-item" href="#"><i
+                                            class="fa-solid fa-bullhorn icon-published"></i> Publicadas</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownUser"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard-user icon-user"></i>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownUser">
+                                <h6 class="dropdown-header">Modulo de capacitaciones</h6>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-book icon-cursos"></i>
+                                        Cursos</a></li>
+                            </ul>
+                        </div>
+                        <a class="nav-link" href="#">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-gear icon-gear"></i></div>
                         </a>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" href="#">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-info icon-info"></i></div>
                         </a>
                     </div>
@@ -68,7 +96,7 @@
             </nav>
         </div>
         <!-- Menu -->
-        
+
         <!-- Contenido -->
         <div id="layoutSidenav_content" class="div-contenido">
             <main class="main-contenido">
@@ -92,7 +120,7 @@
                                     <h5 class="card-title">Oficinas</h5>
                                     <p class="card-text">Administrar usuarios de la plataforma del Catálogo Nacional de
                                         Trámites y Servicios.</p>
-                                    <a href="<?php echo base_url("vista/oficina") ?>"
+                                    <a href="<?php echo base_url("oficinas/oficina") ?>"
                                         class="btn btn-primary btn-oficina">administrar</a>
                                 </div>
                             </div>

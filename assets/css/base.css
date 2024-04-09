@@ -1,7 +1,8 @@
 /* home */
 
 .navbar-custom {
-	background-color: #8b0000; /* Fondo rojo tinto */
+	background-color: #923244
+    ;
 }
 
 .div-escudo {
@@ -14,7 +15,11 @@
 }
 
 .fa-solid.fa-user-large {
-    font-size: 2em; /* Ajusta este valor a tu gusto */
+    font-size: 2em;
+}
+
+.nav-link{
+    color: #B69664;
 }
 
 #sidenavAccordion {
@@ -33,6 +38,8 @@
     background-image: url('../img/flor.png');
     background-repeat: no-repeat;
     background-position: 70px top;
+    background-size: 20% 85%;
+    
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
@@ -59,7 +66,6 @@
 .div-home {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	background-color: #f8f9fa;
 }
 
 .icon-home,
@@ -87,14 +93,29 @@
 	border: solid;
 }
 
+.btn-primary {
+
+    --bs-btn-active-bg: #bcaf7a;
+  }
+
 .btn-regulacion {
-	text-transform: uppercase;
-    background-color: #FFA94D;
+    text-transform: uppercase;
+    background-color: #B69664;
 }
+
 
 .btn-oficina {
 	text-transform: uppercase;
-	background-color: #FFA94D;
+	background-color: #B69664;
+    
+}
+
+.btn-regulacion:hover {
+    background-color: #6c6238;
+}
+
+.btn-oficina:hover {
+    background-color: #6c6238;
 }
 
 /* sujeto - oficinas */
@@ -114,6 +135,11 @@
     text-align: center;
     margin: 0 40px 0 10px;
 }
+
+.btn-agregarOficina{
+    margin: 0 10px 0 0;
+}
+
 
 
 @media screen and (max-width: 990px) {
