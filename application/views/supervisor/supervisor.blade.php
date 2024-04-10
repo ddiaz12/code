@@ -39,17 +39,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 div-card div-usuarios">
-                            <div class="card h-100 d-flex align-items-center card-oficina">
-                                <div class="card-body card-usuario text-center">
-                                    <h5 class="card-title">Usuarios</h5>
-                                    <p class="card-text">Administrar usuarios de la plataforma  del Catalogo Nacional 
-                                        de Tramites y Servicios.</p>
-                                    <a href="<?php echo base_url("usuarios/usuario") ?>"
-                                        class="btn btn-primary btn-oficina">administrar</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                 </div>

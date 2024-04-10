@@ -4,10 +4,17 @@
     <!-- Navbar -->
     @include('templates/navbar')
     <!-- Navbar -->
+
+    <div id="layoutSidenav">
+           <!-- Menu -->
+    @include('templates/menu')
+    <!-- Menu -->
+    
+
     <div id="layoutSidenav_content">
         <main>
             <div class="container mt-5">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center div-formOficina">
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-header bg-primary text-white">Agregar Oficina</div>
@@ -228,6 +235,7 @@
                     </div>
                 </div>
             </div>
+        </div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     // Obtener referencia a la tabla

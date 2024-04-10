@@ -102,6 +102,10 @@
 	border: solid;
 }
 
+.div-usuarios {
+    margin-top: 15px;
+}
+
 .btn-primary {
     --bs-btn-border-color: initial; 
     --bs-btn-active-bg: #bcaf7a;
