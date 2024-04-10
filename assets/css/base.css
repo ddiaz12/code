@@ -103,7 +103,7 @@
 }
 
 .btn-primary {
-
+    --bs-btn-border-color: initial; 
     --bs-btn-active-bg: #bcaf7a;
   }
 

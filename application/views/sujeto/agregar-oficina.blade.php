@@ -1,5 +1,9 @@
-<body class="sb-nav-fixed cuerpo-sujeto">
+@include('templates/header')
 
+<body class="sb-nav-fixed cuerpo-sujeto">
+    <!-- Navbar -->
+    @include('templates/navbar')
+    <!-- Navbar -->
     <div id="layoutSidenav_content">
         <main>
             <div class="container mt-5">
@@ -10,8 +14,7 @@
                             <div class="card-body">
 
                                 <!-- Formulario de agregar oficina -->
-                                <form class="row g-3" action="<?php echo base_url('ofincinas/insertar'); ?>"
-                                    method="post">
+                                <form class="row g-3 " action="<?php echo base_url('ofincinas/insertar'); ?>" method="post">
                                     <div class="form-group">
                                         <label for="selectSujeto">Sujeto obligado<span
                                                 class="text-danger">*</span></label>
@@ -111,7 +114,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputCP">C.P.<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" id="inputCP" name="C.P." required>
+                                            <input type="number" class="form-control" id="inputCP" name="C.P."
+                                                required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -131,7 +135,8 @@
                                     </div>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-envelope fa-2x"></i></span>
+                                            <span class="input-group-text"><i
+                                                    class="fas fa-envelope fa-2x"></i></span>
                                         </div>
                                         <input type="email" class="form-control" placeholder="Email">
                                     </div>
@@ -187,13 +192,14 @@
                                                             <option value="miercoles">Miércoles</option>
                                                             <option value="jueves">Jueves</option>
                                                             <option value="viernes">Viernes</option>
-                                                            
+
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="inputApertura" class="form-label">Hora de
                                                             Apertura</label>
-                                                        <input type="time" class="form-control" id="inputApertura">
+                                                        <input type="time" class="form-control"
+                                                            id="inputApertura">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="inputCierre" class="form-label">Hora de
@@ -214,8 +220,7 @@
                                     <div class="d-flex justify-content-end mb-3">
                                         <button type="submit"
                                             class="btn btn-success btn-agregarOficina">Guardar</button>
-                                        <a href="<?php echo base_url("oficinas/oficina") ?>"
-                                            class="btn btn-secondary me-2">Cancelar</a>
+                                        <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-secondary me-2">Cancelar</a>
                                     </div>
                                 </form>
                             </div>
@@ -224,7 +229,7 @@
                 </div>
             </div>
             <script>
-                document.addEventListener('DOMContentLoaded', function () {
+                document.addEventListener('DOMContentLoaded', function() {
                     // Obtener referencia a la tabla
                     var tablaHorarios = document.getElementById('tablaHorarios');
 
@@ -232,7 +237,7 @@
                     var btnGuardarHorario = document.getElementById('btnGuardarHorario');
 
                     // Agregar evento de clic al botón de guardar
-                    btnGuardarHorario.addEventListener('click', function () {
+                    btnGuardarHorario.addEventListener('click', function() {
                         // Obtener valores de los campos del modal
                         var dia = document.getElementById('selectDia').value;
                         var apertura = document.getElementById('inputApertura').value;
@@ -256,7 +261,7 @@
                         var btnEliminar = document.createElement('button');
                         btnEliminar.textContent = 'Eliminar';
                         btnEliminar.classList.add('btn', 'btn-danger');
-                        btnEliminar.addEventListener('click', function () {
+                        btnEliminar.addEventListener('click', function() {
                             // Eliminar la fila al hacer clic en el botón Eliminar
                             fila.remove();
                         });

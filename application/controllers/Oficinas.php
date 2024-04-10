@@ -12,14 +12,12 @@ class Oficinas extends CI_Controller
     public function oficina()
     {
         $data["oficinas"] = $this->OficinaModel->getOficinas();
-        $this->load->view('header');
-        $this->load->view('sujeto/oficinas', $data);
+        $this->blade->render('sujeto/oficinas', $data);
     }
 
     public function agregar_oficina()
     {
-        $this->load->view('header');
-        $this->load->view('sujeto/agregar-oficina');
+        $this->blade->render('sujeto/agregar-oficina');
     }
 
     public function insertar()

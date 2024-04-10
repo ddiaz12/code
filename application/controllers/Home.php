@@ -11,7 +11,6 @@ class Home extends CI_Controller {
     }
 
     public function home_sujeto(){
-        
         $this->blade->render('home/home-sujeto');
     }
 
