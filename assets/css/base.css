@@ -10,7 +10,7 @@
 }
 
 .navbar-custom {
-	background-color: #612233
+	background-color: #8c1e41
     ;
 }
 
@@ -30,6 +30,7 @@
 .nav-link{
     color: #B69664;
 }
+
 
 #sidenavAccordion {
 	width: 100%;
@@ -108,27 +109,33 @@
 
 .btn-primary {
     --bs-btn-border-color: initial; 
+    --bs-btn-hover-bg: initial;
     --bs-btn-active-bg: #bcaf7a;
+    background-color: #923244;
   }
 
 .btn-regulacion {
     text-transform: uppercase;
-    background-color: #B69664;
 }
-
 
 .btn-oficina {
 	text-transform: uppercase;
-	background-color: #B69664;
-    
 }
 
-.btn-regulacion:hover {
-    background-color: #6c6238;
+.btn-guardar{
+    background-color: #923244;
+    --bs-btn-active-bg: #bcaf7a;
+    --bs-btn-active-color: white;
+    color: white;
+    margin-right: 20px;
 }
 
-.btn-oficina:hover {
+.btn-regulacion:hover,
+.btn-oficina:hover,
+.btn-agregarUsuario:hover,
+.btn-guardar:hover {
     background-color: #6c6238;
+    color: white;
 }
 
 /* sujeto - oficinas */
@@ -152,6 +159,11 @@
 .btn-agregarOficina{
     margin: 0 10px 0 0;
 }
+
+.card-header{
+    background-color:#7F2841;
+}
+
 
 
 

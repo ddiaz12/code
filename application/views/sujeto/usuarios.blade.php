@@ -12,7 +12,7 @@
         <!-- Menu -->
 
         <!-- Contenido -->
-        <div id="layoutSidenav_content">
+        <div id="layoutSidenav_content" class="div-contenido">
             <main>
                 <div class="container-fluid px-4">
                     <ol class="breadcrumb mb-4">
@@ -23,7 +23,7 @@
 
                     <!-- Botón para abrir otra vista -->
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="<?php echo base_url('oficinas/agregar_oficina'); ?>" class="btn btn-primary">
+                        <a href="<?php echo base_url('Usuarios/agregar_usuario'); ?>" class="btn btn-primary btn-agregarUsuario">
                             <i class="fas fa-eye me-1"></i> Agregar Usuario
                         </a>
                     </div>

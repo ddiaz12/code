@@ -12,7 +12,7 @@
         <!-- Menu -->
 
         <!-- Contenido -->
-        <div id="layoutSidenav_content">
+        <div id="layoutSidenav_content" class="div-contenido">
             <main>
                 <div class="container-fluid px-4">
                     <ol class="breadcrumb mb-4">

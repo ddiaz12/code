@@ -15,5 +15,10 @@ class Usuarios extends CI_Controller {
         $this->blade->render('sujeto/usuarios');
     }
 
+    public function agregar_usuario()
+    {
+        $this->blade->render('sujeto/agregar-usuario');
+    }
+
 
 }

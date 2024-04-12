@@ -15,9 +15,9 @@
         <main>
             <div class="container mt-5">
                 <div class="row justify-content-center div-formOficina">
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div class="card">
-                            <div class="card-header bg-primary text-white">Agregar Oficina</div>
+                            <div class="card-header text-white">Agregar Oficina</div>
                             <div class="card-body">
 
                                 <!-- Formulario de agregar oficina -->
@@ -172,7 +172,7 @@
 
                                     <!-- Botón para Agregar Horarios -->
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
                                             data-bs-target="#modalAgregarHorario">
                                             Agregar Horario
                                         </button>
@@ -217,7 +217,7 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Cerrar</button>
-                                                    <button type="button" class="btn btn-primary"
+                                                    <button type="button" class="btn btn-guardar"
                                                         id="btnGuardarHorario">Guardar</button>
                                                 </div>
                                             </div>
@@ -226,7 +226,7 @@
 
                                     <div class="d-flex justify-content-end mb-3">
                                         <button type="submit"
-                                            class="btn btn-success btn-agregarOficina">Guardar</button>
+                                            class="btn btn-success btn-guardar">Guardar</button>
                                         <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-secondary me-2">Cancelar</a>
                                     </div>
                                 </form>

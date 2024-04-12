@@ -1,5 +1,5 @@
 <div id="layoutSidenav_nav" class="div-menu">
-    <nav class="sb-sidenav sb-sidenav-white" id="sidenavAccordion">
+    <nav class="sb-sidenav sb-sidenav-black" id="sidenavAccordion">
         <div class="sb-sidenav-menu menu-custom">
             <div class="nav">
                 <a class="nav-link" href="<?php echo base_url("home/home_sujeto") ?>">
@@ -58,10 +58,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="sb-sidenav-footer">
-            <div class="small">Logged in as:</div>
-            Start Bootstrap
         </div>
     </nav>
 </div>
