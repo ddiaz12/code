@@ -8,19 +8,19 @@ class OficinaModel extends CI_Model {
     }
 
     public function getOficinas() {
-        $query = $this->db->get('cat_oficina');
+        $query = $this->db->get('ma_oficina_administrativa');
         return $query->result();
     }
 
     public function insertar_oficina($data) {
-        $this->db->insert('cat_oficina', $data);
+        $this->db->insert('ma_oficina_administrativa', $data);
     }
 
     public function eliminar_oficina($id)
     {
         // Eliminar la oficina con el ID proporcionado
         $this->db->where('id_oficina', $id);
-        $this->db->delete('cat_oficina');
+        $this->db->delete('ma_oficina_administrativa');
     }
 
 }

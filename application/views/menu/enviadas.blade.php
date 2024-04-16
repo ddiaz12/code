@@ -15,19 +15,19 @@
         <div id="layoutSidenav_content" class="div-contenido">
             <main>
                 <div class="container-fluid px-4">
-                    
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="<?php echo base_url("home/home_sujeto") ?>"><i class="fas fa-home me-1"></i>Home</a>
                         </li>
-                        <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Oficinas</li>
+                        <li class="breadcrumb-item active"><i class="fas fa-envelope me-1"></i>Enviadas</li>
                     </ol>
+                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
                     <!-- Botón para abrir otra vista -->
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="<?php echo base_url('oficinas/agregar_oficina'); ?>" class="btn btn-primary btn-agregarOficina">
-                            <i class="fas fa-plus-circle me-1"></i> Agregar Oficina
+                        <a href="<?php echo base_url(''); ?>" class="btn btn-primary btn-guardar">
+                            <i class="fas fa-download me-1"></i> Descargar excel
                         </a>
                     </div>
-                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
+                    
                     <div class="card mb-4">
                         <div class="card-body">
                             <table id="datatablesSimple">
@@ -35,36 +35,34 @@
                                     <tr>
                                         <th class="tTabla-color">Id</th>
                                         <th class="tTabla-color">Nombre</th>
-                                        <th class="tTabla-color">Tipo</th>
-                                        <th class="tTabla-color">Fecha actualizacion</th>
+                                        <th class="tTabla-color">Homoclave</th>
+                                        <th class="tTabla-color">Estatus</th>
                                         <th class="tTabla-color">Acciones</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <?php foreach ($oficinas as $oficina): ?>
+                                    <!--
+                                    @foreach ($usuarios as $usuario)
                                         <tr>
+                                            <td>{{ $usuario->id }}</td>
+                                            <td>{{ $usuario->nombre_completo }}</td>
+                                            <td>{{ $usuario->tipo_sujeto_obligado }}</td>
+                                            <td>{{ $usuario->sujeto_obligado }}</td>
+                                            <td>{{ $usuario->unidad_administrativa }}</td>
+                                            <td>{{ $usuario->estatus }}</td>
                                             <td>
-                                                <?php echo $oficina->id_oficina ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->nombre ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->tipo ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->fecha ?>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-sm rounded-circle me-2"><i
-                                                        class="fas fa-edit"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm rounded-circle"
-                                                    data-id_oficina="<?php echo $oficina->id_oficina ?>"><i
-                                                        class="fas fa-trash"></i></button>
+                                                <a href="<?php echo base_url('usuarios/editar_usuario/' . $usuario->id); ?>"
+                                                    class="btn btn-warning">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn btn-danger" data-id_oficina="{{ $usuario->id }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
-                                    <?php endforeach; ?>
+                                    @endforeach
+                                    -->
                                 </tbody>
                             </table>
                         </div>
