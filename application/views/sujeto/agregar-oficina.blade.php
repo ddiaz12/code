@@ -30,49 +30,62 @@
                                 <div class="card-body">
 
                                     <!-- Formulario de agregar oficina -->
-                                    <form class="row g-3 " action="<?php echo base_url('ofincinas/insertar'); ?>" method="post">
+                                    <form class="row g-3" action="<?php echo base_url('ofincinas/insertar'); ?>" method="post">
                                         <div class="form-group">
                                             <label for="selectSujeto">Sujeto obligado<span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-control" id="selectSujeto" required>
-                                                <option disabled>Selecciona una opción</option>
+                                            <select class="form-control" id="selectSujeto" name="sujeto" required>
+                                                <option disabled selected>Selecciona una opción</option>
+                                                @foreach ($sujetos as $sujeto)
+                                                    <option value="{{ $sujeto->ID_ofic }}">{{ $sujeto->Nombre_Sujeto }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="selectUnidad">Unidad administrativa<span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-control" id="selectUnidad" required>
-                                                <option disabled>Selecciona una opción</option>
+                                            <select class="form-control" id="selectUnidad" name="unidad" required>
+                                                <option disabled selected>Selecciona una opción</option>
+                                                @foreach ($sujetos as $sujeto)
+                                                    <option value="{{ $sujeto->ID_ofic }}">{{ $sujeto->unidad_Administrativa }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="inputNombre"
+                                            <input type="text" class="form-control" id="inputNombre" name="nombre"
                                                 placeholder="Nombre completo" required>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="inputSiglas">Siglas<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="inputSiglas" required>
+                                            <input type="text" class="form-control" id="inputSiglas" name="siglas"
+                                                required>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="selectVialidad">Tipo vialidad<span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectVialidad" required>
-                                                    <option disabled>Selecciona una opción</option>
+                                                <select class="form-control" id="selectVialidad" name="tipo_vialidad"
+                                                    required>
+                                                    <option disabled selected>Selecciona una opción</option>
+                                                    <?php foreach($vialidades as $vialidad): ?>
+                                                    <option value="<?php echo $vialidad->ID_Vialidades; ?>"><?php echo $vialidad->Vialidad; ?></option>
+                                                    <?php endforeach; ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputVialidad">Nombre vialidad<span
                                                     class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="inputVialidad">
+                                            <input type="text" class="form-control" id="inputVialidad"
+                                                name="nombre_vialidad">
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputNumInterior">Número interior</label>
                                                 <input type="number" class="form-control" id="inputNumInterior"
-                                                    name="Num_interior">
+                                                    name="num_interior">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -80,49 +93,55 @@
                                                 <label for="inputNumExterior">Número exterior<span
                                                         class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputNumExterior"
-                                                    name="Num_Exterior" required>
+                                                    name="num_exterior" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="selectMunicipio">Municipio<span
-                                                        class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectMunicipio" required>
-                                                    <option disabled>Selecciona una opción</option>
+                                                <label for="selectMunicipio">Municipio</label>
+                                                <select class="form-control" id="selectMunicipio" name="municipio"
+                                                    required>
+                                                    <option disabled selected>Selecciona una opción</option>
+                                                    @foreach ($municipios as $municipio)
+                                                        <option value="<?php echo $municipio->ID_Municipio; ?>"><?php echo $municipio->Nombre_municipio; ?></option>
+                                                    @endforeach;
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="selectLocalidad">Nombre localidad<span
-                                                        class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectLocalidad" required>
-                                                    <option disabled>Selecciona una opción</option>
+                                                <label for="selectLocalidad">Nombre localidad</label>
+                                                <select class="form-control" id="selectLocalidad" name="localidad"
+                                                    required>
+                                                    <option disabled selected>Selecciona una opción</option>
+                                                    @foreach ($localidades as $localidad)
+                                                        <option value="<?php echo $localidad->ID_localidad; ?>"><?php echo $localidad->Localidades; ?>
+                                                        </option>
+                                                    @endforeach;
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="claveLocalidad">Clave localidad<span
-                                                        class="text-danger">*</span></label>
+                                                <label for="claveLocalidad">Clave localidad</label>
                                                 <input type="number" class="form-control" id="claveLocalidad"
-                                                    name="Num_Exterior" readonly required>
+                                                    name="clave_localidad" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="selectMunicipio">Tipo asentamiento<span
-                                                        class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectMunicipio" required>
+                                                <label for="selectMunicipio">Tipo asentamiento</label>
+                                                <select class="form-control" id="selectMunicipio"
+                                                    name="tipo_asentamiento">
                                                     <option disabled>Selecciona una opción</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="selectAsentamiento">Nombre asentamiento<span
-                                                        class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectAsentamiento" required>
+                                                <label for="selectAsentamiento">Nombre asentamiento</label>
+                                                <select class="form-control" id="selectAsentamiento"
+                                                    name="nombre_asentamiento">
                                                     <option disabled>Selecciona una opción</option>
                                                 </select>
                                             </div>
@@ -131,22 +150,22 @@
                                             <div class="form-group">
                                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputCP"
-                                                    name="C.P." required>
+                                                    name="codigo_postal" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputNumTel">Número de teléfono oficial<span
                                                         class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="inputNumTel"
-                                                    name="NumTel_Oficial" required>
+                                                <input type="text" class="form-control" id="inputNumTel"
+                                                    name="inputNumTel" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputExtension">Extensión</label>
                                                 <input type="number" class="form-control" id="inputExtension"
-                                                    name="Extension" required>
+                                                    name="extension">
                                             </div>
                                         </div>
                                         <div class="input-group mb-3">
@@ -154,11 +173,12 @@
                                                 <span class="input-group-text"><i
                                                         class="fas fa-envelope fa-2x"></i></span>
                                             </div>
-                                            <input type="email" class="form-control" placeholder="Email">
+                                            <input type="email" class="form-control" placeholder="Email"
+                                                name="email" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNotas">Notas</label>
-                                            <textarea class="form-control" id="inputNotas" name="Notas"></textarea>
+                                            <textarea class="form-control" id="inputNotas" name="notas"></textarea>
                                         </div>
 
                                         <!-- Tabla de Horarios de Atención -->
@@ -202,26 +222,26 @@
                                                         <!-- Campos para seleccionar día, hora de apertura y cierre -->
                                                         <div class="mb-3">
                                                             <label for="selectDia" class="form-label">Día</label>
-                                                            <select class="form-select" id="selectDia">
+                                                            <select class="form-select" id="selectDia"
+                                                                name="dia">
                                                                 <option value="lunes">Lunes</option>
                                                                 <option value="martes">Martes</option>
                                                                 <option value="miercoles">Miércoles</option>
                                                                 <option value="jueves">Jueves</option>
                                                                 <option value="viernes">Viernes</option>
-
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="inputApertura" class="form-label">Hora de
                                                                 Apertura</label>
                                                             <input type="time" class="form-control"
-                                                                id="inputApertura">
+                                                                id="inputApertura" name="apertura">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="inputCierre" class="form-label">Hora de
                                                                 Cierre</label>
                                                             <input type="time" class="form-control"
-                                                                id="inputCierre">
+                                                                id="inputCierre" name="cierre">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -289,6 +309,32 @@
                     var modal = document.getElementById('modalAgregarHorario');
                     var modalBootstrap = bootstrap.Modal.getInstance(modal);
                     modalBootstrap.hide();
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#inputNumTel').on('input', function() {
+                    let num = $(this).val().replace(/\D/g,
+                        ''); // Elimina todos los caracteres que no sean dígitos
+                    num = num.substring(0, 10); // Limita el número a 10 dígitos
+
+                    // Formatea el número
+                    let formattedNum = '';
+                    for (let i = 0; i < num.length; i++) {
+                        if (i === 0) {
+                            formattedNum += '(' + num[i];
+                        } else if (i === 3) {
+                            formattedNum += ') ' + num[i];
+                        } else if (i === 6) {
+                            formattedNum += '-' + num[i];
+                        } else {
+                            formattedNum += num[i];
+                        }
+                    }
+
+                    $(this).val(
+                        formattedNum); // Actualiza el valor del campo de entrada con el número formateado
                 });
             });
         </script>

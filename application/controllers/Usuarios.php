@@ -29,6 +29,7 @@ class Usuarios extends CI_Controller
 
     public function insertar()
     {
+        
         // Recoge los datos del formulario
         $data = array(
             'ID_rol' => $this->input->post('selectRoles'),
@@ -39,6 +40,9 @@ class Usuarios extends CI_Controller
             'Fecha_Cargo_ROM' => $this->input->post('inputFechaAlto'),
             'Num_Tel' => $this->input->post('inputNumTel'),
             'Extension' => $this->input->post('inputExtension'),
+            'cargo' => $this->input->post('inputCargoServidorPublico'),
+            'titulo' => $this->input->post('inputTitulo'),
+            'clave_Empleado' => $this->input->post('inputClave'),
             'Estatus' => 1
         );
 
@@ -65,6 +69,7 @@ class Usuarios extends CI_Controller
     public function actualizar()
     {
         $id = $this->input->post('ID_Usuario');
+        $estatus = $this->input->post('selectEstatus') === 'Activo' ? true : false;
         $data = array(
             'ID_rol' => $this->input->post('selectRoles'),
             'Apellido_Paterno' => $this->input->post('inputApellidoPaterno'),
@@ -74,7 +79,10 @@ class Usuarios extends CI_Controller
             'Fecha_Cargo_ROM' => $this->input->post('inputFechaAlto'),
             'Num_Tel' => $this->input->post('inputNumTel'),
             'Extension' => $this->input->post('inputExtension'),
-            'Estatus' => 1
+            'cargo' => $this->input->post('inputCargoServidorPublico'),
+            'titulo' => $this->input->post('inputTitulo'),
+            'clave_Empleado' => $this->input->post('inputClave'),
+            'Estatus' => $estatus
         );
 
         $this->UsuarioModel->actualizar($this->input->post('ID_Usuario'), $data);

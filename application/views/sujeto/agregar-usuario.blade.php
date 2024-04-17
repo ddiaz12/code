@@ -95,10 +95,31 @@
                                                     name="inputExtension" maxlength="2" required>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputCargoServidorPublico">Cargo del servidor publico</label>
+                                                <input type="text" class="form-control" id="inputCargoServidorPublico"
+                                                    name="inputCargoServidorPublico">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputTitulo">Titulo</label>
+                                                <input type="text" class="form-control" id="inputTitulo"
+                                                    name="inputTitulo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputNumeroEmpleado">Numero o clave del empleado</label>
+                                                <input type="number" class="form-control" id="inputNumeroEmpleado"
+                                                    name="inputNumeroEmpleado">
+                                            </div>
+                                        </div>
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="submit" class="btn btn-guardar">Guardar</button>
-                                            <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                            <button type="submit" class="btn btn-guardar btn-rounded">Guardar</button>
+                                            <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-secondary btn-rounded me-2">Cancelar</a>
                                         </div>
                                     </form>
                                 </div>
@@ -110,50 +131,6 @@
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#inputImagen').on('change', function(e) {
-                var file = e.target.files[0];
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#preview').html('<img src="' + e.target.result + '" class="img-fluid">');
-                    $('#preview').append(
-                        '<button class="btn btn-danger btn-sm mt-2" id="btnRemoveImage">Eliminar</button>'
-                    );
-                }
-                reader.readAsDataURL(file);
-            });
-
-            $('#preview').on('click', '#btnRemoveImage', function() {
-                $('#inputImagen').val('');
-                $('#preview').html('');
-            });
-
-            $('#preview').on('dragover', function(e) {
-                e.preventDefault();
-                $(this).addClass('dragover');
-            });
-
-            $('#preview').on('dragleave drop', function(e) {
-                e.preventDefault();
-                $(this).removeClass('dragover');
-            });
-
-            $('#preview').on('drop', function(e) {
-                e.preventDefault();
-                var file = e.originalEvent.dataTransfer.files[0];
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#preview').html('<img src="' + e.target.result + '" class="img-fluid">');
-                    $('#preview').append(
-                        '<button class="btn btn-danger btn-sm mt-2" id="btnRemoveImage">Eliminar</button>'
-                    );
-                }
-                reader.readAsDataURL(file);
-            });
-        });
-    </script>
 
     <script>
         $(document).ready(function() {

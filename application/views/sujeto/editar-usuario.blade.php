@@ -91,6 +91,39 @@
                                                     name="inputExtension" value="{{ $usuario->Extension }}" required>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputCargoServidorPublico">Cargo del servidor
+                                                    publico</label>
+                                                <input type="text" class="form-control"
+                                                    id="inputCargoServidorPublico" name="inputCargoServidorPublico">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputTitulo">Titulo</label>
+                                                <input type="text" class="form-control" id="inputTitulo"
+                                                    name="inputTitulo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputNumeroEmpleado">Numero o clave del empleado</label>
+                                                <input type="number" class="form-control" id="inputNumeroEmpleado"
+                                                    name="inputNumeroEmpleado">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="form-control" id="selectEstatus" name="selectEstatus"
+                                                required>
+                                                <option disabled>Selecciona una opción</option>
+                                                <option value="Activo" {{ $usuario->Estatus ? 'selected' : '' }}>Activo
+                                                </option>
+                                                <option value="Inactivo" {{ $usuario->Estatus ? '' : 'selected' }}>
+                                                    Inactivo
+                                                </option>
+                                            </select>
+                                        </div>
 
 
                                         <div class="d-flex justify-content-end mb-3">
