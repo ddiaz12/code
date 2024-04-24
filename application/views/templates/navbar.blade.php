@@ -2,7 +2,7 @@
     <!-- Navbar Brand-->
     <div class="div-escudo">
         <a class="navbar-brand" href="<?php echo base_url("home/home_sujeto") ?>">
-            <img src="<?php echo base_url("assets/") ?>img/logo2.jpg" alt="Escudo del gobierno del estado"
+            <img src="<?php echo base_url("assets/") ?>img/logo_transparente.png" alt="Escudo del gobierno del estado"
                 id="logo">
         </a>
     </div>

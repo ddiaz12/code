@@ -19,12 +19,12 @@
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="<?php echo base_url("home/home_sujeto") ?>"><i class="fas fa-home me-1"></i>Home</a>
                         </li>
-                        <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Oficinas</li>
+                        <li class="breadcrumb-item active"><i class="fas fa-cogs me-1"></i>Unidades administrativas</li>
                     </ol>
                     <!-- Botón para abrir otra vista -->
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="<?php echo base_url('oficinas/agregar_oficina'); ?>" class="btn btn-primary btn-agregarOficina">
-                            <i class="fas fa-plus-circle me-1"></i> Agregar Oficina
+                        <a href="<?php echo base_url('menu/agregar_unidades'); ?>" class="btn btn-primary btn-agregarOficina">
+                            <i class="fas fa-plus-circle me-1"></i> Agregar unidad administrativa
                         </a>
                     </div>
                     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
@@ -34,37 +34,16 @@
                                 <thead>
                                     <tr>
                                         <th class="tTabla-color">Id</th>
-                                        <th class="tTabla-color">Nombre sujeto obligado</th>
-                                        <th class="tTabla-color">Unidad administrativa</th>
+                                        <th class="tTabla-color">Nombre de A.U</th>
                                         <th class="tTabla-color">Siglas</th>
+                                        <th class="tTabla-color">Tipo</th>  
+                                        <th class="tTabla-color">Nombre sujeto obligado</th>  
                                         <th class="tTabla-color">Acciones</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <?php foreach ($oficinas as $oficina): ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $oficina->ID_Oficina ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->Nombre_Sujeto ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->unidad_Administrativa ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->Siglas ?>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-sm rounded-circle me-2"><i
-                                                        class="fas fa-edit"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm rounded-circle"
-                                                    data-id_oficina="<?php echo $oficina->id_oficina ?>"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                    
                                 </tbody>
                             </table>
                         </div>

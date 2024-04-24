@@ -16,40 +16,31 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="<?php echo base_url('oficinas/oficina'); ?>"><i
-                                class="fas fa-building me-1"></i>Oficinas</a>
-                    </li>
-                    <li class="breadcrumb-item active"><i class="fa-solid fa-building-circle-check"></i>Agregar oficina
+                    <li class="breadcrumb-item"><a href="<?php echo base_url('menu/menu_unidades'); ?>"><i class="fas fa-cogs me-1"></i>Unidades
+                            administrativas</a></li>
+                    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar unidad
+                        administrativa
                     </li>
                 </ol>
                 <div class="container mt-5">
                     <div class="row justify-content-center div-formOficina">
                         <div class="col-md-9">
                             <div class="card">
-                                <div class="card-header text-white">Agregar Oficina</div>
+                                <div class="card-header text-white">Agregar unidad
+                                    administrativa</div>
                                 <div class="card-body">
 
-                                    <!-- Formulario de agregar oficina -->
-                                    <form class="row g-3" action="<?php echo base_url('oficinas/insertar'); ?>" method="post">
+                                    <!-- Formulario de Agregar unidad administrativa -->
+                                    <form class="row g-3" id="formHorario">
                                         <div class="form-group">
                                             <label for="selectSujeto">Sujeto obligado<span
                                                     class="text-danger">*</span></label>
                                             <select class="form-control" id="selectSujeto" name="sujeto" required>
                                                 <option disabled selected>Selecciona una opción</option>
                                                 @foreach ($sujetos as $sujeto)
-                                                    <option value="{{ $sujeto->ID_ofic }}">{{ $sujeto->Nombre_Sujeto }}
+                                                    <option value="{{ $sujeto->ID_sujeto }}">
+                                                        {{ $sujeto->nombre_sujeto }}
                                                     </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="selectUnidad">Unidad administrativa<span
-                                                    class="text-danger">*</span></label>
-                                            <select class="form-control" id="selectUnidad" name="unidad" required>
-                                                <option disabled selected>Selecciona una opción</option>
-                                                @foreach ($sujetos as $sujeto)
-                                                    <option value="{{ $sujeto->ID_ofic }}">
-                                                        {{ $sujeto->unidad_Administrativa }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -195,7 +186,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- Aquí se mostrarán los horarios de atención -->
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -223,7 +214,7 @@
                                                         <!-- Campos para seleccionar día, hora de apertura y cierre -->
                                                         <div class="mb-3">
                                                             <label for="selectDia" class="form-label">Día</label>
-                                                            <select class="form-select" id="selectDia"
+                                                            <select class="form-select" id="dia"
                                                                 name="dia">
                                                                 <option value="lunes">Lunes</option>
                                                                 <option value="martes">Martes</option>
@@ -235,14 +226,14 @@
                                                         <div class="mb-3">
                                                             <label for="inputApertura" class="form-label">Hora de
                                                                 Apertura</label>
-                                                            <input type="time" class="form-control"
-                                                                id="inputApertura" name="apertura">
+                                                            <input type="time" class="form-control" id="apertura"
+                                                                name="apertura" required>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="inputCierre" class="form-label">Hora de
                                                                 Cierre</label>
-                                                            <input type="time" class="form-control"
-                                                                id="inputCierre" name="cierre">
+                                                            <input type="time" class="form-control" id="cierre"
+                                                                name="cierre" required>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -256,9 +247,9 @@
                                         </div>
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="submit"
+                                            <button type="button" onclick="enviarFormulario();"
                                                 class="btn btn-success btn-guardar">Guardar</button>
-                                            <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                            <a href="<?php echo base_url('menu/menu_unidades'); ?>" class="btn btn-secondary me-2">Cancelar</a>
                                         </div>
                                     </form>
                                 </div>
@@ -268,19 +259,24 @@
                 </div>
         </div>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Obtener referencia a la tabla
-                var tablaHorarios = document.getElementById('tablaHorarios');
+            var horarios = [];
 
-                // Obtener referencia al botón de guardar dentro del modal
+            document.addEventListener('DOMContentLoaded', function() {
+                var tablaHorarios = document.getElementById('tablaHorarios');
                 var btnGuardarHorario = document.getElementById('btnGuardarHorario');
 
-                // Agregar evento de clic al botón de guardar
                 btnGuardarHorario.addEventListener('click', function() {
-                    // Obtener valores de los campos del modal
-                    var dia = document.getElementById('selectDia').value;
-                    var apertura = document.getElementById('inputApertura').value;
-                    var cierre = document.getElementById('inputCierre').value;
+                    var dia = document.getElementById('dia').value;
+                    var apertura = document.getElementById('apertura').value;
+                    var cierre = document.getElementById('cierre').value;
+
+                    let horario = {
+                        dia: dia,
+                        apertura: apertura,
+                        cierre: cierre
+                    };
+
+                    horarios.push(horario);
 
                     // Crear una nueva fila
                     var fila = tablaHorarios.insertRow();
@@ -301,7 +297,6 @@
                     btnEliminar.textContent = 'Eliminar';
                     btnEliminar.classList.add('btn', 'btn-danger');
                     btnEliminar.addEventListener('click', function() {
-                        // Eliminar la fila al hacer clic en el botón Eliminar
                         fila.remove();
                     });
                     celdaAcciones.appendChild(btnEliminar);
@@ -312,8 +307,39 @@
                     modalBootstrap.hide();
                 });
             });
+
+            function enviarFormulario() {
+                var sendData = $('#formHorario').serializeArray();
+                //console.log(horarios);
+                //console.log(sendData);
+                /* horarios.push({
+                    name: 'horarios',
+                    value: horarios
+                });*/
+                $.ajax({
+                    url: '<?php echo base_url('menu/insertar_unidad'); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'json1': sendData,
+                        'json2': horarios
+                    },
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            setTimeout(function() {
+                                window.location.href = response.redirect_url;
+                            }, 1000); // Redirigir después de 1 segundo (1000 milisegundos)
+                        } else {
+                            console.error('Error al procesar la solicitud.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
         </script>
-        <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
+        <script src="<?php echo base_url("assets/") ?>js/tel.js"></script>
 
         </main>
     </div>

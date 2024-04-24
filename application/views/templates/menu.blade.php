@@ -40,8 +40,8 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownGear">
                         <h6 class="dropdown-header">Ayuda</h6>
-                        <li><a class="dropdown-item" href="#">Sujeto obligado</a></li>
-                        <li><a class="dropdown-item" href="">Unidades administrativas</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url("menu/menu_sujeto") ?>">Sujeto obligado</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url("menu/menu_unidades") ?>">Unidades administrativas</a></li>
                         <li><a class="dropdown-item" href="<?php echo base_url("oficinas/oficina") ?>">Oficinas</a></li>
                         <li><a class="dropdown-item" href="<?php echo base_url("usuarios/usuario") ?>">Usuarios</a></li>
                     </ul>
@@ -53,8 +53,8 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownInfo">
                         <h6 class="dropdown-header">Información</h6>
-                        <li><a class="dropdown-item" href="#">Guias</a></li>
-                        <li><a class="dropdown-item" href="#">Log de versiones</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url("menu/menu_guia") ?>">Guias</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url("menu/menu_log") ?>">Log de versiones</a></li>
                     </ul>
                 </div>
             </div>

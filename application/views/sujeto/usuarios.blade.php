@@ -58,7 +58,7 @@
                                             <td>{{ $usuario->Roles }}</td>
                                             <td>{{ $usuario->Estatus == 1 ? 'Activo' : 'Inactivo' }}</td>
                                             <td>
-                                                <a href="<?php echo base_url('usuarios/editar/' . $usuario->ID_Usuario); ?>" class="btn btn-warning">
+                                                <a href="<?php echo base_url('usuarios/editar/' . $usuario->ID_Usuario); ?>" class="btn btn-warning ">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-danger"

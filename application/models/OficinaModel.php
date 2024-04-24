@@ -8,13 +8,14 @@ class OficinaModel extends CI_Model
         parent::__construct();
 
     }
-
     public function getOficinas()
     {
-        $query = $this->db->get('ma_oficina_administrativa');
+        $this->db->select('ma_oficina_administrativa.*, cat_oficinas.Nombre_Sujeto, cat_oficinas.unidad_Administrativa');
+        $this->db->from('ma_oficina_administrativa');
+        $this->db->join('cat_oficinas', 'cat_oficinas.ID_ofic = ma_oficina_administrativa.ID_Oficina');
+        $query = $this->db->get();
         return $query->result();
     }
-
     public function getCatOficinas()
     {
         $query = $this->db->get('cat_oficinas');
@@ -43,6 +44,22 @@ class OficinaModel extends CI_Model
     {
         $this->db->insert('ma_oficina_administrativa', $data);
     }
+
+
+    public function insertar_horario($data)
+    {
+        $this->db->insert('de_oficina_horarios', $data);
+    }
+
+    public function asociar_oficina_horario($id_oficina, $id_horario)
+    {
+        $data = array(
+            'ID_Oficina' => $id_oficina,
+            'ID_Horario' => $id_horario
+        );
+        $this->db->insert('rel_oficina_horario', $data);
+    }
+
 
     public function eliminar_oficina($id)
     {
