@@ -85,7 +85,7 @@ class Usuarios extends CI_Controller
             'Estatus' => $estatus
         );
 
-        $this->UsuarioModel->actualizar($this->input->post('ID_Usuario'), $data);
+        $this->UsuarioModel->actualizar($id, $data);
         redirect('usuarios/usuario');
     }
 

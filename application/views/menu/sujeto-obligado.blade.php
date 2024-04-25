@@ -22,13 +22,13 @@
                         </li>
                         <li class="breadcrumb-item active"><i class="fas fa-user me-1"></i>Sujeto obligado</li>
                     </ol>
+                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
                     <!-- Botón para abrir otra vista -->
                     <div class="d-flex justify-content-end mb-3">
                         <a href="#" class="btn btn-primary btn-agregarOficina">
                             <i class="fas fa-plus-circle me-1"></i> #
                         </a>
                     </div>
-                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
                     <div class="card mb-4">
                         <div class="card-body">
                             <table id="datatablesSimple">
