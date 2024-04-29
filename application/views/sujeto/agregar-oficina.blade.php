@@ -30,14 +30,15 @@
                                 <div class="card-body">
 
                                     <!-- Formulario de agregar oficina -->
-                                    <form class="row g-3" action="<?php echo base_url('oficinas/insertar'); ?>" method="post">
+                                    <form class="row g-3" id="fromOficina">
                                         <div class="form-group">
                                             <label for="selectSujeto">Sujeto obligado<span
                                                     class="text-danger">*</span></label>
                                             <select class="form-control" id="selectSujeto" name="sujeto" required>
                                                 <option disabled selected>Selecciona una opción</option>
                                                 @foreach ($sujetos as $sujeto)
-                                                    <option value="{{ $sujeto->ID_ofic }}">{{ $sujeto->Nombre_Sujeto }}
+                                                    <option value="{{ $sujeto->ID_sujeto }}">
+                                                        {{ $sujeto->nombre_sujeto }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -47,9 +48,9 @@
                                                     class="text-danger">*</span></label>
                                             <select class="form-control" id="selectUnidad" name="unidad" required>
                                                 <option disabled selected>Selecciona una opción</option>
-                                                @foreach ($sujetos as $sujeto)
-                                                    <option value="{{ $sujeto->ID_ofic }}">
-                                                        {{ $sujeto->unidad_Administrativa }}</option>
+                                                @foreach ($unidades as $unidad)
+                                                    <option value="{{ $unidad->ID_unidad }}">
+                                                        {{ $unidad->nombre }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -116,7 +117,9 @@
                                                     required>
                                                     <option disabled selected>Selecciona una opción</option>
                                                     @foreach ($localidades as $localidad)
-                                                        <option value="<?php echo $localidad->ID_localidad; ?>"><?php echo $localidad->Localidades; ?>
+                                                        <option value="<?php echo $localidad->ID_localidad; ?>"
+                                                            data-clave="<?php echo $localidad->clave; ?>">
+                                                            <?php echo $localidad->Localidades; ?>
                                                         </option>
                                                     @endforeach;
                                                 </select>
@@ -222,8 +225,8 @@
                                                     <div class="modal-body">
                                                         <!-- Campos para seleccionar día, hora de apertura y cierre -->
                                                         <div class="mb-3">
-                                                            <label for="selectDia" class="form-label">Día</label>
-                                                            <select class="form-select" id="selectDia"
+                                                            <label for="dia" class="form-label">Día</label>
+                                                            <select class="form-select" id="dia"
                                                                 name="dia">
                                                                 <option value="lunes">Lunes</option>
                                                                 <option value="martes">Martes</option>
@@ -233,16 +236,16 @@
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="inputApertura" class="form-label">Hora de
+                                                            <label for="apertura" class="form-label">Hora de
                                                                 Apertura</label>
-                                                            <input type="time" class="form-control"
-                                                                id="inputApertura" name="apertura">
+                                                            <input type="time" class="form-control" id="apertura"
+                                                                name="apertura">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="inputCierre" class="form-label">Hora de
+                                                            <label for="cierre" class="form-label">Hora de
                                                                 Cierre</label>
-                                                            <input type="time" class="form-control"
-                                                                id="inputCierre" name="cierre">
+                                                            <input type="time" class="form-control" id="cierre"
+                                                                name="cierre">
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -256,8 +259,8 @@
                                         </div>
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="submit"
-                                                class="btn btn-success btn-guardar">Guardar</button>
+                                            <button type="button" class="btn btn-success btn-guardar"
+                                                onclick="enviarFormulario();">Guardar</button>
                                             <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-secondary me-2">Cancelar</a>
                                         </div>
                                     </form>
@@ -268,51 +271,36 @@
                 </div>
         </div>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Obtener referencia a la tabla
-                var tablaHorarios = document.getElementById('tablaHorarios');
-
-                // Obtener referencia al botón de guardar dentro del modal
-                var btnGuardarHorario = document.getElementById('btnGuardarHorario');
-
-                // Agregar evento de clic al botón de guardar
-                btnGuardarHorario.addEventListener('click', function() {
-                    // Obtener valores de los campos del modal
-                    var dia = document.getElementById('selectDia').value;
-                    var apertura = document.getElementById('inputApertura').value;
-                    var cierre = document.getElementById('inputCierre').value;
-
-                    // Crear una nueva fila
-                    var fila = tablaHorarios.insertRow();
-
-                    // Crear celdas y agregar valores
-                    var celdaDia = fila.insertCell();
-                    celdaDia.textContent = dia;
-
-                    var celdaApertura = fila.insertCell();
-                    celdaApertura.textContent = apertura;
-
-                    var celdaCierre = fila.insertCell();
-                    celdaCierre.textContent = cierre;
-
-                    // Crear celda para las acciones (eliminar)
-                    var celdaAcciones = fila.insertCell();
-                    var btnEliminar = document.createElement('button');
-                    btnEliminar.textContent = 'Eliminar';
-                    btnEliminar.classList.add('btn', 'btn-danger');
-                    btnEliminar.addEventListener('click', function() {
-                        // Eliminar la fila al hacer clic en el botón Eliminar
-                        fila.remove();
-                    });
-                    celdaAcciones.appendChild(btnEliminar);
-
-                    // Cerrar el modal
-                    var modal = document.getElementById('modalAgregarHorario');
-                    var modalBootstrap = bootstrap.Modal.getInstance(modal);
-                    modalBootstrap.hide();
-                });
+            document.getElementById('selectLocalidad').addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                var clave = selectedOption.getAttribute('data-clave');
+                document.getElementById('claveLocalidad').value = clave;
             });
+
+            function enviarFormulario() {
+                var sendData = $('#fromOficina').serializeArray();
+                $.ajax({
+                    url: '<?php echo base_url('oficinas/insertar'); ?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'json1': sendData,
+                        'json2': horarios
+                    },
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            window.location.href = response.redirect_url;
+                        } else {
+                            console.error('Error al procesar la solicitud.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
         </script>
+        <script src="<?php echo base_url('assets/'); ?>js/agregarHorario.js"></script>
         <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
 
         </main>

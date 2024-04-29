@@ -44,6 +44,51 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
+                                                <label for="selectTipoSujeto">Tipo de sujeto obligado<span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectTipoSujeto"
+                                                    name="selectTipoSujeto" required>
+                                                    <option disabled>Selecciona una opción</option>
+                                                    <?php foreach ($sujetos as $sujeto): ?>
+                                                    <option value="<?php echo $sujeto->ID_sujeto; ?>" <?php echo $sujeto->ID_sujeto == $usuario->ID_sujeto ? 'selected' : ''; ?>>
+                                                        <?php echo $sujeto->tipo_sujeto; ?>
+                                                    </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="selectUnidad">Unidad Administrativa<span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectUnidad" name="selectUnidad"
+                                                    required>
+                                                    <option disabled>Selecciona una opción</option>
+                                                    <?php foreach ($unidades as $unidad): ?>
+                                                    <option value="<?php echo $unidad->ID_unidad; ?>" <?php echo $unidad->ID_unidad == $usuario->ID_unidad ? 'selected' : ''; ?>>
+                                                        <?php echo $unidad->nombre; ?>
+                                                    </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="selectSujetoObligado">Sujeto obligado<span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectSujetoObligado"
+                                                    name="selectSujetoObligado" required>
+                                                    <option disabled>Selecciona una opción</option>
+                                                    <?php foreach ($sujetos as $sujeto): ?>
+                                                    <option value="<?php echo $sujeto->ID_sujeto; ?>" <?php echo $sujeto->ID_sujeto == $usuario->ID_sujeto ? 'selected' : ''; ?>>
+                                                        <?php echo $sujeto->nombre_sujeto; ?>
+                                                    </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
                                                 <label for="inputNombreUsuario">Nombre<span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputNombreUsuario"
@@ -114,15 +159,14 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <select class="form-control" id="selectEstatus" name="selectEstatus"
-                                                required>
-                                                <option disabled>Selecciona una opción</option>
-                                                <option value="Activo" {{ $usuario->Estatus ? 'selected' : '' }}>Activo
-                                                </option>
-                                                <option value="Inactivo" {{ $usuario->Estatus ? '' : 'selected' }}>
-                                                    Inactivo
-                                                </option>
-                                            </select>
+                                            <div class="form-group">
+                                                <label for="selectEstatus">Estatus<span class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectEstatus" name="selectEstatus" required>
+                                                    <option disabled>Selecciona una opción</option>
+                                                    <option value="Activo" {{ $usuario->Estatus ? 'selected' : '' }}>Activo</option>
+                                                    <option value="Inactivo" {{ $usuario->Estatus ? '' : 'selected' }}>Inactivo</option>
+                                                </select>
+                                            </div>
                                         </div>
 
 

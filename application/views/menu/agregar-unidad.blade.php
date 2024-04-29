@@ -107,7 +107,9 @@
                                                     required>
                                                     <option disabled selected>Selecciona una opción</option>
                                                     @foreach ($localidades as $localidad)
-                                                        <option value="<?php echo $localidad->ID_localidad; ?>"><?php echo $localidad->Localidades; ?>
+                                                        <option value="<?php echo $localidad->ID_localidad; ?>"
+                                                            data-clave="<?php echo $localidad->clave; ?>">
+                                                            <?php echo $localidad->Localidades; ?>
                                                         </option>
                                                     @endforeach;
                                                 </select>
@@ -172,6 +174,16 @@
                                             <label for="inputNotas">Notas</label>
                                             <textarea class="form-control" id="inputNotas" name="notas"></textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="checkboxOficina"
+                                                    name="oficina">
+                                                <label class="form-check-label" for="checkboxOficina">
+                                                    ¿Usar unidad administrativa como oficina?
+                                                </label>
+                                            </div>
+                                        </div>
+
 
                                         <!-- Tabla de Horarios de Atención -->
                                         <div class="form-group">
@@ -259,53 +271,10 @@
                 </div>
         </div>
         <script>
-            var horarios = [];
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var tablaHorarios = document.getElementById('tablaHorarios');
-                var btnGuardarHorario = document.getElementById('btnGuardarHorario');
-
-                btnGuardarHorario.addEventListener('click', function() {
-                    var dia = document.getElementById('dia').value;
-                    var apertura = document.getElementById('apertura').value;
-                    var cierre = document.getElementById('cierre').value;
-
-                    let horario = {
-                        dia: dia,
-                        apertura: apertura,
-                        cierre: cierre
-                    };
-
-                    horarios.push(horario);
-
-                    // Crear una nueva fila
-                    var fila = tablaHorarios.insertRow();
-
-                    // Crear celdas y agregar valores
-                    var celdaDia = fila.insertCell();
-                    celdaDia.textContent = dia;
-
-                    var celdaApertura = fila.insertCell();
-                    celdaApertura.textContent = apertura;
-
-                    var celdaCierre = fila.insertCell();
-                    celdaCierre.textContent = cierre;
-
-                    // Crear celda para las acciones (eliminar)
-                    var celdaAcciones = fila.insertCell();
-                    var btnEliminar = document.createElement('button');
-                    btnEliminar.textContent = 'Eliminar';
-                    btnEliminar.classList.add('btn', 'btn-danger');
-                    btnEliminar.addEventListener('click', function() {
-                        fila.remove();
-                    });
-                    celdaAcciones.appendChild(btnEliminar);
-
-                    // Cerrar el modal
-                    var modal = document.getElementById('modalAgregarHorario');
-                    var modalBootstrap = bootstrap.Modal.getInstance(modal);
-                    modalBootstrap.hide();
-                });
+            document.getElementById('selectLocalidad').addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                var clave = selectedOption.getAttribute('data-clave');
+                document.getElementById('claveLocalidad').value = clave;
             });
 
             function enviarFormulario() {
@@ -326,7 +295,7 @@
                     },
                     success: function(response) {
                         if (response.status == 'success') {
-                                window.location.href = response.redirect_url;
+                            window.location.href = response.redirect_url;
                         } else {
                             console.error('Error al procesar la solicitud.');
                         }
@@ -337,7 +306,8 @@
                 });
             }
         </script>
-        <script src="<?php echo base_url("assets/") ?>js/tel.js"></script>
+        <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
+        <script src="<?php echo base_url('assets/'); ?>js/agregarHorario.js"></script>
 
         </main>
     </div>

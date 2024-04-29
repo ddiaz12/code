@@ -30,7 +30,7 @@
                                 <div class="card-body">
 
                                     <!-- Formulario de agregar usuario -->
-                                    <form class="row g-3 " action="<?php echo base_url('usuarios/insertar'); ?>" method="post">
+                                    <form class="row g-3 " id="formUsuarios">
                                         <div class="form-group">
                                             <label for="inputCorreo">Correo electronico<span
                                                     class="text-danger">*</span></label>
@@ -45,6 +45,40 @@
                                                     <option disabled selected>Selecciona una opción</option>
                                                     <?php foreach ($roles as $rol): ?>
                                                     <option value="<?php echo $rol->ID_rol; ?>"><?php echo $rol->Roles; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="selectTipoSujeto">Tipo de sujeto obligado<span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectTipoSujeto"
+                                                    name="selectTipoSujeto" required>
+                                                    <option disabled selected>Selecciona una opción</option>
+                                                    <?php foreach ($sujetos as $sujeto): ?>
+                                                    <option value="<?php echo $sujeto->ID_sujeto; ?>"><?php echo $sujeto->tipo_sujeto; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputSujetos">Sujeto obligado<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="inputSujetos"
+                                                    name="inputSujetos" required readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="selectUnidades">Unidad administrativa<span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectUnidades" name="selectUnidades"
+                                                    required>
+                                                    <option disabled selected>Selecciona una opción</option>
+                                                    <?php foreach ($unidades as $unidad): ?>
+                                                    <option value="<?php echo $unidad->ID_unidad; ?>"><?php echo $unidad->nombre; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -97,9 +131,10 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputCargoServidorPublico">Cargo del servidor publico</label>
-                                                <input type="text" class="form-control" id="inputCargoServidorPublico"
-                                                    name="inputCargoServidorPublico">
+                                                <label for="inputCargoServidorPublico">Cargo del servidor
+                                                    publico</label>
+                                                <input type="text" class="form-control"
+                                                    id="inputCargoServidorPublico" name="inputCargoServidorPublico">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -118,8 +153,10 @@
                                         </div>
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="submit" class="btn btn-guardar btn-rounded">Guardar</button>
-                                            <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-secondary btn-rounded me-2">Cancelar</a>
+                                            <button type="button" onclick="enviarFormulario();"
+                                                class="btn btn-guardar btn-rounded">Guardar</button>
+                                            <a href="<?php echo base_url('usuarios/usuario'); ?>"
+                                                class="btn btn-secondary btn-rounded me-2">Cancelar</a>
                                         </div>
                                     </form>
                                 </div>
@@ -132,9 +169,49 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="<?php echo base_url("assets/") ?>js/tel.js"></script>
+    <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
     <script>
-        
+        $('#selectTipoSujeto').change(function() {
+            var tipoSujeto = $(this).val();
+
+            $.ajax({
+                url: '<?php echo base_url('usuarios/getTipoSujetoObligado/'); ?>' + tipoSujeto,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Verifica si hay datos retornados
+                    if (data) {
+                        // Actualiza el valor del campo de texto con el nombre del sujeto obligado
+                        $('#inputSujetos').val(data[0].nombre_sujeto);
+                    } else {
+                        // Si no hay datos, limpia el campo de texto
+                        $('#inputSujetos').val('hola');
+                    }
+                }
+            });
+        });
+
+        function enviarFormulario() {
+            var sendData = $('#formUsuarios').serializeArray();
+            $.ajax({
+                url: '<?php echo base_url('usuarios/insertar'); ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'json1': sendData,
+                },
+                success: function(response) {
+                    if (response.status == 'success') {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        console.error('Error al procesar la solicitud.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
     </script>
 
 </body>

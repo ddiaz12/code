@@ -36,9 +36,9 @@
                                     <tr>
                                         <th class="tTabla-color">Id</th>
                                         <th class="tTabla-color">Nombre completo</th>
-                                        <th class="tTabla-color">Correo electronico</th>
-                                        <th class="tTabla-color">Fecha</th>
-                                        <th class="tTabla-color">Numero de telefono</th>
+                                        <th class="tTabla-color">Tipo de sujeto obligado</th>
+                                        <th class="tTabla-color">Sujeto obligado</th>
+                                        <th class="tTabla-color">Unidad administrativa</th>
                                         <th class="tTabla-color">Rol</th>
                                         <th class="tTabla-color">Estatus</th>
                                         <th class="tTabla-color">Acciones </th>
@@ -52,9 +52,9 @@
                                             <td>{{ $usuario->ID_Usuario }}</td>
                                             <td>{{ $usuario->Nombre }} {{ $usuario->Apellido_Paterno }}
                                                 {{ $usuario->Apellido_Materno }}</td>
-                                            <td>{{ $usuario->Correo_Electronico }}</td>
-                                            <td>{{ $usuario->Fecha_Cargo_ROM }}</td>
-                                            <td>{{ $usuario->Num_Tel }}</td>
+                                            <td>{{ $usuario->tipo_sujeto }}</td>
+                                            <td>{{ $usuario->nombre_sujeto }}</td>
+                                            <td>{{ $usuario->nombre }}</td>
                                             <td>{{ $usuario->Roles }}</td>
                                             <td>{{ $usuario->Estatus == 1 ? 'Activo' : 'Inactivo' }}</td>
                                             <td>
@@ -95,9 +95,9 @@
             $('.btn-danger').click(function() {
                 var id = $(this).data('id_usuario');
                 $.ajax({
-                    url: '<?php echo base_url('usuarios/eliminar/') ?>' + id,
+                    url: '<?php echo base_url('usuarios/eliminar/'); ?>' + id,
                     type: 'GET',
-                    success: function (result) {
+                    success: function(result) {
                         location.reload();
                     }
                 });

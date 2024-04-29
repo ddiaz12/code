@@ -53,13 +53,13 @@ class MenuModel extends CI_Model
         return $query->row();
     }
 
-    public function getHorarios($id)
-    {
-        $this->db->select('*');
-        $this->db->from('de_unidad_horarios');
-        $this->db->where('ID_unidad', $id);
+    public function obtenerHorariosUnidad($id) {
+        $this->db->select('de_horarios.*');
+        $this->db->from('rel_unidad_horario');
+        $this->db->join('de_horarios', 'rel_unidad_horario.ID_horario = de_horarios.ID_Horario');
+        $this->db->where('rel_unidad_horario.ID_unidad', $id);
         $query = $this->db->get();
-        return $query->result();
+        return $query->result(); 
     }
 
     public function insertar_unidad($data)
@@ -76,28 +76,49 @@ class MenuModel extends CI_Model
 
     public function eliminarHorarios($idhorario)
     {
-        $this->db->where('ID_horarios', $idhorario);
-        $this->db->delete('de_unidad_horarios');
+        $this->db->where('ID_Horario', $idhorario);
+        $this->db->delete('de_horarios');
     }
 
-    public function guardarHorario($id_unidad, $dias, $aperturas, $cierres)
-    {
+    public function insertarHorario($dias, $aperturas, $cierres) {
         $data = array(
-            'id_unidad' => $id_unidad,
-            'dia' => $dias,
-            'apertura' => $aperturas,
-            'cierre' => $cierres
+            'Dia' => $dias,
+            'Apertura' => $aperturas,
+            'Cierre' => $cierres
         );
+    
+        $this->db->insert('de_horarios', $data);
+        return $this->db->insert_id();
+    }
 
-        $this->db->insert('de_unidad_horarios', $data);
+    public function insertarRelacionUnidadHorario($id_unidad, $id_horario) {
+        $data = array(
+            'ID_unidad' => $id_unidad,
+            'ID_horario' => $id_horario
+        );
+    
+        $this->db->insert('rel_unidad_horario', $data);
     }
 
     public function eliminarUnidad($id)
     {
-        // Eliminar los horarios relacionados con la unidad
+        // Obtener los ID_horario asociados con la unidad
+        $this->db->select('ID_Horario');
+        $this->db->from('rel_unidad_horario');
         $this->db->where('ID_unidad', $id);
-        $this->db->delete('de_unidad_horarios');
-
+        $query = $this->db->get();
+        $horarios = $query->result();
+    
+        // Eliminar los horarios relacionados con la unidad
+        foreach ($horarios as $horario) {
+            $this->db->where('ID_Horario', $horario->ID_horario);
+            $this->db->delete('de_horarios');
+        }
+    
+        // Eliminar las relaciones entre la unidad y los horarios
+        $this->db->where('ID_unidad', $id);
+        $this->db->delete('rel_unidad_horario');
+    
         // Eliminar la unidad
         $this->db->where('ID_unidad', $id);
         $this->db->delete('cat_unidad_administrativa');

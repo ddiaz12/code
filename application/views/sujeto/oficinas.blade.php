@@ -34,9 +34,9 @@
                                 <thead>
                                     <tr>
                                         <th class="tTabla-color">Id</th>
-                                        <th class="tTabla-color">Nombre sujeto obligado</th>
-                                        <th class="tTabla-color">Unidad administrativa</th>
-                                        <th class="tTabla-color">Siglas</th>
+                                        <th class="tTabla-color">Nombre</th>
+                                        <th class="tTabla-color">Tipo</th>
+                                        <th class="tTabla-color">Fecha de actualizacion</th>
                                         <th class="tTabla-color">Acciones</th>
                                     </tr>
                                 </thead>
@@ -48,19 +48,21 @@
                                                 <?php echo $oficina->ID_Oficina ?>
                                             </td>
                                             <td>
-                                                <?php echo $oficina->Nombre_Sujeto ?>
+                                                <?php echo $oficina->nombre ?>
                                             </td>
                                             <td>
-                                                <?php echo $oficina->unidad_Administrativa ?>
+                                                <?php echo $oficina->tipo_sujeto ?>
                                             </td>
                                             <td>
-                                                <?php echo $oficina->Siglas ?>
+                                                <?php echo $oficina->fecha_act ?>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-sm rounded-circle me-2"><i
-                                                        class="fas fa-edit"></i></button>
+                                                <a href="{{ base_url('oficinas/editar/' . $oficina->ID_Oficina) }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
                                                 <button type="button" class="btn btn-danger btn-sm rounded-circle"
-                                                    data-id_oficina="<?php echo $oficina->id_oficina ?>"><i
+                                                    data-id_oficina="<?php echo $oficina->ID_Oficina ?>"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>
                                         </tr>
@@ -93,7 +95,7 @@
                 var id = $(this).data('id_oficina');
 
                 $.ajax({
-                    url: '<?php echo base_url('oficinas/eliminar_oficina/') ?>' + id,
+                    url: '<?php echo base_url('oficinas/eliminar/') ?>' + id,
                     type: 'POST',
                     success: function (result) {
                         // Recargar la página o hacer algo con el resultado

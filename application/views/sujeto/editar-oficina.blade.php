@@ -16,10 +16,9 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="<?php echo base_url('menu/menu_unidades'); ?>"><i class="fas fa-cogs me-1"></i>Unidades
-                            administrativas</a></li>
-                    <li class="breadcrumb-item active"><i class="fa-solid fa-pencil-alt"></i>Editar unidad
-                        administrativa
+                    <li class="breadcrumb-item"><a href="<?php echo base_url('oficinas/oficina'); ?>"><i class="fas fa-cogs me-1"></i>Oficinas</a>
+                    </li>
+                    <li class="breadcrumb-item active"><i class="fa-solid fa-pencil-alt"></i>Editar oficinas
                     </li>
                 </ol>
                 <div class="container mt-5">
@@ -31,8 +30,8 @@
                                 <div class="card-body">
 
                                     <!-- Formulario de editar unidad administrativa -->
-                                    <form class="row g-3" id="formUnidad">
-                                        <input type="hidden" name="id_unidad" value="{{ $unidades->ID_unidad }}">
+                                    <form class="row g-3" id="formOficina">
+                                        <input type="hidden" name="id_oficina" value="{{ $oficinas->ID_Oficina }}">
                                         <div class="form-group">
                                             <label for="selectSujeto">Sujeto obligado<span
                                                     class="text-danger">*</span></label>
@@ -40,8 +39,21 @@
                                                 <option disabled selected>Selecciona una opción</option>
                                                 @foreach ($sujetos as $sujeto)
                                                     <option value="{{ $sujeto->ID_sujeto }}"
-                                                        {{ $sujeto->ID_sujeto == $unidades->ID_sujeto ? 'selected' : '' }}>
+                                                        {{ $sujeto->ID_sujeto == $oficinas->ID_sujeto ? 'selected' : '' }}>
                                                         {{ $sujeto->nombre_sujeto }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="selectUnidad">Unidad administrativa<span
+                                                    class="text-danger">*</span></label>
+                                            <select class="form-control" id="selectUnidad" name="unidad" required>
+                                                <option disabled selected>Selecciona una opción</option>
+                                                @foreach ($unidades as $unidad)
+                                                    <option value="{{ $unidad->ID_unidad }}"
+                                                        {{ $unidad->ID_unidad == $oficinas->ID_unidad ? 'selected' : '' }}>
+                                                        {{ $unidad->nombre }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -49,12 +61,12 @@
                                         <div class="form-group">
                                             <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputNombre" name="nombre"
-                                                placeholder="Nombre completo" value="{{ $unidades->nombre }}" required>
+                                                placeholder="Nombre completo" value="{{ $oficinas->nombre }}" required>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="inputSiglas">Siglas<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputSiglas" name="siglas"
-                                                value="{{ $unidades->siglas }}" required>
+                                                value="{{ $oficinas->Siglas }}" required>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -65,7 +77,7 @@
                                                     <option disabled selected>Selecciona una opción</option>
                                                     @foreach ($vialidades as $vialidad)
                                                         <option value="{{ $vialidad->ID_Vialidades }}"
-                                                            {{ $vialidad->ID_Vialidades == $unidades->ID_vialidad ? 'selected' : '' }}>
+                                                            {{ $vialidad->ID_Vialidades == $oficinas->ID_vialidad ? 'selected' : '' }}>
                                                             {{ $vialidad->Vialidad }}
                                                         </option>
                                                     @endforeach
@@ -76,13 +88,13 @@
                                             <label for="inputVialidad">Nombre vialidad<span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputVialidad"
-                                                name="nombre_vialidad" value="{{ $unidades->nombre_vialidad }}">
+                                                name="nombre_vialidad" value="{{ $oficinas->Nombre_Vialidad }}">
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputNumInterior">Número interior</label>
                                                 <input type="number" class="form-control" id="inputNumInterior"
-                                                    name="num_interior" value="{{ $unidades->Num_interior }}">
+                                                    name="num_interior" value="{{ $oficinas->Num_interior }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -90,7 +102,7 @@
                                                 <label for="inputNumExterior">Número exterior<span
                                                         class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputNumExterior"
-                                                    name="num_exterior" value="{{ $unidades->Num_Exterior }}" required>
+                                                    name="num_exterior" value="{{ $oficinas->Num_Exterior }}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -101,7 +113,7 @@
                                                     <option disabled selected>Selecciona una opción</option>
                                                     @foreach ($municipios as $municipio)
                                                         <option value="{{ $municipio->ID_Municipio }}"
-                                                            {{ $municipio->ID_Municipio == $unidades->ID_municipio ? 'selected' : '' }}>
+                                                            {{ $municipio->ID_Municipio == $oficinas->ID_municipio ? 'selected' : '' }}>
                                                             {{ $municipio->Nombre_municipio }}
                                                         </option>
                                                     @endforeach
@@ -116,7 +128,7 @@
                                                     <option disabled selected>Selecciona una opción</option>
                                                     @foreach ($localidades as $localidad)
                                                         <option value="{{ $localidad->ID_localidad }}"
-                                                            {{ $localidad->ID_localidad == $unidades->ID_localidad ? 'selected' : '' }}
+                                                            {{ $localidad->ID_localidad == $oficinas->ID_localidad ? 'selected' : '' }}
                                                             data-clave="{{ $localidad->clave }}">
                                                             {{ $localidad->Localidades }}
                                                         </option>
@@ -153,7 +165,7 @@
                                             <div class="form-group">
                                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputCP"
-                                                    name="codigo_postal" value="{{ $unidades->c_p }}" required>
+                                                    name="codigo_postal" value="{{ $oficinas->c_p }}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -161,7 +173,7 @@
                                                 <label for="inputNumTel">Número de teléfono oficial<span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputNumTel"
-                                                    name="inputNumTel" value="{{ $unidades->NumTel_Oficial }}"
+                                                    name="inputNumTel" value="{{ $oficinas->NumTel_Oficial }}"
                                                     required>
                                             </div>
                                         </div>
@@ -169,7 +181,7 @@
                                             <div class="form-group">
                                                 <label for="inputExtension">Extensión</label>
                                                 <input type="number" class="form-control" id="inputExtension"
-                                                    name="extension" value="{{ $unidades->extension }}">
+                                                    name="extension" value="{{ $oficinas->Extension }}">
                                             </div>
                                         </div>
                                         <div class="input-group mb-3">
@@ -178,11 +190,11 @@
                                                         class="fas fa-envelope fa-2x"></i></span>
                                             </div>
                                             <input type="email" class="form-control" placeholder="Email"
-                                                name="email" value="{{ $unidades->Correo_Elec }}" required>
+                                                name="email" value="{{ $oficinas->Correo_Elec }}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNotas">Notas</label>
-                                            <textarea class="form-control" id="inputNotas" name="notas" value="{{ $unidades->Notas }}"></textarea>
+                                            <textarea class="form-control" id="inputNotas" name="notas" value="{{ $oficinas->Notas }}"></textarea>
                                         </div>
 
                                         <!-- Tabla de Horarios de Atención -->
@@ -272,7 +284,7 @@
                                         <div class="d-flex justify-content-end mb-3">
                                             <button type="button" onclick="enviarFormulario();"
                                                 class="btn btn-success btn-guardar">Actualizar</button>
-                                            <a href="<?php echo base_url('menu/menu_unidades'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                            <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-secondary me-2">Cancelar</a>
                                         </div>
                                     </form>
                                 </div>
@@ -288,10 +300,11 @@
                 document.getElementById('claveLocalidad').value = clave;
             });
 
+
             function enviarFormulario() {
-                var sendData = $('#formUnidad').serializeArray();
+                var sendData = $('#formOficina').serializeArray();
                 $.ajax({
-                    url: '<?php echo base_url('menu/actualizar_unidad'); ?>',
+                    url: '<?php echo base_url('oficinas/actualizar'); ?>',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -301,7 +314,7 @@
                     },
                     success: function(response) {
                         if (response.status == 'success') {
-                            window.location.href = '<?php echo base_url('menu/menu_unidades'); ?>';
+                            window.location.href = '<?php echo base_url('oficinas/oficina'); ?>';
                         } else {
                             console.error('Error al procesar la solicitud.');
                         }
@@ -314,6 +327,7 @@
         </script>
         <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
         <script src="<?php echo base_url('assets/'); ?>js/eliminarHorario.js"></script>
+
         </main>
     </div>
 </body>

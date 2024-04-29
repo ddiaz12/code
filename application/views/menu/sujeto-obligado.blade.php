@@ -25,8 +25,8 @@
                     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
                     <!-- Botón para abrir otra vista -->
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="#" class="btn btn-primary btn-agregarOficina">
-                            <i class="fas fa-plus-circle me-1"></i> #
+                        <a href="<?php echo base_url('menu/agregar_sujeto'); ?>" class="btn btn-primary btn-agregarOficina">
+                            <i class="fas fa-plus-circle me-1"></i> Agregar sujeto obligado
                         </a>
                     </div>
                     <div class="card mb-4">

@@ -117,7 +117,8 @@
 	text-transform: uppercase;
 }
 
-.btn-guardar {
+.btn-guardar,
+.btn-danger {
 	background-color: #923244;
 	--bs-btn-active-bg: #7f2841;
 	--bs-btn-active-color: white;
@@ -134,7 +135,8 @@
 .btn-oficina:hover,
 .btn-agregarUsuario:hover
 .btn-agregarOficina:hover,
-.btn-guardar:hover {
+.btn-guardar:hover,
+.btn-danger:hover {
 	background-color: #7f2841;
 	color: white;
 }
