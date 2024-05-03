@@ -1,12 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+date_default_timezone_set('America/Mexico_City');
 class Oficinas extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->model('OficinaModel');
+        $this->load->library('form_validation');
     }
 
     public function oficina()
@@ -27,52 +28,76 @@ class Oficinas extends CI_Controller
 
     public function insertar()
     {
-        $datosFormulario = $this->input->post('json1');
-        $horarios = $this->input->post('json2');
+        $this->form_validation->set_rules('inputNombre', 'Nombre', 'required');
+        $this->form_validation->set_rules('siglas', 'Siglas', 'required');
+        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
+        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
+        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
+        $this->form_validation->set_rules('email', 'Correo electrónico', 'trim|required|valid_email');
+        $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
+        $this->form_validation->set_rules('unidad', 'Unidad administrativa', 'required');
+        $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
+        $this->form_validation->set_rules('inputVialidad', 'Nombre de vialidad', 'required');
 
-        if ($datosFormulario != null) {
-            foreach ($datosFormulario as $dato) {
-                $datos[$dato['name']] = $dato['value'];
-            }
+        if ($this->form_validation->run() != FALSE) {
+            $sujeto = $this->input->post('sujeto');
+            $unidad = $this->input->post('unidad');
+            $localidad = $this->input->post('localidad');
+            $tipo_asentamiento = $this->input->post('tipo_asentamiento');
+            $nombre_asentamiento = $this->input->post('nombre_asentamiento');
+            $tipo_vialidad = $this->input->post('tipo_vialidad');
+            $municipio = $this->input->post('municipio');
+            $nombre = $this->input->post('inputNombre');
+            $siglas = $this->input->post('siglas');
+            $nombre_vialidad = $this->input->post('inputVialidad');
+            $num_interior = $this->input->post('num_interior');
+            $num_exterior = $this->input->post('num_exterior');
+            $codigo_postal = $this->input->post('codigo_postal');
+            $inputNumTel = $this->input->post('inputNumTel');
+            $extension = $this->input->post('extension');
+            $email = $this->input->post('email');
+            $notas = $this->input->post('notas');
+            $horarios_ = $this->input->post('horarios');
 
-            // Recoge los datos del formulario
             $data = array(
-                'ID_sujeto' => isset($datos['sujeto']) ? $datos['sujeto'] : null,
-                'ID_unidad' => isset($datos['unidad']) ? $datos['unidad'] : null,
-                'ID_localidad' => isset($datos['localidad']) ? $datos['localidad'] : null,
-                'ID_asentamiento' => isset($datos['tipo_asentamiento']) ? $datos['tipo_asentamiento'] : null,
-                'ID_nAsentamiento' => isset($datos['nombre_asentamiento']) ? $datos['nombre_asentamiento'] : null,
-                'ID_vialidad' => isset($datos['tipo_vialidad']) ? $datos['tipo_vialidad'] : null,
-                'ID_municipio' => isset($datos['municipio']) ? $datos['municipio'] : null,
-                'nombre' => isset($datos['nombre']) ? $datos['nombre'] : null,
-                'Siglas' => isset($datos['siglas']) ? $datos['siglas'] : null,
-                'Nombre_Vialidad' => isset($datos['nombre_vialidad']) ? $datos['nombre_vialidad'] : null,
-                'Num_interior' => isset($datos['num_interior']) ? $datos['num_interior'] : null,
-                'Num_Exterior' => isset($datos['num_exterior']) ? $datos['num_exterior'] : null,
-                'c_p' => isset($datos['codigo_postal']) ? $datos['codigo_postal'] : null,
-                'NumTel_Oficial' => isset($datos['inputNumTel']) ? $datos['inputNumTel'] : null,
-                'Extension' => isset($datos['extension']) ? $datos['extension'] : null,
-                'Correo_Elec' => isset($datos['email']) ? $datos['email'] : null,
-                'Notas' => isset($datos['notas']) ? $datos['notas'] : null,
+                'ID_sujeto' => $sujeto,
+                'ID_unidad' => $unidad,
+                'ID_localidad' => $localidad,
+                'ID_asentamiento' => $tipo_asentamiento,
+                'ID_nAsentamiento' => $nombre_asentamiento,
+                'ID_vialidad' => $tipo_vialidad,
+                'ID_municipio' => $municipio,
+                'nombre' => $nombre,
+                'Siglas' => $siglas,
+                'Nombre_Vialidad' => $nombre_vialidad,
+                'Num_interior' => $num_interior,
+                'Num_Exterior' => $num_exterior,
+                'c_p' => $codigo_postal,
+                'NumTel_Oficial' => $inputNumTel,
+                'Extension' => $extension,
+                'Correo_Elec' => $email,
+                'Notas' => $notas,
             );
 
             $id_oficina = $this->OficinaModel->insertar_oficina($data);
 
-            // Obtener los datos del formulario
-            foreach ($horarios as $horario) {
-                $dias = $horario['dia'];
-                $aperturas = $horario['apertura'];
-                $cierres = $horario['cierre'];
+            if (!empty($horarios_)) {
+                $horarios = json_decode($horarios_);
+                foreach ($horarios as $horario) {
+                    $dias = $horario->dia;
+                    $aperturas = $horario->apertura;
+                    $cierres = $horario->cierre;
 
-                $id_horario = $this->OficinaModel->insertar_horario($dias, $aperturas, $cierres);
+                    $id_horario = $this->OficinaModel->insertar_horario($dias, $aperturas, $cierres);
 
-                // Asociar la oficina con el horario de atención en la tabla rel_oficina_horario
-                $this->OficinaModel->asociar_oficina_horario($id_oficina, $id_horario);
+                    // Asociar la oficina con el horario de atención en la tabla rel_oficina_horario
+                    $this->OficinaModel->asociar_oficina_horario($id_oficina, $id_horario);
+                }
             }
             $response = array('status' => 'success', 'redirect_url' => 'oficina');
             echo json_encode($response);
         } else {
-            $response = array('status' => 'error', 'message' => 'No se han recibido datos del formulario');
+            $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
             echo json_encode($response);
         }
     }
@@ -98,65 +123,94 @@ class Oficinas extends CI_Controller
 
     public function actualizar()
     {
-        $datosFormulario = $this->input->post('json1');
-        $horarios = $this->input->post('json2');
-        $horariosEliminados = $this->input->post('json3');
+        $this->form_validation->set_rules('inputNombre', 'Nombre', 'required');
+        $this->form_validation->set_rules('siglas', 'Siglas', 'required');
+        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
+        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
+        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
+        $this->form_validation->set_rules('email', 'Correo electrónico', 'trim|required|valid_email');
+        $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
+        $this->form_validation->set_rules('unidad', 'Unidad administrativa', 'required');
+        $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
+        $this->form_validation->set_rules('inputVialidad', 'Nombre de vialidad', 'required');
+        
 
-        if ($datosFormulario != null) {
-            foreach ($datosFormulario as $dato) {
-                $datos[$dato['name']] = $dato['value'];
-            }
+        if ($this->form_validation->run() != FALSE) {
+            $sujeto = $this->input->post('sujeto');
+            $unidad = $this->input->post('unidad');
+            $localidad = $this->input->post('localidad');
+            $tipo_asentamiento = $this->input->post('tipo_asentamiento');
+            $nombre_asentamiento = $this->input->post('nombre_asentamiento');
+            $tipo_vialidad = $this->input->post('tipo_vialidad');
+            $municipio = $this->input->post('municipio');
+            $nombre = $this->input->post('inputNombre');
+            $siglas = $this->input->post('siglas');
+            $nombre_vialidad = $this->input->post('inputVialidad');
+            $num_interior = $this->input->post('num_interior');
+            $num_exterior = $this->input->post('num_exterior');
+            $codigo_postal = $this->input->post('codigo_postal');
+            $inputNumTel = $this->input->post('inputNumTel');
+            $extension = $this->input->post('extension');
+            $email = $this->input->post('email');
+            $notas = $this->input->post('notas');
 
-            $id_oficina = $datos['id_oficina'];
+            $horarios_ = ($this->input->post('horarios'));
+            $horariosEliminados_ = $this->input->post('horariosEliminados');
+            $id_oficina = $this->input->post('id_oficina');
 
-            // Recoge los datos del formulario
             $data = array(
-                'ID_sujeto' => isset($datos['sujeto']) ? $datos['sujeto'] : null,
-                'ID_unidad' => isset($datos['unidad']) ? $datos['unidad'] : null,
-                'ID_localidad' => isset($datos['localidad']) ? $datos['localidad'] : null,
-                'ID_asentamiento' => isset($datos['tipo_asentamiento']) ? $datos['tipo_asentamiento'] : null,
-                'ID_nAsentamiento' => isset($datos['nombre_asentamiento']) ? $datos['nombre_asentamiento'] : null,
-                'ID_vialidad' => isset($datos['tipo_vialidad']) ? $datos['tipo_vialidad'] : null,
-                'ID_municipio' => isset($datos['municipio']) ? $datos['municipio'] : null,
-                'nombre' => isset($datos['nombre']) ? $datos['nombre'] : null,
-                'Siglas' => isset($datos['siglas']) ? $datos['siglas'] : null,
-                'Nombre_Vialidad' => isset($datos['nombre_vialidad']) ? $datos['nombre_vialidad'] : null,
-                'Num_interior' => isset($datos['num_interior']) ? $datos['num_interior'] : null,
-                'Num_Exterior' => isset($datos['num_exterior']) ? $datos['num_exterior'] : null,
-                'c_p' => isset($datos['codigo_postal']) ? $datos['codigo_postal'] : null,
-                'NumTel_Oficial' => isset($datos['inputNumTel']) ? $datos['inputNumTel'] : null,
-                'Extension' => isset($datos['extension']) ? $datos['extension'] : null,
-                'Correo_Elec' => isset($datos['email']) ? $datos['email'] : null,
-                'Notas' => isset($datos['notas']) ? $datos['notas'] : null,
+                'ID_sujeto' => $sujeto,
+                'ID_unidad' => $unidad,
+                'ID_localidad' => $localidad,
+                'ID_asentamiento' => $tipo_asentamiento,
+                'ID_nAsentamiento' => $nombre_asentamiento,
+                'ID_vialidad' => $tipo_vialidad,
+                'ID_municipio' => $municipio,
+                'nombre' => $nombre,
+                'Siglas' => $siglas,
+                'Nombre_Vialidad' => $nombre_vialidad,
+                'Num_interior' => $num_interior,
+                'Num_Exterior' => $num_exterior,
+                'c_p' => $codigo_postal,
+                'NumTel_Oficial' => $inputNumTel,
+                'Extension' => $extension,
+                'Correo_Elec' => $email,
+                'Notas' => $notas,
             );
 
             $this->OficinaModel->actualizar_oficina($id_oficina, $data);
 
             // Eliminar los horarios de la oficina
-            if ($horariosEliminados != null) {
-                foreach ($horariosEliminados as $idhorario) {
-                    $this->OficinaModel->eliminarHorarios($idhorario);
+            if (!empty($horariosEliminados_)) {
+                $horariosEliminados = json_decode($horariosEliminados_);
+                if ($horariosEliminados != null) {
+                    foreach ($horariosEliminados as $idhorario) {
+                        $this->OficinaModel->eliminarHorarios($idhorario);
+                    }
                 }
             }
 
             // Insertar los horarios de la oficina
-            if ($horarios != null) {
-                foreach ($horarios as $horario) {
-                    $dias = $horario['dia'];
-                    $aperturas = $horario['apertura'];
-                    $cierres = $horario['cierre'];
+            if (!empty($horarios_)) {
+                $horarios = json_decode($horarios_);
+                if ($horarios != null) {
+                    foreach ($horarios as $horario) {
+                        $dias = $horario->dia;
+                        $aperturas = $horario->apertura;
+                        $cierres = $horario->cierre;
 
-                    $id_horario = $this->OficinaModel->insertar_horario($dias, $aperturas, $cierres);
+                        $id_horario = $this->OficinaModel->insertar_horario($dias, $aperturas, $cierres);
 
-                    // Asociar la oficina con el horario de atención en la tabla rel_oficina_horario
-                    $this->OficinaModel->asociar_oficina_horario($id_oficina, $id_horario);
+                        // Asociar la oficina con el horario de atención en la tabla rel_oficina_horario
+                        $this->OficinaModel->asociar_oficina_horario($id_oficina, $id_horario);
+                    }
                 }
             }
 
             $response = array('status' => 'success');
             echo json_encode($response);
-        }else{
-            $response = array('status' => 'error', 'message' => 'No se han recibido datos del formulario');
+        } else {
+            $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
             echo json_encode($response);
         }
     }

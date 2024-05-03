@@ -44,6 +44,7 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <small id="msg_sujeto" class="text-danger"></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="selectUnidad">Unidad administrativa<span
@@ -57,16 +58,19 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <small id="msg_unidad" class="text-danger"></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="inputNombre" name="nombre"
+                                            <input type="text" class="form-control" id="inputNombre" name="inputNombre"
                                                 placeholder="Nombre completo" value="{{ $oficinas->nombre }}" required>
+                                            <small id="msg_inputNombre" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="inputSiglas">Siglas<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputSiglas" name="siglas"
                                                 value="{{ $oficinas->Siglas }}" required>
+                                            <small id="msg_siglas" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -82,13 +86,15 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <small id="msg_tipo_vialidad" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputVialidad">Nombre vialidad<span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputVialidad"
-                                                name="nombre_vialidad" value="{{ $oficinas->Nombre_Vialidad }}">
+                                                name="inputVialidad" value="{{ $oficinas->Nombre_Vialidad }}">
+                                            <small id="msg_inputVialidad" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -103,6 +109,7 @@
                                                         class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputNumExterior"
                                                     name="num_exterior" value="{{ $oficinas->Num_Exterior }}" required>
+                                                <small id="msg_num_exterior" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -166,6 +173,7 @@
                                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputCP"
                                                     name="codigo_postal" value="{{ $oficinas->c_p }}" required>
+                                                <small id="msg_codigo_postal" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -175,6 +183,7 @@
                                                 <input type="text" class="form-control" id="inputNumTel"
                                                     name="inputNumTel" value="{{ $oficinas->NumTel_Oficial }}"
                                                     required>
+                                                <small id="msg_inputNumTel" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -184,13 +193,16 @@
                                                     name="extension" value="{{ $oficinas->Extension }}">
                                             </div>
                                         </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i
-                                                        class="fas fa-envelope fa-2x"></i></span>
+                                        <div class="form-group">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-envelope fa-2x"></i></span>
+                                                </div>
+                                                <input type="email" class="form-control" placeholder="Email"
+                                                    name="email" value="{{ $oficinas->Correo_Elec }}" required>
                                             </div>
-                                            <input type="email" class="form-control" placeholder="Email"
-                                                name="email" value="{{ $oficinas->Correo_Elec }}" required>
+                                            <small id="msg_email" class="text-danger"></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNotas">Notas</label>
@@ -303,20 +315,30 @@
 
             function enviarFormulario() {
                 var sendData = $('#formOficina').serializeArray();
+                sendData.push({
+                    name: 'horarios',
+                    value: JSON.stringify(horarios)
+                });
+                sendData.push({
+                    name: 'horariosEliminados',
+                    value: JSON.stringify(horariosEliminados)
+                });
                 $.ajax({
                     url: '<?php echo base_url('oficinas/actualizar'); ?>',
                     type: 'POST',
                     dataType: 'json',
-                    data: {
-                        'json1': sendData,
-                        'json2': horarios,
-                        'json3': horariosEliminados
-                    },
+                    data: sendData,
                     success: function(response) {
                         if (response.status == 'success') {
                             window.location.href = '<?php echo base_url('oficinas/oficina'); ?>';
-                        } else {
-                            console.error('Error al procesar la solicitud.');
+                        } else if (response.status == 'error') {
+                            if (response.errores) {
+                                $.each(response.errores, function(index, value) {
+                                    if ($("small#msg_" + index).length) {
+                                        $("small#msg_" + index).html(value);
+                                    }
+                                });
+                            }
                         }
                     },
                     error: function(xhr, status, error) {

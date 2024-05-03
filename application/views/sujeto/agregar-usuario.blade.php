@@ -28,7 +28,6 @@
                             <div class="card">
                                 <div class="card-header header-usuario text-white">Agregar Usuario</div>
                                 <div class="card-body">
-
                                     <!-- Formulario de agregar usuario -->
                                     <form class="row g-3 " id="formUsuarios">
                                         <div class="form-group">
@@ -36,6 +35,7 @@
                                                     class="text-danger">*</span></label>
                                             <input type="email" class="form-control" id="inputCorreo"
                                                 name="inputCorreo" placeholder="Correo electronico" required>
+                                            <small id="msg_inputCorreo" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -47,6 +47,7 @@
                                                     <option value="<?php echo $rol->ID_rol; ?>"><?php echo $rol->Roles; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
+                                                <small id="msg_selectRoles" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -60,6 +61,7 @@
                                                     <option value="<?php echo $sujeto->ID_sujeto; ?>"><?php echo $sujeto->tipo_sujeto; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
+                                                <small id="msg_selectTipoSujeto" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -69,6 +71,7 @@
                                                 <input type="text" class="form-control" id="inputSujetos"
                                                     name="inputSujetos" required readonly>
                                             </div>
+                                            <small id="msg_inputSujeto" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -81,6 +84,7 @@
                                                     <option value="<?php echo $unidad->ID_unidad; ?>"><?php echo $unidad->nombre; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
+                                                <small id="msg_selectUnidades" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -89,7 +93,9 @@
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputNombreUsuario"
                                                     name="inputNombreUsuario">
+                                                <?php echo form_error('inputNombreUsuario'); ?>
                                             </div>
+                                            <small id="msg_inputNombreUsuario" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -98,6 +104,7 @@
                                                 <input type="text" class="form-control" id="inputApellidoPaterno"
                                                     name="inputApellidoPaterno" required>
                                             </div>
+                                            <small id="msg_inputApellidoPaterno" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -113,6 +120,7 @@
                                                 <input type="date" class="form-control" id="inputFechaAlto"
                                                     name="inputFechaAlto" required>
                                             </div>
+                                            <small id="msg_inputFechaAlto" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -121,6 +129,7 @@
                                                 <input type="text" class="form-control" id="inputNumTel"
                                                     name="inputNumTel" required>
                                             </div>
+                                            <small id="msg_inputNumTel" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -179,13 +188,11 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    // Verifica si hay datos retornados
                     if (data) {
                         // Actualiza el valor del campo de texto con el nombre del sujeto obligado
                         $('#inputSujetos').val(data[0].nombre_sujeto);
                     } else {
-                        // Si no hay datos, limpia el campo de texto
-                        $('#inputSujetos').val('hola');
+                        $('#inputSujetos').val('');
                     }
                 }
             });
@@ -197,18 +204,22 @@
                 url: '<?php echo base_url('usuarios/insertar'); ?>',
                 type: 'POST',
                 dataType: 'json',
-                data: {
-                    'json1': sendData,
-                },
+                data:sendData,
                 success: function(response) {
                     if (response.status == 'success') {
                         window.location.href = response.redirect_url;
-                    } else {
-                        console.error('Error al procesar la solicitud.');
-                    }
+                    } else if (response.status == 'error') {
+                        if (response.errores) {
+                            $.each(response.errores, function(index, value) {
+                                if ($("small#msg_" + index).length) {
+                                    $("small#msg_" + index).html(value);
+                                }
+                            });
+                        }
+                    } 
                 },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
+                error: function(response) {
+                    console.error('Error al procesar la solicitud.');
                 }
             });
         }

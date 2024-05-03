@@ -45,16 +45,20 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <small id="msg_selectSujeto" class="text-danger"></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="inputNombre" name="nombre"
-                                                placeholder="Nombre completo" value="{{ $unidades->nombre }}" required>
+                                            <input type="text" class="form-control" id="inputNombre"
+                                                name="inputNombre" placeholder="Nombre completo"
+                                                value="{{ $unidades->nombre }}" required>
+                                            <small id="msg_inputNombre" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="inputSiglas">Siglas<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputSiglas" name="siglas"
                                                 value="{{ $unidades->siglas }}" required>
+                                            <small id="msg_siglas" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -70,6 +74,7 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <small id="msg_tipo_vialidad" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -77,6 +82,7 @@
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputVialidad"
                                                 name="nombre_vialidad" value="{{ $unidades->nombre_vialidad }}">
+                                            <small id="msg_nombre_vialidad" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -91,6 +97,7 @@
                                                         class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputNumExterior"
                                                     name="num_exterior" value="{{ $unidades->Num_Exterior }}" required>
+                                                <small id="msg_num_exterior" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -155,6 +162,7 @@
                                                 <input type="number" class="form-control" id="inputCP"
                                                     name="codigo_postal" value="{{ $unidades->c_p }}" required>
                                             </div>
+                                            <small id="msg_codigo_postal" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -164,6 +172,7 @@
                                                     name="inputNumTel" value="{{ $unidades->NumTel_Oficial }}"
                                                     required>
                                             </div>
+                                            <small id="msg_inputNumTel" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -172,17 +181,30 @@
                                                     name="extension" value="{{ $unidades->extension }}">
                                             </div>
                                         </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i
-                                                        class="fas fa-envelope fa-2x"></i></span>
+                                        <div class="form-group">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-envelope fa-2x"></i></span>
+                                                </div>
+                                                <input type="email" class="form-control" placeholder="Email"
+                                                    name="email" value="{{ $unidades->Correo_Elec }}" required>
                                             </div>
-                                            <input type="email" class="form-control" placeholder="Email"
-                                                name="email" value="{{ $unidades->Correo_Elec }}" required>
+                                            <small id="msg_email" class="text-danger"></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNotas">Notas</label>
                                             <textarea class="form-control" id="inputNotas" name="notas" value="{{ $unidades->Notas }}"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="checkboxOficina"
+                                                    name="checkboxOficina"
+                                                    {{ $unidades->checkOficina ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="checkboxOficina">
+                                                    ¿Usar unidad administrativa como oficina?
+                                                </label>
+                                            </div>
                                         </div>
 
                                         <!-- Tabla de Horarios de Atención -->
@@ -290,20 +312,31 @@
 
             function enviarFormulario() {
                 var sendData = $('#formUnidad').serializeArray();
+                sendData.push({
+                    name: 'horarios',
+                    value: JSON.stringify(horarios)
+                });
+                sendData.push({
+                    name: 'horariosEliminados',
+                    value: JSON.stringify(horariosEliminados)
+                });
+
                 $.ajax({
                     url: '<?php echo base_url('menu/actualizar_unidad'); ?>',
                     type: 'POST',
                     dataType: 'json',
-                    data: {
-                        'json1': sendData,
-                        'json2': horarios,
-                        'json3': horariosEliminados
-                    },
+                    data: sendData,
                     success: function(response) {
                         if (response.status == 'success') {
                             window.location.href = '<?php echo base_url('menu/menu_unidades'); ?>';
-                        } else {
-                            console.error('Error al procesar la solicitud.');
+                        } else if (response.status == 'error') {
+                            if (response.errores) {
+                                $.each(response.errores, function(index, value) {
+                                    if ($("small#msg_" + index).length) {
+                                        $("small#msg_" + index).html(value);
+                                    }
+                                });
+                            }
                         }
                     },
                     error: function(xhr, status, error) {

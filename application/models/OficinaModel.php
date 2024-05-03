@@ -17,6 +17,12 @@ class OficinaModel extends CI_Model
         return $query->result();
     }
 
+    public function getDatos($id_oficina) {
+        $this->db->where('ID_Oficina', $id_oficina);
+        $query = $this->db->get('ma_oficina_administrativa');
+        return $query->row_array();
+    }
+
     public function getOficinaEditar($id)
     {
         $this->db->select('ma_oficina_administrativa.*, cat_sujeto_obligado.tipo_sujeto');

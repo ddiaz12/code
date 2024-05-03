@@ -106,7 +106,7 @@
                         $('#inputSujetos').val(data[0].nombre_sujeto);
                     } else {
                         // Si no hay datos, limpia el campo de texto
-                        $('#inputSujetos').val('hola');
+                        $('#inputSujetos').val('');
                     }
                 }
             });

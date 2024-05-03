@@ -61,7 +61,7 @@
                                                 <a href="<?php echo base_url('usuarios/editar/' . $usuario->ID_Usuario); ?>" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-danger btn-sm"
+                                                <button type="button" class="btn btn-danger btn-sm btn-sm rounded-circle"
                                                     data-id_usuario="<?php echo $usuario->ID_Usuario; ?>"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>

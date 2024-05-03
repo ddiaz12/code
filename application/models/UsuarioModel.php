@@ -55,6 +55,7 @@ class UsuarioModel extends CI_Model
         $query = $this->db->get('cat_unidad_administrativa');
         return $query->result();
     }
+    
 
     public function insertar($data)
     {

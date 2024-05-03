@@ -43,16 +43,19 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            <small id="msg_sujeto" class="text-danger"></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="inputNombre" name="nombre"
-                                                placeholder="Nombre completo" required>
+                                            <input type="text" class="form-control" id="inputNombre"
+                                                name="inputNombre" placeholder="Nombre completo" required>
+                                            <small id="msg_inputNombre" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="inputSiglas">Siglas<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputSiglas" name="siglas"
                                                 required>
+                                            <small id="msg_siglas" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -66,12 +69,14 @@
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
+                                            <small id="msg_tipo_vialidad" class="text-danger"></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputVialidad">Nombre vialidad<span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputVialidad"
                                                 name="nombre_vialidad">
+                                            <small id="msg_nombre_vialidad" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -84,8 +89,9 @@
                                             <div class="form-group">
                                                 <label for="inputNumExterior">Número exterior<span
                                                         class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="inputNumExterior"
+                                                <input type="number" class="form-control" id="num_exterior"
                                                     name="num_exterior" required>
+                                                <small id="msg_num_exterior" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -143,9 +149,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
-                                                <input type="number" class="form-control" id="inputCP"
+                                                <input type="number" class="form-control" id="codigo_postal"
                                                     name="codigo_postal" required>
                                             </div>
+                                            <small id="msg_codigo_postal" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -154,6 +161,7 @@
                                                 <input type="text" class="form-control" id="inputNumTel"
                                                     name="inputNumTel" required>
                                             </div>
+                                            <small id="msg_inputNumTel" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -162,13 +170,16 @@
                                                     name="extension">
                                             </div>
                                         </div>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i
-                                                        class="fas fa-envelope fa-2x"></i></span>
+                                        <div class="form-group">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="fas fa-envelope fa-2x"></i></span>
+                                                </div>
+                                                <input type="email" class="form-control" placeholder="Email"
+                                                    name="email" required>
                                             </div>
-                                            <input type="email" class="form-control" placeholder="Email"
-                                                name="email" required>
+                                            <small id="msg_email" class="text-danger"></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNotas">Notas</label>
@@ -177,7 +188,7 @@
                                         <div class="form-group">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="checkboxOficina"
-                                                    name="oficina">
+                                                    name="checkboxOficina">
                                                 <label class="form-check-label" for="checkboxOficina">
                                                     ¿Usar unidad administrativa como oficina?
                                                 </label>
@@ -281,27 +292,31 @@
                 var sendData = $('#formUnidad').serializeArray();
                 //console.log(horarios);
                 //console.log(sendData);
-                /* horarios.push({
+                sendData.push({
                     name: 'horarios',
-                    value: horarios
-                });*/
+                    value: JSON.stringify(horarios)
+                });
+
                 $.ajax({
                     url: '<?php echo base_url('menu/insertar_unidad'); ?>',
                     type: 'POST',
                     dataType: 'json',
-                    data: {
-                        'json1': sendData,
-                        'json2': horarios
-                    },
+                    data: sendData,
                     success: function(response) {
                         if (response.status == 'success') {
                             window.location.href = response.redirect_url;
-                        } else {
-                            console.error('Error al procesar la solicitud.');
+                        } else if (response.status == 'error') {
+                            if (response.errores) {
+                                $.each(response.errores, function(index, value) {
+                                    if ($("small#msg_" + index).length) {
+                                        $("small#msg_" + index).html(value);
+                                    }
+                                });
+                            }
                         }
                     },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
+                    error: function(response) {
+                        console.error('Error al procesar la solicitud.');
                     }
                 });
             }

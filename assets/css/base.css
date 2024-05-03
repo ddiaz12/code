@@ -117,13 +117,19 @@
 	text-transform: uppercase;
 }
 
-.btn-guardar,
-.btn-danger {
+.btn-guardar{
 	background-color: #923244;
 	--bs-btn-active-bg: #7f2841;
 	--bs-btn-active-color: white;
 	color: white;
 	margin-right: 20px;
+}
+
+.btn-danger {
+	background-color: #923244;
+	--bs-btn-active-bg: #7f2841;
+	--bs-btn-active-color: white;
+	color: white;
 }
 
 .btn-agregarUsuario,

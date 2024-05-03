@@ -19,7 +19,7 @@
                                 <div class="card-body">
 
                                     <!-- Formulario de actualizar usuario -->
-                                    <form class="row g-3 " action="<?php echo base_url('usuarios/actualizar'); ?>" method="post">
+                                    <form class="row g-3 " id="formEditarUsuario">
                                         <input type="hidden" name="ID_Usuario" value="{{ $usuario->ID_Usuario }}">
                                         <div class="form-group">
                                             <label for="inputCorreo">Correo electronico<span
@@ -27,6 +27,7 @@
                                             <input type="email" class="form-control" id="inputCorreo"
                                                 name="inputCorreo" placeholder="Correo electronico"
                                                 value="{{ $usuario->Correo_Electronico }}" required>
+                                                <small id="msg_inputCorreo" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -41,6 +42,7 @@
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
+                                            <small id="msg_selectRoles" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -55,6 +57,7 @@
                                                     </option>
                                                     <?php endforeach; ?>
                                                 </select>
+                                                <small id="msg_selectTipoSujeto" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -85,6 +88,7 @@
                                                     </option>
                                                     <?php endforeach; ?>
                                                 </select>
+                                                <small id="msg_selectSujetoObligado" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -94,6 +98,7 @@
                                                 <input type="text" class="form-control" id="inputNombreUsuario"
                                                     name="inputNombreUsuario" value="{{ $usuario->Nombre }}">
                                             </div>
+                                            <small id="msg_inputNombreUsuario" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -103,6 +108,7 @@
                                                     name="inputApellidoPaterno" value="{{ $usuario->Apellido_Paterno }}"
                                                     required>
                                             </div>
+                                            <small id="msg_inputApellidoPaterno" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -120,6 +126,7 @@
                                                     name="inputFechaAlto" value="{{ $usuario->Fecha_Cargo_ROM }}"
                                                     required>
                                             </div>
+                                            <small id="msg_inputFechaAlto" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -128,12 +135,13 @@
                                                 <input type="text" class="form-control" id="inputNumTel"
                                                     name="inputNumTel" value="{{ $usuario->Num_Tel }}" required>
                                             </div>
+                                            <small id="msg_inputNumTel" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="inputExtension">Extensión</label>
                                                 <input type="number" class="form-control" id="inputExtension"
-                                                    name="inputExtension" value="{{ $usuario->Extension }}" required>
+                                                    name="inputExtension" value="{{ $usuario->Extension }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -171,7 +179,7 @@
 
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="submit" class="btn btn-guardar">Actualizar</button>
+                                            <button type="button" onclick="enviarFormulario();" class="btn btn-guardar">Actualizar</button>
                                             <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-secondary me-2">Cancelar</a>
                                         </div>
                                     </form>
@@ -185,4 +193,31 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
+    <script>
+        function enviarFormulario() {
+            var sendData = $('#formEditarUsuario').serializeArray();
+            $.ajax({
+                url: '<?php echo base_url('usuarios/actualizar'); ?>',
+                type: 'POST',
+                dataType: 'json',
+                data:sendData,
+                success: function(response) {
+                    if (response.status == 'success') {
+                        window.location.href = '<?php echo base_url('usuarios/usuario'); ?>' ;
+                    } else if (response.status == 'error') {
+                        if (response.errores) {
+                            $.each(response.errores, function(index, value) {
+                                if ($("small#msg_" + index).length) {
+                                    $("small#msg_" + index).html(value);
+                                }
+                            });
+                        }
+                    } 
+                },
+                error: function(response) {
+                    console.error('Error al procesar la solicitud.');
+                }
+            });
+        }
+    </script>
 </body>
