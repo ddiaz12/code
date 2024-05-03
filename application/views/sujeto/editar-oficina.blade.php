@@ -62,8 +62,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="inputNombre" name="inputNombre"
-                                                placeholder="Nombre completo" value="{{ $oficinas->nombre }}" required>
+                                            <input type="text" class="form-control" id="inputNombre"
+                                                name="inputNombre" placeholder="Nombre completo"
+                                                value="{{ $oficinas->nombre }}" required>
                                             <small id="msg_inputNombre" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
@@ -330,7 +331,15 @@
                     data: sendData,
                     success: function(response) {
                         if (response.status == 'success') {
-                            window.location.href = '<?php echo base_url('oficinas/oficina'); ?>';
+                            Swal.fire(
+                                '¡Éxito!',
+                                'El usuario ha sido editado correctamente.',
+                                'success'
+                            ).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '<?php echo base_url('oficinas/oficina'); ?>';
+                                }
+                            })
                         } else if (response.status == 'error') {
                             if (response.errores) {
                                 $.each(response.errores, function(index, value) {
@@ -338,6 +347,11 @@
                                         $("small#msg_" + index).html(value);
                                     }
                                 });
+                                Swal.fire(
+                                    '¡Error!',
+                                    'Ha ocurrido un error al editar el usuario. Por favor, inténtalo de nuevo.',
+                                    'error'
+                                )
                             }
                         }
                     },

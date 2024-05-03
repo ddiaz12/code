@@ -20,7 +20,7 @@
 
                     <div class="row">
 
-                        <div class="col-sm-6 div-card">
+                        <div class="col-sm-6 div-card div-oficinas">
                             <div class="card h-100 d-flex align-items-center card-oficina">
                                 <div class="card-body card-oficinas text-center">
                                     <h5 class="card-title">Oficinas</h5>

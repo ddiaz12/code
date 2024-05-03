@@ -224,6 +224,11 @@
                                     $("small#msg_" + index).html(value);
                                 }
                             });
+                            Swal.fire(
+                                '¡Error!',
+                                'Ha ocurrido un error al editar el usuario. Por favor, inténtalo de nuevo.',
+                                'error'
+                            )
                         }
                     }
                 },

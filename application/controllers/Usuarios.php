@@ -49,9 +49,43 @@ class Usuarios extends CI_Controller
     public function insertar()
     {
         // Define las reglas de validación
-        $this->form_validation->set_rules('inputNombreUsuario', 'Nombre', 'required');
-        $this->form_validation->set_rules('inputApellidoPaterno', 'Apellido Paterno', 'required');
-        $this->form_validation->set_rules('inputCorreo', 'Correo Electrónico', 'required|valid_email');
+        $this->form_validation->set_rules(
+            'inputNombreUsuario',
+            'Nombre',
+            'required|regex_match[/^[a-zA-Z]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
+        $this->form_validation->set_rules(
+            'inputApellidoPaterno',
+            'Apellido Paterno',
+            'required|regex_match[/^[a-zA-Z]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
+        $this->form_validation->set_rules(
+            'inputApellidoMaterno',
+            'Apellido Materno',
+            'required|regex_match[/^[a-zA-Z]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
+        $this->form_validation->set_rules(
+            'inputCorreo',
+            'Correo Electrónico',
+            'required|valid_email|trim|is_unique[ma_usuario.Correo_Electronico]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'valid_email' => 'Por favor, introduce una dirección de correo electrónico válida.',
+                'is_unique' => 'El correo electrónico ya está registrado.'
+            )
+        );
         $this->form_validation->set_rules('inputFechaAlto', 'Fecha de alta', 'required');
         $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
         $this->form_validation->set_rules('selectRoles', 'Rol', 'required');
@@ -119,11 +153,45 @@ class Usuarios extends CI_Controller
 
     public function actualizar()
     {
-        
+
         // Define las reglas de validación
-        $this->form_validation->set_rules('inputNombreUsuario', 'Nombre', 'required');
-        $this->form_validation->set_rules('inputApellidoPaterno', 'Apellido Paterno', 'required');
-        $this->form_validation->set_rules('inputCorreo', 'Correo Electrónico', 'required|valid_email');
+        $this->form_validation->set_rules(
+            'inputNombreUsuario',
+            'Nombre',
+            'required|regex_match[/^[a-zA-Z]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
+        $this->form_validation->set_rules(
+            'inputApellidoPaterno',
+            'Apellido Paterno',
+            'required|regex_match[/^[a-zA-Z]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
+        $this->form_validation->set_rules(
+            'inputApellidoMaterno',
+            'Apellido Materno',
+            'required|regex_match[/^[a-zA-Z]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
+        $this->form_validation->set_rules(
+            'inputCorreo',
+            'Correo Electrónico',
+            'required|valid_email|trim|is_unique[ma_usuario.Correo_Electronico]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'valid_email' => 'Por favor, introduce una dirección de correo electrónico válida.',
+                'is_unique' => 'El correo electrónico ya está registrado.'
+            )
+        );
         $this->form_validation->set_rules('inputFechaAlto', 'Fecha de alta', 'required');
         $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
         $this->form_validation->set_rules('selectRoles', 'Rol', 'required');
@@ -131,7 +199,7 @@ class Usuarios extends CI_Controller
         $estatus = $this->input->post('selectEstatus') === 'Activo' ? true : false;
         $id = $this->input->post('ID_Usuario');
 
-        if($this->form_validation->run() != FALSE){
+        if ($this->form_validation->run() != FALSE) {
             $data = array(
                 'ID_rol' => $this->input->post('selectRoles'),
                 'ID_sujeto' => $this->input->post('selectTipoSujeto'),
@@ -148,16 +216,14 @@ class Usuarios extends CI_Controller
                 'clave_Empleado' => $this->input->post('inputClave'),
                 'Estatus' => $estatus
             );
-    
+
             $this->UsuarioModel->actualizar($id, $data);
 
             $response = array('status' => 'success');
             echo json_encode($response);
-        }else{
+        } else {
             $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
             echo json_encode($response);
         }
-
     }
-
 }

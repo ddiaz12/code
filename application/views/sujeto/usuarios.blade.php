@@ -61,7 +61,8 @@
                                                 <a href="<?php echo base_url('usuarios/editar/' . $usuario->ID_Usuario); ?>" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button type="button" class="btn btn-danger btn-sm btn-sm rounded-circle"
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm btn-sm rounded-circle"
                                                     data-id_usuario="<?php echo $usuario->ID_Usuario; ?>"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>
@@ -92,15 +93,45 @@
         });
 
         $(document).ready(function() {
-            $('.btn-danger').click(function() {
+            $('.btn-danger').click(function(e) {
+                e.preventDefault();
                 var id = $(this).data('id_usuario');
-                $.ajax({
-                    url: '<?php echo base_url('usuarios/eliminar/'); ?>' + id,
-                    type: 'GET',
-                    success: function(result) {
-                        location.reload();
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "No podrás revertir esta acción.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#b69664',
+                    cancelButtonColor: '#923244',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '<?php echo base_url('usuarios/eliminar/'); ?>' + id,
+                            type: 'GET',
+                            success: function(result) {
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El usuario ha sido eliminado correctamente.',
+                                    'success'
+                                ).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                })
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    '¡Error!',
+                                    'El usuario no ha sido eliminado.',
+                                    'error'
+                                )
+                            }
+                        });
                     }
-                });
+                })
             });
         });
     </script>

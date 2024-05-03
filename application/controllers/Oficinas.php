@@ -28,8 +28,24 @@ class Oficinas extends CI_Controller
 
     public function insertar()
     {
-        $this->form_validation->set_rules('inputNombre', 'Nombre', 'required');
-        $this->form_validation->set_rules('siglas', 'Siglas', 'required');
+        $this->form_validation->set_rules(
+            'inputNombre',
+            'Nombre',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'siglas',
+            'Siglas',
+            'required|regex_match[/^[a-zA-Z]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras y no puede tener espacios ni caracteres numéricos.'
+            )
+        );
         $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
         $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
         $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
@@ -37,7 +53,15 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('unidad', 'Unidad administrativa', 'required');
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
-        $this->form_validation->set_rules('inputVialidad', 'Nombre de vialidad', 'required');
+        $this->form_validation->set_rules(
+            'inputVialidad',
+            'Nombre de vialidad',
+            'required | regex_match[/^[a-zA-Z ]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras.'
+            )
+        );
 
         if ($this->form_validation->run() != FALSE) {
             $sujeto = $this->input->post('sujeto');
@@ -123,8 +147,24 @@ class Oficinas extends CI_Controller
 
     public function actualizar()
     {
-        $this->form_validation->set_rules('inputNombre', 'Nombre', 'required');
-        $this->form_validation->set_rules('siglas', 'Siglas', 'required');
+        $this->form_validation->set_rules(
+            'inputNombre',
+            'Nombre',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'siglas',
+            'Siglas',
+            'required|regex_match[/^[a-zA-Z]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras y no puede tener espacios ni caracteres numéricos.'
+            )
+        );
         $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
         $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
         $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
@@ -132,8 +172,16 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('unidad', 'Unidad administrativa', 'required');
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
-        $this->form_validation->set_rules('inputVialidad', 'Nombre de vialidad', 'required');
-        
+        $this->form_validation->set_rules(
+            'inputVialidad',
+            'Nombre de vialidad',
+            'required | regex_match[/^[a-zA-Z ]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras.'
+            )
+        );
+
 
         if ($this->form_validation->run() != FALSE) {
             $sujeto = $this->input->post('sujeto');

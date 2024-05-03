@@ -295,16 +295,24 @@
                     name: 'horarios',
                     value: JSON.stringify(horarios)
                 });
-                
+
                 $.ajax({
                     url: '<?php echo base_url('oficinas/insertar'); ?>',
                     type: 'POST',
                     dataType: 'json',
                     data: sendData,
                     success: function(response) {
-                        
+
                         if (response.status == 'success') {
-                            window.location.href = response.redirect_url;
+                            Swal.fire(
+                                '¡Éxito!',
+                                'La oficina ha sido agregada correctamente.',
+                                'success'
+                            ).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = response.redirect_url;
+                                }
+                            })
                         } else if (response.status == 'error') {
                             if (response.errores) {
                                 $.each(response.errores, function(index, value) {
@@ -312,6 +320,11 @@
                                         $("small#msg_" + index).html(value);
                                     }
                                 });
+                                Swal.fire(
+                                    '¡Error!',
+                                    'Ha ocurrido un error al agregar la oficina. Por favor, inténtalo de nuevo.',
+                                    'error'
+                                )
                             }
                         }
                     },

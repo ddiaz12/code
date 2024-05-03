@@ -204,10 +204,18 @@
                 url: '<?php echo base_url('usuarios/insertar'); ?>',
                 type: 'POST',
                 dataType: 'json',
-                data:sendData,
+                data: sendData,
                 success: function(response) {
                     if (response.status == 'success') {
-                        window.location.href = response.redirect_url;
+                        Swal.fire(
+                            '¡Éxito!',
+                            'El usuario ha sido agregado correctamente.',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = response.redirect_url;
+                            }
+                        })
                     } else if (response.status == 'error') {
                         if (response.errores) {
                             $.each(response.errores, function(index, value) {
@@ -215,8 +223,13 @@
                                     $("small#msg_" + index).html(value);
                                 }
                             });
+                            Swal.fire(
+                                '¡Error!',
+                                'Ha ocurrido un error al agregar el usuario. Por favor, inténtalo de nuevo.',
+                                'error'
+                            )
                         }
-                    } 
+                    }
                 },
                 error: function(response) {
                     console.error('Error al procesar la solicitud.');
