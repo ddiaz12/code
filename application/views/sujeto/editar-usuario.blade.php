@@ -27,7 +27,7 @@
                                             <input type="email" class="form-control" id="inputCorreo"
                                                 name="inputCorreo" placeholder="Correo electronico"
                                                 value="{{ $usuario->Correo_Electronico }}" required>
-                                                <small id="msg_inputCorreo" class="text-danger"></small>
+                                            <small id="msg_inputCorreo" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -168,18 +168,23 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="selectEstatus">Estatus<span class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectEstatus" name="selectEstatus" required>
+                                                <label for="selectEstatus">Estatus<span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectEstatus" name="selectEstatus"
+                                                    required>
                                                     <option disabled>Selecciona una opción</option>
-                                                    <option value="Activo" {{ $usuario->Estatus ? 'selected' : '' }}>Activo</option>
-                                                    <option value="Inactivo" {{ $usuario->Estatus ? '' : 'selected' }}>Inactivo</option>
+                                                    <option value="Activo" {{ $usuario->Estatus ? 'selected' : '' }}>
+                                                        Activo</option>
+                                                    <option value="Inactivo" {{ $usuario->Estatus ? '' : 'selected' }}>
+                                                        Inactivo</option>
                                                 </select>
                                             </div>
                                         </div>
 
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="button" onclick="enviarFormulario();" class="btn btn-guardar">Actualizar</button>
+                                            <button type="button" onclick="enviarFormulario();"
+                                                class="btn btn-guardar">Actualizar</button>
                                             <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-secondary me-2">Cancelar</a>
                                         </div>
                                     </form>
@@ -200,10 +205,18 @@
                 url: '<?php echo base_url('usuarios/actualizar'); ?>',
                 type: 'POST',
                 dataType: 'json',
-                data:sendData,
+                data: sendData,
                 success: function(response) {
                     if (response.status == 'success') {
-                        window.location.href = '<?php echo base_url('usuarios/usuario'); ?>' ;
+                        Swal.fire(
+                            '¡Éxito!',
+                            'El usuario ha sido editado correctamente.',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '<?php echo base_url('usuarios/usuario'); ?>';
+                            }
+                        })
                     } else if (response.status == 'error') {
                         if (response.errores) {
                             $.each(response.errores, function(index, value) {
@@ -212,7 +225,7 @@
                                 }
                             });
                         }
-                    } 
+                    }
                 },
                 error: function(response) {
                     console.error('Error al procesar la solicitud.');
