@@ -51,9 +51,9 @@
                                                 <select class="form-control" id="selectTipoSujeto"
                                                     name="selectTipoSujeto" required>
                                                     <option disabled>Selecciona una opción</option>
-                                                    <?php foreach ($sujetos as $sujeto): ?>
-                                                    <option value="<?php echo $sujeto->ID_sujeto; ?>" <?php echo $sujeto->ID_sujeto == $usuario->ID_sujeto ? 'selected' : ''; ?>>
-                                                        <?php echo $sujeto->tipo_sujeto; ?>
+                                                    <?php foreach ($tipos as $tipo): ?>
+                                                    <option value="<?php echo $tipo->ID_tipoSujeto; ?>" <?php echo $tipo->ID_tipoSujeto == $usuario->ID_tipoSujeto ? 'selected' : ''; ?>>
+                                                        <?php echo $tipo->tipo_sujeto; ?>
                                                     </option>
                                                     <?php endforeach; ?>
                                                 </select>

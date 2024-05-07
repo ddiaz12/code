@@ -103,6 +103,10 @@
 	margin-top: 15px;
 }
 
+.footer {
+	background-color: #ffffff;
+}
+
 .btn-primary {
 	--bs-btn-border-color: initial;
 	--bs-btn-hover-bg: initial;
@@ -173,6 +177,8 @@
 .card-header {
 	background-color: #7f2841;
 }
+
+
 
 @media screen and (max-width: 990px) {
 	.div-escudo {

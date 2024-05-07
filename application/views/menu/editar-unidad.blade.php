@@ -328,7 +328,15 @@
                     data: sendData,
                     success: function(response) {
                         if (response.status == 'success') {
-                            window.location.href = '<?php echo base_url('menu/menu_unidades'); ?>';
+                            Swal.fire(
+                                '¡Éxito!',
+                                'La unidad administrativa ha sido actualizada correctamente.',
+                                'success'
+                            ).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '<?php echo base_url('menu/menu_unidades'); ?>';
+                                }
+                            })
                         } else if (response.status == 'error') {
                             if (response.errores) {
                                 $.each(response.errores, function(index, value) {
@@ -336,6 +344,11 @@
                                         $("small#msg_" + index).html(value);
                                     }
                                 });
+                                Swal.fire(
+                                    '¡Error!',
+                                    'Ha ocurrido un error al editar la unidad administrativa. Por favor, inténtalo de nuevo.',
+                                    'error'
+                                )
                             }
                         }
                     },

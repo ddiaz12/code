@@ -58,7 +58,15 @@ class Menu extends CI_Controller
         //print_r($this->input->post('json1'));
         //print_r($this->input->post('json2'));
         //$datos = array();
-        $this->form_validation->set_rules('inputNombre', 'Nombre', 'required');
+        $this->form_validation->set_rules(
+            'inputNombre',
+            'Nombre',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
         $this->form_validation->set_rules('siglas', 'Siglas', 'required');
         $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
         $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
@@ -245,6 +253,119 @@ class Menu extends CI_Controller
 
     public function agregar_sujeto()
     {
-        $this->blade->render('menu/agregar-sujeto');
+        $data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
+        $this->blade->render('menu/agregar-sujeto', $data);
+    }
+
+    public function insertar_SujetoObligado()
+    {
+        $this->form_validation->set_rules(
+            'inputSujetos',
+            'Sujeto obligado',
+            'required|regex_match[/^[a-zA-Z() ]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
+        $this->form_validation->set_rules('TipoSujeto', 'Tipo sujeto', 'required');
+        $this->form_validation->set_rules(
+            'inputSiglas',
+            'Siglas',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
+            array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
+        );
+        $this->form_validation->set_rules(
+            'inputMateria',
+            'Materia',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
+            array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
+        );
+
+
+        if ($this->form_validation->run() != FALSE) {
+            $tipo = $this->input->post('TipoSujeto');
+            $sujeto = $this->input->post('inputSujetos');
+            $siglas = $this->input->post('inputSiglas');
+            $materia = $this->input->post('inputMateria');
+            $estado = $this->input->post('inputEstado');
+
+            $data = array(
+                'ID_tipoSujeto' => $tipo,
+                'nombre_sujeto' => $sujeto,
+                'estado' => $estado,
+                'siglas' => $siglas,
+                'materia' => $materia
+            );
+
+            $this->MenuModel->insertar_sujeto($data);
+
+            $response = array('status' => 'success', 'redirect_url' => 'menu_sujeto');
+            echo json_encode($response);
+        } else {
+            $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
+            echo json_encode($response);
+        }
+    }
+
+    public function editar_sujeto($id)
+    {
+        $data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
+        $data['sujeto'] = $this->MenuModel->getSujeto($id);
+        $this->blade->render('menu/editar-sujeto', $data);
+    }
+
+    public function eliminar_sujeto($id)
+    {
+        $this->MenuModel->eliminarSujeto($id);
+    }
+
+    public function actualizar_sujeto(){
+        $this->form_validation->set_rules(
+            'inputSujetos',
+            'Sujeto obligado',
+            'required|regex_match[/^[a-zA-Z() ]*$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras'
+            )
+        );
+        $this->form_validation->set_rules('TipoSujeto', 'Tipo sujeto', 'required');
+        $this->form_validation->set_rules(
+            'inputSiglas',
+            'Siglas',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
+            array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
+        );
+        $this->form_validation->set_rules(
+            'inputMateria',
+            'Materia',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
+            array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
+        );
+
+        if($this->form_validation->run() != FALSE){
+            $id_sujeto = $this->input->post('ID_sujeto');
+            $tipo = $this->input->post('TipoSujeto');
+            $sujeto = $this->input->post('inputSujetos');
+            $siglas = $this->input->post('inputSiglas');
+            $materia = $this->input->post('inputMateria');
+            $estado = $this->input->post('inputEstado');
+
+            $data = array(
+                'ID_tipoSujeto' => $tipo,
+                'nombre_sujeto' => $sujeto,
+                'estado' => $estado,
+                'siglas' => $siglas,
+                'materia' => $materia
+            );
+
+            $this->MenuModel->actualizar_sujeto($id_sujeto, $data);
+
+            $response = array('status' => 'success');
+            echo json_encode($response);
+        }else{
+            $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
+            echo json_encode($response);}
     }
 }

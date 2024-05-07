@@ -52,7 +52,7 @@
                                             <?php echo $oficina->nombre; ?>
                                         </td>
                                         <td>
-                                            <?php echo $oficina->tipo_sujeto; ?>
+                                            <?php echo $oficina->tipo; ?>
                                         </td>
                                         <td>
                                             <?php echo $oficina->fecha_act; ?>

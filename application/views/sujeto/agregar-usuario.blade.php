@@ -57,8 +57,8 @@
                                                 <select class="form-control" id="selectTipoSujeto"
                                                     name="selectTipoSujeto" required>
                                                     <option disabled selected>Selecciona una opción</option>
-                                                    <?php foreach ($sujetos as $sujeto): ?>
-                                                    <option value="<?php echo $sujeto->ID_sujeto; ?>"><?php echo $sujeto->tipo_sujeto; ?></option>
+                                                    <?php foreach ($tipos as $tipo): ?>
+                                                    <option value="<?php echo $tipo->ID_tipoSujeto; ?>"><?php echo $tipo->tipo_sujeto; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                                 <small id="msg_selectTipoSujeto" class="text-danger"></small>
@@ -66,12 +66,15 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputSujetos">Sujeto obligado<span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="inputSujetos"
-                                                    name="inputSujetos" required readonly>
+                                                <label for="selectSujetos">Sujeto obligado<span class="text-danger">*</span></label>
+                                                <select class="form-control" id="selectSujetos" name="selectSujetos" required>
+                                                    <option disabled selected>Selecciona una opción</option>
+                                                    <?php foreach ($sujetos as $sujeto): ?>
+                                                    <option value="<?php echo $sujeto->ID_sujeto; ?>"><?php echo $sujeto->nombre_sujeto; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <small id="msg_selectSujetos" class="text-danger"></small>
                                             </div>
-                                            <small id="msg_inputSujeto" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -180,24 +183,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
     <script>
-        $('#selectTipoSujeto').change(function() {
-            var tipoSujeto = $(this).val();
-
-            $.ajax({
-                url: '<?php echo base_url('usuarios/getTipoSujetoObligado/'); ?>' + tipoSujeto,
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    if (data) {
-                        // Actualiza el valor del campo de texto con el nombre del sujeto obligado
-                        $('#inputSujetos').val(data[0].nombre_sujeto);
-                    } else {
-                        $('#inputSujetos').val('');
-                    }
-                }
-            });
-        });
-
         function enviarFormulario() {
             var sendData = $('#formUsuarios').serializeArray();
             $.ajax({

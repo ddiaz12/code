@@ -56,7 +56,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre de vialidad',
-            'required | regex_match[/^[a-zA-Z ]*$/]',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras.'
@@ -92,6 +92,7 @@ class Oficinas extends CI_Controller
                 'ID_vialidad' => $tipo_vialidad,
                 'ID_municipio' => $municipio,
                 'nombre' => $nombre,
+                'tipo' => 'oficina',
                 'Siglas' => $siglas,
                 'Nombre_Vialidad' => $nombre_vialidad,
                 'Num_interior' => $num_interior,
@@ -175,7 +176,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre de vialidad',
-            'required | regex_match[/^[a-zA-Z ]*$/]',
+            'required|regex_match[/^[a-zA-Z ]*$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras.'

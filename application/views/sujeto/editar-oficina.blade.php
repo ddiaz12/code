@@ -333,7 +333,7 @@
                         if (response.status == 'success') {
                             Swal.fire(
                                 '¡Éxito!',
-                                'El usuario ha sido editado correctamente.',
+                                'La oficina ha sido actualizada correctamente.',
                                 'success'
                             ).then((result) => {
                                 if (result.isConfirmed) {

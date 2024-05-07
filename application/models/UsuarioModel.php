@@ -12,19 +12,21 @@ class UsuarioModel extends CI_Model
     public function getUsuarios($id)
     {
         if ($id != null) {
-            $this->db->select('ma_usuario.*, cat_rol.Roles, cat_sujeto_obligado.tipo_sujeto, cat_sujeto_obligado.nombre_sujeto, cat_unidad_administrativa.nombre');
+            $this->db->select('ma_usuario.*, cat_rol.Roles, cat_tipo_sujeto_obligado.tipo_sujeto, cat_sujeto_obligado.nombre_sujeto, cat_unidad_administrativa.nombre');
             $this->db->from('ma_usuario');
             $this->db->join('cat_rol', 'ma_usuario.ID_rol = cat_rol.ID_rol');
             $this->db->join('cat_sujeto_obligado', 'ma_usuario.ID_sujeto = cat_sujeto_obligado.ID_sujeto');
+            $this->db->join('cat_tipo_sujeto_obligado', 'cat_sujeto_obligado.ID_tipoSujeto = cat_tipo_sujeto_obligado.ID_tipoSujeto');
             $this->db->join('cat_unidad_administrativa', 'ma_usuario.ID_unidad = cat_unidad_administrativa.ID_unidad');
             $this->db->where('ma_usuario.ID_Usuario', $id);
             $query = $this->db->get();
             return $query->row(); // Devuelve un solo objeto
         } else {
-            $this->db->select('ma_usuario.*, cat_rol.Roles, cat_sujeto_obligado.tipo_sujeto, cat_sujeto_obligado.nombre_sujeto, cat_unidad_administrativa.nombre');
+            $this->db->select('ma_usuario.*, cat_rol.Roles, cat_tipo_sujeto_obligado.tipo_sujeto, cat_sujeto_obligado.nombre_sujeto, cat_unidad_administrativa.nombre');
             $this->db->from('ma_usuario');
             $this->db->join('cat_rol', 'ma_usuario.ID_rol = cat_rol.ID_rol');
             $this->db->join('cat_sujeto_obligado', 'ma_usuario.ID_sujeto = cat_sujeto_obligado.ID_sujeto');
+            $this->db->join('cat_tipo_sujeto_obligado', 'cat_sujeto_obligado.ID_tipoSujeto = cat_tipo_sujeto_obligado.ID_tipoSujeto');
             $this->db->join('cat_unidad_administrativa', 'ma_usuario.ID_unidad = cat_unidad_administrativa.ID_unidad');
             $query = $this->db->get();
             return $query->result(); // Devuelve un array de objetos
@@ -43,10 +45,9 @@ class UsuarioModel extends CI_Model
         return $query->result();
     }
 
-    public function getSujetosObligadosPorTipo($tipo_sujeto)
+    public function getTipoSujetoObligado()
     {
-        $this->db->where('ID_sujeto', $tipo_sujeto);
-        $query = $this->db->get('cat_sujeto_obligado');
+        $query = $this->db->get('cat_tipo_sujeto_obligado');
         return $query->result();
     }
 

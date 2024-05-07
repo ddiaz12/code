@@ -336,7 +336,6 @@
         </script>
         <script src="<?php echo base_url('assets/'); ?>js/agregarHorario.js"></script>
         <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
-
         </main>
     </div>
 </body>

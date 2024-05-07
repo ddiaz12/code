@@ -88,12 +88,40 @@
         $(document).ready(function() {
             $('.btn-danger').click(function() {
                 var id = $(this).data('id_unidad');
-                
-                $.ajax({
-                    url: '<?php echo base_url('menu/eliminar_unidad/'); ?>' + id,
-                    type: 'GET',
-                    success: function(result) {
-                        location.reload();
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡No podrás revertir esto!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#b69664',
+                    cancelButtonColor: '#923244',
+                    confirmButtonText: '¡Sí, eliminar!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '<?php echo base_url('menu/eliminar_unidad/'); ?>' + id,
+                            type: 'GET',
+                            success: function(result) {
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'La unidad administrativa ha sido eliminado correctamente.',
+                                    'success'
+                                ).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                })
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    'Error',
+                                    'No se pudo eliminar la unidad administrativa',
+                                    'error'
+                                );
+                            }
+                        });
                     }
                 });
             });

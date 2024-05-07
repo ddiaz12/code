@@ -32,6 +32,7 @@
 
                                     <!-- Formulario de agregar usuario -->
                                     <form class="row g-3 " id="formSujeto">
+                                        <input type="hidden" name="ID_sujeto" value="{{ $sujeto->ID_sujeto }}">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="TipoSujeto">Tipo de sujeto obligado<span
@@ -39,7 +40,8 @@
                                                 <select class="form-control" id="TipoSujeto" name="TipoSujeto" required>
                                                     <option disabled selected>Selecciona una opción</option>
                                                     @foreach ($tipos as $tipo)
-                                                        <option value="{{ $tipo->ID_tipoSujeto }}">
+                                                        <option value="{{ $tipo->ID_tipoSujeto }}"
+                                                            {{ $tipo->ID_tipoSujeto == $sujeto->ID_tipoSujeto ? 'selected' : '' }}>
                                                             {{ $tipo->tipo_sujeto }}
                                                         </option>
                                                     @endforeach
@@ -52,7 +54,7 @@
                                                 <label for="inputSujetos">Sujeto obligado<span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputSujetos"
-                                                    name="inputSujetos" required>
+                                                    name="inputSujetos" value="{{ $sujeto->nombre_sujeto }}" required>
                                                 <small id="msg_inputSujetos" class="text-danger"></small>
                                             </div>
                                         </div>
@@ -70,7 +72,7 @@
                                                 <label for="inputSiglas">Siglas<span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputSiglas"
-                                                    name="inputSiglas" required>
+                                                    name="inputSiglas" value="{{ $sujeto->siglas }}" required>
                                                 <small id="msg_inputSiglas" class="text-danger"></small>
                                             </div>
                                         </div>
@@ -79,13 +81,13 @@
                                                 <label for="inputMateria">Materia<span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputMateria"
-                                                    name="inputMateria" required>
+                                                    name="inputMateria" value="{{ $sujeto->materia }}" required>
                                                 <small id="msg_inputMateria" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end mb-3">
                                             <button type="button" onclick="enviarFormulario();"
-                                                class="btn btn-guardar btn-rounded">Guardar</button>
+                                                class="btn btn-guardar btn-rounded">Actualizar</button>
                                             <a href="<?php echo base_url('menu/menu_sujeto'); ?>"
                                                 class="btn btn-secondary btn-rounded me-2">Cancelar</a>
                                         </div>
@@ -105,7 +107,7 @@
         function enviarFormulario() {
             var sendData = $('#formSujeto').serializeArray();
             $.ajax({
-                url: '<?php echo base_url('menu/insertar_SujetoObligado'); ?>',
+                url: '<?php echo base_url('menu/actualizar_sujeto'); ?>',
                 type: 'POST',
                 dataType: 'json',
                 data: sendData,
@@ -113,11 +115,11 @@
                     if (response.status == 'success') {
                         Swal.fire(
                             '¡Éxito!',
-                            'El sujeto obligado ha sido agregado correctamente.',
+                            'El sujeto obligado ha sido actualizado correctamente.',
                             'success'
                         ).then((result) => {
                             if (result.isConfirmed) {
-                                window.location.href = response.redirect_url;
+                                window.location.href = '<?php echo base_url('menu/menu_sujeto'); ?>'
                             }
                         })
                     } else if (response.status == 'error') {
@@ -129,7 +131,7 @@
                             });
                             Swal.fire(
                                 '¡Error!',
-                                'Ha ocurrido un error al agregar el sujeto obligado. Por favor, inténtalo de nuevo.',
+                                'Ha ocurrido un error al editar el sujeto obligado. Por favor, inténtalo de nuevo.',
                                 'error'
                             )
                         }

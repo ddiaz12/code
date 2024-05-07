@@ -10,9 +10,8 @@ class OficinaModel extends CI_Model
     }
     public function getOficinas()
     {
-        $this->db->select('ma_oficina_administrativa.*, cat_sujeto_obligado.tipo_sujeto');
+        $this->db->select('ma_oficina_administrativa.*');
         $this->db->from('ma_oficina_administrativa');
-        $this->db->join('cat_sujeto_obligado', 'cat_sujeto_obligado.ID_sujeto = ma_oficina_administrativa.ID_sujeto');
         $query = $this->db->get();
         return $query->result();
     }
@@ -25,7 +24,7 @@ class OficinaModel extends CI_Model
 
     public function getOficinaEditar($id)
     {
-        $this->db->select('ma_oficina_administrativa.*, cat_sujeto_obligado.tipo_sujeto');
+        $this->db->select('ma_oficina_administrativa.*, cat_sujeto_obligado.ID_sujeto');
         $this->db->from('ma_oficina_administrativa');
         $this->db->join('cat_sujeto_obligado', 'cat_sujeto_obligado.ID_sujeto = ma_oficina_administrativa.ID_sujeto');
         $this->db->where('ma_oficina_administrativa.ID_Oficina', $id);

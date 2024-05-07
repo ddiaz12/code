@@ -51,7 +51,14 @@
                                             <td><?php echo $sujeto->tipo_sujeto; ?></td>
                                             <td><?php echo $sujeto->materia; ?></td>
                                             <td>
-                                                <!-- Agrega aquí tus botones de acciones -->
+                                                <a href="<?php echo base_url('menu/editar_sujeto/' . $sujeto->ID_sujeto); ?>"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn btn-danger btn-sm"
+                                                    data-id_sujeto="<?php echo $sujeto->ID_sujeto; ?>">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -80,14 +87,41 @@
 
         $(document).ready(function() {
             $('.btn-danger').click(function() {
-                var id = $(this).data('id_oficina');
+                var id = $(this).data('id_sujeto');
 
-                $.ajax({
-                    url: '<?php echo base_url('oficinas/eliminar_oficina/'); ?>' + id,
-                    type: 'POST',
-                    success: function(result) {
-                        // Recargar la página o hacer algo con el resultado
-                        location.reload();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡No podrás revertir esto!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#b69664',
+                    cancelButtonColor: '#923244',
+                    confirmButtonText: '¡Sí, eliminalo!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '<?php echo base_url('menu/eliminar_sujeto/'); ?>' + id,
+                            type: 'POST',
+                            success: function(result) {
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'El sujeto obligado ha sido eliminado correctamente.',
+                                    'success'
+                                ).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                })
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    'Error',
+                                    'No se pudo eliminar al sujeto obligado',
+                                    'error'
+                                );
+                            }
+                        });
                     }
                 });
             });
