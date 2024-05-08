@@ -13,7 +13,7 @@
         <!-- Menu -->
 
         <!-- Contenido -->
-        <div id="layoutSidenav_content" class="div-contenido">
+        <div id="layoutSidenav_content" class="div-img">
             <main>
                 <div class="container-fluid px-4">
 
@@ -22,13 +22,13 @@
                         </li>
                         <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Oficinas</li>
                     </ol>
+                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
                     <!-- Botón para abrir otra vista -->
                     <div class="d-flex justify-content-end mb-3">
                         <a href="<?php echo base_url('oficinas/agregar_oficina'); ?>" class="btn btn-primary btn-agregarOficina">
                             <i class="fas fa-plus-circle me-1"></i> Agregar Oficina
                         </a>
                     </div>
-                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
                     <div class="card mb-4">
                         <div class="card-body">
                             <table id="datatablesSimple">

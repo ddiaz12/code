@@ -13,7 +13,7 @@
         <!-- Menu -->
 
         <!-- Contenido -->
-        <div id="layoutSidenav_content" class="div-contenido">
+        <div id="layoutSidenav_content" class="div-img">
             <main>
                 <div class="container-fluid px-4">
                     <ol class="breadcrumb mb-4">
