@@ -12,7 +12,7 @@
         @include('templates/menu')
         <!-- Menu -->
 
-        <div id="layoutSidenav_content" class="div-contenido">
+        <div id="layoutSidenav_content" class="div-img">
             <main>
 
             </main>

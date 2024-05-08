@@ -59,7 +59,7 @@
                                         <div class="form-group">
                                             <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputNombre"
-                                                name="inputNombre" placeholder="Nombre completo" required>
+                                                name="inputNombre" placeholder="Nombre de la oficina" required>
                                             <small id="msg_inputNombre" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
@@ -161,7 +161,7 @@
                                             <div class="form-group">
                                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputCP"
-                                                    name="codigo_postal" required>
+                                                    name="codigo_postal" placeholder="Codigo postal" required>
                                                 <small id="msg_codigo_postal" class="text-danger"></small>
                                             </div>
                                         </div>
@@ -170,7 +170,7 @@
                                                 <label for="inputNumTel">Número de teléfono oficial<span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputNumTel"
-                                                    name="inputNumTel" required>
+                                                    name="inputNumTel" placeholder="(___) ___-____" required>
                                                 <small id="msg_inputNumTel" class="text-danger"></small>
                                             </div>
                                         </div>
