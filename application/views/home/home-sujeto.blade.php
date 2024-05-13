@@ -19,8 +19,8 @@
                 <div class="container-fluid px-4 ">
                     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
 
-                    <div class="row">
-                        <div class="card shadow mb-4 col-5 div-oficinas">
+                    <div class="row no-padding">
+                        <div class="card shadow mb-4 col-sm-5 div-oficinas">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-cards">Oficinas</h6>
                             </div>
@@ -32,7 +32,7 @@
                                 <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-primary btn-oficina">administrar</a>
                             </div>
                         </div>
-                        <div class="card shadow mb-4 col-5 div-usuarios">
+                        <div class="card shadow mb-4 col-sm-5 div-usuarios">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-cards">Usuarios</h6>
                             </div>
@@ -42,26 +42,6 @@
                             </div>
                             <div class="card-footer text-center">
                                 <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-primary btn-oficina">administrar</a>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 div-card div-oficinas">
-                            <div class="card h-100 d-flex align-items-center card-oficina">
-                                <div class="card-body card-oficinas text-center">
-                                    <h5 class="card-title">Oficinas</h5>
-                                    <p class="card-text">Administrar usuarios de la plataforma del Catálogo Nacional de
-                                        Trámites y Servicios.</p>
-                                    <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-primary btn-oficina">administrar</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 div-card div-usuarios">
-                            <div class="card h-100 d-flex align-items-center card-oficina">
-                                <div class="card-body card-usuario text-center">
-                                    <h5 class="card-title">Usuarios</h5>
-                                    <p class="card-text">Administrar usuarios de la plataforma del Catalogo Nacional
-                                        de Tramites y Servicios.</p>
-                                    <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-primary btn-oficina">administrar</a>
-                                </div>
                             </div>
                         </div>
                     </div>

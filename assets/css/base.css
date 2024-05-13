@@ -106,9 +106,9 @@
 	color: #ffffff; 
 }
 
-.row > *{
-	padding-left: 0px;
-	padding-right: 0px;
+.row.no-padding > * {
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .card-regulacion {

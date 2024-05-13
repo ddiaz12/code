@@ -34,7 +34,7 @@
                                         <div class="form-group">
                                             <label for="selectSujeto">Sujeto obligado<span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-control" id="selectSujeto" name="sujeto" required>
+                                            <select class="form-control" id="selectSujeto" name="sujeto">
                                                 <option disabled selected>Selecciona una opción</option>
                                                 @foreach ($sujetos as $sujeto)
                                                     <option value="{{ $sujeto->ID_sujeto }}">
@@ -47,7 +47,7 @@
                                         <div class="form-group">
                                             <label for="selectUnidad">Unidad administrativa<span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-control" id="selectUnidad" name="unidad" required>
+                                            <select class="form-control" id="selectUnidad" name="unidad">
                                                 <option disabled selected>Selecciona una opción</option>
                                                 @foreach ($unidades as $unidad)
                                                     <option value="{{ $unidad->ID_unidad }}">
@@ -59,21 +59,19 @@
                                         <div class="form-group">
                                             <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="inputNombre"
-                                                name="inputNombre" placeholder="Nombre de la oficina" required>
+                                                name="inputNombre" placeholder="Nombre de la oficina">
                                             <small id="msg_inputNombre" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="inputSiglas">Siglas<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="inputSiglas" name="siglas"
-                                                required>
+                                            <input type="text" class="form-control" id="inputSiglas" name="siglas">
                                             <small id="msg_siglas" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="selectVialidad">Tipo vialidad<span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectVialidad" name="tipo_vialidad"
-                                                    required>
+                                                <select class="form-control" id="selectVialidad" name="tipo_vialidad">
                                                     <option disabled selected>Selecciona una opción</option>
                                                     <?php foreach($vialidades as $vialidad): ?>
                                                     <option value="<?php echo $vialidad->ID_Vialidades; ?>"><?php echo $vialidad->Vialidad; ?></option>
@@ -101,15 +99,14 @@
                                                 <label for="inputNumExterior">Número exterior<span
                                                         class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputNumExterior"
-                                                    name="num_exterior" required>
+                                                    name="num_exterior">
                                                 <small id="msg_num_exterior" class="text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="selectMunicipio">Municipio</label>
-                                                <select class="form-control" id="selectMunicipio" name="municipio"
-                                                    required>
+                                                <select class="form-control" id="selectMunicipio" name="municipio">
                                                     <option disabled selected>Selecciona una opción</option>
                                                     @foreach ($municipios as $municipio)
                                                         <option value="<?php echo $municipio->ID_Municipio; ?>"><?php echo $municipio->Nombre_municipio; ?></option>
@@ -120,8 +117,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="selectLocalidad">Nombre localidad</label>
-                                                <select class="form-control" id="selectLocalidad" name="localidad"
-                                                    required>
+                                                <select class="form-control" id="selectLocalidad" name="localidad">
                                                     <option disabled selected>Selecciona una opción</option>
                                                     @foreach ($localidades as $localidad)
                                                         <option value="<?php echo $localidad->ID_localidad; ?>"
@@ -161,7 +157,7 @@
                                             <div class="form-group">
                                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
                                                 <input type="number" class="form-control" id="inputCP"
-                                                    name="codigo_postal" placeholder="Codigo postal" required>
+                                                    name="codigo_postal" placeholder="Codigo postal">
                                                 <small id="msg_codigo_postal" class="text-danger"></small>
                                             </div>
                                         </div>
@@ -170,7 +166,7 @@
                                                 <label for="inputNumTel">Número de teléfono oficial<span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="inputNumTel"
-                                                    name="inputNumTel" placeholder="(___) ___-____" required>
+                                                    name="inputNumTel" placeholder="(___) ___-____">
                                                 <small id="msg_inputNumTel" class="text-danger"></small>
                                             </div>
                                         </div>
@@ -178,7 +174,7 @@
                                             <div class="form-group">
                                                 <label for="inputExtension">Extensión</label>
                                                 <input type="number" class="form-control" id="inputExtension"
-                                                    name="extension">
+                                                    name="extension" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -188,7 +184,7 @@
                                                             class="fas fa-envelope fa-2x"></i></span>
                                                 </div>
                                                 <input type="email" class="form-control" placeholder="Email"
-                                                    name="email" required>
+                                                    name="email">
                                             </div>
                                             <small id="msg_email" class="text-danger"></small>
                                         </div>
@@ -221,10 +217,17 @@
                                                 data-bs-target="#modalAgregarHorario">
                                                 Agregar Horario
                                             </button>
-                                        </div>
+                                            <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
+                                                data-bs-target="#modalAgregarRangoHorario">
+                                                Agregar Rango de horarios
+                                            </button>
 
-                                        <!-- Modal para Agregar Horarios -->
-                                        @include('modal/oficinaHorarios')
+                                            <!-- Modal para Agregar Rango de Horarios -->
+                                            @include('modal/oficinaRangoHorarios')
+
+                                            <!-- Modal para Agregar Horarios -->
+                                            @include('modal/oficinaHorarios')
+                                        </div>
 
                                         <div class="d-flex justify-content-end mb-3">
                                             <button type="button" class="btn btn-success btn-guardar"
@@ -292,6 +295,7 @@
         </script>
         <script src="<?php echo base_url('assets/'); ?>js/agregarHorario.js"></script>
         <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
+        <script src="<?php echo base_url('assets/'); ?>js/agregarRangoHorarios.js"></script>
         </main>
     </div>
 </body>
