@@ -86,10 +86,10 @@
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="button" onclick="enviarFormulario();"
-                                                class="btn btn-guardar btn-rounded">Actualizar</button>
                                             <a href="<?php echo base_url('menu/menu_sujeto'); ?>"
                                                 class="btn btn-secondary btn-rounded me-2">Cancelar</a>
+                                            <button type="button" onclick="enviarFormulario();"
+                                                class="btn btn-guardar btn-rounded">Actualizar</button>
                                         </div>
                                     </form>
                                 </div>

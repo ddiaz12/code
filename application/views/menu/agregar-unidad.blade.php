@@ -226,9 +226,9 @@
                                         @include('modal/unidadesHorarios')
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="button" onclick="enviarFormulario();"
-                                                class="btn btn-success btn-guardar">Guardar</button>
                                             <a href="<?php echo base_url('menu/menu_unidades'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                            <button type="button" onclick="enviarFormulario();"
+                                            class="btn btn-success btn-guardar">Guardar</button>
                                         </div>
                                     </form>
                                 </div>

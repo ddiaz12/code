@@ -181,11 +181,10 @@
                                             </div>
                                         </div>
 
-
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="button" onclick="enviarFormulario();"
-                                                class="btn btn-guardar">Actualizar</button>
                                             <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                            <button type="button" onclick="enviarFormulario();"
+                                            class="btn btn-guardar">Actualizar</button>
                                         </div>
                                     </form>
                                 </div>

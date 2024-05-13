@@ -12,11 +12,13 @@
                 <div class="mb-3">
                     <label for="dia" class="form-label">Día</label>
                     <select class="form-select" id="dia" name="dia">
+                        <option value="domingo">Domingo</option>
                         <option value="lunes">Lunes</option>
                         <option value="martes">Martes</option>
                         <option value="miercoles">Miércoles</option>
                         <option value="jueves">Jueves</option>
                         <option value="viernes">Viernes</option>
+                        <option value="sabado">Sabado</option>
                     </select>
                 </div>
                 <div class="mb-3">

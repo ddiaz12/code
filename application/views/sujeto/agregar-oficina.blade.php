@@ -230,9 +230,9 @@
                                         </div>
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <button type="button" class="btn btn-success btn-guardar"
-                                                onclick="enviarFormulario();">Guardar</button>
                                             <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                            <button type="button" class="btn btn-success btn-guardar"
+                                            onclick="enviarFormulario();">Guardar</button>
                                         </div>
                                     </form>
                                 </div>
