@@ -1,8 +1,17 @@
 #regis{
     color: #2e75bc;
+    text-align: center;
 }
-#forgot{
-    color: #2e75bc;
+
+#titulo{
+    color: black;
+    font-weight: bold;
+    text-align: center;
+}
+
+#texto{
+    color: black;
+    text-align: center;
 }
 
 .btn-primary {
@@ -19,16 +28,11 @@
     margin: 0 4px 5px 5px;
 }
 
-#titulo {
-    text-align: center;
-}
-
 .div-contenido{
     background-image: url('../img/flor.png');
     background-repeat: no-repeat;
-    background-position: 0px center;
+    background-position: 0px 5em;
 }
-
 .navbar-custom {
 	background-color: #8c1e41;
 }
@@ -41,4 +45,3 @@
 #logo {
 	width: 100%;
 }
-

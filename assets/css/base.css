@@ -10,7 +10,7 @@
 }
 
 .navbar-custom {
-	background-color: #612233;
+	background-color: #8c1e41;
 }
 
 .div-escudo {
@@ -20,7 +20,6 @@
 
 #logo {
 	width: 100%;
-    margin: 0 4px 5px 5px;
 }
 
 .fa-solid.fa-user-large {
@@ -33,7 +32,7 @@
 
 #sidenavAccordion {
 	width: 100%;
-	background-color: #b69664;
+	background-color:#b69664 ;
 }
 
 #sidebarToggle {
@@ -44,23 +43,11 @@
 	overflow-y: visible;
 }
 
-.div-img {
-    position: relative;
-}
-
-.div-img::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("../img/flor.png");
-    background-repeat: no-repeat;
-    background-position: 90px top;
-    background-size: 20% 85%;
-    opacity: 0.5;
-    z-index: -1;
+.div-contenido {
+	background-image: url("../img/flor.png");
+	background-repeat: no-repeat;
+	background-position: 70px top;
+	background-size: 20% 85%;
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
@@ -103,35 +90,16 @@
 	margin-bottom: 5%;
 }
 
-.text-cards {
-	color: #ffffff; 
-}
-
-.row.no-padding > * {
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
 .card-regulacion {
 	border: solid;
-}
-
-.card{
-	--bs-card-border-color: rgb(0 0 0);
 }
 
 .card-oficina {
 	border: solid;
 }
 
-.div-usuarios,
-.div-oficinas {
+.div-usuarios {
 	margin-top: 15px;
-	margin: auto;
-}
-
-.footer {
-	background-color: #ffffff;
 }
 
 .btn-primary {
@@ -157,23 +125,16 @@
 	margin-right: 20px;
 }
 
-.btn-danger {
-	background-color: #923244;
-	--bs-btn-active-bg: #7f2841;
-	--bs-btn-active-color: white;
-	color: white;
-}
-
 .btn-agregarUsuario,
 .btn-agregarOficina {
-	--bs-btn-hover-bg: #7f2841;
+    --bs-btn-hover-bg: #7f2841;
 }
 
 .btn-regulacion:hover,
 .btn-oficina:hover,
-.btn-agregarUsuario:hover .btn-agregarOficina:hover,
-.btn-guardar:hover,
-.btn-danger:hover {
+.btn-agregarUsuario:hover
+.btn-agregarOficina:hover,
+.btn-guardar:hover {
 	background-color: #7f2841;
 	color: white;
 }
@@ -204,8 +165,6 @@
 .card-header {
 	background-color: #7f2841;
 }
-
-
 
 @media screen and (max-width: 990px) {
 	.div-escudo {

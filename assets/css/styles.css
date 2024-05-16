@@ -7432,6 +7432,8 @@ textarea.form-control-lg {
 }
 
 .align-items-stretch {
+  -webkit-box-align: stretch !important;
+  -ms-flex-align: stretch !important;
   align-items: stretch !important;
 }
 

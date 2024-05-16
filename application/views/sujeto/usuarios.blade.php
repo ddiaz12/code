@@ -13,7 +13,7 @@
         <!-- Menu -->
 
         <!-- Contenido -->
-        <div id="layoutSidenav_content" class="div-img">
+        <div id="layoutSidenav_content" class="div-contenido">
             <main>
                 <div class="container-fluid px-4">
                     <ol class="breadcrumb mb-4">
@@ -36,9 +36,9 @@
                                     <tr>
                                         <th class="tTabla-color">Id</th>
                                         <th class="tTabla-color">Nombre completo</th>
-                                        <th class="tTabla-color">Tipo de sujeto obligado</th>
-                                        <th class="tTabla-color">Sujeto obligado</th>
-                                        <th class="tTabla-color">Unidad administrativa</th>
+                                        <th class="tTabla-color">Correo electronico</th>
+                                        <th class="tTabla-color">Fecha</th>
+                                        <th class="tTabla-color">Numero de telefono</th>
                                         <th class="tTabla-color">Rol</th>
                                         <th class="tTabla-color">Estatus</th>
                                         <th class="tTabla-color">Acciones </th>
@@ -52,17 +52,16 @@
                                             <td>{{ $usuario->ID_Usuario }}</td>
                                             <td>{{ $usuario->Nombre }} {{ $usuario->Apellido_Paterno }}
                                                 {{ $usuario->Apellido_Materno }}</td>
-                                            <td>{{ $usuario->tipo_sujeto }}</td>
-                                            <td>{{ $usuario->nombre_sujeto }}</td>
-                                            <td>{{ $usuario->nombre }}</td>
+                                            <td>{{ $usuario->Correo_Electronico }}</td>
+                                            <td>{{ $usuario->Fecha_Cargo_ROM }}</td>
+                                            <td>{{ $usuario->Num_Tel }}</td>
                                             <td>{{ $usuario->Roles }}</td>
                                             <td>{{ $usuario->Estatus == 1 ? 'Activo' : 'Inactivo' }}</td>
                                             <td>
-                                                <a href="<?php echo base_url('usuarios/editar/' . $usuario->ID_Usuario); ?>" class="btn btn-warning btn-sm">
+                                                <a href="<?php echo base_url('usuarios/editar/' . $usuario->ID_Usuario); ?>" class="btn btn-warning">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button type="button"
-                                                    class="btn btn-danger btn-sm btn-sm rounded-circle"
+                                                <button type="button" class="btn btn-danger"
                                                     data-id_usuario="<?php echo $usuario->ID_Usuario; ?>"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>
@@ -93,45 +92,16 @@
         });
 
         $(document).ready(function() {
-            $('.btn-danger').click(function(e) {
-                e.preventDefault();
+            $('.btn-danger').click(function() {
                 var id = $(this).data('id_usuario');
-
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: "No podrás revertir esta acción.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#b69664',
-                    cancelButtonColor: '#923244',
-                    confirmButtonText: 'Sí, eliminar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '<?php echo base_url('usuarios/eliminar/'); ?>' + id,
-                            type: 'GET',
-                            success: function(result) {
-                                Swal.fire(
-                                    '¡Eliminado!',
-                                    'El usuario ha sido eliminado correctamente.',
-                                    'success'
-                                ).then((result) => {
-                                    if (result.isConfirmed) {
-                                        location.reload();
-                                    }
-                                })
-                            },
-                            error: function() {
-                                Swal.fire(
-                                    '¡Error!',
-                                    'El usuario no ha sido eliminado.',
-                                    'error'
-                                )
-                            }
-                        });
+                $.ajax({
+                    url: '<?php echo base_url('usuarios/eliminar/') ?>' + id,
+                    type: 'GET',
+                    success: function (result) {
+                        // Recargar la página o hacer algo con el resultado
+                        location.reload();
                     }
-                })
+                });
             });
         });
     </script>

@@ -23,8 +23,8 @@
                     </ol>
                     <!-- Botón para abrir otra vista -->
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="<?php echo base_url('oficinas/agregar_oficina'); ?>" class="btn btn-primary btn-agregarOficina">
-                            <i class="fas fa-plus-circle me-1"></i> Agregar Oficina
+                        <a href="http://localhost/code-main/home/caracteristicas_reg" class="btn btn-primary btn-agregarOficina">
+                            <i class="fas fa-plus-circle me-1"></i> Agregar Regulacion
                         </a>
                     </div>
                     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
@@ -35,8 +35,9 @@
                                     <tr>
                                         <th class="tTabla-color">Id</th>
                                         <th class="tTabla-color">Nombre</th>
-                                        <th class="tTabla-color">Tipo</th>
-                                        <th class="tTabla-color">Fecha actualizacion</th>
+                                        <th class="tTabla-color">Homoclave</th>
+                                        <th class="tTabla-color">Estatus</th>
+                                        <th class="tTabla-color">Vigencia</th>
                                         <th class="tTabla-color">Acciones</th>
                                     </tr>
                                 </thead>
