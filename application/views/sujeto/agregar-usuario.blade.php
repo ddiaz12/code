@@ -165,6 +165,14 @@
                                                     name="inputNumeroEmpleado">
                                             </div>
                                         </div>
+                                        <!-- Campo para subir archivos -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputArchivo">Subir archivo</label>
+                                                <input type="file" class="form-control" id="inputArchivo"
+                                                    name="inputArchivo">
+                                            </div>
+                                        </div>
                                         <div class="d-flex justify-content-end mb-3">
                                             <a href="<?php echo base_url('usuarios/usuario'); ?>"
                                                 class="btn btn-secondary btn-rounded me-2">Cancelar</a>
