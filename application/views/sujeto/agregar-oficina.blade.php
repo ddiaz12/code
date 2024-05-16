@@ -267,6 +267,7 @@
                                 '¡Éxito!',
                                 'La oficina ha sido agregada correctamente.',
                                 'success'
+                                
                             ).then((result) => {
                                 if (result.isConfirmed) {
                                     window.location.href = response.redirect_url;

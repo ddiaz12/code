@@ -62,7 +62,7 @@
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button type="button"
-                                                    class="btn btn-danger btn-sm btn-sm rounded-circle"
+                                                    class="btn btn-danger btn-sm btn-sm"
                                                     data-id_usuario="<?php echo $usuario->ID_Usuario; ?>"><i
                                                         class="fas fa-trash"></i></button>
                                             </td>
@@ -102,8 +102,6 @@
                     text: "No podrás revertir esta acción.",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#b69664',
-                    cancelButtonColor: '#923244',
                     confirmButtonText: 'Sí, eliminar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {

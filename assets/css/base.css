@@ -6,7 +6,7 @@
 }
 
 * {
-	font-family: "Geomanist", sans-serif;
+	font-family: "Geomanist", sans-serif !important;
 }
 
 .navbar-custom {
@@ -131,7 +131,7 @@
 }
 
 .footer {
-	background-color: #ffffff;
+	background-color: #ffffff !important;
 }
 
 .btn-primary {
@@ -176,6 +176,14 @@
 .btn-danger:hover {
 	background-color: #7f2841;
 	color: white;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+	background-color: #923244 !important;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
+	background-color: #6C757D !important;
 }
 
 /* sujeto - oficinas */

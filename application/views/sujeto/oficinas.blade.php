@@ -62,7 +62,7 @@
                                                 class="btn btn-warning btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-danger btn-sm rounded-circle"
+                                            <button type="button" class="btn btn-danger btn-sm"
                                                 data-id_oficina="<?php echo $oficina->ID_Oficina; ?>"><i
                                                     class="fas fa-trash"></i></button>
                                         </td>
