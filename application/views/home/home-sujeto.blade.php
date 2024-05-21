@@ -29,7 +29,7 @@
                                 Trámites y Servicios.
                             </div>
                             <div class="card-footer text-center">
-                                <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-primary btn-oficina">administrar</a>
+                                <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-primary btn-oficina">administrar</a>
                             </div>
                         </div>
                         <div class="card shadow mb-4 col-sm-5 div-usuarios">

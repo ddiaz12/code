@@ -59,10 +59,10 @@
                                         </td>
                                         <td>
                                             <a href="{{ base_url('oficinas/editar/' . $oficina->ID_Oficina) }}"
-                                                class="btn btn-warning btn-sm">
+                                                class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="bottom" title="Editar oficina">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-danger btn-sm"
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Eliminar oficina"
                                                 data-id_oficina="<?php echo $oficina->ID_Oficina; ?>"><i
                                                     class="fas fa-trash"></i></button>
                                         </td>
@@ -83,14 +83,6 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#datatablesSimple').DataTable({
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-                }
-            });
-        });
-
         $(document).ready(function() {
             $('.btn-danger').click(function() {
                 var id = $(this).data('id_oficina');
@@ -133,5 +125,6 @@
             });
         });
     </script>
-
+    <script src="<?php echo base_url('assets/'); ?>js/tooltips.js"></script>
+    <script src="<?php echo base_url('assets/'); ?>js/tablaIdioma.js"></script>
 </body>

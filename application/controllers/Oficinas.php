@@ -10,7 +10,7 @@ class Oficinas extends CI_Controller
         $this->load->library('form_validation');
     }
 
-    public function oficina()
+    public function index()
     {
         $data["oficinas"] = $this->OficinaModel->getOficinas();
         $this->blade->render('sujeto/oficinas', $data);
@@ -119,7 +119,7 @@ class Oficinas extends CI_Controller
                     $this->OficinaModel->asociar_oficina_horario($id_oficina, $id_horario);
                 }
             }
-            $response = array('status' => 'success', 'redirect_url' => 'oficina');
+            $response = array('status' => 'success', 'redirect_url' => 'index');
             echo json_encode($response);
         } else {
             $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
@@ -143,7 +143,7 @@ class Oficinas extends CI_Controller
     public function eliminar($id)
     {
         $this->OficinaModel->eliminarOficina($id);
-        redirect('oficinas/oficina');
+        redirect('oficinas/index');
     }
 
     public function actualizar()
