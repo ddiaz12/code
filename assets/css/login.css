@@ -1,26 +1,24 @@
-#regis{
-    color: #2e75bc;
+@font-face {
+	font-family: "Geomanist";
+	src: url("../fonts/Geomanist-Regular.otf");
 }
-#forgot{
-    color: #2e75bc;
+
+* {
+	font-family: "Geomanist", sans-serif !important;
+}
+
+.card-header {
+	background-color: #7f2841;
+}
+
+.titulo-login{
+	text-align: center;
+	color: #ffffff;
 }
 
 .btn-primary {
-    background-color: gold; /* Cambia el color de fondo del botón a dorado */
-}
-
-.div-escudo {
-	width: 10%;
-    margin: 0 4px 5px 5px;
-}
-
-#logo {
-	width: 74%;
-    margin: 0 4px 5px 5px;
-}
-
-.div-contenido{
-    background-image: url('../img/flor.png');
-    background-repeat: no-repeat;
-    background-position: 70px top;
+	--bs-btn-border-color: initial;
+	--bs-btn-hover-bg: #7f2841;
+	--bs-btn-active-bg: #7f2841;
+	background-color: #923244;
 }

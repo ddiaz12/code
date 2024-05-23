@@ -1,7 +1,7 @@
 @layout('templates/estructuraLogin')
 @section('contenido')
 @section('css')
-
+    <link rel="stylesheet" href="<?php echo site_url('assets/css/login.css'); ?>">
 @endsection
 <div class="container">
     <div class="row justify-content-center">
@@ -18,12 +18,14 @@
                         <label for="identity">Email address</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <?php echo form_input($password); ?>
-                        <label for="password"><?php echo lang('login_password_label', 'password'); ?></label>
+                        <input type="password" name="password" id="password" class="form-control"
+                            value="<?php echo set_value('password'); ?>" placeholder="Password" />
+                        <label for="password">Password</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <?php echo form_checkbox('remember', '1', false, 'id="remember"'); ?>
-                        <label for="remember"><?php echo lang('login_remember_label', 'remember'); ?></label>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" value="1"
+                            <?php echo set_checkbox('remember', '1'); ?> />
+                        <label class="form-check-label" for="remember">Remember me</label>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                         <a class="small" href="forgot_password"><?php echo lang('login_forgot_password'); ?></a>

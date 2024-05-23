@@ -16,7 +16,7 @@
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="<?php echo base_url('oficinas/oficina'); ?>"><i
+                    <li class="breadcrumb-item"><a href="<?php echo base_url('oficinas'); ?>"><i
                                 class="fas fa-building me-1"></i>Oficinas</a>
                     </li>
                     <li class="breadcrumb-item active"><i class="fa-solid fa-building-circle-check"></i>Agregar oficina
@@ -230,7 +230,7 @@
                                         </div>
 
                                         <div class="d-flex justify-content-end mb-3">
-                                            <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                            <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-secondary me-2">Cancelar</a>
                                             <button type="button" class="btn btn-success btn-guardar"
                                             onclick="enviarFormulario();">Guardar</button>
                                         </div>
