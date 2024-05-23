@@ -11,11 +11,11 @@
                     <h3 class="titulo-login my-4">Registro Estatal de Regulaciones</h3>
                 </div>
                 <div class="card-body">
-                  @if ($message)
-                  <div class="alert alert-danger">
-                      {{ $message }}
-                  </div>
-              @endif
+                    @if ($message)
+                        <div class="alert alert-danger">
+                            {{ $message }}
+                        </div>
+                    @endif
                     <?php echo form_open('auth/login'); ?>
                     <div class="form-floating mb-3">
                         <input class="form-control" type="text" name="identity" id="identity"
