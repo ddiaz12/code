@@ -85,14 +85,6 @@
 
     <script>
         $(document).ready(function() {
-            $('#datatablesSimple').DataTable({
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-                }
-            });
-        });
-
-        $(document).ready(function() {
             $('.btn-danger').click(function(e) {
                 e.preventDefault();
                 var id = $(this).data('id_usuario');
@@ -133,5 +125,6 @@
             });
         });
     </script>
+    <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 
 </body>
