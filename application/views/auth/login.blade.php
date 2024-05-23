@@ -28,9 +28,9 @@
                         <label class="form-check-label" for="remember">Remember me</label>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                      <a class="small" href="forgot_password">Forgot Password?</a>
-                      <button type="submit" class="btn btn-primary">Login</button>
-                  </div>
+                        <a class="small" href="<?php echo base_url('auth/forgot_password'); ?>">Forgot Password?</a>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
                     <?php echo form_close(); ?>
                 </div>
                 <div class="card-footer text-center py-3">
