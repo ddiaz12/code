@@ -62,7 +62,7 @@
                                                 class="btn btn-warning btn-sm" title="Editar oficina">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Eliminar oficina"
+                                            <button type="button" class="btn btn-danger btn-sm"
                                                 data-id_oficina="<?php echo $oficina->ID_Oficina; ?>"><i
                                                     class="fas fa-trash"></i></button>
                                         </td>
@@ -125,5 +125,5 @@
             });
         });
     </script>
-    <script src="<?php echo base_url('assets/'); ?>js/tablaIdioma.js"></script>
+
 </body>

@@ -2,7 +2,7 @@
     <nav class="sb-sidenav sb-sidenav-black" id="sidenavAccordion">
         <div class="sb-sidenav-menu menu-custom">
             <div class="nav">
-                <a class="nav-link" href="<?php echo base_url('home/home_sujeto'); ?>" title="Inicio">
+                <a class="nav-link" href="<?php echo base_url('home/home_sujeto'); ?>" title="Inicio" title="Inicio">
                     <div class="sb-nav-link-icon div-home"><i class="fa-solid fa-house icon-home"></i></div>
                 </a>
                 <div class="dropdown">
