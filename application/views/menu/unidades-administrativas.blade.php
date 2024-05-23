@@ -53,11 +53,11 @@
                                             <td>
                                                 <a href="{{ base_url('menu/editar_unidad/' . $unidad->ID_unidad) }}"
                                                     class="btn btn-warning btn-sm">
-                                                    <i class="fas fa-edit"></i>
+                                                    <i class="fas fa-edit" title="Editar unidad"></i>
                                                 </a>
                                                 <button class="btn btn-danger btn-sm"
                                                     data-id_unidad="<?php echo $unidad->ID_unidad; ?>">
-                                                    <i class="fas fa-trash"></i>
+                                                    <i class="fas fa-trash" title="Eliminar unidad"></i>
                                                 </button>
                                             </td>
                                         </tr>

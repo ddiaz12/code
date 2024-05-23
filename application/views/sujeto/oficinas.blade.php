@@ -64,7 +64,7 @@
                                             </a>
                                             <button type="button" class="btn btn-danger btn-sm"
                                                 data-id_oficina="<?php echo $oficina->ID_Oficina; ?>"><i
-                                                    class="fas fa-trash"></i></button>
+                                                    class="fas fa-trash" title="Eliminar oficina"></i></button>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
