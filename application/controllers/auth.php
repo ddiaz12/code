@@ -62,8 +62,12 @@ class Auth extends CI_Controller
         $this->data['title'] = $this->lang->line('login_heading');
 
         // validate form input
-        $this->form_validation->set_rules('identity', str_replace(':', '', $this->lang->line('login_identity_label')), 'required');
-        $this->form_validation->set_rules('password', str_replace(':', '', $this->lang->line('login_password_label')), 'required');
+        $this->form_validation->set_rules('identity', str_replace(':', '', $this->lang->line('login_identity_label')), 'required', [
+            'required' => 'El correo electrónico es obligatorio.'
+        ]);
+        $this->form_validation->set_rules('password', str_replace(':', '', $this->lang->line('login_password_label')), 'required', [
+            'required' => 'La contraseña es obligatoria.'
+        ]);
 
         if ($this->form_validation->run() === TRUE) {
             // check to see if the user is logging in
@@ -73,12 +77,23 @@ class Auth extends CI_Controller
             if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
                 //if the login is successful
                 //redirect them back to the home page
-                $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect('home/home_sujeto', 'refresh');
+                
+                // check user role and redirect accordingly
+                if ($this->ion_auth->in_group('admin')) {
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect('home/home_sujeto', 'refresh');
+                } elseif ($this->ion_auth->in_group('Sujeto_obligado')) {
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect('home/home_revisor', 'refresh');
+                } else {
+                    redirect('home/home_sujeto', 'refresh');
+                }
+
             } else {
                 // if the login was un-successful
                 // redirect them back to the login page
 
+                $this->session->set_flashdata('message', 'Correo o contraseña incorrectos');
                 $this->data['message'] = $this->session->flashdata('message');
                 $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'login', $this->data);
                 // use redirects instead of loading views for compatibility with MY_Controller libraries
