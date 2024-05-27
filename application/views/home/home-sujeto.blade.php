@@ -1,8 +1,10 @@
-@layout('templates/masterSujeto')
+@layout('templates/master')
 @section('titulo')
     Registro Estatal de Regulaciones
 @endsection
-
+@section('menu')
+    @include('templates/menuSujeto')
+@endsection
 @section('contenido')
     <!-- Contenido -->
     <div class="container-fluid px-4 ">
@@ -35,4 +37,7 @@
         </div>
     </div>
     <!-- Contenido -->
+@endsection
+@section('footer')
+    @include('templates/footer')
 @endsection

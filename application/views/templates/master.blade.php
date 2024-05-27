@@ -30,7 +30,7 @@
     <!-- Navbar -->
     <div id="layoutSidenav">
         <!-- Menu -->
-        @include('templates/menuSujeto')
+        @yield('menu')
         <!-- Menu -->
         <!-- Contenido -->
         <div id="layoutSidenav_content" class="div-img">
@@ -38,7 +38,7 @@
                 @yield('contenido')
             </main>
             <!-- Footer -->
-            @include('templates/footer')
+            @yield('footer')
             <!-- Footer -->
         </div>
         <!-- Contenido -->
