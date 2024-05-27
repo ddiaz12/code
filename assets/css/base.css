@@ -128,8 +128,7 @@ h1, .h1 {
 	border: solid;
 }
 
-.div-usuarios,
-.div-oficinas {
+.div-card {
 	margin-top: 15px;
 	margin: auto;
 }

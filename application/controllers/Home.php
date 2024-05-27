@@ -15,15 +15,22 @@ class Home extends CI_Controller {
         $this->home_sujeto();
     }
 
+    public function home_admin(){
+    }
+
     public function home_sujeto(){
+        if (!$this->ion_auth->in_group('admin') && !$this->ion_auth->in_group('Sujeto_obligado')) {
+            redirect('auth/login', 'refresh');
+        }
         $this->blade->render('home/home-sujeto');
     }
 
     public function home_revisor(){  
         $this->blade->render('home/home-revisor'); 
     }
-    
-    public function home_admin(){
+
+    public function home_consejeria(){
+        $this->blade->render('home/home-consejeria');
     }
 
     public function inicio($page = "inicio") {

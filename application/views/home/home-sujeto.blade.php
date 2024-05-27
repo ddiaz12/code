@@ -1,4 +1,4 @@
-@layout('templates/master')
+@layout('templates/masterSujeto')
 @section('titulo')
     Registro Estatal de Regulaciones
 @endsection
@@ -8,7 +8,7 @@
     <div class="container-fluid px-4 ">
         <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
         <div class="row no-padding">
-            <div class="card shadow mb-4 col-sm-5 div-oficinas">
+            <div class="card shadow mb-4 col-sm-5 div-card">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-cards">Oficinas</h6>
                 </div>
@@ -20,7 +20,7 @@
                     <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-primary btn-oficina">administrar</a>
                 </div>
             </div>
-            <div class="card shadow mb-4 col-sm-5 div-usuarios">
+            <div class="card shadow mb-4 col-sm-5 div-card">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-cards">Usuarios</h6>
                 </div>
