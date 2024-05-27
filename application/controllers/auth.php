@@ -84,9 +84,13 @@ class Auth extends CI_Controller
                     redirect('home/home_sujeto', 'refresh');
                 } elseif ($this->ion_auth->in_group('Sujeto_obligado')) {
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect('home/home_revisor', 'refresh');
-                } else {
                     redirect('home/home_sujeto', 'refresh');
+                } elseif($this->ion_auth->in_group('sedeco')){
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect('home/home_revisor', 'refresh');
+                } elseif($this->ion_auth->in_group('consejeria')) {
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect('home/home_supervisor', 'refresh');
                 }
 
             } else {
