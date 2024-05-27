@@ -1,25 +1,14 @@
-@include('templates/header')
-
-<body class="sb-nav-fixed cuerpo-sujeto">
-
-    <!-- Navbar -->
-    @include('templates/navbar')
-    <!-- Navbar -->
-
-    <div id="layoutSidenav">
-
-        <!-- Menu -->
-        @include('templates/menu')
-        <!-- Menu -->
-
-        <div id="layoutSidenav_content" class="div-img">
-            <main>
-
-            </main>
-            <!-- Footer -->
-            @include('templates/footer')
-            <!-- Footer -->
-        </div>
-
-    </div>
-</body>
+@layout('templates/master')
+@section('titulo')
+    Registro Estatal de Regulaciones
+@endsection
+@section('menu')
+    @include('templates/menuSujeto')
+@endsection
+@section('contenido')
+    <!-- Contenido -->
+    <!-- Contenido -->
+@endsection
+@section('footer')
+    @include('templates/footer')
+@endsection
