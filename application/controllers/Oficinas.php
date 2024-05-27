@@ -8,6 +8,10 @@ class Oficinas extends CI_Controller
         parent::__construct();
         $this->load->model('OficinaModel');
         $this->load->library('form_validation');
+        if(!$this->ion_auth->logged_in()){
+            print_r($this->ion_auth->logged_in());
+            redirect('auth/login', 'refresh');
+        }   
     }
 
     public function index()
@@ -18,7 +22,18 @@ class Oficinas extends CI_Controller
     public function oficina()
     {
         $data["oficinas"] = $this->OficinaModel->getOficinas();
-        $this->blade->render('sujeto/oficinas', $data);
+
+        // Verifica el grupo del usuario y redirige a la vista correspondiente
+        if ($this->ion_auth->in_group('Sujeto_obligado')) {
+            $this->blade->render('sujeto/oficinas', $data);
+        } elseif($this->ion_auth->in_group('sedeco')){
+            $this->blade->render('revisor/oficinas', $data);
+        } elseif($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/oficinas', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function agregar_oficina()

@@ -1,8 +1,10 @@
-@layout('templates/masterRevisor')
+@layout('templates/master')
 @section('titulo')
     Registro Estatal de Regulaciones
 @endsection
-
+@section('menu')
+    @include('templates/menuRevisor')
+@endsection
 @section('contenido')
     <!-- Contenido -->
     <div class="container-fluid px-4 ">
@@ -17,7 +19,7 @@
                     Trámites y Servicios.
                 </div>
                 <div class="card-footer text-center">
-                    <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-primary btn-oficina">administrar</a>
+                    <a href="<?php echo base_url('oficinas/oficina'); ?>" class="btn btn-primary btn-oficina">administrar</a>
                 </div>
             </div>
             <div class="card shadow mb-4 col-sm-5 div-card">
@@ -47,4 +49,7 @@
         </div>
     </div>
     <!-- Contenido -->
+@endsection
+@section('footer')
+    @include('templates/footer')
 @endsection
