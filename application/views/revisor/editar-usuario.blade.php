@@ -4,7 +4,7 @@
 @endsection
 
 @section('menu')
-    @include('templates/menuSujeto')
+    @include('templates/menuRevisor')
 @endsection
 
 @section('contenido')

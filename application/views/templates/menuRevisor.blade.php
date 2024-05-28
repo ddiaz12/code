@@ -44,7 +44,7 @@
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_sujeto'); ?>">Sujeto obligado</a></li>
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_unidades'); ?>">Unidades administrativas</a></li>
                         <li><a class="dropdown-item" href="<?php echo base_url('oficinas'); ?>">Oficinas</a></li>
-                        <li><a class="dropdown-item" href="<?php echo base_url('usuarios/usuario'); ?>">Usuarios</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url('usuarios'); ?>">Usuarios</a></li>
                     </ul>
                 </div>
                 <div class="dropdown">

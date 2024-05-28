@@ -24,7 +24,7 @@ class Oficinas extends CI_Controller
         $data["oficinas"] = $this->OficinaModel->getOficinas();
 
         // Verifica el grupo del usuario y redirige a la vista correspondiente
-        if ($this->ion_auth->in_group('Sujeto_obligado')) {
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/oficinas', $data);
         } elseif($this->ion_auth->in_group('sedeco')){
             $this->blade->render('revisor/oficinas', $data);
