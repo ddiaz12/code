@@ -21,13 +21,32 @@ class Menu extends CI_Controller
 
     public function menu_enviadas()
     {
-        $this->blade->render('menu/enviadas');
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/enviadas');
+        } elseif($this->ion_auth->in_group('sedeco')){
+            $this->blade->render('menuRevisor/enviadas');
+        } elseif($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/enviadas');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function menu_sujeto()
     {
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
-        $this->blade->render('menu/sujeto-obligado', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/sujeto-obligado', $data);
+        } elseif($this->ion_auth->in_group('sedeco')){
+            $this->blade->render('menuRevisor/sujeto-obligado', $data);
+        } elseif($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/sujeto-obligado', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function menu_unidades()
@@ -258,7 +277,17 @@ class Menu extends CI_Controller
     public function agregar_sujeto()
     {
         $data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
-        $this->blade->render('menu/agregar-sujeto', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/agregar-sujeto', $data);
+        } elseif($this->ion_auth->in_group('sedeco')){
+            $this->blade->render('menuRevisor/agregar-sujeto', $data);
+        } elseif($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/agregar-sujeto', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function insertar_SujetoObligado()
