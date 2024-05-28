@@ -37,7 +37,18 @@ class Usuarios extends CI_Controller
         $data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
         $data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
         $data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
-        $this->blade->render('sujeto/agregar-usuario', $data);
+
+        // Verifica el grupo del usuario y redirige a la vista correspondiente
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/agregar-usuario', $data);
+        } elseif ($this->ion_auth->in_group('sedeco')) {
+            $this->blade->render('revisor/agregar-usuario', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/agregar-usuario', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function insertar()

@@ -17,11 +17,10 @@ class Home extends CI_Controller {
     }
 
     public function home_sujeto(){
-        /*
         if (!$this->ion_auth->in_group('sujeto_obligado') && !$this->ion_auth->in_group('admin')) {
             redirect('auth/login', 'refresh');
         }
-        */
+        
         $this->blade->render('home/home-sujeto');
     }
 

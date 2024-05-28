@@ -345,7 +345,17 @@ class Menu extends CI_Controller
     {
         $data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
         $data['sujeto'] = $this->MenuModel->getSujeto($id);
-        $this->blade->render('menu/editar-sujeto', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/editar-sujeto', $data);
+        } elseif($this->ion_auth->in_group('sedeco')){
+            $this->blade->render('menuRevisor/editar-sujeto', $data);
+        } elseif($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/editar-sujeto', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function eliminar_sujeto($id)
