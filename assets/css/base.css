@@ -35,6 +35,17 @@ h1, .h1 {
 	color: #b69664;
 }
 
+.temporizador {
+	color: #ffffff;
+	padding: 6px 10px 0 0;
+}
+
+.user-email{
+	color: #ffffff;
+	padding: 6px 0px 0 10px;
+	text-decoration: underline;
+}
+
 #sidenavAccordion {
 	width: 100%;
 	background-color: #b69664;

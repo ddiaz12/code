@@ -20,6 +20,11 @@
 
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <!-- Timer -->
+        <li id="timer" class="nav-item temporizador">
+            59:00
+        </li>
+        <!-- Timer -->
         <li class="nav-item">
             <a class="nav-link" href="#!"><i class="fas fa-envelope fa-lg"></i></a>
         </li>
@@ -35,7 +40,12 @@
                 <li><a class="dropdown-item" href="<?php echo base_url(); ?>auth/logout">Logout</a></li>
             </ul>
         </li>
-
+          <!-- User Email -->
+          <li class="user-email">
+            <?php echo $this->ion_auth->user()->row()->email; ?>
+        </li>
+        <!-- User Email -->
     </ul>
     <!-- Navbar-->
 </nav>
+<script src="<?php echo base_url('assets/js/timer.js'); ?>"></script>
