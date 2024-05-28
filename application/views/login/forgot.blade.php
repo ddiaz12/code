@@ -1,82 +1,52 @@
-@include('templates/header3')
-	<body class="sb-nav-fixed cuerpo-sujeto">
+@include('templates/header')
 
-	<nav class="sb-topnav navbar navbar-expand navbar-custom" id="navbarhome">
-        <!-- Navbar Brand-->
-        <div class="div-escudo">
-            <a class="navbar-brand" href="<?php echo base_url("home/home_sujeto") ?>">
-                <img src="<?php echo base_url("assets/") ?>img/logo2.jpg" alt="Escudo del gobierno del estado"
-                    id="logo">
-            </a>
-        </div>
-    </nav>
-		
-	<section class="div-contenido ftco-section">
-		<div class="container" >
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Registro Estatal de Regulaciones (RER)</h2>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-md-7 col-lg-5">
-					<div class="wrap">
-						
-						<div class="login-wrap p-4 p-md-5">
-			      	<div class="d-flex">
-			      		<div class="w-100">
-			      			<p id="titulo">¿Has olvidado tu contraseña?</p>
-							<p id="texto">Captura tu correo electronico</p>
-							<p id="texto">para restablecer tu cuenta:</p> 
-			      		</div>
-			      	</div>
-					  
-							<form action="#" class="signin-form">
-			      		<div class="form-group mt-3">
-			      			
-							
-			      		</div>
-					<h5 class="mb-4">Correo Electronico</h5> 
-		            <div class="form-group mt-3">
-		              <input type="text" class="form-control" required>
-		              <label class="form-control-placeholder" for="password">sujetobligado@gob.mx</label>
-		            </div>
-		            <div class="form-group">
-							<button type="submit" class="form-control btn btn-primary rounded submit px-3" id="botonEnviar">Enviar</button>
-		            </div>
-					<p class="text-center"><a data-toggle="tab" href="#signup" id="regis">Registrarse</a></p>
-		          </form>
-		          
-		        </div>
-		      </div>
-				</div>
-			</div>
-		</div>
-	</section>
-    <!-- Footer -->
-    <footer class="py-4 bg-light mt-auto centrado">
-        <div class="container-fluid px-4">
-            <div class="d-flex align-items-center justify-content-between small">
-			<div class="text-muted"></div>
-                <div class="text-muted div-info">
-					<p>Contacto: Secretaria de Desarrollo Económico</p>
-                    <p>Complejo Administrativo del Gobierno del Estado de Colima</p>
-                    <p>Tercer Anillo Perf. S/N, El Diezmo, 28010 31231620000</p>
-                </div>
-				<div>
-                    <a href="#"></a>
-                    <a href="#"></a>
-                </div>
+    <body class="sb-nav-fixed cuerpo-sujeto">
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header"><h3 class="titulo-login my-4">Recuperar Contraseña</h3></div>
+                                    <div class="card-body   ">
+                                        <div class="small mb-3 text-muted">Enter your email address and we will send you a link to reset your password.</div>
+                                        <form>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
+                                                <label for="inputEmail">Email address</label>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="small" href="<?php echo base_url('authc/login'); ?>">Return to login</a>
+                                                <a class="btn btn-primary" href="<?php echo base_url('authc/login'); ?>">Reset Password</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-footer text-center py-3">
+                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
-    </footer>
-    <!-- Footer -->
-
-	<script src="js/jquery.min.js"></script>
-  <script src="js/popper.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
-
-	</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+    </body>
 </html>
-

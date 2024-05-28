@@ -1,18 +1,12 @@
-@include('templates/header')
-
-<body class="sb-nav-fixed cuerpo-sujeto">
-    <!-- Navbar -->
-    @include('templates/navbar')
-    <!-- Navbar -->
-
-    <div id="layoutSidenav">
-        <!-- Menu -->
-        @include('templates/menu')
-        <!-- Menu -->
-
-
-        <div id="layoutSidenav_content">
-            <main>
+@layout('templates/master')
+@section('titulo')
+    Registro Estatal de Regulaciones
+@endsection
+@section('menu')
+    @include('templates/menuSujeto')
+@endsection
+@section('contenido')
+    <!-- Contenido -->
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
                     </li>
@@ -95,51 +89,49 @@
                         </div>
                     </div>
                 </div>
-        </div>
-        </main>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
-    <script>
-        function enviarFormulario() {
-            var sendData = $('#formSujeto').serializeArray();
-            $.ajax({
-                url: '<?php echo base_url('menu/insertar_SujetoObligado'); ?>',
-                type: 'POST',
-                dataType: 'json',
-                data: sendData,
-                success: function(response) {
-                    if (response.status == 'success') {
-                        Swal.fire(
-                            '¡Éxito!',
-                            'El sujeto obligado ha sido agregado correctamente.',
-                            'success'
-                        ).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = response.redirect_url;
-                            }
-                        })
-                    } else if (response.status == 'error') {
-                        if (response.errores) {
-                            $.each(response.errores, function(index, value) {
-                                if ($("small#msg_" + index).length) {
-                                    $("small#msg_" + index).html(value);
-                                }
-                            });
-                            Swal.fire(
-                                '¡Error!',
-                                'Ha ocurrido un error al agregar el sujeto obligado. Por favor, inténtalo de nuevo.',
-                                'error'
-                            )
+            <!-- Contenido -->
+@endsection
+@section('js')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
+<script>
+    function enviarFormulario() {
+        var sendData = $('#formSujeto').serializeArray();
+        $.ajax({
+            url: '<?php echo base_url('menu/insertar_SujetoObligado'); ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: sendData,
+            success: function(response) {
+                if (response.status == 'success') {
+                    Swal.fire(
+                        '¡Éxito!',
+                        'El sujeto obligado ha sido agregado correctamente.',
+                        'success'
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = response.redirect_url;
                         }
+                    })
+                } else if (response.status == 'error') {
+                    if (response.errores) {
+                        $.each(response.errores, function(index, value) {
+                            if ($("small#msg_" + index).length) {
+                                $("small#msg_" + index).html(value);
+                            }
+                        });
+                        Swal.fire(
+                            '¡Error!',
+                            'Ha ocurrido un error al agregar el sujeto obligado. Por favor, inténtalo de nuevo.',
+                            'error'
+                        )
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
                 }
-            });
-        }
-    </script>
-
-</body>
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>
+@endsection

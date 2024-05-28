@@ -9,6 +9,10 @@
 	font-family: "Geomanist", sans-serif !important;
 }
 
+h1, .h1 {
+	font-weight: 600;
+}
+
 .navbar-custom {
 	background-color: #612233;
 }
@@ -55,7 +59,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../img/flor.png");
+    background-image: url("");
     background-repeat: no-repeat;
     background-position: 90px top;
     background-size: 20% 85%;
@@ -100,7 +104,7 @@
 .titulo-menu {
 	text-align: center;
 	font-size: 30px;
-	margin-bottom: 5%;
+	margin-bottom: 3%;
 }
 
 .text-cards {
@@ -124,8 +128,7 @@
 	border: solid;
 }
 
-.div-usuarios,
-.div-oficinas {
+.div-card {
 	margin-top: 15px;
 	margin: auto;
 }

@@ -12,13 +12,23 @@ class Usuarios extends CI_Controller
 
     public function index()
     {
-        $this->load->view('inicio');
+        $this->usuario();
     }
-
     public function usuario()
     {
         $data['usuarios'] = $this->UsuarioModel->getUsuarios($id = null);
-        $this->blade->render('sujeto/usuarios', $data);
+
+        // Verifica el grupo del usuario y redirige a la vista correspondiente
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/usuarios', $data);
+        } elseif ($this->ion_auth->in_group('sedeco')) {
+            $this->blade->render('revisor/usuarios', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/usuarios', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function agregar_usuario()
@@ -127,7 +137,7 @@ class Usuarios extends CI_Controller
     public function eliminar($id)
     {
         $this->UsuarioModel->eliminar($id);
-        redirect('usuarios/usuario');
+        redirect('usuarios');
     }
 
     public function actualizar()
@@ -192,7 +202,7 @@ class Usuarios extends CI_Controller
                 'ID_unidad' => $selectUnidades,
                 'Apellido_Paterno' => $inputApellidoPaterno,
                 'Apellido_Materno' => $inputApellidoMaterno,
-                'Nombre' => $inputNombreUsuario, 
+                'Nombre' => $inputNombreUsuario,
                 'Correo_Electronico' => $inputCorreo,
                 'Fecha_Cargo_ROM' => $inputFechaAlto,
                 'Num_Tel' => $inputNumTel,

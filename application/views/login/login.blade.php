@@ -1,92 +1,43 @@
-@include('templates/header2')
+@layout('templates/estructuraLogin')
+@section('contenido')
+@section('css')
 
-<body class="sb-nav-fixed cuerpo-sujeto">
-
-    <nav class="sb-topnav navbar navbar-expand navbar-custom" id="navbarhome">
-        <!-- Navbar Brand-->
-        <div class="div-escudo">
-            <a class="navbar-brand" href="<?php echo base_url('home/home_sujeto'); ?>">
-                <img src="<?php echo base_url('assets/'); ?>img/logo2.jpg" alt="Escudo del gobierno del estado" id="logo">
-            </a>
-        </div>
-    </nav>
-
-    <section class="div-contenido ftco-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6 text-center mb-5">
-                    <h2 class="heading-section">Registro Estatal de Regulaciones (RER)</h2>
+@endsection
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="titulo-login my-4">Registro Estatal de Regulaciones</h3>
                 </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-7 col-lg-5">
-                    <div class="wrap">
-
-                        <div class="login-wrap p-4 p-md-5">
-                            <div class="d-flex">
-                                <div class="w-100">
-                                    <h5 class="mb-4">Correo Electronico</h5>
-                                </div>
-                            </div>
-                            <form action="#" class="signin-form">
-                                <div class="form-group mt-3">
-                                    <input type="text" class="form-control" required>
-                                    <label class="form-control-placeholder" for="username">sujetobligado@gob.mx</label>
-                                </div>
-                                <h5 class="mb-4">Contraseña</h5>
-                                <div class="form-group">
-                                    <input id="password-field" type="password" class="form-control" required>
-                                    <label class="form-control-placeholder" for="password">********</label>
-                                    <span toggle="#password-field"
-                                        class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="form-control btn btn-primary rounded submit px-3"
-                                        id="botonEnviar">Enviar</button>
-                                </div>
-                                <div class="form-group d-md-flex">
-                                    <div class="w-50 text-left">
-                                        <p class="text-center"><a data-toggle="tab"
-                                                href="http://localhost/code/Usuarios/agregar_usuario"
-                                                id="regis">Registrarse</a></p>
-                                    </div>
-                                    <div class="w-50 text-md-right">
-                                        <a href="http://localhost/code/auth/forgot" id="forgot">¿Has olvidado tu
-                                            contraseña?</a>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
+                <div class="card-body">
+                    <?php echo form_open('auth/login'); ?>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" name="identity" id="identity"
+                            value="<?php echo set_value('identity'); ?>" placeholder="name@example.com" />
+                        <label for="identity">Email address</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <?php echo form_input($password); ?>
+                        <label for="password"><?php echo lang('login_password_label', 'password'); ?></label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <?php echo form_checkbox('remember', '1', false, 'id="remember"'); ?>
+                        <label for="remember"><?php echo lang('login_remember_label', 'remember'); ?></label>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                        <a class="small" href="forgot_password"><?php echo lang('login_forgot_password'); ?></a>
+                        <?php echo form_submit('submit', lang('login_submit_btn'), 'class="btn btn-primary"'); ?>
+                    </div>
+                    <?php echo form_close(); ?>
+                </div>
+                <div class="card-footer text-center py-3">
+                    <div class="small">
+                        <a href="register_user"><?php echo lang('login_register'); ?></a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Footer -->
-    <footer class="py-4 bg-light mt-auto centrado">
-        <div class="container-fluid px-4">
-            <div class="d-flex align-items-center justify-content-between small">
-                <div class="text-muted"></div>
-                <div class="text-muted div-info">
-                    <p>Contacto: Secretaria de Desarrollo Económico</p>
-                    <p>Complejo Administrativo del Gobierno del Estado de Colima</p>
-                    <p>Tercer Anillo Perf. S/N, El Diezmo, 28010 31231620000</p>
-                </div>
-                <div>
-                    <a href="#"></a>
-                    <a href="#"></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer -->
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-
-</body>
-
-</html>
+    </div>
+</div>
+@endsection

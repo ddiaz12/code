@@ -1,7 +1,7 @@
 <nav class="sb-topnav navbar navbar-expand navbar-custom" id="navbarhome">
     <!-- Navbar Brand-->
     <div class="div-escudo">
-        <a class="navbar-brand" href="<?php echo base_url("home/home_sujeto") ?>">
+        <a class="navbar-brand" href="<?php echo base_url("home/home_sujeto"); ?>">
             <img src="<?php echo base_url("assets/") ?>img/logo_transparente.png" alt="Escudo del gobierno del estado"
                 id="logo">
         </a>
@@ -32,7 +32,7 @@
                 <li>
                     <hr class="dropdown-divider" />
                 </li>
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li><a class="dropdown-item" href="<?php echo base_url(); ?>auth/logout">Logout</a></li>
             </ul>
         </li>
 

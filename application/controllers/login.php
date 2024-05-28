@@ -7,8 +7,7 @@ class login extends CI_Controller {
     }
 
     public function login(){
-        $this->load->view('header');
-        $this->load->view('login/login');
+        $this->blade->render('login/login');
     }
 
 }
