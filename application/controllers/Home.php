@@ -29,6 +29,9 @@ class Home extends CI_Controller {
     }
 
     public function home_consejeria(){
+        if (!$this->ion_auth->in_group('consejeria')) {
+            redirect('auth/login', 'refresh');
+        }
         $this->blade->render('home/home-consejeria');
     }
     

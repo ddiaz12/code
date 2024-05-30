@@ -2,6 +2,9 @@
 @section('titulo')
     Registro Estatal de Regulaciones
 @endsection
+@section('navbar')
+    @include('templates/navbarSujeto')
+@endsection
 @section('menu')
     @include('templates/menuSujeto')
 @endsection

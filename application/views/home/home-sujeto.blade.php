@@ -15,26 +15,26 @@
         <div class="row no-padding">
             <div class="card shadow mb-4 col-sm-5 div-card">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-cards">Oficinas</h6>
+                    <h6 class="m-0 font-weight-bold text-cards">Regulaciones</h6>
                 </div>
                 <div class="card-body ">
                     Administrar usuarios de la plataforma del Catálogo Nacional de
                     Trámites y Servicios.
                 </div>
                 <div class="card-footer text-center">
-                    <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-primary btn-oficina">administrar</a>
+                    <a href="<?php echo base_url(''); ?>" class="btn btn-primary btn-oficina">administrar</a>
                 </div>
             </div>
             <div class="card shadow mb-4 col-sm-5 div-card">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-cards">Usuarios</h6>
+                    <h6 class="m-0 font-weight-bold text-cards">Unidades administrativas</h6>
                 </div>
                 <div class="card-body">
                     Administrar usuarios de la plataforma del Catalogo Nacional
                     de Tramites y Servicios.
                 </div>
                 <div class="card-footer text-center">
-                    <a href="<?php echo base_url('usuarios/usuario'); ?>" class="btn btn-primary btn-oficina">administrar</a>
+                    <a href="<?php echo base_url('menu/menu_unidades'); ?>" class="btn btn-primary btn-oficina">administrar</a>
                 </div>
             </div>
         </div>
