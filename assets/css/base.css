@@ -178,6 +178,11 @@ h1, .h1 {
 	color: white;
 }
 
+.btn-agregarGrupo{
+	--bs-btn-hover-bg: #7f2841;
+	margin-right: 20px;
+}
+
 .btn-agregarUsuario,
 .btn-agregarOficina {
 	--bs-btn-hover-bg: #7f2841;
