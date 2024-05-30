@@ -81,16 +81,13 @@ class Auth extends CI_Controller
                 // check user role and redirect accordingly
                 if ($this->ion_auth->in_group('admin')) {
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect('home/home_sujeto', 'refresh');
+                    redirect('home/home_admin', 'refresh');
                 } elseif ($this->ion_auth->in_group('sujeto_obligado')) {
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
                     redirect('home/home_sujeto', 'refresh');
-                } elseif($this->ion_auth->in_group('sedeco')){
+                } elseif($this->ion_auth->in_group('consejeria')){
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
                     redirect('home/home_revisor', 'refresh');
-                } elseif($this->ion_auth->in_group('consejeria')) {
-                    $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect('home/home_supervisor', 'refresh');
                 }
 
             } else {
@@ -661,11 +658,11 @@ class Auth extends CI_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            
+            /*
             if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
                 show_error($this->lang->line('error_csrf'));
             }
-            
+            */
             // update the password if it was posted
             if ($this->input->post('password')) {
                 $this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
@@ -709,7 +706,6 @@ class Auth extends CI_Controller
                     // redirect them back to the admin page if admin, or to the base url if non admin
                     $this->session->set_flashdata('message', $this->ion_auth->errors());
                     $this->redirectUser();
-
                 }
 
             }

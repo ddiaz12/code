@@ -6,12 +6,12 @@
     @include('templates/navbarRevisor')
 @endsection
 @section('menu')
-    @include('templates/menuSujeto')
+    @include('templates/menuRevisor')
 @endsection
 @section('contenido')
     <!-- Contenido -->
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
+        <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_revisor'); ?>"><i class="fas fa-home me-1"></i>Home</a>
         </li>
         <li class="breadcrumb-item"><a href="<?php echo base_url('menu/menu_unidades'); ?>"><i class="fas fa-building me-1"></i>Unidades
                 administrativas</a></li>

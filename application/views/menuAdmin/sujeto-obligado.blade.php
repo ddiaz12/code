@@ -3,24 +3,25 @@
     Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-    @include('templates/navbarSujeto')
+    @include('templates/navbarAdmin')
 @endsection
 @section('menu')
-    @include('templates/menuSujeto')
+    @include('templates/menuAdmin')
 @endsection
 @section('contenido')
     <!-- Contenido -->
     <div class="container-fluid px-4">
+
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
+            <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_admin'); ?>"><i class="fas fa-home me-1"></i>Home</a>
             </li>
-            <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Unidades administrativas</li>
+            <li class="breadcrumb-item active"><i class="fas fa-user me-1"></i>Sujeto obligado</li>
         </ol>
         <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
         <!-- Botón para abrir otra vista -->
         <div class="d-flex justify-content-end mb-3">
-            <a href="<?php echo base_url('menu/agregar_unidades'); ?>" class="btn btn-primary btn-agregarOficina">
-                <i class="fas fa-plus-circle me-1"></i> Agregar unidad administrativa
+            <a href="<?php echo base_url('menu/agregar_sujeto'); ?>" class="btn btn-primary btn-agregarOficina">
+                <i class="fas fa-plus-circle me-1"></i> Agregar sujeto obligado
             </a>
         </div>
         <div class="card mb-4">
@@ -29,32 +30,31 @@
                     <thead>
                         <tr>
                             <th class="tTabla-color">Id</th>
-                            <th class="tTabla-color">Nombre de U.A</th>
+                            <th class="tTabla-color">Nombre sujeto obligado</th>
                             <th class="tTabla-color">Siglas</th>
                             <th class="tTabla-color">Tipo</th>
-                            <th class="tTabla-color">Nombre sujeto obligado</th>
+                            <th class="tTabla-color">Materia</th>
                             <th class="tTabla-color">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($unidades as $unidad)
-                            <tr>
-                                <td>{{ $unidad->ID_unidad }}</td>
-                                <td>{{ $unidad->nombre }}</td>
-                                <td>{{ $unidad->siglas }}</td>
-                                <td>{{ $unidad->tipo_sujeto }}</td>
-                                <td>{{ $unidad->nombre_sujeto }}</td>
-                                <td>
-                                    <a href="{{ base_url('menu/editar_unidad/' . $unidad->ID_unidad) }}"
-                                        class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit" title="Editar unidad"></i>
-                                    </a>
-                                    <button class="btn btn-danger btn-sm" data-id_unidad="<?php echo $unidad->ID_unidad; ?>">
-                                        <i class="fas fa-trash" title="Eliminar unidad"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
+                        <?php foreach ($sujetos as $sujeto): ?>
+                        <tr>
+                            <td><?php echo $sujeto->ID_sujeto; ?></td>
+                            <td><?php echo $sujeto->nombre_sujeto; ?></td>
+                            <td><?php echo $sujeto->siglas; ?></td>
+                            <td><?php echo $sujeto->tipo_sujeto; ?></td>
+                            <td><?php echo $sujeto->materia; ?></td>
+                            <td>
+                                <a href="<?php echo base_url('menu/editar_sujeto/' . $sujeto->ID_sujeto); ?>" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit" title="Editar sujeto"></i>
+                                </a>
+                                <button class="btn btn-danger btn-sm" data-id_sujeto="<?php echo $sujeto->ID_sujeto; ?>">
+                                    <i class="fas fa-trash" title="Eliminar sujeto"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -62,17 +62,22 @@
     </div>
     <!-- Contenido -->
 @endsection
-
 @section('footer')
     @include('templates/footer')
 @endsection
-
 @section('js')
-    <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
     <script>
         $(document).ready(function() {
+            $('#datatablesSimple').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                }
+            });
+        });
+
+        $(document).ready(function() {
             $('.btn-danger').click(function() {
-                var id = $(this).data('id_unidad');
+                var id = $(this).data('id_sujeto');
 
                 Swal.fire({
                     title: '¿Estás seguro?',
@@ -86,12 +91,12 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '<?php echo base_url('menu/eliminar_unidad/'); ?>' + id,
-                            type: 'GET',
+                            url: '<?php echo base_url('menu/eliminar_sujeto/'); ?>' + id,
+                            type: 'POST',
                             success: function(result) {
                                 Swal.fire(
                                     '¡Eliminado!',
-                                    'La unidad administrativa ha sido eliminado correctamente.',
+                                    'El sujeto obligado ha sido eliminado correctamente.',
                                     'success'
                                 ).then((result) => {
                                     if (result.isConfirmed) {
@@ -102,7 +107,7 @@
                             error: function() {
                                 Swal.fire(
                                     'Error',
-                                    'No se pudo eliminar la unidad administrativa',
+                                    'No se pudo eliminar al sujeto obligado',
                                     'error'
                                 );
                             }

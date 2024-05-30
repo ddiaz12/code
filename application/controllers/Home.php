@@ -14,18 +14,18 @@ class Home extends CI_Controller {
         $this->home_sujeto();
     }
     public function home_admin(){
+        if (!$this->ion_auth->in_group('admin')){
+            redirect('auth/login', 'refresh');
+        }
+        $this->blade->render('home/home-admin');
     }
 
     public function home_sujeto(){
-        if (!$this->ion_auth->in_group('sujeto_obligado') && !$this->ion_auth->in_group('admin')) {
+        if (!$this->ion_auth->in_group('sujeto_obligado')) {
             redirect('auth/login', 'refresh');
         }
         
         $this->blade->render('home/home-sujeto');
-    }
-
-    public function home_revisor(){  
-        $this->blade->render('home/home-revisor'); 
     }
 
     public function home_consejeria(){

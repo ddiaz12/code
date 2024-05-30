@@ -3,16 +3,16 @@
     Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-    @include('templates/navbarSujeto')
+    @include('templates/navbarAdmin')
 @endsection
 @section('menu')
-    @include('templates/menuSujeto')
+    @include('templates/menuAdmin')
 @endsection
 @section('contenido')
     <!-- Contenido -->
     <div class="container-fluid px-4">
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
+            <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_admin'); ?>"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Unidades administrativas</li>
         </ol>
@@ -68,7 +68,7 @@
 @endsection
 
 @section('js')
-    <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
     <script>
         $(document).ready(function() {
             $('.btn-danger').click(function() {

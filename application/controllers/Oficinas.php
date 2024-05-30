@@ -27,7 +27,7 @@ class Oficinas extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/oficinas', $data);
         } elseif ($this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('revisor/oficinas', $data);
+            $this->blade->render('admin/oficinas', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/oficinas', $data);
         } else {
@@ -48,7 +48,7 @@ class Oficinas extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/agregar-oficina', $data);
         } elseif ($this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('revisor/agregar-oficina', $data);
+            $this->blade->render('admin/agregar-oficina', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/agregar-oficina', $data);
         } else {
@@ -167,7 +167,18 @@ class Oficinas extends CI_Controller
         $data['vialidades'] = $this->OficinaModel->getCatVialidades();
         $data['municipios'] = $this->OficinaModel->getCatMunicipios();
         $data['localidades'] = $this->OficinaModel->getCatLocalidades();
-        $this->blade->render('sujeto/editar-oficina', $data);
+        
+            // Verifica el grupo del usuario y redirige a la vista correspondiente
+            if ($this->ion_auth->in_group('sujeto_obligado')) {
+                $this->blade->render('sujeto/editar-oficina', $data);
+            } elseif ($this->ion_auth->in_group('sedeco')) {
+                $this->blade->render('admin/editar-oficina', $data);
+            } elseif ($this->ion_auth->in_group('consejeria')) {
+                $this->blade->render('consejeria/editar-oficina', $data);
+            } else {
+                // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+                redirect('auth/login', 'refresh');
+            }
     }
 
 

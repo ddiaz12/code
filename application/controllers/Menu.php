@@ -24,12 +24,12 @@ class Menu extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/enviadas');
         } elseif($this->ion_auth->in_group('sedeco')){
-            $this->blade->render('menuRevisor/enviadas');
+            $this->blade->render('menuAdmin/enviadas');
         } elseif($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('menuSupervisor/enviadas');
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
-            redirect('auth/login', 'refresh');
+            redirect('auth/logout', 'refresh');
         }
     }
 
@@ -40,19 +40,29 @@ class Menu extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/sujeto-obligado', $data);
         } elseif($this->ion_auth->in_group('sedeco')){
-            $this->blade->render('menuRevisor/sujeto-obligado', $data);
+            $this->blade->render('menuAdmin/sujeto-obligado', $data);
         } elseif($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('menuSupervisor/sujeto-obligado', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
-            redirect('auth/login', 'refresh');
+            redirect('auth/logout', 'refresh');
         }
     }
 
     public function menu_unidades()
     {
         $data['unidades'] = $this->MenuModel->getUnidadesAdministrativas();
-        $this->blade->render('menu/unidades-administrativas', $data);
+        
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/unidades-administrativas', $data);
+        } elseif($this->ion_auth->in_group('sedeco')){
+            $this->blade->render('menuAdmin/unidades-administrativas', $data);
+        } elseif($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/unidades-administrativas', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function menu_guia()
@@ -71,7 +81,17 @@ class Menu extends CI_Controller
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();
         $data['localidades'] = $this->MenuModel->getCatLocalidades();
-        $this->blade->render('menu/agregar-unidad', $data);
+        
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/agregar-unidad', $data);
+        } elseif($this->ion_auth->in_group('sedeco')){
+            $this->blade->render('menuAdmin/agregar-unidad', $data);
+        } elseif($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/agregar-unidad', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function insertar_unidad()
@@ -181,7 +201,17 @@ class Menu extends CI_Controller
         $data['localidades'] = $this->MenuModel->getCatLocalidades();
         $data['unidades'] = $this->MenuModel->getUnidad($id);
         $data['horarios'] = $this->MenuModel->obtenerHorariosUnidad($id);
-        $this->blade->render('menu/editar-unidad', $data);
+        
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/editar-unidad', $data);
+        } elseif($this->ion_auth->in_group('sedeco')){
+            $this->blade->render('menuAdmin/editar-unidad', $data);
+        } elseif($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/editar-unidad', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function actualizar_unidad()
@@ -281,7 +311,7 @@ class Menu extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/agregar-sujeto', $data);
         } elseif($this->ion_auth->in_group('sedeco')){
-            $this->blade->render('menuRevisor/agregar-sujeto', $data);
+            $this->blade->render('menuAdmin/agregar-sujeto', $data);
         } elseif($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('menuSupervisor/agregar-sujeto', $data);
         } else {
@@ -349,7 +379,7 @@ class Menu extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/editar-sujeto', $data);
         } elseif($this->ion_auth->in_group('sedeco')){
-            $this->blade->render('menuRevisor/editar-sujeto', $data);
+            $this->blade->render('menuAdmin/editar-sujeto', $data);
         } elseif($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('menuSupervisor/editar-sujeto', $data);
         } else {

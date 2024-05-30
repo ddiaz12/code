@@ -26,7 +26,7 @@ class Usuarios extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/usuarios', $data);
         } elseif ($this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('revisor/usuarios', $data);
+            $this->blade->render('admin/usuarios', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/usuarios', $data);
         } else {
@@ -46,7 +46,7 @@ class Usuarios extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/agregar-usuario', $data);
         } elseif ($this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('revisor/agregar-usuario', $data);
+            $this->blade->render('admin/agregar-usuario', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/agregar-usuario', $data);
         } else {
@@ -141,12 +141,22 @@ class Usuarios extends CI_Controller
 
     public function editar($id)
     {
-        $usuario = $this->UsuarioModel->getUsuarios($id);
-        $roles = $this->UsuarioModel->getRoles();
-        $unidad = $this->UsuarioModel->getUnidadesAdministrativas();
-        $sujeto = $this->UsuarioModel->getSujetosObligados();
-        $tipo = $this->UsuarioModel->getTipoSujetoObligado();
-        $this->blade->render('sujeto/editar-usuario', ['usuario' => $usuario, 'roles' => $roles, 'unidades' => $unidad, 'sujetos' => $sujeto, 'tipos' => $tipo]);
+        $data['usuario'] = $this->UsuarioModel->getUsuarios($id);
+        $data['roles'] = $this->UsuarioModel->getRoles();
+        $data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
+        $data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
+        $data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/editar-usuario', $data);
+        } elseif ($this->ion_auth->in_group('sedeco')) {
+            $this->blade->render('admin/editar-usuario', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/editar-usuario', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function eliminar($id)

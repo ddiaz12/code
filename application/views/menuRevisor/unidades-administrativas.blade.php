@@ -6,13 +6,13 @@
     @include('templates/navbarRevisor')
 @endsection
 @section('menu')
-    @include('templates/menuSujeto')
+    @include('templates/menuRevisor')
 @endsection
 @section('contenido')
     <!-- Contenido -->
     <div class="container-fluid px-4">
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
+            <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_revisor'); ?>"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Unidades administrativas</li>
         </ol>
@@ -68,15 +68,8 @@
 @endsection
 
 @section('js')
+<script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
     <script>
-        $(document).ready(function() {
-            $('#datatablesSimple').DataTable({
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-                }
-            });
-        });
-
         $(document).ready(function() {
             $('.btn-danger').click(function() {
                 var id = $(this).data('id_unidad');
