@@ -47,4 +47,6 @@
     </ul>
     <!-- Navbar-->
 </nav>
-<script src="<?php echo base_url('assets/js/timer.js'); ?>"></script>
+
+
+

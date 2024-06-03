@@ -60,11 +60,11 @@
                             <td>
 								<?php if ($user->active): ?>
 									<a href="<?php echo base_url('auth/deactivate/' . $user->id); ?>" class="btn btn-danger btn-sm">
-										<i class="fas fa-times-circle" title="Desactivar usuario"></i>
+										<i class="fas fa-times-circle" title="Desactivar usuario"></i>Desactivar
 									</a>
 								<?php else: ?>
 									<a href="<?php echo base_url('auth/activate/' . $user->id); ?>" class="btn btn-success btn-sm">
-										<i class="fas fa-check-circle" title="Activar usuario"></i>
+										<i class="fas fa-check-circle" title="Activar usuario"></i>Activar
 									</a>
 								<?php endif; ?>
 							</td>
@@ -81,6 +81,9 @@
         </div>
     </div>
     <!-- Contenido -->
+@endsection
+@section('footer')
+    @include('templates/footer')
 @endsection
 @section('js')
     <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>

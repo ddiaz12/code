@@ -25,7 +25,7 @@ class Usuarios extends CI_Controller
         // Verifica el grupo del usuario y redirige a la vista correspondiente
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/usuarios', $data);
-        } elseif ($this->ion_auth->in_group('sedeco')) {
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('admin/usuarios', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/usuarios', $data);

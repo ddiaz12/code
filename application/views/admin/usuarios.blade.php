@@ -71,6 +71,9 @@
     </div>
     <!-- Contenido -->
 @endsection
+@section('footer')
+    @include('templates/footer')
+@endsection
 @section('js')
     <script>
         $(document).ready(function() {
