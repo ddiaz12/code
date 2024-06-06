@@ -1,6 +1,6 @@
 @layout('templates/master')
 @section('titulo')
-    <?php echo lang('index_heading'); ?>
+    Registro Estatal de Regulaciones (RER) - Usuarios
 @endsection
 @section('navbar')
     @include('templates/navbarAdmin')
@@ -52,7 +52,7 @@
                             <td><?php echo htmlspecialchars($user->tipo_sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
                             <td>
                                 <?php foreach ($user->groups as $group): ?>
-                                <a href="<?php echo base_url('auth/edit_group/' . base64_encode($group->id)); ?>" class="btn btn-info btn-sm">
+                                <a href="<?php echo base_url('auth/edit_group/' . base64_encode($group->id)); ?>" class="btn btn-info btn-sm" title="Editar grupo">
                                     <?php echo htmlspecialchars($group->name, ENT_QUOTES, 'UTF-8'); ?>
                                 </a>
                                 <?php endforeach; ?>
