@@ -17,7 +17,7 @@
             </li>
             <li class="breadcrumb-item active"><i class="fas fa-users me-1"></i><?php echo lang('index_heading'); ?></li>
         </ol>
-		<h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
+        <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
 
         <div class="d-flex justify-content-end mb-3">
             <!-- Botón para agregar grupo -->
@@ -35,9 +35,9 @@
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th class="tTabla-color">Nombres</th>
-                            <th class="tTabla-color">Apellidos</th>
+                            <th class="tTabla-color">Nombre completo</th>
                             <th class="tTabla-color">Correo electronico</th>
+                            <th class="tTabla-color">Tipo de sujeto obligado</th>
                             <th class="tTabla-color">Grupo</th>
                             <th class="tTabla-color">Estatus</th>
                             <th class="tTabla-color">Acciones</th>
@@ -47,32 +47,32 @@
                     <tbody>
                         <?php foreach ($users as $user):?>
                         <tr>
-                            <td><?php echo htmlspecialchars($user->first_name, ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?php echo htmlspecialchars($user->last_name, ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($user->first_name . ' ' . $user->ap1 . ' ' . $user->ap2, ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?php echo htmlspecialchars($user->email, ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($user->tipo_sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
                             <td>
-								<?php foreach ($user->groups as $group): ?>
-								<a href="<?php echo base_url('auth/edit_group/' . $group->id); ?>" class="btn btn-info btn-sm">
-									<?php echo htmlspecialchars($group->name, ENT_QUOTES, 'UTF-8'); ?>
-								</a>
-							<?php endforeach; ?>
+                                <?php foreach ($user->groups as $group): ?>
+                                <a href="<?php echo base_url('auth/edit_group/' . base64_encode($group->id)); ?>" class="btn btn-info btn-sm">
+                                    <?php echo htmlspecialchars($group->name, ENT_QUOTES, 'UTF-8'); ?>
+                                </a>
+                                <?php endforeach; ?>
                             </td>
                             <td>
-								<?php if ($user->active): ?>
-									<a href="<?php echo base_url('auth/deactivate/' . $user->id); ?>" class="btn btn-danger btn-sm">
-										<i class="fas fa-times-circle" title="Desactivar usuario"></i>Desactivar
-									</a>
-								<?php else: ?>
-									<a href="<?php echo base_url('auth/activate/' . $user->id); ?>" class="btn btn-success btn-sm">
-										<i class="fas fa-check-circle" title="Activar usuario"></i>Activar
-									</a>
-								<?php endif; ?>
-							</td>
+                                <?php if ($user->active): ?>
+                                <button class="btn btn-danger btn-sm" onclick="confirmDeactivate(<?php echo $user->id; ?>)">
+                                    <i class="fas fa-times-circle" title="Desactivar usuario"></i>Desactivar
+                                </button>
+                                <?php else: ?>
+                                <a href="<?php echo base_url('auth/activate/' . base64_encode($user->id)); ?>" class="btn btn-success btn-sm">
+                                    <i class="fas fa-check-circle" title="Activar usuario"></i>Activar
+                                </a>
+                                <?php endif; ?>
+                            </td>
                             <td>
-								<a href="<?php echo base_url('auth/edit_user/' . $user->id); ?>" class="btn btn-warning btn-sm">
-									<i class="fas fa-edit" title="Editar usuario"></i>
-								</a>
-							</td>
+                                <a href="<?php echo base_url('auth/edit_user/' . base64_encode($user->id)); ?>" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit" title="Editar usuario"></i>
+                                </a>
+                            </td>
                         </tr>
                         <?php endforeach;?>
                     </tbody>
@@ -87,4 +87,41 @@
 @endsection
 @section('js')
     <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
+    <script>
+        // Script para manejar la desactivación del usuario
+        function confirmDeactivate(userId) {
+    Swal.fire({
+        title: '¿Quieres desactivar el usuario?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, desactivar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '<?php echo base_url('auth/deactivate'); ?>/' + userId,
+                type: 'POST',
+                data: {'confirm': 'yes'},
+                success: function(response) {
+                    Swal.fire(
+                        'Desactivado',
+                        'El usuario ha sido desactivado correctamente.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                },
+                error: function() {
+                    Swal.fire(
+                        'Error',
+                        'No se pudo desactivar al usuario.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+}
+    </script>
 @endsection

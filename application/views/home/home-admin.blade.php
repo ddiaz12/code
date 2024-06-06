@@ -46,7 +46,7 @@
                     de Tramites y Servicios.
                 </div>
                 <div class="card-footer text-center">
-                    <a href="<?php echo base_url('usuarios'); ?>" class="btn btn-primary btn-oficina">administrar</a>
+                    <a href="<?php echo base_url('auth'); ?>" class="btn btn-primary btn-oficina">administrar</a>
                 </div>
             </div>
         </div>

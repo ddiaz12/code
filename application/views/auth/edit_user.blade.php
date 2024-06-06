@@ -24,69 +24,125 @@
                 <div class="card">
                     <div class="card-header header-usuario text-white">Editar Usuario</div>
                     <div class="card-body">
-                        <div id="infoMessage"><?php echo $message;?></div>
                         <?php echo form_open(uri_string(), ['class' => 'row g-3', 'id' => 'formUsuarios']); ?>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="first_name">Nombre<span class="text-danger">*</span></label>
-                                    <?php echo form_input($first_name, '', ['class' => 'form-control', 'id' => 'first_name']); ?>
-                                    <small id="msg_first_name" class="text-danger"></small>
-                                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
+                                <select class="form-control" id="tipoSujeto" name="tipoSujeto" required>
+                                    <option disabled>Selecciona una opción</option>
+                                    <?php foreach ($tipos as $tipo): ?>
+                                    <option value="<?php echo $tipo->ID_tipoSujeto; ?>" <?php echo $tipo->ID_tipoSujeto == $users->id_tipoSujeto ? 'selected' : ''; ?>>
+                                        <?php echo $tipo->tipo_sujeto; ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <small id="msg_tipoSujeto" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="last_name">Apellidos<span class="text-danger">*</span></label>
-                                    <?php echo form_input($last_name, '', ['class' => 'form-control', 'id' => 'last_name']); ?>
-                                    <small id="msg_last_name" class="text-danger"></small>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
+                                <select class="form-control" id="sujetos" name="sujetos" required>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    <?php foreach ($sujetos as $sujeto): ?>
+                                    <option value="<?php echo $sujeto->ID_sujeto; ?>" <?php echo $sujeto->ID_sujeto == $user->id_sujeto ? 'selected' : ''; ?>>
+                                        <?php echo $sujeto->nombre_sujeto; ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <small id="msg_sujetos" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="company">Empresa</label>
-                                    <?php echo form_input($company, '', ['class' => 'form-control', 'id' => 'company']); ?>
-                                    <small id="msg_company" class="text-danger"></small>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unidades">Unidad administrativa<span class="text-danger">*</span></label>
+                                <select class="form-control" id="unidades" name="unidades" required>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    <?php foreach ($unidades as $unidad): ?>
+                                    <option value="<?php echo $unidad->ID_unidad; ?>" <?php echo $unidad->ID_unidad == $user->id_unidad ? 'selected' : ''; ?>>
+                                        <?php echo $unidad->nombre; ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <small id="msg_unidades" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phone">Teléfono</label>
-                                    <?php echo form_input($phone, '', ['class' => 'form-control', 'id' => 'phone']); ?>
-                                    <small id="msg_phone" class="text-danger"></small>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="first_name">Nombre<span class="text-danger">*</span></label>
+                                <?php echo form_input($first_name, '', ['class' => 'form-control', 'id' => 'first_name']); ?>
+                                <small id="msg_first_name" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="password">Contraseña</label>
-                                    <?php echo form_input($password, '', ['class' => 'form-control', 'id' => 'password']); ?>
-                                    <small id="msg_password" class="text-danger"></small>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="last_name">Apellido paterno<span class="text-danger">*</span></label>
+                                <?php echo form_input($last_name, '', ['class' => 'form-control', 'id' => 'last_name']); ?>
+                                <small id="msg_last_name" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="password_confirm">Confirmar Contraseña</label>
-                                    <?php echo form_input($password_confirm, '', ['class' => 'form-control', 'id' => 'password_confirm']); ?>
-                                    <small id="msg_password_confirm" class="text-danger"></small>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ap2">Apellido materno<span class="text-danger">*</span></label>
+                                <?php echo form_input($ap2, '', ['class' => 'form-control', 'id' => 'ap2']); ?>
+                                <small id="msg_ap2" class="text-danger"></small>
                             </div>
-                            <?php if ($this->ion_auth->is_admin()): ?>
-                                <div class="col-md-12">
-                                    <h3>Miembros de grupos</h3>
-                                    <?php foreach ($groups as $group): ?>
-                                        <label class="checkbox">
-                                            <input type="checkbox" name="groups[]" value="<?php echo $group['id'];?>" <?php echo in_array($group['id'], array_column($currentGroups, 'id')) ? 'checked="checked"' : null; ?>>
-                                            <?php echo htmlspecialchars($group['name'], ENT_QUOTES, 'UTF-8');?>
-                                        </label>
-                                    <?php endforeach ?>
-                                </div>
-                            <?php endif ?>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ext">Extensión</label>
+                                <?php echo form_input($ext, '', ['class' => 'form-control', 'id' => 'ext']); ?>
+                                <small id="msg_ext" class="text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">Teléfono</label>
+                                <?php echo form_input($phone, '', ['class' => 'form-control', 'id' => 'phone']); ?>
+                                <small id="msg_phone" class="text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fecha">Fecha de alta en el cargo<span class="text-danger">*</span></label>
+                                <?php echo form_input($fecha, '', ['class' => 'form-control', 'id' => 'fecha']); ?>
+                            </div>
+                            <small id="msg_fecha" class="text-danger"></small>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password">Contraseña</label>
+                                <?php echo form_input($password, '', ['class' => 'form-control', 'id' => 'password']); ?>
+                                <small id="msg_password" class="text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password_confirm">Confirmar Contraseña</label>
+                                <?php echo form_input($password_confirm, '', ['class' => 'form-control', 'id' => 'password_confirm']); ?>
+                                <small id="msg_password_confirm" class="text-danger"></small>
+                            </div>
+                        </div>
+                        <?php if ($this->ion_auth->is_admin()): ?>
+                        <div class="col-md-12">
+                            <h3>Asignar grupos</h3>
+                            <?php foreach ($groups as $group): ?>
+                            <label class="checkbox">
+                                <input type="checkbox" name="groups[]" value="<?php echo $group['id']; ?>" <?php echo in_array($group['id'], array_column($currentGroups, 'id')) ? 'checked="checked"' : null; ?>>
+                                <?php echo htmlspecialchars($group['name'], ENT_QUOTES, 'UTF-8'); ?>
+                            </label>
+                            <?php endforeach ?>
+                        </div>
+                        <?php endif ?>
 
-                            <?php echo form_hidden('id', $user->id); ?>
-                            
+                        <?php echo form_hidden('id', $user->id); ?>
 
-                            <div class="d-flex justify-content-end mb-3">
-                                <a href="<?php echo base_url('auth'); ?>" class="btn btn-secondary btn-rounded me-2">Cancelar</a>
-                                <button type="button" onclick="enviarFormulario();" class="btn btn-guardar btn-rounded">Guardar</button>
-                            </div>
+
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="<?php echo base_url('auth'); ?>" class="btn btn-secondary btn-rounded me-2">Cancelar</a>
+                            <button type="button" onclick="enviarFormulario();"
+                                class="btn btn-guardar btn-rounded">Guardar</button>
+                        </div>
                         <?php echo form_close(); ?>
                     </div>
                 </div>
@@ -102,7 +158,7 @@
         function enviarFormulario() {
             var sendData = $('#formUsuarios').serialize();
             $.ajax({
-                url: '<?php echo base_url('auth/edit_user/' . $user->id); ?>',
+                url: '<?php echo base_url('auth/edit_user/' . base64_encode($user->id)); ?>',
                 type: 'POST',
                 dataType: 'json',
                 data: sendData,
