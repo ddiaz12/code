@@ -31,12 +31,10 @@ class Auth extends CI_Controller
         // Redirige a la página de login
         redirect('auth/login', 'refresh');
     } else if (!$this->ion_auth->is_admin()) {
-        // Muestra un error si el usuario no es administrador
         show_error('You must be an administrator to view this page.');
     } else {
         $this->data['title'] = $this->lang->line('index_heading');
 
-        // Mensaje de error de validación si existe
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
         // Obtén los usuarios desde Ion Auth
@@ -51,8 +49,12 @@ class Auth extends CI_Controller
 
             if ($additionalInfo) {
                 $user->tipo_sujeto = $additionalInfo->tipo_sujeto;
+                $user->sujeto = $additionalInfo->nombre_sujeto;
+                $user->unidad = $additionalInfo->nombre;
             } else {
                 $user->tipo_sujeto = 'No especificado';
+                $user->sujeto = 'No especificado';
+                $user->unidad = 'No especificado';
             }
             $this->data['users'][$k] = $user;
         }
@@ -518,6 +520,11 @@ class Auth extends CI_Controller
     {
         $id = base64_decode($encoded_id);
         $this->data['title'] = $this->lang->line('edit_user_heading');
+
+        if (!is_numeric($id)) {
+            // Redirige a la página de autenticación si el ID no es un número
+            redirect('auth', 'refresh');
+        }
 
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             if ($this->input->is_ajax_request()) {

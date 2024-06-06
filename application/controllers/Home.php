@@ -11,7 +11,7 @@ class Home extends CI_Controller {
     }
     
     public function index(){
-        $this->home_sujeto();
+        $this->home_admin();
     }
     public function home_admin(){
         if (!$this->ion_auth->in_group('admin')){

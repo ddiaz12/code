@@ -36,8 +36,9 @@
                     <thead>
                         <tr>
                             <th class="tTabla-color">Nombre completo</th>
-                            <th class="tTabla-color">Correo electronico</th>
                             <th class="tTabla-color">Tipo de sujeto obligado</th>
+                            <th class="tTabla-color">Sujeto obligado</th>
+                            <th class="tTabla-color">Unidad administrativa</th>
                             <th class="tTabla-color">Grupo</th>
                             <th class="tTabla-color">Estatus</th>
                             <th class="tTabla-color">Acciones</th>
@@ -48,8 +49,9 @@
                         <?php foreach ($users as $user):?>
                         <tr>
                             <td><?php echo htmlspecialchars($user->first_name . ' ' . $user->ap1 . ' ' . $user->ap2, ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?php echo htmlspecialchars($user->email, ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?php echo htmlspecialchars($user->tipo_sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($user->sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars($user->unidad, ENT_QUOTES, 'UTF-8'); ?></td>
                             <td>
                                 <?php foreach ($user->groups as $group): ?>
                                 <a href="<?php echo base_url('auth/edit_group/' . base64_encode($group->id)); ?>" class="btn btn-info btn-sm" title="Editar grupo">
