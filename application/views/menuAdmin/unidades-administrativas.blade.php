@@ -45,7 +45,7 @@
                                 <td>{{ $unidad->tipo_sujeto }}</td>
                                 <td>{{ $unidad->nombre_sujeto }}</td>
                                 <td>
-                                    <a href="{{ base_url('menu/editar_unidad/' . $unidad->ID_unidad) }}"
+                                    <a href="{{ base_url('menu/editar_unidad/' . base64_encode($unidad->ID_unidad)) }}"
                                         class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit" title="Editar unidad"></i>
                                     </a>

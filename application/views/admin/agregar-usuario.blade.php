@@ -155,7 +155,6 @@
                                         name="inputNumeroEmpleado">
                                 </div>
                             </div>
-                            <!-- Campo para subir archivos -->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputArchivo">Subir archivo</label>

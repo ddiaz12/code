@@ -232,7 +232,7 @@
                             @include('modal/unidadesHorarios')
 
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="<?php echo base_url('menu/menu_unidades'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                <button type="button" class="btn btn-secondary me-2" onclick="confirmarCancelar()">Cancelar</button>
                                 <button type="button" onclick="enviarFormulario();"
                                     class="btn btn-success btn-guardar">Actualizar</button>
                             </div>
@@ -296,6 +296,21 @@
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
+                }
+            });
+        }
+
+        function confirmarCancelar() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Los cambios no se guardarán.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url('menu/menu_unidades'); ?>';
                 }
             });
         }

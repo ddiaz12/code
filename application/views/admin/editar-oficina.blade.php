@@ -22,11 +22,8 @@
         <div class="row justify-content-center div-formOficina">
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header text-white">Editar unidad
-                        administrativa</div>
+                    <div class="card-header text-white">Editar oficina</div>
                     <div class="card-body">
-
-                        <!-- Formulario de editar unidad administrativa -->
                         <form class="row g-3" id="formOficina">
                             <input type="hidden" name="id_oficina" value="{{ $oficinas->ID_Oficina }}">
                             <div class="form-group">
@@ -235,7 +232,7 @@
                             @include('modal/oficinaHorarios')
 
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                <button type="button" class="btn btn-secondary me-2" onclick="confirmarCancelar()">Cancelar</button>
                                 <button type="button" onclick="enviarFormulario();"
                                     class="btn btn-success btn-guardar">Actualizar</button>
                             </div>
@@ -298,6 +295,21 @@
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr.responseText);
+                }
+            });
+        }
+        
+        function confirmarCancelar() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Los cambios realizados no se guardarán',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url('oficinas'); ?>';
                 }
             });
         }

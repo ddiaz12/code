@@ -46,7 +46,7 @@
                             <td><?php echo $sujeto->tipo_sujeto; ?></td>
                             <td><?php echo $sujeto->materia; ?></td>
                             <td>
-                                <a href="<?php echo base_url('menu/editar_sujeto/' . $sujeto->ID_sujeto); ?>" class="btn btn-warning btn-sm">
+                                <a href="<?php echo base_url('menu/editar_sujeto/' . base64_encode($sujeto->ID_sujeto)); ?>" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit" title="Editar sujeto"></i>
                                 </a>
                                 <button class="btn btn-danger btn-sm" data-id_sujeto="<?php echo $sujeto->ID_sujeto; ?>">

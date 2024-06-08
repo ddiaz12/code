@@ -202,13 +202,24 @@
                                     data-bs-target="#modalAgregarHorario">
                                     Agregar Horario
                                 </button>
+                                <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
+                                    data-bs-target="#modalAgregarRangoHorario">
+                                    Agregar Rango de horarios
+                                </button>
+
+                                <!-- Modal para Agregar Horarios -->
+                                @include('modal/unidadesHorarios')
+
+                                <!-- Modal para Agregar Rango de Horarios -->
+                                @include('modal/oficinaRangoHorarios')
                             </div>
 
-                            <!-- Modal para Agregar Horarios -->
-                            @include('modal/unidadesHorarios')
+                            <div class="alert alert-danger" role="alert" id="msg_error_horarios"
+                                style="display: none;"></div>
 
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="<?php echo base_url('menu/menu_unidades'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                <button type="button" class="btn btn-secondary me-2"
+                                    onclick="confirmarCancelar()">Cancelar</button>
                                 <button type="button" onclick="enviarFormulario();"
                                     class="btn btn-success btn-guardar">Guardar</button>
                             </div>
@@ -253,6 +264,14 @@
                             }
                         })
                     } else if (response.status == 'error') {
+                        $('#msg_error').hide();
+                        // Mostrar el mensaje de error específico para los horarios
+                        $('#msg_error_horarios').text(
+                            'Ha ocurrido un error en los horarios de atención. Por favor, verifica los horarios e inténtalo de nuevo.'
+                        );
+                        $('#msg_error_horarios').show();
+                        // Limpia los mensajes de error anteriores
+                        $('.text-danger').empty();
                         if (response.errores) {
                             $.each(response.errores, function(index, value) {
                                 if ($("small#msg_" + index).length) {
@@ -272,7 +291,23 @@
                 }
             });
         }
+        
+        function confirmarCancelar() {
+            Swal.fire({
+                title: '¿Estás seguro de cancelar?',
+                text: "Los cambios no se guardarán.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url('menu/menu_unidades'); ?>';
+                }
+            })
+        }
     </script>
-    <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
-    <script src="<?php echo base_url('assets/'); ?>js/agregarHorario.js"></script>
+    <script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/agregarHorario.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
 @endsection

@@ -153,7 +153,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mb-3">
-                            <a href="<?php echo base_url('auth'); ?>" class="btn btn-secondary btn-rounded me-2">Cancelar</a>
+                            <button type="button" class="btn btn-secondary me-2" onclick="confirmarCancelar()">Cancelar</button>
                             <button type="button" onclick="enviarFormulario();"
                                 class="btn btn-guardar btn-rounded">Guardar</button>
                         </div>
@@ -204,6 +204,21 @@
                 },
                 error: function() {
                     console.error('Error al procesar la solicitud.');
+                }
+            });
+        }
+
+        function confirmarCancelar() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Los cambios no se guardarán.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url('auth'); ?>';
                 }
             });
         }

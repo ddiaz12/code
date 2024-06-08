@@ -22,11 +22,8 @@
         <div class="row justify-content-center div-formOficina">
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header text-white">Editar unidad
-                        administrativa</div>
+                    <div class="card-header text-white">Editar oficina</div>
                     <div class="card-body">
-
-                        <!-- Formulario de editar unidad administrativa -->
                         <form class="row g-3" id="formOficina">
                             <input type="hidden" name="id_oficina" value="{{ $oficinas->ID_Oficina }}">
                             <div class="form-group">

@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="<?php echo base_url('auth'); ?>" class="btn btn-secondary btn-rounded me-2">Cancelar</a>
+                                <button type="button" class="btn btn-secondary me-2" onclick="confirmarCancelar()">Cancelar</button>
                                 <button type="submit" class="btn btn-guardar btn-rounded">Crear grupo</button>
                             </div>
                         <?php echo form_close(); ?>
@@ -98,5 +98,20 @@
                 });
             });
         });
+
+        function confirmarCancelar() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Los cambios no se guardarán.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url('auth'); ?>';
+                }
+            });
+        }
     </script>
 @endsection
