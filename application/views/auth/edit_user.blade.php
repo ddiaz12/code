@@ -83,9 +83,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="ap2">Apellido materno<span class="text-danger">*</span></label>
+                                <label for="ap2">Apellido materno</label>
                                 <?php echo form_input($ap2, '', ['class' => 'form-control', 'id' => 'ap2']); ?>
-                                <small id="msg_ap2" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -98,7 +97,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="phone">Teléfono</label>
-                                <?php echo form_input($phone, '', ['class' => 'form-control', 'id' => 'phone']); ?>
+                                <?php echo form_input($phone, '', ['class' => 'form-control', 'id' => 'inputNumTel']); ?>
                                 <small id="msg_phone" class="text-danger"></small>
                             </div>
                         </div>
@@ -209,4 +208,5 @@
             });
         }
     </script>
+    <script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
 @endsection

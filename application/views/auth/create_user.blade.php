@@ -80,10 +80,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="ap2">Apellido materno<span class="text-danger">*</span></label>
+                                <label for="ap2">Apellido materno</label>
                                 <input type="text" class="form-control" id="ap2" name="ap2"
-                                    placeholder="Apellido" required>
-                                <small id="msg_ap2" class="text-danger"></small>
+                                    placeholder="Apellido">
                             </div>
                         </div>
                         <?php if ($identity_column !== 'email'): ?>

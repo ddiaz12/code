@@ -89,16 +89,8 @@ class Auth extends CI_Controller
                 //redirect them back to the home page
 
                 // check user role and redirect accordingly
-                if ($this->ion_auth->in_group('admin')) {
-                    $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect('home/home_admin', 'refresh');
-                } elseif ($this->ion_auth->in_group('sujeto_obligado')) {
-                    $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect('home/home_sujeto', 'refresh');
-                } elseif ($this->ion_auth->in_group('consejeria')) {
-                    $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect('home/home_revisor', 'refresh');
-                }
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+                redirect('home', 'refresh');
 
             } else {
                 // if the login was un-successful
@@ -439,7 +431,6 @@ class Auth extends CI_Controller
         // validate form input
         $this->form_validation->set_rules('first_name', 'nombre', 'trim|required');
         $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required');
-        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|required');
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
@@ -544,7 +535,6 @@ class Auth extends CI_Controller
         // validate form input
         $this->form_validation->set_rules('first_name', 'nombre', 'trim|required');
         $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required');
-        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|required');
         $this->form_validation->set_rules('phone', 'telefono', 'trim|required');
         $this->form_validation->set_rules('ext', 'extension', 'trim');
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');

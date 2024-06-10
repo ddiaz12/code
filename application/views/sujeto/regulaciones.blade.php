@@ -3,22 +3,22 @@
     Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-    @include('templates/navbarAdmin')
+    @include('templates/navbarSujeto')
 @endsection
 @section('menu')
-    @include('templates/menuAdmin')
+    @include('templates/menuSujeto')
 @endsection
 @section('contenido')
     <div class="container-fluid px-4">
 
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_admin'); ?>"><i class="fas fa-home me-1"></i>Home</a>
+            <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Regulaciones</li>
         </ol>
         <!-- Botón para abrir otra vista -->
         <div class="d-flex justify-content-end mb-3">
-            <a href="<?php echo base_url('home/caracteristicas_regulaciones'); ?>" class="btn btn-primary btn-agregarOficina">
+            <a href="<?php echo base_url('regulaciones/caracteristicas_reg'); ?>" class="btn btn-primary btn-agregarOficina">
                 <i class="fas fa-plus-circle me-1"></i> Agregar Regulacion
             </a>
         </div>

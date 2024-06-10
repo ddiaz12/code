@@ -67,12 +67,30 @@ class Menu extends CI_Controller
 
     public function menu_guia()
     {
-        $this->blade->render('menu/guia');
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/guia');
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/guia');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/guia');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function menu_log()
     {
-        $this->blade->render('menu/log');
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/log');
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/log');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/log');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function agregar_unidades()

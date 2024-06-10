@@ -11,36 +11,19 @@ class Home extends CI_Controller {
     }
     
     public function index(){
-        $this->home_admin();
-    }
-    public function home_admin(){
-        if (!$this->ion_auth->in_group('admin')){
-            redirect('auth/login', 'refresh');
-        }
-        $this->blade->render('home/home-admin');
+        $this->home();
     }
 
-    public function home_sujeto(){
-        if (!$this->ion_auth->in_group('sujeto_obligado')) {
+    public function home(){
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('home/home-sujeto');
+        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
+            $this->blade->render('home/home-admin');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('home/home-consejeria');
+        } else {
             redirect('auth/login', 'refresh');
         }
-        
-        $this->blade->render('home/home-sujeto');
-    }
-
-    public function home_consejeria(){
-        if (!$this->ion_auth->in_group('consejeria')) {
-            redirect('auth/login', 'refresh');
-        }
-        $this->blade->render('home/home-consejeria');
-    }
-    
-
-    public function inicio($page = "inicio") {
-        if(!file_exists("application/views/" . $page. ".php")){
-            show_404();
-        }
-        $this -> load -> view($page);
     }
 
 }
