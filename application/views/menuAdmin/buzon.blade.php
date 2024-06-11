@@ -14,11 +14,14 @@
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
             </li>
-            <li class="breadcrumb-item active"><i class="fas fa-envelope me-1"></i>Enviadas</li>
+            <li class="breadcrumb-item active"><i class="fas fa-inbox me-1"></i>Buzon</li>
         </ol>
         <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
         <!-- Botón para abrir otra vista -->
         <div class="d-flex justify-content-end mb-3">
+            <a href="<?php echo base_url('regulaciones/caracteristicas_reg'); ?>" class="btn btn-primary btn-guardar">
+                <i class="fas fa-plus-circle me-1"></i> Agregar Regulacion
+            </a>
             <a href="<?php echo base_url(''); ?>" class="btn btn-primary btn-guardar">
                 <i class="fas fa-download me-1"></i> Descargar excel
             </a>
@@ -30,9 +33,12 @@
                     <thead>
                         <tr>
                             <th class="tTabla-color">Id</th>
+                            <th class="tTabla-color">Envio</th>
                             <th class="tTabla-color">Nombre</th>
                             <th class="tTabla-color">Homoclave</th>
                             <th class="tTabla-color">Estatus</th>
+                            <th class="tTabla-color">Tipo</th>
+                            <th class="tTabla-color">Vigencia</th>
                             <th class="tTabla-color">Acciones</th>
                         </tr>
                     </thead>

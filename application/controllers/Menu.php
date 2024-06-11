@@ -93,6 +93,19 @@ class Menu extends CI_Controller
         }
     }
 
+    public function menu_buzon(){
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/buzon');
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/buzon');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/buzon');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
+    }
+
     public function agregar_unidades()
     {
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();

@@ -68,7 +68,7 @@
 @endsection
 
 @section('js')
-<script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
     <script>
         $(document).ready(function() {
             $('.btn-danger').click(function() {
