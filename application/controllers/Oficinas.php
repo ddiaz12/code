@@ -179,6 +179,10 @@ class Oficinas extends CI_Controller
     public function editar($encoded_id)
     {
         $id = base64_decode($encoded_id);
+        if (!is_numeric($id)) {
+            // Redirige a la página de autenticación si el ID no es un número
+            redirect('auth', 'refresh');
+        }
         $data['oficinas'] = $this->OficinaModel->getOficinaEditar($id);
         $data['horarios'] = $this->OficinaModel->getHorariosOficina($id);
         $data['sujetos'] = $this->OficinaModel->getSujetosObligados();

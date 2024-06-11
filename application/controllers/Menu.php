@@ -229,6 +229,10 @@ class Menu extends CI_Controller
     public function editar_unidad($encoded_id)
     {
         $id = base64_decode($encoded_id);
+        if (!is_numeric($id)) {
+            // Redirige a la página de autenticación si el ID no es un número
+            redirect('auth', 'refresh');
+        }
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();

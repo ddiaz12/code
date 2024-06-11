@@ -624,7 +624,7 @@ class Auth extends CI_Controller
                 ];
                 $this->data['phone'] = [
                     'name' => 'phone',
-                    'id' => 'phone',
+                    'id' => 'inputNumTel',
                     'type' => 'text',
                     'value' => $this->form_validation->set_value('phone', $user->phone),
                 ];
@@ -725,6 +725,11 @@ class Auth extends CI_Controller
     public function edit_group($encoded_id)
     {
         $id = base64_decode($encoded_id);
+
+        if (!is_numeric($id)) {
+            // Redirige a la página de autenticación si el ID no es un número
+            redirect('auth', 'refresh');
+        }
         // Verificar si se proporcionó un ID de grupo
         if (!$id || empty($id)) {
             redirect('auth', 'refresh');
