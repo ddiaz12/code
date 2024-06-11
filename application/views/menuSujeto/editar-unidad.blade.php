@@ -3,15 +3,15 @@
     Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-    @include('templates/navbarSujeto')
+    @include('templates/navbarAdmin')
 @endsection
 @section('menu')
-    @include('templates/menuSujeto')
+    @include('templates/menuAdmin')
 @endsection
 @section('contenido')
     <!-- Contenido -->
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i class="fas fa-home me-1"></i>Home</a>
+        <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
         </li>
         <li class="breadcrumb-item"><a href="<?php echo base_url('menu/menu_unidades'); ?>"><i class="fas fa-cogs me-1"></i>Unidades
                 administrativas</a></li>
@@ -232,7 +232,7 @@
                             @include('modal/unidadesHorarios')
 
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="<?php echo base_url('menu/menu_unidades'); ?>" class="btn btn-secondary me-2">Cancelar</a>
+                                <button type="button" class="btn btn-secondary me-2" onclick="confirmarCancelar()">Cancelar</button>
                                 <button type="button" onclick="enviarFormulario();"
                                     class="btn btn-success btn-guardar">Actualizar</button>
                             </div>
@@ -299,7 +299,22 @@
                 }
             });
         }
+
+        function confirmarCancelar() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Los cambios no se guardarán.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, continuar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url('menu/menu_unidades'); ?>';
+                }
+            });
+        }
     </script>
-    <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
-    <script src="<?php echo base_url('assets/'); ?>js/eliminarHorario.js"></script>
+    <script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/eliminarHorario.js'); ?>"></script>
 @endsection

@@ -1,7 +1,7 @@
 <nav class="sb-topnav navbar navbar-expand navbar-custom" id="navbarhome">
     <!-- Navbar Brand-->
     <div class="div-escudo">
-        <a class="navbar-brand" href="<?php echo base_url('home/home_revisor'); ?>">
+        <a class="navbar-brand" href="<?php echo base_url('home'); ?>">
             <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" alt="Escudo del gobierno del estado" id="logo">
         </a>
     </div>
