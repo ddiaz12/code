@@ -13,7 +13,7 @@
     <!-- Contenido -->
     <div class="container-fluid px-4">
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_admin'); ?>"><i class="fas fa-home me-1"></i>Home</a>
+            <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active"><i class="fas fa-users me-1"></i><?php echo lang('index_heading'); ?></li>
         </ol>

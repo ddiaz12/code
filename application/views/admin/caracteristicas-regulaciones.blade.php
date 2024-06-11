@@ -45,27 +45,26 @@
                             <div class="card-body" style="border: none;">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="http://localhost/code-main/home/caracteristicas_reg" class="custom-link">
+                                        <a href="<?php echo base_url('regulaciones/caracteristicas_reg'); ?>" class="custom-link">
                                             <i class="fa-solid fa-list-check"></i>
                                             <label for="image_1">Características de la Regulación</label>
                                         </a>
                                     </li>
                                     <p></p>
                                     <li>
-                                        <a href="http://localhost/code-main/home/mat_exentas" class="custom-link">
+                                        <a href="<?php echo base_url('regulaciones/mat_exentas'); ?>" class="custom-link">
                                             <i class="fa-solid fa-table-list"></i>
                                             <label for="image_2">Materias Exentas</label>
                                         </a>
                                     </li>
                                     <p></p>
                                     <li>
-                                        <a href="http://localhost/code-main/home/nat_regulaciones" class="custom-link">
+                                        <a href="<?php echo base_url('regulaciones/nat_regulaciones'); ?>" class="custom-link">
                                             <i class="fa-solid fa-book"></i>
                                             <label for="image_3">Naturaleza de la Regulación</label>
                                         </a>
                                     </li>
                                 </ul>
-
                             </div>
                         </div>
                     </div>
@@ -237,9 +236,6 @@
             </div>
         </div>
     </div>
-@endsection
-@section('footer')
-    @include('templates/footer')
 @endsection
 @section('js')
     <script>
