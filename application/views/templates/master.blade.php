@@ -49,15 +49,16 @@
     <script>
         var timeout;
         var timerElement = document.getElementById('timer');
-        var timeLeft = 59 * 60; // 59 minutes in seconds
+        var timeLeft = 10 * 60; // 10 minutes in seconds
 
         function logout() {
+            alert('Tu sesión ha expirado. Serás redirigido a la página de inicio de sesión.');
             window.location.href = '<?= base_url('auth/logout') ?>';
         }
 
         function resetTimer() {
             clearTimeout(timeout);
-            timeLeft = 59 * 60; // Reset the time left to 59 minutes
+            timeLeft = 10 * 60; // Reset the time left to 10 minutes
             timeout = setTimeout(logout, timeLeft * 1000);
         }
 

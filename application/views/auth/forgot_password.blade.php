@@ -14,14 +14,18 @@
                               <div class="small mb-3 text-muted">Enter your email address and we will send you a link to
                                     reset your
                                     password.</div>
+                              @if ($message)
+                              <div class="alert alert-danger">
+                                    {{ $message }}
+                              </div>
+                              @endif
                               <?php echo form_open('auth/forgot_password'); ?>
                               <div class="form-floating mb-3">
-                                    <input class="form-control" type="text" name="identity" id="identity"
-                                          value="<?php echo set_value('identity'); ?>" placeholder="name@example.com" />
-                                    <label for="identity">Email address</label>
+                                    <input class="form-control" type="text" name="identity" id="identity" value="<?php echo set_value('identity'); ?>" placeholder="name@example.com" />
+                                    <label for="identity">Correo electronico</label>
                               </div>
                               <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                    <a class="small" href="<?php echo base_url('auth/login'); ?>">Return to login</a>
+                                    <a class="small" href="<?php echo base_url('auth/login'); ?>">Regresar a inicio de sesion</a>
                                     <button type="submit" class="btn btn-primary">Reset Password</button>
                               </div>
                               <?php echo form_close(); ?>

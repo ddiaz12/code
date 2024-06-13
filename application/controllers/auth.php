@@ -209,9 +209,9 @@ class Auth extends CI_Controller
 
         // setting validation rules by checking whether identity is username or email
         if ($this->config->item('identity', 'ion_auth') != 'email') {
-            $this->form_validation->set_rules('identity', $this->lang->line('forgot_password_identity_label'), 'required');
+            $this->form_validation->set_rules('identity', 'correo electronico', 'required');
         } else {
-            $this->form_validation->set_rules('identity', $this->lang->line('forgot_password_validation_email_label'), 'required|valid_email');
+            $this->form_validation->set_rules('identity', 'correo electronico' , 'required|valid_email');
         }
 
 
@@ -237,15 +237,9 @@ class Auth extends CI_Controller
             $identity = $this->ion_auth->where($identity_column, $this->input->post('identity'))->users()->row();
 
             if (empty($identity)) {
-
-                if ($this->config->item('identity', 'ion_auth') != 'email') {
-                    $this->ion_auth->set_error('forgot_password_identity_not_found');
-                } else {
-                    $this->ion_auth->set_error('forgot_password_email_not_found');
-                }
-
-                $this->session->set_flashdata('message', $this->ion_auth->errors());
-                redirect("auth/forgot_password", 'refresh');
+                // Email does not exist in the system
+                $this->session->set_flashdata('message', 'El correo no esta registrado.');
+                redirect("auth/forgot_password");
             }
 
             // run the forgotten password method to email an activation code to the user
@@ -253,8 +247,8 @@ class Auth extends CI_Controller
 
             if ($forgotten) {
                 // if there were no errors
-                $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect("auth/login", 'refresh'); //we should display a confirmation page here instead of the login page
+                $this->session->set_flashdata('message', 'Se ha enviado un correo con tu nueva contraseña.');
+                redirect("auth/login"); //we should display a confirmation page here instead of the login page
             } else {
                 $this->session->set_flashdata('message', $this->ion_auth->errors());
                 redirect("auth/forgot_password", 'refresh');
