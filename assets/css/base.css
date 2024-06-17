@@ -13,6 +13,11 @@ h1, .h1 {
 	font-weight: 600;
 }
 
+h3, .h3 {
+	font-weight: 500;
+	font-size: 24px;
+}
+
 .navbar-custom {
 	background-color: #612233;
 }
@@ -33,6 +38,17 @@ h1, .h1 {
 
 .nav-link {
 	color: #b69664;
+}
+
+.temporizador {
+	color: #ffffff;
+	padding: 7px 10px 0 0;
+}
+
+.user-email{
+	color: #ffffff;
+	padding: 6px 0px 0 10px;
+	text-decoration: underline;
 }
 
 #sidenavAccordion {
@@ -68,7 +84,7 @@ h1, .h1 {
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
-	padding-left: 150px;
+	padding-left: 130px;
 	top: 56px;
 }
 
@@ -165,6 +181,11 @@ h1, .h1 {
 	--bs-btn-active-bg: #7f2841;
 	--bs-btn-active-color: white;
 	color: white;
+}
+
+.btn-agregarGrupo{
+	--bs-btn-hover-bg: #7f2841;
+	margin-right: 20px;
 }
 
 .btn-agregarUsuario,

@@ -19,14 +19,15 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
     <script src="<?php echo base_url('assets/'); ?>js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="sb-nav-fixed cuerpo-sujeto">
     <!-- Navbar -->
-    @include('templates/navbar')
+    @yield('navbar')
     <!-- Navbar -->
     <div id="layoutSidenav">
         <!-- Menu -->
@@ -45,6 +46,35 @@
     </div>
     <!-- Aquí cargamos los scripts JS -->
     @yield('js')
+    <script>
+        var timeout;
+        var timerElement = document.getElementById('timer');
+        var timeLeft = 10 * 60; // 10 minutes in seconds
+
+        function logout() {
+            alert('Tu sesión ha expirado. Serás redirigido a la página de inicio de sesión.');
+            window.location.href = '<?= base_url('auth/logout') ?>';
+        }
+
+        function resetTimer() {
+            clearTimeout(timeout);
+            timeLeft = 10 * 60; // Reset the time left to 10 minutes
+            timeout = setTimeout(logout, timeLeft * 1000);
+        }
+
+        // Detect user interaction and reset the timer
+        window.onload = resetTimer;
+        document.onmousemove = resetTimer;
+        document.onkeypress = resetTimer;
+
+        // Update the timer every second
+        setInterval(function() {
+            timeLeft--;
+            var minutes = Math.floor(timeLeft / 60);
+            var seconds = timeLeft % 60;
+            timerElement.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        }, 1000);
+    </script>
 </body>
 
 </html>

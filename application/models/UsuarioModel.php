@@ -51,6 +51,18 @@ class UsuarioModel extends CI_Model
         return $query->result();
     }
 
+    public function getPorUsuario($user)
+    {
+        $this->db->select('users.*, cat_tipo_sujeto_obligado.tipo_sujeto, cat_sujeto_obligado.nombre_sujeto, cat_unidad_administrativa.nombre');
+        $this->db->from('users');
+        $this->db->join('cat_tipo_sujeto_obligado', 'users.id_tipoSujeto = cat_tipo_sujeto_obligado.ID_tipoSujeto');
+        $this->db->join('cat_sujeto_obligado', 'users.id_sujeto = cat_sujeto_obligado.ID_sujeto');
+        $this->db->join('cat_unidad_administrativa', 'users.id_unidad = cat_unidad_administrativa.ID_unidad');
+        $this->db->where('users.id', $user);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     public function getUnidadesAdministrativas()
     {
         $query = $this->db->get('cat_unidad_administrativa');

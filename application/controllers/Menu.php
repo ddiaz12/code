@@ -8,10 +8,10 @@ class Menu extends CI_Controller
         parent::__construct();
         $this->load->model('MenuModel');
         $this->load->library('form_validation');
-        if(!$this->ion_auth->logged_in()){
+        if (!$this->ion_auth->logged_in()) {
             print_r($this->ion_auth->logged_in());
             redirect('auth/login', 'refresh');
-        }   
+        }
     }
 
     public function index()
@@ -21,29 +21,89 @@ class Menu extends CI_Controller
 
     public function menu_enviadas()
     {
-        $this->blade->render('menu/enviadas');
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/enviadas');
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/enviadas');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/enviadas');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function menu_sujeto()
     {
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
-        $this->blade->render('menu/sujeto-obligado', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/sujeto-obligado', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/sujeto-obligado', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/sujeto-obligado', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function menu_unidades()
     {
         $data['unidades'] = $this->MenuModel->getUnidadesAdministrativas();
-        $this->blade->render('menu/unidades-administrativas', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/unidades-administrativas', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/unidades-administrativas', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/unidades-administrativas', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function menu_guia()
     {
-        $this->blade->render('menu/guia');
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/guia');
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/guia');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/guia');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function menu_log()
     {
-        $this->blade->render('menu/log');
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/log');
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/log');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/log');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
+    }
+
+    public function menu_buzon(){
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/buzon');
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/buzon');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/buzon');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function agregar_unidades()
@@ -52,7 +112,17 @@ class Menu extends CI_Controller
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();
         $data['localidades'] = $this->MenuModel->getCatLocalidades();
-        $this->blade->render('menu/agregar-unidad', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/agregar-unidad', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/agregar-unidad', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/agregar-unidad', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function insertar_unidad()
@@ -99,6 +169,7 @@ class Menu extends CI_Controller
             $email = $this->input->post('email');
             $notas = $this->input->post('notas');
             $checkboxOficina = $this->input->post('checkboxOficina');
+            $horarios_ = $this->input->post('horarios');
 
             $data = array(
                 'ID_sujeto' => $sujeto,
@@ -120,6 +191,21 @@ class Menu extends CI_Controller
                 'checkOficina' => $checkboxOficina == 'on' ? '1' : '0',
             );
 
+            if (!empty($horarios_)) {
+                $horarios = json_decode($horarios_);
+                foreach ($horarios as $horario) {
+                    $aperturas = $horario->apertura;
+                    $cierres = $horario->cierre;
+
+                    // Si falta algún dato de apertura o cierre, mostrar mensaje de error
+                    if (empty($aperturas) || empty($cierres)) {
+                        $response = array('status' => 'error', 'message' => 'Falta información en los campos de apertura o cierre.');
+                        echo json_encode($response);
+                        return;
+                    }
+                }
+            }
+
             $id_unidad = $this->MenuModel->insertar_unidad($data);
 
             // Insertar los horarios de la unidad administrativa
@@ -139,7 +225,6 @@ class Menu extends CI_Controller
                 }
             }
 
-
             $response = array('status' => 'success', 'redirect_url' => 'menu_unidades');
             echo json_encode($response);
         } else {
@@ -154,15 +239,30 @@ class Menu extends CI_Controller
 
     }
 
-    public function editar_unidad($id)
+    public function editar_unidad($encoded_id)
     {
+        $id = base64_decode($encoded_id);
+        if (!is_numeric($id)) {
+            // Redirige a la página de autenticación si el ID no es un número
+            redirect('auth', 'refresh');
+        }
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();
         $data['localidades'] = $this->MenuModel->getCatLocalidades();
         $data['unidades'] = $this->MenuModel->getUnidad($id);
         $data['horarios'] = $this->MenuModel->obtenerHorariosUnidad($id);
-        $this->blade->render('menu/editar-unidad', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/editar-unidad', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/editar-unidad', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/editar-unidad', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function actualizar_unidad()
@@ -197,6 +297,7 @@ class Menu extends CI_Controller
             $email = $this->input->post('email');
             $notas = $this->input->post('notas');
             $checkboxOficina = $this->input->post('checkboxOficina');
+            $horarios_ = $this->input->post('horarios');
 
             $data = array(
                 'ID_sujeto' => $sujeto,
@@ -229,8 +330,6 @@ class Menu extends CI_Controller
                 }
             }
 
-
-            $horarios_ = $this->input->post('horarios');
             if (!empty($horarios_)) {
                 $horarios = json_decode($horarios_);
                 foreach ($horarios as $horario) {
@@ -258,7 +357,17 @@ class Menu extends CI_Controller
     public function agregar_sujeto()
     {
         $data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
-        $this->blade->render('menu/agregar-sujeto', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/agregar-sujeto', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/agregar-sujeto', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/agregar-sujeto', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function insertar_SujetoObligado()
@@ -312,11 +421,23 @@ class Menu extends CI_Controller
         }
     }
 
-    public function editar_sujeto($id)
+    public function editar_sujeto($encoded_id)
     {
+        $id = base64_decode($encoded_id);
+        
         $data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
         $data['sujeto'] = $this->MenuModel->getSujeto($id);
-        $this->blade->render('menu/editar-sujeto', $data);
+
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('menuSujeto/editar-sujeto', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/editar-sujeto', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuSupervisor/editar-sujeto', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function eliminar_sujeto($id)
@@ -324,7 +445,8 @@ class Menu extends CI_Controller
         $this->MenuModel->eliminarSujeto($id);
     }
 
-    public function actualizar_sujeto(){
+    public function actualizar_sujeto()
+    {
         $this->form_validation->set_rules(
             'inputSujetos',
             'Sujeto obligado',
@@ -348,7 +470,7 @@ class Menu extends CI_Controller
             array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
         );
 
-        if($this->form_validation->run() != FALSE){
+        if ($this->form_validation->run() != FALSE) {
             $id_sujeto = $this->input->post('ID_sujeto');
             $tipo = $this->input->post('TipoSujeto');
             $sujeto = $this->input->post('inputSujetos');
@@ -368,8 +490,9 @@ class Menu extends CI_Controller
 
             $response = array('status' => 'success');
             echo json_encode($response);
-        }else{
+        } else {
             $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
-            echo json_encode($response);}
+            echo json_encode($response);
+        }
     }
 }

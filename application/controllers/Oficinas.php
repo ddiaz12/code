@@ -8,10 +8,10 @@ class Oficinas extends CI_Controller
         parent::__construct();
         $this->load->model('OficinaModel');
         $this->load->library('form_validation');
-        if(!$this->ion_auth->logged_in()){
+        if (!$this->ion_auth->logged_in()) {
             print_r($this->ion_auth->logged_in());
             redirect('auth/login', 'refresh');
-        }   
+        }
     }
 
     public function index()
@@ -26,9 +26,9 @@ class Oficinas extends CI_Controller
         // Verifica el grupo del usuario y redirige a la vista correspondiente
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/oficinas', $data);
-        } elseif($this->ion_auth->in_group('sedeco')){
-            $this->blade->render('revisor/oficinas', $data);
-        } elseif($this->ion_auth->in_group('consejeria')) {
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('admin/oficinas', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/oficinas', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
@@ -43,7 +43,18 @@ class Oficinas extends CI_Controller
         $data['vialidades'] = $this->OficinaModel->getCatVialidades();
         $data['municipios'] = $this->OficinaModel->getCatMunicipios();
         $data['localidades'] = $this->OficinaModel->getCatLocalidades();
-        $this->blade->render('sujeto/agregar-oficina', $data);
+
+        // Verifica el grupo del usuario y redirige a la vista correspondiente
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/agregar-oficina', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('admin/agregar-oficina', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/agregar-oficina', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function insertar()
@@ -124,6 +135,23 @@ class Oficinas extends CI_Controller
                 'Notas' => $notas,
             );
 
+            // Verificar que los horarios estén completos antes de insertar la oficina
+            if (!empty($horarios_)) {
+                $horarios = json_decode($horarios_);
+                foreach ($horarios as $horario) {
+                    $aperturas = $horario->apertura;
+                    $cierres = $horario->cierre;
+
+                    // Si falta algún dato de apertura o cierre, mostrar mensaje de error
+                    if (empty($aperturas) || empty($cierres)) {
+                        $response = array('status' => 'error', 'message' => 'Falta información en los campos de apertura o cierre.');
+                        echo json_encode($response);
+                        return;
+                    }
+                }
+            }
+
+            // Insertar la oficina después de validar los horarios
             $id_oficina = $this->OficinaModel->insertar_oficina($data);
 
             if (!empty($horarios_)) {
@@ -139,6 +167,7 @@ class Oficinas extends CI_Controller
                     $this->OficinaModel->asociar_oficina_horario($id_oficina, $id_horario);
                 }
             }
+            
             $response = array('status' => 'success', 'redirect_url' => 'index');
             echo json_encode($response);
         } else {
@@ -147,8 +176,13 @@ class Oficinas extends CI_Controller
         }
     }
 
-    public function editar($id)
+    public function editar($encoded_id)
     {
+        $id = base64_decode($encoded_id);
+        if (!is_numeric($id)) {
+            // Redirige a la página de autenticación si el ID no es un número
+            redirect('auth', 'refresh');
+        }
         $data['oficinas'] = $this->OficinaModel->getOficinaEditar($id);
         $data['horarios'] = $this->OficinaModel->getHorariosOficina($id);
         $data['sujetos'] = $this->OficinaModel->getSujetosObligados();
@@ -156,7 +190,18 @@ class Oficinas extends CI_Controller
         $data['vialidades'] = $this->OficinaModel->getCatVialidades();
         $data['municipios'] = $this->OficinaModel->getCatMunicipios();
         $data['localidades'] = $this->OficinaModel->getCatLocalidades();
-        $this->blade->render('sujeto/editar-oficina', $data);
+
+        // Verifica el grupo del usuario y redirige a la vista correspondiente
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/editar-oficina', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('admin/editar-oficina', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/editar-oficina', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
 
