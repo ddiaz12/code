@@ -22,7 +22,7 @@
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <!-- Timer -->
         <li id="timer" class="nav-item temporizador">
-            59:00
+            10:00
         </li>
         <!-- Timer -->
         <li class="nav-item">
