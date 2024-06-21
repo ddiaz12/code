@@ -16,9 +16,10 @@ class Auth extends CI_Controller
         $this->load->library(['ion_auth', 'form_validation']);
         $this->load->helper(['url', 'language']);
         $this->load->model('UsuarioModel');
+        $this->load->helper('form');
+        $this->load->library('ftp');
 
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
-
         $this->lang->load('auth');
     }
 
@@ -26,42 +27,42 @@ class Auth extends CI_Controller
      * Redirect if needed, otherwise display the user list
      */
     public function index()
-{
-    if (!$this->ion_auth->logged_in()) {
-        // Redirige a la página de login
-        redirect('auth/login', 'refresh');
-    } else if (!$this->ion_auth->is_admin()) {
-        show_error('You must be an administrator to view this page.');
-    } else {
-        $this->data['title'] = $this->lang->line('index_heading');
+    {
+        if (!$this->ion_auth->logged_in()) {
+            // Redirige a la página de login
+            redirect('auth/login', 'refresh');
+        } else if (!$this->ion_auth->is_admin()) {
+            show_error('You must be an administrator to view this page.');
+        } else {
+            $this->data['title'] = $this->lang->line('index_heading');
 
-        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-        // Obtén los usuarios desde Ion Auth
-        $users = $this->ion_auth->users()->result();
+            // Obtén los usuarios desde Ion Auth
+            $users = $this->ion_auth->users()->result();
 
-        // Para cada usuario, obtén la información adicional y agrégala
-        foreach ($users as $k => $user) {
-            // Agrega grupos al usuario
-            $user->groups = $this->ion_auth->get_users_groups($user->id)->result();
-            // Agrega información adicional al usuario
-            $additionalInfo = $this->UsuarioModel->getPorUsuario($user->id);
+            // Para cada usuario, obtén la información adicional y agrégala
+            foreach ($users as $k => $user) {
+                // Agrega grupos al usuario
+                $user->groups = $this->ion_auth->get_users_groups($user->id)->result();
+                // Agrega información adicional al usuario
+                $additionalInfo = $this->UsuarioModel->getPorUsuario($user->id);
 
-            if ($additionalInfo) {
-                $user->tipo_sujeto = $additionalInfo->tipo_sujeto;
-                $user->sujeto = $additionalInfo->nombre_sujeto;
-                $user->unidad = $additionalInfo->nombre;
-            } else {
-                $user->tipo_sujeto = 'No especificado';
-                $user->sujeto = 'No especificado';
-                $user->unidad = 'No especificado';
+                if ($additionalInfo) {
+                    $user->tipo_sujeto = $additionalInfo->tipo_sujeto;
+                    $user->sujeto = $additionalInfo->nombre_sujeto;
+                    $user->unidad = $additionalInfo->nombre;
+                } else {
+                    $user->tipo_sujeto = 'No especificado';
+                    $user->sujeto = 'No especificado';
+                    $user->unidad = 'No especificado';
+                }
+                $this->data['users'][$k] = $user;
             }
-            $this->data['users'][$k] = $user;
-        }
 
-        $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'index', $this->data);
+            $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'index', $this->data);
+        }
     }
-}
 
 
     /**
@@ -211,7 +212,7 @@ class Auth extends CI_Controller
         if ($this->config->item('identity', 'ion_auth') != 'email') {
             $this->form_validation->set_rules('identity', 'correo electronico', 'required');
         } else {
-            $this->form_validation->set_rules('identity', 'correo electronico' , 'required|valid_email');
+            $this->form_validation->set_rules('identity', 'correo electronico', 'required|valid_email');
         }
 
 
@@ -404,10 +405,7 @@ class Auth extends CI_Controller
     /**
      * Create a new user
      */
-    public function create_user()
-    {
-        $this->data['title'] = $this->lang->line('create_user_heading');
-
+    public function create_user() {
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             if ($this->input->is_ajax_request()) {
                 echo json_encode(['status' => 'error', 'message' => 'No está autorizado para realizar esta acción.']);
@@ -421,15 +419,14 @@ class Auth extends CI_Controller
         $identity_column = $this->config->item('identity', 'ion_auth');
         $this->data['identity_column'] = $identity_column;
 
-
-        // validate form input
+        // Validación del formulario
         $this->form_validation->set_rules('first_name', 'nombre', 'trim|required');
         $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required');
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
-        $this->form_validation->set_rules('fecha', 'fecha alta en el cargo' , 'trim|required');
-        
+        $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
+
         if ($identity_column !== 'email') {
             $this->form_validation->set_rules('identity', 'correo', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
             $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email');
@@ -441,6 +438,7 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
 
+        // Validación de formulario
         if ($this->form_validation->run() === TRUE) {
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
@@ -455,18 +453,54 @@ class Auth extends CI_Controller
                 'id_unidad' => $this->input->post('unidades'),
                 'ext' => $this->input->post('ext'),
                 'phone' => $this->input->post('phone'),
-                'fecha_cargo' => $this->input->post('fecha')
+                'fecha_cargo' => $this->input->post('fecha'),
             ];
 
+            // Intentar registrar al usuario
             if ($this->ion_auth->register($identity, $password, $email, $additional_data)) {
+                // Subir el archivo por FTP
+                $config['hostname'] = '192.168.31.18'; // Configura tu hostname de FTP
+                $config['username'] = 'test-site'; // Configura tu nombre de usuario de FTP
+                $config['password'] = '*2JMjM7-IQ'; // Configura tu contraseña de FTP
+
+                $this->ftp->connect($config);
+
+                // Directorio de destino en el servidor FTP
+                $upload_path = 'assets/ftp/';
+
+                // Nombre del archivo en el servidor
+                $file_name = $_FILES['userfile']['name'];
+                $file_tmp = $_FILES['userfile']['tmp_name'];
+
+                // Subir el archivo al servidor FTP
+                if ($this->ftp->upload($file_tmp, $upload_path . $file_name, 'auto')) {
+                    // Archivo subido exitosamente, devuelve respuesta JSON de éxito
+                    $response = [
+                        'status' => 'success',
+                        'message' => $this->ion_auth->messages(),
+                        'redirect_url' => base_url('auth')
+                    ];
+                    echo json_encode($response);
+                } else {
+                    // Error al subir archivo por FTP
+                    $response = [
+                        'status' => 'error',
+                        'message' => 'Error al subir el archivo por FTP.'
+                    ];
+                    echo json_encode($response);
+                }
+
+                $this->ftp->close(); // Cierra la conexión FTP
+            } else {
+                // Error al registrar al usuario
                 $response = [
-                    'status' => 'success',
-                    'message' => $this->ion_auth->messages(),
-                    'redirect_url' => base_url('auth')
+                    'status' => 'error',
+                    'message' => $this->ion_auth->errors()
                 ];
                 echo json_encode($response);
             }
         } else {
+            // Validación del formulario fallida
             if ($this->input->is_ajax_request()) {
                 $response = [
                     'status' => 'error',
@@ -474,15 +508,17 @@ class Auth extends CI_Controller
                 ];
                 echo json_encode($response);
             } else {
+                // Cargar datos necesarios para la vista
                 $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
                 $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
                 $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
 
-                // set the flash data error message if there is one
+                // Mostrar vista con errores de validación
                 $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'create_user', $this->data);
             }
         }
     }
+
 
     /**
      * Redirect a user checking if is admin
@@ -534,7 +570,7 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
-        $this->form_validation->set_rules('fecha', 'fecha alta en el cargo' , 'trim|required');
+        $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
 
         if ($this->input->post('password')) {
             $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');

@@ -25,7 +25,7 @@
                     <div class="card-header header-usuario text-white">Agregar Usuario</div>
                     <div class="card-body">
                         <div id="infoMessage"></div>
-                        <?php echo form_open('auth/create_user', ['class' => 'row g-3', 'id' => 'formUsuarios']); ?>
+                        <?php echo form_open_multipart('auth/create_user', ['class' => 'row g-3', 'id' => 'formUsuarios']); ?>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
@@ -147,7 +147,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="file">Archivo</label>
-                                <input type="file" class="form-control" id="file" name="file">
+                                <input type="file" class="form-control" id="userfile" name="userfile" required>
                                 <small id="msg_file" class="text-danger"></small>
                             </div>
                         </div>
@@ -165,16 +165,18 @@
 @endsection
 
 @section('js')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
     <script>
         function enviarFormulario() {
-            var sendData = $('#formUsuarios').serialize();
+            var formData = new FormData($('#formUsuarios')[0]);
+
             $.ajax({
                 url: '<?php echo base_url('auth/create_user'); ?>',
                 type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
                 dataType: 'json',
-                data: sendData,
                 success: function(response) {
                     if (response.status == 'success') {
                         Swal.fire(
@@ -206,6 +208,7 @@
                 }
             });
         }
+
 
         function confirmarCancelar() {
             Swal.fire({
