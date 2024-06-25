@@ -34,7 +34,7 @@ class Ftp extends CI_Controller {
             $data = $this->upload->data();
 
             // Configuración del servidor FTP
-            $ftp_config['hostname'] = '192.168.31.18';
+            $ftp_config['hostname'] = '192.168.31.19';
             $ftp_config['username'] = 'test-site';
             $ftp_config['password'] = '*2JMjM7-IQ';
             $ftp_config['port'] = 21;

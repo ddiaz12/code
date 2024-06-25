@@ -1,4 +1,8 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php
+
+use SebastianBergmann\Environment\Console;
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Class Auth
@@ -13,11 +17,9 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->database();
-        $this->load->library(['ion_auth', 'form_validation']);
-        $this->load->helper(['url', 'language']);
+        $this->load->library(['ion_auth', 'form_validation', 'ftp']);
+        $this->load->helper(['url', 'language', 'form']);
         $this->load->model('UsuarioModel');
-        $this->load->helper('form');
-        $this->load->library('ftp');
 
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
@@ -405,7 +407,8 @@ class Auth extends CI_Controller
     /**
      * Create a new user
      */
-    public function create_user() {
+    public function create_user()
+    {
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             if ($this->input->is_ajax_request()) {
                 echo json_encode(['status' => 'error', 'message' => 'No está autorizado para realizar esta acción.']);
@@ -440,26 +443,44 @@ class Auth extends CI_Controller
 
         // Validación de formulario
         if ($this->form_validation->run() === TRUE) {
-            $email = strtolower($this->input->post('email'));
-            $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
-            $password = $this->input->post('password');
 
-            $additional_data = [
-                'first_name' => $this->input->post('first_name'),
-                'ap1' => $this->input->post('last_name'),
-                'ap2' => $this->input->post('ap2'),
-                'id_tipoSujeto' => $this->input->post('tipoSujeto'),
-                'id_sujeto' => $this->input->post('sujetos'),
-                'id_unidad' => $this->input->post('unidades'),
-                'ext' => $this->input->post('ext'),
-                'phone' => $this->input->post('phone'),
-                'fecha_cargo' => $this->input->post('fecha'),
-            ];
+            $file_path = null;
 
-            // Intentar registrar al usuario
-            if ($this->ion_auth->register($identity, $password, $email, $additional_data)) {
-                // Subir el archivo por FTP
-                $config['hostname'] = '192.168.31.18'; // Configura tu hostname de FTP
+            // Validación y subida del archivo
+            if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
+                $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
+                if (!in_array($_FILES['userfile']['type'], $allowed_types)) {
+                    $response = [
+                        'status' => 'error',
+                        'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'
+                    ];
+                    echo json_encode($response);
+                    return;
+                }
+
+                // Validación del archivo
+                /*
+                if (!isset($_FILES['userfile']) || $_FILES['userfile']['error'] == UPLOAD_ERR_NO_FILE) {
+                    $response = [
+                        'status' => 'error',
+                        'file_error' => 'El archivo está vacío. Por favor, seleccione un archivo para subir.'
+                    ];
+                    echo json_encode($response);
+                    return;
+                }
+
+                $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
+                if (!in_array($_FILES['userfile']['type'], $allowed_types)) {
+                    $response = [
+                        'status' => 'error',
+                        'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'
+                    ];
+                    echo json_encode($response);
+                    return;
+                }
+                */
+                // Subir el archivo por FTP antes de registrar el usuario
+                $config['hostname'] = '192.168.100.20'; // Configura tu hostname de FTP
                 $config['username'] = 'test-site'; // Configura tu nombre de usuario de FTP
                 $config['password'] = '*2JMjM7-IQ'; // Configura tu contraseña de FTP
 
@@ -474,23 +495,52 @@ class Auth extends CI_Controller
 
                 // Subir el archivo al servidor FTP
                 if ($this->ftp->upload($file_tmp, $upload_path . $file_name, 'auto')) {
-                    // Archivo subido exitosamente, devuelve respuesta JSON de éxito
-                    $response = [
-                        'status' => 'success',
-                        'message' => $this->ion_auth->messages(),
-                        'redirect_url' => base_url('auth')
-                    ];
-                    echo json_encode($response);
+                    // Archivo subido exitosamente, proceder con el registro del usuario
+
+                    $file_path = $upload_path . $file_name;
+
+
                 } else {
                     // Error al subir archivo por FTP
                     $response = [
                         'status' => 'error',
-                        'message' => 'Error al subir el archivo por FTP.'
+                        'message' => 'Error al subir el archivo por FTP.',
+                        'file_error' => 'No se pudo subir el archivo. Por favor, inténtelo de nuevo.'
                     ];
                     echo json_encode($response);
+                    return;
                 }
 
                 $this->ftp->close(); // Cierra la conexión FTP
+            }
+
+            $email = strtolower($this->input->post('email'));
+            $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
+            $password = $this->input->post('password');
+
+            $additional_data = [
+                'first_name' => $this->input->post('first_name'),
+                'ap1' => $this->input->post('last_name'),
+                'ap2' => $this->input->post('ap2'),
+                'id_tipoSujeto' => $this->input->post('tipoSujeto'),
+                'id_sujeto' => $this->input->post('sujetos'),
+                'id_unidad' => $this->input->post('unidades'),
+                'ext' => $this->input->post('ext'),
+                'phone' => $this->input->post('phone'),
+                'fecha_cargo' => $this->input->post('fecha'),
+                'file_path' => $file_path
+            ];
+
+            // Intentar registrar al usuario
+            if ($this->ion_auth->register($identity, $password, $email, $additional_data)) {
+                // Usuario registrado exitosamente
+                $response = [
+                    'status' => 'success',
+                    'message' => $this->ion_auth->messages(),
+                    'redirect_url' => base_url('auth')
+                ];
+                echo json_encode($response);
+                return;
             } else {
                 // Error al registrar al usuario
                 $response = [
@@ -520,6 +570,7 @@ class Auth extends CI_Controller
     }
 
 
+
     /**
      * Redirect a user checking if is admin
      */
@@ -540,7 +591,6 @@ class Auth extends CI_Controller
     public function edit_user($encoded_id)
     {
         $id = base64_decode($encoded_id);
-        $this->data['title'] = $this->lang->line('edit_user_heading');
 
         if (!is_numeric($id)) {
             // Redirige a la página de autenticación si el ID no es un número
@@ -573,11 +623,63 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
 
         if ($this->input->post('password')) {
-            $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
+            $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
+                $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
             $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
         }
 
         if ($this->form_validation->run() === TRUE) {
+            $file_path = null;
+            // Validación y subida del archivo
+            if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
+                $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
+                if (!in_array($_FILES['userfile']['type'], $allowed_types)) {
+                    $response = [
+                        'status' => 'error',
+                        'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'
+                    ];
+                    echo json_encode($response);
+                    return;
+                }
+
+                // Subir el archivo por FTP antes de registrar el usuario
+                $config['hostname'] = '192.168.100.20'; // Configura tu hostname de FTP
+                $config['username'] = 'test-site'; // Configura tu nombre de usuario de FTP
+                $config['password'] = '*2JMjM7-IQ'; // Configura tu contraseña de FTP
+
+                $this->ftp->connect($config);
+
+                // Directorio de destino en el servidor FTP
+                $upload_path = 'assets/ftp/';
+
+                // Nombre del archivo en el servidor
+                $file_name = $_FILES['userfile']['name'];
+                $file_tmp = $_FILES['userfile']['tmp_name'];
+
+
+                // Subir el archivo al servidor FTP
+                if ($this->ftp->upload($file_tmp, $upload_path . $file_name, 'auto')) {
+                    // Archivo subido exitosamente, proceder con el registro del usuario
+                    $file_path = $upload_path . $file_name;
+
+                    // Eliminar el archivo anterior si existe en el servidor ftp y no es el mismo que el nuevo archivo
+                    if (!empty($user->file_path) && $user->file_path !== $file_path) {
+                        $this->ftp->delete_file($user->file_path);
+                    }
+                } else {
+                    // Error al subir archivo por FTP
+                    $response = [
+                        'status' => 'error',
+                        'message' => 'Error al subir el archivo por FTP.',
+                        'file_error' => 'No se pudo subir el archivo. Por favor, inténtelo de nuevo.'
+                    ];
+                    echo json_encode($response);
+                    return;
+                }
+
+                $this->ftp->close(); // Cierra la conexión FTP
+            }
+
             $data = [
                 'first_name' => $this->input->post('first_name'),
                 'ap1' => $this->input->post('last_name'),
@@ -587,8 +689,12 @@ class Auth extends CI_Controller
                 'id_tipoSujeto' => $this->input->post('tipoSujeto'),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
-                'fecha_cargo' => $this->input->post('fecha')
+                'fecha_cargo' => $this->input->post('fecha'),
             ];
+
+            if ($file_path) {
+                $data['file_path'] = $file_path;
+            }
 
             if ($this->input->post('password')) {
                 $data['password'] = $this->input->post('password');
@@ -679,7 +785,7 @@ class Auth extends CI_Controller
                 $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
                 $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
                 $this->data['users'] = $this->UsuarioModel->getPorUsuario($user->id);
-
+                $this->data['archivo'] = $user->file_path;
 
                 $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'edit_user', $this->data);
             }
@@ -710,7 +816,7 @@ class Auth extends CI_Controller
             $new_group_id = $this->ion_auth->create_group($this->input->post('group_name'), $this->input->post('description'));
             if ($new_group_id) {
                 // check to see if we are creating the group
-                // redirect them back to the admin page
+// redirect them back to the admin page
                 $response = [
                     'status' => 'success',
                     'message' => $this->ion_auth->messages(),
@@ -726,7 +832,8 @@ class Auth extends CI_Controller
                 ];
                 echo json_encode($response);
             } else {
-                $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+                $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ?
+                    $this->ion_auth->errors() : $this->session->flashdata('message')));
 
                 $this->data['group_name'] = [
                     'name' => 'group_name',
@@ -825,7 +932,8 @@ class Auth extends CI_Controller
         }
 
         // Definir el mensaje de error flash
-        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ?
+            $this->ion_auth->errors() : $this->session->flashdata('message')));
 
         // Pasar el grupo a la vista
         $this->data['group'] = $group;
@@ -877,9 +985,9 @@ class Auth extends CI_Controller
     }
 
     /**
-     * @param string     $view
+     * @param string $view
      * @param array|null $data
-     * @param bool       $returnhtml
+     * @param bool $returnhtml
      *
      * @return mixed
      */
