@@ -25,7 +25,7 @@
                     <div class="form-floating mb-3">
                         <input type="password" name="password" id="password" class="form-control"
                             value="<?php echo set_value('password'); ?>" placeholder="Password" />
-                        <label for="password">contraseña</label>
+                        <label for="password">Contraseña</label>
                     </div>
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" value="1"

@@ -17,12 +17,24 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->database();
-        $this->load->library(['ion_auth', 'form_validation', 'ftp']);
+        $this->load->library(['ion_auth', 'form_validation', 'ftp', 'email']);
         $this->load->helper(['url', 'language', 'form']);
         $this->load->model('UsuarioModel');
+        $this->load->config('ftp_config');
 
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
         $this->lang->load('auth');
+    }
+
+    private function connectFTP()
+    {
+        $config = $this->config->item('ftp');
+        $this->ftp->connect($config);
+    }
+
+    private function disconnectFTP()
+    {
+        $this->ftp->close();
     }
 
     /**
@@ -208,8 +220,6 @@ class Auth extends CI_Controller
      */
     public function forgot_password()
     {
-        $this->data['title'] = $this->lang->line('forgot_password_heading');
-
         // setting validation rules by checking whether identity is username or email
         if ($this->config->item('identity', 'ion_auth') != 'email') {
             $this->form_validation->set_rules('identity', 'correo electronico', 'required');
@@ -269,8 +279,6 @@ class Auth extends CI_Controller
         if (!$code) {
             show_404();
         }
-
-        $this->data['title'] = $this->lang->line('reset_password_heading');
 
         $user = $this->ion_auth->forgotten_password_check($code);
 
@@ -403,6 +411,88 @@ class Auth extends CI_Controller
         }
     }
 
+    function uploadFile($file, $userId)
+    {
+        // Validación y subida del archivo
+        try {
+            if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
+                $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
+                $max_size = 4096; // Define el tamaño máximo del archivo en KB
+
+                if ($_FILES['userfile']['size'] > $max_size * 1024) {
+                    throw new Exception('El tamaño del archivo no debe exceder los 4 MB.');
+                }
+                if (!in_array($_FILES['userfile']['type'], $allowed_types)) {
+                    throw new Exception('Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.');
+                }
+
+                // Subir el archivo por FTP antes de registrar el usuario
+                $this->connectFTP();
+
+                // Directorio de destino en el servidor FTP
+                $upload_path = 'assets/ftp/';
+
+                // Nombre del archivo en el servidor
+                $file_name = $this->formatFileName($file['name'], $userId);
+                $file_tmp = $file['tmp_name'];
+
+
+                // Subir el archivo al servidor FTP
+                if ($this->ftp->upload($file_tmp, $upload_path . $file_name, 'auto')) {
+                    $file_path = $upload_path . $file_name;
+                    $this->disconnectFTP();
+                    return ['status' => 'success', 'file_path' => $file_path];
+                } else {
+                    throw new Exception('Error al subir el archivo por FTP.');
+                }
+            }
+        } catch (Exception $e) {
+            return ['status' => 'error', 'file_error' => $e->getMessage()];
+        }
+        return ['status' => 'success'];
+    }
+
+    function formatFileName($name, $userId)
+    {
+        // Obtener la extensión del archivo
+        $extension = pathinfo($name, PATHINFO_EXTENSION);
+
+        // Obtener el nombre sin la extensión
+        $nameWithoutExtension = pathinfo($name, PATHINFO_FILENAME);
+
+        // Reemplazar espacios y caracteres no alfanuméricos por guiones bajos
+        $nameWithoutExtension = preg_replace('/[^a-zA-Z0-9]/', '_', $nameWithoutExtension);
+
+        // Eliminar múltiples guiones bajos consecutivos
+        $nameWithoutExtension = preg_replace('/_+/', '_', $nameWithoutExtension);
+
+        // Convertir a minúsculas
+        $nameWithoutExtension = strtolower($nameWithoutExtension);
+
+        //Obtener fecha actual sin la hora
+        $date = date('Ymd');
+
+        // Añadir la fecha y id al nombre del archivo
+        $newName = $nameWithoutExtension . '_' . $userId . '_' . $date . '.' . $extension;
+
+        return $newName;
+    }
+
+    // Función para validar el archivo
+    private function validateFile($file)
+    {
+        $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
+        $max_size = 4096; // Define el tamaño máximo del archivo en KB
+
+        if ($file['size'] > $max_size * 1024) {
+            return ['status' => 'error', 'file_error' => 'El tamaño del archivo no debe exceder los 4 MB.'];
+        }
+        if (!in_array($file['type'], $allowed_types)) {
+            return ['status' => 'error', 'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'];
+        }
+        return ['status' => 'success'];
+    }
+
 
     /**
      * Create a new user
@@ -441,79 +531,23 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
 
+        if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
+            // Validar el archivo
+            $upload_result = $this->validateFile($_FILES['userfile']);
+            if ($upload_result['status'] === 'error') {
+                if ($this->input->is_ajax_request()) {
+                    echo json_encode($upload_result);
+                    return;
+                } else {
+                    $this->data['file_error'] = $upload_result['file_error'];
+                    $this->_render_page('auth/edit_user', $this->data);
+                    return;
+                }
+            }
+        }
+
         // Validación de formulario
         if ($this->form_validation->run() === TRUE) {
-
-            $file_path = null;
-
-            // Validación y subida del archivo
-            if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
-                $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
-                if (!in_array($_FILES['userfile']['type'], $allowed_types)) {
-                    $response = [
-                        'status' => 'error',
-                        'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'
-                    ];
-                    echo json_encode($response);
-                    return;
-                }
-
-                // Validación del archivo
-                /*
-                if (!isset($_FILES['userfile']) || $_FILES['userfile']['error'] == UPLOAD_ERR_NO_FILE) {
-                    $response = [
-                        'status' => 'error',
-                        'file_error' => 'El archivo está vacío. Por favor, seleccione un archivo para subir.'
-                    ];
-                    echo json_encode($response);
-                    return;
-                }
-
-                $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
-                if (!in_array($_FILES['userfile']['type'], $allowed_types)) {
-                    $response = [
-                        'status' => 'error',
-                        'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'
-                    ];
-                    echo json_encode($response);
-                    return;
-                }
-                */
-                // Subir el archivo por FTP antes de registrar el usuario
-                $config['hostname'] = '192.168.100.20'; // Configura tu hostname de FTP
-                $config['username'] = 'test-site'; // Configura tu nombre de usuario de FTP
-                $config['password'] = '*2JMjM7-IQ'; // Configura tu contraseña de FTP
-
-                $this->ftp->connect($config);
-
-                // Directorio de destino en el servidor FTP
-                $upload_path = 'assets/ftp/';
-
-                // Nombre del archivo en el servidor
-                $file_name = $_FILES['userfile']['name'];
-                $file_tmp = $_FILES['userfile']['tmp_name'];
-
-                // Subir el archivo al servidor FTP
-                if ($this->ftp->upload($file_tmp, $upload_path . $file_name, 'auto')) {
-                    // Archivo subido exitosamente, proceder con el registro del usuario
-
-                    $file_path = $upload_path . $file_name;
-
-
-                } else {
-                    // Error al subir archivo por FTP
-                    $response = [
-                        'status' => 'error',
-                        'message' => 'Error al subir el archivo por FTP.',
-                        'file_error' => 'No se pudo subir el archivo. Por favor, inténtelo de nuevo.'
-                    ];
-                    echo json_encode($response);
-                    return;
-                }
-
-                $this->ftp->close(); // Cierra la conexión FTP
-            }
-
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
             $password = $this->input->post('password');
@@ -528,12 +562,32 @@ class Auth extends CI_Controller
                 'ext' => $this->input->post('ext'),
                 'phone' => $this->input->post('phone'),
                 'fecha_cargo' => $this->input->post('fecha'),
-                'file_path' => $file_path
             ];
 
             // Intentar registrar al usuario
-            if ($this->ion_auth->register($identity, $password, $email, $additional_data)) {
-                // Usuario registrado exitosamente
+            $userId = $this->ion_auth->register($identity, $password, $email, $additional_data);
+
+            if ($userId) {
+                if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
+                    // Subida del archivo con el ID del usuario
+                    $upload_result = $this->uploadFile($_FILES['userfile'], $userId);
+
+                    if ($upload_result['status'] === 'success') {
+                        $file_path = $upload_result['file_path'];
+
+                        // Actualizar al usuario con la ruta del archivo
+                        $this->ion_auth->update($userId, ['file_path' => $file_path]);
+                    } else {
+                        // Error al subir el archivo
+                        $response = [
+                            'status' => 'error',
+                            'message' => $upload_result['file_error']
+                        ];
+                        echo json_encode($response);
+                        return;
+                    }
+                }
+
                 $response = [
                     'status' => 'success',
                     'message' => $this->ion_auth->messages(),
@@ -629,55 +683,26 @@ class Auth extends CI_Controller
         }
 
         if ($this->form_validation->run() === TRUE) {
-            $file_path = null;
-            // Validación y subida del archivo
-            if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
-                $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
-                if (!in_array($_FILES['userfile']['type'], $allowed_types)) {
-                    $response = [
-                        'status' => 'error',
-                        'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'
-                    ];
-                    echo json_encode($response);
+            $upload_result = $this->uploadFile($_FILES['userfile'], $id);
+
+            if ($upload_result['status'] === 'error') {
+                if ($this->input->is_ajax_request()) {
+                    echo json_encode($upload_result);
                     return;
-                }
-
-                // Subir el archivo por FTP antes de registrar el usuario
-                $config['hostname'] = '192.168.100.20'; // Configura tu hostname de FTP
-                $config['username'] = 'test-site'; // Configura tu nombre de usuario de FTP
-                $config['password'] = '*2JMjM7-IQ'; // Configura tu contraseña de FTP
-
-                $this->ftp->connect($config);
-
-                // Directorio de destino en el servidor FTP
-                $upload_path = 'assets/ftp/';
-
-                // Nombre del archivo en el servidor
-                $file_name = $_FILES['userfile']['name'];
-                $file_tmp = $_FILES['userfile']['tmp_name'];
-
-
-                // Subir el archivo al servidor FTP
-                if ($this->ftp->upload($file_tmp, $upload_path . $file_name, 'auto')) {
-                    // Archivo subido exitosamente, proceder con el registro del usuario
-                    $file_path = $upload_path . $file_name;
-
-                    // Eliminar el archivo anterior si existe en el servidor ftp y no es el mismo que el nuevo archivo
-                    if (!empty($user->file_path) && $user->file_path !== $file_path) {
-                        $this->ftp->delete_file($user->file_path);
-                    }
                 } else {
-                    // Error al subir archivo por FTP
-                    $response = [
-                        'status' => 'error',
-                        'message' => 'Error al subir el archivo por FTP.',
-                        'file_error' => 'No se pudo subir el archivo. Por favor, inténtelo de nuevo.'
-                    ];
-                    echo json_encode($response);
+                    $this->data['file_error'] = $upload_result['file_error'];
+                    $this->_render_page('auth/edit_user', $this->data);
                     return;
                 }
+            }
 
-                $this->ftp->close(); // Cierra la conexión FTP
+            $file_path = isset($upload_result['file_path']) ? $upload_result['file_path'] : null;
+
+            // Eliminar el archivo anterior si existe en el servidor FTP, no es el mismo que el nuevo archivo y si el archivo nuevo no es nulo
+            if (!empty($user->file_path) && $user->file_path !== $file_path && $file_path !== null) {
+                $this->connectFTP();
+                $this->ftp->delete_file($user->file_path);
+                $this->disconnectFTP();
             }
 
             $data = [
@@ -791,6 +816,7 @@ class Auth extends CI_Controller
             }
         }
     }
+
 
     /**
      * Create a new group

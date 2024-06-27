@@ -233,6 +233,16 @@ Registro Estatal de Regulaciones
             }
         });
     }
+    $(document).ready(function () {
+        // Validación en tiempo real
+        $('#formUsuarios input, #formUsuarios select').on('input change', function () {
+            var $input = $(this);
+            var $errorMsg = $("#msg_" + $input.attr('id'));
+            if ($input.val() !== '') {
+                $errorMsg.html('');
+                $input.removeClass('is-invalid');
+            }
+        });
+    });
 </script>
-<script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
 @endsection

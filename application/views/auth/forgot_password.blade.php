@@ -11,9 +11,8 @@
                               <h3 class="titulo-login my-4">Recuperar contraseña</h3>
                         </div>
                         <div class="card-body">
-                              <div class="small mb-3 text-muted">Enter your email address and we will send you a link to
-                                    reset your
-                                    password.</div>
+                              <div class="small mb-3 text-muted">Ingresa tu dirección de correo electrónico y te
+                                    enviaremos un enlace para restablecer tu contraseña.</div>
                               @if ($message)
                               <div class="alert alert-danger">
                                     {{ $message }}
@@ -25,7 +24,8 @@
                                     <label for="identity">Correo electronico</label>
                               </div>
                               <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                    <a class="small" href="<?php echo base_url('auth/login'); ?>">Regresar a inicio de sesion</a>
+                                    <a class="small" href="<?php echo base_url('auth/login'); ?>">Regresar a inicio de
+                                          sesion</a>
                                     <button type="submit" class="btn btn-primary">Reset Password</button>
                               </div>
                               <?php echo form_close(); ?>
