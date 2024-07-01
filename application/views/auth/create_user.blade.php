@@ -173,8 +173,24 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
 <script>
     function enviarFormulario() {
-        var formData = new FormData($('#formUsuarios')[0]);
+        // Verifica si el campo de archivo está vacío
+        if ($('#userfile').val() === '') {
+            Swal.fire({
+                title: 'Archivo no seleccionado',
+                text: 'Tienes tres días para subir el archivo.',
+                icon: 'warning',
+                confirmButtonText: 'Entendido'
+            }).then((result) => {
+                enviaDatosFormulario();
+            });
+        } else {
+            enviaDatosFormulario();
+        }
+    }
 
+    function enviaDatosFormulario() {
+        var formData = new FormData($('#formUsuarios')[0]);
+        mostrarPantallaDeCarga();
         $.ajax({
             url: '<?php echo base_url('auth/create_user'); ?>',
             type: 'POST',
@@ -183,6 +199,7 @@ Registro Estatal de Regulaciones
             contentType: false,
             dataType: 'json',
             success: function (response) {
+                ocultarPantallaDeCarga();
                 if (response.status == 'success') {
                     Swal.fire(
                         '¡Éxito!',
@@ -197,26 +214,22 @@ Registro Estatal de Regulaciones
                     if (response.file_error) {
                         $('#msg_file').text(response.file_error);
                     }
-                    Swal.fire(
-                            '¡Error!',
-                            'Ha ocurrido un error al agregar el usuario. Por favor, inténtalo de nuevo.',
-                            'error'
-                        )
                     if (response.errores) {
                         $.each(response.errores, function (index, value) {
                             if ($("small#msg_" + index).length) {
                                 $("small#msg_" + index).html(value);
                             }
                         });
-                        Swal.fire(
-                            '¡Error!',
-                            'Ha ocurrido un error al agregar el usuario. Por favor, inténtalo de nuevo.',
-                            'error'
-                        )
                     }
+                    Swal.fire(
+                        '¡Error!',
+                        'Ha ocurrido un error al agregar el usuario. Por favor, inténtalo de nuevo.',
+                        'error'
+                    )
                 }
             },
             error: function () {
+                ocultarPantallaDeCarga();
                 console.error('Error al procesar la solicitud.');
             }
         });
@@ -237,5 +250,23 @@ Registro Estatal de Regulaciones
             }
         });
     }
+
+    // Validación en tiempo real
+    $(document).ready(function () {
+        $('#formUsuarios input, #formUsuarios select').on('input change', function () {
+            var $input = $(this);
+            var $errorMsg = $("#msg_" + $input.attr('id'));
+            if ($input.val() !== '') {
+                $errorMsg.html('');
+                $input.removeClass('is-invalid');
+            }
+        });
+    });
+
+    // Validación en tiempo real para el campo de archivo
+    $('#userfile').on('change', function () {
+        $('#msg_file').text('');
+        $(this).removeClass('is-invalid');
+    });
 </script>
 @endsection

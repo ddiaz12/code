@@ -141,14 +141,22 @@ class Menu extends CI_Controller
                 'regex_match' => 'El campo %s solo puede contener letras'
             )
         );
-        $this->form_validation->set_rules('siglas', 'Siglas', 'required');
-        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
-        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
-        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
+        $this->form_validation->set_rules('siglas', 'Siglas', 'required|alpha');
+        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric');
+        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required|numeric');
+        $this->form_validation->set_rules(
+            'phone',
+            'número de teléfono',
+            'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
+            )
+        );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
-        $this->form_validation->set_rules('nombre_vialidad', 'Nombre de vialidad', 'required');
+        $this->form_validation->set_rules('nombre_vialidad', 'Nombre de vialidad', 'required|alpha');
 
         if ($this->form_validation->run() != FALSE) {
 
@@ -164,7 +172,7 @@ class Menu extends CI_Controller
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
             $codigo_postal = $this->input->post('codigo_postal');
-            $inputNumTel = $this->input->post('inputNumTel');
+            $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
             $email = $this->input->post('email');
             $notas = $this->input->post('notas');
@@ -271,7 +279,15 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules('siglas', 'Siglas', 'required');
         $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
         $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
-        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
+        $this->form_validation->set_rules(
+            'phone',
+            'número de teléfono',
+            'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
+            )
+        );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
@@ -292,7 +308,7 @@ class Menu extends CI_Controller
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
             $codigo_postal = $this->input->post('codigo_postal');
-            $inputNumTel = $this->input->post('inputNumTel');
+            $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
             $email = $this->input->post('email');
             $notas = $this->input->post('notas');

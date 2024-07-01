@@ -20,6 +20,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item active"><i class="fas fa-user-edit me-1"></i>Editar usuario</li>
 </ol>
 <div class="container mt-5">
+
     <div class="row justify-content-center div-formUsuario">
         <div class="col-md-9">
             <div class="card">
@@ -86,6 +87,7 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="ap2">Apellido materno</label>
                             <?php echo form_input($ap2, '', ['class' => 'form-control', 'id' => 'ap2']); ?>
+                            <small id="msg_ap2" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -130,14 +132,13 @@ Registro Estatal de Regulaciones
                             <!-- Mostrar el nombre del archivo actual -->
                             <?php if (!empty($archivo)): ?>
                             <small id="current_file" class="form-text text-muted">
-                                Archivo actual: <?php echo basename($archivo); ?>
+                                Archivo actual: <?php    echo basename($archivo); ?>
                             </small>
                             <?php endif; ?>
                             <br>
                             <small id="msg_file" class="text-danger"></small>
                         </div>
                     </div>
-
                     <?php if ($this->ion_auth->is_admin()): ?>
                     <div class="col-md-12">
                         <h3>Asignar rol</h3>
@@ -149,7 +150,6 @@ Registro Estatal de Regulaciones
                         <?php    endforeach ?>
                     </div>
                     <?php endif ?>
-
                     <?php echo form_hidden('id', $user->id); ?>
 
 
@@ -172,6 +172,7 @@ Registro Estatal de Regulaciones
 <script>
     function enviarFormulario() {
         var formData = new FormData($('#formUsuarios')[0]);
+        mostrarPantallaDeCarga();
         $.ajax({
             url: '<?php echo base_url('auth/edit_user/' . base64_encode($user->id)); ?>',
             type: 'POST',
@@ -180,6 +181,7 @@ Registro Estatal de Regulaciones
             contentType: false,
             dataType: 'json',
             success: function (response) {
+                ocultarPantallaDeCarga();
                 if (response.status == 'success') {
                     Swal.fire(
                         '¡Éxito!',
@@ -194,26 +196,22 @@ Registro Estatal de Regulaciones
                     if (response.file_error) {
                         $('#msg_file').text(response.file_error);
                     }
-                    Swal.fire(
-                        '¡Error!',
-                        'Ha ocurrido un error al actualizar el usuario. Por favor, inténtalo de nuevo.',
-                        'error'
-                    )
                     if (response.errores) {
                         $.each(response.errores, function (index, value) {
                             if ($("small#msg_" + index).length) {
                                 $("small#msg_" + index).html(value);
                             }
                         });
-                        Swal.fire(
-                            '¡Error!',
-                            'Ha ocurrido un error al actualizar el usuario. Por favor, inténtalo de nuevo.',
-                            'error'
-                        )
                     }
+                    Swal.fire(
+                        '¡Error!',
+                        'Ha ocurrido un error al actualizar el usuario. Por favor, inténtalo de nuevo.',
+                        'error'
+                    )
                 }
             },
             error: function () {
+                ocultarPantallaDeCarga();
                 console.error('Error al procesar la solicitud.');
             }
         });
@@ -233,6 +231,7 @@ Registro Estatal de Regulaciones
             }
         });
     }
+
     $(document).ready(function () {
         // Validación en tiempo real
         $('#formUsuarios input, #formUsuarios select').on('input change', function () {
@@ -243,6 +242,12 @@ Registro Estatal de Regulaciones
                 $input.removeClass('is-invalid');
             }
         });
+    });
+
+    // Validación en tiempo real para el campo de archivo
+    $('#userfile').on('change', function () {
+        $('#msg_file').text('');
+        $(this).removeClass('is-invalid');
     });
 </script>
 @endsection

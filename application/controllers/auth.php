@@ -111,8 +111,8 @@ class Auth extends CI_Controller
                 // if the login was un-successful
                 // redirect them back to the login page
 
-                $this->session->set_flashdata('message', 'Correo o contraseña incorrectos');
-                $this->data['message'] = $this->session->flashdata('message');
+                $this->session->set_flashdata('error', 'Correo o contraseña incorrectos');
+                $this->data['error'] = $this->session->flashdata('error');
                 $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'login', $this->data);
                 // use redirects instead of loading views for compatibility with MY_Controller libraries
             }
@@ -120,6 +120,7 @@ class Auth extends CI_Controller
             // the user is not logging in so display the login page
             // set the flash data error message if there is one
             $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            $this->data['error'] = $this->session->flashdata('error');
 
             $this->data['identity'] = [
                 'name' => 'identity',
@@ -243,7 +244,8 @@ class Auth extends CI_Controller
             }
 
             // set any errors and display the form
-            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            $this->data['message'] = $this->session->flashdata('message');
+            $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
             $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'forgot_password', $this->data);
         } else {
             $identity_column = $this->config->item('identity', 'ion_auth');
@@ -251,7 +253,7 @@ class Auth extends CI_Controller
 
             if (empty($identity)) {
                 // Email does not exist in the system
-                $this->session->set_flashdata('message', 'El correo no esta registrado.');
+                $this->session->set_flashdata('error', 'El correo no esta registrado.');
                 redirect("auth/forgot_password");
             }
 
@@ -259,14 +261,58 @@ class Auth extends CI_Controller
             $forgotten = $this->ion_auth->forgotten_password($identity->{$this->config->item('identity', 'ion_auth')});
 
             if ($forgotten) {
-                // if there were no errors
-                $this->session->set_flashdata('message', 'Se ha enviado un correo con tu nueva contraseña.');
-                redirect("auth/login"); //we should display a confirmation page here instead of the login page
+                $correo = $identity->email;
+                $titulo = 'Password Reset';
+                $contenido = 'Click this link to reset your password: ';
+                $contenido .= '<a href="' . base_url() . 'auth/reset_password/' . $forgotten['forgotten_password_code'] . '">Reset Password</a>';
+
+                // Send email
+                $response = $this->enviaCorreo($correo, $titulo, $contenido);
+
+                if (strpos($response, 'cURL Error') === false) {
+                    $this->session->set_flashdata('message', 'Se ha enviado un correo con instrucciones para restablecer tu contraseña.');
+                    redirect("auth/login");
+                } else {
+                    $this->session->set_flashdata('error', 'No se pudo enviar el correo: ' . $response);
+                    redirect("auth/forgot_password");
+                }
             } else {
-                $this->session->set_flashdata('message', $this->ion_auth->errors());
+                $this->session->set_flashdata('error', 'No se pudo restablecer la contraseña. Inténtalo de nuevo.');
                 redirect("auth/forgot_password", 'refresh');
             }
         }
+    }
+
+    private function enviaCorreo($correo, $titulo, $contenido)
+    {
+        $curl = curl_init();
+        curl_setopt_array(
+            $curl,
+            array(
+                CURLOPT_URL => API_OPENAPIS . "correos/v3/enviar",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "correo=" . rawurlencode($correo) . "&titulo=" . rawurlencode($titulo) . "&contenido=" . rawurlencode($contenido),
+                CURLOPT_HTTPHEADER => array(
+                    "Accept: /",
+                    "Authorization: Basic ZW1lcmdlbnRlOjEyMzQ1Njc4OQ==",
+                    "Cache-Control: no-cache",
+                    "Connection: keep-alive",
+                    "Content-Type: application/x-www-form-urlencoded",
+                    "Host: www.openapis.col.gob.mx",
+                ),
+            )
+        );
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+        return ($err) ? "cURL Error #:" . $err : $response;
     }
 
     /**
@@ -285,14 +331,15 @@ class Auth extends CI_Controller
         if ($user) {
             // if the code is valid then display the password reset form
 
-            $this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[new_confirm]');
-            $this->form_validation->set_rules('new_confirm', $this->lang->line('reset_password_validation_new_password_confirm_label'), 'required');
+            $this->form_validation->set_rules('new', 'nueva contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[new_confirm]');
+            $this->form_validation->set_rules('new_confirm', 'confirmar contraseña', 'required');
 
             if ($this->form_validation->run() === FALSE) {
                 // display the form
 
                 // set the flash data error message if there is one
                 $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+                $this->data['error'] = $this->session->flashdata('error');
 
                 $this->data['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
                 $this->data['new_password'] = [
@@ -317,12 +364,12 @@ class Auth extends CI_Controller
                 $this->data['code'] = $code;
 
                 // render
-                $this->_render_page('auth' . DIRECTORY_SEPARATOR . 'reset_password', $this->data);
+                $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'reset_password', $this->data);
             } else {
                 $identity = $user->{$this->config->item('identity', 'ion_auth')};
 
                 // do we have a valid request?
-                if ($this->_valid_csrf_nonce() === FALSE || $user->id != $this->input->post('user_id')) {
+                if ($user->id != $this->input->post('user_id')) {
 
                     // something fishy might be up
                     $this->ion_auth->clear_forgotten_password_code($identity);
@@ -334,18 +381,27 @@ class Auth extends CI_Controller
                     $change = $this->ion_auth->reset_password($identity, $this->input->post('new'));
 
                     if ($change) {
+                        $this->session->set_flashdata('message', 'Contraseña cambiada exitosamente.');
                         // if the password was successfully changed
-                        $this->session->set_flashdata('message', $this->ion_auth->messages());
-                        redirect("auth/login", 'refresh');
+                        if ($this->input->is_ajax_request()) {
+                            echo json_encode([
+                                'status' => 'success',
+                                'redirect_url' => site_url('auth/login'),
+                                'message' => $this->ion_auth->messages()
+                            ]);
+                            return;
+                        }
+
+                        redirect("auth/login");
                     } else {
-                        $this->session->set_flashdata('message', $this->ion_auth->errors());
-                        redirect('auth/reset_password/' . $code, 'refresh');
+                        $this->session->set_flashdata('message', 'No fue posible cambiar la contraseña. Inténtalo de nuevo más tarde.');
+                        redirect('auth/reset_password/' . $code);
                     }
                 }
             }
         } else {
             // if the code is invalid then send them back to the forgot password page
-            $this->session->set_flashdata('message', $this->ion_auth->errors());
+            $this->session->set_flashdata('error', 'No fue posible restablecer la contraseña. Inténtalo de nuevo.');
             redirect("auth/forgot_password", 'refresh');
         }
     }
@@ -463,9 +519,6 @@ class Auth extends CI_Controller
         // Reemplazar espacios y caracteres no alfanuméricos por guiones bajos
         $nameWithoutExtension = preg_replace('/[^a-zA-Z0-9]/', '_', $nameWithoutExtension);
 
-        // Eliminar múltiples guiones bajos consecutivos
-        $nameWithoutExtension = preg_replace('/_+/', '_', $nameWithoutExtension);
-
         // Convertir a minúsculas
         $nameWithoutExtension = strtolower($nameWithoutExtension);
 
@@ -481,16 +534,20 @@ class Auth extends CI_Controller
     // Función para validar el archivo
     private function validateFile($file)
     {
-        $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
-        $max_size = 4096; // Define el tamaño máximo del archivo en KB
+        try {
+            $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
+            $max_size = 4096; // Define el tamaño máximo del archivo en KB
 
-        if ($file['size'] > $max_size * 1024) {
-            return ['status' => 'error', 'file_error' => 'El tamaño del archivo no debe exceder los 4 MB.'];
+            if ($file['size'] > $max_size * 1024) {
+                return ['status' => 'error', 'file_error' => 'El tamaño del archivo no debe exceder los 4 MB.'];
+            }
+            if (!in_array($file['type'], $allowed_types)) {
+                return ['status' => 'error', 'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'];
+            }
+            return ['status' => 'success'];
+        } catch (Exception $e) {
+            return ['status' => 'error', 'file_error' => $e->getMessage()];
         }
-        if (!in_array($file['type'], $allowed_types)) {
-            return ['status' => 'error', 'file_error' => 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.'];
-        }
-        return ['status' => 'success'];
     }
 
 
@@ -513,8 +570,9 @@ class Auth extends CI_Controller
         $this->data['identity_column'] = $identity_column;
 
         // Validación del formulario
-        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required');
-        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required');
+        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|alpha');
+        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|alpha');
+        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|alpha');
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
@@ -526,8 +584,8 @@ class Auth extends CI_Controller
         } else {
             $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
         }
-        $this->form_validation->set_rules('phone', 'telefono', 'trim|required');
-        $this->form_validation->set_rules('ext', 'extension', 'trim');
+        $this->form_validation->set_rules('phone', 'telefono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
+        $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
         $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
 
@@ -540,7 +598,7 @@ class Auth extends CI_Controller
                     return;
                 } else {
                     $this->data['file_error'] = $upload_result['file_error'];
-                    $this->_render_page('auth/edit_user', $this->data);
+                    $this->_render_page('auth/create_user', $this->data);
                     return;
                 }
             }
@@ -667,10 +725,11 @@ class Auth extends CI_Controller
         $this->data['identity_column'] = $identity_column;
 
         // validate form input
-        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required');
-        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required');
-        $this->form_validation->set_rules('phone', 'telefono', 'trim|required');
-        $this->form_validation->set_rules('ext', 'extension', 'trim');
+        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|alpha');
+        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|alpha');
+        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|alpha');
+        $this->form_validation->set_rules('phone', 'telefono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
+        $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');

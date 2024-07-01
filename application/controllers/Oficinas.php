@@ -77,9 +77,17 @@ class Oficinas extends CI_Controller
                 'regex_match' => 'El campo %s solo puede contener letras y no puede tener espacios ni caracteres numéricos.'
             )
         );
-        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
-        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
-        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
+        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric');
+        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required|numeric');
+        $this->form_validation->set_rules(
+            'phone',
+            'número de teléfono',
+            'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
+            )
+        );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'trim|required|valid_email');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('unidad', 'Unidad administrativa', 'required');
@@ -108,7 +116,7 @@ class Oficinas extends CI_Controller
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
             $codigo_postal = $this->input->post('codigo_postal');
-            $inputNumTel = $this->input->post('inputNumTel');
+            $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
             $email = $this->input->post('email');
             $notas = $this->input->post('notas');
@@ -167,7 +175,7 @@ class Oficinas extends CI_Controller
                     $this->OficinaModel->asociar_oficina_horario($id_oficina, $id_horario);
                 }
             }
-            
+
             $response = array('status' => 'success', 'redirect_url' => 'index');
             echo json_encode($response);
         } else {
@@ -233,7 +241,15 @@ class Oficinas extends CI_Controller
         );
         $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
         $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
-        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
+        $this->form_validation->set_rules(
+            'phone',
+            'número de teléfono',
+            'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
+            )
+        );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'trim|required|valid_email');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('unidad', 'Unidad administrativa', 'required');
@@ -263,7 +279,7 @@ class Oficinas extends CI_Controller
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
             $codigo_postal = $this->input->post('codigo_postal');
-            $inputNumTel = $this->input->post('inputNumTel');
+            $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
             $email = $this->input->post('email');
             $notas = $this->input->post('notas');

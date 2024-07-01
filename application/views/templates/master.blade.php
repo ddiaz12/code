@@ -13,19 +13,23 @@
     @yield('css')
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-    <link href= "<?php echo site_url('assets/css/styles.css'); ?>" rel="stylesheet" />
+    <link href="<?php echo site_url('assets/css/styles.css'); ?>" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo site_url('assets/css/base.css'); ?>">
 
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
-    <script src="<?php echo base_url('assets/'); ?>js/scripts.js"></script>
+    <script src="<?php echo site_url('assets/js/scripts.js'); ?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="sb-nav-fixed cuerpo-sujeto">
+    <div class="loader">
+        <img src="<?php echo base_url('assets/img/Snake.gif'); ?>" />
+    </div>
     <!-- Navbar -->
     @yield('navbar')
     <!-- Navbar -->
@@ -46,6 +50,15 @@
     </div>
     <!-- Aquí cargamos los scripts JS -->
     @yield('js')
+    <script>
+        function mostrarPantallaDeCarga() {
+            $(".loader").addClass("active");
+        }
+
+        function ocultarPantallaDeCarga() {
+            $(".loader").removeClass("active");
+        }
+    </script>
     <script>
         var timeout;
         var timerElement = document.getElementById('timer');
@@ -68,7 +81,7 @@
         document.onkeypress = resetTimer;
 
         // Update the timer every second
-        setInterval(function() {
+        setInterval(function () {
             timeLeft--;
             var minutes = Math.floor(timeLeft / 60);
             var seconds = timeLeft % 60;

@@ -140,12 +140,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputNumTel">Número de teléfono oficial<span
+                                    <label for="phone">Número de teléfono oficial<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="inputNumTel" name="inputNumTel"
+                                    <input type="text" class="form-control" id="inputNumTel" name="phone"
                                         required>
                                 </div>
-                                <small id="msg_inputNumTel" class="text-danger"></small>
+                                <small id="msg_phone" class="text-danger"></small>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -306,6 +306,18 @@
                 }
             })
         }
+
+        $(document).ready(function () {
+        // Validación en tiempo real
+        $('#formUnidad input, #formUnidad select').on('input change', function () {
+            var $input = $(this);
+            var $errorMsg = $("#msg_" + $input.attr('id'));
+            if ($input.val() !== '') {
+                $errorMsg.html('');
+                $input.removeClass('is-invalid');
+            }
+        });
+    });
     </script>
     <script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/agregarHorario.js'); ?>"></script>
