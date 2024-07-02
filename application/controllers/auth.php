@@ -262,8 +262,8 @@ class Auth extends CI_Controller
 
             if ($forgotten) {
                 $correo = $identity->email;
-                $titulo = 'Password Reset';
-                $contenido = 'Click this link to reset your password: ';
+                $titulo = 'Recuperación de contraseña';
+                $contenido = 'Has clik en el link para recuperar tu contraseña: ';
                 $contenido .= '<a href="' . base_url() . 'auth/reset_password/' . $forgotten['forgotten_password_code'] . '">Reset Password</a>';
 
                 // Send email
@@ -338,8 +338,8 @@ class Auth extends CI_Controller
                 // display the form
 
                 // set the flash data error message if there is one
-                $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-                $this->data['error'] = $this->session->flashdata('error');
+                $this->data['message'] =  $this->session->flashdata('message');
+                $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
 
                 $this->data['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
                 $this->data['new_password'] = [

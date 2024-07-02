@@ -234,6 +234,7 @@ Registro Estatal de Regulaciones
 
     function enviarFormulario() {
         var sendData = $('#formUnidad').serializeArray();
+        mostrarPantallaDeCarga();
         sendData.push({
             name: 'horarios',
             value: JSON.stringify(horarios)
@@ -249,6 +250,7 @@ Registro Estatal de Regulaciones
             dataType: 'json',
             data: sendData,
             success: function(response) {
+                ocultarPantallaDeCarga();
                 if (response.status == 'success') {
                     Swal.fire(
                         '¡Éxito!',
@@ -275,6 +277,7 @@ Registro Estatal de Regulaciones
                 }
             },
             error: function(xhr, status, error) {
+                ocultarPantallaDeCarga();
                 console.error(xhr.responseText);
             }
         });
