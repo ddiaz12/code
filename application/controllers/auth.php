@@ -1,7 +1,5 @@
 <?php
 
-use SebastianBergmann\Environment\Console;
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
@@ -338,7 +336,7 @@ class Auth extends CI_Controller
                 // display the form
 
                 // set the flash data error message if there is one
-                $this->data['message'] =  $this->session->flashdata('message');
+                $this->data['message'] = $this->session->flashdata('message');
                 $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
 
                 $this->data['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
@@ -434,6 +432,25 @@ class Auth extends CI_Controller
         }
     }
 
+    public function activatePendiente($encoded_id, $code = FALSE)
+    {
+        $id = base64_decode($encoded_id);
+        $activation = FALSE;
+
+        if ($code !== FALSE) {
+            $activation = $this->ion_auth->activate($id, $code);
+            return json_encode(['success' => true]);
+        } else if ($this->ion_auth->is_admin()) {
+            $activation = $this->ion_auth->activate($id);
+        }
+
+        if ($activation) {
+            return json_encode(['success' => true]);
+        } else {
+            return json_encode(['error' => 'Invalid request']);
+        }
+    }
+
     /**
      * Deactivate the user
      *
@@ -457,15 +474,79 @@ class Auth extends CI_Controller
                     // Desactivar al usuario
                     $this->ion_auth->deactivate($id);
                     // Enviar respuesta de éxito
-                    $this->output->set_output(json_encode(['success' => true]));
-                    return;
+                    //$this->output->set_output(json_encode(['success' => true]));
+                    return json_encode(['success' => true]);
                 }
             }
             // Si no se proporciona un ID válido o no se confirma la desactivación, enviar respuesta de error
-            $this->output->set_output(json_encode(['error' => 'Invalid request']));
-            return;
+            //$this->output->set_output(json_encode(['error' => 'Invalid request']));
+            return json_encode(['error' => 'Invalid request']);
         }
     }
+
+    public function pending_user($id)
+    {
+        try {
+            $this->deactivate($id);
+            $data = array('pending' => 1);
+            $this->ion_auth->update($id, $data);
+
+            $user = $this->ion_auth->user($id)->row();
+            $correo = $user->email;
+            $name = $user->first_name;
+
+            $titulo = 'Usuario pendiente';
+            $contenido = "Hola $name, tu cuenta está pendiente de activar debido a datos faltantes.";
+
+            // Enviar correo electrónico usando la función enviaCorreo
+            $response = $this->enviaCorreo($correo, $titulo, $contenido);
+
+            if (strpos($response, "cURL Error") === false) {
+                // Correo enviado exitosamente
+                $result = ['status' => 'success'];
+            } else {
+                // Error al enviar el correo
+                $result = ['status' => 'error'];
+            }
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'errorCatch', 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function activate_from_pending($encoded_id)
+    {
+        $this->activatePendiente($encoded_id);
+        $id = base64_decode($encoded_id);
+        try {
+            $data = array('pending' => 0);
+            $this->ion_auth->update($id, $data);
+
+            // Obtener la información del usuario para el correo electrónico
+            $user = $this->ion_auth->user($id)->row();
+            $correo = $user->email;
+            $name = $user->first_name;
+
+            // Contenido del correo electrónico
+            $titulo = 'Cuenta activada';
+            $contenido = "Hola $name, tu cuenta ha sido activada correctamente.";
+
+            // Enviar correo electrónico usando la función enviaCorreo
+            $response = $this->enviaCorreo($correo, $titulo, $contenido);
+
+            if (strpos($response, "cURL Error") === false) {
+                $result = ['status' => 'success'];
+            } else {
+                $result = ['status' => 'error'];
+            }
+            
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'errorCatch', 'message' => $e->getMessage()]);
+        }
+    }
+
+
 
     function uploadFile($file, $userId)
     {

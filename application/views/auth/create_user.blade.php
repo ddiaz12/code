@@ -104,7 +104,7 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">Teléfono<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="inputNumTel" name="phone" placeholder="Teléfono"
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Teléfono"
                                 required>
                             <small id="msg_phone" class="text-danger"></small>
                         </div>
