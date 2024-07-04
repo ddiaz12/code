@@ -925,7 +925,7 @@ class Auth extends CI_Controller
                 ];
                 $this->data['phone'] = [
                     'name' => 'phone',
-                    'id' => 'inputNumTel',
+                    'id' => 'phone',
                     'type' => 'text',
                     'value' => $this->form_validation->set_value('phone', $user->phone),
                 ];

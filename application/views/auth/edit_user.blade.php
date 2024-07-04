@@ -100,7 +100,7 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phone">Teléfono</label>
-                            <?php echo form_input($phone, '', ['class' => 'form-control', 'id' => 'inputNumTel']); ?>
+                            <?php echo form_input($phone, '', ['class' => 'form-control', 'id' => 'phone']); ?>
                             <small id="msg_phone" class="text-danger"></small>
                         </div>
                     </div>
@@ -134,6 +134,10 @@ Registro Estatal de Regulaciones
                             <small id="current_file" class="form-text text-muted">
                                 Archivo actual: <?php    echo basename($archivo); ?>
                             </small>
+                            <br>
+                            <!-- Mostrar la imagen actual -->
+                            <img src="<?php    echo base_url('assets/ftp/' . basename($archivo)); ?>" alt="Imagen actual"
+                                class="img-fluid">
                             <?php endif; ?>
                             <br>
                             <small id="msg_file" class="text-danger"></small>
