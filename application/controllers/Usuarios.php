@@ -87,7 +87,7 @@ class Usuarios extends CI_Controller
             )
         );
         $this->form_validation->set_rules('inputFechaAlto', 'Fecha de alta', 'required');
-        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
+        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
         $this->form_validation->set_rules('selectRoles', 'Rol', 'required');
         $this->form_validation->set_rules('selectTipoSujeto', 'Tipo de sujeto', 'required');
         $this->form_validation->set_rules('selectSujetos', 'Sujeto obligado', 'required');
@@ -197,7 +197,15 @@ class Usuarios extends CI_Controller
             )
         );
         $this->form_validation->set_rules('inputFechaAlto', 'Fecha de alta', 'required');
-        $this->form_validation->set_rules('inputNumTel', 'Número de teléfono', 'required');
+        $this->form_validation->set_rules(
+            'inputNumTel',
+            'Número de teléfono',
+            'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s debe tener el formato (123) 456-7890'
+            )
+        );
         $this->form_validation->set_rules('selectRoles', 'Rol', 'required');
         $this->form_validation->set_rules('selectTipoSujeto', 'Tipo de sujeto', 'required');
         $this->form_validation->set_rules('selectSujetoObligado', 'Sujeto obligado', 'required');

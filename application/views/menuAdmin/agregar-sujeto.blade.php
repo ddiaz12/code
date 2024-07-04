@@ -90,17 +90,17 @@
     <!-- Contenido -->
 @endsection
 @section('js')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="<?php echo base_url('assets/'); ?>js/tel.js"></script>
     <script>
         function enviarFormulario() {
             var sendData = $('#formSujeto').serializeArray();
+            mostrarPantallaDeCarga();
             $.ajax({
                 url: '<?php echo base_url('menu/insertar_SujetoObligado'); ?>',
                 type: 'POST',
                 dataType: 'json',
                 data: sendData,
                 success: function(response) {
+                    ocultarPantallaDeCarga();
                     if (response.status == 'success') {
                         Swal.fire(
                             '¡Éxito!',
@@ -127,6 +127,7 @@
                     }
                 },
                 error: function(xhr, status, error) {
+                    ocultarPantallaDeCarga();
                     console.error(xhr.responseText);
                 }
             });
