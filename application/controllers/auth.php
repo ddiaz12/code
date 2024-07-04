@@ -16,7 +16,7 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->database();
         $this->load->library(['ion_auth', 'form_validation', 'ftp', 'email']);
-        $this->load->helper(['url', 'language', 'form']);
+        $this->load->helper(['url', 'language', 'form', 'email_helper']);
         $this->load->model('UsuarioModel');
         $this->load->config('ftp_config');
 
@@ -281,37 +281,7 @@ class Auth extends CI_Controller
         }
     }
 
-    private function enviaCorreo($correo, $titulo, $contenido)
-    {
-        $curl = curl_init();
-        curl_setopt_array(
-            $curl,
-            array(
-                CURLOPT_URL => API_OPENAPIS . "correos/v3/enviar",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "correo=" . rawurlencode($correo) . "&titulo=" . rawurlencode($titulo) . "&contenido=" . rawurlencode($contenido),
-                CURLOPT_HTTPHEADER => array(
-                    "Accept: /",
-                    "Authorization: Basic ZW1lcmdlbnRlOjEyMzQ1Njc4OQ==",
-                    "Cache-Control: no-cache",
-                    "Connection: keep-alive",
-                    "Content-Type: application/x-www-form-urlencoded",
-                    "Host: www.openapis.col.gob.mx",
-                ),
-            )
-        );
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-        return ($err) ? "cURL Error #:" . $err : $response;
-    }
+   
 
     /**
      * Reset password - final step for forgotten password
@@ -499,7 +469,7 @@ class Auth extends CI_Controller
             $contenido = "Hola $name, tu cuenta está pendiente de activar debido a datos faltantes.";
 
             // Enviar correo electrónico usando la función enviaCorreo
-            $response = $this->enviaCorreo($correo, $titulo, $contenido);
+            $response = enviaCorreo($correo, $titulo, $contenido);
 
             if (strpos($response, "cURL Error") === false) {
                 // Correo enviado exitosamente
@@ -532,7 +502,7 @@ class Auth extends CI_Controller
             $contenido = "Hola $name, tu cuenta ha sido activada correctamente.";
 
             // Enviar correo electrónico usando la función enviaCorreo
-            $response = $this->enviaCorreo($correo, $titulo, $contenido);
+            $response = enviaCorreo($correo, $titulo, $contenido);
 
             if (strpos($response, "cURL Error") === false) {
                 $result = ['status' => 'success'];
