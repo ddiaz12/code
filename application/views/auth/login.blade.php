@@ -42,7 +42,7 @@
                 </div>
                 <div class="card-footer text-center py-3">
                     <div class="small">
-                        <a href="register_user"><?php echo lang('login_register'); ?></a>
+                        <a href="<?php echo base_url('auth/solicitar'); ?>">Solicitar registro</a>
                     </div>
                 </div>
             </div>

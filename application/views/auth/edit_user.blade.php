@@ -30,10 +30,10 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="tipoSujeto" name="tipoSujeto" required>
+                            <select class="form-control" id="tipoSujeto" name="tipoSujeto" >
                                 <option disabled>Selecciona una opción</option>
                                 <?php foreach ($tipos as $tipo): ?>
-                                <option value="<?php    echo $tipo->ID_tipoSujeto; ?>" <?php    echo $tipo->ID_tipoSujeto == $users->id_tipoSujeto ? 'selected' : ''; ?>>
+                                <option value="<?php    echo $tipo->ID_tipoSujeto; ?>" <?php    echo $tipo->ID_tipoSujeto == $user->id_tipoSujeto ? 'selected' : ''; ?>>
                                     <?php    echo $tipo->tipo_sujeto; ?>
                                 </option>
                                 <?php endforeach; ?>
@@ -44,7 +44,7 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="sujetos" name="sujetos" required>
+                            <select class="form-control" id="sujetos" name="sujetos" >
                                 <option disabled selected>Selecciona una opción</option>
                                 <?php foreach ($sujetos as $sujeto): ?>
                                 <option value="<?php    echo $sujeto->ID_sujeto; ?>" <?php    echo $sujeto->ID_sujeto == $user->id_sujeto ? 'selected' : ''; ?>>
@@ -58,7 +58,7 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="unidades">Unidad administrativa<span class="text-danger">*</span></label>
-                            <select class="form-control" id="unidades" name="unidades" required>
+                            <select class="form-control" id="unidades" name="unidades" >
                                 <option disabled selected>Selecciona una opción</option>
                                 <?php foreach ($unidades as $unidad): ?>
                                 <option value="<?php    echo $unidad->ID_unidad; ?>" <?php    echo $unidad->ID_unidad == $user->id_unidad ? 'selected' : ''; ?>>
@@ -99,7 +99,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phone">Teléfono</label>
+                            <label for="phone">Teléfono<span class="text-danger">*</span></label>
                             <?php echo form_input($phone, '', ['class' => 'form-control', 'id' => 'phone']); ?>
                             <small id="msg_phone" class="text-danger"></small>
                         </div>
@@ -110,6 +110,24 @@ Registro Estatal de Regulaciones
                             <?php echo form_input($fecha, '', ['class' => 'form-control', 'id' => 'fecha']); ?>
                         </div>
                         <small id="msg_fecha" class="text-danger"></small>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo del servidor público">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="titulo">Titulo</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="clave">Clave empleado</label>
+                            <input type="text" class="form-control" id="clave" name="clave" placeholder="Número o clave del empleado">
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">

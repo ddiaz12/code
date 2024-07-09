@@ -117,8 +117,8 @@ class Auth extends CI_Controller
         } else {
             // the user is not logging in so display the login page
             // set the flash data error message if there is one
-            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-            $this->data['error'] = $this->session->flashdata('error');
+            $this->data['message'] = $this->session->flashdata('message');
+            $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
 
             $this->data['identity'] = [
                 'name' => 'identity',
@@ -281,7 +281,7 @@ class Auth extends CI_Controller
         }
     }
 
-   
+
 
     /**
      * Reset password - final step for forgotten password
@@ -466,7 +466,14 @@ class Auth extends CI_Controller
             $name = $user->first_name;
 
             $titulo = 'Usuario pendiente';
-            $contenido = "Hola $name, tu cuenta está pendiente de activar debido a datos faltantes.";
+            $contenido = "Hola $name, tu cuenta está pendiente de activar.";
+
+            // Crear el enlace temporal
+            $link = $this->create_temporary_link($id);
+
+            // Agregar el enlace temporal al contenido del correo
+            $contenido .= "\n\nPara completar tu registro, por favor sigue el siguiente enlace: $link";
+
 
             // Enviar correo electrónico usando la función enviaCorreo
             $response = enviaCorreo($correo, $titulo, $contenido);
@@ -509,7 +516,7 @@ class Auth extends CI_Controller
             } else {
                 $result = ['status' => 'error'];
             }
-            
+
             echo json_encode($result);
         } catch (Exception $e) {
             echo json_encode(['status' => 'errorCatch', 'message' => $e->getMessage()]);
@@ -621,9 +628,9 @@ class Auth extends CI_Controller
         $this->data['identity_column'] = $identity_column;
 
         // Validación del formulario
-        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|alpha');
-        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|alpha');
-        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|alpha');
+        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
@@ -776,9 +783,9 @@ class Auth extends CI_Controller
         $this->data['identity_column'] = $identity_column;
 
         // validate form input
-        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|alpha');
-        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|alpha');
-        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|alpha');
+        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
         $this->form_validation->set_rules('phone', 'telefono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
         $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
@@ -923,6 +930,96 @@ class Auth extends CI_Controller
                 $this->data['archivo'] = $user->file_path;
 
                 $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'edit_user', $this->data);
+            }
+        }
+    }
+
+    public function edit_user_pendiente($encoded_id)
+    {
+        $id = base64_decode($encoded_id);
+
+        if (!is_numeric($id)) {
+            // Redirige a la página de autenticación si el ID no es un número
+            redirect('auth', 'refresh');
+        }
+
+        $user = $this->ion_auth->user($id)->row();
+
+        // validate form input
+        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('phone', 'telefono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
+        $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
+        $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
+        $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
+        $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
+        $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
+
+        if ($this->input->post('password')) {
+            $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
+                $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
+            $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
+        }
+
+        if ($this->form_validation->run() === TRUE) {
+            $upload_result = $this->uploadFile($_FILES['userfile'], $id);
+
+            if ($upload_result['status'] === 'error') {
+                if ($this->input->is_ajax_request()) {
+                    echo json_encode($upload_result);
+                    return;
+                } else {
+                    $this->data['file_error'] = $upload_result['file_error'];
+                    $this->_render_page('auth/edit_user', $this->data);
+                    return;
+                }
+            }
+
+            $file_path = isset($upload_result['file_path']) ? $upload_result['file_path'] : null;
+
+            // Eliminar el archivo anterior si existe en el servidor FTP, no es el mismo que el nuevo archivo y si el archivo nuevo no es nulo
+            if (!empty($user->file_path) && $user->file_path !== $file_path && $file_path !== null) {
+                $this->connectFTP();
+                $this->ftp->delete_file($user->file_path);
+                $this->disconnectFTP();
+            }
+
+            $data = [
+                'first_name' => $this->input->post('first_name'),
+                'ap1' => $this->input->post('last_name'),
+                'ap2' => $this->input->post('ap2'),
+                'ext' => $this->input->post('ext'),
+                'phone' => $this->input->post('phone'),
+                'id_tipoSujeto' => $this->input->post('tipoSujeto'),
+                'id_sujeto' => $this->input->post('sujetos'),
+                'id_unidad' => $this->input->post('unidades'),
+                'fecha_cargo' => $this->input->post('fecha'),
+            ];
+
+            if ($file_path) {
+                $data['file_path'] = $file_path;
+            }
+
+            if ($this->input->post('password')) {
+                $data['password'] = $this->input->post('password');
+            }
+
+            if ($this->ion_auth->update($user->id, $data)) {
+                $response = [
+                    'status' => 'success',
+                    'message' => $this->ion_auth->messages(),
+                    'redirect_url' => base_url('auth')
+                ];
+                echo json_encode($response);
+            }
+        } else {
+            if ($this->input->is_ajax_request()) {
+                $response = [
+                    'status' => 'error',
+                    'errores' => $this->form_validation->error_array()
+                ];
+                echo json_encode($response);
             }
         }
     }
@@ -1093,6 +1190,250 @@ class Auth extends CI_Controller
 
         $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'edit_group', $this->data);
     }
+
+    public function create_temporary_link($user_id = null)
+    {
+        // Generar un token único
+        $token = bin2hex(random_bytes(16));
+        // Definir la fecha de caducidad
+        $expiration = date('Y-m-d H:i:s', strtotime('+3 days'));
+
+        // Almacenar el token y la fecha de caducidad en la base de datos
+        $data = [
+            'id' => $user_id,
+            'token' => $token,
+            'expiration' => $expiration
+        ];
+
+        $this->db->insert('temporary_links', $data);
+
+        // Crear el enlace temporal
+        $link = base_url("auth/temporary_form/{$token}");
+
+        return $link;
+    }
+
+
+    //Funcion para crear un link temporal
+    /*
+    public function send_temporary_link($user_id)
+    {
+        // Generar un token único
+        $token = bin2hex(random_bytes(16));
+        // Definir la fecha de caducidad (por ejemplo, 3 días a partir de ahora)
+        $expiration = date('Y-m-d H:i:s', strtotime('+3 days'));
+
+        // Almacenar el token y la fecha de caducidad en la base de datos
+        $data = [
+            'user_id' => $user_id,
+            'token' => $token,
+            'expiration' => $expiration
+        ];
+
+        $this->db->insert('temporary_links', $data);
+
+        // Obtener la información del usuario
+        $user = $this->ion_auth->user($user_id)->row();
+        $email = $user->email;
+        $name = $user->first_name;
+
+        // Crear el enlace temporal
+        $link = base_url("auth/temporary_form/{$token}");
+
+        // Contenido del correo electrónico
+        $titulo = 'Enlace temporal';
+        $contenido = "Hola $name, has solicitado un enlace temporal para restablecer tu contraseña. 
+        Haz clic en el siguiente enlace para continuar: $link";
+
+        // Enviar el correo electrónico
+        $response = enviaCorreo($email, $titulo, $contenido);
+
+        if (strpos($response, "cURL Error") === false) {
+            // Correo enviado exitosamente
+            $result = ['status' => 'success'];
+        } else {
+            // Error al enviar el correo
+            $result = ['status' => 'error'];
+        }
+
+        echo json_encode($result);
+    }
+        */
+
+    public function temporary_form($token)
+    {
+        // Verificar si el token es válido
+        $query = $this->db->get_where('temporary_links', ['token' => $token]);
+        $link = $query->row();
+
+        if ($link) {
+            // Verificar si el token ha caducado
+            if (strtotime($link->expiration) > time()) {
+                // Obtener la información del usuario
+                $user = $this->ion_auth->user($link->id)->row();
+
+                $this->data['first_name'] = [
+                    'name' => 'first_name',
+                    'id' => 'first_name',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('first_name', $user->first_name),
+                ];
+                $this->data['last_name'] = [
+                    'name' => 'last_name',
+                    'id' => 'last_name',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('last_name', $user->ap1),
+                ];
+                $this->data['ap2'] = [
+                    'name' => 'ap2',
+                    'id' => 'ap2',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('ap2', $user->ap2),
+                ];
+                $this->data['ext'] = [
+                    'name' => 'ext',
+                    'id' => 'ext',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('ext', $user->ext),
+                ];
+                $this->data['phone'] = [
+                    'name' => 'phone',
+                    'id' => 'phone',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('phone', $user->phone),
+                ];
+                $this->data['fecha'] = [
+                    'name' => 'fecha',
+                    'id' => 'fecha',
+                    'type' => 'date',
+                    'value' => $this->form_validation->set_value('fecha', $user->fecha_cargo),
+                ];
+                $this->data['password'] = [
+                    'name' => 'password',
+                    'id' => 'password',
+                    'type' => 'password',
+                ];
+                $this->data['password_confirm'] = [
+                    'name' => 'password_confirm',
+                    'id' => 'password_confirm',
+                    'type' => 'password',
+                ];
+
+                // Mostrar el formulario
+                $this->data['user'] = $this->UsuarioModel->getPorUsuario($user->id);
+                $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
+                $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
+                $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
+                $this->data['archivo'] = $user->file_path;
+
+                $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'temporary_form', $this->data);
+
+            } else {
+                // El token ha caducado
+                echo 'El enlace temporal ha caducado.';
+            }
+        } else {
+            // El token no es válido
+            echo 'Enlace temporal no válido.';
+        }
+    }
+
+
+    public function solicitar()
+    {
+        $tables = $this->config->item('tables', 'ion_auth');
+        $identity_column = $this->config->item('identity', 'ion_auth');
+        $this->data['identity_column'] = $identity_column;
+        // Reglas de validación
+        $this->form_validation->set_rules('first_name', 'Nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('last_name', 'Primer Apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('ap2', 'Segundo Apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('dependencia', 'Dependencia', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        if ($identity_column !== 'email') {
+            $this->form_validation->set_rules('identity', 'correo', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
+            $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email');
+        } else {
+            $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
+        }
+        $this->form_validation->set_rules('phone', 'Teléfono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
+
+        // Validación de formulario
+        if ($this->form_validation->run() === TRUE) {
+            $email = strtolower($this->input->post('email'));
+            $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
+            $password = '12345678';
+            $additional_data = [
+                'first_name' => $this->input->post('first_name'),
+                'ap1' => $this->input->post('last_name'),
+                'ap2' => $this->input->post('ap2'),
+                'Dependencia' => $this->input->post('dependencia'),
+                'phone' => $this->input->post('phone'),
+                'created_on' => time(),
+                'active' => 0,
+                'pending' => 1,
+                'fecha_cargo' => date('Y-m-d'),
+                'id_tipoSujeto' => $this->input->post('tipoSujeto'),
+                'id_sujeto' => $this->input->post('sujetos'),
+                'id_unidad' => $this->input->post('unidades'),
+            ];
+
+            $this->ion_auth->register($identity, $password, $email, $additional_data);
+
+            //$this->db->insert('users', $data);
+
+            $response = [
+                'status' => 'success',
+                'message' => $this->ion_auth->messages(),
+                'redirect_url' => base_url('auth')
+            ];
+            echo json_encode($response);
+            return;
+        } else {
+            if ($this->input->is_ajax_request()) {
+                $response = [
+                    'status' => 'error',
+                    'errores' => $this->form_validation->error_array()
+                ];
+                echo json_encode($response);
+            }else {
+                $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
+                $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
+                $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
+                $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'solicitud', $this->data);
+            }
+        }
+    }
+
+    //fincion para ocultar usuario
+    public function ocultar($id)
+    {
+        // Verificar si el usuario existe
+        $user = $this->ion_auth->user($id)->row();
+
+        if ($user) {
+            // Actualizar el estado de pending a 2 (oculto)
+            $data = ['pending' => 2];
+            $this->db->where('id', $id);
+            $this->db->update('users', $data);
+    
+            // Redirigir con un mensaje de éxito
+            $response = [
+                'status' => 'success',
+                'message' => $this->ion_auth->messages(),
+            ];
+            echo json_encode($response);
+        } else {
+            // Redirigir con un mensaje de error
+            $response = [
+                'status' => 'error',
+                'errores' => $this->form_validation->error_array()
+            ];
+            echo json_encode($response);
+        }
+    
+        redirect('auth');
+    }
+
 
     /**
      * @return array A CSRF key-value pair
