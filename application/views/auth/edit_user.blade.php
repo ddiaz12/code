@@ -30,12 +30,12 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="tipoSujeto" name="tipoSujeto" >
+                            <select class="form-control" id="tipoSujeto" name="tipoSujeto">
                                 <option disabled>Selecciona una opción</option>
-                                <?php foreach ($tipos as $tipo): ?>
-                                <option value="<?php    echo $tipo->ID_tipoSujeto; ?>" <?php    echo $tipo->ID_tipoSujeto == $user->id_tipoSujeto ? 'selected' : ''; ?>>
-                                    <?php    echo $tipo->tipo_sujeto; ?>
-                                </option>
+                                <?php foreach ($tipos as $tipo) : ?>
+                                    <option value="<?php echo $tipo->ID_tipoSujeto; ?>" <?php echo $tipo->ID_tipoSujeto == $user->id_tipoSujeto ? 'selected' : ''; ?>>
+                                        <?php echo $tipo->tipo_sujeto; ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                             <small id="msg_tipoSujeto" class="text-danger"></small>
@@ -44,12 +44,12 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="sujetos" name="sujetos" >
+                            <select class="form-control" id="sujetos" name="sujetos">
                                 <option disabled selected>Selecciona una opción</option>
-                                <?php foreach ($sujetos as $sujeto): ?>
-                                <option value="<?php    echo $sujeto->ID_sujeto; ?>" <?php    echo $sujeto->ID_sujeto == $user->id_sujeto ? 'selected' : ''; ?>>
-                                    <?php    echo $sujeto->nombre_sujeto; ?>
-                                </option>
+                                <?php foreach ($sujetos as $sujeto) : ?>
+                                    <option value="<?php echo $sujeto->ID_sujeto; ?>" <?php echo $sujeto->ID_sujeto == $user->id_sujeto ? 'selected' : ''; ?>>
+                                        <?php echo $sujeto->nombre_sujeto; ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                             <small id="msg_sujetos" class="text-danger"></small>
@@ -58,12 +58,12 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="unidades">Unidad administrativa<span class="text-danger">*</span></label>
-                            <select class="form-control" id="unidades" name="unidades" >
+                            <select class="form-control" id="unidades" name="unidades">
                                 <option disabled selected>Selecciona una opción</option>
-                                <?php foreach ($unidades as $unidad): ?>
-                                <option value="<?php    echo $unidad->ID_unidad; ?>" <?php    echo $unidad->ID_unidad == $user->id_unidad ? 'selected' : ''; ?>>
-                                    <?php    echo $unidad->nombre; ?>
-                                </option>
+                                <?php foreach ($unidades as $unidad) : ?>
+                                    <option value="<?php echo $unidad->ID_unidad; ?>" <?php echo $unidad->ID_unidad == $user->id_unidad ? 'selected' : ''; ?>>
+                                        <?php echo $unidad->nombre; ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                             <small id="msg_unidades" class="text-danger"></small>
@@ -114,32 +114,48 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="cargo">Cargo</label>
-                            <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo del servidor público">
+                            <?php echo form_input($cargo, '', [
+                                'class' => 'form-control', 'id' => 'cargo',
+                                'placeholder' => 'Cargo del servidor público'
+                            ]); ?>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="titulo">Titulo</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo">
+                            <?php echo form_input($titulo, '', [
+                                'class' => 'form-control', 'id' => 'titulo',
+                                'placeholder' => 'Titulo'
+                            ]); ?>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="clave">Clave empleado</label>
-                            <input type="text" class="form-control" id="clave" name="clave" placeholder="Número o clave del empleado">
+                            <label for="clave_empleado">Clave empleado</label>
+                            <?php echo form_input($clave_empleado, '', [
+                                'class' => 'form-control', 'id' => 'clave_empleado',
+                                'placeholder' => 'Número o clave del empleado'
+                            ]); ?>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="password">Contraseña</label>
-                            <?php echo form_input($password, '', ['class' => 'form-control', 'id' => 'password']); ?>
+                            <?php echo form_input($password, '', [
+                                'class' => 'form-control', 'id' => 'password',
+                                'placeholder' => 'Contraseña'
+                            ]); ?>
                             <small id="msg_password" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="password_confirm">Confirmar Contraseña</label>
-                            <?php echo form_input($password_confirm, '', ['class' => 'form-control', 'id' => 'password_confirm']); ?>
+                            <label for="password_confirm">Confirmar contraseña</label>
+                            <?php echo form_input($password_confirm, '', [
+                                'class' => 'form-control',
+                                'id' => 'password_confirm',
+                                'placeholder' => 'Escribe de nuevo tu contraseña'
+                            ]); ?>
                             <small id="msg_password_confirm" class="text-danger"></small>
                         </div>
                     </div>
@@ -148,38 +164,46 @@ Registro Estatal de Regulaciones
                             <label for="file">Archivo</label>
                             <input type="file" class="form-control" id="userfile" name="userfile">
                             <!-- Mostrar el nombre del archivo actual -->
-                            <?php if (!empty($archivo)): ?>
-                            <small id="current_file" class="form-text text-muted">
-                                Archivo actual: <?php    echo basename($archivo); ?>
-                            </small>
-                            <br>
-                            <!-- Mostrar la imagen actual -->
-                            <img src="<?php    echo base_url('assets/ftp/' . basename($archivo)); ?>" alt="Imagen actual"
-                                class="img-fluid">
+                            <?php if (!empty($archivo)) : ?>
+                                <small id="current_file" class="form-text text-muted">
+                                    Archivo actual: <?php echo basename($archivo); ?>
+                                </small>
+                                <br>
+                                <!-- Mostrar la imagen actual -->
+                                <img src="<?php echo base_url('assets/ftp/' . basename($archivo)); ?>" alt="Imagen actual" class="img-fluid">
                             <?php endif; ?>
                             <br>
                             <small id="msg_file" class="text-danger"></small>
                         </div>
                     </div>
-                    <?php if ($this->ion_auth->is_admin()): ?>
-                    <div class="col-md-12">
-                        <h3>Asignar rol</h3>
-                        <?php    foreach ($groups as $group): ?>
-                        <label class="radio">
-                            <input type="radio" name="groups[]" value="<?php        echo $group['id']; ?>" <?php        echo in_array($group['id'], array_column($currentGroups, 'id')) ? 'checked="checked"' : null; ?>>
-                            <?php        echo htmlspecialchars($group['name'], ENT_QUOTES, 'UTF-8'); ?>
-                        </label>
-                        <?php    endforeach ?>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dependencia">Dependencia</label>
+                            <?php echo form_input($dependencia, '', [
+                                'class' => 'form-control', 'id' => 'dependencia',
+                                'readonly' => 'readonly', 'disabled' => 'disabled'
+                            ]); ?>
+                            <small id="msg_dependencia" class="text-danger"></small>
+                        </div>
                     </div>
+                    <?php if ($this->ion_auth->is_admin()) : ?>
+                        <div class="col-md-12">
+                            <h3>Asignar rol</h3>
+                            <select name="groups[]" class="form-control">
+                                <?php foreach ($groups as $group) : ?>
+                                    <option value="<?php echo $group['id']; ?>" <?php echo in_array($group['id'], array_column($currentGroups, 'id')) ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($group['name'], ENT_QUOTES, 'UTF-8'); ?>
+                                    </option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
                     <?php endif ?>
+
                     <?php echo form_hidden('id', $user->id); ?>
 
-
                     <div class="d-flex justify-content-end mb-3">
-                        <button type="button" class="btn btn-secondary me-2"
-                            onclick="confirmarCancelar()">Cancelar</button>
-                        <button type="button" onclick="enviarFormulario();"
-                            class="btn btn-guardar btn-rounded">Guardar</button>
+                        <button type="button" class="btn btn-secondary me-2" onclick="confirmarCancelar()">Cancelar</button>
+                        <button type="button" onclick="enviarFormulario();" class="btn btn-guardar btn-rounded">Guardar</button>
                     </div>
                     <?php echo form_close(); ?>
                 </div>
@@ -202,7 +226,7 @@ Registro Estatal de Regulaciones
             processData: false,
             contentType: false,
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 ocultarPantallaDeCarga();
                 if (response.status == 'success') {
                     Swal.fire(
@@ -219,7 +243,7 @@ Registro Estatal de Regulaciones
                         $('#msg_file').text(response.file_error);
                     }
                     if (response.errores) {
-                        $.each(response.errores, function (index, value) {
+                        $.each(response.errores, function(index, value) {
                             if ($("small#msg_" + index).length) {
                                 $("small#msg_" + index).html(value);
                             }
@@ -232,7 +256,7 @@ Registro Estatal de Regulaciones
                     )
                 }
             },
-            error: function () {
+            error: function() {
                 ocultarPantallaDeCarga();
                 console.error('Error al procesar la solicitud.');
             }
@@ -254,9 +278,9 @@ Registro Estatal de Regulaciones
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Validación en tiempo real
-        $('#formUsuarios input, #formUsuarios select').on('input change', function () {
+        $('#formUsuarios input, #formUsuarios select').on('input change', function() {
             var $input = $(this);
             var $errorMsg = $("#msg_" + $input.attr('id'));
             if ($input.val() !== '') {
@@ -267,7 +291,7 @@ Registro Estatal de Regulaciones
     });
 
     // Validación en tiempo real para el campo de archivo
-    $('#userfile').on('change', function () {
+    $('#userfile').on('change', function() {
         $('#msg_file').text('');
         $(this).removeClass('is-invalid');
     });

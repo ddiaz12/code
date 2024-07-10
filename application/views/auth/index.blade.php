@@ -242,7 +242,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
     function confirmDelete(userId) {
         Swal.fire({
             title: '¿Estás seguro?',
-            text: "No podrás revertir esto.",
+            text: "Eliminar usuario.",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Sí, eliminar',

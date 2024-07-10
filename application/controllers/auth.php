@@ -635,6 +635,9 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
         $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
+        $this->form_validation->set_rules('cargo', 'cargo', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('titulo', 'titulo', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('clave_empleado', 'clave_empleado', 'trim|regex_match[/^[a-zA-Z0-9]+$/]');
 
         if ($identity_column !== 'email') {
             $this->form_validation->set_rules('identity', 'correo', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
@@ -678,6 +681,9 @@ class Auth extends CI_Controller
                 'ext' => $this->input->post('ext'),
                 'phone' => $this->input->post('phone'),
                 'fecha_cargo' => $this->input->post('fecha'),
+                'cargo' => $this->input->post('cargo'),
+                'titulo' => $this->input->post('titulo'),
+                'clave_empleado' => $this->input->post('clave_empleado')
             ];
 
             // Intentar registrar al usuario
@@ -763,7 +769,6 @@ class Auth extends CI_Controller
         $id = base64_decode($encoded_id);
 
         if (!is_numeric($id)) {
-            // Redirige a la página de autenticación si el ID no es un número
             redirect('auth', 'refresh');
         }
 
@@ -792,6 +797,9 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
         $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
+        $this->form_validation->set_rules('cargo', 'cargo', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('titulo', 'titulo', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('clave_empleado', 'clave_empleado', 'trim|regex_match[/^[a-zA-Z0-9]+$/]');
 
         if ($this->input->post('password')) {
             $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
@@ -832,6 +840,9 @@ class Auth extends CI_Controller
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
                 'fecha_cargo' => $this->input->post('fecha'),
+                'cargo' => $this->input->post('cargo'),
+                'titulo' => $this->input->post('titulo'),
+                'clave_empleado' => $this->input->post('clave_empleado')
             ];
 
             if ($file_path) {
@@ -912,6 +923,12 @@ class Auth extends CI_Controller
                     'type' => 'date',
                     'value' => $this->form_validation->set_value('fecha', $user->fecha_cargo),
                 ];
+                $this->data['dependencia'] =[
+                    'name' => 'dependencia',
+                    'id' => 'dependencia',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('dependencia', $user->Dependencia),
+                ];
                 $this->data['password'] = [
                     'name' => 'password',
                     'id' => 'password',
@@ -921,6 +938,24 @@ class Auth extends CI_Controller
                     'name' => 'password_confirm',
                     'id' => 'password_confirm',
                     'type' => 'password',
+                ];
+                $this->data['cargo'] = [
+                    'name' => 'cargo',
+                    'id' => 'cargo',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('cargo', $user->cargo),
+                ];
+                $this->data['titulo'] = [
+                    'name' => 'titulo',
+                    'id' => 'titulo',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('titulo', $user->titulo),
+                ];
+                $this->data['clave_empleado'] = [
+                    'name' => 'clave_empleado',
+                    'id' => 'clave_empleado',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('clave_empleado', $user->clave_empleado),
                 ];
 
                 $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
