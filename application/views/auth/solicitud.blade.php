@@ -27,21 +27,6 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6" style="display: none;"> <!-- Utiliza display: none; para esconder el campo -->
                         <div class="form-group">
-                            <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="sujetos" name="sujetos" required>
-                                <option disabled selected>Selecciona una opción</option>
-                                <?php foreach ($sujetos as $index => $sujeto): ?>
-                                <option value="<?php    echo $sujeto->ID_sujeto; ?>" <?php    echo isset($user) && $sujeto->ID_sujeto == $user->id_sujeto ? 'selected' : ($index === 0 ? 'selected' : ''); ?>>
-                                    <?php    echo $sujeto->nombre_sujeto; ?>
-                                </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <small id="msg_sujetos" class="text-danger"></small>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6" style="display: none;"> <!-- Utiliza display: none; para esconder el campo -->
-                        <div class="form-group">
                             <label for="unidades">Unidad administrativa<span class="text-danger">*</span></label>
                             <select class="form-control" id="unidades" name="unidades" required>
                                 <option disabled selected>Selecciona una opción</option>
@@ -65,23 +50,30 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="last_name">Apellido paterno<span class="text-danger">*</span></label>
+                            <label for="last_name">Primer apellido<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="last_name" name="last_name"
-                                placeholder="Apellido" required>
+                                placeholder="Escribe tu primer apellido" required>
                             <small id="msg_last_name" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="ap2">Apellido materno</label>
-                            <input type="text" class="form-control" id="ap2" name="ap2" placeholder="Apellido">
+                            <label for="ap2">Segundo apellido</label>
+                            <input type="text" class="form-control" id="ap2" name="ap2" placeholder="Escribe tu segundo apellido">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="dependencia">Dependencia</label>
-                            <input type="text" class="form-control" id="dependencia" name="dependencia"
-                                placeholder="Dependencia a donde pertenece">
+                            <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
+                            <select class="form-control" id="sujetos" name="sujetos" required>
+                                <option disabled selected>Selecciona una opción</option>
+                                <?php foreach ($sujetos as $sujeto): ?>
+                                <option value="<?php    echo $sujeto->ID_sujeto; ?>">
+                                    <?php    echo $sujeto->nombre_sujeto; ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <small id="msg_sujetos" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -152,7 +144,7 @@ Registro Estatal de Regulaciones
                     }
                     Swal.fire(
                         '¡Error!',
-                        'Ha ocurrido un error al enviar la solicitud. Por favor, inténtalo de mas tarde.',
+                        'Ha ocurrido un error al enviar la solicitud. Por favor, inténtalo mas tarde.',
                         'error'
                     )
                 }

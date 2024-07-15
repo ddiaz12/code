@@ -62,7 +62,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputNombre',
             'Nombre',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras.'
@@ -77,8 +77,24 @@ class Oficinas extends CI_Controller
                 'regex_match' => 'El campo %s solo puede contener letras y no puede tener espacios ni caracteres numéricos.'
             )
         );
-        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric');
-        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required|numeric');
+        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric|greater_than_equal_to[0]'
+            , array(
+                'required' => 'El campo %s es obligatorio.',
+                'numeric' => 'El campo %s solo puede contener números.',
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'codigo_postal',
+            'Código postal',
+            'required|exact_length[5]|numeric|greater_than_equal_to[0]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'exact_length' => 'El campo %s debe tener 5 dígitos.',
+                'numeric' => 'El campo %s solo puede contener números.',
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+            )
+        );
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -95,7 +111,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre de vialidad',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras.'
@@ -189,7 +205,7 @@ class Oficinas extends CI_Controller
         $id = base64_decode($encoded_id);
         if (!is_numeric($id)) {
             // Redirige a la página de autenticación si el ID no es un número
-            redirect('auth', 'refresh');
+            redirect('home', 'refresh');
         }
         $data['oficinas'] = $this->OficinaModel->getOficinaEditar($id);
         $data['horarios'] = $this->OficinaModel->getHorariosOficina($id);
@@ -224,7 +240,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputNombre',
             'Nombre',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras.'
@@ -239,8 +255,21 @@ class Oficinas extends CI_Controller
                 'regex_match' => 'El campo %s solo puede contener letras y no puede tener espacios ni caracteres numéricos.'
             )
         );
-        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
-        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
+        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric|greater_than_equal_to[0]'
+            , array(
+                'required' => 'El campo %s es obligatorio.',
+                'numeric' => 'El campo %s solo puede contener números.',
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+            )
+        );
+        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required|exact_length[5]|numeric|greater_than_equal_to[0]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'exact_length' => 'El campo %s debe tener 5 dígitos.',
+                'numeric' => 'El campo %s solo puede contener números.',
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+            )
+        );
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -257,7 +286,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre de vialidad',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras.'

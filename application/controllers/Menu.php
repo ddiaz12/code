@@ -93,7 +93,8 @@ class Menu extends CI_Controller
         }
     }
 
-    public function menu_buzon(){
+    public function menu_buzon()
+    {
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/buzon');
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
@@ -135,15 +136,25 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputNombre',
             'Nombre',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras'
             )
         );
         $this->form_validation->set_rules('siglas', 'Siglas', 'required|alpha');
-        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric');
-        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required|numeric');
+        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric|greater_than_equal_to[0]');
+        $this->form_validation->set_rules(
+            'codigo_postal',
+            'Código postal',
+            'required|exact_length[5]|numeric|greater_than_equal_to[0]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'exact_length' => 'El campo %s debe tener 5 dígitos.',
+                'numeric' => 'El campo %s solo puede contener números.',
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+            )
+        );
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -156,7 +167,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
-        $this->form_validation->set_rules('nombre_vialidad', 'Nombre de vialidad', 'required|alpha');
+        $this->form_validation->set_rules('nombre_vialidad', 'Nombre de vialidad', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
 
         if ($this->form_validation->run() != FALSE) {
 
@@ -252,7 +263,7 @@ class Menu extends CI_Controller
         $id = base64_decode($encoded_id);
         if (!is_numeric($id)) {
             // Redirige a la página de autenticación si el ID no es un número
-            redirect('auth', 'refresh');
+            redirect('home', 'refresh');
         }
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
@@ -275,10 +286,20 @@ class Menu extends CI_Controller
 
     public function actualizar_unidad()
     {
-        $this->form_validation->set_rules('inputNombre', 'Nombre', 'required');
+        $this->form_validation->set_rules('inputNombre', 'Nombre', 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
         $this->form_validation->set_rules('siglas', 'Siglas', 'required');
-        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required');
-        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required');
+        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric|greater_than_equal_to[0]');
+        $this->form_validation->set_rules(
+            'codigo_postal',
+            'Código postal',
+            'required|exact_length[5]|numeric|greater_than_equal_to[0]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'exact_length' => 'El campo %s debe tener 5 dígitos.',
+                'numeric' => 'El campo %s solo puede contener números.',
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+            )
+        );
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -291,7 +312,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
-        $this->form_validation->set_rules('nombre_vialidad', 'Nombre de vialidad', 'required');
+        $this->form_validation->set_rules('nombre_vialidad', 'Nombre de vialidad', 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
 
         if ($this->form_validation->run() != FALSE) {
 
@@ -391,7 +412,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputSujetos',
             'Sujeto obligado',
-            'required|regex_match[/^[a-zA-Z() ]*$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras'
@@ -440,7 +461,11 @@ class Menu extends CI_Controller
     public function editar_sujeto($encoded_id)
     {
         $id = base64_decode($encoded_id);
-        
+        if (!is_numeric($id)) {
+            // Redirige a la página de autenticación si el ID no es un número
+            redirect('home', 'refresh');
+        }
+
         $data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
         $data['sujeto'] = $this->MenuModel->getSujeto($id);
 

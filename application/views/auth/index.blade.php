@@ -57,7 +57,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                         <td>
                             <?php    foreach ($user->groups as $group): ?>
                             <a href="<?php        echo base_url('auth/edit_group/' . base64_encode($group->id)); ?>"
-                                class="btn btn-info btn-sm" title="Editar grupo">
+                                class="btn btn-dorado btn-sm" title="Editar grupo">
                                 <?php        echo htmlspecialchars($group->name, ENT_QUOTES, 'UTF-8'); ?>
                             </a>
                             <?php    endforeach; ?>
@@ -82,14 +82,14 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                         </td>
                         <td>
                             <a href="<?php    echo base_url('auth/edit_user/' . base64_encode($user->id)); ?>"
-                                class="btn btn-warning btn-sm">
+                                class="btn btn btn-dorado btn-sm">
                                 <i class="fas fa-edit" title="Editar usuario"></i>
                             </a>
-                            <button class="btn btn-secondary btn-sm"
+                            <button class="btn btn btn-secondary btn-sm"
                                 onclick="confirmPending(<?php    echo $user->id; ?>)">
                                 <i class="fas fa-clock" title="Usuario pendiente"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm btn-ocultar" onclick="confirmDelete(<?php    echo $user->id; ?>)">
+                            <button class="btn btn btn-danger btn-sm btn-ocultar" onclick="confirmDelete(<?php    echo $user->id; ?>)">
                                 <i class="fas fa-trash-alt" title="Eliminar usuario"></i>
                             </button>
                         </td>

@@ -30,6 +30,7 @@ class MenuModel extends CI_Model
 
     public function getTipoSujetoObligado()
     {
+        $this->db->where('tipo_sujeto !=', 'No especificado');
         $query = $this->db->get('cat_tipo_sujeto_obligado');
         return $query->result();
     }

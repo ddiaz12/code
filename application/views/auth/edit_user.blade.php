@@ -78,14 +78,14 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="last_name">Apellido paterno<span class="text-danger">*</span></label>
+                            <label for="last_name">Primer apellido<span class="text-danger">*</span></label>
                             <?php echo form_input($last_name, '', ['class' => 'form-control', 'id' => 'last_name']); ?>
                             <small id="msg_last_name" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="ap2">Apellido materno</label>
+                            <label for="ap2">Segundo apellido</label>
                             <?php echo form_input($ap2, '', ['class' => 'form-control', 'id' => 'ap2']); ?>
                             <small id="msg_ap2" class="text-danger"></small>
                         </div>
@@ -174,16 +174,6 @@ Registro Estatal de Regulaciones
                             <?php endif; ?>
                             <br>
                             <small id="msg_file" class="text-danger"></small>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="dependencia">Dependencia</label>
-                            <?php echo form_input($dependencia, '', [
-                                'class' => 'form-control', 'id' => 'dependencia',
-                                'readonly' => 'readonly', 'disabled' => 'disabled'
-                            ]); ?>
-                            <small id="msg_dependencia" class="text-danger"></small>
                         </div>
                     </div>
                     <?php if ($this->ion_auth->is_admin()) : ?>

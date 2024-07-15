@@ -7,9 +7,9 @@
                             Tercer Anillo Perf. S/N, El Diezmo, 28010 31231620000
                         </div>
                         <div>
-                            <a href="#">Privacy Policy</a>
+                            <a href="https://www.col.gob.mx/economico/contenido/NTM0ODA=">Privacy Policy</a>
                             &middot;
-                            <a href="#">Terms &amp; Conditions</a>
+                            <a href="https://www.col.gob.mx/economico/contenido/NTM0ODA=">Terms &amp; Conditions</a>
                         </div>
                     </div>
                 </div>

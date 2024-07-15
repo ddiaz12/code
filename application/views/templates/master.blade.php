@@ -38,7 +38,7 @@
         @yield('menu')
         <!-- Menu -->
         <!-- Contenido -->
-        <div id="layoutSidenav_content" class="div-img">
+        <div id="layoutSidenav_content">
             <main class="main-contenido">
                 @yield('contenido')
             </main>

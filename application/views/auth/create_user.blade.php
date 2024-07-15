@@ -78,7 +78,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="last_name">Apellido paterno<span class="text-danger">*</span></label>
+                            <label for="last_name">Primer apellido<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="last_name" name="last_name"
                                 placeholder="Apellido" required>
                             <small id="msg_last_name" class="text-danger"></small>
@@ -86,7 +86,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="ap2">Apellido materno</label>
+                            <label for="ap2">Segundo apellido</label>
                             <input type="text" class="form-control" id="ap2" name="ap2" placeholder="Apellido">
                         </div>
                     </div>
@@ -197,9 +197,13 @@ Registro Estatal de Regulaciones
                 title: 'Archivo no seleccionado',
                 text: 'Tienes tres días para subir el archivo.',
                 icon: 'warning',
-                confirmButtonText: 'Entendido'
+                showCancelButton: true,
+                confirmButtonText: 'Entendido',
+                cancelButtonText: 'Cancelar'
             }).then((result) => {
-                enviaDatosFormulario();
+                if (result.isConfirmed) {
+                    enviaDatosFormulario();
+                }
             });
         } else {
             enviaDatosFormulario();

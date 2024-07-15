@@ -265,7 +265,7 @@ class Auth extends CI_Controller
                 $contenido .= '<a href="' . base_url() . 'auth/reset_password/' . $forgotten['forgotten_password_code'] . '">Reset Password</a>';
 
                 // Send email
-                $response = $this->enviaCorreo($correo, $titulo, $contenido);
+                $response = enviaCorreo($correo, $titulo, $contenido);
 
                 if (strpos($response, 'cURL Error') === false) {
                     $this->session->set_flashdata('message', 'Se ha enviado un correo con instrucciones para restablecer tu contraseña.');
@@ -458,7 +458,7 @@ class Auth extends CI_Controller
     {
         try {
             $this->deactivate($id);
-            $data = array('pending' => 1);
+            $data = ['pending' => 1];
             $this->ion_auth->update($id, $data);
 
             $user = $this->ion_auth->user($id)->row();
@@ -645,7 +645,15 @@ class Auth extends CI_Controller
         } else {
             $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
         }
-        $this->form_validation->set_rules('phone', 'telefono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
+        $this->form_validation->set_rules(
+            'phone',
+            'número de teléfono',
+            'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
+            )
+        );
         $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
         $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
@@ -791,7 +799,15 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
         $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
         $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('phone', 'telefono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
+        $this->form_validation->set_rules(
+            'phone',
+            'número de teléfono',
+            'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
+            )
+        );
         $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
@@ -922,12 +938,6 @@ class Auth extends CI_Controller
                     'id' => 'fecha',
                     'type' => 'date',
                     'value' => $this->form_validation->set_value('fecha', $user->fecha_cargo),
-                ];
-                $this->data['dependencia'] =[
-                    'name' => 'dependencia',
-                    'id' => 'dependencia',
-                    'type' => 'text',
-                    'value' => $this->form_validation->set_value('dependencia', $user->Dependencia),
                 ];
                 $this->data['password'] = [
                     'name' => 'password',
@@ -1132,7 +1142,6 @@ class Auth extends CI_Controller
         $id = base64_decode($encoded_id);
 
         if (!is_numeric($id)) {
-            // Redirige a la página de autenticación si el ID no es un número
             redirect('auth', 'refresh');
         }
         // Verificar si se proporcionó un ID de grupo
@@ -1381,16 +1390,24 @@ class Auth extends CI_Controller
         $this->data['identity_column'] = $identity_column;
         // Reglas de validación
         $this->form_validation->set_rules('first_name', 'Nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('last_name', 'Primer Apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('ap2', 'Segundo Apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('dependencia', 'Dependencia', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('last_name', 'Primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('ap2', 'Segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         if ($identity_column !== 'email') {
             $this->form_validation->set_rules('identity', 'correo', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
             $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email');
         } else {
             $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
         }
-        $this->form_validation->set_rules('phone', 'Teléfono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
+        $this->form_validation->set_rules(
+            'phone',
+            'número de teléfono',
+            'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
+            )
+        );
 
         // Validación de formulario
         if ($this->form_validation->run() === TRUE) {
@@ -1401,7 +1418,6 @@ class Auth extends CI_Controller
                 'first_name' => $this->input->post('first_name'),
                 'ap1' => $this->input->post('last_name'),
                 'ap2' => $this->input->post('ap2'),
-                'Dependencia' => $this->input->post('dependencia'),
                 'phone' => $this->input->post('phone'),
                 'created_on' => time(),
                 'active' => 0,
@@ -1430,7 +1446,7 @@ class Auth extends CI_Controller
                     'errores' => $this->form_validation->error_array()
                 ];
                 echo json_encode($response);
-            }else {
+            } else {
                 $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
                 $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
                 $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
@@ -1447,10 +1463,11 @@ class Auth extends CI_Controller
 
         if ($user) {
             // Actualizar el estado de pending a 2 (oculto)
+            $this->deactivate($id);
             $data = ['pending' => 2];
             $this->db->where('id', $id);
             $this->db->update('users', $data);
-    
+
             // Redirigir con un mensaje de éxito
             $response = [
                 'status' => 'success',
@@ -1465,7 +1482,7 @@ class Auth extends CI_Controller
             ];
             echo json_encode($response);
         }
-    
+
         redirect('auth');
     }
 

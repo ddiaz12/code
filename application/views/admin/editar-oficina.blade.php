@@ -158,8 +158,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="phone">Número de teléfono oficial<span
-                                        class="text-danger">*</span></label>
+                                <label for="phone">Número de teléfono oficial<span class="text-danger">*</span></label>
                                 <input class="form-control" id="phone" type="text" name="phone"
                                     value="{{ $oficinas->NumTel_Oficial }}" required>
                                 <small id="msg_phone" class="text-danger"></small>
@@ -184,10 +183,9 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="form-group">
                             <label for="inputNotas">Notas</label>
-                            <textarea class="form-control" id="inputNotas" name="notas"
-                                value="{{ $oficinas->Notas }}"></textarea>
+                            <textarea class="form-control" id="inputNotas"
+                                name="notas">{{ $oficinas->Notas }}</textarea>
                         </div>
-
                         <!-- Tabla de Horarios de Atención -->
                         <div class="form-group">
                             <label>Horarios de Atención</label>

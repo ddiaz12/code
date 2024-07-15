@@ -163,7 +163,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="form-group">
                             <label for="inputNotas">Notas</label>
-                            <textarea class="form-control" id="inputNotas" name="notas" value="{{ $unidades->Notas }}"></textarea>
+                            <textarea class="form-control" id="inputNotas" name="notas">{{ $unidades->Notas }}</textarea>
                         </div>
                         <div class="form-group">
                             <div class="form-check">

@@ -37,7 +37,7 @@
                 <li>
                     <hr class="dropdown-divider" />
                 </li>
-                <li><a class="dropdown-item" href="<?php echo base_url('auth/logout'); ?>">Logout</a></li>
+                <li><a class="dropdown-item" href="<?php echo base_url('auth/logout'); ?>">Cerrar sesión</a></li>
             </ul>
         </li>
         <!-- User Email -->
