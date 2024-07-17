@@ -113,6 +113,7 @@ class Menu extends CI_Controller
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();
         $data['localidades'] = $this->MenuModel->getCatLocalidades();
+        $data['asentamientos'] = $this->MenuModel->getCatAsentamientos();
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/agregar-unidad', $data);
@@ -144,7 +145,7 @@ class Menu extends CI_Controller
         );
         $this->form_validation->set_rules('siglas', 'Siglas', 'required|alpha');
         $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric|greater_than_equal_to[0]');
-        $this->form_validation->set_rules(
+       /* $this->form_validation->set_rules(
             'codigo_postal',
             'Código postal',
             'required|exact_length[5]|numeric|greater_than_equal_to[0]',
@@ -154,7 +155,7 @@ class Menu extends CI_Controller
                 'numeric' => 'El campo %s solo puede contener números.',
                 'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
             )
-        );
+        );*/
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -182,7 +183,7 @@ class Menu extends CI_Controller
             $nombre_vialidad = $this->input->post('nombre_vialidad');
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
-            $codigo_postal = $this->input->post('codigo_postal');
+           /* $codigo_postal = $this->input->post('codigo_postal');*/
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
             $email = $this->input->post('email');
@@ -194,15 +195,14 @@ class Menu extends CI_Controller
                 'ID_sujeto' => $sujeto,
                 'ID_municipio' => $municipio,
                 'ID_localidad' => $localidad,
-                'ID_asentamiento' => $tipo_asentamiento,
                 'ID_nAsentamiento' => $nombre_asentamiento,
                 'nombre' => $nombre,
                 'siglas' => $siglas,
                 'ID_vialidad' => $tipo_vialidad,
+                'tipo_asentamiento' => $tipo_asentamiento,
                 'nombre_vialidad' => $nombre_vialidad,
                 'Num_interior' => $num_interior,
                 'Num_Exterior' => $num_exterior,
-                'c_p' => $codigo_postal,
                 'NumTel_Oficial' => $inputNumTel,
                 'extension' => $extension,
                 'Correo_Elec' => $email,
@@ -271,6 +271,7 @@ class Menu extends CI_Controller
         $data['localidades'] = $this->MenuModel->getCatLocalidades();
         $data['unidades'] = $this->MenuModel->getUnidad($id);
         $data['horarios'] = $this->MenuModel->obtenerHorariosUnidad($id);
+        $data['asentamientos'] = $this->MenuModel->getCatAsentamientos();
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/editar-unidad', $data);
@@ -289,7 +290,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules('inputNombre', 'Nombre', 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
         $this->form_validation->set_rules('siglas', 'Siglas', 'required');
         $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric|greater_than_equal_to[0]');
-        $this->form_validation->set_rules(
+        /*$this->form_validation->set_rules(
             'codigo_postal',
             'Código postal',
             'required|exact_length[5]|numeric|greater_than_equal_to[0]',
@@ -299,7 +300,7 @@ class Menu extends CI_Controller
                 'numeric' => 'El campo %s solo puede contener números.',
                 'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
             )
-        );
+        );*/
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -328,7 +329,7 @@ class Menu extends CI_Controller
             $nombre_vialidad = $this->input->post('nombre_vialidad');
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
-            $codigo_postal = $this->input->post('codigo_postal');
+            //$codigo_postal = $this->input->post('codigo_postal');
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
             $email = $this->input->post('email');
@@ -340,15 +341,14 @@ class Menu extends CI_Controller
                 'ID_sujeto' => $sujeto,
                 'ID_municipio' => $municipio,
                 'ID_localidad' => $localidad,
-                'ID_asentamiento' => $tipo_asentamiento,
                 'ID_nAsentamiento' => $nombre_asentamiento,
                 'nombre' => $nombre,
                 'siglas' => $siglas,
                 'ID_vialidad' => $tipo_vialidad,
+                'tipo_asentamiento' => $tipo_asentamiento,
                 'nombre_vialidad' => $nombre_vialidad,
                 'Num_interior' => $num_interior,
                 'Num_Exterior' => $num_exterior,
-                'c_p' => $codigo_postal,
                 'NumTel_Oficial' => $inputNumTel,
                 'extension' => $extension,
                 'Correo_Elec' => $email,

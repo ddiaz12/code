@@ -60,7 +60,8 @@ Registro Estatal de Regulaciones
                                     <option disabled selected>Selecciona una opción</option>
                                     <?php foreach ($vialidades as $vialidad): ?>
                                     <option value="<?php    echo $vialidad->ID_Vialidades; ?>">
-                                        <?php    echo $vialidad->Vialidad; ?></option>
+                                        <?php    echo $vialidad->Vialidad; ?>
+                                    </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -92,7 +93,8 @@ Registro Estatal de Regulaciones
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($municipios as $municipio)
                                         <option value="<?php    echo $municipio->ID_Municipio; ?>">
-                                            <?php    echo $municipio->Nombre_municipio; ?></option>
+                                            <?php    echo $municipio->Nombre_municipio; ?>
+                                        </option>
                                     @endforeach;
                                 </select>
                             </div>
@@ -120,9 +122,9 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectMunicipio">Tipo asentamiento</label>
-                                <select class="form-control" id="selectMunicipio" name="tipo_asentamiento">
-                                    <option disabled>Selecciona una opción</option>
+                                <label for="selectTipoAsentamiento">Tipo asentamiento</label>
+                                <select class="form-control" id="selectTipoAsentamiento" name="tipo_asentamiento">
+                                    <option disabled selected>Selecciona una opción</option>
                                 </select>
                             </div>
                         </div>
@@ -130,17 +132,23 @@ Registro Estatal de Regulaciones
                             <div class="form-group">
                                 <label for="selectAsentamiento">Nombre asentamiento</label>
                                 <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
-                                    <option disabled>Selecciona una opción</option>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    @foreach ($asentamientos as $asentamiento)
+                                        <option value="{{ $asentamiento->ID_nAsentamiento }}"
+                                            data-codigo-postal="{{ $asentamiento->CP }}">
+                                            {{ $asentamiento->nombre }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="codigo_postal" name="codigo_postal"
-                                    required>
+                                <input type="number" class="form-control" id="inputCP" name="codigo_postal"
+                                    placeholder="Código postal" readonly>
+                                <small id="msg_codigo_postal" class="text-danger"></small>
                             </div>
-                            <small id="msg_codigo_postal" class="text-danger"></small>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -232,13 +240,9 @@ Registro Estatal de Regulaciones
 </div>
 @endsection
 @section('js')
+<script src="<?php echo base_url('assets/js/apiAsentamientos.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
 <script>
-    document.getElementById('selectLocalidad').addEventListener('change', function () {
-        var selectedOption = this.options[this.selectedIndex];
-        var clave = selectedOption.getAttribute('data-clave');
-        document.getElementById('claveLocalidad').value = clave;
-    });
-
     function enviarFormulario() {
         var sendData = $('#formUnidad').serializeArray();
         mostrarPantallaDeCarga();

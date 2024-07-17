@@ -129,14 +129,16 @@ Registro Estatal de Regulaciones
                             <div class="form-group">
                                 <label for="claveLocalidad">Clave localidad</label>
                                 <input type="number" class="form-control" id="claveLocalidad" name="clave_localidad"
-                                    value="{{ $localidad->clave }}" readonly>
+                                    value="{{ $oficinas->clave }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectMunicipio">Tipo asentamiento</label>
-                                <select class="form-control" id="selectMunicipio" name="tipo_asentamiento">
-                                    <option disabled>Selecciona una opción</option>
+                                <label for="selectTipoAsentamiento">Tipo asentamiento</label>
+                                <select class="form-control" id="selectTipoAsentamiento" name="tipo_asentamiento">
+                                    <option value="{{ $oficinas->tipo_asentamiento }}" selected>
+                                        {{ $oficinas->tipo_asentamiento }}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -145,6 +147,13 @@ Registro Estatal de Regulaciones
                                 <label for="selectAsentamiento">Nombre asentamiento</label>
                                 <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
                                     <option disabled>Selecciona una opción</option>
+                                    @foreach ($asentamientos as $asentamiento)
+                                        <option value="{{ $asentamiento->ID_nAsentamiento }}" 
+                                            {{ $asentamiento->ID_nAsentamiento == $oficinas->ID_nAsentamiento ? 'selected' : '' }}
+                                                data-codigo-postal="{{ $asentamiento->CP }}">
+                                            {{ $asentamiento->nombre }}
+                                        </option>
+                                    @endforeach;
                                 </select>
                             </div>
                         </div>
@@ -152,7 +161,7 @@ Registro Estatal de Regulaciones
                             <div class="form-group">
                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="inputCP" name="codigo_postal"
-                                    value="{{ $oficinas->c_p }}" required>
+                                    value="{{ $oficinas->CP }}" required readonly>
                                 <small id="msg_codigo_postal" class="text-danger"></small>
                             </div>
                         </div>
@@ -240,13 +249,9 @@ Registro Estatal de Regulaciones
 </div>
 @endsection
 @section('js')
+<script src="<?php echo base_url('assets/js/apiAsentamientosEditar.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
 <script>
-    document.getElementById('selectLocalidad').addEventListener('change', function () {
-        var selectedOption = this.options[this.selectedIndex];
-        var clave = selectedOption.getAttribute('data-clave');
-        document.getElementById('claveLocalidad').value = clave;
-    });
-
     function enviarFormulario() {
         var sendData = $('#formOficina').serializeArray();
         mostrarPantallaDeCarga();

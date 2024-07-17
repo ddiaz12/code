@@ -43,6 +43,7 @@ class Oficinas extends CI_Controller
         $data['vialidades'] = $this->OficinaModel->getCatVialidades();
         $data['municipios'] = $this->OficinaModel->getCatMunicipios();
         $data['localidades'] = $this->OficinaModel->getCatLocalidades();
+        $data['asentamientos'] = $this->OficinaModel->getCatAsentamientos();
 
         // Verifica el grupo del usuario y redirige a la vista correspondiente
         if ($this->ion_auth->in_group('sujeto_obligado')) {
@@ -77,13 +78,18 @@ class Oficinas extends CI_Controller
                 'regex_match' => 'El campo %s solo puede contener letras y no puede tener espacios ni caracteres numéricos.'
             )
         );
-        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric|greater_than_equal_to[0]'
-            , array(
+        $this->form_validation->set_rules(
+            'num_exterior',
+            'Número exterior',
+            'required|numeric|greater_than_equal_to[0]'
+            ,
+            array(
                 'required' => 'El campo %s es obligatorio.',
                 'numeric' => 'El campo %s solo puede contener números.',
                 'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
             )
         );
+        /*
         $this->form_validation->set_rules(
             'codigo_postal',
             'Código postal',
@@ -95,6 +101,7 @@ class Oficinas extends CI_Controller
                 'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
             )
         );
+        */
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -131,7 +138,7 @@ class Oficinas extends CI_Controller
             $nombre_vialidad = $this->input->post('inputVialidad');
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
-            $codigo_postal = $this->input->post('codigo_postal');
+            /* $codigo_postal = $this->input->post('codigo_postal');*/
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
             $email = $this->input->post('email');
@@ -142,17 +149,17 @@ class Oficinas extends CI_Controller
                 'ID_sujeto' => $sujeto,
                 'ID_unidad' => $unidad,
                 'ID_localidad' => $localidad,
-                'ID_asentamiento' => $tipo_asentamiento,
                 'ID_nAsentamiento' => $nombre_asentamiento,
                 'ID_vialidad' => $tipo_vialidad,
                 'ID_municipio' => $municipio,
                 'nombre' => $nombre,
                 'tipo' => 'oficina',
                 'Siglas' => $siglas,
+                'tipo_asentamiento' => $tipo_asentamiento,
                 'Nombre_Vialidad' => $nombre_vialidad,
                 'Num_interior' => $num_interior,
                 'Num_Exterior' => $num_exterior,
-                'c_p' => $codigo_postal,
+                /* 'c_p' => $codigo_postal,*/
                 'NumTel_Oficial' => $inputNumTel,
                 'Extension' => $extension,
                 'Correo_Elec' => $email,
@@ -214,6 +221,7 @@ class Oficinas extends CI_Controller
         $data['vialidades'] = $this->OficinaModel->getCatVialidades();
         $data['municipios'] = $this->OficinaModel->getCatMunicipios();
         $data['localidades'] = $this->OficinaModel->getCatLocalidades();
+        $data['asentamientos'] = $this->OficinaModel->getCatAsentamientos();
 
         // Verifica el grupo del usuario y redirige a la vista correspondiente
         if ($this->ion_auth->in_group('sujeto_obligado')) {
@@ -255,21 +263,28 @@ class Oficinas extends CI_Controller
                 'regex_match' => 'El campo %s solo puede contener letras y no puede tener espacios ni caracteres numéricos.'
             )
         );
-        $this->form_validation->set_rules('num_exterior', 'Número exterior', 'required|numeric|greater_than_equal_to[0]'
-            , array(
+        $this->form_validation->set_rules(
+            'num_exterior',
+            'Número exterior',
+            'required|numeric|greater_than_equal_to[0]'
+            ,
+            array(
                 'required' => 'El campo %s es obligatorio.',
                 'numeric' => 'El campo %s solo puede contener números.',
                 'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
             )
         );
-        $this->form_validation->set_rules('codigo_postal', 'Código postal', 'required|exact_length[5]|numeric|greater_than_equal_to[0]',
+       /* $this->form_validation->set_rules(
+            'codigo_postal',
+            'Código postal',
+            'required|exact_length[5]|numeric|greater_than_equal_to[0]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'exact_length' => 'El campo %s debe tener 5 dígitos.',
                 'numeric' => 'El campo %s solo puede contener números.',
                 'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
             )
-        );
+        );*/
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -307,7 +322,7 @@ class Oficinas extends CI_Controller
             $nombre_vialidad = $this->input->post('inputVialidad');
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
-            $codigo_postal = $this->input->post('codigo_postal');
+           /* $codigo_postal = $this->input->post('codigo_postal');*/
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
             $email = $this->input->post('email');
@@ -321,16 +336,16 @@ class Oficinas extends CI_Controller
                 'ID_sujeto' => $sujeto,
                 'ID_unidad' => $unidad,
                 'ID_localidad' => $localidad,
-                'ID_asentamiento' => $tipo_asentamiento,
                 'ID_nAsentamiento' => $nombre_asentamiento,
                 'ID_vialidad' => $tipo_vialidad,
                 'ID_municipio' => $municipio,
                 'nombre' => $nombre,
                 'Siglas' => $siglas,
+                'tipo_asentamiento' => $tipo_asentamiento,
                 'Nombre_Vialidad' => $nombre_vialidad,
                 'Num_interior' => $num_interior,
                 'Num_Exterior' => $num_exterior,
-                'c_p' => $codigo_postal,
+               /* 'c_p' => $codigo_postal,*/
                 'NumTel_Oficial' => $inputNumTel,
                 'Extension' => $extension,
                 'Correo_Elec' => $email,
