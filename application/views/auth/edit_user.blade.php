@@ -27,7 +27,8 @@ Registro Estatal de Regulaciones
                 <div class="card-header header-usuario text-white">Editar Usuario</div>
                 <div class="card-body">
                     <?php echo form_open_multipart(uri_string(), ['class' => 'row g-3', 'id' => 'formUsuarios']); ?>
-                    <div class="col-md-6">
+                    
+                    <!--<div class="col-md-6">
                         <div class="form-group">
                             <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
                             <select class="form-control" id="tipoSujeto" name="tipoSujeto">
@@ -40,7 +41,7 @@ Registro Estatal de Regulaciones
                             </select>
                             <small id="msg_tipoSujeto" class="text-danger"></small>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
@@ -118,6 +119,7 @@ Registro Estatal de Regulaciones
                                 'class' => 'form-control', 'id' => 'cargo',
                                 'placeholder' => 'Cargo del servidor público'
                             ]); ?>
+                            <small id="msg_cargo" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -127,6 +129,7 @@ Registro Estatal de Regulaciones
                                 'class' => 'form-control', 'id' => 'titulo',
                                 'placeholder' => 'Titulo'
                             ]); ?>
+                            <small id="msg_titulo" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -136,6 +139,7 @@ Registro Estatal de Regulaciones
                                 'class' => 'form-control', 'id' => 'clave_empleado',
                                 'placeholder' => 'Número o clave del empleado'
                             ]); ?>
+                            <small id="msg_clave_empleado" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">

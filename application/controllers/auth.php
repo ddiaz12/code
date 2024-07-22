@@ -61,11 +61,9 @@ class Auth extends CI_Controller
                 $additionalInfo = $this->UsuarioModel->getPorUsuario($user->id);
 
                 if ($additionalInfo) {
-                    $user->tipo_sujeto = $additionalInfo->tipo_sujeto;
                     $user->sujeto = $additionalInfo->nombre_sujeto;
                     $user->unidad = $additionalInfo->nombre;
                 } else {
-                    $user->tipo_sujeto = 'No especificado';
                     $user->sujeto = 'No especificado';
                     $user->unidad = 'No especificado';
                 }
@@ -628,16 +626,60 @@ class Auth extends CI_Controller
         $this->data['identity_column'] = $identity_column;
 
         // Validación del formulario
-        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
+        $this->form_validation->set_rules(
+            'first_name',
+            'nombre',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'last_name',
+            'primer apellido',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'ap2',
+            'segundo apellido',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        //$this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
         $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
-        $this->form_validation->set_rules('cargo', 'cargo', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('titulo', 'titulo', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('clave_empleado', 'clave_empleado', 'trim|regex_match[/^[a-zA-Z0-9]+$/]');
+        $this->form_validation->set_rules(
+            'cargo',
+            'cargo',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'titulo',
+            'titulo',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'clave_empleado',
+            'clave_empleado',
+            'trim|numeric',
+            array(
+                'numeric' => 'El campo %s debe ser numérico.'
+            )
+        );
 
         if ($identity_column !== 'email') {
             $this->form_validation->set_rules('identity', 'correo', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
@@ -654,7 +696,16 @@ class Auth extends CI_Controller
                 'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
             )
         );
-        $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
+        $this->form_validation->set_rules(
+            'ext',
+            'extension',
+            'trim|numeric|max_length[4]|min_length[2]',
+            array(
+                'numeric' => 'El campo %s debe ser numérico.',
+                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            )
+        );
         $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
 
@@ -683,7 +734,6 @@ class Auth extends CI_Controller
                 'first_name' => $this->input->post('first_name'),
                 'ap1' => $this->input->post('last_name'),
                 'ap2' => $this->input->post('ap2'),
-                'id_tipoSujeto' => $this->input->post('tipoSujeto'),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
                 'ext' => $this->input->post('ext'),
@@ -743,7 +793,7 @@ class Auth extends CI_Controller
                 echo json_encode($response);
             } else {
                 // Cargar datos necesarios para la vista
-                $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
+                //$this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
                 $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
                 $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
 
@@ -796,9 +846,32 @@ class Auth extends CI_Controller
         $this->data['identity_column'] = $identity_column;
 
         // validate form input
-        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules(
+            'first_name',
+            'nombre',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'last_name',
+            'primer apellido',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'ap2',
+            'segundo apellido',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -808,15 +881,44 @@ class Auth extends CI_Controller
                 'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
             )
         );
-        $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
-        $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
+        $this->form_validation->set_rules(
+            'ext',
+            'extension',
+            'trim|numeric|max_length[4]|min_length[2]',
+            array(
+                'numeric' => 'El campo %s debe ser numérico.',
+                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            )
+        );
+        //$this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
         $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
-        $this->form_validation->set_rules('cargo', 'cargo', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('titulo', 'titulo', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('clave_empleado', 'clave_empleado', 'trim|regex_match[/^[a-zA-Z0-9]+$/]');
-
+        $this->form_validation->set_rules(
+            'cargo',
+            'cargo',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'titulo',
+            'titulo',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'clave_empleado',
+            'clave_empleado',
+            'trim|numeric',
+            array(
+                'numeric' => 'El campo %s debe ser numérico.'
+            )
+        );
         if ($this->input->post('password')) {
             $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
                 $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
@@ -852,7 +954,6 @@ class Auth extends CI_Controller
                 'ap2' => $this->input->post('ap2'),
                 'ext' => $this->input->post('ext'),
                 'phone' => $this->input->post('phone'),
-                'id_tipoSujeto' => $this->input->post('tipoSujeto'),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
                 'fecha_cargo' => $this->input->post('fecha'),
@@ -968,7 +1069,7 @@ class Auth extends CI_Controller
                     'value' => $this->form_validation->set_value('clave_empleado', $user->clave_empleado),
                 ];
 
-                $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
+                //$this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
                 $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
                 $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
                 $this->data['users'] = $this->UsuarioModel->getPorUsuario($user->id);
@@ -991,11 +1092,51 @@ class Auth extends CI_Controller
         $user = $this->ion_auth->user($id)->row();
 
         // validate form input
-        $this->form_validation->set_rules('first_name', 'nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('last_name', 'primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('ap2', 'segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('phone', 'telefono', 'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]');
-        $this->form_validation->set_rules('ext', 'extension', 'trim|numeric|max_length[4]');
+        $this->form_validation->set_rules(
+            'first_name',
+            'nombre',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'last_name',
+            'primer apellido',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'ap2',
+            'segundo apellido',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'phone',
+            'telefono',
+            'trim|required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
+            )
+        );
+        $this->form_validation->set_rules(
+            'ext',
+            'extension',
+            'trim|numeric|max_length[4]|min_length[2]',
+            array(
+                'numeric' => 'El campo %s debe ser numérico.',
+                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            )
+        );
         $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
@@ -1389,9 +1530,32 @@ class Auth extends CI_Controller
         $identity_column = $this->config->item('identity', 'ion_auth');
         $this->data['identity_column'] = $identity_column;
         // Reglas de validación
-        $this->form_validation->set_rules('first_name', 'Nombre', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('last_name', 'Primer apellido', 'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
-        $this->form_validation->set_rules('ap2', 'Segundo apellido', 'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]');
+        $this->form_validation->set_rules(
+            'first_name',
+            'Nombre',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'last_name',
+            'Primer apellido',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'ap2',
+            'Segundo apellido',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         if ($identity_column !== 'email') {
             $this->form_validation->set_rules('identity', 'correo', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
@@ -1423,14 +1587,21 @@ class Auth extends CI_Controller
                 'active' => 0,
                 'pending' => 1,
                 'fecha_cargo' => date('Y-m-d'),
-                'id_tipoSujeto' => $this->input->post('tipoSujeto'),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
             ];
 
             $this->ion_auth->register($identity, $password, $email, $additional_data);
 
-            //$this->db->insert('users', $data);
+            // Enviar correo de notificación
+            $titulo = "Solicitud de registro recibida";
+            $contenido = "Hola " . $this->input->post('first_name') . ",\n\nHemos recibido tu solicitud de registro. Pronto revisaremos tu información y te notificaremos una vez que tu cuenta esté activada.\n\nGracias.";
+            $correo_response = enviaCorreo($email, $titulo, $contenido);
+
+            // Comprobar si el correo se envió con éxito
+            if (strpos($correo_response, 'cURL Error #:') !== false) {
+                log_message('error', 'Error al enviar el correo: ' . $correo_response);
+            }
 
             $response = [
                 'status' => 'success',
@@ -1447,9 +1618,9 @@ class Auth extends CI_Controller
                 ];
                 echo json_encode($response);
             } else {
-                $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
+                //$this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
                 $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
-                $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
+                $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativasSolicitud();
                 $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'solicitud', $this->data);
             }
         }

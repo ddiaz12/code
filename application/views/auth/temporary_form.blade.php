@@ -100,18 +100,21 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="cargo">Cargo</label>
                             <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo del servidor público">
+                            <small id="msg_cargo" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="titulo">Titulo</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo">
+                            <small id="msg_titulo" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="clave">Clave empleado</label>
                             <input type="text" class="form-control" id="clave" name="clave" placeholder="Número o clave del empleado">
+                            <small id="msg_clave" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">

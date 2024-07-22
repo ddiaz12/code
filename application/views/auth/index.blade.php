@@ -36,7 +36,6 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                 <thead>
                     <tr>
                         <th class="tTabla-color">Nombre completo</th>
-                        <th class="tTabla-color">Tipo de sujeto obligado</th>
                         <th class="tTabla-color">Sujeto obligado</th>
                         <th class="tTabla-color">Unidad administrativa</th>
                         <th class="tTabla-color">Grupo</th>
@@ -51,7 +50,6 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                     <tr>
                         <td><?php    echo htmlspecialchars($user->first_name . ' ' . $user->ap1 . ' ' . $user->ap2, ENT_QUOTES, 'UTF-8'); ?>
                         </td>
-                        <td><?php    echo htmlspecialchars($user->tipo_sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td><?php    echo htmlspecialchars($user->sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td><?php    echo htmlspecialchars($user->unidad, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td>

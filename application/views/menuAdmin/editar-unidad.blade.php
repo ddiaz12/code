@@ -80,6 +80,7 @@ Registro Estatal de Regulaciones
                                 <label for="inputNumInterior">Número interior</label>
                                 <input type="number" class="form-control" id="inputNumInterior" name="num_interior"
                                     value="{{ $unidades->Num_interior }}">
+                                <small id="msg_num_interior" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -101,6 +102,7 @@ Registro Estatal de Regulaciones
                                         </option>
                                     @endforeach
                                 </select>
+                                <small id="msg_municipio" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -115,6 +117,7 @@ Registro Estatal de Regulaciones
                                         </option>
                                     @endforeach;
                                 </select>
+                                <small id="msg_localidad" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -122,6 +125,7 @@ Registro Estatal de Regulaciones
                                 <label for="claveLocalidad">Clave localidad</label>
                                 <input type="number" class="form-control" id="claveLocalidad" name="clave_localidad"
                                     value="{{ $unidades->clave }}" readonly>
+                                    <small id="msg_clave_localidad" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -132,6 +136,7 @@ Registro Estatal de Regulaciones
                                         {{ $unidades->tipo_asentamiento }}
                                     </option>
                                 </select>
+                                <small id="msg_tipo_asentamiento" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -147,6 +152,7 @@ Registro Estatal de Regulaciones
                                         </option>
                                     @endforeach;
                                 </select>
+                                <small id="msg_nombre_asentamiento" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -170,6 +176,7 @@ Registro Estatal de Regulaciones
                                 <label for="inputExtension">Extensión</label>
                                 <input type="number" class="form-control" id="inputExtension" name="extension"
                                     value="{{ $unidades->extension }}">
+                                <small id="msg_extension" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="form-group">

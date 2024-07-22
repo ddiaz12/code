@@ -11,19 +11,17 @@ class MenuModel extends CI_Model
 
     public function getSujetosObligados()
     {
-        $this->db->select('cat_sujeto_obligado.*, cat_tipo_sujeto_obligado.tipo_sujeto');
-        $this->db->from('cat_sujeto_obligado');
-        $this->db->join('cat_tipo_sujeto_obligado', 'cat_tipo_sujeto_obligado.ID_tipoSujeto = cat_sujeto_obligado.ID_tipoSujeto');
+        //$this->db->select('cat_sujeto_obligado.*');
+        //$this->db->from('cat_sujeto_obligado');
         $this->db->where('cat_sujeto_obligado.nombre_sujeto !=', 'No especificado');
-        $query = $this->db->get();
+        $query = $this->db->get('cat_sujeto_obligado');
         return $query->result();
     }
 
     public function getSujeto($id)
     {
-        $this->db->select('cat_sujeto_obligado.*, cat_tipo_sujeto_obligado.tipo_sujeto');
+        $this->db->select('cat_sujeto_obligado.*');
         $this->db->from('cat_sujeto_obligado');
-        $this->db->join('cat_tipo_sujeto_obligado', 'cat_tipo_sujeto_obligado.ID_tipoSujeto = cat_sujeto_obligado.ID_tipoSujeto');
         $this->db->where('cat_sujeto_obligado.ID_sujeto', $id);
         $query = $this->db->get();
         return $query->row();

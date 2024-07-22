@@ -124,7 +124,7 @@ $config['argon2_default_params']	= [
  */
 $config['site_title']                 = "Example.com";       // Site Title, example.com
 $config['admin_email']                = "admin@example.com"; // Admin Email, admin@example.com
-$config['default_group']              = 'Pendiente';           // Default group, use name
+$config['default_group']              = 'Sin-asignar';           // Default group, use name
 $config['admin_group']                = 'admin';             // Default administrators group, use name
 $config['identity']                   = 'email';             /* You can use any unique column in your table as identity column.
 															    The values in this column, alongside password, will be used for login purposes

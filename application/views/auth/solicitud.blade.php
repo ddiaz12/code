@@ -12,8 +12,8 @@ Registro Estatal de Regulaciones
                 <div class="card-header header-usuario text-white">Solicitud de registro</div>
                 <div class="card-body">
                     <?php echo form_open_multipart(uri_string(), ['class' => 'row g-3', 'id' => 'formSolicitud']); ?>
-                    <div class="form-group" style="display: none;">
-                        <!-- Utiliza display: none; para esconder el campo -->
+                    <!--<div class="form-group" style="display: none;">
+                        Utiliza display: none; para esconder el campo 
                         <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
                         <select class="form-control" id="tipoSujeto" name="tipoSujeto" required>
                             <option disabled>Selecciona una opción</option>
@@ -24,7 +24,7 @@ Registro Estatal de Regulaciones
                             <?php endforeach; ?>
                         </select>
                         <small id="msg_tipoSujeto" class="text-danger"></small>
-                    </div>
+                    </div>-->
                     <div class="col-md-6" style="display: none;"> <!-- Utiliza display: none; para esconder el campo -->
                         <div class="form-group">
                             <label for="unidades">Unidad administrativa<span class="text-danger">*</span></label>
@@ -60,6 +60,7 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="ap2">Segundo apellido</label>
                             <input type="text" class="form-control" id="ap2" name="ap2" placeholder="Escribe tu segundo apellido">
+                            <small id="msg_ap2" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="col-md-6">
