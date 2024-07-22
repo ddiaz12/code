@@ -30,7 +30,7 @@
                         <!-- Formulario de agregar usuario -->
                         <form class="row g-3 " id="formSujeto">
                             <input type="hidden" name="ID_sujeto" value="{{ $sujeto->ID_sujeto }}">
-                            <div class="col-md-6">
+                            <!--<div class="col-md-6">
                                 <div class="form-group">
                                     <label for="TipoSujeto">Tipo de sujeto obligado<span
                                             class="text-danger">*</span></label>
@@ -45,7 +45,7 @@
                                     </select>
                                     <small id="msg_TipoSujeto" class="text-danger"></small>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputSujetos">Sujeto obligado<span class="text-danger">*</span></label>

@@ -30,24 +30,11 @@
     <div class="loader">
         <img src="<?php echo base_url('assets/img/Snake.gif'); ?>" />
     </div>
-    <!-- Navbar -->
-    @yield('navbar')
-    <!-- Navbar -->
-    <div id="layoutSidenav">
-        <!-- Menu -->
-        @yield('menu')
-        <!-- Menu -->
-        <!-- Contenido -->
-        <div id="layoutSidenav_content">
-            <main class="main-contenido">
-                @yield('contenido')
-            </main>
-            <!-- Footer -->
-            @yield('footer')
-            <!-- Footer -->
-        </div>
-        <!-- Contenido -->
-    </div>
+    <!-- Contenido -->
+    <main class="main-contenido">
+        @yield('contenido')
+    </main>
+    <!-- Contenido -->
     <!-- Aquí cargamos los scripts JS -->
     @yield('js')
     <script>
@@ -58,35 +45,6 @@
         function ocultarPantallaDeCarga() {
             $(".loader").removeClass("active");
         }
-    </script>
-    <script>
-        var timeout;
-        var timerElement = document.getElementById('timer');
-        var timeLeft = 10 * 60; // 10 minutes in seconds
-
-        function logout() {
-            alert('Tu sesión ha expirado. Serás redirigido a la página de inicio de sesión.');
-            window.location.href = '<?= base_url('auth/logout') ?>';
-        }
-
-        function resetTimer() {
-            clearTimeout(timeout);
-            timeLeft = 10 * 60; // Reset the time left to 10 minutes
-            timeout = setTimeout(logout, timeLeft * 1000);
-        }
-
-        // Detect user interaction and reset the timer
-        window.onload = resetTimer;
-        document.onmousemove = resetTimer;
-        document.onkeypress = resetTimer;
-
-        // Update the timer every second
-        setInterval(function () {
-            timeLeft--;
-            var minutes = Math.floor(timeLeft / 60);
-            var seconds = timeLeft % 60;
-            timerElement.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-        }, 1000);
     </script>
 </body>
 

@@ -38,6 +38,8 @@ h3,
 	font-size: 24px;
 }
 
+
+
 .navbar-custom {
 	background-color: #612233;
 }
@@ -86,6 +88,7 @@ h3,
 
 .div-img {
 	position: relative;
+	height: 100vh;
 }
 
 .div-img::before {
@@ -97,14 +100,15 @@ h3,
 	height: 100%;
 	background-image: url("");
 	background-repeat: no-repeat;
-	background-position: 90px top;
-	background-size: 20% 85%;
-	opacity: 0.5;
+	background-position: center;
+    background-size: cover;
+	opacity: 0.25;
 	z-index: -1;
+	filter: grayscale(50%);
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
-	padding-left: 130px;
+	padding-left: 7rem;
 	top: 56px;
 }
 
@@ -170,7 +174,7 @@ h3,
 }
 
 .footer {
-	background-color: #ffffff !important;
+	background-color: #ffffff;
 }
 
 .btn-primary {
@@ -180,10 +184,7 @@ h3,
 	background-color: #923244;
 }
 
-.btn-regulacion {
-	text-transform: uppercase;
-}
-
+.btn-regulacion,
 .btn-oficina {
 	text-transform: uppercase;
 }
@@ -200,6 +201,18 @@ h3,
 	background-color: #923244;
 	--bs-btn-active-bg: #7f2841;
 	--bs-btn-active-color: white;
+	color: white;
+}
+
+.btn-dorado{
+	background-color: #b69664;
+	--bs-btn-active-bg: rgb(216, 177, 111);
+	--bs-btn-active-color: white;
+	color: white;
+}
+
+.btn-dorado:hover{
+	background-color: #d8b16f;
 	color: white;
 }
 
@@ -230,15 +243,11 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	background-color: #6c757d !important;
 }
 
-/* sujeto - oficinas */
-
-/* Aplicar espaciado entre las celdas */
 #datatablesSimple td,
 #datatablesSimple th {
 	padding: 8px;
 }
 
-/* Agregar margen alrededor de la tabla */
 #datatablesSimple {
 	margin-bottom: 20px;
 }
@@ -273,6 +282,10 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 
 	.div-info {
 		display: none;
+	}
+
+	.btn-ocultar{
+		margin-top: 3px;
 	}
 }
 

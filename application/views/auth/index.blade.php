@@ -36,7 +36,6 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                 <thead>
                     <tr>
                         <th class="tTabla-color">Nombre completo</th>
-                        <th class="tTabla-color">Tipo de sujeto obligado</th>
                         <th class="tTabla-color">Sujeto obligado</th>
                         <th class="tTabla-color">Unidad administrativa</th>
                         <th class="tTabla-color">Grupo</th>
@@ -47,16 +46,16 @@ Registro Estatal de Regulaciones (RER) - Usuarios
 
                 <tbody>
                     <?php foreach ($users as $user):?>
+                        <?php if ($user->pending != 2): ?>
                     <tr>
                         <td><?php    echo htmlspecialchars($user->first_name . ' ' . $user->ap1 . ' ' . $user->ap2, ENT_QUOTES, 'UTF-8'); ?>
                         </td>
-                        <td><?php    echo htmlspecialchars($user->tipo_sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td><?php    echo htmlspecialchars($user->sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td><?php    echo htmlspecialchars($user->unidad, ENT_QUOTES, 'UTF-8'); ?></td>
                         <td>
                             <?php    foreach ($user->groups as $group): ?>
                             <a href="<?php        echo base_url('auth/edit_group/' . base64_encode($group->id)); ?>"
-                                class="btn btn-info btn-sm" title="Editar grupo">
+                                class="btn btn-dorado btn-sm" title="Editar grupo">
                                 <?php        echo htmlspecialchars($group->name, ENT_QUOTES, 'UTF-8'); ?>
                             </a>
                             <?php    endforeach; ?>
@@ -68,10 +67,10 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                                 <i class="fas fa-times-circle" title="Desactivar usuario"></i>Desactivar
                             </button>
                             <?php    elseif ($user->pending && $user->active == 0): ?>
-                                <button class="btn btn-secondary btn-sm"
-                                    onclick="confirmActivatePending('<?php     echo base64_encode($user->id); ?>')">
-                                    <i class="fas fa-clock" title="Usuario pendiente"></i> Pendiente
-                                </button>
+                            <button class="btn btn-secondary btn-sm"
+                                onclick="confirmActivatePending('<?php        echo base64_encode($user->id); ?>')">
+                                <i class="fas fa-clock" title="Usuario pendiente"></i> Pendiente
+                            </button>
                             <?php    else: ?>
                             <a href="<?php        echo base_url('auth/activate/' . base64_encode($user->id)); ?>"
                                 class="btn btn-success btn-sm">
@@ -81,15 +80,19 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                         </td>
                         <td>
                             <a href="<?php    echo base_url('auth/edit_user/' . base64_encode($user->id)); ?>"
-                                class="btn btn-warning btn-sm">
+                                class="btn btn btn-dorado btn-sm">
                                 <i class="fas fa-edit" title="Editar usuario"></i>
                             </a>
-                            <button class="btn btn-secondary btn-sm"
+                            <button class="btn btn btn-secondary btn-sm"
                                 onclick="confirmPending(<?php    echo $user->id; ?>)">
                                 <i class="fas fa-clock" title="Usuario pendiente"></i>
                             </button>
+                            <button class="btn btn btn-danger btn-sm btn-ocultar" onclick="confirmDelete(<?php    echo $user->id; ?>)">
+                                <i class="fas fa-trash-alt" title="Eliminar usuario"></i>
+                            </button>
                         </td>
                     </tr>
+                    <?php endif; ?>
                     <?php endforeach;?>
                 </tbody>
             </table>
@@ -141,7 +144,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
 
     function confirmPending(userId) {
         Swal.fire({
-            title: '¿Quieres poner a este usuario en estado pendiente?',
+            title: '¿Quieres mandar un correo a este usuario para que complete sus datos?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Sí, pendiente',
@@ -225,6 +228,42 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                         Swal.fire(
                             'Error',
                             'No se pudo activar al usuario.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    }
+
+    //script para eliminar usuario
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Eliminar usuario.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?php echo base_url('auth/ocultar'); ?>/' + userId,
+                    type: 'POST',
+                    data: { 'confirm': 'yes' },
+                    success: function (response) {
+                        Swal.fire(
+                            'Eliminado',
+                            'El usuario ha sido eliminado correctamente.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire(
+                            'Error',
+                            'No se pudo eliminar al usuario.',
                             'error'
                         );
                     }

@@ -27,7 +27,7 @@ Registro Estatal de Regulaciones
                 <div class="card-body">
                     <div id="infoMessage"></div>
                     <?php echo form_open_multipart('auth/create_user', ['class' => 'row g-3', 'id' => 'formUsuarios']); ?>
-                    <div class="col-md-6">
+                    <!--<div class="col-md-6">
                         <div class="form-group">
                             <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
                             <select class="form-control" id="tipoSujeto" name="tipoSujeto" required>
@@ -40,7 +40,7 @@ Registro Estatal de Regulaciones
                             </select>
                             <small id="msg_tipoSujeto" class="text-danger"></small>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
@@ -78,7 +78,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="last_name">Apellido paterno<span class="text-danger">*</span></label>
+                            <label for="last_name">Primer apellido<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="last_name" name="last_name"
                                 placeholder="Apellido" required>
                             <small id="msg_last_name" class="text-danger"></small>
@@ -86,7 +86,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="ap2">Apellido materno</label>
+                            <label for="ap2">Segundo apellido</label>
                             <input type="text" class="form-control" id="ap2" name="ap2" placeholder="Apellido">
                         </div>
                     </div>
@@ -114,6 +114,7 @@ Registro Estatal de Regulaciones
                             <label for="ext">Extensión</label>
                             <input type="text" class="form-control" id="ext" name="ext" placeholder="Extension"
                                 required>
+                            <small id="msg_ext" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="form-group">
@@ -131,6 +132,27 @@ Registro Estatal de Regulaciones
                             <input type="date" class="form-control" id="fecha" name="fecha" required>
                         </div>
                         <small id="msg_fecha" class="text-danger"></small>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo del servidor público">
+                        </div>
+                        <small id="msg_cargo" class="text-danger"></small>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="titulo">Titulo</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo">
+                        </div>
+                        <small id="msg_titulo" class="text-danger"></small>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="clave">Clave empleado</label>
+                            <input type="text" class="form-control" id="clave" name="clave" placeholder="Número o clave del empleado">
+                        </div>
+                        <small id="msg_clave" class="text-danger"></small>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -179,9 +201,13 @@ Registro Estatal de Regulaciones
                 title: 'Archivo no seleccionado',
                 text: 'Tienes tres días para subir el archivo.',
                 icon: 'warning',
-                confirmButtonText: 'Entendido'
+                showCancelButton: true,
+                confirmButtonText: 'Entendido',
+                cancelButtonText: 'Cancelar'
             }).then((result) => {
-                enviaDatosFormulario();
+                if (result.isConfirmed) {
+                    enviaDatosFormulario();
+                }
             });
         } else {
             enviaDatosFormulario();

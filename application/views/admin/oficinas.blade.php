@@ -53,7 +53,7 @@
                             </td>
                             <td>
                                 <a href="{{ base_url('oficinas/editar/' . base64_encode($oficina->ID_Oficina)) }}"
-                                    class="btn btn-warning btn-sm" title="Editar oficina">
+                                    class="btn btn-dorado btn-sm" title="Editar oficina">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button type="button" class="btn btn-danger btn-sm"

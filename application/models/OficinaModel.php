@@ -24,9 +24,11 @@ class OficinaModel extends CI_Model
 
     public function getOficinaEditar($id)
     {
-        $this->db->select('ma_oficina_administrativa.*, cat_sujeto_obligado.ID_sujeto');
+        $this->db->select('ma_oficina_administrativa.*, cat_sujeto_obligado.ID_sujeto, cat_localidades.clave, cat_nombre_asentamiento.CP');
         $this->db->from('ma_oficina_administrativa');
         $this->db->join('cat_sujeto_obligado', 'cat_sujeto_obligado.ID_sujeto = ma_oficina_administrativa.ID_sujeto');
+        $this->db->join('cat_localidades', 'cat_localidades.ID_localidad = ma_oficina_administrativa.ID_localidad');
+        $this->db->join('cat_nombre_asentamiento', 'cat_nombre_asentamiento.ID_nAsentamiento = ma_oficina_administrativa.ID_nAsentamiento');
         $this->db->where('ma_oficina_administrativa.ID_Oficina', $id);
         $query = $this->db->get();
         return $query->row();
@@ -44,12 +46,14 @@ class OficinaModel extends CI_Model
 
     public function getSujetosObligados()
     {
+        $this->db->where('nombre_sujeto !=', 'No especificado');
         $query = $this->db->get('cat_sujeto_obligado');
         return $query->result();
     }
 
     public function getUnidadAdministrativa()
     {
+        $this->db->where('nombre !=', 'No especificado');
         $query = $this->db->get('cat_unidad_administrativa');
         return $query->result();
     }
@@ -69,6 +73,12 @@ class OficinaModel extends CI_Model
     public function getCatLocalidades()
     {
         $query = $this->db->get('cat_localidades');
+        return $query->result();
+    }
+
+    public function getCatAsentamientos()
+    {
+        $query = $this->db->get('cat_nombre_asentamiento');
         return $query->result();
     }
 

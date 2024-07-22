@@ -41,21 +41,22 @@ class UsuarioModel extends CI_Model
 
     public function getSujetosObligados()
     {
+        $this->db->where('nombre_sujeto !=', 'No especificado');
         $query = $this->db->get('cat_sujeto_obligado');
         return $query->result();
     }
 
     public function getTipoSujetoObligado()
     {
+        $this->db->where('tipo_sujeto !=', 'No especificado');
         $query = $this->db->get('cat_tipo_sujeto_obligado');
         return $query->result();
     }
 
     public function getPorUsuario($user)
     {
-        $this->db->select('users.*, cat_tipo_sujeto_obligado.tipo_sujeto, cat_sujeto_obligado.nombre_sujeto, cat_unidad_administrativa.nombre');
+        $this->db->select('users.*, cat_sujeto_obligado.nombre_sujeto, cat_unidad_administrativa.nombre');
         $this->db->from('users');
-        $this->db->join('cat_tipo_sujeto_obligado', 'users.id_tipoSujeto = cat_tipo_sujeto_obligado.ID_tipoSujeto');
         $this->db->join('cat_sujeto_obligado', 'users.id_sujeto = cat_sujeto_obligado.ID_sujeto');
         $this->db->join('cat_unidad_administrativa', 'users.id_unidad = cat_unidad_administrativa.ID_unidad');
         $this->db->where('users.id', $user);
@@ -64,6 +65,13 @@ class UsuarioModel extends CI_Model
     }
 
     public function getUnidadesAdministrativas()
+    {
+        $this->db->where('nombre !=', 'No especificado');
+        $query = $this->db->get('cat_unidad_administrativa');
+        return $query->result();
+    }
+
+    public function getUnidadesAdministrativasSolicitud()
     {
         $query = $this->db->get('cat_unidad_administrativa');
         return $query->result();

@@ -111,7 +111,7 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="selectLocalidad">Nombre localidad</label>
-                                <select class="form-control" id="selectLocalidad" name="localidad">
+                                <select class="form-control" id="selectLocalidad" name="localidad" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($localidades as $localidad)
                                         <option value="<?php    echo $localidad->ID_localidad; ?>"
@@ -125,15 +125,15 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="claveLocalidad">Clave localidad</label>
-                                <input type="number" class="form-control" id="claveLocalidad" name="clave_localidad"
+                                <input type="text" class="form-control" id="claveLocalidad" name="clave_localidad"
                                     readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectMunicipio">Tipo asentamiento</label>
-                                <select class="form-control" id="selectMunicipio" name="tipo_asentamiento">
-                                    <option disabled>Selecciona una opción</option>
+                                <label for="selectTipoAsentamiento">Tipo asentamiento</label>
+                                <select class="form-control" id="selectTipoAsentamiento" name="tipo_asentamiento">
+                                    <option disabled selected>Selecciona una opción</option>
                                 </select>
                             </div>
                         </div>
@@ -141,18 +141,26 @@ Registro Estatal de Regulaciones
                             <div class="form-group">
                                 <label for="selectAsentamiento">Nombre asentamiento</label>
                                 <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
-                                    <option disabled>Selecciona una opción</option>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    @foreach ($asentamientos as $asentamiento)
+                                        <option value="{{ $asentamiento->ID_nAsentamiento }}"
+                                            data-codigo-postal="{{ $asentamiento->CP }}">
+                                            {{ $asentamiento->nombre }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputCP">C.P.<span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="inputCP" name="codigo_postal"
-                                    placeholder="Codigo postal">
+                                    placeholder="Código postal" readonly>
                                 <small id="msg_codigo_postal" class="text-danger"></small>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="phone">Número de teléfono oficial<span class="text-danger">*</span></label>
@@ -234,13 +242,9 @@ Registro Estatal de Regulaciones
 @endsection
 @section('js')
 <script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/apiAsentamientos.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
 <script>
-    document.getElementById('selectLocalidad').addEventListener('change', function () {
-        var selectedOption = this.options[this.selectedIndex];
-        var clave = selectedOption.getAttribute('data-clave');
-        document.getElementById('claveLocalidad').value = clave;
-    });
-
     function enviarFormulario() {
         var sendData = $('#fromOficina').serializeArray();
         mostrarPantallaDeCarga();
