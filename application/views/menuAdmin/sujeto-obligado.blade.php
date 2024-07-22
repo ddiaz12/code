@@ -65,15 +65,8 @@ Registro Estatal de Regulaciones
 @include('templates/footer')
 @endsection
 @section('js')
+<script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script>
-    $(document).ready(function () {
-        $('#datatablesSimple').DataTable({
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-            }
-        });
-    });
-
     $(document).ready(function () {
         $('.btn-danger').click(function () {
             var id = $(this).data('id_sujeto');
@@ -83,8 +76,6 @@ Registro Estatal de Regulaciones
                 text: "¡No podrás revertir esto!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#b69664',
-                cancelButtonColor: '#923244',
                 confirmButtonText: '¡Sí, eliminar!',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {

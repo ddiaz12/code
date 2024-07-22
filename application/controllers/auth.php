@@ -1137,7 +1137,30 @@ class Auth extends CI_Controller
                 'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
             )
         );
-        $this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
+        $this->form_validation->set_rules(
+            'cargo',
+            'cargo',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'titulo',
+            'titulo',
+            'trim|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            array(
+                'regex_match' => 'El campo %s no debe contener números ni caracteres especiales.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'clave',
+            'clave',
+            'trim|numeric',
+            array(
+                'numeric' => 'El campo %s debe ser numérico.'
+            )
+        );
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
         $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
@@ -1177,10 +1200,12 @@ class Auth extends CI_Controller
                 'ap2' => $this->input->post('ap2'),
                 'ext' => $this->input->post('ext'),
                 'phone' => $this->input->post('phone'),
-                'id_tipoSujeto' => $this->input->post('tipoSujeto'),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
                 'fecha_cargo' => $this->input->post('fecha'),
+                'cargo' => $this->input->post('cargo'),
+                'titulo' => $this->input->post('titulo'),
+                'clave_empleado' => $this->input->post('clave')
             ];
 
             if ($file_path) {
@@ -1506,7 +1531,6 @@ class Auth extends CI_Controller
 
                 // Mostrar el formulario
                 $this->data['user'] = $this->UsuarioModel->getPorUsuario($user->id);
-                $this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
                 $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
                 $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativas();
                 $this->data['archivo'] = $user->file_path;
@@ -1620,6 +1644,7 @@ class Auth extends CI_Controller
             } else {
                 //$this->data['tipos'] = $this->UsuarioModel->getTipoSujetoObligado();
                 $this->data['sujetos'] = $this->UsuarioModel->getSujetosObligados();
+                //Trea las unidades administrativas que estan escondidas en el formulario de la solicitud
                 $this->data['unidades'] = $this->UsuarioModel->getUnidadesAdministrativasSolicitud();
                 $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'solicitud', $this->data);
             }

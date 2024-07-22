@@ -164,6 +164,7 @@ class Oficinas extends CI_Controller
                 'Extension' => $extension,
                 'Correo_Elec' => $email,
                 'Notas' => $notas,
+                'status' => 1,
             );
 
             // Verificar que los horarios estén completos antes de insertar la oficina
@@ -239,7 +240,7 @@ class Oficinas extends CI_Controller
 
     public function eliminar($id)
     {
-        $this->OficinaModel->eliminarOficina($id);
+        $this->OficinaModel->ocultarOficina($id);
         redirect('oficinas/index');
     }
 

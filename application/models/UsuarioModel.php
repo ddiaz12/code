@@ -42,6 +42,7 @@ class UsuarioModel extends CI_Model
     public function getSujetosObligados()
     {
         $this->db->where('nombre_sujeto !=', 'No especificado');
+        $this->db->where('status !=', 0);
         $query = $this->db->get('cat_sujeto_obligado');
         return $query->result();
     }
@@ -67,10 +68,12 @@ class UsuarioModel extends CI_Model
     public function getUnidadesAdministrativas()
     {
         $this->db->where('nombre !=', 'No especificado');
+        $this->db->where('status', 1);
         $query = $this->db->get('cat_unidad_administrativa');
         return $query->result();
     }
 
+    //Trea las unidades administrativas que estan escondidas en el formulario de la solicitud
     public function getUnidadesAdministrativasSolicitud()
     {
         $query = $this->db->get('cat_unidad_administrativa');

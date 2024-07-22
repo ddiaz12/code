@@ -101,7 +101,7 @@ Registro Estatal de Regulaciones
                                 <select class="form-control" id="selectMunicipio" name="municipio">
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($municipios as $municipio)
-                                        <option value="<?php    echo $municipio->ID_Municipio; ?>">
+                                        <option value="<?php    echo $municipio->ID_Municipio; ?>" <?php    echo $municipio->Nombre_municipio == 'Colima' ? 'selected' : '' ?>>
                                             <?php    echo $municipio->Nombre_municipio; ?>
                                         </option>
                                     @endforeach;

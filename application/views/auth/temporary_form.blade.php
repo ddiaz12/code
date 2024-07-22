@@ -14,20 +14,6 @@ Registro Estatal de Regulaciones
                     <?php echo form_open_multipart(uri_string(), ['class' => 'row g-3', 'id' => 'formUsuarios']); ?>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="tipoSujeto" name="tipoSujeto" required>
-                                <option disabled>Selecciona una opción</option>
-                                <?php foreach ($tipos as $tipo) : ?>
-                                    <option value="<?php echo $tipo->ID_tipoSujeto; ?>" <?php echo isset($user) && $tipo->ID_tipoSujeto == $user->id_tipoSujeto ? 'selected' : ''; ?>>
-                                        <?php echo $tipo->tipo_sujeto; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <small id="msg_tipoSujeto" class="text-danger"></small>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
                             <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
                             <select class="form-control" id="sujetos" name="sujetos" required>
                                 <option disabled selected>Selecciona una opción</option>

@@ -233,6 +233,7 @@ class Menu extends CI_Controller
                 'Correo_Elec' => $email,
                 'Notas' => $notas,
                 'checkOficina' => $checkboxOficina == 'on' ? '1' : '0',
+                'status' => 1
             );
 
             if (!empty($horarios_)) {
@@ -279,8 +280,7 @@ class Menu extends CI_Controller
 
     public function eliminar_unidad($id)
     {
-        $this->MenuModel->eliminarUnidad($id);
-
+        $this->MenuModel->ocultarUnidad($id);
     }
 
     public function editar_unidad($encoded_id)
@@ -503,7 +503,8 @@ class Menu extends CI_Controller
                 'nombre_sujeto' => $sujeto,
                 'estado' => $estado,
                 'siglas' => $siglas,
-                'materia' => $materia
+                'materia' => $materia,
+                'status' => 1
             );
 
             $this->MenuModel->insertar_sujeto($data);
