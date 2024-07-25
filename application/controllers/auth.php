@@ -1582,10 +1582,10 @@ class Auth extends CI_Controller
         );
         $this->form_validation->set_rules('sujetos', 'sujeto obligado', 'trim|required');
         if ($identity_column !== 'email') {
-            $this->form_validation->set_rules('identity', 'correo', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
-            $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email');
+            $this->form_validation->set_rules('identity', 'correo electrónico', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
+            $this->form_validation->set_rules('email', 'correo electrónico', 'trim|required|valid_email');
         } else {
-            $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
+            $this->form_validation->set_rules('email', 'correo electrónico', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
         }
         $this->form_validation->set_rules(
             'phone',
