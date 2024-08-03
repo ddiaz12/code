@@ -229,7 +229,7 @@ Registro Estatal de Regulaciones
 
                         <div class="d-flex justify-content-end mb-3">
                             <button type="button" class="btn btn-secondary me-2"
-                                onclick="confirmarCancelar()">Cancelar</button>
+                                onclick="confirmarCancelar();">Cancelar</button>
                             <button type="button" class="btn btn-success btn-guardar"
                                 onclick="enviarFormulario();">Guardar</button>
                         </div>
@@ -262,7 +262,7 @@ Registro Estatal de Regulaciones
                 ocultarPantallaDeCarga();
                 if (response.status == 'success') {
                     Swal.fire(
-                        '¡Éxito!',
+                        '¡Exito!',
                         'La oficina ha sido agregada correctamente.',
                         'success'
 

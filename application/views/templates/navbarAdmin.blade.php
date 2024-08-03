@@ -41,10 +41,15 @@
             </ul>
         </li>
         <!-- User Email -->
-        <li class="user-email">
+        <li class="user">
             <?php echo $this->ion_auth->user()->row()->email; ?>
         </li>
         <!-- User Email -->
+        <!-- Role -->   
+        <li class="user">
+            <?php echo $this->ion_auth->get_users_groups()->row()->name; ?>
+        </li>
+        <!-- Role -->
     </ul>
     <!-- Navbar-->
 </nav>

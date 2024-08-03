@@ -28,19 +28,11 @@ class MenuModel extends CI_Model
         return $query->row();
     }
 
-    public function getTipoSujetoObligado()
-    {
-        $this->db->where('tipo_sujeto !=', 'No especificado');
-        $query = $this->db->get('cat_tipo_sujeto_obligado');
-        return $query->result();
-    }
-
     public function getUnidadesAdministrativas()
     {
-        $this->db->select('cat_unidad_administrativa.*, cat_sujeto_obligado.nombre_sujeto, cat_tipo_sujeto_obligado.tipo_sujeto');
+        $this->db->select('cat_unidad_administrativa.*, cat_sujeto_obligado.nombre_sujeto');
         $this->db->from('cat_unidad_administrativa');
         $this->db->join('cat_sujeto_obligado', 'cat_sujeto_obligado.ID_sujeto = cat_unidad_administrativa.ID_sujeto');
-        $this->db->join('cat_tipo_sujeto_obligado', 'cat_tipo_sujeto_obligado.ID_tipoSujeto = cat_sujeto_obligado.ID_tipoSujeto');
         $this->db->where('cat_unidad_administrativa.status', 1);
         $query = $this->db->get();
         return $query->result();

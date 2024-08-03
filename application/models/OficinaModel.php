@@ -7,7 +7,7 @@ class OficinaModel extends CI_Model
     {
         parent::__construct();
 
-    }
+    }   
     public function getOficinas()
     {
         $this->db->select('ma_oficina_administrativa.*');

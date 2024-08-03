@@ -15,7 +15,7 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->database();
-        $this->load->library(['ion_auth', 'form_validation', 'ftp', 'email']);
+        $this->load->library(['ion_auth', 'form_validation', 'ftp']);
         $this->load->helper(['url', 'language', 'form', 'email_helper']);
         $this->load->model('UsuarioModel');
         $this->load->config('ftp_config');
@@ -96,13 +96,10 @@ class Auth extends CI_Controller
             $remember = (bool) $this->input->post('remember');
 
             if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
-                //if the login is successful
-                //redirect them back to the home page
 
                 // check user role and redirect accordingly
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
                 redirect('home', 'refresh');
-
             } else {
                 // if the login was un-successful
                 // redirect them back to the login page
@@ -456,7 +453,7 @@ class Auth extends CI_Controller
     {
         try {
             $this->deactivate($id);
-            $data = ['pending' => 1];
+            $data = ['status' => 1];
             $this->ion_auth->update($id, $data);
 
             $user = $this->ion_auth->user($id)->row();
@@ -494,7 +491,7 @@ class Auth extends CI_Controller
         $this->activatePendiente($encoded_id);
         $id = base64_decode($encoded_id);
         try {
-            $data = array('pending' => 0);
+            $data = array('status' => 0);
             $this->ion_auth->update($id, $data);
 
             // Obtener la información del usuario para el correo electrónico
@@ -731,16 +728,16 @@ class Auth extends CI_Controller
             $password = $this->input->post('password');
 
             $additional_data = [
-                'first_name' => $this->input->post('first_name'),
-                'ap1' => $this->input->post('last_name'),
-                'ap2' => $this->input->post('ap2'),
+                'first_name' => $this->input->post('first_name', true),
+                'ap1' => $this->input->post('last_name', true),
+                'ap2' => $this->input->post('ap2', true),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
                 'ext' => $this->input->post('ext'),
                 'phone' => $this->input->post('phone'),
                 'fecha_cargo' => $this->input->post('fecha'),
-                'cargo' => $this->input->post('cargo'),
-                'titulo' => $this->input->post('titulo'),
+                'cargo' => $this->input->post('cargo', true),
+                'titulo' => $this->input->post('titulo', true),
                 'clave_empleado' => $this->input->post('clave_empleado')
             ];
 
@@ -949,16 +946,16 @@ class Auth extends CI_Controller
             }
 
             $data = [
-                'first_name' => $this->input->post('first_name'),
-                'ap1' => $this->input->post('last_name'),
-                'ap2' => $this->input->post('ap2'),
+                'first_name' => $this->input->post('first_name', true),
+                'ap1' => $this->input->post('last_name', true),
+                'ap2' => $this->input->post('ap2', true),
                 'ext' => $this->input->post('ext'),
                 'phone' => $this->input->post('phone'),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
                 'fecha_cargo' => $this->input->post('fecha'),
-                'cargo' => $this->input->post('cargo'),
-                'titulo' => $this->input->post('titulo'),
+                'cargo' => $this->input->post('cargo', true),
+                'titulo' => $this->input->post('titulo', true),
                 'clave_empleado' => $this->input->post('clave_empleado')
             ];
 
@@ -1195,16 +1192,16 @@ class Auth extends CI_Controller
             }
 
             $data = [
-                'first_name' => $this->input->post('first_name'),
-                'ap1' => $this->input->post('last_name'),
-                'ap2' => $this->input->post('ap2'),
+                'first_name' => $this->input->post('first_name', true),
+                'ap1' => $this->input->post('last_name', true),
+                'ap2' => $this->input->post('ap2', true),
                 'ext' => $this->input->post('ext'),
                 'phone' => $this->input->post('phone'),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
                 'fecha_cargo' => $this->input->post('fecha'),
-                'cargo' => $this->input->post('cargo'),
-                'titulo' => $this->input->post('titulo'),
+                'cargo' => $this->input->post('cargo', true),
+                'titulo' => $this->input->post('titulo', true),
                 'clave_empleado' => $this->input->post('clave')
             ];
 
@@ -1603,13 +1600,13 @@ class Auth extends CI_Controller
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
             $password = '12345678';
             $additional_data = [
-                'first_name' => $this->input->post('first_name'),
-                'ap1' => $this->input->post('last_name'),
-                'ap2' => $this->input->post('ap2'),
+                'first_name' => $this->input->post('first_name', true),
+                'ap1' => $this->input->post('last_name', true),
+                'ap2' => $this->input->post('ap2', true),
                 'phone' => $this->input->post('phone'),
                 'created_on' => time(),
                 'active' => 0,
-                'pending' => 1,
+                'status' => 1,
                 'fecha_cargo' => date('Y-m-d'),
                 'id_sujeto' => $this->input->post('sujetos'),
                 'id_unidad' => $this->input->post('unidades'),
@@ -1658,9 +1655,12 @@ class Auth extends CI_Controller
         $user = $this->ion_auth->user($id)->row();
 
         if ($user) {
-            // Actualizar el estado de pending a 2 (oculto)
+            // Actualizar el estado de status a 2 (oculto)
             $this->deactivate($id);
-            $data = ['pending' => 2];
+            $data = [
+                'status' => 2,
+                'email' => null
+            ];
             $this->db->where('id', $id);
             $this->db->update('users', $data);
 

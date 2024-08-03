@@ -8,6 +8,7 @@ class Oficinas extends CI_Controller
         parent::__construct();
         $this->load->model('OficinaModel');
         $this->load->library('form_validation');
+        $this->load->helper('security');
         if (!$this->ion_auth->logged_in()) {
             print_r($this->ion_auth->logged_in());
             redirect('auth/login', 'refresh');
@@ -130,19 +131,19 @@ class Oficinas extends CI_Controller
             $unidad = $this->input->post('unidad');
             $localidad = $this->input->post('localidad');
             $tipo_asentamiento = $this->input->post('tipo_asentamiento');
-            $nombre_asentamiento = $this->input->post('nombre_asentamiento');
+            $nombre_asentamiento = $this->input->post('nombre_asentamiento',true);
             $tipo_vialidad = $this->input->post('tipo_vialidad');
             $municipio = $this->input->post('municipio');
-            $nombre = $this->input->post('inputNombre');
-            $siglas = $this->input->post('siglas');
-            $nombre_vialidad = $this->input->post('inputVialidad');
+            $nombre = $this->input->post('inputNombre', true);
+            $siglas = $this->input->post('siglas', true);
+            $nombre_vialidad = $this->input->post('inputVialidad', true);
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
             /* $codigo_postal = $this->input->post('codigo_postal');*/
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
-            $email = $this->input->post('email');
-            $notas = $this->input->post('notas');
+            $email = $this->input->post('email', true);
+            $notas = $this->input->post('notas', true);
             $horarios_ = $this->input->post('horarios');
 
             $data = array(
@@ -315,20 +316,19 @@ class Oficinas extends CI_Controller
             $unidad = $this->input->post('unidad');
             $localidad = $this->input->post('localidad');
             $tipo_asentamiento = $this->input->post('tipo_asentamiento');
-            $nombre_asentamiento = $this->input->post('nombre_asentamiento');
+            $nombre_asentamiento = $this->input->post('nombre_asentamiento', true);
             $tipo_vialidad = $this->input->post('tipo_vialidad');
             $municipio = $this->input->post('municipio');
-            $nombre = $this->input->post('inputNombre');
-            $siglas = $this->input->post('siglas');
-            $nombre_vialidad = $this->input->post('inputVialidad');
+            $nombre = $this->input->post('inputNombre', true);
+            $siglas = $this->input->post('siglas', true);
+            $nombre_vialidad = $this->input->post('inputVialidad', true);
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
            /* $codigo_postal = $this->input->post('codigo_postal');*/
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
-            $email = $this->input->post('email');
-            $notas = $this->input->post('notas');
-
+            $email = $this->input->post('email', true);
+            $notas = $this->input->post('notas', true);
             $horarios_ = ($this->input->post('horarios'));
             $horariosEliminados_ = $this->input->post('horariosEliminados');
             $id_oficina = $this->input->post('id_oficina');
