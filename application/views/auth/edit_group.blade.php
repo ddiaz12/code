@@ -29,7 +29,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="group_name">Nombre del grupo<span class="text-danger">*</span></label>
-                                    <?php echo form_input($group_name, '', ['class' => 'form-control', 'id' => 'group_name']); ?>
+                                    <?php echo form_input($group_name, '', ['class' => 'form-control', 'id' => 'group_name', 'disabled' => 'disabled']); ?>
                                     <small id="msg_group_name" class="text-danger"></small>
                                 </div>
                             </div>

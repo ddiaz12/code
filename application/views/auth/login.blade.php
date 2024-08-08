@@ -25,7 +25,7 @@
                     <div class="form-floating mb-3">
                         <input class="form-control" type="text" name="identity" id="identity"
                             value="<?php echo set_value('identity'); ?>" placeholder="name@example.com" />
-                        <label for="identity">Correo electronico</label>
+                        <label for="identity">Correo electrónico</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="password" name="password" id="password" class="form-control"
@@ -34,11 +34,11 @@
                     </div>
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" value="1" <?php echo set_checkbox('remember', '1'); ?> />
-                        <label class="form-check-label" for="remember">Recuerdame</label>
+                        <label class="form-check-label" for="remember">Recuérdame</label>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                         <a class="small" href="<?php echo base_url('auth/forgot_password'); ?>">Olvidé mi contraseña</a>
-                        <button type="submit" class="btn btn-primary">Iniciar sesion</button>
+                        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                     </div>
                     <?php echo form_close(); ?>
                 </div>

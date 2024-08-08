@@ -21,7 +21,6 @@ Registro Estatal de Regulaciones (RER) - Usuarios
 
     <div class="d-flex justify-content-end mb-3">
         <!-- Botón para agregar grupo -->
-        <!-- Botón para agregar grupo -->
         <!-- <a href="<?php echo base_url('auth/create_group'); ?>" class="btn btn-primary btn-agregarGrupo">
             <i class="fas fa-plus-circle me-1"></i> Crear Grupo
         </a> -->
