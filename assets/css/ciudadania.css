@@ -1,0 +1,211 @@
+.navbar-custom {
+	background-color: #8c1e41;
+}
+
+.fa-solid.fa-user-large {
+	font-size: 2em;
+}
+
+.nav-link {
+	color: #b69664;
+}
+
+#sidenavAccordion {
+	width: 50%;
+	background-color:#b69664 ;
+	border-top-right-radius: 10px; /* Ajusta el radio del borde superior derecho */
+	border-bottom-right-radius: 10px; /* Ajusta el radio del borde inferior derecho */
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
+	overflow-y: visible;
+}
+
+.sb-nav-fixed #layoutSidenav {
+	display: flex;
+	min-height: 100vh; /* Asegura que el contenedor principal sea al menos tan alto como la ventana del navegador */
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_content {
+	flex: 1;
+	
+	padding-left: 150px;
+	top: 56px;
+}
+
+.menu-custom {
+	width: 40%;
+	padding-left: 20px;
+}
+
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
+	width: 100px;
+	padding-bottom: 11rem;
+	z-index: 2;
+}
+#layoutSidenav_nav {
+	margin-top: 105px; /* Ajusta este valor según necesites para mover el menú hacia abajo */
+	border-top-right-radius: 10px; /* Ajusta el radio del borde superior derecho */
+	border-bottom-right-radius: 10px; /* Ajusta el radio del borde inferior derecho */
+}
+
+.div-home {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.fa-person-shelter,
+.fa-file-contract,
+.fa-person-circle-exclamation,
+.fa-circle-exclamation,
+.fa-landmark,
+.fa-universal-access {
+	color: rgb(8, 8, 8);
+	font-size: 30px; /* Ajusta el tamaño del icono aquí */
+	margin: 15px 0 10px 0;
+}
+
+/* sujeto - oficinas */
+
+/* Aplicar espaciado entre las celdas */
+#datatablesSimple td,
+#datatablesSimple th {
+	padding: 8px;
+}
+
+/* Agregar margen alrededor de la tabla */
+#datatablesSimple {
+	margin-bottom: 20px;
+}
+
+.tTabla-color {
+	background-color: #923244;
+	color: white;
+}
+
+.div-info {
+	text-align: center;
+	margin: 0 40px 0 10px;
+}
+
+#accessibilityMenu {
+	display: none;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: #f8f9fa;
+	z-index: 1000;
+	padding: 10px 0;
+}
+
+#accessibilityMenu ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#accessibilityMenu li {
+	float: left;
+}
+
+#accessibilityMenu li a {
+	display: block;
+	color: black;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+#buscadorContainer {
+	margin-top: 20px; /* Ajusta este valor según tus necesidades */
+}
+
+#buscador {
+	display: inline-block;
+	width: 50%; /* Ajusta este valor según tus necesidades */
+}
+
+#tituloBuscador {
+	margin-bottom: 20px; /* Ajusta este valor según tus necesidades */
+	margin-left: 50px; /* Ajusta este valor según tus necesidades */
+}
+
+.input-group .form-control {
+    position: absolute;
+    z-index: 2;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+#nombreRegulacion {
+	margin-left: 20rem;
+	width: 60%;
+}
+
+#texto {
+	margin-left: 10rem;
+}
+
+#buttonContainer {
+	margin-top: -2rem;
+    margin-left: 77rem;
+}
+
+#btn-search {
+	background-color: #7F2841;
+	border-color: #B69664;
+}
+
+#btn-search:focus {
+	border-color: #B39362; /* Cambia esto a tu color de contorno preferido */
+}
+
+#txtBusqueda {
+	margin-top: 1rem;
+	margin-left: 34.4rem;
+}
+
+#advancedSearch {
+    background-color: transparent;
+    border: none;
+    color: #000000; /* Cambia esto al color que quieras para el icono */
+}
+
+#advancedSearchOptions {
+	display: flex !important;
+	justify-content: center !important;
+	margin-left: 20rem;
+}
+
+#regdisp {
+	margin-left: 20rem;
+}
+#cardsReg {
+	margin-left: 9rem;
+	position: relative;
+	z-index: 3;
+}
+#additionalCards {
+	padding-top: 1rem;
+	position: relative;
+	z-index: 2;
+}
+#piePagina {
+	position: absolute;
+    bottom: -45%; /* Ajusta este valor si necesitas más espacio en la parte inferior */
+    left: 0;
+    width: 100%;
+	z-index: 1; /* Asegura que el footer se muestre por encima de otros contenidos si es necesario */
+}
+footer {
+	position: relative !important;
+	bottom: -45% !important; 
+	width: 100%;
+	height: 150px;
+	min-height: 150px;
+	font-size: 13px;
+  }
+
