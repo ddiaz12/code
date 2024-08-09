@@ -40,11 +40,16 @@
                 <li><a class="dropdown-item" href="<?php echo base_url(); ?>auth/logout">Logout</a></li>
             </ul>
         </li>
-          <!-- User Email -->
-          <li class="user-email">
+        <!-- User Email -->
+        <li class="user">
             <?php echo $this->ion_auth->user()->row()->email; ?>
         </li>
         <!-- User Email -->
+        <!-- Role -->
+        <li class="user">
+            <?php echo $this->ion_auth->get_users_groups()->row()->name; ?>
+        </li>
+        <!-- Role -->
     </ul>
     <!-- Navbar-->
 </nav>

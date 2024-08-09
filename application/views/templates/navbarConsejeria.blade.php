@@ -2,7 +2,8 @@
     <!-- Navbar Brand-->
     <div class="div-escudo">
         <a class="navbar-brand" href="<?php echo base_url('home'); ?>">
-            <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" alt="Escudo del gobierno del estado" id="logo">
+            <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" alt="Escudo del gobierno del estado"
+                id="logo">
         </a>
     </div>
     <!-- Navbar Brand-->
@@ -28,8 +29,8 @@
             <a class="nav-link" href="#!"><i class="fas fa-envelope fa-lg"></i></a>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user fa-lg"></i></a>
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fa-solid fa-user fa-lg"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
                 <li><a class="dropdown-item" href="#!">Activity Log</a></li>
@@ -40,10 +41,15 @@
             </ul>
         </li>
         <!-- User Email -->
-        <li class="user-email">
+        <li class="user">
             <?php echo $this->ion_auth->user()->row()->email; ?>
         </li>
         <!-- User Email -->
+        <!-- Role -->
+        <li class="user">
+            <?php echo $this->ion_auth->get_users_groups()->row()->name; ?>
+        </li>
+        <!-- Role -->
     </ul>
     <!-- Navbar-->
 </nav>

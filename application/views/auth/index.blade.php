@@ -21,9 +21,9 @@ Registro Estatal de Regulaciones (RER) - Usuarios
 
     <div class="d-flex justify-content-end mb-3">
         <!-- Botón para agregar grupo -->
-        <a href="<?php echo base_url('auth/create_group'); ?>" class="btn btn-primary btn-agregarGrupo">
+        <!-- <a href="<?php echo base_url('auth/create_group'); ?>" class="btn btn-primary btn-agregarGrupo">
             <i class="fas fa-plus-circle me-1"></i> Crear Grupo
-        </a>
+        </a> -->
         <!-- Botón para agregar usuario -->
         <a href="<?php echo base_url('auth/create_user'); ?>" class="btn btn-primary btn-agregarUsuario">
             <i class="fas fa-plus-circle me-1"></i> Crear Usuario
@@ -46,7 +46,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
 
                 <tbody>
                     <?php foreach ($users as $user):?>
-                        <?php if ($user->pending != 2): ?>
+                        <?php if ($user->status != 2): ?>
                     <tr>
                         <td><?php    echo htmlspecialchars($user->first_name . ' ' . $user->ap1 . ' ' . $user->ap2, ENT_QUOTES, 'UTF-8'); ?>
                         </td>
@@ -66,7 +66,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                                 onclick="confirmDeactivate(<?php        echo $user->id; ?>)">
                                 <i class="fas fa-times-circle" title="Desactivar usuario"></i>Desactivar
                             </button>
-                            <?php    elseif ($user->pending && $user->active == 0): ?>
+                            <?php    elseif ($user->status && $user->active == 0): ?>
                             <button class="btn btn-secondary btn-sm"
                                 onclick="confirmActivatePending('<?php        echo base64_encode($user->id); ?>')">
                                 <i class="fas fa-clock" title="Usuario pendiente"></i> Pendiente

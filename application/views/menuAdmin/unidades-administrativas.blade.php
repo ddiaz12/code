@@ -31,7 +31,6 @@
                             <th class="tTabla-color">Id</th>
                             <th class="tTabla-color">Nombre de U.A</th>
                             <th class="tTabla-color">Siglas</th>
-                            <th class="tTabla-color">Tipo</th>
                             <th class="tTabla-color">Nombre sujeto obligado</th>
                             <th class="tTabla-color">Acciones</th>
                         </tr>
@@ -42,7 +41,6 @@
                                 <td>{{ $unidad->ID_unidad }}</td>
                                 <td>{{ $unidad->nombre }}</td>
                                 <td>{{ $unidad->siglas }}</td>
-                                <td>{{ $unidad->tipo_sujeto }}</td>
                                 <td>{{ $unidad->nombre_sujeto }}</td>
                                 <td>
                                     <a href="{{ base_url('menu/editar_unidad/' . base64_encode($unidad->ID_unidad)) }}"
@@ -79,8 +77,6 @@
                     text: "¡No podrás revertir esto!",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#b69664',
-                    cancelButtonColor: '#923244',
                     confirmButtonText: '¡Sí, eliminar!',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {

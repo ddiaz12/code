@@ -26,11 +26,11 @@
                               <?php echo form_open('auth/forgot_password'); ?>
                               <div class="form-floating mb-3">
                                     <input class="form-control" type="text" name="identity" id="identity" value="<?php echo set_value('identity'); ?>" placeholder="name@example.com" />
-                                    <label for="identity">Correo electronico</label>
+                                    <label for="identity">Correo electrónico</label>
                               </div>
                               <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                     <a class="small" href="<?php echo base_url('auth/login'); ?>">Regresar a inicio de
-                                          sesion</a>
+                                    sesión</a>
                                     <button type="submit" class="btn btn-primary">Restablecer contraseña</button>
                               </div>
                               <?php echo form_close(); ?>

@@ -14,6 +14,7 @@ class MenuModel extends CI_Model
         //$this->db->select('cat_sujeto_obligado.*');
         //$this->db->from('cat_sujeto_obligado');
         $this->db->where('cat_sujeto_obligado.nombre_sujeto !=', 'No especificado');
+        $this->db->where('cat_sujeto_obligado.status !=', 0);
         $query = $this->db->get('cat_sujeto_obligado');
         return $query->result();
     }
@@ -27,19 +28,12 @@ class MenuModel extends CI_Model
         return $query->row();
     }
 
-    public function getTipoSujetoObligado()
-    {
-        $this->db->where('tipo_sujeto !=', 'No especificado');
-        $query = $this->db->get('cat_tipo_sujeto_obligado');
-        return $query->result();
-    }
-
     public function getUnidadesAdministrativas()
     {
-        $this->db->select('cat_unidad_administrativa.*, cat_sujeto_obligado.nombre_sujeto, cat_tipo_sujeto_obligado.tipo_sujeto');
+        $this->db->select('cat_unidad_administrativa.*, cat_sujeto_obligado.nombre_sujeto');
         $this->db->from('cat_unidad_administrativa');
         $this->db->join('cat_sujeto_obligado', 'cat_sujeto_obligado.ID_sujeto = cat_unidad_administrativa.ID_sujeto');
-        $this->db->join('cat_tipo_sujeto_obligado', 'cat_tipo_sujeto_obligado.ID_tipoSujeto = cat_sujeto_obligado.ID_tipoSujeto');
+        $this->db->where('cat_unidad_administrativa.status', 1);
         $query = $this->db->get();
         return $query->result();
     }
@@ -69,18 +63,17 @@ class MenuModel extends CI_Model
 
     public function getUnidad($id)
     {
-        $this->db->select('cat_unidad_administrativa.*, cat_sujeto_obligado.nombre_sujeto, cat_tipo_sujeto_obligado.tipo_sujeto, 
+        $this->db->select('cat_unidad_administrativa.*, cat_sujeto_obligado.nombre_sujeto, 
                             cat_localidades.clave, cat_nombre_asentamiento.CP');
         $this->db->from('cat_unidad_administrativa');
         $this->db->join('cat_sujeto_obligado', 'cat_sujeto_obligado.ID_sujeto = cat_unidad_administrativa.ID_sujeto');
-        $this->db->join('cat_tipo_sujeto_obligado', 'cat_tipo_sujeto_obligado.ID_tipoSujeto = cat_sujeto_obligado.ID_tipoSujeto');
         $this->db->join('cat_localidades', 'cat_localidades.ID_localidad = cat_unidad_administrativa.ID_localidad');
         $this->db->join('cat_nombre_asentamiento', 'cat_nombre_asentamiento.ID_nAsentamiento = cat_unidad_administrativa.ID_nAsentamiento');
         $this->db->where('cat_unidad_administrativa.ID_unidad', $id);
         $query = $this->db->get();
         return $query->row();
     }
-    
+
 
     public function obtenerHorariosUnidad($id)
     {
@@ -156,6 +149,12 @@ class MenuModel extends CI_Model
         $this->db->delete('cat_unidad_administrativa');
     }
 
+    public function ocultarUnidad($id)
+    {
+        $this->db->where('ID_unidad', $id);
+        $this->db->update('cat_unidad_administrativa', ['status' => 0]);
+    }
+
     public function insertar_sujeto($data)
     {
         $this->db->insert('cat_sujeto_obligado', $data);
@@ -170,7 +169,7 @@ class MenuModel extends CI_Model
     public function eliminarSujeto($id)
     {
         $this->db->where('ID_sujeto', $id);
-        $this->db->delete('cat_sujeto_obligado');
+        $this->db->update('cat_sujeto_obligado', array('status' => 0));
     }
 }
 

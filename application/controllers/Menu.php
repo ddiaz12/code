@@ -201,18 +201,18 @@ class Menu extends CI_Controller
             $municipio = $this->input->post('municipio');
             $localidad = $this->input->post('localidad');
             $tipo_asentamiento = $this->input->post('tipo_asentamiento');
-            $nombre_asentamiento = $this->input->post('nombre_asentamiento');
-            $nombre = $this->input->post('inputNombre');
-            $siglas = $this->input->post('siglas');
+            $nombre_asentamiento = $this->input->post('nombre_asentamiento', true);
+            $nombre = $this->input->post('inputNombre', true);
+            $siglas = $this->input->post('siglas', true);
             $tipo_vialidad = $this->input->post('tipo_vialidad');
-            $nombre_vialidad = $this->input->post('nombre_vialidad');
+            $nombre_vialidad = $this->input->post('nombre_vialidad', true);
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
             /* $codigo_postal = $this->input->post('codigo_postal');*/
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
-            $email = $this->input->post('email');
-            $notas = $this->input->post('notas');
+            $email = $this->input->post('email', true);
+            $notas = $this->input->post('notas', true);
             $checkboxOficina = $this->input->post('checkboxOficina');
             $horarios_ = $this->input->post('horarios');
 
@@ -233,6 +233,7 @@ class Menu extends CI_Controller
                 'Correo_Elec' => $email,
                 'Notas' => $notas,
                 'checkOficina' => $checkboxOficina == 'on' ? '1' : '0',
+                'status' => 1
             );
 
             if (!empty($horarios_)) {
@@ -279,8 +280,7 @@ class Menu extends CI_Controller
 
     public function eliminar_unidad($id)
     {
-        $this->MenuModel->eliminarUnidad($id);
-
+        $this->MenuModel->ocultarUnidad($id);
     }
 
     public function editar_unidad($encoded_id)
@@ -380,18 +380,18 @@ class Menu extends CI_Controller
             $municipio = $this->input->post('municipio');
             $localidad = $this->input->post('localidad');
             $tipo_asentamiento = $this->input->post('tipo_asentamiento');
-            $nombre_asentamiento = $this->input->post('nombre_asentamiento');
-            $nombre = $this->input->post('inputNombre');
-            $siglas = $this->input->post('siglas');
+            $nombre_asentamiento = $this->input->post('nombre_asentamiento', true);
+            $nombre = $this->input->post('inputNombre', true);
+            $siglas = $this->input->post('siglas', true);
             $tipo_vialidad = $this->input->post('tipo_vialidad');
-            $nombre_vialidad = $this->input->post('nombre_vialidad');
+            $nombre_vialidad = $this->input->post('nombre_vialidad', true);
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
             //$codigo_postal = $this->input->post('codigo_postal');
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('extension');
-            $email = $this->input->post('email');
-            $notas = $this->input->post('notas');
+            $email = $this->input->post('email', true);
+            $notas = $this->input->post('notas', true);
             $checkboxOficina = $this->input->post('checkboxOficina');
             $horarios_ = $this->input->post('horarios');
 
@@ -451,14 +451,12 @@ class Menu extends CI_Controller
 
     public function agregar_sujeto()
     {
-        $data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
-
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('menuSujeto/agregar-sujeto', $data);
+            $this->blade->render('menuSujeto/agregar-sujeto');
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/agregar-sujeto', $data);
+            $this->blade->render('menuAdmin/agregar-sujeto');
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuSupervisor/agregar-sujeto', $data);
+            $this->blade->render('menuSupervisor/agregar-sujeto');
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/login', 'refresh');
@@ -493,17 +491,18 @@ class Menu extends CI_Controller
 
         if ($this->form_validation->run() != FALSE) {
             //$tipo = $this->input->post('TipoSujeto');
-            $sujeto = $this->input->post('inputSujetos');
-            $siglas = $this->input->post('inputSiglas');
-            $materia = $this->input->post('inputMateria');
-            $estado = $this->input->post('inputEstado');
+            $sujeto = $this->input->post('inputSujetos', true);
+            $siglas = $this->input->post('inputSiglas', true);
+            $materia = $this->input->post('inputMateria', true);
+            $estado = $this->input->post('inputEstado', true);
 
             $data = array(
                 //'ID_tipoSujeto' => $tipo,
                 'nombre_sujeto' => $sujeto,
                 'estado' => $estado,
                 'siglas' => $siglas,
-                'materia' => $materia
+                'materia' => $materia,
+                'status' => 1
             );
 
             $this->MenuModel->insertar_sujeto($data);
@@ -572,10 +571,10 @@ class Menu extends CI_Controller
         if ($this->form_validation->run() != FALSE) {
             $id_sujeto = $this->input->post('ID_sujeto');
             //$tipo = $this->input->post('TipoSujeto');
-            $sujeto = $this->input->post('inputSujetos');
-            $siglas = $this->input->post('inputSiglas');
-            $materia = $this->input->post('inputMateria');
-            $estado = $this->input->post('inputEstado');
+            $sujeto = $this->input->post('inputSujetos', true);
+            $siglas = $this->input->post('inputSiglas', true);
+            $materia = $this->input->post('inputMateria', true);
+            $estado = $this->input->post('inputEstado', true);
 
             $data = array(
                 'nombre_sujeto' => $sujeto,

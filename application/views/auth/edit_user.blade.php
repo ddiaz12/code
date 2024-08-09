@@ -124,7 +124,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="titulo">Titulo</label>
+                            <label for="titulo">Título</label>
                             <?php echo form_input($titulo, '', [
                                 'class' => 'form-control', 'id' => 'titulo',
                                 'placeholder' => 'Titulo'
