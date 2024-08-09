@@ -8,7 +8,7 @@
     <div id="layoutSidenav">
         
         <!-- Menu -->
-        @include('templates/menu')
+        @include('templates/menuAdmin')
         <!-- Menu -->
 
         <!-- Contenido -->
@@ -17,7 +17,7 @@
                 <div class="container-fluid px-4">
                     
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="<?php echo base_url("home/home_sujeto") ?>"><i class="fas fa-home me-1"></i>Home</a>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url("home") ?>"><i class="fas fa-home me-1"></i>Home</a>
                         </li>
                         <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Oficinas</li>
                     </ol>
@@ -43,29 +43,7 @@
                                 </thead>
 
                                 <tbody>
-                                    <?php foreach ($oficinas as $oficina): ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $oficina->id_oficina ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->nombre ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->tipo ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $oficina->fecha ?>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-sm rounded-circle me-2"><i
-                                                        class="fas fa-edit"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm rounded-circle"
-                                                    data-id_oficina="<?php echo $oficina->id_oficina ?>"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                  
                                 </tbody>
                             </table>
                         </div>

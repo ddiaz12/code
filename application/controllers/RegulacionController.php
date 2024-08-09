@@ -8,6 +8,12 @@ class RegulacionController extends CI_Controller {
         parent::__construct();
         $this->load->model('RegulacionModel');
     }
+
+    public function index()
+    {
+        $this->regulaciones();
+    }
+
     public function regulaciones(){
         $this->blade->render('regulaciones/regulaciones2');
     }
@@ -38,6 +44,7 @@ class RegulacionController extends CI_Controller {
         echo json_encode($results);
     }
 
+    /*
     public function index()
     {
         $regulaciones = $this->RegulacionModel->get_regulaciones();
@@ -51,7 +58,7 @@ class RegulacionController extends CI_Controller {
         return view('consulta-regulaciones', ['regulaciones' => $regulaciones]);
         $this->load->view('ciudadania/consulta-regulaciones', $data);
     }
-
+    */
     public function getMaxValues() {
         $maxValues = $this->RegulacionModel->getMaxValues();
         echo json_encode($maxValues);
