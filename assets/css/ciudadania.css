@@ -1,5 +1,70 @@
-.navbar-custom {
+@font-face {
+	font-family: "Geomanist";
+	src: url("../fonts/Geomanist-Regular.otf");
+}
+
+* {
+	font-family: "Geomanist", sans-serif;
+}
+
+
+h1,
+.h1 {
+	font-weight: 600;
+}
+
+h1, h2 {
+    font-weight: bold;
+}
+
+h3,
+.h3 {
+	font-weight: 500;
+	font-size: 24px;
+}
+
+h7,
+.h7 {
+	font-weight: 500 !important;
+}
+
+div#navbarNavDropdown a {
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+a.cursor.denuncia-menu.nav-link {
+    background: #979a9a;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+}
+
+.navbarGob {
 	background-color: #8c1e41;
+}
+
+.card-header {
+    background-color: #7f2841;
+}
+
+.text-cards {
+    color: #ffffff;
+}
+
+.row.no-padding > * {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.div-card {
+    margin: 0 1rem 0 1rem;
+}
+
+.card {
+    --bs-card-border-color: rgb(0 0 0);
 }
 
 .fa-solid.fa-user-large {
@@ -193,19 +258,64 @@
 	position: relative;
 	z-index: 2;
 }
-#piePagina {
-	position: absolute;
-    bottom: -45%; /* Ajusta este valor si necesitas más espacio en la parte inferior */
-    left: 0;
-    width: 100%;
-	z-index: 1; /* Asegura que el footer se muestre por encima de otros contenidos si es necesario */
-}
-footer {
-	position: relative !important;
-	bottom: -45% !important; 
-	width: 100%;
-	height: 150px;
-	min-height: 150px;
-	font-size: 13px;
-  }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    background-color: #ffffff;
+}
+
+  footer .footer-backgroundcolor-pu {
+    padding-right: 0px;
+    padding-left: 0px;
+    background-color: #f6f6f6;
+}
+
+footer .footer-back-dark {
+    background-color: #4b4f54;
+}
+
+.footer-social-separador-pu {
+    margin-top: 5%;
+}
+
+.footer-texto-pu {
+    padding-top: 5px;
+}
+
+.footer-link-left {
+    padding-bottom: 20px;
+}
+
+.footer-youtube {
+    color: #801419;
+}
+
+footer .footer-icon-separador-pu {
+    padding-left: 60px;
+}
+
+.footer-facebook {
+    color: #3b5998;
+}
+
+.btn-dorado{
+	background-color: #b69664;
+	--bs-btn-active-bg: rgb(216, 177, 111);
+	--bs-btn-active-color: white;
+	color: white;
+}
+
+.btn-dorado:hover{
+	background-color: #d8b16f;
+	color: white;
+}

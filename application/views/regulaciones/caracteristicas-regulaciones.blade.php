@@ -172,7 +172,7 @@ $(document).ready(function() {
 <body class="sb-nav-fixed cuerpo-sujeto">
     <div id="layoutSidenav">
         <!-- Menu -->
-        @include('templates/menu')
+        @include('templates/menuAdmin')
         <!-- Menu -->
     </div>
 

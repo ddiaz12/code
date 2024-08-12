@@ -21,7 +21,8 @@ Registro Estatal de Regulaciones
                 Administrar cualquier normativa de carácter general.
             </div>
             <div class="card-footer text-center">
-                <a href="<?php echo base_url('regulaciones'); ?>" class="btn btn-primary btn-oficina">administrar</a>
+                <a href="<?php echo base_url('RegulacionController'); ?>"
+                    class="btn btn-primary btn-oficina">administrar</a>
             </div>
         </div>
         <div class="card shadow mb-4 col-sm-5 div-card">
