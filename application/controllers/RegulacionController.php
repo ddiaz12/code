@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class RegulacionController extends CI_Controller {
+class RegulacionController extends CI_Controller
+{
 
     public function __construct()
     {
@@ -14,31 +15,38 @@ class RegulacionController extends CI_Controller {
         $this->regulaciones();
     }
 
-    public function regulaciones(){
+    public function regulaciones()
+    {
         $this->blade->render('regulaciones/regulaciones2');
     }
 
-    public function caracteristicas_reg(){
+    public function caracteristicas_reg()
+    {
         $data['tipos_ordenamiento'] = $this->RegulacionModel->getTiposOrdenamiento2();
         $data['indices'] = $this->RegulacionModel->getIndices();
-    // Imprime los datos en la consola
-    echo '<script>';
-    echo 'console.log(' . json_encode($data['tipos_ordenamiento']) . ');';
-    echo 'console.log(' . json_encode($data['indices']) . ');';
-    echo '</script>';
-    // Depura el contenido de $data['tipos_ordenamiento']
+        // Imprime los datos en la consola
+        echo '<script>';
+        echo 'console.log(' . json_encode($data['tipos_ordenamiento']) . ');';
+        echo 'console.log(' . json_encode($data['indices']) . ');';
+        echo '</script>';
+        // Depura el contenido de $data['tipos_ordenamiento']
 
-    
-    $this->blade->render('regulaciones/caracteristicas-regulaciones', $data);
+
+        $this->blade->render('regulaciones/caracteristicas-regulaciones', $data);
     }
-    public function mat_exentas(){
+
+    public function mat_exentas()
+    {
         $this->blade->render('regulaciones/materias-exentas');
     }
-    public function nat_regulaciones(){
+    
+    public function nat_regulaciones()
+    {
         $this->blade->render('regulaciones/nat-regulacioes');
     }
 
-    public function search() {
+    public function search()
+    {
         $query = $this->input->get('query');
         $results = $this->RegulacionModel->search_tipo_dependencia($query);
         echo json_encode($results);
@@ -59,12 +67,14 @@ class RegulacionController extends CI_Controller {
         $this->load->view('ciudadania/consulta-regulaciones', $data);
     }
     */
-    public function getMaxValues() {
+    public function getMaxValues()
+    {
         $maxValues = $this->RegulacionModel->getMaxValues();
         echo json_encode($maxValues);
     }
 
-    public function insertarRegulacion() {
+    public function insertarRegulacion()
+    {
         $formData = $this->input->post();
 
 
@@ -96,14 +106,16 @@ class RegulacionController extends CI_Controller {
         echo json_encode(array('status' => 'success'));
     }
 
-    public function obtenerMaxIDCaract() {
+    public function obtenerMaxIDCaract()
+    {
         $this->load->database();
         $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
         $result = $query->row();
         echo $result->maxID;
     }
 
-    public function insertarCaracteristicas() {
+    public function insertarCaracteristicas()
+    {
         $this->load->database();
         $data = array(
             'ID_caract' => $this->input->post('ID_caract'),
@@ -125,7 +137,7 @@ class RegulacionController extends CI_Controller {
             echo json_encode(array('status' => 'error'));
         }
     }
-    
+
     public function guardar_regulacion()
     {
         $this->form_validation->set_rules(
@@ -149,7 +161,7 @@ class RegulacionController extends CI_Controller {
         if ($this->form_validation->run() != FALSE) {
             $ID_caract = $this->input->post('sujeto');
             $ID_Regulacion = $this->input->post('fecha_expedicion');
-            $Nombre = $this->input->post('nombre',true);
+            $Nombre = $this->input->post('nombre', true);
             $Ambito_Aplicacion = $this->input->post('sujeto');
             $ID_tOrdJur = $this->input->post('unidad');
             $Fecha_Exp = $this->input->post('fecha_expedicion');
@@ -157,8 +169,8 @@ class RegulacionController extends CI_Controller {
             $Vigencia = $this->input->post('campoExtra');
             $Orden_Gob = $this->input->post('orden', true);
             $ID_Aplican = $this->input->post('inputVialidad', true);
-            $ID_Emiten  = $this->input->post('Aut_emiten');
-            $ID_Indice  = $this->input->post('num_exterior');
+            $ID_Emiten = $this->input->post('Aut_emiten');
+            $ID_Indice = $this->input->post('num_exterior');
             $Texto = $this->input->post('texto');
             $ID_Jerarquia = $this->input->post('extension');
             $ID_Padre = $this->input->post('indicePadre', true);

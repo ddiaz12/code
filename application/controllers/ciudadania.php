@@ -7,6 +7,12 @@ class ciudadania extends CI_Controller {
         $this->load->model('RegulacionModel');
     }
 
+
+    public function index() 
+        {
+            $this->consulta();
+        }
+
     public function consulta(){
         $regulaciones = $this->RegulacionModel->get_regulaciones();
         // Asegurarse de que $regulaciones siempre sea un array.

@@ -19,7 +19,7 @@ class Home extends CI_Controller {
             $this->blade->render('home/home-sujeto');
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
             $this->blade->render('home/home-admin');
-        } elseif ($this->ion_auth->in_group('Consejeria')) {
+        } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('home/home-consejeria');
         } else {
             redirect('auth/login', 'refresh');

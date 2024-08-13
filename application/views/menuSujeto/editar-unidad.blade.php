@@ -56,20 +56,19 @@
                                 <small id="msg_siglas" class="text-danger"></small>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="selectVialidad">Tipo vialidad<span class="text-danger">*</span></label>
-                                    <select class="form-control" id="selectVialidad" name="tipo_vialidad" required>
-                                        <option disabled selected>Selecciona una opción</option>
-                                        @foreach ($vialidades as $vialidad)
-                                            <option value="{{ $vialidad->ID_Vialidades }}"
-                                                {{ $vialidad->ID_Vialidades == $unidades->ID_vialidad ? 'selected' : '' }}>
-                                                {{ $vialidad->Vialidad }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <small id="msg_tipo_vialidad" class="text-danger"></small>
-                                </div>
+                            <div class="form-group">
+                                <label for="selectVialidad">Tipo vialidad<span class="text-danger">*</span></label>
+                                <select class="form-control" id="selectVialidad" name="tipo_vialidad" required>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    @foreach ($vialidades as $vialidad)
+                                        <option value="{{ $vialidad->ID_Vialidades }}" {{ $vialidad->ID_Vialidades == $unidades->ID_vialidad ? 'selected' : '' }}>
+                                            {{ $vialidad->Vialidad }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small id="msg_tipo_vialidad" class="text-danger"></small>
                             </div>
+                        </div>
                             <div class="form-group">
                                 <label for="inputVialidad">Nombre vialidad<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="inputVialidad" name="nombre_vialidad"
@@ -92,74 +91,85 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="selectMunicipio">Municipio</label>
-                                    <select class="form-control" id="selectMunicipio" name="municipio" required>
-                                        <option disabled selected>Selecciona una opción</option>
-                                        @foreach ($municipios as $municipio)
-                                            <option value="{{ $municipio->ID_Municipio }}"
-                                                {{ $municipio->ID_Municipio == $unidades->ID_municipio ? 'selected' : '' }}>
-                                                {{ $municipio->Nombre_municipio }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <label for="selectMunicipio">Municipio</label>
+                                <select class="form-control" id="selectMunicipio" name="municipio" required>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    @foreach ($municipios as $municipio)
+                                        <option value="{{ $municipio->ID_Municipio }}" {{ $municipio->ID_Municipio == $unidades->ID_municipio ? 'selected' : '' }}>
+                                            {{ $municipio->Nombre_municipio }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small id="msg_municipio" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="selectLocalidad">Nombre localidad</label>
-                                    <select class="form-control" id="selectLocalidad" name="localidad" required>
-                                        <option disabled selected>Selecciona una opción</option>
-                                        @foreach ($localidades as $localidad)
-                                            <option value="{{ $localidad->ID_localidad }}"
-                                                {{ $localidad->ID_localidad == $unidades->ID_localidad ? 'selected' : '' }}
-                                                data-clave="{{ $localidad->clave }}">
-                                                {{ $localidad->Localidades }}
-                                            </option>
-                                        @endforeach;
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selectLocalidad">Nombre localidad</label>
+                                <select class="form-control" id="selectLocalidad" name="localidad" required>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    @foreach ($localidades as $localidad)
+                                        <option value="{{ $localidad->ID_localidad }}" {{ $localidad->ID_localidad == $unidades->ID_localidad ? 'selected' : '' }}
+                                            data-clave="{{ $localidad->clave }}">
+                                            {{ $localidad->Localidades }}
+                                        </option>
+                                    @endforeach;
+                                </select>
+                                <small id="msg_localidad" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="claveLocalidad">Clave localidad</label>
-                                    <input type="number" class="form-control" id="claveLocalidad"
-                                        name="clave_localidad" value="{{ $localidad->clave }}" readonly>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="claveLocalidad">Clave localidad</label>
+                                <input type="number" class="form-control" id="claveLocalidad" name="clave_localidad"
+                                    value="{{ $unidades->clave }}" readonly>
+                                    <small id="msg_clave_localidad" class="text-danger"></small>
                             </div>
+                        </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="selectMunicipio">Tipo asentamiento</label>
-                                    <select class="form-control" id="selectMunicipio" name="tipo_asentamiento">
-                                        <option disabled>Selecciona una opción</option>
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <label for="selectTipoAsentamiento">Tipo asentamiento</label>
+                                <select class="form-control" id="selectTipoAsentamiento" name="tipo_asentamiento">
+                                    <option value="{{ $unidades->tipo_asentamiento }}" selected>
+                                        {{ $unidades->tipo_asentamiento }}
+                                    </option>
+                                </select>
+                                <small id="msg_tipo_asentamiento" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="selectAsentamiento">Nombre asentamiento</label>
-                                    <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
-                                        <option disabled>Selecciona una opción</option>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selectAsentamiento">Nombre asentamiento</label>
+                                <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
+                                    <option disabled>Selecciona una opción</option>
+                                    @foreach ($asentamientos as $asentamiento)
+                                        <option value="{{ $asentamiento->ID_nAsentamiento }}" 
+                                        {{ $asentamiento->ID_nAsentamiento == $unidades->ID_nAsentamiento ? 'selected' : '' }} 
+                                        data-codigo-postal="{{ $asentamiento->CP }}">
+                                            {{ $asentamiento->nombre }}
+                                        </option>
+                                    @endforeach;
+                                </select>
+                                <small id="msg_nombre_asentamiento" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inputCP">C.P.<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" id="inputCP" name="codigo_postal"
-                                        value="{{ $unidades->c_p }}" required>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputCP">C.P.<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="inputCP" name="codigo_postal"
+                                    value="{{ $unidades->CP }}" required readonly>
                                 <small id="msg_codigo_postal" class="text-danger"></small>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phone">Número de teléfono oficial<span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="inputNumTel" name="phone"
-                                        value="{{ $unidades->NumTel_Oficial }}" required>
-                                </div>
-                                <small id="msg_phone" class="text-danger"></small>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">Número de teléfono oficial<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    value="{{ $unidades->NumTel_Oficial }}" required>
                             </div>
+                            <small id="msg_phone" class="text-danger"></small>
+                        </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputExtension">Extensión</label>
@@ -245,13 +255,9 @@
     <!-- Contenido -->
 @endsection
 @section('js')
+<script src="<?php echo base_url('assets/js/apiAsentamientosEditar.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
     <script>
-        document.getElementById('selectLocalidad').addEventListener('change', function() {
-            var selectedOption = this.options[this.selectedIndex];
-            var clave = selectedOption.getAttribute('data-clave');
-            document.getElementById('claveLocalidad').value = clave;
-        });
-
         function enviarFormulario() {
             var sendData = $('#formUnidad').serializeArray();
             sendData.push({
