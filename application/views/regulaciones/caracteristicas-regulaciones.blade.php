@@ -7,8 +7,7 @@
 @endsection
 @section('menu')
     @include('templates/menuAdmin')
-@endsectionS
-
+@endsection
 
 <script>
 function mostrarCampo() {
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
     mostrarCampo2();
 });
 </script>
-
 <script>
 $(document).ready(function() {
     var emitenArray = [];
@@ -600,131 +598,83 @@ $(document).ready(function() {
     </div>
 
     <script>
-    $(document).ready(function() {
-        $('#botonGuardar').on('click', function() {
-            var formData = {
-                nombre: '',
-                campoExtra: '',
-                objetivoReg: '',
-                unidad: '',
-                sujeto: '',
-                fecha_expedicion: '',
-                fecha_publicacion: '',
-                fecha_vigor: '',
-                fecha_act: ''
-            };
+$(document).ready(function() {
+    $('#botonGuardar').on('click', function() {
+        var formData = {
+            nombre: '',
+            campoExtra: '',
+            objetivoReg: '',
+            unidad: '',
+            sujeto: '',
+            fecha_expedicion: '',
+            fecha_publicacion: '',
+            fecha_vigor: ''
+        };
 
-            $('input, input[type="date"], select, textarea').each(function() {
-                var id = $(this).attr('id');
-                if (id !== 'AutoridadesEmiten' && id !== 'AutoridadesAplican' && id !==
-                    'inputTexto' && id !== 'selectIndicePadre' && id !== 'selectAplican' &&
-                    id !== 'selectVigencia' && !id.includes('si') && !id.includes('no') && !id
-                    .includes('apsi') && !id.includes('apno')) {
-                    var name = $(this).attr('name');
-                    var value = $(this).val();
-                    formData[name] = value;
-                }
-            });
+        $('input, input[type="date"], select, textarea').each(function() {
+            var id = $(this).attr('id');
+            if (id !== 'AutoridadesEmiten' && id !== 'AutoridadesAplican' && id !== 'inputTexto' && id !== 'selectIndicePadre' && id !== 'selectAplican' && id !== 'selectVigencia' && !id.includes('si') && !id.includes('no') && !id.includes('apsi') && !id.includes('apno')) {
+                var name = $(this).attr('name');
+                var value = $(this).val();
+                formData[name] = value;
+            }
+        });
 
-            // Imprimir formData en consola
-            console.log(formData);
+        // Imprimir formData en consola
+        console.log(formData);
 
-            $.ajax({
-                url: '<?php echo base_url('RegulacionController/insertarRegulacion'); ?>',
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    var result = JSON.parse(response);
-                    if (result.status === 'success') {
-                        alert('Datos insertados correctamente');
-                        console.log('result', result);
+        $.ajax({
+            url: '<?php echo base_url('RegulacionController/insertarRegulacion'); ?>',
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                    alert('Datos insertados correctamente');
 
-                        // Obtener el ID_Regulacion devuelto en la respuesta
-                        var ID_Regulacion = result.ID_Regulacion;
-                        console.log('ID_Regulacion', ID_Regulacion);
-                        // Obtener el ID más grande de la tabla de_regulacion_caracteristicas
+                    // Obtener el ID más grande de la tabla de_regulacion_caracteristicas
+                    $.ajax({
+                        url: '<?php echo base_url('RegulacionController/obtenerMaxIDCaract'); ?>',
+                        type: 'GET',
+                        success: function(maxIDResponse) {
+                            var maxID = parseInt(maxIDResponse) + 1;
 
+                            // Insertar en la tabla de_regulacion_caracteristicas
+                            var caracteristicasData = {
+                                ID_caract: maxID,
+                                ID_Regulacion: result.ID_Regulacion, // Asumiendo que el ID_Regulacion se devuelve en la respuesta
+                                ID_tOrdJur: formData.unidad,
+                                Nombre: formData.nombre,
+                                Ambito_Aplicacion: formData.sujeto,
+                                Fecha_Exp: formData.fecha_expedicion,
+                                Fecha_Publi: formData.fecha_publicacion,
+                                Fecha_Vigor: formData.fecha_vigor,
+                                Fecha_Act_Vigencia: formData.campoExtra
+                            };
 
-                        $.ajax({
-                            url: '<?php echo base_url('RegulacionController/obtenerMaxIDCaract'); ?>',
-                            type: 'GET',
-                            success: function(maxIDResponse) {
-                                var maxID = parseInt(maxIDResponse) + 1;
-
-                                $.ajax({
-                                    url: '<?php echo base_url('RegulacionController/obtenerMaxIDRegulacion'); ?>',
-                                    type: 'GET',
-                                    success: function(maxIDRegResponse) {
-                                        var maxIDReg = parseInt(
-                                            maxIDRegResponse) + 1;
-
-
-                                        // Insertar en la tabla de_regulacion_caracteristicas
-                                        var caracteristicasData = {
-                                            ID_caract: maxID,
-                                            ID_Regulacion: maxIDReg,
-                                            ID_tOrdJur: formData
-                                                .unidad,
-                                            Nombre: formData
-                                                .nombre,
-                                            Ambito_Aplicacion: formData
-                                                .sujeto,
-                                            Fecha_Exp: formData
-                                                .fecha_expedicion,
-                                            Fecha_Publi: formData
-                                                .fecha_publicacion,
-                                            Fecha_Vigor: formData
-                                                .fecha_vigor,
-                                            Fecha_Act: formData
-                                                .fecha_act,
-                                            Vigencia: formData
-                                                .campoExtra
-                                        };
-
-                                        // Imprimir caracteristicasData en consola
-                                        console.log(
-                                            caracteristicasData);
-
-                                        $.ajax({
-                                            url: '<?php echo base_url('RegulacionController/insertarCaracteristicas'); ?>',
-                                            type: 'POST',
-                                            data: caracteristicasData,
-                                            success: function(
-                                                caractResponse
-                                            ) {
-                                                var caractResult =
-                                                    JSON
-                                                    .parse(
-                                                        caractResponse
-                                                    );
-                                                if (caractResult
-                                                    .status ===
-                                                    'success'
-                                                ) {
-                                                    alert
-                                                        (
-                                                            'Características insertadas correctamente'
-                                                        );
-                                                } else {
-                                                    alert
-                                                        (
-                                                            'Error al insertar las características'
-                                                        );
-                                                }
-                                            }
-                                        });
+                            $.ajax({
+                                url: '<?php echo base_url('RegulacionController/insertarCaracteristicas'); ?>',
+                                type: 'POST',
+                                data: caracteristicasData,
+                                success: function(caractResponse) {
+                                    var caractResult = JSON.parse(caractResponse);
+                                    if (caractResult.status === 'success') {
+                                        alert('Características insertadas correctamente');
+                                    } else {
+                                        alert('Error al insertar las características');
                                     }
-                                });
-                            }
-                        });
-                    } else {
-                        alert('Error al insertar los datos');
-                    }
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    alert('Error al insertar los datos');
                 }
-            });
+            }
         });
     });
-    </script>
+});
+</script>
 
     <!-- Footer -->
     <footer class="py-4 bg-light mt-auto">
