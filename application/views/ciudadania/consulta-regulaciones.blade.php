@@ -310,7 +310,6 @@ foreach ($tiposOrdenamiento as $tipo): ?>
             document.getElementById('loadMore').style.display = 'none';
         }
     </script>
-
     <script>
         document.getElementById('btn-search').addEventListener('click', function () {
             var nombreRegulacion = document.getElementById('nombreRegulacion').value;
@@ -365,7 +364,6 @@ foreach ($tiposOrdenamiento as $tipo): ?>
             xhr.send('nombreRegulacion=' + encodeURIComponent(nombreRegulacion));
         });
     </script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("buscarBtn").addEventListener("click", function () {
