@@ -106,6 +106,12 @@ class RegulacionController extends CI_Controller
         echo json_encode(array('status' => 'success'));
     }
 
+    public function obtenerMaxIDRegulacion() {
+        $maxID = $this->RegulacionModel->getMaxID();
+        $newID = $maxID;
+        echo $newID;
+    }
+
     public function obtenerMaxIDCaract()
     {
         $this->load->database();
@@ -127,7 +133,8 @@ class RegulacionController extends CI_Controller
             'Fecha_Publi' => $this->input->post('Fecha_Publi'),
             'Fecha_Vigor' => $this->input->post('Fecha_Vigor'),
             'Fecha_Act' => $this->input->post('Fecha_Act'),
-            'Vigencia' => $this->input->post('Vigencia')
+            'Vigencia' => $this->input->post('Vigencia'),
+            'Orden_Gob' => $this->input->post('Orden_Gob')
         );
 
         $this->db->insert('de_regulacion_caracteristicas', $data);
