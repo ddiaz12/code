@@ -83,21 +83,23 @@ class RegulacionController extends CI_Controller {
         );
 
         // Insertar los datos
-        $this->RegulacionModel->insertRegulacion($data);
+        $insertedID = $this->RegulacionModel->insertRegulacion($data);
 
         // Responder a la solicitud AJAX
         echo json_encode(array('status' => 'success'));
     }
 
+    public function obtenerMaxIDRegulacion() {
+        $maxID = $this->RegulacionModel->getMaxID();
+        $newID = $maxID + 1;
+    }
+
     public function obtenerMaxIDCaract() {
-        $this->load->database();
-        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
-        $result = $query->row();
-        echo $result->maxID;
+        $maxID = $this->RegulacionModel->obtenerMaxIDCaract();
+        echo $maxID;
     }
 
     public function insertarCaracteristicas() {
-        $this->load->database();
         $data = array(
             'ID_caract' => $this->input->post('ID_caract'),
             'ID_Regulacion' => $this->input->post('ID_Regulacion'),
@@ -111,8 +113,8 @@ class RegulacionController extends CI_Controller {
             'Vigencia' => $this->input->post('Vigencia')
         );
 
-        $this->db->insert('de_regulacion_caracteristicas', $data);
-        if ($this->db->affected_rows() > 0) {
+        $result = $this->RegulacionModel->insertarCaracteristicas($data);
+        if ($result) {
             echo json_encode(array('status' => 'success'));
         } else {
             echo json_encode(array('status' => 'error'));
