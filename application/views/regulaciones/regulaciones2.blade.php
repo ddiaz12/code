@@ -23,7 +23,7 @@
                     </ol>
                     <!-- Botón para abrir otra vista -->
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="http://localhost/code-main/RegulacionController/caracteristicas_reg" class="btn btn-primary btn-agregarOficina">
+                        <a href="http://localhost/code/RegulacionController/caracteristicas_reg" class="btn btn-primary btn-agregarOficina">
                             <i class="fas fa-plus-circle me-1"></i> Agregar Regulacion
                         </a>
                     </div>

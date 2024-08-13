@@ -92,6 +92,7 @@ class RegulacionController extends CI_Controller {
     public function obtenerMaxIDRegulacion() {
         $maxID = $this->RegulacionModel->getMaxID();
         $newID = $maxID + 1;
+        echo $newID;
     }
 
     public function obtenerMaxIDCaract() {

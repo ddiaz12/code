@@ -372,7 +372,7 @@
     document.getElementById('btn-search').addEventListener('click', function() {
         var nombreRegulacion = document.getElementById('nombreRegulacion').value;
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/code-main/ciudadania/buscarRegulacion', true);
+        xhr.open('POST', '/code/ciudadania/buscarRegulacion', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {

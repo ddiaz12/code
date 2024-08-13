@@ -1,4 +1,13 @@
-@include('templates/header')
+@layout('templates/master')
+@section('titulo')
+    Registro Estatal de Regulaciones
+@endsection
+@section('navbar')
+    @include('templates/navbarAdmin')
+@endsection
+@section('menu')
+    @include('templates/menuAdmin')
+@endsectionS
 
 
 <script>
@@ -173,7 +182,7 @@ $(document).ready(function() {
 <body class="sb-nav-fixed cuerpo-sujeto">
     <div id="layoutSidenav">
         <!-- Menu -->
-        @include('templates/menu')
+        @include('templates/menuAdmin')
         <!-- Menu -->
     </div>
 
@@ -257,7 +266,7 @@ $(document).ready(function() {
                                     <div class="card-body" style="border: none;">
                                         <ul class="list-unstyled">
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/caracteristicas_reg"
+                                                <a href="http://localhost/code/RegulacionController/caracteristicas_reg"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-list-check"></i>
                                                     <label for="image_1">Características de la Regulación</label>
@@ -265,7 +274,7 @@ $(document).ready(function() {
                                             </li>
                                             <p></p>
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/mat_exentas"
+                                                <a href="http://localhost/code/RegulacionController/mat_exentas"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-table-list"></i>
                                                     <label for="image_2">Materias Exentas</label>
@@ -273,7 +282,7 @@ $(document).ready(function() {
                                             </li>
                                             <p></p>
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/nat_regulaciones"
+                                                <a href="http://localhost/code/RegulacionController/nat_regulaciones"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-book"></i>
                                                     <label for="image_3">Naturaleza de la Regulación</label>
