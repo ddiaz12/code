@@ -1,4 +1,13 @@
-@include('templates/header')
+@layout('templates/master')
+@section('titulo')
+    Registro Estatal de Regulaciones
+@endsection
+@section('navbar')
+    @include('templates/navbarAdmin')
+@endsection
+@section('menu')
+    @include('templates/menuAdmin')
+@endsection
 
 
 <script>
