@@ -25,7 +25,7 @@ class ciudadania extends CI_Controller {
         error_log(print_r($regulaciones, true));
 
         $data['tiposOrdenamiento'] = $this->desplegarTipos();
-        $this->blade->render('ciudadania/consulta-regulaciones', $data);
+        $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'consulta-regulaciones', $data);
     }
     
     public function buscarRegulacion() {

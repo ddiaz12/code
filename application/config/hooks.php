@@ -12,10 +12,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$hook['post_controller'][] = [
-    'class'    => 'UserActionsLogger',
-    'function' => 'log_action',
-    'filename' => 'UserActionsLogger.php',
-    'filepath' => 'hooks',
-    'params'   => []
-];
