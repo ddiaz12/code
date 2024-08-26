@@ -7,14 +7,14 @@
 	font-family: "Geomanist", sans-serif;
 }
 
-
 h1,
 .h1 {
 	font-weight: 600;
 }
 
-h1, h2 {
-    font-weight: bold;
+h1,
+h2 {
+	font-weight: bold;
 }
 
 h3,
@@ -29,42 +29,52 @@ h7,
 }
 
 div#navbarNavDropdown a {
-    color: white;
-    font-weight: 600;
-    letter-spacing: 1px;
+	color: white;
+	font-weight: 600;
+	letter-spacing: 1px;
 }
 
 a.cursor.denuncia-menu.nav-link {
-    background: #979a9a;
-    border-radius: 3px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 10px;
+	background: #979a9a;
+	border-radius: 3px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-left: 10px;
 }
 
 .navbarGob {
-	background-color: #8c1e41;
+	background-color: #612233;
+}
+
+.div-escudo {
+	width: 11%;
+	padding: 10px 0 10px 0;
+}
+
+#logo {
+	width: 100%;
+	margin: 0 4px 5px 2rem;
 }
 
 .card-header {
-    background-color: #7f2841;
+	background-color: #7f2841;
 }
 
 .text-cards {
-    color: #ffffff;
+	color: #ffffff;
 }
 
 .row.no-padding > * {
-    padding-left: 0px;
-    padding-right: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 .div-card {
-    margin: 0 1rem 0 1rem;
+	margin: 0 1rem 0 1rem;
 }
 
 .card {
-    --bs-card-border-color: rgb(0 0 0);
+	--bs-card-border-color: rgb(0 0 0);
 }
 
 .fa-solid.fa-user-large {
@@ -75,9 +85,13 @@ a.cursor.denuncia-menu.nav-link {
 	color: #b69664;
 }
 
+.div-navbar{
+	margin-left: 9rem;
+}
+
 #sidenavAccordion {
 	width: 50%;
-	background-color:#b69664 ;
+	background-color: #b69664;
 	border-top-right-radius: 10px; /* Ajusta el radio del borde superior derecho */
 	border-bottom-right-radius: 10px; /* Ajusta el radio del borde inferior derecho */
 }
@@ -93,7 +107,7 @@ a.cursor.denuncia-menu.nav-link {
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
 	flex: 1;
-	
+
 	padding-left: 150px;
 	top: 56px;
 }
@@ -112,11 +126,6 @@ a.cursor.denuncia-menu.nav-link {
 	margin-top: 105px; /* Ajusta este valor según necesites para mover el menú hacia abajo */
 	border-top-right-radius: 10px; /* Ajusta el radio del borde superior derecho */
 	border-bottom-right-radius: 10px; /* Ajusta el radio del borde inferior derecho */
-}
-
-.div-home {
-	margin-top: 10px;
-	margin-bottom: 10px;
 }
 
 .fa-person-shelter,
@@ -197,12 +206,12 @@ a.cursor.denuncia-menu.nav-link {
 }
 
 .input-group .form-control {
-    position: absolute;
-    z-index: 2;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 1 auto;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
+	position: absolute;
+	z-index: 2;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1 1 auto;
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 #nombreRegulacion {
@@ -216,16 +225,16 @@ a.cursor.denuncia-menu.nav-link {
 
 #buttonContainer {
 	margin-top: -2rem;
-    margin-left: 77rem;
+	margin-left: 77rem;
 }
 
 #btn-search {
-	background-color: #7F2841;
-	border-color: #B69664;
+	background-color: #7f2841;
+	border-color: #b69664;
 }
 
 #btn-search:focus {
-	border-color: #B39362; /* Cambia esto a tu color de contorno preferido */
+	border-color: #b39362; /* Cambia esto a tu color de contorno preferido */
 }
 
 #txtBusqueda {
@@ -234,9 +243,9 @@ a.cursor.denuncia-menu.nav-link {
 }
 
 #advancedSearch {
-    background-color: transparent;
-    border: none;
-    color: #000000; /* Cambia esto al color que quieras para el icono */
+	background-color: transparent;
+	border: none;
+	color: #000000; /* Cambia esto al color que quieras para el icono */
 }
 
 #advancedSearchOptions {
@@ -259,63 +268,96 @@ a.cursor.denuncia-menu.nav-link {
 	z-index: 2;
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
-
 
 footer {
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    height: 150px;
-    background-color: #ffffff;
+	position: relative;
+	bottom: 0;
+	width: 100%;
+	height: 150px;
+	background-color: #ffffff;
 }
 
-  footer .footer-backgroundcolor-pu {
-    padding-right: 0px;
-    padding-left: 0px;
-    background-color: #f6f6f6;
+footer .footer-backgroundcolor-pu {
+	padding-right: 0px;
+	padding-left: 0px;
+	background-color: #f6f6f6;
 }
 
 footer .footer-back-dark {
-    background-color: #4b4f54;
+	background-color: #4b4f54;
 }
 
 .footer-social-separador-pu {
-    margin-top: 5%;
+	margin-top: 5%;
 }
 
 .footer-texto-pu {
-    padding-top: 5px;
+	padding-top: 5px;
 }
 
 .footer-link-left {
-    padding-bottom: 20px;
+	padding-bottom: 20px;
 }
 
 .footer-youtube {
-    color: #801419;
+	color: #801419;
 }
 
 footer .footer-icon-separador-pu {
-    padding-left: 60px;
+	padding-left: 60px;
 }
 
 .footer-facebook {
-    color: #3b5998;
+	color: #3b5998;
 }
 
-.btn-dorado{
+.btn-dorado {
 	background-color: #b69664;
 	--bs-btn-active-bg: rgb(216, 177, 111);
 	--bs-btn-active-color: white;
 	color: white;
 }
 
-.btn-dorado:hover{
+.btn-dorado:hover {
 	background-color: #d8b16f;
 	color: white;
+}
+
+.div-card {
+	height: 350px;
+}
+
+.card-body {
+	display: flex;
+	flex-direction: column;
+}
+
+.card-text {
+	flex-grow: 1; /* Permite que el texto crezca para ocupar el espacio disponible */
+	overflow: hidden; /* Evita que el contenido exceda los límites del card */
+	text-overflow: ellipsis; /* Agrega puntos suspensivos si el contenido es muy largo */
+}
+
+/* Estilos para el menú de accesibilidad */
+.sb-nav-link-icon {
+	flex-direction: column;
+	height: 80px; /* Altura fija para el contenedor del ícono */
+	justify-content: center;
+}
+
+.sb-nav-link-icon i {
+	font-size: 2rem; /* Tamaño del ícono */
+	margin-bottom: 0.3rem; /* Espacio entre el ícono y el texto */
+}
+
+.nav-text {
+	font-size: 0.75rem; /* Tamaño del texto */
+	color: #ffffff; /* Color del texto */
+	align-self: flex-start; /* Alinea el texto a la izquierda */
 }

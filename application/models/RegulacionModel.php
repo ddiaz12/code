@@ -6,12 +6,12 @@ class RegulacionModel extends CI_Model {
     public function __construct()
     {
         parent::__construct();
-        $this->load->database('sedeco'); // Asegúrate de que 'sedeco' esté configurado en application/config/database.php
+        $this->load->database('sedeco');
     }
 
     public function get_regulaciones()
     {
-        $this->db->select('Nombre_Regulacion, Objetivo_Reg'); // Ajusta 'nombre' y 'objetivo' a los nombres reales de tus campos
+        $this->db->select('*'); 
         $query = $this->db->get('ma_regulacion');
         return $query->num_rows() > 0 ? $query->result() : [];
     }
@@ -101,5 +101,11 @@ class RegulacionModel extends CI_Model {
     public function insertarCaracteristicas($data) {
         $this->db->insert('de_regulacion_caracteristicas', $data);
         return $this->db->affected_rows() > 0;
+    }
+
+    public function obtenerRegulacionPorId($id) {
+        $this->db->where('ID_Regulacion', $id);
+        $query = $this->db->get('ma_regulacion');
+        return $query->row();
     }
 }

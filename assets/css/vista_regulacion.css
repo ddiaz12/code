@@ -1,0 +1,83 @@
+.regulation-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.regulation-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.regulation-info p {
+    margin-bottom: 0.5rem;
+}
+
+.application-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: #e3e3e3;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.btn-download {
+    background-color: #923244;
+    color: #fff;
+    border-radius: 5px;
+    padding: 6px 12px;
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+.btn-download:hover {
+    background-color: #7f2841;
+    color: white;
+    cursor: pointer;
+}
+
+.related-sections {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.related-sections .btn-accordion {
+    flex: 1 1 20%;
+    margin: 5px;
+    text-align: center;
+}
+
+.btn-accordion {
+    text-align: left;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    background-color: #bfbebe;
+    color: #333;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-accordion:hover {
+    background-color: #ccc;
+}
+
+.content {
+    display: none;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.content.active {
+    display: block;
+}

@@ -38,20 +38,26 @@ h3,
 	font-size: 24px;
 }
 
-
+.sb-topnav{
+	height: 5rem;
+}
 
 .navbar-custom {
 	background-color: #612233;
 }
 
+.navbar-nav{
+	padding-right: 2rem;
+}
+
 .div-escudo {
-	width: 10%;
-	margin: 0 4px 5px 5px;
+	width: 11%;
+	padding: 10px 0 10px 0;
 }
 
 #logo {
 	width: 100%;
-	margin: 0 4px 5px 5px;
+	margin: 0 4px 5px 2rem;
 }
 
 .fa-solid.fa-user-large {
@@ -76,6 +82,7 @@ h3,
 #sidenavAccordion {
 	width: 100%;
 	background-color: #b69664;
+	margin-top: 5rem;
 }
 
 #sidebarToggle {
@@ -145,6 +152,7 @@ h3,
 	text-align: center;
 	font-size: 30px;
 	margin-bottom: 3%;
+	padding-top: 2rem;
 }
 
 .text-cards {
@@ -170,6 +178,7 @@ h3,
 
 .div-card {
 	margin: auto;
+	text-align: center;
 }
 
 .footer {
@@ -180,7 +189,7 @@ h3,
 	--bs-btn-border-color: initial;
 	--bs-btn-hover-bg: initial;
 	--bs-btn-active-bg: #7f2841;
-	background-color: #923244;
+	background-color: #612233;
 }
 
 .btn-regulacion,
@@ -252,7 +261,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 }
 
 .tTabla-color {
-	background-color: #923244;
+	background-color: #612233;
 	color: white;
 }
 
@@ -262,7 +271,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 }
 
 .card-header {
-	background-color: #7f2841;
+	background-color: #612233;
 }
 
 @media screen and (max-width: 990px) {

@@ -30,7 +30,7 @@ Registro Estatal de Regulaciones
                 <h6 class="m-0 font-weight-bold text-cards">Oficinas</h6>
             </div>
             <div class="card-body ">
-                Consulta tus oficinas de tu independencia
+                Consulta tus oficinas de tu independencia.
             </div>
             <div class="card-footer text-center">
                 <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-primary btn-oficina">administrar</a>
