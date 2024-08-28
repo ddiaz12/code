@@ -80,7 +80,7 @@ class RegulacionModel extends CI_Model {
         $this->db->select_max('ID_Indice');
         $this->db->select_max('Orden');
         $query = $this->db->get('de_indice');
-        return $query->row_array_array();
+        return $query->row_array();
     }
     public function getMaxID() {
         $this->db->select_max('ID_Regulacion');
