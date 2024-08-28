@@ -166,15 +166,12 @@
                 <div id="tituloBuscador" style="text-align: center; width: 100%;">
                     <h2>Registro Estatal de Regulaciones</h2>
                 </div>
-                <div id="buscador" class="form-outline" data-mdb-input-init>
+                <div id="buscador" class="input-group" data-mdb-input-init>
                     <input type="search" id="nombreRegulacion" placeholder="Ingrese el nombre de la regulación"
                         class="form-control" required>
-                    <label class="form-label" id="texto" for="form1">Buscar</label>
-                    <div id="buttonContainer">
-                        <button type="button" id="btn-search" type="button" class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                    <button type="button" id="btn-search" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
                 <div>
                     <label id="regdisp">Regulaciones Disponibles: <?php echo $numeroDeRegulaciones; ?></label>
@@ -198,8 +195,7 @@
                                 <div class="col-md-auto">
                                     <label for="option3">Dependencia</label>
                                     <select id="option3">
-                                        <?php
-foreach ($tiposOrdenamiento as $tipo): ?>
+                                        <?php foreach ($tiposOrdenamiento as $tipo): ?>
                                         <option value="<?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>">
                                             <?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>
                                         </option>
@@ -238,7 +234,7 @@ foreach ($tiposOrdenamiento as $tipo): ?>
                             <?php endforeach; ?>
                         </div>
                         <div class="text-center mt-3">
-                            <button type="button" id="loadMore" class="btn btn-secondary"
+                            <button type="button" id="loadMore" class="btn btn-secondary btn-dorado"
                                 onclick="cargarMasRegulaciones()">Cargar más</button>
                         </div>
                     </div>

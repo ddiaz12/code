@@ -11,7 +11,7 @@
 @section('contenido')
     <!-- Contenido -->
     <div class="container-fluid px-4">
-        <ol class="breadcrumb mb-4">
+        <ol class="breadcrumb mb-4 mt-5">
             <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
             </li>
             <li class="breadcrumb-item active"><i class="fas fa-envelope me-1"></i>Enviadas</li>
@@ -19,7 +19,7 @@
         <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
         <!-- Botón para abrir otra vista -->
         <div class="d-flex justify-content-end mb-3">
-            <a href="<?php echo base_url(''); ?>" class="btn btn-primary btn-guardar">
+            <a href="<?php echo base_url(''); ?>" class="btn btn-primary btn-agregarOficina">
                 <i class="fas fa-download me-1"></i> Descargar excel
             </a>
         </div>

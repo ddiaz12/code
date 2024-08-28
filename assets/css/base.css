@@ -82,7 +82,7 @@ h3,
 #sidenavAccordion {
 	width: 100%;
 	background-color: #b69664;
-	margin-top: 5rem;
+	margin-top: 3rem;
 }
 
 #sidebarToggle {
@@ -142,7 +142,8 @@ h3,
 .icon-balanced,
 .icon-user,
 .icon-gear,
-.icon-info {
+.icon-info,
+.icon-emergency {
 	color: rgb(8, 8, 8);
 	font-size: 20px; /* Ajusta el tamaño del icono aquí */
 	margin: 15px 0 10px 0;
@@ -151,8 +152,8 @@ h3,
 .titulo-menu {
 	text-align: center;
 	font-size: 30px;
-	margin-bottom: 3%;
-	padding-top: 2rem;
+	margin-bottom: 5%;
+	padding-top: 3rem;
 }
 
 .text-cards {
@@ -183,13 +184,14 @@ h3,
 
 .footer {
 	background-color: #ffffff;
+	margin: 0 3rem 0 4rem;
 }
 
 .btn-primary {
 	--bs-btn-border-color: initial;
 	--bs-btn-hover-bg: initial;
 	--bs-btn-active-bg: #7f2841;
-	background-color: #612233;
+	background-color: #7F2841;
 }
 
 .btn-regulacion,
@@ -229,6 +231,11 @@ h3,
 	margin-right: 20px;
 }
 
+.btn-agregar{
+	--bs-btn-hover-bg: #7f2841;
+	margin-right: 5px;
+}
+
 .btn-agregarUsuario,
 .btn-agregarOficina {
 	--bs-btn-hover-bg: #7f2841;
@@ -261,17 +268,43 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 }
 
 .tTabla-color {
-	background-color: #612233;
+	background-color: #7F2841;
 	color: white;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+	border: 1px solid #612233;
+	padding: 0%;
+}
+
+.dataTables_wrapper .dataTables_length select {
+	border: 1px solid #612233;
+	padding: 0%;
+	margin-bottom: 5px;
+	font-size: small;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding: 0.1em 0.5em;
+	font-size: small;
+}
+
+.dataTables_wrapper .dataTables_info{
+	padding-top: 0.4em;
+	font-size: smaller;
 }
 
 .div-info {
 	text-align: center;
-	margin: 0 40px 0 10px;
+	font-size: smaller;
+}
+
+.text-muted {
+	font-size: smaller; 	
 }
 
 .card-header {
-	background-color: #612233;
+	background-color: #7F2841;
 }
 
 @media screen and (max-width: 990px) {

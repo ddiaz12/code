@@ -46,65 +46,60 @@
 </head>
 
 <body>
-    <div id="GobNavbar" class="container-fluid navbarGob op GobNavbar">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <nav class="navbar navbar-toggleable-md navbar-light ">
-                        <button class="navbar-toggler navbar-toggler-right custom-toggler" type="button"
-                            data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <a class="navbar-brand text-center" href="https://www.col.gob.mx/">
-                            <!-- <i class="fa fa-home fa-2x" style="color:#fff;"></i>    nav-image-colima-estado -->
-                            <img src="https://openapis.col.gob.mx/API_PU/img/logomin.jpg" class="img-fluid"
-                                title="Ir al portal" alt="colima estado">
-                        </a>
-                        <div class="collapse navbar-collapse justify-content-md-center" id="navbarNavDropdown">
-                            <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link cursor denuncia-menu" target="_blank"
-                                        href="https://www.col.gob.mx/coronavirus">CORONAVIRUS</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="https://www.col.gob.mx/Portal/Tramites">Tr&aacute;mites</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Gobierno</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="https://www.col.gob.mx/Portal/#sec_atencion">Cont&aacute;ctanos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link cursor" target="_blank"
-                                        href="https://www.col.gob.mx/DatosAbiertos">Datos</a>
-                                </li>
-                                <!-- <li class="nav-item">
+<div id="GobNavbar" class="container-fluid navbarGob op GobNavbar">
+        <div class="row align-items-center">
+            <div class="div-escudo">
+                <a class="navbar-brand" href="https://www.col.gob.mx/">
+                    <!-- <i class="fa fa-home fa-2x" style="color:#fff;"></i>    nav-image-colima-estado -->
+                    <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" id="logo"
+                        title="Ir al portal" alt="colima estado">
+                </a>
+            </div>
+            <div class="col">
+                <nav class="navbar navbar-toggleable-md navbar-light ">
+                    <button class="navbar-toggler navbar-toggler-right custom-toggler" type="button"
+                        data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-md-center div-navbar" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <a class="nav-link cursor denuncia-menu" target="_blank"
+                                    href="https://www.col.gob.mx/coronavirus">CORONAVIRUS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://www.col.gob.mx/Portal/Tramites">Tr&aacute;mites</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Gobierno</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="https://www.col.gob.mx/Portal/#sec_atencion">Cont&aacute;ctanos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link cursor" target="_blank"
+                                    href="https://www.col.gob.mx/DatosAbiertos">Datos</a>
+                            </li>
+                            <!-- <li class="nav-item">
 		      	<a href="https://www.col.gob.mx/transparencia" class="nav-link cursor" target="_blank">Transparencia</a>
 		      </li> -->
-                                <li class="nav-item">
-                                    <a href="https://www.col.gob.mx/Portal/contenido/NDYzMDY=" class="nav-link cursor"
-                                        target="_blank">Transparencia</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link cursor denuncia-menu"
-                                        href="https://www.col.gob.mx/index.php/Portal/denuncia">DENUNCIA</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo base_url('home'); ?>">
-                                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-                                    </a>
-                                </li>
-                                <!--
+                            <li class="nav-item">
+                                <a href="https://www.col.gob.mx/Portal/contenido/NDYzMDY=" class="nav-link cursor"
+                                    target="_blank">Transparencia</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link cursor denuncia-menu"
+                                    href="https://www.col.gob.mx/index.php/Portal/denuncia">DENUNCIA</a>
+                            </li>
+                            <!--
                                 <li class="nav-item">
                                     <a class="nav-link" id="navbar-search-li-first" href="#" onclick="ocultar(this)"><i
                                             alt="Buscar" title="Buscar" class="fa fa-search" aria-hidden="true"></i></a>
                                 </li>-->
 
-                                <!--
+                            <!--
                                 <form id="formBusqueda" method="GET"
                                     action="https://www.col.gob.mx/Portal/detalle_busqueda"
                                     class="nav-item display-none" id="navbar-search-li-second">
@@ -118,21 +113,28 @@
                                     </div>
                                 </form>
                                 -->
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item login">
+                                <a class="nav-link" href="<?php echo base_url('home'); ?>">
+                                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
+            <a href="#" class="scrollToTop" id="ScrollTop"></a>
+            <script type="text/javascript">
+                function ocultar(elem) {
+                    var id = elem.id;
+                    document.getElementById(id).style.display = "none";
+                    //document.getElementById("navbar-search-li-second").style.display = "inline";
+                    document.getElementById("formBusqueda").style.display = "inline";
+                }
+            </script>
         </div>
-        <a href="#" class="scrollToTop" id="ScrollTop"></a>
-        <script type="text/javascript">
-            function ocultar(elem) {
-                var id = elem.id;
-                document.getElementById(id).style.display = "none";
-                //document.getElementById("navbar-search-li-second").style.display = "inline";
-                document.getElementById("formBusqueda").style.display = "inline";
-            }
-        </script>
+
     </div>
 
     <div class="container regulation-container">

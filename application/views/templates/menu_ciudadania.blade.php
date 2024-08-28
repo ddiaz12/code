@@ -12,8 +12,8 @@
                     data-placement="right" title="Visitas Domiciliarias">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-person-shelter"></i>
-                        <span class="nav-text">Visitas</span>
                     </div>
+                    <span class="nav-text">Registro Estatal de Visitas Domiciliarias</span>
                 </a>
             </div>
             <div class="nav">
@@ -21,8 +21,8 @@
                     data-placement="right" title="Tramites y Servicios">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-file-contract"></i>
-                        <span class="nav-text">Trámites</span>
                     </div>
+                    <span class="nav-text">Registro Estatal Trámites Servicios</span>
                 </a>
             </div>
             <div class="nav">
@@ -30,25 +30,17 @@
                     data-placement="right" title="Protesta Ciudadana">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-person-circle-exclamation"></i>
-                        <span class="nav-text">Protesta</span>
                     </div>
+                    <span class="nav-text">Protesta Ciudadana y Buzón de Sugerencias</span>
                 </a>
             </div>
             <div class="nav">
-                <a class="nav-link" href="#" data-toggle="tooltip" data-placement="right" title="Emergencia">
-                    <div class="sb-nav-link-icon">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        <span class="nav-text">Emergencia</span>
-                    </div>
-                </a>
-            </div>
-            <div class="nav">
-                <a class="nav-link" href="https://catalogonacional.gob.mx/" data-toggle="tooltip" data-placement="right"
-                    title="CNARTyS">
+                <a class="nav-link" href="https://catalogonacional.gob.mx/" data-toggle="tooltip"
+                    data-placement="right" title="CNARTyS">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-landmark"></i>
-                        <span class="nav-text">CNARTyS</span>
                     </div>
+                    <span class="nav-text">Catálogo Nacional de Regulaciones Trámites y Servicios (CNARTyS)</span>
                 </a>
             </div>
             <div class="nav">
@@ -56,13 +48,14 @@
                     onclick="showAccessibilityMenu()">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-universal-access"></i>
-                        <span class="nav-text">Accesibilidad</span>
                     </div>
+                    <span class="nav-text">Accesibilidad</span>
                 </a>
             </div>
         </div>
     </nav>
 </div>
+
 
 
 <style>
