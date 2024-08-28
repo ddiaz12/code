@@ -80,7 +80,7 @@ class RegulacionModel extends CI_Model {
         $this->db->select_max('ID_Indice');
         $this->db->select_max('Orden');
         $query = $this->db->get('de_indice');
-        return $query->row();
+        return $query->row_array();
     }
     public function getMaxID() {
         $this->db->select_max('ID_Regulacion');
@@ -101,5 +101,34 @@ class RegulacionModel extends CI_Model {
     public function insertarCaracteristicas($data) {
         $this->db->insert('de_regulacion_caracteristicas', $data);
         return $this->db->affected_rows() > 0;
+    }
+
+    public function insertarRelAutoridadesEmiten($data) {
+        return $this->db->insert('rel_autoridades_emiten', $data);
+    }
+
+    public function insertarRelAutoridadesAplican($data) {
+        return $this->db->insert('rel_autoridades_aplican', $data);
+    }
+
+    public function insertarDatosTabla($data) {
+        // Insertar los datos en la tabla 'de_indice'
+        $this->db->insert('de_indice', $data);
+    }
+
+    public function obtenerMaxIDJerarquia() {
+        $this->db->select_max('ID_Jerarquia');
+        $query = $this->db->get('rel_indice');
+        $result = $query->row();
+        return $result->ID_Jerarquia;
+    }
+    public function verificarIDIndice($ID_Indice) {
+        $this->db->where('ID_Indice', $ID_Indice);
+        $query = $this->db->get('de_indice');
+        return $query->num_rows() > 0;
+    }
+
+    public function insertarRelIndice($relIndiceData) {
+        return $this->db->insert('rel_indice', $relIndiceData);
     }
 }
