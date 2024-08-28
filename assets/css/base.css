@@ -303,6 +303,21 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	font-size: smaller; 	
 }
 
+#sectorResults {
+	list-style-type: none;
+	padding: 0;
+}
+#sectorResults li {
+	cursor: pointer;
+	padding: 5px;
+	border: 1px solid #ccc;
+	margin-top: -1px; /* Evita el doble borde */
+	background-color: #f6f6f6;
+}
+#sectorResults li:hover {
+	background-color: #ddd;
+}
+
 .card-header {
 	background-color: #7F2841;
 }

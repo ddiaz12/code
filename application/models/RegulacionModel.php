@@ -109,6 +109,13 @@ class RegulacionModel extends CI_Model {
         return $this->db->affected_rows() > 0;
     }
 
+    public function get_sectors($search_term) {
+        $this->db->like('Nombre_Sector', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('cat_sector');
+        return $query->result_array();
+    }
+
     public function insertarRelAutoridadesEmiten($data) {
         return $this->db->insert('rel_autoridades_emiten', $data);
     }
