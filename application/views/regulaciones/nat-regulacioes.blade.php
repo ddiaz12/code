@@ -135,7 +135,9 @@
                                             <label for="SectorInput">Sector<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="SectorInput" name="SectorInput"
                                                 placeholder="Selecciona una opcion" required>
+
                                         </div>
+                                        <ul id="sectorResults"></ul>
                                         <div class="row justify-content-center">
                                             <label for="SubsectorInput">Subsector<span
                                                     class="text-danger">*</span></label>
@@ -188,8 +190,6 @@
                                         <input type="text" class="form-control" id="url" placeholder="http://">
                                     </div>
 
-                                    <!-- jQuery -->
-                                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
                                     <script>
                                     $(document).ready(function() {
@@ -205,9 +205,6 @@
                                     });
                                     </script>
                                 </div>
-
-                                <!-- jQuery -->
-                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
                                 <script>
                                 $(document).ready(function() {
@@ -233,9 +230,6 @@
         <div id="layoutSidenav_content">
         </div>
 
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
         <script>
         $(document).ready(function() {
             $('input[type=radio][name=opcion]').change(function() {
@@ -247,36 +241,46 @@
             });
         });
         </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sectorInput = document.getElementById('SectorInput');
-            const resultsContainer = document.createElement('div');
-            sectorInput.parentNode.appendChild(resultsContainer);
+        $(document).ready(function() {
             let selectedSectors = [];
 
-            sectorInput.addEventListener('input', function() {
-                const query = sectorInput.value;
-                if (query.length > 0) {
-                    fetch(`search_sector.php?query=${query}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            resultsContainer.innerHTML = '';
-                            data.forEach(sector => {
-                                const item = document.createElement('div');
-                                item.textContent = sector;
-                                item.addEventListener('click', function() {
-                                    selectedSectors.push(sector);
-                                    console.log(selectedSectors);
-                                });
-                                resultsContainer.appendChild(item);
-                            });
+            $('#SectorInput').on('keyup', function() {
+                let searchTerm = $(this).val();
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/search_sector') ?>',
+                    type: 'POST',
+                    data: {
+                        search_term: searchTerm
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#sectorResults').empty();
+                        data.forEach(function(sector) {
+                            $('#sectorResults').append('<li data-id="' + sector
+                                .ID_sector + '">' + sector.Nombre_Sector +
+                                '</li>');
                         });
-                } else {
-                    resultsContainer.innerHTML = '';
-                }
+                    }
+                });
+            });
+
+            $('#sectorResults').on('click', 'li', function() {
+                let sectorId = $(this).data('id');
+                let sectorName = $(this).text();
+                selectedSectors.push({
+                    ID_sector: sectorId,
+                    Nombre_Sector: sectorName
+                });
+                console.log(selectedSectors);
+                // Ocultar la lista y borrar el texto del input
+                $('#sectorResults').empty();
+                $('#SectorInput').val('');
             });
         });
         </script>
+
     </div>
     <!-- Footer -->
     <footer class="py-4 bg-light mt-auto">

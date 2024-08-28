@@ -343,6 +343,13 @@ class RegulacionController extends CI_Controller
         }
     }
 
+    public function search_sector() {
+        $this->load->model('RegulacionModel');
+        $search_term = $this->input->post('search_term');
+        $results = $this->RegulacionModel->get_sectors($search_term);
+        echo json_encode($results);
+    }
+
     public function guardar_regulacion()
     {
         $this->form_validation->set_rules(
