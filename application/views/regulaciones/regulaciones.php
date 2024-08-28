@@ -88,7 +88,7 @@
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
                 <h3 class="kt-subheader__title">
-                    <a href="http://localhost/code-main/home/home_sujeto">Inicio</a>
+                    <a href="http://localhost/code/home/home_sujeto">Inicio</a>
                 </h3>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">

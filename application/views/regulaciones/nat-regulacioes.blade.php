@@ -3,7 +3,7 @@
 <body class="sb-nav-fixed cuerpo-sujeto">
     <div id="layoutSidenav">
         <!-- Menu -->
-        @include('templates/menu')
+        @include('templates/menuAdmin')
         <!-- Menu -->
     </div>
 
@@ -87,7 +87,7 @@
                                     <div class="card-body" style="border: none;">
                                         <ul class="list-unstyled">
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/caracteristicas_reg"
+                                                <a href="http://localhost/code/RegulacionController/caracteristicas_reg"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-list-check"></i>
                                                     <label for="image_1">Características de la Regulación</label>
@@ -95,7 +95,7 @@
                                             </li>
                                             <p></p>
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/mat_exentas"
+                                                <a href="http://localhost/code/RegulacionController/mat_exentas"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-table-list"></i>
                                                     <label for="image_2">Materias Exentas</label>
@@ -103,7 +103,7 @@
                                             </li>
                                             <p></p>
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/nat_regulaciones"
+                                                <a href="http://localhost/code/RegulacionController/nat_regulaciones"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-book"></i>
                                                     <label for="image_3">Naturaleza de la Regulación</label>
@@ -131,29 +131,30 @@
                                     </div>
                                     <div class="form-group" id="inputs" style="display: none;">
                                         <!-- Generar 5 inputs -->
-                                        <div class=" form-group row justify-content-center">
-                                            <label for="input1">Sector<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="input1" name="input1"
+                                        <div class="form-group row justify-content-center">
+                                            <label for="SectorInput">Sector<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SectorInput" name="SectorInput"
                                                 placeholder="Selecciona una opcion" required>
                                         </div>
                                         <div class="row justify-content-center">
-                                            <label for="input2">Subsector<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="input2" name="input2"
+                                            <label for="SubsectorInput">Subsector<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SubsectorInput"
+                                                name="SubsectorInput" placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <label for="RamaInput">Rama<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="RamaInput" name="RamaInput"
                                                 placeholder="Selecciona una opcion" required>
                                         </div>
                                         <div class="row justify-content-center">
-                                            <label for="input3">Rama<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="input3" name="input3"
-                                                placeholder="Selecciona una opcion" required>
+                                            <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SubramaInput"
+                                                name="SubramaInput" placeholder="Selecciona una opcion" required>
                                         </div>
                                         <div class="row justify-content-center">
-                                            <label for="input4">Subrama<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="input4" name="input4"
-                                                placeholder="Selecciona una opcion" required>
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <label for="input5">Clase<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="input5" name="input5"
+                                            <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
                                                 placeholder="Selecciona una opcion" required>
                                         </div>
                                     </div>
@@ -242,6 +243,36 @@
                     $('#checkboxes').show();
                 } else if (this.value == 'no') {
                     $('#checkboxes').hide();
+                }
+            });
+        });
+        </script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sectorInput = document.getElementById('SectorInput');
+            const resultsContainer = document.createElement('div');
+            sectorInput.parentNode.appendChild(resultsContainer);
+            let selectedSectors = [];
+
+            sectorInput.addEventListener('input', function() {
+                const query = sectorInput.value;
+                if (query.length > 0) {
+                    fetch(`search_sector.php?query=${query}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            resultsContainer.innerHTML = '';
+                            data.forEach(sector => {
+                                const item = document.createElement('div');
+                                item.textContent = sector;
+                                item.addEventListener('click', function() {
+                                    selectedSectors.push(sector);
+                                    console.log(selectedSectors);
+                                });
+                                resultsContainer.appendChild(item);
+                            });
+                        });
+                } else {
+                    resultsContainer.innerHTML = '';
                 }
             });
         });

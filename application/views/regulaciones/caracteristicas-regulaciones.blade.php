@@ -256,7 +256,7 @@ $(document).ready(function() {
                                     <div class="card-body" style="border: none;">
                                         <ul class="list-unstyled">
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/caracteristicas_reg"
+                                                <a href="http://localhost/code/RegulacionController/caracteristicas_reg"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-list-check"></i>
                                                     <label for="image_1">Características de la Regulación</label>
@@ -264,7 +264,7 @@ $(document).ready(function() {
                                             </li>
                                             <p></p>
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/mat_exentas"
+                                                <a href="http://localhost/code/RegulacionController/mat_exentas"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-table-list"></i>
                                                     <label for="image_2">Materias Exentas</label>
@@ -272,7 +272,7 @@ $(document).ready(function() {
                                             </li>
                                             <p></p>
                                             <li>
-                                                <a href="http://localhost/code-main/RegulacionController/nat_regulaciones"
+                                                <a href="http://localhost/code/RegulacionController/nat_regulaciones"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-book"></i>
                                                     <label for="image_3">Naturaleza de la Regulación</label>
@@ -537,33 +537,95 @@ $(document).ready(function() {
                                             </script>
                                             <script>
                                             $(document).ready(function() {
+                                                var lastInsertedID_Indice =
+                                                    null; // Variable para almacenar el último ID_Indice insertado
+                                                var lastInsertedOrden =
+                                                    null; // Variable para almacenar el último Orden insertado
+
                                                 $('#guardarIbtn').on('click', function() {
                                                     var inputTexto = $('#inputTexto').val();
 
-                                                    $.ajax({
-                                                        url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                                                        method: 'GET',
-                                                        success: function(data) {
-                                                            var maxValues = JSON.parse(
-                                                                data);
-                                                            var newID_Indice = parseInt(
-                                                                maxValues.ID_Indice) + 1;
-                                                            var newOrden = parseInt(
-                                                                maxValues.Orden) + 1;
+                                                    if (lastInsertedID_Indice === null ||
+                                                        lastInsertedOrden === null) {
+                                                        // Si es la primera inserción, obtener los valores de la base de datos
+                                                        $.ajax({
+                                                            url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                                                            method: 'GET',
+                                                            success: function(data) {
+                                                                var maxValues = JSON.parse(
+                                                                    data);
+                                                                lastInsertedID_Indice =
+                                                                    parseInt(maxValues
+                                                                        .ID_Indice) + 1;
+                                                                lastInsertedOrden =
+                                                                    parseInt(maxValues
+                                                                        .Orden) + 1;
 
-                                                            var newRow = '<tr><td>' +
-                                                                newID_Indice + '</td><td>' +
-                                                                inputTexto + '</td><td>' +
-                                                                newOrden + '</td></tr>';
-                                                            $('#resultTable tbody').append(
-                                                                newRow);
-                                                        },
-                                                        error: function(jqXHR, textStatus,
-                                                            errorThrown) {
-                                                            console.error('AJAX error:',
-                                                                textStatus, errorThrown);
-                                                        }
-                                                    });
+                                                                var newRow = '<tr><td>' +
+                                                                    lastInsertedID_Indice +
+                                                                    '</td><td>' +
+                                                                    inputTexto +
+                                                                    '</td><td>' +
+                                                                    lastInsertedOrden +
+                                                                    '</td></tr>';
+                                                                $('#resultTable tbody')
+                                                                    .append(newRow);
+                                                            },
+                                                            error: function(jqXHR, textStatus,
+                                                                errorThrown) {
+                                                                console.error('AJAX error:',
+                                                                    textStatus,
+                                                                    errorThrown);
+                                                            }
+                                                        });
+                                                    } else {
+                                                        // Si no es la primera inserción, incrementar los últimos valores insertados
+                                                        lastInsertedID_Indice++;
+                                                        lastInsertedOrden++;
+
+                                                        var newRow = '<tr><td>' +
+                                                            lastInsertedID_Indice + '</td><td>' +
+                                                            inputTexto + '</td><td>' +
+                                                            lastInsertedOrden + '</td></tr>';
+                                                        $('#resultTable tbody').append(newRow);
+                                                    }
+                                                });
+                                            });
+                                            </script>
+                                            <script>
+                                            $(document).ready(function() {
+                                                var reIndice = [];
+                                                var currentIDJerarquia = 0;
+
+                                                // Obtener el valor máximo de ID_Jerarquia al cargar la página
+                                                $.ajax({
+                                                    url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
+                                                    type: 'GET',
+                                                    success: function(response) {
+                                                        currentIDJerarquia = parseInt(response);
+                                                    }
+                                                });
+
+                                                $('#guardarIbtn').on('click', function() {
+                                                    var selectedIDIndice = $('#selectIndicePadre')
+                                                        .val();
+
+                                                    if (selectedIDIndice !==
+                                                        'Seleccione un índice padre') {
+                                                        currentIDJerarquia += 1;
+
+                                                        var newEntry = {
+                                                            ID_Indice: selectedIDIndice,
+                                                            ID_Jerarquia: currentIDJerarquia
+                                                        };
+
+                                                        reIndice.push(newEntry);
+
+                                                        // Imprimir reIndice en consola
+                                                        console.log(reIndice);
+                                                    } else {
+                                                        alert('Por favor, seleccione un índice padre.');
+                                                    }
                                                 });
                                             });
                                             </script>
@@ -590,6 +652,9 @@ $(document).ready(function() {
     </div>
 
     <script>
+    var caracteristicasData = {}; // Declaración global
+    var reIndice = []; // Declaración global
+
     $(document).ready(function() {
         $('#botonGuardar').on('click', function() {
             var formData = {
@@ -632,8 +697,6 @@ $(document).ready(function() {
                         // Obtener el ID_Regulacion devuelto en la respuesta
                         var ID_Regulacion = result.ID_Regulacion;
                         console.log('ID_Regulacion', ID_Regulacion);
-                        // Obtener el ID más grande de la tabla de_regulacion_caracteristicas
-
 
                         $.ajax({
                             url: '<?php echo base_url('RegulacionController/obtenerMaxIDCaract'); ?>',
@@ -645,64 +708,166 @@ $(document).ready(function() {
                                     url: '<?php echo base_url('RegulacionController/obtenerMaxIDRegulacion'); ?>',
                                     type: 'GET',
                                     success: function(maxIDRegResponse) {
-                                        var maxIDReg = parseInt(
-                                            maxIDRegResponse);
+                                        var maxIDReg = parseInt(maxIDRegResponse);
 
-
-                                        // Insertar en la tabla de_regulacion_caracteristicas
-                                        var caracteristicasData = {
+                                        // Asignar valores a la variable global caracteristicasData
+                                        caracteristicasData = {
                                             ID_caract: maxID,
                                             ID_Regulacion: maxIDReg,
-                                            ID_tOrdJur: formData
-                                                .unidad,
-                                            Nombre: formData
-                                                .nombre,
-                                            Ambito_Aplicacion: formData
-                                                .sujeto,
-                                            Fecha_Exp: formData
-                                                .fecha_expedicion,
-                                            Fecha_Publi: formData
-                                                .fecha_publicacion,
-                                            Fecha_Vigor: formData
-                                                .fecha_vigor,
-                                            Fecha_Act: formData
-                                                .fecha_act,
-                                            Vigencia: formData
-                                                .campoExtra,
-                                            Orden_Gob: formData
-                                                .orden
+                                            ID_tOrdJur: formData.unidad,
+                                            Nombre: formData.nombre,
+                                            Ambito_Aplicacion: formData.sujeto,
+                                            Fecha_Exp: formData.fecha_expedicion,
+                                            Fecha_Publi: formData.fecha_publicacion,
+                                            Fecha_Vigor: formData.fecha_vigor,
+                                            Fecha_Act: formData.fecha_act,
+                                            Vigencia: formData.campoExtra,
+                                            Orden_Gob: formData.orden
                                         };
 
                                         // Imprimir caracteristicasData en consola
-                                        console.log(
-                                            caracteristicasData);
+                                        console.log(caracteristicasData);
 
                                         $.ajax({
                                             url: '<?php echo base_url('RegulacionController/insertarCaracteristicas'); ?>',
                                             type: 'POST',
-                                            dataType: 'json',
                                             data: caracteristicasData,
-                                            success: function(
-                                                caractResponse
-                                            ) {
-                                                var caractResult =
-                                                    JSON
-                                                    .parse(
-                                                        caractResponse
-                                                    );
-                                                if (caractResult
-                                                    .status ===
-                                                    'success'
-                                                ) {
-                                                    alert
-                                                        (
-                                                            'Características insertadas correctamente'
-                                                        );
+                                            success: function(caractResponse) {
+                                                var caractResult = JSON.parse(caractResponse);
+                                                if (caractResult.status === 'success') {
+                                                    alert('Características insertadas correctamente');
+
+                                                    // Obtener todos los ID_Dependencia de la tabla emitenTable
+                                                    var ID_DependenciasEmiten = [];
+                                                    $('#emitenTable tbody tr').each(function() {
+                                                        var ID_Dependencia = $(this).find('td').eq(0).text();
+                                                        ID_DependenciasEmiten.push(ID_Dependencia);
+                                                    });
+
+                                                    // Insertar en la tabla rel_autoridades_emiten
+                                                    ID_DependenciasEmiten.forEach(function(ID_Dependencia) {
+                                                        var relDataEmiten = {
+                                                            ID_Emiten: ID_Dependencia,
+                                                            ID_Caract: caracteristicasData.ID_caract
+                                                        };
+
+                                                        $.ajax({
+                                                            url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesEmiten'); ?>',
+                                                            type: 'POST',
+                                                            data: relDataEmiten,
+                                                            success: function(relResponse) {
+                                                                var relResult = JSON.parse(relResponse);
+                                                                if (relResult.status === 'success') {
+                                                                    console.log('Relación Emiten insertada correctamente');
+                                                                } else {
+                                                                    console.log('Error al insertar la relación');
+                                                                }
+                                                            }
+                                                        });
+                                                    });
+
+                                                    // Obtener todos los ID_Dependencia de la tabla aplicanTable
+                                                    var ID_DependenciasAplican = [];
+                                                    $('#aplicanTable tbody tr').each(function() {
+                                                        var ID_Dependencia = $(this).find('td').eq(0).text();
+                                                        ID_DependenciasAplican.push(ID_Dependencia);
+                                                    });
+
+                                                    // Insertar en la tabla rel_autoridades_aplican
+                                                    ID_DependenciasAplican.forEach(function(ID_Dependencia) {
+                                                        var relDataAplican = {
+                                                            ID_Aplican: ID_Dependencia,
+                                                            ID_Caract: caracteristicasData.ID_caract
+                                                        };
+
+                                                        $.ajax({
+                                                            url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesAplican'); ?>',
+                                                            type: 'POST',
+                                                            data: relDataAplican,
+                                                            success: function(relResponse) {
+                                                                var relResult = JSON.parse(relResponse);
+                                                                if (relResult.status === 'success') {
+                                                                    console.log('Relación Aplican insertada correctamente');
+                                                                } else {
+                                                                    console.log('Error al insertar la relación');
+                                                                }
+                                                            }
+                                                        });
+                                                    });
+
+                                                    // Lógica de insertarDatosTabla directamente aquí
+                                                    var datosTabla = [];
+                                                    $('#resultTable tbody tr').each(function() {
+                                                        var ID_Indice = $(this).find('td').eq(0).text();
+                                                        var Texto = $(this).find('td').eq(1).text();
+                                                        var Orden = $(this).find('td').eq(2).text();
+
+                                                        var filaDatos = {
+                                                            ID_Indice: ID_Indice,
+                                                            ID_caract: caracteristicasData.ID_caract,
+                                                            Texto: Texto,
+                                                            Orden: Orden
+                                                        };
+
+                                                        datosTabla.push(filaDatos);
+                                                    });
+
+                                                    // Imprimir datosTabla en consola
+                                                    console.log(datosTabla);
+
+                                                    // Insertar los datos en la base de datos
+                                                    $.ajax({
+                                                        url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
+                                                        type: 'POST',
+                                                        data: { datosTabla: datosTabla },
+                                                        success: function(response) {
+                                                            var result = JSON.parse(response);
+                                                            if (result.status === 'success') {
+                                                                alert('Datos de la tabla insertados correctamente');
+                                                            } else {
+                                                                alert('Error al insertar los datos de la tabla');
+                                                            }
+                                                        }
+                                                    });
+
+                                                    // Insertar datos en la tabla rel_indice
+                                                    var relIndiceData = [];
+                                                    $('#resultTable tbody tr').each(function(index) {
+                                                        var ID_Indice = $(this).find('td').eq(0).text();
+                                                        var ID_Jerarquia = reIndice[index] ? reIndice[index].ID_Jerarquia : null;
+                                                        var ID_Padre = reIndice[index] ? reIndice[index].ID_Indice : null;
+
+                                                        if (ID_Jerarquia && ID_Padre) {
+                                                            var filaRelIndice = {
+                                                                ID_Jerarquia: ID_Jerarquia,
+                                                                ID_Indice: ID_Indice,
+                                                                ID_Padre: ID_Padre
+                                                            };
+
+                                                            relIndiceData.push(filaRelIndice);
+                                                        }
+                                                    });
+
+                                                    // Imprimir relIndiceData en consola
+                                                    console.log(relIndiceData);
+
+                                                    // Insertar los datos en la base de datos
+                                                    $.ajax({
+                                                        url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
+                                                        type: 'POST',
+                                                        data: { relIndiceData: relIndiceData },
+                                                        success: function(response) {
+                                                            var result = JSON.parse(response);
+                                                            if (result.status === 'success') {
+                                                                alert('Datos de rel_indice insertados correctamente');
+                                                            } else {
+                                                                alert('Error al insertar los datos de rel_indice');
+                                                            }
+                                                        }
+                                                    });
+
                                                 } else {
-                                                    alert
-                                                        (
-                                                            'Error al insertar las características'
-                                                        );
+                                                    alert('Error al insertar las características');
                                                 }
                                             }
                                         });
@@ -717,7 +882,7 @@ $(document).ready(function() {
             });
         });
     });
-    </script>
+</script>
 
     <!-- Footer -->
     <footer class="py-4 bg-light mt-auto">
