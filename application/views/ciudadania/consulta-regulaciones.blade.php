@@ -44,64 +44,59 @@
 <body data-url="https://openapis.col.gob.mx/API_PU/" id="Body">
     <!-- nav container -->
     <div id="GobNavbar" class="container-fluid navbarGob op GobNavbar">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <nav class="navbar navbar-toggleable-md navbar-light ">
-                        <button class="navbar-toggler navbar-toggler-right custom-toggler" type="button"
-                            data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <a class="navbar-brand text-center" href="https://www.col.gob.mx/">
-                            <!-- <i class="fa fa-home fa-2x" style="color:#fff;"></i>    nav-image-colima-estado -->
-                            <img src="https://openapis.col.gob.mx/API_PU/img/logomin.jpg" class="img-fluid"
-                                title="Ir al portal" alt="colima estado">
-                        </a>
-                        <div class="collapse navbar-collapse justify-content-md-center" id="navbarNavDropdown">
-                            <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link cursor denuncia-menu" target="_blank"
-                                        href="https://www.col.gob.mx/coronavirus">CORONAVIRUS</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="https://www.col.gob.mx/Portal/Tramites">Tr&aacute;mites</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Gobierno</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="https://www.col.gob.mx/Portal/#sec_atencion">Cont&aacute;ctanos</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link cursor" target="_blank"
-                                        href="https://www.col.gob.mx/DatosAbiertos">Datos</a>
-                                </li>
-                                <!-- <li class="nav-item">
+        <div class="row align-items-center">
+            <div class="div-escudo">
+                <a class="navbar-brand" href="https://www.col.gob.mx/">
+                    <!-- <i class="fa fa-home fa-2x" style="color:#fff;"></i>    nav-image-colima-estado -->
+                    <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" id="logo"
+                        title="Ir al portal" alt="colima estado">
+                </a>
+            </div>
+            <div class="col">
+                <nav class="navbar navbar-toggleable-md navbar-light ">
+                    <button class="navbar-toggler navbar-toggler-right custom-toggler" type="button"
+                        data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-md-center div-navbar" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <a class="nav-link cursor denuncia-menu" target="_blank"
+                                    href="https://www.col.gob.mx/coronavirus">CORONAVIRUS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://www.col.gob.mx/Portal/Tramites">Tr&aacute;mites</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Gobierno</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="https://www.col.gob.mx/Portal/#sec_atencion">Cont&aacute;ctanos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link cursor" target="_blank"
+                                    href="https://www.col.gob.mx/DatosAbiertos">Datos</a>
+                            </li>
+                            <!-- <li class="nav-item">
 		      	<a href="https://www.col.gob.mx/transparencia" class="nav-link cursor" target="_blank">Transparencia</a>
 		      </li> -->
-                                <li class="nav-item">
-                                    <a href="https://www.col.gob.mx/Portal/contenido/NDYzMDY=" class="nav-link cursor"
-                                        target="_blank">Transparencia</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link cursor denuncia-menu"
-                                        href="https://www.col.gob.mx/index.php/Portal/denuncia">DENUNCIA</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo base_url('home'); ?>">
-                                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-                                    </a>
-                                </li>
-                                <!--
+                            <li class="nav-item">
+                                <a href="https://www.col.gob.mx/Portal/contenido/NDYzMDY=" class="nav-link cursor"
+                                    target="_blank">Transparencia</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link cursor denuncia-menu"
+                                    href="https://www.col.gob.mx/index.php/Portal/denuncia">DENUNCIA</a>
+                            </li>
+                            <!--
                                 <li class="nav-item">
                                     <a class="nav-link" id="navbar-search-li-first" href="#" onclick="ocultar(this)"><i
                                             alt="Buscar" title="Buscar" class="fa fa-search" aria-hidden="true"></i></a>
                                 </li>-->
 
-                                <!--
+                            <!--
                                 <form id="formBusqueda" method="GET"
                                     action="https://www.col.gob.mx/Portal/detalle_busqueda"
                                     class="nav-item display-none" id="navbar-search-li-second">
@@ -115,21 +110,28 @@
                                     </div>
                                 </form>
                                 -->
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item login">
+                                <a class="nav-link" href="<?php echo base_url('home'); ?>">
+                                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
+            <a href="#" class="scrollToTop" id="ScrollTop"></a>
+            <script type="text/javascript">
+                function ocultar(elem) {
+                    var id = elem.id;
+                    document.getElementById(id).style.display = "none";
+                    //document.getElementById("navbar-search-li-second").style.display = "inline";
+                    document.getElementById("formBusqueda").style.display = "inline";
+                }
+            </script>
         </div>
-        <a href="#" class="scrollToTop" id="ScrollTop"></a>
-        <script type="text/javascript">
-            function ocultar(elem) {
-                var id = elem.id;
-                document.getElementById(id).style.display = "none";
-                //document.getElementById("navbar-search-li-second").style.display = "inline";
-                document.getElementById("formBusqueda").style.display = "inline";
-            }
-        </script>
+
     </div>
 
     <!-- Modal -->
@@ -164,15 +166,12 @@
                 <div id="tituloBuscador" style="text-align: center; width: 100%;">
                     <h2>Registro Estatal de Regulaciones</h2>
                 </div>
-                <div id="buscador" class="form-outline" data-mdb-input-init>
+                <div id="buscador" class="input-group" data-mdb-input-init>
                     <input type="search" id="nombreRegulacion" placeholder="Ingrese el nombre de la regulación"
                         class="form-control" required>
-                    <label class="form-label" id="texto" for="form1">Buscar</label>
-                    <div id="buttonContainer">
-                        <button type="button" id="btn-search" type="button" class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                    <button type="button" id="btn-search" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
                 <div>
                     <label id="regdisp">Regulaciones Disponibles: <?php echo $numeroDeRegulaciones; ?></label>
@@ -196,8 +195,7 @@
                                 <div class="col-md-auto">
                                     <label for="option3">Dependencia</label>
                                     <select id="option3">
-                                        <?php
-foreach ($tiposOrdenamiento as $tipo): ?>
+                                        <?php foreach ($tiposOrdenamiento as $tipo): ?>
                                         <option value="<?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>">
                                             <?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>
                                         </option>
@@ -218,24 +216,25 @@ foreach ($tiposOrdenamiento as $tipo): ?>
                             <?php $mostrados = array_slice($regulaciones, 0, 9); ?>
                             <?php foreach ($mostrados as $regulacion): ?>
                             <div class="col-md-4 mb-3">
-                                <div class="card shadow-sm div-card">
+                                <div class="card shadow-sm div-card h-100">
                                     <div class="card-header py-2">
                                         <h7 class="m-0 font-weight-bold text-cards card-title">
                                             <?php    echo $regulacion->Nombre_Regulacion; ?>
                                         </h7>
                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text"><?php    echo $regulacion->Objetivo_Reg; ?></p>
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="card-text flex-grow-1"><?php    echo $regulacion->Objetivo_Reg; ?></p>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-secondary btn-sm">Ver Más</a>
+                                        <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $regulacion->ID_Regulacion); ?>"
+                                            class="btn btn-secondary btn-sm">Ver Más</a>
                                     </div>
                                 </div>
                             </div>
                             <?php endforeach; ?>
                         </div>
                         <div class="text-center mt-3">
-                            <button type="button" id="loadMore" class="btn btn-secondary"
+                            <button type="button" id="loadMore" class="btn btn-secondary btn-dorado"
                                 onclick="cargarMasRegulaciones()">Cargar más</button>
                         </div>
                     </div>
@@ -288,15 +287,15 @@ foreach ($tiposOrdenamiento as $tipo): ?>
                 const reg = regulaciones[currentIndex];
                 const cardHtml = `
                 <div class="col-md-4 mb-3">
-                                    <div class="card shadow-sm div-card">
+                                    <div class="card shadow-sm div-card h-100">
                                         <div class="card-header py-2">
                                             <h7 class="m-0 font-weight-bold text-cards card-title">
                                                 <?php    echo $regulacion->Nombre_Regulacion; ?>
                                             </h7>
                                         </div>
-                                        <div class="card-body">
-                                            <p class="card-text"><?php    echo $regulacion->Objetivo_Reg; ?></p>
-                                        </div>
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="card-text flex-grow-1"><?php echo $regulacion->Objetivo_Reg; ?></p>
+                                    </div>
                                         <div class="card-footer text-center">
                                             <a href="#" class="btn btn-secondary btn-sm">Ver Más</a>
                                         </div>
@@ -327,14 +326,14 @@ foreach ($tiposOrdenamiento as $tipo): ?>
                         data.forEach(function (regulacion) {
                             var cardHtml = `
                             <div class="col-md-4 mb-3">
-                                <div class="card shadow-sm div-card">
+                                <div class="card shadow-sm div-card h-100">
                                     <div class="card-header py-2">
                                         <h7 class="m-0 font-weight-bold text-cards card-title">
                                             ${regulacion.Nombre_Regulacion}
                                         </h7>
                                     </div>
-                                    <div class="card-body">
-                                        <p class="card-text">${regulacion.Objetivo_Reg}</p>
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="card-text flex-grow-1"><?php echo $regulacion->Objetivo_Reg; ?></p>
                                     </div>
                                     <div class="card-footer text-center">
                                         <a href="#" class="btn btn-secondary btn-sm">Ver Más</a>
@@ -401,14 +400,14 @@ foreach ($tiposOrdenamiento as $tipo): ?>
                         data.forEach(function (regulacion) {
                             var cardHtml = `
                          <div class="col-md-4 mb-3">
-                                    <div class="card shadow-sm div-card">
+                                    <div class="card shadow-sm div-card h-100">
                                         <div class="card-header py-2">
                                             <h7 class="m-0 font-weight-bold text-cards card-title">
                                                 <?php    echo $regulacion->Nombre_Regulacion; ?>
                                             </h7>
                                         </div>
-                                        <div class="card-body">
-                                            <p class="card-text"><?php    echo $regulacion->Objetivo_Reg; ?></p>
+                                        <div class="card-body d-flex flex-column">
+                                            <p class="card-text flex-grow-1"><?php echo $regulacion->Objetivo_Reg; ?></p>
                                         </div>
                                         <div class="card-footer text-center">
                                             <a href="#" class="btn btn-secondary btn-sm">Ver Más</a>

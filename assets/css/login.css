@@ -8,7 +8,7 @@
 }
 
 .card-header {
-	background-color: #7f2841;
+	background-color: #612233;
 }
 
 .titulo-login{
@@ -20,5 +20,5 @@
 	--bs-btn-border-color: initial;
 	--bs-btn-hover-bg: #7f2841;
 	--bs-btn-active-bg: #7f2841;
-	background-color: #923244;
+	background-color: #612233;
 }

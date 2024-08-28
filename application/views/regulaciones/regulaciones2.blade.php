@@ -1,4 +1,5 @@
 @include('templates/header')
+
 <body class="sb-nav-fixed cuerpo-sujeto">
 
     <!-- Navbar -->
@@ -6,7 +7,7 @@
     <!-- Navbar -->
 
     <div id="layoutSidenav">
-        
+
         <!-- Menu -->
         @include('templates/menuAdmin')
         <!-- Menu -->
@@ -15,19 +16,21 @@
         <div id="layoutSidenav_content" class="div-contenido">
             <main>
                 <div class="container-fluid px-4">
-                    
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="<?php echo base_url("home") ?>"><i class="fas fa-home me-1"></i>Home</a>
+
+                    <ol class="breadcrumb mb-4 mt-5">
+                        <li class="breadcrumb-item"><a href="<?php echo base_url("home") ?>"><i
+                                    class="fas fa-home me-1"></i>Home</a>
                         </li>
                         <li class="breadcrumb-item active"><i class="fas fa-building me-1"></i>Oficinas</li>
                     </ol>
                     <!-- Botón para abrir otra vista -->
+                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="<?php echo base_url("RegulacionController/caracteristicas_reg") ?>" class="btn btn-primary btn-agregarOficina">
+                        <a href="<?php echo base_url("RegulacionController/caracteristicas_reg") ?>"
+                            class="btn btn-primary btn-agregarOficina">
                             <i class="fas fa-plus-circle me-1"></i> Agregar Regulacion
                         </a>
                     </div>
-                    <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
                     <div class="card mb-4">
                         <div class="card-body">
                             <table id="datatablesSimple">
@@ -43,7 +46,7 @@
                                 </thead>
 
                                 <tbody>
-                                  
+
                                 </tbody>
                             </table>
                         </div>
