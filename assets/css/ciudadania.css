@@ -55,15 +55,23 @@ a.cursor.denuncia-menu.nav-link {
 	width: 100%;
 	margin: 0 4px 5px 2rem;
 }
-
 .card-header {
-	background-color: #612233;
-	height: auto; 
-    padding: 15px; 
-    min-height: 75px; 
+    background-color: #612233;
+    min-height: 75px;
+    max-height: 75px; /* Fija la altura máxima para el header */
+    padding: 15px;
     display: flex;
     align-items: center; 
-	justify-content: center;
+    justify-content: center;
+    overflow: hidden; /* Oculta el texto que excede */
+    text-overflow: ellipsis; /* Añade puntos suspensivos */
+}
+
+.card-header h7 {
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limita a 3 líneas */
+    -webkit-box-orient: vertical;
 }
 
 .text-cards {
@@ -318,7 +326,6 @@ footer .footer-icon-separador-pu {
 	color: white;
 }
 
-<<<<<<< Updated upstream
 .mb-3 {
     margin-bottom: 3rem !important;
 }
@@ -393,5 +400,3 @@ footer .footer-icon-separador-pu {
 		display: none;
 	}
 }
-=======
->>>>>>> Stashed changes

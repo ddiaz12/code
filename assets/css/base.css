@@ -184,7 +184,7 @@ h3,
 
 .footer {
 	background-color: #ffffff;
-	margin: 0 3rem 0 4rem;
+	margin: 0 3rem 0 3rem;
 }
 
 .btn-primary {
@@ -192,11 +192,6 @@ h3,
 	--bs-btn-hover-bg: initial;
 	--bs-btn-active-bg: #7f2841;
 	background-color: #7F2841;
-}
-
-.btn-regulacion,
-.btn-oficina {
-	text-transform: uppercase;
 }
 
 .btn-guardar {
@@ -239,6 +234,7 @@ h3,
 .btn-agregarUsuario,
 .btn-agregarOficina {
 	--bs-btn-hover-bg: #7f2841;
+	margin-right: 46px;
 }
 
 .btn-regulacion:hover,
@@ -256,6 +252,10 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 
 div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	background-color: #6c757d !important;
+}
+
+.div-datatables {
+	margin: 0 3rem;
 }
 
 #datatablesSimple td,

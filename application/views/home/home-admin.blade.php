@@ -22,7 +22,7 @@ Registro Estatal de Regulaciones
             </div>
             <div class="card-footer text-center">
                 <a href="<?php echo base_url('RegulacionController'); ?>"
-                    class="btn btn-primary btn-oficina">administrar</a>
+                    class="btn btn-primary btn-oficina">Administrar</a>
             </div>
         </div>
         <div class="card shadow mb-4 col-sm-5 div-card">
@@ -33,7 +33,7 @@ Registro Estatal de Regulaciones
                 Consulta tus oficinas de tu independencia.
             </div>
             <div class="card-footer text-center">
-                <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-primary btn-oficina">administrar</a>
+                <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-primary btn-oficina">Administrar</a>
             </div>
         </div>
         <div class="card shadow mb-4 col-sm-5 div-card">
@@ -45,7 +45,7 @@ Registro Estatal de Regulaciones
                 de Tramites y Servicios.
             </div>
             <div class="card-footer text-center">
-                <a href="<?php echo base_url('auth'); ?>" class="btn btn-primary btn-oficina">administrar</a>
+                <a href="<?php echo base_url('auth'); ?>" class="btn btn-primary btn-oficina">Administrar</a>
             </div>
         </div>
     </div>

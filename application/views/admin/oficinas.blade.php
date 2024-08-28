@@ -23,7 +23,7 @@
                 <i class="fas fa-plus-circle me-1"></i> Agregar Oficina
             </a>
         </div>
-        <div class="card mb-4">
+        <div class="card mb-4 div-datatables">
             <div class="card-body">
                 <table id="datatablesSimple">
                     <thead>

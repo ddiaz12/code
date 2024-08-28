@@ -30,7 +30,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
         </a>
     </div>
 
-    <div class="card mb-4">
+    <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
                 <thead>
