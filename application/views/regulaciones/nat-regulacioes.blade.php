@@ -97,58 +97,93 @@ Registro Estatal de Regulaciones
                                 <input type="text" class="form-control" id="SectorInput" name="SectorInput"
                                     placeholder="Selecciona una opcion" required>
 
-                            </div>
-                            <ul id="sectorResults"></ul>
-                            <div class="row justify-content-center">
-                                <label for="SubsectorInput">Subsector<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SubsectorInput" name="SubsectorInput"
-                                    placeholder="Selecciona una opcion" required>
-                            </div>
-                            <div class="row justify-content-center">
-                                <label for="RamaInput">Rama<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="RamaInput" name="RamaInput"
-                                    placeholder="Selecciona una opcion" required>
-                            </div>
-                            <div class="row justify-content-center">
-                                <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
-                                    placeholder="Selecciona una opcion" required>
-                            </div>
-                            <div class="row justify-content-center">
-                                <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
-                                    placeholder="Selecciona una opcion" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta
-                                regulación<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
-                                placeholder="Regulaciones Vinculadas" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEnlace">Enlace oficial de la regulación<span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
-                                placeholder="http://" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="radioGroup">Tipo de documento:</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="documento" name="opcion" value="documento">
-                                <label for="documento">Documento</label>
-                                <input type="radio" id="liga" name="opcion" value="liga">
-                                <label for="liga">Liga de Documento</label>
-                            </div>
-                        </div>
-                        <div id="fileInput" class="form-group" style="display: none;">
-                            <label for="file">Subir Documento:</label>
-                            <input type="file" class="form-control-file" id="file">
-                        </div>
-                        <div id="urlInput" class="form-group" style="display: none;">
-                            <label for="url">URL del Documento:</label>
-                            <input type="text" class="form-control" id="url" placeholder="http://">
-                        </div>
+                                        </div>
+                                        <ul id="sectorResults"></ul>
+                                        <table id="selectedSectorsTable" class="table table-striped mt-4">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Sector</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                        <div class="row justify-content-center">
+                                            <label for="SubsectorInput">Subsector<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SubsectorInput"
+                                                name="SubsectorInput" placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="subsectorResults" class="list-group mt-2"></ul>
+                                        <table id="selectedSubsectorsTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Subsector</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                        <div class="row justify-content-center">
+                                            <label for="RamaInput">Rama<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="RamaInput" name="RamaInput"
+                                                placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="ramaResults" class="list-group mt-2"></ul>
+                                        <table id="selectedRamasTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Rama</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                        <div class="row justify-content-center">
+                                            <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SubramaInput"
+                                                name="SubramaInput" placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
+                                                placeholder="Selecciona una opcion" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta
+                                            regulación<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
+                                            placeholder="Regulaciones Vinculadas" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEnlace">Enlace oficial de la regulación<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
+                                            placeholder="http://" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="radioGroup">Tipo de documento:</label>
+                                        <div id="radioGroup">
+                                            <input type="radio" id="documento" name="opcion" value="documento">
+                                            <label for="documento">Documento</label>
+                                            <input type="radio" id="liga" name="opcion" value="liga">
+                                            <label for="liga">Liga de Documento</label>
+                                        </div>
+                                    </div>
+                                    <div id="fileInput" class="form-group" style="display: none;">
+                                        <label for="file">Subir Documento:</label>
+                                        <input type="file" class="form-control-file" id="file">
+                                    </div>
+                                    <div id="urlInput" class="form-group" style="display: none;">
+                                        <label for="url">URL del Documento:</label>
+                                        <input type="text" class="form-control" id="url" placeholder="http://">
+                                    </div>
 
 
                         <script>
@@ -166,44 +201,45 @@ Registro Estatal de Regulaciones
                         </script>
                     </div>
 
-                    <script>
-                        $(document).ready(function () {
-                            $('input[type=radio][name=opcion]').change(function () {
-                                if (this.value == 'si') {
-                                    $('#inputs').show();
-                                } else if (this.value == 'no') {
-                                    $('#inputs').hide();
-                                }
-                            });
-                        });
-                    </script>
-                    <div class="d-flex justify-content-end mb-3">
-                        <button type="submit" class="btn btn-success btn-guardar">Guardar</button>
-                        <a href="<?php echo base_url('oficinas/oficina'); ?>"
-                            class="btn btn-secondary me-2">Cancelar</a>
+                                <script>
+                                $(document).ready(function() {
+                                    $('input[type=radio][name=opcion]').change(function() {
+                                        if (this.value == 'si') {
+                                            $('#inputs').show();
+                                        } else if (this.value == 'no') {
+                                            $('#inputs').hide();
+                                        }
+                                    });
+                                });
+                                </script>
+                                <div class="d-flex justify-content-end mb-3">
+                                    <button type="submit" class="btn btn-success btn-guardar">Guardar</button>
+                                    <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                                        class="btn btn-secondary me-2">Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+        </main>
+        <div id="layoutSidenav_content">
         </div>
-    </div>
-</div>
-@endsection
-@section('js')
-<script>
-    $(document).ready(function () {
-        $('input[type=radio][name=opcion]').change(function () {
-            if (this.value == 'si') {
-                $('#checkboxes').show();
-            } else if (this.value == 'no') {
-                $('#checkboxes').hide();
-            }
+
+        <script>
+        $(document).ready(function() {
+            $('input[type=radio][name=opcion]').change(function() {
+                if (this.value == 'si') {
+                    $('#checkboxes').show();
+                } else if (this.value == 'no') {
+                    $('#checkboxes').hide();
+                }
+            });
         });
-    });
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        let selectedSectors = [];
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            let selectedSectors = [];
 
         $('#SectorInput').on('keyup', function () {
             let searchTerm = $(this).val();
@@ -225,18 +261,42 @@ Registro Estatal de Regulaciones
             });
         });
 
-        $('#sectorResults').on('click', 'li', function () {
-            let sectorId = $(this).data('id');
-            let sectorName = $(this).text();
-            selectedSectors.push({
-                ID_sector: sectorId,
-                Nombre_Sector: sectorName
+            $('#sectorResults').on('click', 'li', function() {
+                let sectorId = $(this).data('id');
+                let sectorName = $(this).text();
+                selectedSectors.push({
+                    ID_sector: sectorId,
+                    Nombre_Sector: sectorName
+                });
+                console.log(selectedSectors);
+                // Ocultar la lista y borrar el texto del input
+                $('#sectorResults').empty();
+                $('#SectorInput').val('');
             });
-            console.log(selectedSectors);
-            // Ocultar la lista y borrar el texto del input
-            $('#sectorResults').empty();
-            $('#SectorInput').val('');
         });
-    });
-</script>
-@endsection
+        </script>
+
+    </div>
+    <!-- Footer -->
+    <footer class="py-4 bg-light mt-auto">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between small">
+                <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                <div class="text-muted div-info">Contacto: Secretaria de Desarrollo Económico
+                    Complejo Administrativo del Gobierno del Estado de Colima
+                    Tercer Anillo Perf. S/N, El Diezmo, 28010 31231620000
+                </div>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    &middot;
+                    <a href="#">Terms &amp; Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer -->
+    </div>
+    <!-- Contenido -->
+    </div>
+
+</body>

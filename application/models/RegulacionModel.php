@@ -116,6 +116,20 @@ class RegulacionModel extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_subsectors($search_term) {
+        $this->db->like('Nombre_Subsector', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('cat_subsector');
+        return $query->result_array();
+    }
+
+    public function get_ramas($search_term) {
+        $this->db->like('Nombre_Rama', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('cat_rama');
+        return $query->result_array();
+    }
+
     public function insertarRelAutoridadesEmiten($data) {
         return $this->db->insert('rel_autoridades_emiten', $data);
     }
