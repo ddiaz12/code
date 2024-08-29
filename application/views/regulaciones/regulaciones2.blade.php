@@ -26,16 +26,6 @@ Registro Estatal de Regulaciones
     </div>
     <div class="card mb-4 div-datatables">
         <div class="card-body">
-            <div class="dataTables_length" id="datatablesSimple_length">
-                <label>Mostrar
-                    <select name="datatablesSimple_length" id="opSelect" aria-controls="datatablesSimple" class="">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select> registros
-                </label>
-            </div>
             <table id="datatablesSimple">
                 <thead>
                     <tr>
@@ -77,17 +67,5 @@ Registro Estatal de Regulaciones
 @endsection
 
 @section('js')
-<script>
-$(document).ready(function() {
-    var table = $('#datatablesSimple').DataTable({
-        "lengthMenu": [10, 25, 50, 100],
-        "pageLength": 10 // Mostrar 10 registros por defecto
-    });
-
-    $('#opSelect').on('change', function() {
-        var selectedValue = $(this).val();
-        table.page.len(selectedValue).draw();
-    });
-});
-</script>
+<script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 @endsection
