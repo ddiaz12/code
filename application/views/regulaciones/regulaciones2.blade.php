@@ -26,6 +26,16 @@ Registro Estatal de Regulaciones
     </div>
     <div class="card mb-4 div-datatables">
         <div class="card-body">
+            <div class="dataTables_length" id="datatablesSimple_length">
+                <label>Mostrar
+                    <select name="datatablesSimple_length" id="opSelect" aria-controls="datatablesSimple" class="">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> registros
+                </label>
+            </div>
             <table id="datatablesSimple">
                 <thead>
                     <tr>
@@ -37,9 +47,25 @@ Registro Estatal de Regulaciones
                         <th class="tTabla-color">Acciones</th>
                     </tr>
                 </thead>
-
                 <tbody>
-
+                    <?php if (!empty($regulaciones)): ?>
+                    <?php foreach ($regulaciones as $regulacion): ?>
+                    <tr>
+                        <td><?php echo $regulacion['ID_Regulacion']; ?></td>
+                        <td><?php echo $regulacion['Nombre_Regulacion']; ?></td>
+                        <td><?php echo $regulacion['Homoclave']; ?></td>
+                        <td><?php echo $regulacion['Estatus']; ?></td>
+                        <td><?php echo $regulacion['Vigencia']; ?></td>
+                        <td>
+                            <!-- Aquí puedes agregar botones de acción como editar o eliminar -->
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                    <tr>
+                        <td colspan="6">No hay datos disponibles</td>
+                    </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -52,27 +78,16 @@ Registro Estatal de Regulaciones
 
 @section('js')
 <script>
-    $(document).ready(function () {
-        $('#datatablesSimple').DataTable({
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-            }
-        });
+$(document).ready(function() {
+    var table = $('#datatablesSimple').DataTable({
+        "lengthMenu": [10, 25, 50, 100],
+        "pageLength": 10 // Mostrar 10 registros por defecto
     });
 
-    $(document).ready(function () {
-        $('.btn-danger').click(function () {
-            var id = $(this).data('id_oficina');
-
-            $.ajax({
-                url: '<?php echo base_url('oficinas/eliminar_oficina/') ?>' + id,
-                type: 'POST',
-                success: function (result) {
-                    // Recargar la página o hacer algo con el resultado
-                    location.reload();
-                }
-            });
-        });
+    $('#opSelect').on('change', function() {
+        var selectedValue = $(this).val();
+        table.page.len(selectedValue).draw();
     });
+});
 </script>
 @endsection

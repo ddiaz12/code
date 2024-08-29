@@ -199,9 +199,9 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="radioGroup">Tipo de documento:</label>
                             <div id="radioGroup">
-                                <input type="radio" id="documento" name="opcion" value="documento">
+                                <input type="radio" id="documento" name="opcion2" value="documento">
                                 <label for="documento">Documento</label>
-                                <input type="radio" id="liga" name="opcion" value="liga">
+                                <input type="radio" id="liga" name="opcion2" value="liga">
                                 <label for="liga">Liga de Documento</label>
                             </div>
                         </div>
@@ -217,7 +217,7 @@ Registro Estatal de Regulaciones
 
                         <script>
                         $(document).ready(function() {
-                            $('input[type=radio][name=opcion]').change(function() {
+                            $('input[type=radio][name=opcion2]').change(function() {
                                 if (this.value == 'documento') {
                                     $('#fileInput').show();
                                     $('#urlInput').hide();
@@ -228,45 +228,7 @@ Registro Estatal de Regulaciones
                             });
                         });
                         </script>
-                        <script>
-                        $(document).ready(function() {
-                            let iNormativo = null;
 
-                            $('input[name="opcion"]').on('change', function() {
-                                if ($('#documento').is(':checked')) {
-                                    iNormativo = 0;
-                                } else if ($('#liga').is(':checked')) {
-                                    iNormativo = 1;
-                                }
-                                console.log('iNormativo:', iNormativo);
-                            });
-
-                            $('#btnGnat').on('click', function() {
-                                if ($('#no').is(':checked')) {
-                                    let inputEnlace = $('#inputEnlace').val();
-                                    $.ajax({
-                                        url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
-                                        type: 'POST',
-                                        data: {
-                                            btn_clicked: true,
-                                            radio_no_selected: true,
-                                            inputEnlace: inputEnlace,
-                                            iNormativo: iNormativo
-                                        },
-                                        dataType: 'json',
-                                        success: function(response) {
-                                            if (response.status === 'success') {
-                                                alert('Datos guardados exitosamente');
-                                            } else {
-                                                alert('Error al guardar los datos: ' +
-                                                    response.message);
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        });
-                        </script>
                     </div>
 
                     <script>
@@ -303,13 +265,16 @@ $(document).ready(function() {
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    let selectedSectors = []; // Declaración global
+    let selectedSubsectors = []; // Declaración global
+    let selectedRamas = []; // Declaración global
+    let selectedSubramas = []; // Declaración global
+    let selectedClases = []; // Declaración global
+    let selectedRegulaciones = []; // Declaración global
+    let iNormativo = null; // Declaración global
+// Aqui se hace la busqueda de los sectores y se muestran en una lista
 $(document).ready(function() {
-    let selectedSectors = [];
-    let selectedSubsectors = [];
-    let selectedRamas = [];
-    let selectedSubramas = [];
-    let selectedClases = [];
-
+    
     $('#SectorInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
@@ -330,6 +295,7 @@ $(document).ready(function() {
         });
     });
 
+    // Aqui se selecciona el sector y se agrega a la lista
     $('#sectorResults').on('click', 'li', function() {
         let sectorId = $(this).data('id');
         let sectorName = $(this).text();
@@ -347,6 +313,7 @@ $(document).ready(function() {
         $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName + '</td></tr>');
     });
 
+    // Aqui se hace la busqueda de los subsectores y se muestran en una lista
     $('#SubsectorInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
@@ -368,6 +335,7 @@ $(document).ready(function() {
         });
     });
 
+    // Aqui se selecciona el subsector y se agrega a la lista
     $('#subsectorResults').on('click', 'li', function() {
         let subsectorId = $(this).data('id');
         let subsectorName = $(this).text();
@@ -386,6 +354,7 @@ $(document).ready(function() {
         $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsectorName + '</td></tr>');
     });
 
+    // Aqui se hace la busqueda de las ramas y se muestran en una lista
     $('#RamaInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
@@ -405,6 +374,8 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Aqui se selecciona la rama y se agrega a la lista
     $('#ramaResults').on('click', 'li', function() {
         let ramaId = $(this).data('id');
         let ramaName = $(this).text();
@@ -422,6 +393,8 @@ $(document).ready(function() {
         $('#selectedRamasTable').show();
         $('#selectedRamasTable tbody').append('<tr><td>' + ramaName + '</td></tr>');
     });
+
+    // Aqui se hace la busqueda de las subramas y se muestran en una lista
     $('#SubramaInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
@@ -441,6 +414,8 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Aqui se selecciona la subrama y se agrega a la lista
     $('#subramaResults').on('click', 'li', function() {
         let subramaId = $(this).data('id');
         let subramaName = $(this).text();
@@ -458,6 +433,8 @@ $(document).ready(function() {
         $('#selectedSubramasTable').show();
         $('#selectedSubramasTable tbody').append('<tr><td>' + subramaName + '</td></tr>');
     });
+
+    // Aqui se hace la busqueda de las clases y se muestran en una lista
     $('#ClaseInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
@@ -478,6 +455,7 @@ $(document).ready(function() {
         });
     });
 
+    // Aqui se selecciona la clase y se agrega a la lista
     $('#claseResults').on('click', 'li', function() {
         let claseId = $(this).data('id');
         let claseName = $(this).text();
@@ -495,12 +473,8 @@ $(document).ready(function() {
         $('#selectedClasesTable').show();
         $('#selectedClasesTable tbody').append('<tr><td>' + claseName + '</td></tr>');
     });
-});
-</script>
-<script>
-$(document).ready(function() {
-    let selectedRegulaciones = [];
 
+    //aqui busca las regulaciones y las muesta en una lista
     $('#inputVinculadas').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
@@ -522,6 +496,7 @@ $(document).ready(function() {
         });
     });
 
+    //aqui selecciona la regulacion y la agrega a la lista
     $('#vinculadasResults').on('click', 'li', function() {
         let regulacionId = $(this).data('id');
         let regulacionName = $(this).text();
@@ -539,8 +514,71 @@ $(document).ready(function() {
         $('#selectedRegulacionesTable').show();
         $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '</td></tr>');
     });
+
+    //aqui validamos si es documento o liga
+    // 0 = documento, 1 = liga
+    $('input[name="opcion2"]').on('change', function() {
+        if ($('#documento').is(':checked')) {
+            iNormativo = 0;
+        } else if ($('#liga').is(':checked')) {
+            iNormativo = 1;
+        }
+        console.log('iNormativo:', iNormativo);
+    });
+
+    //verificamos que se de click en el boton guardar y validamos si es si o no
+    //aqui guardamos los datos
+    $('#btnGnat').on('click', function() {
+        if ($('#no').is(':checked')) {
+            let inputEnlace = $('#inputEnlace').val();
+            $.ajax({
+                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
+                type: 'POST',
+                data: {
+                    btn_clicked: true,
+                    radio_no_selected: true,
+                    inputEnlace: inputEnlace,
+                    iNormativo: iNormativo,
+                    selectedRegulaciones: selectedRegulaciones
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        alert('Datos guardados exitosamente');
+                    } else {
+                        alert('Error al guardar los datos: ' + response.message);
+                    }
+                }
+            });
+        } else if ($('#si').is(':checked')) {
+            let inputEnlace = $('#inputEnlace').val();
+            $.ajax({
+                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
+                type: 'POST',
+                data: {
+                    btn_clicked: true,
+                    radio_si_selected: true,
+                    inputEnlace: inputEnlace,
+                    iNormativo: iNormativo,
+                    selectedRegulaciones: selectedRegulaciones,
+                    selectedSectors: selectedSectors,
+                    selectedSubsectors: selectedSubsectors,
+                    selectedRamas: selectedRamas,
+                    selectedSubramas: selectedSubramas,
+                    selectedClases: selectedClases
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        alert('Datos guardados exitosamente');
+                    } else {
+                        alert('Error al guardar los datos: ' + response.message);
+                    }
+                }
+            });
+        }
+    });
 });
 </script>
-
 @endsection
 </body>
