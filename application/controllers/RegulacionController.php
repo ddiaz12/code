@@ -364,6 +364,53 @@ class RegulacionController extends CI_Controller
         echo json_encode($results);
     }
 
+    public function search_subrama() {
+        $this->load->model('RegulacionModel');
+        $search_term = $this->input->post('search_term');
+        $results = $this->RegulacionModel->get_subramas($search_term);
+        echo json_encode($results);
+    }
+
+    public function search_clase() {
+        $this->load->model('RegulacionModel');
+        $search_term = $this->input->post('search_term');
+        $results = $this->RegulacionModel->get_clases($search_term);
+        echo json_encode($results);
+    }
+
+    public function search_regulacion() {
+        $this->load->model('RegulacionModel');
+        $search_term = $this->input->post('search_term');
+        $results = $this->RegulacionModel->get_regulaciones2($search_term);
+        echo json_encode($results);
+    }
+
+    public function save_naturaleza_regulacion() {
+        $this->load->model('RegulacionModel');
+        
+        // Verificar si el botón fue clickeado y el radiobutton "no" está seleccionado
+        if ($this->input->post('btn_clicked') && $this->input->post('radio_no_selected')) {
+            $inputEnlace = $this->input->post('inputEnlace');
+            $iNormativo = $this->input->post('iNormativo');
+            
+            // Obtener el ID_Nat más grande y agregar uno más grande
+            $max_id_nat = $this->RegulacionModel->get_max_id_nat();
+            $new_id_nat = $max_id_nat + 1;
+            
+            // Guardar en la base de datos
+            $data = array(
+                'ID_Nat' => $new_id_nat,
+                'Enlace_Oficial' => $inputEnlace,
+                'Instrumento_normativo' => $iNormativo
+            );
+            $this->RegulacionModel->insert_naturaleza_regulacion($data);
+            
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Invalid request'));
+        }
+    }
+
     public function guardar_regulacion()
     {
         $this->form_validation->set_rules(
