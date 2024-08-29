@@ -56,7 +56,7 @@ a.cursor.denuncia-menu.nav-link {
 	margin: 0 4px 5px 2rem;
 }
 .card-header {
-    background-color: #612233;
+    background-color: #7F2841;
     min-height: 75px;
     max-height: 75px; /* Fija la altura máxima para el header */
     padding: 15px;
@@ -207,6 +207,7 @@ a.cursor.denuncia-menu.nav-link {
 }
 
 #nombreRegulacion {
+	border: 1px solid;
 	margin-left: 28rem;
     width: 71%;
 }
@@ -388,6 +389,8 @@ footer .footer-icon-separador-pu {
     width: 100%;
 	margin: 30px 0 0 0;
 }
+
+
 
 @media (min-width: 768px) {
     #option1, #option2, #option3, #buscarBtn {
