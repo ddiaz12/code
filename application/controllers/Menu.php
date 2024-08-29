@@ -182,6 +182,16 @@ class Menu extends CI_Controller
                 'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
             )
         );
+        $this->form_validation->set_rules(
+            'ext',
+            'extension',
+            'trim|numeric|max_length[7]|min_length[2]',
+            array(
+                'numeric' => 'El campo %s debe ser numérico.',
+                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            )
+        );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
@@ -210,7 +220,7 @@ class Menu extends CI_Controller
             $num_exterior = $this->input->post('num_exterior');
             /* $codigo_postal = $this->input->post('codigo_postal');*/
             $inputNumTel = $this->input->post('phone');
-            $extension = $this->input->post('extension');
+            $extension = $this->input->post('ext');
             $email = $this->input->post('email', true);
             $notas = $this->input->post('notas', true);
             $checkboxOficina = $this->input->post('checkboxOficina');
@@ -360,6 +370,16 @@ class Menu extends CI_Controller
                 'regex_match' => 'El campo %s no tiene el formato correcto. Ejemplo: (123) 456-7890'
             )
         );
+        $this->form_validation->set_rules(
+            'ext',
+            'extension',
+            'trim|numeric|max_length[7]|min_length[2]',
+            array(
+                'numeric' => 'El campo %s debe ser numérico.',
+                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            )
+        );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
@@ -389,7 +409,7 @@ class Menu extends CI_Controller
             $num_exterior = $this->input->post('num_exterior');
             //$codigo_postal = $this->input->post('codigo_postal');
             $inputNumTel = $this->input->post('phone');
-            $extension = $this->input->post('extension');
+            $extension = $this->input->post('ext');
             $email = $this->input->post('email', true);
             $notas = $this->input->post('notas', true);
             $checkboxOficina = $this->input->post('checkboxOficina');
