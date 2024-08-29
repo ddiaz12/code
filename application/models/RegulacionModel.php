@@ -130,6 +130,27 @@ class RegulacionModel extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_subramas($search_term) {
+        $this->db->like('Nombre_Subrama', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('cat_subrama');
+        return $query->result_array();
+    }
+
+    public function get_clases($search_term) {
+        $this->db->like('Nombre_Clase', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('cat_clase');
+        return $query->result_array();
+    }
+
+    public function get_regulaciones2($search_term) {
+        $this->db->like('Nombre_Regulacion', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('ma_regulacion');
+        return $query->result_array();
+    }
+
     public function insertarRelAutoridadesEmiten($data) {
         return $this->db->insert('rel_autoridades_emiten', $data);
     }
@@ -158,5 +179,48 @@ class RegulacionModel extends CI_Model {
     public function insertarRelIndice($relIndiceData) {
         return $this->db->insert('rel_indice', $relIndiceData);
     }
-    
+
+    public function get_max_id_nat() {
+        $this->db->select_max('ID_Nat');
+        $query = $this->db->get('de_naturaleza_regulacion');
+        $result = $query->row_array();
+        return $result['ID_Nat'];
+    }
+
+    public function insert_naturaleza_regulacion($data) {
+        $this->db->insert('de_naturaleza_regulacion', $data);
+    }
+
+    public function insert_derivada_reg($data) {
+        $this->db->insert('derivada_reg', $data);
+    }
+
+    public function get_max_id_rel_nat() {
+        $this->db->select_max('ID_relNaturaleza');
+        $query = $this->db->get('rel_nat_reg');
+        $result = $query->row_array();
+        
+        // Validar si no existe ninguna inserción
+        if (empty($result['ID_relNaturaleza'])) {
+            return 0; // Valor predeterminado si no hay registros
+        }
+        
+        return $result['ID_relNaturaleza'];
+    }
+
+    public function get_last_id_regulacion() {
+        $this->db->select_max('ID_Regulacion');
+        $query = $this->db->get('ma_regulacion');
+        $result = $query->row_array();
+        return $result['ID_Regulacion'];
+    }
+
+    public function insert_rel_nat_reg($data) {
+        $this->db->insert('rel_nat_reg', $data);
+    }
+
+    public function get_all_regulaciones() {
+        $query = $this->db->get('ma_regulacion');
+        return $query->result_array();
+    }
 }
