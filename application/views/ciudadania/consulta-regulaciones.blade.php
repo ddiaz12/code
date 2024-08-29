@@ -168,7 +168,7 @@
                 </div>
                 <div id="buscador" class="input-group" data-mdb-input-init>
                     <input type="search" id="nombreRegulacion" placeholder="Ingrese el nombre de la regulación"
-                        class="form-control" required>
+                        class="form-control" required onkeydown="buscarConEnter(event)">
                     <button type="button" id="btn-search" class="btn btn-primary">
                         <i class="fas fa-search"></i>
                     </button>
@@ -432,7 +432,14 @@
             });
         });
     </script>
-
+    <script>
+        function buscarConEnter(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('btn-search').click();
+            }
+        }
+    </script>
 </body>
 
 </html>

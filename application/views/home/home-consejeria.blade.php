@@ -23,7 +23,7 @@
                     de Tramites y Servicios.
                 </div>
                 <div class="card-footer text-center">
-                    <a href="<?php echo base_url('regulaciones/'); ?>" class="btn btn-primary btn-oficina">Administrar</a>
+                    <a href="<?php echo base_url('regulacionController'); ?>" class="btn btn-primary btn-oficina">Administrar</a>
                 </div>
             </div>
 
