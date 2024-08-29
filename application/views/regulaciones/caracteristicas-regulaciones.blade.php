@@ -1,224 +1,16 @@
-@include('templates/header')
+@layout('templates/master')
+@section('titulo')
+Registro Estatal de Regulaciones
+@endsection
+@section('navbar')
+@include('templates/navbarAdmin')
+@endsection
+@section('menu')
+@include('templates/menuAdmin')
+@endsection
 
-
-<script>
-function mostrarCampo() {
-    var siSeleccionado = document.getElementById("si").checked;
-    var otroCampo = document.getElementById("otroCampo");
-
-    if (siSeleccionado) {
-        otroCampo.style.display = "block";
-    } else {
-        otroCampo.style.display = "none";
-    }
-}
-</script>
-<script>
-function mostrarCampo2() {
-    var si = document.getElementById('apsi');
-    var no = document.getElementById('apno');
-    var selectUnidad2Container = document.getElementById('selectUnidad2Container');
-    var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
-    var apTContainer = document.getElementById('apTContainer');
-
-    if (no.checked) {
-        selectUnidad2Container.style.display = 'block';
-        autoridadesAplicanContainer.style.display = 'block';
-        apTContainer.style.display = 'block';
-    } else if (si.checked) {
-        selectUnidad2Container.style.display = 'none';
-        autoridadesAplicanContainer.style.display = 'none';
-        apTContainer.style.display = 'none';
-    } else {
-        selectUnidad2Container.style.display = 'none';
-        autoridadesAplicanContainer.style.display = 'none';
-        apTContainer.style.display = 'none';
-    }
-}
-
-// Inicializar la visibilidad de los campos al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
-    mostrarCampo2();
-});
-</script>
-<script>
-$(document).ready(function() {
-    var emitenArray = [];
-    var aplicanArray = [];
-
-    // Método para AutoridadesEmiten
-    $('#AutoridadesEmiten').on('input', function() {
-        var query = $(this).val();
-        console.log('Query:', query); // Verifica que la consulta esté bien
-        if (query.length > 0) {
-            $.ajax({
-                url: '<?= base_url('RegulacionController/search') ?>',
-                method: 'GET',
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    console.log('Response data:',
-                        data); // Verifica que la respuesta sea la esperada
-                    try {
-                        var results = JSON.parse(data);
-                        var resultsContainer = $('#searchResults');
-                        resultsContainer.empty();
-                        results.forEach(function(item) {
-                            resultsContainer.append(
-                                '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                item.ID_Dependencia + '">' + item
-                                .Tipo_Dependencia + '</a>');
-                        });
-                    } catch (e) {
-                        console.error('Error parsing JSON:', e);
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('AJAX error:', textStatus, errorThrown);
-                }
-            });
-        } else {
-            $('#searchResults').empty();
-        }
-    });
-
-    // Método para AutoridadesAplican
-    $('#AutoridadesAplican').on('input', function() {
-        var query = $(this).val();
-        console.log('Query:', query); // Verifica que la consulta esté bien
-        if (query.length > 0) {
-            $.ajax({
-                url: '<?= base_url('RegulacionController/search') ?>',
-                method: 'GET',
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    console.log('Response data:',
-                        data); // Verifica que la respuesta sea la esperada
-                    try {
-                        var results = JSON.parse(data);
-                        var resultsContainer = $('#searchResults2');
-                        resultsContainer.empty();
-                        results.forEach(function(item) {
-                            resultsContainer.append(
-                                '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                item.ID_Dependencia + '">' + item
-                                .Tipo_Dependencia + '</a>');
-                        });
-                    } catch (e) {
-                        console.error('Error parsing JSON:', e);
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('AJAX error:', textStatus, errorThrown);
-                }
-            });
-        } else {
-            $('#searchResults2').empty();
-        }
-    });
-
-    // Handle click on search result for AutoridadesEmiten
-    $(document).on('click', '#searchResults .list-group-item', function() {
-        var id = $(this).data('id');
-        var text = $(this).text();
-        emitenArray.push({
-            ID_Dependencia: id,
-            Tipo_Dependencia: text
-        });
-        $('#AutoridadesEmiten').val('');
-        $('#searchResults').empty();
-        updateEmitenTable();
-    });
-
-    // Handle click on search result for AutoridadesAplican
-    $(document).on('click', '#searchResults2 .list-group-item', function() {
-        var id = $(this).data('id');
-        var text = $(this).text();
-        aplicanArray.push({
-            ID_Dependencia: id,
-            Tipo_Dependencia: text
-        });
-        $('#AutoridadesAplican').val('');
-        $('#searchResults2').empty();
-        updateAplicanTable();
-    });
-
-    function updateEmitenTable() {
-        var tableBody = $('#emitenTable tbody');
-        tableBody.empty();
-
-        emitenArray.forEach(function(item) {
-            tableBody.append('<tr><td>' + item.ID_Dependencia + '</td><td>' + item.Tipo_Dependencia +
-                '</td></tr>');
-        });
-    }
-
-    function updateAplicanTable() {
-        var tableBody = $('#aplicanTable tbody');
-        tableBody.empty();
-
-        aplicanArray.forEach(function(item) {
-            tableBody.append('<tr><td>' + item.ID_Dependencia + '</td><td>' + item.Tipo_Dependencia +
-                '</td></tr>');
-        });
-    }
-});
-</script>
-
-
-<body class="sb-nav-fixed cuerpo-sujeto">
-    <div id="layoutSidenav">
-        <!-- Menu -->
-        @include('templates/menuAdmin')
-        <!-- Menu -->
-    </div>
-
-    <nav class="sb-topnav navbar navbar-expand navbar-custom" id="navbarhome">
-        <!-- Navbar Brand-->
-        <div class="div-escudo">
-            <a class="navbar-brand" href="<?php echo base_url("home/home_sujeto") ?>">
-                <img src="<?php echo base_url("assets/") ?>img/logo2.jpg" alt="Escudo del gobierno del estado"
-                    id="logo">
-            </a>
-        </div>
-        <!-- Navbar Brand-->
-
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
-        <!-- Sidebar Toggle-->
-
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-
-        </form>
-        <!-- Navbar Search-->
-
-        <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fa-solid fa-user fa-2x"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li>
-                        <hr class="dropdown-divider" />
-                    </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
-        <!-- Navbar-->
-    </nav>
-
-
-    <div id="layoutSidenav_content">
-        <main>
-            <ol class="breadcrumb mb-4">
+@section('contenido')
+            <ol class="breadcrumb mb-4 mt-5">
                 <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i
                             class="fas fa-home me-1"></i>Home</a>
                 </li>
@@ -234,22 +26,22 @@ $(document).ready(function() {
                         <div class="col-md-3 p-0 d-flex flex-column">
                             <!-- New card -->
                             <style>
-                            .custom-link {
-                                color: black;
-                                cursor: pointer !important;
-                                font-size: 19px;
-                                /* Adjust as needed */
-                            }
+                                .custom-link {
+                                    color: black;
+                                    cursor: pointer !important;
+                                    font-size: 19px;
+                                    /* Adjust as needed */
+                                }
 
-                            .custom-link:hover {
-                                color: gray;
-                                text-decoration: none;
-                            }
+                                .custom-link:hover {
+                                    color: gray;
+                                    text-decoration: none;
+                                }
 
-                            .custom-link i {
-                                font-size: 24px;
-                                /* Adjust as needed */
-                            }
+                                .custom-link i {
+                                    font-size: 24px;
+                                    /* Adjust as needed */
+                                }
                             </style>
                             <div class="card flex-grow-1">
                                 <div class="card" style="border: none;">
@@ -312,9 +104,9 @@ $(document).ready(function() {
                                                         class="text-danger">*</span></label>
                                                 <select class="form-control" id="selectUnidad" name="unidad" required>
                                                     <option disabled selected>Selecciona una opción</option>
-                                                    <?php foreach ($tipos_ordenamiento as $tipo) : ?>
-                                                    <option value="<?php echo $tipo->ID_tOrdJur;?>">
-                                                        <?php echo $tipo->Tipo_Ordenamiento;?>
+                                                    <?php foreach ($tipos_ordenamiento as $tipo): ?>
+                                                    <option value="<?php    echo $tipo->ID_tOrdJur;?>">
+                                                        <?php    echo $tipo->Tipo_Ordenamiento;?>
                                                     </option>
                                                     <?php endforeach; ?>
                                                 </select>
@@ -489,10 +281,11 @@ $(document).ready(function() {
                                                                             id="selectIndicePadre" name="indicePadre">
                                                                             <option>Seleccione un índice padre</option>
                                                                             <?php if (!empty($indices)): ?>
-                                                                            <?php foreach ($indices as $indice): ?>
+                                                                            <?php    foreach ($indices as $indice): ?>
                                                                             <option value="<?= $indice->ID_Indice ?>">
-                                                                                <?= $indice->Texto ?></option>
-                                                                            <?php endforeach; ?>
+                                                                                <?= $indice->Texto ?>
+                                                                            </option>
+                                                                            <?php    endforeach; ?>
                                                                             <?php endif; ?>
                                                                         </select>
                                                                     </div>
@@ -522,113 +315,7 @@ $(document).ready(function() {
                                                     <!-- Las filas se agregarán dinámicamente aquí -->
                                                 </tbody>
                                             </table>
-                                            <script>
-                                            function closeModal() {
-                                                $('.modal').modal('hide'); // Oculta el modal
-                                            }
-                                            </script>
 
-                                            <script>
-                                            $(document).ready(function() {
-                                                $('.btn-indice').click(function() {
-                                                    $('#myModal').modal('show');
-                                                });
-                                            });
-                                            </script>
-                                            <script>
-                                            $(document).ready(function() {
-                                                var lastInsertedID_Indice =
-                                                    null; // Variable para almacenar el último ID_Indice insertado
-                                                var lastInsertedOrden =
-                                                    null; // Variable para almacenar el último Orden insertado
-
-                                                $('#guardarIbtn').on('click', function() {
-                                                    var inputTexto = $('#inputTexto').val();
-
-                                                    if (lastInsertedID_Indice === null ||
-                                                        lastInsertedOrden === null) {
-                                                        // Si es la primera inserción, obtener los valores de la base de datos
-                                                        $.ajax({
-                                                            url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                                                            method: 'GET',
-                                                            success: function(data) {
-                                                                var maxValues = JSON.parse(
-                                                                    data);
-                                                                lastInsertedID_Indice =
-                                                                    parseInt(maxValues
-                                                                        .ID_Indice) + 1;
-                                                                lastInsertedOrden =
-                                                                    parseInt(maxValues
-                                                                        .Orden) + 1;
-
-                                                                var newRow = '<tr><td>' +
-                                                                    lastInsertedID_Indice +
-                                                                    '</td><td>' +
-                                                                    inputTexto +
-                                                                    '</td><td>' +
-                                                                    lastInsertedOrden +
-                                                                    '</td></tr>';
-                                                                $('#resultTable tbody')
-                                                                    .append(newRow);
-                                                            },
-                                                            error: function(jqXHR, textStatus,
-                                                                errorThrown) {
-                                                                console.error('AJAX error:',
-                                                                    textStatus,
-                                                                    errorThrown);
-                                                            }
-                                                        });
-                                                    } else {
-                                                        // Si no es la primera inserción, incrementar los últimos valores insertados
-                                                        lastInsertedID_Indice++;
-                                                        lastInsertedOrden++;
-
-                                                        var newRow = '<tr><td>' +
-                                                            lastInsertedID_Indice + '</td><td>' +
-                                                            inputTexto + '</td><td>' +
-                                                            lastInsertedOrden + '</td></tr>';
-                                                        $('#resultTable tbody').append(newRow);
-                                                    }
-                                                });
-                                            });
-                                            </script>
-                                            <script>
-                                            $(document).ready(function() {
-                                                var reIndice = [];
-                                                var currentIDJerarquia = 0;
-
-                                                // Obtener el valor máximo de ID_Jerarquia al cargar la página
-                                                $.ajax({
-                                                    url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
-                                                    type: 'GET',
-                                                    success: function(response) {
-                                                        currentIDJerarquia = parseInt(response);
-                                                    }
-                                                });
-
-                                                $('#guardarIbtn').on('click', function() {
-                                                    var selectedIDIndice = $('#selectIndicePadre')
-                                                        .val();
-
-                                                    if (selectedIDIndice !==
-                                                        'Seleccione un índice padre') {
-                                                        currentIDJerarquia += 1;
-
-                                                        var newEntry = {
-                                                            ID_Indice: selectedIDIndice,
-                                                            ID_Jerarquia: currentIDJerarquia
-                                                        };
-
-                                                        reIndice.push(newEntry);
-
-                                                        // Imprimir reIndice en consola
-                                                        console.log(reIndice);
-                                                    } else {
-                                                        alert('Por favor, seleccione un índice padre.');
-                                                    }
-                                                });
-                                            });
-                                            </script>
                                             <div class="form-group">
                                                 <label for="inputObjetivo">Describa el objetivo de la regulación</label>
                                                 <textarea class="form-control" id="inputObjetivo"
@@ -649,14 +336,181 @@ $(document).ready(function() {
                     </div>
                 </div>
             </div>
-    </div>
+@endsection
 
-    <script>
+@section('js')
+<script>
+    function mostrarCampo() {
+        var siSeleccionado = document.getElementById("si").checked;
+        var otroCampo = document.getElementById("otroCampo");
+
+        if (siSeleccionado) {
+            otroCampo.style.display = "block";
+        } else {
+            otroCampo.style.display = "none";
+        }
+    }
+</script>
+<script>
+    function mostrarCampo2() {
+        var si = document.getElementById('apsi');
+        var no = document.getElementById('apno');
+        var selectUnidad2Container = document.getElementById('selectUnidad2Container');
+        var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
+        var apTContainer = document.getElementById('apTContainer');
+
+        if (no.checked) {
+            selectUnidad2Container.style.display = 'block';
+            autoridadesAplicanContainer.style.display = 'block';
+            apTContainer.style.display = 'block';
+        } else if (si.checked) {
+            selectUnidad2Container.style.display = 'none';
+            autoridadesAplicanContainer.style.display = 'none';
+            apTContainer.style.display = 'none';
+        } else {
+            selectUnidad2Container.style.display = 'none';
+            autoridadesAplicanContainer.style.display = 'none';
+            apTContainer.style.display = 'none';
+        }
+    }
+
+    // Inicializar la visibilidad de los campos al cargar la página
+    document.addEventListener('DOMContentLoaded', function () {
+        mostrarCampo2();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var emitenArray = [];
+        var aplicanArray = [];
+
+        // Método para AutoridadesEmiten
+        $('#AutoridadesEmiten').on('input', function () {
+            var query = $(this).val();
+            console.log('Query:', query); // Verifica que la consulta esté bien
+            if (query.length > 0) {
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/search') ?>',
+                    method: 'GET',
+                    data: {
+                        query: query
+                    },
+                    success: function (data) {
+                        console.log('Response data:',
+                            data); // Verifica que la respuesta sea la esperada
+                        try {
+                            var results = JSON.parse(data);
+                            var resultsContainer = $('#searchResults');
+                            resultsContainer.empty();
+                            results.forEach(function (item) {
+                                resultsContainer.append(
+                                    '<a href="#" class="list-group-item list-group-item-action" data-id="' +
+                                    item.ID_Dependencia + '">' + item
+                                        .Tipo_Dependencia + '</a>');
+                            });
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                    }
+                });
+            } else {
+                $('#searchResults').empty();
+            }
+        });
+
+        // Método para AutoridadesAplican
+        $('#AutoridadesAplican').on('input', function () {
+            var query = $(this).val();
+            console.log('Query:', query); // Verifica que la consulta esté bien
+            if (query.length > 0) {
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/search') ?>',
+                    method: 'GET',
+                    data: {
+                        query: query
+                    },
+                    success: function (data) {
+                        console.log('Response data:',
+                            data); // Verifica que la respuesta sea la esperada
+                        try {
+                            var results = JSON.parse(data);
+                            var resultsContainer = $('#searchResults2');
+                            resultsContainer.empty();
+                            results.forEach(function (item) {
+                                resultsContainer.append(
+                                    '<a href="#" class="list-group-item list-group-item-action" data-id="' +
+                                    item.ID_Dependencia + '">' + item
+                                        .Tipo_Dependencia + '</a>');
+                            });
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                    }
+                });
+            } else {
+                $('#searchResults2').empty();
+            }
+        });
+
+        // Handle click on search result for AutoridadesEmiten
+        $(document).on('click', '#searchResults .list-group-item', function () {
+            var id = $(this).data('id');
+            var text = $(this).text();
+            emitenArray.push({
+                ID_Dependencia: id,
+                Tipo_Dependencia: text
+            });
+            $('#AutoridadesEmiten').val('');
+            $('#searchResults').empty();
+            updateEmitenTable();
+        });
+
+        // Handle click on search result for AutoridadesAplican
+        $(document).on('click', '#searchResults2 .list-group-item', function () {
+            var id = $(this).data('id');
+            var text = $(this).text();
+            aplicanArray.push({
+                ID_Dependencia: id,
+                Tipo_Dependencia: text
+            });
+            $('#AutoridadesAplican').val('');
+            $('#searchResults2').empty();
+            updateAplicanTable();
+        });
+
+        function updateEmitenTable() {
+            var tableBody = $('#emitenTable tbody');
+            tableBody.empty();
+
+            emitenArray.forEach(function (item) {
+                tableBody.append('<tr><td>' + item.ID_Dependencia + '</td><td>' + item.Tipo_Dependencia +
+                    '</td></tr>');
+            });
+        }
+
+        function updateAplicanTable() {
+            var tableBody = $('#aplicanTable tbody');
+            tableBody.empty();
+
+            aplicanArray.forEach(function (item) {
+                tableBody.append('<tr><td>' + item.ID_Dependencia + '</td><td>' + item.Tipo_Dependencia +
+                    '</td></tr>');
+            });
+        }
+    });
+</script>
+<script>
     var caracteristicasData = {}; // Declaración global
     var reIndice = []; // Declaración global
 
-    $(document).ready(function() {
-        $('#botonGuardar').on('click', function() {
+    $(document).ready(function () {
+        $('#botonGuardar').on('click', function () {
             var formData = {
                 nombre: '',
                 campoExtra: '',
@@ -669,12 +523,12 @@ $(document).ready(function() {
                 fecha_act: ''
             };
 
-            $('input, input[type="date"], select, textarea').each(function() {
+            $('input, input[type="date"], select, textarea').each(function () {
                 var id = $(this).attr('id');
                 if (id !== 'AutoridadesEmiten' && id !== 'AutoridadesAplican' && id !==
                     'inputTexto' && id !== 'selectIndicePadre' && id !== 'selectAplican' &&
                     id !== 'selectVigencia' && !id.includes('si') && !id.includes('no') && !id
-                    .includes('apsi') && !id.includes('apno')) {
+                        .includes('apsi') && !id.includes('apno')) {
                     var name = $(this).attr('name');
                     var value = $(this).val();
                     formData[name] = value;
@@ -688,7 +542,7 @@ $(document).ready(function() {
                 url: '<?php echo base_url('RegulacionController/insertarRegulacion'); ?>',
                 type: 'POST',
                 data: formData,
-                success: function(response) {
+                success: function (response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         alert('Datos insertados correctamente');
@@ -701,13 +555,13 @@ $(document).ready(function() {
                         $.ajax({
                             url: '<?php echo base_url('RegulacionController/obtenerMaxIDCaract'); ?>',
                             type: 'GET',
-                            success: function(maxIDResponse) {
+                            success: function (maxIDResponse) {
                                 var maxID = parseInt(maxIDResponse) + 1;
 
                                 $.ajax({
                                     url: '<?php echo base_url('RegulacionController/obtenerMaxIDRegulacion'); ?>',
                                     type: 'GET',
-                                    success: function(maxIDRegResponse) {
+                                    success: function (maxIDRegResponse) {
                                         var maxIDReg = parseInt(maxIDRegResponse);
 
                                         // Asignar valores a la variable global caracteristicasData
@@ -732,20 +586,20 @@ $(document).ready(function() {
                                             url: '<?php echo base_url('RegulacionController/insertarCaracteristicas'); ?>',
                                             type: 'POST',
                                             data: caracteristicasData,
-                                            success: function(caractResponse) {
+                                            success: function (caractResponse) {
                                                 var caractResult = JSON.parse(caractResponse);
                                                 if (caractResult.status === 'success') {
                                                     alert('Características insertadas correctamente');
 
                                                     // Obtener todos los ID_Dependencia de la tabla emitenTable
                                                     var ID_DependenciasEmiten = [];
-                                                    $('#emitenTable tbody tr').each(function() {
+                                                    $('#emitenTable tbody tr').each(function () {
                                                         var ID_Dependencia = $(this).find('td').eq(0).text();
                                                         ID_DependenciasEmiten.push(ID_Dependencia);
                                                     });
 
                                                     // Insertar en la tabla rel_autoridades_emiten
-                                                    ID_DependenciasEmiten.forEach(function(ID_Dependencia) {
+                                                    ID_DependenciasEmiten.forEach(function (ID_Dependencia) {
                                                         var relDataEmiten = {
                                                             ID_Emiten: ID_Dependencia,
                                                             ID_Caract: caracteristicasData.ID_caract
@@ -755,7 +609,7 @@ $(document).ready(function() {
                                                             url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesEmiten'); ?>',
                                                             type: 'POST',
                                                             data: relDataEmiten,
-                                                            success: function(relResponse) {
+                                                            success: function (relResponse) {
                                                                 var relResult = JSON.parse(relResponse);
                                                                 if (relResult.status === 'success') {
                                                                     console.log('Relación Emiten insertada correctamente');
@@ -768,13 +622,13 @@ $(document).ready(function() {
 
                                                     // Obtener todos los ID_Dependencia de la tabla aplicanTable
                                                     var ID_DependenciasAplican = [];
-                                                    $('#aplicanTable tbody tr').each(function() {
+                                                    $('#aplicanTable tbody tr').each(function () {
                                                         var ID_Dependencia = $(this).find('td').eq(0).text();
                                                         ID_DependenciasAplican.push(ID_Dependencia);
                                                     });
 
                                                     // Insertar en la tabla rel_autoridades_aplican
-                                                    ID_DependenciasAplican.forEach(function(ID_Dependencia) {
+                                                    ID_DependenciasAplican.forEach(function (ID_Dependencia) {
                                                         var relDataAplican = {
                                                             ID_Aplican: ID_Dependencia,
                                                             ID_Caract: caracteristicasData.ID_caract
@@ -784,7 +638,7 @@ $(document).ready(function() {
                                                             url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesAplican'); ?>',
                                                             type: 'POST',
                                                             data: relDataAplican,
-                                                            success: function(relResponse) {
+                                                            success: function (relResponse) {
                                                                 var relResult = JSON.parse(relResponse);
                                                                 if (relResult.status === 'success') {
                                                                     console.log('Relación Aplican insertada correctamente');
@@ -797,7 +651,7 @@ $(document).ready(function() {
 
                                                     // Lógica de insertarDatosTabla directamente aquí
                                                     var datosTabla = [];
-                                                    $('#resultTable tbody tr').each(function() {
+                                                    $('#resultTable tbody tr').each(function () {
                                                         var ID_Indice = $(this).find('td').eq(0).text();
                                                         var Texto = $(this).find('td').eq(1).text();
                                                         var Orden = $(this).find('td').eq(2).text();
@@ -820,7 +674,7 @@ $(document).ready(function() {
                                                         url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
                                                         type: 'POST',
                                                         data: { datosTabla: datosTabla },
-                                                        success: function(response) {
+                                                        success: function (response) {
                                                             var result = JSON.parse(response);
                                                             if (result.status === 'success') {
                                                                 alert('Datos de la tabla insertados correctamente');
@@ -832,7 +686,7 @@ $(document).ready(function() {
 
                                                     // Insertar datos en la tabla rel_indice
                                                     var relIndiceData = [];
-                                                    $('#resultTable tbody tr').each(function(index) {
+                                                    $('#resultTable tbody tr').each(function (index) {
                                                         var ID_Indice = $(this).find('td').eq(0).text();
                                                         var ID_Jerarquia = reIndice[index] ? reIndice[index].ID_Jerarquia : null;
                                                         var ID_Padre = reIndice[index] ? reIndice[index].ID_Indice : null;
@@ -856,7 +710,7 @@ $(document).ready(function() {
                                                         url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
                                                         type: 'POST',
                                                         data: { relIndiceData: relIndiceData },
-                                                        success: function(response) {
+                                                        success: function (response) {
                                                             var result = JSON.parse(response);
                                                             if (result.status === 'success') {
                                                                 alert('Datos de rel_indice insertados correctamente');
@@ -883,26 +737,110 @@ $(document).ready(function() {
         });
     });
 </script>
+<script>
+    function closeModal() {
+        $('.modal').modal('hide'); // Oculta el modal
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('.btn-indice').click(function () {
+            $('#myModal').modal('show');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var lastInsertedID_Indice =
+            null; // Variable para almacenar el último ID_Indice insertado
+        var lastInsertedOrden =
+            null; // Variable para almacenar el último Orden insertado
 
-    <!-- Footer -->
-    <footer class="py-4 bg-light mt-auto">
-        <div class="container-fluid px-4">
-            <div class="d-flex align-items-center justify-content-between small">
-                <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                <div class="text-muted div-info">Contacto: Secretaria de Desarrollo Económico
-                    Complejo Administrativo del Gobierno del Estado de Colima
-                    Tercer Anillo Perf. S/N, El Diezmo, 28010 31231620000
-                </div>
-                <div>
-                    <a href="#">Privacy Policy</a>
-                    &middot;
-                    <a href="#">Terms &amp; Conditions</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer -->
-    </div>
-    <!-- Contenido -->
-    </div>
-</body>
+        $('#guardarIbtn').on('click', function () {
+            var inputTexto = $('#inputTexto').val();
+
+            if (lastInsertedID_Indice === null ||
+                lastInsertedOrden === null) {
+                // Si es la primera inserción, obtener los valores de la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                    method: 'GET',
+                    success: function (data) {
+                        var maxValues = JSON.parse(
+                            data);
+                        lastInsertedID_Indice =
+                            parseInt(maxValues
+                                .ID_Indice) + 1;
+                        lastInsertedOrden =
+                            parseInt(maxValues
+                                .Orden) + 1;
+
+                        var newRow = '<tr><td>' +
+                            lastInsertedID_Indice +
+                            '</td><td>' +
+                            inputTexto +
+                            '</td><td>' +
+                            lastInsertedOrden +
+                            '</td></tr>';
+                        $('#resultTable tbody')
+                            .append(newRow);
+                    },
+                    error: function (jqXHR, textStatus,
+                        errorThrown) {
+                        console.error('AJAX error:',
+                            textStatus,
+                            errorThrown);
+                    }
+                });
+            } else {
+                // Si no es la primera inserción, incrementar los últimos valores insertados
+                lastInsertedID_Indice++;
+                lastInsertedOrden++;
+
+                var newRow = '<tr><td>' +
+                    lastInsertedID_Indice + '</td><td>' +
+                    inputTexto + '</td><td>' +
+                    lastInsertedOrden + '</td></tr>';
+                $('#resultTable tbody').append(newRow);
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var reIndice = [];
+        var currentIDJerarquia = 0;
+
+        // Obtener el valor máximo de ID_Jerarquia al cargar la página
+        $.ajax({
+            url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
+            type: 'GET',
+            success: function (response) {
+                currentIDJerarquia = parseInt(response);
+            }
+        });
+
+        $('#guardarIbtn').on('click', function () {
+            var selectedIDIndice = $('#selectIndicePadre')
+                .val();
+
+            if (selectedIDIndice !==
+                'Seleccione un índice padre') {
+                currentIDJerarquia += 1;
+
+                var newEntry = {
+                    ID_Indice: selectedIDIndice,
+                    ID_Jerarquia: currentIDJerarquia
+                };
+
+                reIndice.push(newEntry);
+
+                // Imprimir reIndice en consola
+                console.log(reIndice);
+            } else {
+                alert('Por favor, seleccione un índice padre.');
+            }
+        });
+    });
+</script>
+@endsection
