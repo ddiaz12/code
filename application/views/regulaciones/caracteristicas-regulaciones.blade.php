@@ -11,13 +11,13 @@ Registro Estatal de Regulaciones
 
 @section('contenido')
             <ol class="breadcrumb mb-4 mt-5">
-                <li class="breadcrumb-item"><a href="<?php echo base_url('home/home_sujeto'); ?>"><i
+                <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i
                             class="fas fa-home me-1"></i>Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="<?php echo base_url('oficinas/oficina'); ?>"><i
-                            class="fas fa-building me-1"></i>Oficinas</a>
+                <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
+                            class="fas fa-file-alt me-1"></i>Regulaciones</a>
                 </li>
-                <li class="breadcrumb-item active"><i class="fa-solid fa-building-circle-check"></i>Agregar oficina
+                <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar regulacion
                 </li>
             </ol>
             <div class="container mt-5">
