@@ -130,6 +130,27 @@ class RegulacionModel extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_subramas($search_term) {
+        $this->db->like('Nombre_Subrama', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('cat_subrama');
+        return $query->result_array();
+    }
+
+    public function get_clases($search_term) {
+        $this->db->like('Nombre_Clase', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('cat_clase');
+        return $query->result_array();
+    }
+
+    public function get_regulaciones2($search_term) {
+        $this->db->like('Nombre_Regulacion', $search_term);
+        $this->db->limit(5);
+        $query = $this->db->get('ma_regulacion');
+        return $query->result_array();
+    }
+
     public function insertarRelAutoridadesEmiten($data) {
         return $this->db->insert('rel_autoridades_emiten', $data);
     }
@@ -157,6 +178,17 @@ class RegulacionModel extends CI_Model {
 
     public function insertarRelIndice($relIndiceData) {
         return $this->db->insert('rel_indice', $relIndiceData);
+    }
+
+    public function get_max_id_nat() {
+        $this->db->select_max('ID_Nat');
+        $query = $this->db->get('de_naturaleza_regulacion');
+        $result = $query->row_array();
+        return $result['ID_Nat'];
+    }
+
+    public function insert_naturaleza_regulacion($data) {
+        $this->db->insert('de_naturaleza_regulacion', $data);
     }
     
 }
