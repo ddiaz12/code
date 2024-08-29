@@ -48,7 +48,7 @@ Registro Estatal de Regulaciones
                                     <div class="card-body" style="border: none;">
                                         <ul class="list-unstyled">
                                             <li>
-                                                <a href="http://localhost/code/RegulacionController/caracteristicas_reg"
+                                                <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-list-check"></i>
                                                     <label for="image_1">Características de la Regulación</label>
@@ -56,7 +56,7 @@ Registro Estatal de Regulaciones
                                             </li>
                                             <p></p>
                                             <li>
-                                                <a href="http://localhost/code/RegulacionController/mat_exentas"
+                                                <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-table-list"></i>
                                                     <label for="image_2">Materias Exentas</label>
@@ -64,7 +64,7 @@ Registro Estatal de Regulaciones
                                             </li>
                                             <p></p>
                                             <li>
-                                                <a href="http://localhost/code/RegulacionController/nat_regulaciones"
+                                                <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
                                                     class="custom-link">
                                                     <i class="fa-solid fa-book"></i>
                                                     <label for="image_3">Naturaleza de la Regulación</label>
