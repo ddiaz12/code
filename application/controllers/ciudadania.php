@@ -1,12 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class ciudadania extends CI_Controller
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+class Ciudadania extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->model('RegulacionModel');
-        $this->load->library('pdf');
     }
 
 
@@ -86,27 +88,30 @@ class ciudadania extends CI_Controller
 
     public function descargarPdf($id)
     {
+        require_once 'vendor/autoload.php';
         $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id);
 
-        // Crear una nueva instancia de mPDF
-        $mpdf = new \Mpdf\Mpdf();
-
-        // Definir la fuente personalizada
-        $mpdf->fontdata['geomanist'] = [
-            'R' => 'Geomanist-Regular.otf', // Regular
-        ];
-
-        // Establecer la fuente predeterminada
-        $mpdf->default_font = 'geomanist';
-
+        // Configurar opciones de Dompdf
+        $options = new Options();
+        $options->set('defaultFont', 'geomanist');
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isRemoteEnabled', true);
+    
+        // Crear una nueva instancia de Dompdf
+        $dompdf = new Dompdf($options);
+    
         // Cargar una vista de Blade
         $html = $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'pdf_template', ['regulacion' => $regulacion]);
-
-        // Escribir el contenido HTML en el PDF
-        $mpdf->WriteHTML($html);
-
+    
+        // Cargar el contenido HTML en Dompdf
+        $dompdf->loadHtml($html);
+    
+        // Renderizar el PDF
+        $dompdf->render();
+    
         // Descargar el PDF generado
-        $mpdf->Output('Regulacion_' . $regulacion->ID_Regulacion . '.pdf', 'D');
+        $dompdf->stream('Regulacion_' . $regulacion->ID_Regulacion . '.pdf', ['Attachment' => 0]);
     }
 
 }
