@@ -39,18 +39,21 @@ Registro Estatal de Regulaciones
                 </thead>
                 <tbody>
                     <?php if (!empty($regulaciones)): ?>
-                    <?php foreach ($regulaciones as $regulacion): ?>
+                    <?php    foreach ($regulaciones as $regulacion): ?>
                     <tr>
-                        <td><?php echo $regulacion['ID_Regulacion']; ?></td>
-                        <td><?php echo $regulacion['Nombre_Regulacion']; ?></td>
-                        <td><?php echo $regulacion['Homoclave']; ?></td>
-                        <td><?php echo $regulacion['Estatus']; ?></td>
-                        <td><?php echo $regulacion['Vigencia']; ?></td>
+                        <td><?php        echo $regulacion['ID_Regulacion']; ?></td>
+                        <td><?php        echo $regulacion['Nombre_Regulacion']; ?></td>
+                        <td><?php        echo $regulacion['Homoclave']; ?></td>
+                        <td><?php        echo $regulacion['Estatus']; ?></td>
+                        <td><?php        echo $regulacion['Vigencia']; ?></td>
                         <td>
-                            <!-- Aquí puedes agregar botones de acción como editar o eliminar -->
+                            <a href="<?php        echo base_url('RegulacionController/enviarAConsejeria/' . $regulacion['ID_Regulacion']); ?>"
+                                class="btn btn-dorado btn-sm">
+                                <i class="fas fa-paper-plane"></i>
+                            </a>
                         </td>
                     </tr>
-                    <?php endforeach; ?>
+                    <?php    endforeach; ?>
                     <?php else: ?>
                     <tr>
                         <td colspan="6">No hay datos disponibles</td>

@@ -12,6 +12,7 @@
     <!-- Aquí cargamos los estilos CSS -->
     @yield('css')
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link rel="SHORTCUT ICON" href="https://openapis.col.gob.mx/API_PU/img/favicon.ico" rel="icon" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     <link href="<?php echo site_url('assets/css/styles.css'); ?>" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo site_url('assets/css/base.css'); ?>">
