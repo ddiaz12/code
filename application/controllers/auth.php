@@ -1322,15 +1322,18 @@ class Auth extends CI_Controller
         $group = $this->ion_auth->group($id)->row();
 
         // Validar entrada del formulario
-        $this->form_validation->set_rules('group_name', 'nombre del grupo', 'trim|required|alpha_dash');
+        $this->form_validation->set_rules('group_name', 'nombre del grupo', 'trim|alpha_dash');
 
         if (isset($_POST) && !empty($_POST)) {
             if ($this->form_validation->run() === TRUE) {
+                $group_name = isset($_POST['group_name']) ? $_POST['group_name'] : '';
+                $group_description = isset($_POST['group_description']) ? $_POST['group_description'] : '';
+
                 $group_update = $this->ion_auth->update_group(
                     $id,
-                    $_POST['group_name'],
+                    $group_name,
                     array(
-                        'description' => $_POST['group_description']
+                        'description' => $group_description
                     )
                 );
 

@@ -18,7 +18,15 @@ class RegulacionController extends CI_Controller
     public function regulaciones()
     {
         $data['regulaciones'] = $this->RegulacionModel->get_all_regulaciones();
-        $this->blade->render('regulaciones/regulaciones2', $data);
+        if ($this->ion_auth->in_group('sujeto_obligado')){
+            $this->blade->render('sujeto/regulaciones2', $data);
+        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
+            $this->blade->render('regulaciones/regulaciones2', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/regulaciones2', $data);
+        } else {
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function caracteristicas_reg()
@@ -603,5 +611,11 @@ class RegulacionController extends CI_Controller
             $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
             echo json_encode($response);
         }
+    }
+
+    public function enviar_regulacion($id_regulacion){
+        $this->load->model('RegulacionModel');
+        $this->RegulacionModel->enviar_regulacion($id_regulacion);
+        redirect('RegulacionController');
     }
 }
