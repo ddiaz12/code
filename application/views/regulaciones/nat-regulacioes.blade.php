@@ -310,7 +310,9 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedSectorsTable').show();
-        $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName + '</td></tr>');
+        $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName + '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
     });
 
     // Aqui se hace la busqueda de los subsectores y se muestran en una lista
@@ -351,7 +353,9 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedSubsectorsTable').show();
-        $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsectorName + '</td></tr>');
+        $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsectorName + '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
     });
 
     // Aqui se hace la busqueda de las ramas y se muestran en una lista
@@ -391,7 +395,8 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedRamasTable').show();
-        $('#selectedRamasTable tbody').append('<tr><td>' + ramaName + '</td></tr>');
+        $('#selectedRamasTable tbody').append('<tr><td>' + ramaName + '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>');
     });
 
     // Aqui se hace la busqueda de las subramas y se muestran en una lista
@@ -431,7 +436,9 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedSubramasTable').show();
-        $('#selectedSubramasTable tbody').append('<tr><td>' + subramaName + '</td></tr>');
+        $('#selectedSubramasTable tbody').append('<tr><td>' + subramaName + '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
     });
 
     // Aqui se hace la busqueda de las clases y se muestran en una lista
@@ -471,7 +478,9 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedClasesTable').show();
-        $('#selectedClasesTable tbody').append('<tr><td>' + claseName + '</td></tr>');
+        $('#selectedClasesTable tbody').append('<tr><td>' + claseName + '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
     });
 
     //aqui busca las regulaciones y las muesta en una lista
@@ -512,7 +521,9 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedRegulacionesTable').show();
-        $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '</td></tr>');
+        $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
     });
 
     //aqui validamos si es documento o liga
