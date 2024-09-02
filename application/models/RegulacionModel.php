@@ -226,6 +226,6 @@ class RegulacionModel extends CI_Model {
 
     public function enviar_regulacion($id_regulacion){
         $this->db->where('ID_Regulacion', $id_regulacion);
-        $this->db->update('ma_regulacion', array('Estatus' => 1));
+        $this->db->update('ma_regulacion', array('Estatus' => 0));
     }
 }
