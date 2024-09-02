@@ -2,7 +2,9 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="<?php echo site_url('assets/css/pdf.css'); ?>">  
+    <link rel="stylesheet" href="<?php echo site_url('assets/css/pdf.css'); ?>">
+    <title>Gobierno del Estado de Colima </title>
+    <link rel="SHORTCUT ICON" href="https://openapis.col.gob.mx/API_PU/img/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
