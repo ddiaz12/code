@@ -1,10 +1,7 @@
-@font-face {
-    font-family: "Geomanist";
-    src: url("../fonts/Geomanist-Regular.otf");
-}
+@import url('https://fonts.googleapis.com/css2?family=Geomanist:wght@400;700&display=swap');
 
-* {
-    font-family: "Geomanist", sans-serif !important;
+body {
+    font-family: 'Geomanist', sans-serif;
 }
 
 h1,
