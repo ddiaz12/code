@@ -514,6 +514,12 @@ class RegulacionController extends CI_Controller
             }
         }
     }
+    
+    public function enviar_regulacion($id_regulacion){
+        $this->load->model('RegulacionModel');
+        $this->RegulacionModel->enviar_regulacion($id_regulacion);
+        redirect('RegulacionController');
+    }
 
     public function listar_regulaciones() {
         $data['regulaciones'] = $this->RegulacionModel->get_all_regulaciones();
