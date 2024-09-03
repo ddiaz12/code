@@ -221,11 +221,26 @@ class RegulacionModel extends CI_Model {
 
     public function get_all_regulaciones() {
         $query = $this->db->get('ma_regulacion');
-        return $query->result_array();
+        return $query->result();
     }
 
     public function enviar_regulacion($id_regulacion){
         $this->db->where('ID_Regulacion', $id_regulacion);
+        $this->db->update('ma_regulacion', array('Estatus' => 1));
+    }
+
+    public function devolver_regulacion($id_regulacion){
+        $this->db->where('ID_Regulacion', $id_regulacion);
         $this->db->update('ma_regulacion', array('Estatus' => 0));
+    }
+
+    public function crearNotificacion($data){
+        $this->db->insert('notificaciones', $data);
+    }
+
+    public function getNotificacionPorRegulacion($id_regulacion){
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $query = $this->db->get('notificaciones');
+        return $query->row();
     }
 }

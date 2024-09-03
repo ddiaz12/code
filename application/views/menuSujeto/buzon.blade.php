@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuSujeto')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -22,7 +22,7 @@ Registro Estatal de Regulaciones
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
-                <thead>
+            <thead>
                     <tr>
                         <th class="tTabla-color">Titulo</th>
                         <th class="tTabla-color">Mensaje</th>

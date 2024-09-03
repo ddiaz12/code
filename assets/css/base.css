@@ -10,22 +10,21 @@
 }
 
 .loader {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000; 
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1000;
 	background-color: rgba(255, 255, 255, 0.8);
 }
 
 .loader.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-
 
 h1,
 .h1 {
@@ -38,7 +37,7 @@ h3,
 	font-size: 24px;
 }
 
-.sb-topnav{
+.sb-topnav {
 	height: 5rem;
 }
 
@@ -46,7 +45,7 @@ h3,
 	background-color: #612233;
 }
 
-.navbar-nav{
+.navbar-nav {
 	padding-right: 2rem;
 }
 
@@ -108,7 +107,7 @@ h3,
 	background-image: url("");
 	background-repeat: no-repeat;
 	background-position: center;
-    background-size: cover;
+	background-size: cover;
 	opacity: 0.25;
 	z-index: -1;
 	filter: grayscale(50%);
@@ -191,7 +190,7 @@ h3,
 	--bs-btn-border-color: initial;
 	--bs-btn-hover-bg: initial;
 	--bs-btn-active-bg: #7f2841;
-	background-color: #7F2841;
+	background-color: #7f2841;
 }
 
 .btn-guardar {
@@ -209,14 +208,14 @@ h3,
 	color: white;
 }
 
-.btn-dorado{
+.btn-dorado {
 	background-color: #b69664;
 	--bs-btn-active-bg: rgb(216, 177, 111);
 	--bs-btn-active-color: white;
 	color: white;
 }
 
-.btn-dorado:hover{
+.btn-dorado:hover {
 	background-color: #d8b16f;
 	color: white;
 }
@@ -226,7 +225,7 @@ h3,
 	margin-right: 20px;
 }
 
-.btn-agregar{
+.btn-agregar {
 	--bs-btn-hover-bg: #7f2841;
 	margin-right: 5px;
 }
@@ -268,7 +267,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 }
 
 .tTabla-color {
-	background-color: #7F2841;
+	background-color: #7f2841;
 	color: white;
 }
 
@@ -289,7 +288,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	font-size: small;
 }
 
-.dataTables_wrapper .dataTables_info{
+.dataTables_wrapper .dataTables_info {
 	padding-top: 0.4em;
 	font-size: smaller;
 }
@@ -300,7 +299,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 }
 
 .text-muted {
-	font-size: smaller; 	
+	font-size: smaller;
 }
 
 #sectorResults {
@@ -319,7 +318,18 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 }
 
 .card-header {
-	background-color: #7F2841;
+	background-color: #7f2841;
+}
+
+.status-circle {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    line-height: 30px;
 }
 
 @media screen and (max-width: 990px) {
@@ -340,7 +350,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 		display: none;
 	}
 
-	.btn-ocultar{
+	.btn-ocultar {
 		margin-top: 3px;
 	}
 }

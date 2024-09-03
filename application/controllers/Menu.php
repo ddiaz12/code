@@ -95,12 +95,17 @@ class Menu extends CI_Controller
 
     public function menu_buzon()
     {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->MenuModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('menuSujeto/buzon');
+            $this->blade->render('menuSujeto/buzon', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/buzon');
+            $this->blade->render('menuAdmin/buzon', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuSupervisor/buzon');
+            $this->blade->render('menuSupervisor/buzon', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');
