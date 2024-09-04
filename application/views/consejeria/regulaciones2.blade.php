@@ -45,7 +45,7 @@ Registro Estatal de Regulaciones
 
             $background_color = 'gray';
             // Obtener la notificación relacionada con la regulación
-            $notificacion = $this->RegulacionModel->getNotificacionPorRegulacion($regulacion->ID_Regulacion);
+            $notificacion = $this->NotificacionesModel->getNotificacionPorRegulacion($regulacion->ID_Regulacion);
 
             if ($notificacion) {
                 // Calcular los días restantes
@@ -69,8 +69,8 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Nombre_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Homoclave; ?></td>
                         <td>
-                        <span class="status-circle" style="background-color: <?php echo $background_color; ?>;">
-                                <?php echo is_numeric($dias_restantes) ? $dias_restantes : $dias_restantes; ?>
+                            <span class="status-circle" style="background-color: <?php            echo $background_color; ?>;">
+                                <?php            echo is_numeric($dias_restantes) ? $dias_restantes : $dias_restantes; ?>
                             </span>
                         </td>
                         <td><?php            echo $regulacion->Vigencia; ?></td>
@@ -79,7 +79,8 @@ Registro Estatal de Regulaciones
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-undo" title="Devolver"></i>
                             </button>
-                            <button class="btn btn-dorado btn-sm enviar-regulacion" data-id="<?php echo $regulacion->ID_Regulacion; ?>">
+                            <button class="btn btn-dorado btn-sm enviar-regulacion"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </td>
@@ -104,44 +105,95 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.enviar-regulacion').forEach(function(element) {
-        element.addEventListener('click', function(event) {
-            event.preventDefault();
-            var id = this.getAttribute('data-id');
-            var url = '<?php echo base_url('RegulacionController/enviar_regulacion/'); ?>' + id;
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-devolver').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/devolver_regulacion/'); ?>' + id;
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: '¡Éxito!',
-                            text: data.message,
-                            icon: 'success',
-                            confirmButtonText: 'Aceptar'
-                        }).then(() => {
-                            location.reload(); // Recargar la página
-                        });
-                    } else {
+                Swal.fire({
+                    title: '¿Devolver regulación?',
+                    text: "Devolver regulacion a sujeto obligado",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, devolver',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: '¡Éxito!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'Aceptar'
+                                    }).then(() => {
+                                        location.reload(); // Recargar la página
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'Aceptar'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un problema al devolver la regulación.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            });
+                    }
+                });
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.enviar-regulacion').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/enviar_regulacion/'); ?>' + id;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: '¡Éxito!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            }).then(() => {
+                                location.reload(); // Recargar la página
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    })
+                    .catch(error => {
                         Swal.fire({
                             title: 'Error',
-                            text: data.message,
+                            text: 'Hubo un problema al enviar la regulación.',
                             icon: 'error',
                             confirmButtonText: 'Aceptar'
                         });
-                    }
-                })
-                .catch(error => {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Hubo un problema al enviar la regulación.',
-                        icon: 'error',
-                        confirmButtonText: 'Aceptar'
                     });
-                });
+            });
         });
     });
-});
 </script>
 @endsection

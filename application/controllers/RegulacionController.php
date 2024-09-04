@@ -8,6 +8,7 @@ class RegulacionController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('RegulacionModel');
+        $this->load->model('NotificacionesModel');
     }
 
     public function index()
@@ -38,7 +39,6 @@ class RegulacionController extends CI_Controller
 
     public function caracteristicas_reg()
     {
-        $this->load->model('NotificacionesModel');
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
@@ -60,12 +60,24 @@ class RegulacionController extends CI_Controller
 
     public function mat_exentas()
     {
-        $this->blade->render('regulaciones/materias-exentas');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $this->blade->render('regulaciones/materias-exentas', $data);
     }
 
     public function nat_regulaciones()
     {
-        $this->blade->render('regulaciones/nat-regulacioes');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $this->blade->render('regulaciones/nat-regulacioes', $data);
     }
 
     public function search()
@@ -675,7 +687,8 @@ class RegulacionController extends CI_Controller
                 $usuario_destino = 'consejeria'; // Notificar a 'consejeria'
                 $Estatus = 2;
             } else {
-                $usuario_destino = 'admin'; // Default o caso no esperado
+                $usuario_destino = 'consejeria'; // Default o caso no esperado
+                $Estatus = 2;
             }
 
             $this->RegulacionModel->enviar_regulacion($id_regulacion, $Estatus);

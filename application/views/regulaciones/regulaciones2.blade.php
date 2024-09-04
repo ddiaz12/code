@@ -45,7 +45,7 @@ Registro Estatal de Regulaciones
 
             $background_color = 'gray';
             // Obtener la notificación relacionada con la regulación
-            $notificacion = $this->RegulacionModel->getNotificacionPorRegulacion($regulacion->ID_Regulacion);
+            $notificacion = $this->NotificacionesModel->getNotificacionPorRegulacion($regulacion->ID_Regulacion);
 
             if ($notificacion) {
                 // Calcular los días restantes

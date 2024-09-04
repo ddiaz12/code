@@ -47,8 +47,20 @@ class Auth extends CI_Controller
             show_error('You must be an administrator to view this page.');
         } else {
             $this->data['title'] = $this->lang->line('index_heading');
-
             $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+            // Cargar el modelo de notificaciones
+            $this->load->model('NotificacionesModel');
+
+            // Obtener el usuario actual y su grupo
+            $usuarios = $this->ion_auth->user()->row();
+            $group = $this->ion_auth->get_users_groups($usuarios->id)->row();
+            $groupName = $group->name;
+
+            // Obtener las notificaciones y el conteo de notificaciones no leídas
+            $notifications = $this->NotificacionesModel->getNotifications($groupName);
+            $this->data['notificaciones'] = $notifications;
+            $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
 
             // Obtén los usuarios desde Ion Auth
             $users = $this->ion_auth->users()->result();
@@ -618,6 +630,14 @@ class Auth extends CI_Controller
             }
         }
 
+        $this->load->model('NotificacionesModel');
+        $usuarios = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($usuarios->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $this->data['notificaciones'] = $notifications;
+        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+
         $tables = $this->config->item('tables', 'ion_auth');
         $identity_column = $this->config->item('identity', 'ion_auth');
         $this->data['identity_column'] = $identity_column;
@@ -835,6 +855,14 @@ class Auth extends CI_Controller
                 redirect('auth', 'refresh');
             }
         }
+
+        $this->load->model('NotificacionesModel');
+        $usuarios = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($usuarios->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $this->data['notificaciones'] = $notifications;
+        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
 
         $user = $this->ion_auth->user($id)->row();
         $groups = $this->ion_auth->groups()->result_array();
@@ -1249,6 +1277,14 @@ class Auth extends CI_Controller
             }
         }
 
+        $this->load->model('NotificacionesModel');
+        $usuarios = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($usuarios->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $this->data['notificaciones'] = $notifications;
+        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+
         // validate form input
         $this->form_validation->set_rules('group_name', 'nombre del grupo', 'required|alpha_dash');
         $this->form_validation->set_rules('description', 'descripción', 'required');
@@ -1312,12 +1348,18 @@ class Auth extends CI_Controller
             redirect('auth', 'refresh');
         }
 
-        $this->data['title'] = $this->lang->line('edit_group_title');
-
         // Verificar permisos de administrador
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             redirect('auth', 'refresh');
         }
+
+        $this->load->model('NotificacionesModel');
+        $usuarios = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($usuarios->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $this->data['notificaciones'] = $notifications;
+        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
 
         $group = $this->ion_auth->group($id)->row();
 
