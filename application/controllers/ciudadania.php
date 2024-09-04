@@ -113,5 +113,4 @@ class Ciudadania extends CI_Controller
         // Descargar el PDF generado
         $dompdf->stream('Regulacion_' . $regulacion->ID_Regulacion . '.pdf', ['Attachment' => 0]);
     }
-
 }
