@@ -224,9 +224,9 @@ class RegulacionModel extends CI_Model {
         return $query->result();
     }
 
-    public function enviar_regulacion($id_regulacion){
+    public function enviar_regulacion($id_regulacion, $Estatus){
         $this->db->where('ID_Regulacion', $id_regulacion);
-        $this->db->update('ma_regulacion', array('Estatus' => 1));
+        $this->db->update('ma_regulacion', array('Estatus' => $Estatus));
     }
 
     public function devolver_regulacion($id_regulacion){
@@ -234,13 +234,4 @@ class RegulacionModel extends CI_Model {
         $this->db->update('ma_regulacion', array('Estatus' => 0));
     }
 
-    public function crearNotificacion($data){
-        $this->db->insert('notificaciones', $data);
-    }
-
-    public function getNotificacionPorRegulacion($id_regulacion){
-        $this->db->where('ID_Regulacion', $id_regulacion);
-        $query = $this->db->get('notificaciones');
-        return $query->row();
-    }
 }

@@ -27,14 +27,33 @@ Registro Estatal de Regulaciones
                         <th class="tTabla-color">Titulo</th>
                         <th class="tTabla-color">Mensaje</th>
                         <th class="tTabla-color">Fecha de envio</th>
+                        <th class="tTabla-color">Acciones</th>
                     </tr>
                 <tbody>
                     <?php if (!empty($notificaciones)): ?>
                     <?php    foreach ($notificaciones as $notificacion): ?>
                     <tr>
-                        <td><?php        echo $notificacion->titulo; ?></td>
-                        <td><?php        echo $notificacion->mensaje; ?></td>
-                        <td><?php echo $notificacion->fecha_envio ?></td>
+                    <td
+                            class="<?php        echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
+                            <?php        echo $notificacion->titulo; ?>
+                        </td>
+                        <td
+                            class="<?php        echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
+                            <?php        echo $notificacion->mensaje; ?>
+                        </td>
+                        <td
+                            class="<?php        echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
+                            <?php        echo $notificacion->fecha_envio; ?>
+                        </td>
+                        <td>
+                            <button class="btn btn-dorado marcar-leido"
+                                data-id="<?php        echo $notificacion->id_notificacion; ?>">
+                                <i class="fas fa-check"></i> Marcar como leído
+                            </button>
+                            <button class="btn btn-danger eliminar-notificacion" data-id="<?php echo $notificacion->id_notificacion; ?>">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </td>
                     </tr>
                     <?php    endforeach; ?>
                     <?php else: ?>
@@ -54,4 +73,73 @@ Registro Estatal de Regulaciones
 
 @section('js')
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
+<script>
+        $(document).ready(function () {
+        $('.marcar-leido').click(function () {
+            var id = $(this).data('id');
+
+            $.ajax({
+                url: '<?php echo base_url('RegulacionController/marcar_leido/'); ?>' + id,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        // Desactivar el botón para que no se pueda volver a marcar como leído
+                        $('button[data-id="' + id + '"]').prop('disabled', true);
+                        location.reload();
+                    } else {
+                        console.error('Error en la respuesta del servidor:', response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error en la solicitud AJAX:', error);
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $('.eliminar-notificacion').click(function () {
+            var id = $(this).data('id');
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '¡Sí, eliminar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '<?php echo base_url('RegulacionController/eliminar_notificacion/'); ?>' + id,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire(
+                                    '¡Eliminado!',
+                                    'La notificación ha sido eliminada correctamente.',
+                                    'success'
+                                ).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error',
+                                    'No se pudo eliminar la notificación',
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error en la solicitud AJAX:', error);
+                        }
+                    });
+                }
+            });
+        });
+    }); 
+</script>
 @endsection

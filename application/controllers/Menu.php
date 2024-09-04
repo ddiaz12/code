@@ -51,6 +51,13 @@ class Menu extends CI_Controller
 
     public function menu_unidades()
     {
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         $data['unidades'] = $this->MenuModel->getUnidadesAdministrativas();
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
@@ -95,11 +102,13 @@ class Menu extends CI_Controller
 
     public function menu_buzon()
     {
+        $this->load->model('NotificacionesModel');
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->MenuModel->getNotifications($groupName);
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
         $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/buzon', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
@@ -114,6 +123,13 @@ class Menu extends CI_Controller
 
     public function agregar_unidades()
     {
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();
@@ -305,6 +321,13 @@ class Menu extends CI_Controller
             // Redirige a la página de autenticación si el ID no es un número
             redirect('home', 'refresh');
         }
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();

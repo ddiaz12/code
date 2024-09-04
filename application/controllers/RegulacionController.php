@@ -17,6 +17,13 @@ class RegulacionController extends CI_Controller
 
     public function regulaciones()
     {
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         $data['regulaciones'] = $this->RegulacionModel->get_all_regulaciones();
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/regulaciones2', $data);
@@ -31,6 +38,13 @@ class RegulacionController extends CI_Controller
 
     public function caracteristicas_reg()
     {
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         $data['tipos_ordenamiento'] = $this->RegulacionModel->getTiposOrdenamiento2();
         $data['indices'] = $this->RegulacionModel->getIndices();
         // Imprime los datos en la consola
@@ -653,16 +667,18 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
         $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
         if ($regulacion) {
-            $this->RegulacionModel->enviar_regulacion($id_regulacion);
-
             // Determinar el usuario destino en función del grupo del usuario actual
             if ($group->name === 'sujeto_obligado') {
                 $usuario_destino = 'sedeco,admin'; // Notificar a 'sedeco' y 'admin'
+                $Estatus = 1;
             } elseif ($group->name === 'sedeco') {
                 $usuario_destino = 'consejeria'; // Notificar a 'consejeria'
+                $Estatus = 2;
             } else {
                 $usuario_destino = 'admin'; // Default o caso no esperado
             }
+
+            $this->RegulacionModel->enviar_regulacion($id_regulacion, $Estatus);
 
             $data = [
                 'titulo' => 'Nueva Regulación Recibida',
@@ -672,7 +688,7 @@ class RegulacionController extends CI_Controller
                 'leido' => 0, // Indica que la notificación no ha sido leída
                 'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
             ];
-            $this->RegulacionModel->crearNotificacion($data);
+            $this->NotificacionesModel->crearNotificacion($data);
 
             // Devolver respuesta JSON de éxito
             echo json_encode(['success' => true, 'message' => 'La regulación ha sido enviada correctamente.']);
@@ -682,7 +698,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function devolver_regulacion($id_regulacion){
+    public function devolver_regulacion($id_regulacion)
+    {
         $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
         $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
         $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
@@ -706,13 +723,35 @@ class RegulacionController extends CI_Controller
                 'leido' => 0, // Indica que la notificación no ha sido leída
                 'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
             ];
-            $this->RegulacionModel->crearNotificacion($data);
+            $this->NotificacionesModel->crearNotificacion($data);
 
             // Devolver respuesta JSON de éxito
             echo json_encode(['success' => true, 'message' => 'La regulación ha sido devuelta correctamente.']);
         } else {
             // Devolver respuesta JSON de error
             echo json_encode(['success' => false, 'message' => 'No se encontró la regulación con el ID proporcionado.']);
+        }
+    }
+
+    public function marcar_leido($id_notificacion)
+    {
+        $result = $this->NotificacionesModel->marcarComoLeido($id_notificacion);
+
+        if ($result) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se pudo marcar como leído.']);
+        }
+    }
+
+    public function eliminar_notificacion($id_notificacion)
+    {
+        $result = $this->NotificacionesModel->eliminarNotificacion($id_notificacion);
+
+        if ($result) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'No se pudo eliminar la notificación.']);
         }
     }
 }

@@ -48,7 +48,8 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Estatus; ?></td>
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
-                        <button class="btn btn-dorado btn-sm enviar-regulacion" data-id="<?php echo $regulacion->ID_Regulacion; ?>">
+                            <button class="btn btn-dorado btn-sm enviar-regulacion"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </td>
@@ -73,44 +74,55 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.enviar-regulacion').forEach(function(element) {
-        element.addEventListener('click', function(event) {
-            event.preventDefault();
-            var id = this.getAttribute('data-id');
-            var url = '<?php echo base_url('RegulacionController/enviar_regulacion/'); ?>' + id;
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.enviar-regulacion').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/enviar_regulacion/'); ?>' + id;
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: '¡Éxito!',
-                            text: data.message,
-                            icon: 'success',
-                            confirmButtonText: 'Aceptar'
-                        }).then(() => {
-                            location.reload(); // Recargar la página
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error',
-                            text: data.message,
-                            icon: 'error',
-                            confirmButtonText: 'Aceptar'
-                        });
+                Swal.fire({
+                    title: '¿Enviar regulación?',
+                    text: "Enviar regulacion a sedeco",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, Enviar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: '¡Éxito!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'Aceptar'
+                                    }).then(() => {
+                                        location.reload(); // Recargar la página
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'Aceptar'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un problema al enviar la regulación.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            });
                     }
-                })
-                .catch(error => {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Hubo un problema al enviar la regulación.',
-                        icon: 'error',
-                        confirmButtonText: 'Aceptar'
-                    });
                 });
+            });
         });
     });
-});
 </script>
 @endsection

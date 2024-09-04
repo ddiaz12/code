@@ -332,6 +332,27 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
     line-height: 30px;
 }
 
+.notificacion-no-leida {
+    color: black;
+    font-weight: bold;
+}
+
+.notificacion-leida {
+    color: gray;
+}
+
+.badge-danger {
+    background-color: #b69664;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 12px;
+	transform: translate(22%, -95%); /* Ajuste para centrar en la esquina */
+}
+
 @media screen and (max-width: 990px) {
 	.div-escudo {
 		display: none;

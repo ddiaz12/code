@@ -74,15 +74,6 @@ class MenuModel extends CI_Model
         return $query->row();
     }
 
-    public function getNotifications($groupName){
-        $this->db->select('notificaciones.*');
-        $this->db->from('notificaciones');
-        $this->db->like('notificaciones.usuario_destino', $groupName);
-        $query = $this->db->get();
-        return $query->result();
-    }
-
-
     public function obtenerHorariosUnidad($id)
     {
         $this->db->select('de_horarios.*');

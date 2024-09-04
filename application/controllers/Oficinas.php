@@ -22,6 +22,13 @@ class Oficinas extends CI_Controller
 
     public function oficina()
     {
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         $data["oficinas"] = $this->OficinaModel->getOficinas();
 
         // Verifica el grupo del usuario y redirige a la vista correspondiente
@@ -39,6 +46,13 @@ class Oficinas extends CI_Controller
 
     public function agregar_oficina()
     {
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         $data['sujetos'] = $this->OficinaModel->getSujetosObligados();
         $data['unidades'] = $this->OficinaModel->getUnidadAdministrativa();
         $data['vialidades'] = $this->OficinaModel->getCatVialidades();
@@ -226,6 +240,13 @@ class Oficinas extends CI_Controller
             // Redirige a la página de autenticación si el ID no es un número
             redirect('home', 'refresh');
         }
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
         $data['oficinas'] = $this->OficinaModel->getOficinaEditar($id);
         $data['horarios'] = $this->OficinaModel->getHorariosOficina($id);
         $data['sujetos'] = $this->OficinaModel->getSujetosObligados();
