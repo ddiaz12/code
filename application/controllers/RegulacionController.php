@@ -46,12 +46,88 @@ class RegulacionController extends CI_Controller
 
     public function mat_exentas()
     {
+        // Obtener los datos de la regulación
+        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
         $this->blade->render('regulaciones/materias-exentas');
     }
     
     public function nat_regulaciones()
     {
-        $this->blade->render('regulaciones/nat-regulacioes');
+        $this->blade->render('regulaciones/nat-regulacioes, $data');
+    }
+
+    public function edit_caract($id_regulacion)
+    {
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        $data['tipos_ordenamiento'] = $this->RegulacionModel->getTiposOrdenamiento2();
+        $data['indices'] = $this->RegulacionModel->getIndices();
+
+        // Obtener los datos de la regulación
+        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
+
+        // Obtener las características de la regulación
+        $data['caracteristicas'] = $this->RegulacionModel->get_caracteristicas_by_id($id_regulacion);
+
+        // Obtener el tipo de ordenamiento guardado
+        $data['tipo_ordenamiento_guardado'] = $this->RegulacionModel->get_tipo_ordenamiento_by_id($data['caracteristicas']['ID_tOrdJur']);
+
+        // Obtener los ID_Emiten y ID_caract
+        $data['emiten'] = $this->RegulacionModel->get_emiten_by_caract($data['caracteristicas']['ID_caract']);
+
+        // Extraer los ID_Emiten en un array
+        $emiten_ids = array_column($data['emiten'], 'ID_Emiten');
+
+        // Obtener las dependencias basadas en los ID_Emiten
+        $data['dependencias'] = $this->RegulacionModel->get_dependencias_by_emiten($emiten_ids);
+
+        // Obtener los ID_Aplican y ID_caract
+        $data['aplican'] = $this->RegulacionModel->get_aplican_by_caract($data['caracteristicas']['ID_caract']);
+
+        // Extraer los ID_Aplican en un array
+        $aplican_ids = array_column($data['aplican'], 'ID_Aplican');
+
+        // Obtener las dependencias basadas en los ID_Aplican
+        $data['dependenciasAp'] = $this->RegulacionModel->get_dependencias_by_aplican($aplican_ids);
+
+        // Obtener los ID_Indice y ID_caract
+        $data['indice'] = $this->RegulacionModel->get_indices_by_caract($data['caracteristicas']['ID_caract']);
+
+        // Extraer los ID_Indice en un array
+        $indice_ids = array_column($data['indice'], 'ID_Indice');
+
+        // Obtener los indices basados en los ID_Indice
+        $data['relindice'] = $this->RegulacionModel->get_rel_by_indice($indice_ids);
+
+        // Pasar los datos a la vista
+        $this->blade->render('regulaciones/editar_caracteristicas', $data);
+    }
+
+    public function edit_mat($id_regulacion)
+    {
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Obtener los datos de la regulación
+        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
+
+        // Obtener las materias relacionadas con la regulación
+        $materias = $this->RegulacionModel->get_materias_by_regulacion($id_regulacion);
+
+        // Verificar si hay materias relacionadas
+        $has_materias = $this->RegulacionModel->has_materias($id_regulacion);
+
+        // Pasar los datos a la vista
+        $data['materias'] = $materias;
+        $data['has_materias'] = $has_materias;
+
+        $this->blade->render('regulaciones/editar_materias');
+    }
+
+    public function edit_nat()
+    {
+        $this->blade->render('regulaciones/editar_naturaleza');
     }
 
     public function search()
@@ -417,22 +493,19 @@ class RegulacionController extends CI_Controller
             
             // Guardar en la base de datos derivada_reg
             if (!empty($selectedRegulaciones)) {
-                if (is_array($selectedRegulaciones)) {
-                    foreach ($selectedRegulaciones as $regulacion) {
-                        $data_derivada = array(
-                            'ID_Nat' => $new_id_nat,
-                            'ID_Regulacion' => $regulacion
-                        );
-                        $this->RegulacionModel->insert_derivada_reg($data_derivada);
+                foreach ($selectedRegulaciones as $regulacion) {
+                    // Verificar si $regulacion es un array
+                    if (is_array($regulacion)) {
+                        // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
+                        foreach ($regulacion as $regulacionItem) {
+                            $data_derivada = array(
+                                'ID_Nat' =>  $new_id_nat,
+                                'ID_Regulacion' => $regulacionItem
+                            );
+                            $this->RegulacionModel->insert_derivada_reg($data_derivada);
+                        }
                     }
-                } else {
-                    $data_derivada = array(
-                        'ID_Nat' => $new_id_nat,
-                        'ID_Regulacion' => $selectedRegulaciones
-                    );
-                    $this->RegulacionModel->insert_derivada_reg($data_derivada);
-                }
-            }
+                } 
 
             // Obtener el ID_relNaturaleza más grande y agregar uno más grande
             $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
@@ -455,6 +528,7 @@ class RegulacionController extends CI_Controller
             $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
             
             echo json_encode(array('status' => 'success'));
+         }  
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             $inputEnlace = $this->input->post('inputEnlace');
             $iNormativo = $this->input->post('iNormativo');
@@ -632,5 +706,32 @@ class RegulacionController extends CI_Controller
         $this->load->model('RegulacionModel');
         $this->RegulacionModel->enviar_regulacion($id_regulacion);
         redirect('RegulacionController');
+    }
+
+    public function actualizar_estatus() {
+        $id = $this->input->post('id');
+
+        if ($id) {
+            // Actualizar el estatus de la regulación
+            $this->load->model('RegulacionModel');
+            $this->RegulacionModel->actualizar_estatus($id);
+
+            echo json_encode(array('status' => 'success', 'message' => 'Estatus actualizado exitosamente.'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Solicitud inválida.'));
+        }
+    }
+
+    public function show_emiten($id_caract) {
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Obtener los ID_Emiten
+        $emiten = $this->RegulacionModel->get_emiten_by_caract($id_caract);
+
+        // Mostrar los resultados en la consola
+        echo '<script>';
+        echo 'console.log(' . json_encode($emiten) . ');';
+        echo '</script>';
     }
 }
