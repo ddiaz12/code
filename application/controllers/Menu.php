@@ -33,7 +33,7 @@ class Menu extends CI_Controller
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/enviadas', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuSupervisor/enviadas', $data);
+            $this->blade->render('menuConsejeria/enviadas', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');

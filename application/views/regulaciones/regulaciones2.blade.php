@@ -109,38 +109,38 @@ Registro Estatal de Regulaciones
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    // Evento para actualizar el estatus de las regulaciones
-    $('tbody').on('click', '.delete-row', function() {
-        // Obtener el ID de la regulación de la fila
-        let regulacionId = $(this).closest('tr').find('td:first').text();
+    $(document).ready(function () {
+        // Evento para actualizar el estatus de las regulaciones
+        $('tbody').on('click', '.delete-row', function () {
+            // Obtener el ID de la regulación de la fila
+            let regulacionId = $(this).closest('tr').find('td:first').text();
 
-        // Confirmar la actualización
-        if (confirm('¿Estás seguro de que deseas actualizar el estatus de esta regulación?')) {
-            // Hacer una solicitud AJAX para actualizar el estatus en la base de datos
-            $.ajax({
-                url: 'RegulacionController/actualizar_estatus', // Ruta en tu backend
-                type: 'POST',
-                data: {
-                    id: regulacionId,
-                    csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>' // Token CSRF para seguridad
-                },
-                success: function(response) {
-                    let res = JSON.parse(response);
-                    if (res.status === 'success') {
-                        alert('Estatus actualizado exitosamente.');
-                        window.location.href ='http://localhost/code/RegulacionController';
-                    } else {
+            // Confirmar la actualización
+            if (confirm('¿Estás seguro de que deseas actualizar el estatus de esta regulación?')) {
+                // Hacer una solicitud AJAX para actualizar el estatus en la base de datos
+                $.ajax({
+                    url: 'RegulacionController/actualizar_estatus', // Ruta en tu backend
+                    type: 'POST',
+                    data: {
+                        id: regulacionId,
+                        csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>' // Token CSRF para seguridad
+                    },
+                    success: function (response) {
+                        let res = JSON.parse(response);
+                        if (res.status === 'success') {
+                            alert('Estatus actualizado exitosamente.');
+                            window.location.href = 'http://localhost/code/RegulacionController';
+                        } else {
+                            alert('Hubo un error al actualizar el estatus.');
+                        }
+                    },
+                    error: function () {
                         alert('Hubo un error al actualizar el estatus.');
                     }
-                },
-                error: function() {
-                    alert('Hubo un error al actualizar el estatus.');
-                }
-            });
-        }
+                });
+            }
+        });
     });
-});
 </script>
 
 @endsection

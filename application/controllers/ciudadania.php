@@ -83,13 +83,27 @@ class Ciudadania extends CI_Controller
     public function verRegulacion($id)
     {
         $data['regulacion'] = $this->RegulacionModel->obtenerRegulacionPorId($id);
+        $data['regulacionCaracteristicas'] = $this->RegulacionModel->obtenerCaracteristicasRegulacion($id);
+        $data['enlace_oficial'] = $this->RegulacionModel->obtenerEnlaceOficial($id);
+        $data['indice'] = $this->RegulacionModel->obtenerIndicePorRegulacion($id);
+        $data['autoridades'] = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($id);
+        $data['materias'] = $this->RegulacionModel->obtenerMateriasExentas($id);
+        $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
         $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'ver_regulacion', $data);
     }
 
     public function descargarPdf($id)
     {
         require_once 'vendor/autoload.php';
-        $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id);
+        // Obtener todos los datos necesarios
+        $data['regulacion'] = $this->RegulacionModel->obtenerRegulacionPorId($id);
+        $data['regulacionCaracteristicas'] = $this->RegulacionModel->obtenerCaracteristicasRegulacion($id);
+        $data['enlace_oficial'] = $this->RegulacionModel->obtenerEnlaceOficial($id);
+        $data['indice'] = $this->RegulacionModel->obtenerIndicePorRegulacion($id);
+        $data['autoridades'] = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($id);
+        $data['materias'] = $this->RegulacionModel->obtenerMateriasExentas($id);
+        $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
+
 
         // Configurar opciones de Dompdf
         $options = new Options();
@@ -97,20 +111,20 @@ class Ciudadania extends CI_Controller
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true);
         $options->set('isRemoteEnabled', true);
-    
+
         // Crear una nueva instancia de Dompdf
         $dompdf = new Dompdf($options);
-    
+
         // Cargar una vista de Blade
-        $html = $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'pdf_template', ['regulacion' => $regulacion]);
-    
+        $html = $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'pdf_template', $data);
+
         // Cargar el contenido HTML en Dompdf
         $dompdf->loadHtml($html);
-    
+
         // Renderizar el PDF
         $dompdf->render();
-    
+
         // Descargar el PDF generado
-        $dompdf->stream('Regulacion_' . $regulacion->ID_Regulacion . '.pdf', ['Attachment' => 0]);
+        $dompdf->stream('Regulacion_' . $data['regulacion']->ID_Regulacion . '.pdf', ['Attachment' => 0]);
     }
 }

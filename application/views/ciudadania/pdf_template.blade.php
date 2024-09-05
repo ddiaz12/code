@@ -25,16 +25,24 @@
     <div class="content">
         <p><strong>Medio de publicación:</strong> Periódico Oficial del Gobierno del Estado de Querétaro "La Sombra de
             Arteaga"</p>
-        <p><strong>Tipo de Ordenamiento jurídico:</strong> Decreto de creación</p>
-        <p><strong>Fecha de publicación:</strong> 27/11/1996</p>
-        <p><strong>Vigencia:</strong> Vigencia indefinida</p>
+        <p><strong>Tipo de Ordenamiento jurídico:</strong>
+            <?php echo !empty($regulacionCaracteristicas->Tipo_Ordenamiento) ? $regulacionCaracteristicas->Tipo_Ordenamiento : 'No disponible'; ?>
+        </p>
+        <p><strong>Fecha de publicación:</strong>
+            <?php echo !empty($regulacionCaracteristicas->Fecha_Publi) ? $regulacionCaracteristicas->Fecha_Publi : 'No disponible'; ?>
+        </p>
+        <p><strong>Vigencia:</strong>
+            <?php echo !empty($regulacionCaracteristicas->Vigencia) ? $regulacionCaracteristicas->Vigencia : 'No disponible'; ?>
+        </p>
         <p><strong>Link de creación:</strong> <a
                 href="http://queretaro.gob.mx/transparencia/detalledependencia.aspx?q=YhT5i...">http://queretaro.gob.mx/transparencia/detalledependencia.aspx?q=YhT5i...</a>
         </p>
 
         <div class="section">
             <h4>Fechas y links de modificaciones:</h4>
-            <p><strong>Fecha de Modificación:</strong> 15/07/2005</p>
+            <p><strong>Fecha de actualización:</strong>
+                <?php echo !empty($regulacionCaracteristicas->Fecha_Act) ? $regulacionCaracteristicas->Fecha_Act : 'No disponible'; ?>
+            </p>
             <p><strong>Link de Modificación:</strong> <a
                     href="http://lasombradearteaga.segobqueretaro.gob.mx/2005/20050735-01.pdf">lasombradearteaga.segobqueretaro.gob.mx/2005/20050735-01.pdf</a>
             </p>
@@ -42,14 +50,13 @@
 
         <div class="section">
             <h4>Ámbito de Aplicación:</h4>
-            <p>Estatal</p>
+            <p><?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?>
+            </p>
         </div>
 
         <div class="section">
             <h4>Objeto de la Regulación:</h4>
-            <p>Prestar los Servicios de Salud a la población abierta en el Estado de Querétaro, en cumplimiento de lo
-                dispuesto por la Ley de Salud del Estado de Querétaro y la Ley General de Salud, y por el Acuerdo de
-                Coordinación.</p>
+            <p><?php echo !empty($regulacion->Objetivo_Reg) ? $regulacion->Objetivo_Reg : 'No disponible'; ?></p>
         </div>
 
         <div class="section">
@@ -80,12 +87,15 @@
         <h3>Índice de la Regulación</h3>
     </div>
     <div class="content">
-        <p>No aplica</p>
-        <p><strong>Artículos que fundamentan la realización de inspecciones, verificaciones y visitas
-                domiciliarias:</strong></p>
-        <p>No aplica</p>
-        <p><strong>Regulación vigente transparencia:</strong>
-            https://www.queretaro.gob.mx/transparencia/marcojuridico_all.aspx</p>
+        <?php if (!empty($indice)): ?>
+        <ul>
+            <?php    foreach ($indice as $item): ?>
+            <li><?php        echo $item->Orden . '. ' . $item->Texto; ?></li>
+            <?php    endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p>No hay información disponible sobre el Índice.</p>
+        <?php endif; ?>
     </div>
 
     <div class="subheader">

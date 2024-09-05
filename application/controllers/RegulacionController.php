@@ -18,7 +18,6 @@ class RegulacionController extends CI_Controller
 
     public function regulaciones()
     {
-        $this->load->model('NotificacionesModel');
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
@@ -73,7 +72,13 @@ class RegulacionController extends CI_Controller
 
     public function nat_regulaciones()
     {
-        $this->blade->render('regulaciones/nat-regulacioes, $data');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $this->blade->render('regulaciones/nat-regulacioes', $data);
     }
 
     public function edit_caract($id_regulacion)
@@ -870,30 +875,4 @@ class RegulacionController extends CI_Controller
         echo '</script>';
     }
 
-    public function actualizar_estatus() {
-        $id = $this->input->post('id');
-
-        if ($id) {
-            // Actualizar el estatus de la regulación
-            $this->load->model('RegulacionModel');
-            $this->RegulacionModel->actualizar_estatus($id);
-
-            echo json_encode(array('status' => 'success', 'message' => 'Estatus actualizado exitosamente.'));
-        } else {
-            echo json_encode(array('status' => 'error', 'message' => 'Solicitud inválida.'));
-        }
-    }
-
-    public function show_emiten($id_caract) {
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
-
-        // Obtener los ID_Emiten
-        $emiten = $this->RegulacionModel->get_emiten_by_caract($id_caract);
-
-        // Mostrar los resultados en la consola
-        echo '<script>';
-        echo 'console.log(' . json_encode($emiten) . ');';
-        echo '</script>';
-    }
 }
