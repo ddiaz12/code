@@ -234,4 +234,90 @@ class RegulacionModel extends CI_Model {
         $this->db->update('ma_regulacion', array('Estatus' => 0));
     }
 
+    public function actualizar_estatus($id) {
+        $this->db->set('Estatus', 0);
+        $this->db->where('ID_Regulacion', $id);
+        $this->db->update('ma_regulacion');
+    }
+
+    public function get_regulacion_by_id($id) {
+        $this->db->where('ID_Regulacion', $id);
+        $query = $this->db->get('ma_regulacion');
+        return $query->row_array();
+    }
+
+    public function get_caracteristicas_by_id($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $query = $this->db->get('de_regulacion_caracteristicas');
+        return $query->row_array();
+    }
+
+    public function get_tipo_ordenamiento_by_id($id) {
+        $this->db->where('ID_tOrdJur', $id);
+        $query = $this->db->get('cat_tipo_ord_jur');
+        return $query->row_array();
+    }
+
+    public function get_emiten_by_caract($id_caract) {
+        $this->db->where('ID_caract', $id_caract);
+        $query = $this->db->get('rel_autoridades_emiten');
+        return $query->result_array();
+    }
+
+    public function get_aplican_by_caract($id_caract) {
+        $this->db->where('ID_caract', $id_caract);
+        $query = $this->db->get('rel_autoridades_aplican');
+        return $query->result_array();
+    }
+
+    public function get_dependencias_by_emiten($emiten_ids) {
+        if (is_array($emiten_ids)) {
+            $this->db->where_in('ID_Dependencia', $emiten_ids);
+        } else {
+            $this->db->where('ID_Dependencia', $emiten_ids);
+        }
+        $query = $this->db->get('cat_tipo_dependencia');
+        return $query->result_array();
+    }
+
+    public function get_dependencias_by_aplican($aplican_ids) {
+        if (is_array($aplican_ids)) {
+            $this->db->where_in('ID_Dependencia', $aplican_ids);
+        } else {
+            $this->db->where('ID_Dependencia', $aplican_ids);
+        }
+        $query = $this->db->get('cat_tipo_dependencia');
+        return $query->result_array();
+    }
+
+    public function get_indices_by_caract($id_caract) {
+        $this->db->where('ID_caract', $id_caract);
+        $query = $this->db->get('de_indice');
+        return $query->result_array();
+    }
+
+    public function get_rel_by_indice($indice_ids) {
+        if (is_array($indice_ids)) {
+            $this->db->where_in('ID_Indice', $indice_ids);
+        } else {
+            $this->db->where('ID_Indice', $indice_ids);
+        }
+        $query = $this->db->get('rel_indice');
+        return $query->result_array();
+    }
+
+    public function get_materias_by_regulacion($id_regulacion) {
+        $this->db->select('cat_regulacion_materias_gub.Nombre_Materia');
+        $this->db->from('rel_regulaciones_materias');
+        $this->db->join('cat_regulacion_materias_gub', 'rel_regulaciones_materias.ID_Materia = cat_regulacion_materias_gub.ID_Materia');
+        $this->db->where('rel_regulaciones_materias.ID_Regulacion', $id_regulacion);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function has_materias($id_regulacion) {
+        $this->db->from('rel_regulaciones_materias');
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->count_all_results() > 0;
+    }
 }

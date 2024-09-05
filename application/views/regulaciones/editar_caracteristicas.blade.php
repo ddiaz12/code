@@ -87,13 +87,14 @@ Registro Estatal de Regulaciones
                                 <div class="form-group">
                                     <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="inputNombre" name="nombre"
-                                        placeholder="Nombre de la regulacion" required>
+                                        value="<?php echo $regulacion['Nombre_Regulacion']; ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="selectSujeto">Ambito de Aplicacion<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="selectSujeto" name="sujeto" required>
-                                        <option disabled selected>Selecciona una opción</option>
+                                        <option disabled selected><?php echo $caracteristicas['Ambito_Aplicacion']; ?>
+                                        </option>
                                         <option value="Estatal">Estatal</option>
                                     </select>
                                 </div>
@@ -101,7 +102,9 @@ Registro Estatal de Regulaciones
                                     <label for="selectUnidad">Tipo de ordenamiento jurídico<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="selectUnidad" name="unidad" required>
-                                        <option disabled selected>Selecciona una opción</option>
+                                        <option disabled selected>
+                                            <?php echo isset($tipo_ordenamiento_guardado['Tipo_Ordenamiento']) ? $tipo_ordenamiento_guardado['Tipo_Ordenamiento'] : 'Selecciona una opción'; ?>
+                                        </option>
                                         <?php foreach ($tipos_ordenamiento as $tipo): ?>
                                         <option value="<?php    echo $tipo->ID_tOrdJur;?>">
                                             <?php    echo $tipo->Tipo_Ordenamiento;?>
@@ -113,22 +116,28 @@ Registro Estatal de Regulaciones
                                     <label for="inputFecha">Fecha de Expedición de la regulación<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_expedicion"
+                                        value="<?php echo isset($caracteristicas['Fecha_Exp']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Exp'])) : ''; ?>"
                                         required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputFecha">Fecha de publicación de la regulación<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_publicacion"
+                                        value="<?php echo isset($caracteristicas['Fecha_Publi']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Publi'])) : ''; ?>"
                                         required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputFecha">Fecha de Vigor<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="inputFecha" name="fecha_vigor" required>
+                                    <input type="date" class="form-control" id="inputFecha" name="fecha_vigor"
+                                        value="<?php echo isset($caracteristicas['Fecha_Vigor']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Vigor'])) : ''; ?>"
+                                        required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputFecha">Fecha de última actualización<span
                                             class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="inputFecha" name="fecha_act" required>
+                                    <input type="date" class="form-control" id="inputFecha" name="fecha_act"
+                                        value="<?php echo isset($caracteristicas['Fecha_Act']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Act'])) : ''; ?>"
+                                        required>
                                 </div>
 
                                 <form>
@@ -137,18 +146,22 @@ Registro Estatal de Regulaciones
                                             <p>¿La regulación tiene vigencia definida?</p>
                                             <div class="d-flex justify-content-start mb-3">
                                                 <label>
-                                                    <input type="radio" name="opcion" id="si" onclick="mostrarCampo()">
+                                                    <input type="radio" name="opcion" id="si" onclick="mostrarCampo()"
+                                                        <?php echo ($regulacion['Vigencia'] != '0000-00-00') ? 'checked' : ''; ?>>
                                                     Sí
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="opcion" id="no" onclick="mostrarCampo()">
+                                                    <input type="radio" name="opcion" id="no" onclick="mostrarCampo()"
+                                                        <?php echo ($regulacion['Vigencia'] == '0000-00-00') ? 'checked' : ''; ?>>
                                                     No
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" id="otroCampo" style="display:none;">
+                                        <div class="col-md-6" id="otroCampo"
+                                            style="display: <?php echo ($regulacion['Vigencia'] != '0000-00-00') ? 'block' : 'none'; ?>;">
                                             <label for="campoExtra">Vigencia de la regulación</label>
                                             <input type="date" class="form-control" id="campoExtra" name="campoExtra"
+                                                value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
                                                 required>
                                         </div>
                                     </div>
@@ -158,7 +171,7 @@ Registro Estatal de Regulaciones
                                     <label for="inputVialidad">Orden de gobierno que la emite:<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="selectUnidad" name="orden" required>
-                                        <option disabled selected>Selecciona una opción</option>
+                                        <option disabled selected><?php echo $caracteristicas['Orden_Gob']; ?>
                                         <option value="Estatal">Colima</option>
                                     </select>
                                 </div>
@@ -181,7 +194,16 @@ Registro Estatal de Regulaciones
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Las filas se agregarán dinámicamente aquí -->
+                                        <?php foreach ($dependencias as $dependencia): ?>
+
+                                        <td><?php echo $dependencia['ID_Dependencia']; ?></td>
+                                        <td><?php echo $dependencia['Tipo_Dependencia']; ?></td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm delete-row">
+                                                <i class="fas fa-trash-alt"></i></button>
+                                        </td>
+                                        </tr>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
 
@@ -237,7 +259,29 @@ Registro Estatal de Regulaciones
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <!-- Las filas se agregarán dinámicamente aquí -->
+                                                    <?php if (is_array($dependenciasAp)): ?>
+                                                    <?php foreach ($dependenciasAp as $dependenciaAp): ?>
+                                                    <?php if (is_array($dependenciaAp) && isset($dependenciaAp['ID_Dependencia']) && isset($dependenciaAp['Tipo_Dependencia'])): ?>
+                                                    <tr>
+                                                        <td><?php echo $dependenciaAp['ID_Dependencia']; ?></td>
+                                                        <td><?php echo $dependenciaAp['Tipo_Dependencia']; ?></td>
+                                                        <td>
+                                                            <button class="btn btn-danger btn-sm delete-row">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="3">Datos de dependencia no válidos</td>
+                                                    </tr>
+                                                    <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="3">No hay dependencias disponibles</td>
+                                                    </tr>
+                                                    <?php endif; ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -306,13 +350,14 @@ Registro Estatal de Regulaciones
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Las filas se agregarán dinámicamente aquí -->
+                                       
                                     </tbody>
                                 </table>
 
                                 <div class="form-group">
                                     <label for="inputObjetivo">Describa el objetivo de la regulación</label>
-                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg"></textarea>
+                                    <textarea class="form-control" id="inputObjetivo"
+                                        name="objetivoReg"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
                                 </div>
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">

@@ -53,5 +53,6 @@ $route['default_controller'] = 'ciudadania';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['ciudadania/buscarRegulacion'] = 'Ciudadania/buscarRegulacion';
+$route['actualizar-estatus'] = 'RegulacionController/actualizar_estatus';
 
 //$route['ciudadania/buscarRegulaciones'] = 'Ciudadania/buscarRegulaciones';
