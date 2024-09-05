@@ -56,23 +56,23 @@ a.cursor.denuncia-menu.nav-link {
 	margin: 0 4px 5px 2rem;
 }
 .card-header {
-    background-color: #7F2841;
-    min-height: 75px;
-    max-height: 75px; /* Fija la altura máxima para el header */
-    padding: 15px;
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-    overflow: hidden; /* Oculta el texto que excede */
-    text-overflow: ellipsis; /* Añade puntos suspensivos */
+	background-color: #7f2841;
+	min-height: 75px;
+	max-height: 75px; /* Fija la altura máxima para el header */
+	padding: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden; /* Oculta el texto que excede */
+	text-overflow: ellipsis; /* Añade puntos suspensivos */
 }
 
 .card-header h7 {
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
 	line-clamp: 3;
-    -webkit-box-orient: vertical;
+	-webkit-box-orient: vertical;
 }
 
 .text-cards {
@@ -100,15 +100,19 @@ a.cursor.denuncia-menu.nav-link {
 	color: #b69664;
 }
 
-.div-navbar{
+.div-navbar {
 	margin-left: 9rem;
 }
 
 #sidenavAccordion {
-	width: 50%;
+	width: 83%;
 	background-color: #b69664;
 	border-top-right-radius: 10px; /* Ajusta el radio del borde superior derecho */
 	border-bottom-right-radius: 10px; /* Ajusta el radio del borde inferior derecho */
+}
+
+#layoutSidenav #layoutSidenav_nav {
+	flex-basis: 132px;
 }
 
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
@@ -136,10 +140,15 @@ a.cursor.denuncia-menu.nav-link {
 	padding-bottom: 11rem;
 	z-index: 2;
 }
+
 #layoutSidenav_nav {
-	margin-top: 6rem; /* Ajusta este valor según necesites para mover el menú hacia abajo */
+	margin-top: 0rem; /* Ajusta este valor según necesites para mover el menú hacia abajo */
 	border-top-right-radius: 10px; /* Ajusta el radio del borde superior derecho */
 	border-bottom-right-radius: 10px; /* Ajusta el radio del borde inferior derecho */
+}
+
+#layoutSidenav #layoutSidenav_content {
+	margin: 0 0rem 0 -10rem;
 }
 
 .fa-person-shelter,
@@ -152,8 +161,6 @@ a.cursor.denuncia-menu.nav-link {
 	font-size: 30px; /* Ajusta el tamaño del icono aquí */
 	margin: 15px 0 10px 10px;
 }
-
-
 
 #accessibilityMenu {
 	display: none;
@@ -188,15 +195,14 @@ a.cursor.denuncia-menu.nav-link {
 	margin-top: 20px; /* Ajusta este valor según tus necesidades */
 }
 
-#buscador {
-	width: 48%; /* Ajusta este valor según tus necesidades */
-}
+
 
 #tituloBuscador {
 	margin: 0px 0 30px 0; /* Ajusta este valor según tus necesidades */
 	margin-left: 50px; /* Ajusta este valor según tus necesidades */
 }
 
+/*
 .input-group .form-control {
 	position: absolute;
 	z-index: 2;
@@ -205,12 +211,8 @@ a.cursor.denuncia-menu.nav-link {
 	-ms-flex: 1 1 auto;
 	flex: 1 1 auto;
 }
+*/
 
-#nombreRegulacion {
-	border: 1px solid;
-	margin-left: 28rem;
-    width: 71%;
-}
 
 #texto {
 	margin-left: 10rem;
@@ -221,19 +223,10 @@ a.cursor.denuncia-menu.nav-link {
 	margin-left: 77rem;
 }
 
-#btn-search {
-	background-color: #7f2841;
-	border-color: #b69664;
-	margin-left: 56rem;
-}
+
 
 #btn-search:focus {
 	border-color: #b39362; /* Cambia esto a tu color de contorno preferido */
-}
-
-#txtBusqueda {
-	margin-top: 1rem;
-	margin-left: 39rem;
 }
 
 #advancedSearch {
@@ -248,19 +241,18 @@ a.cursor.denuncia-menu.nav-link {
 	margin-left: 20rem;
 }
 
-#regdisp {
-	margin-left: 13.8rem;
-}
-
 .mb-3 {
-    margin-bottom: 3rem !important;
+	margin-bottom: 3rem !important;
 }
 
+/*
 #cardsReg {
 	margin: 0rem 6rem 0 12rem;
 	position: relative;
 	z-index: 3;
 }
+*/
+
 #additionalCards {
 	padding-top: 1rem;
 	position: relative;
@@ -285,11 +277,7 @@ footer {
 footer .footer-backgroundcolor-pu {
 	padding-right: 0px;
 	padding-left: 0px;
-	background-color: #f6f6f6;
-}
-
-footer .footer-back-dark {
-	background-color: #4b4f54;
+	background-color: #ffffff;
 }
 
 .footer-social-separador-pu {
@@ -329,7 +317,7 @@ footer .footer-icon-separador-pu {
 }
 
 .mb-3 {
-    margin-bottom: 3rem !important;
+	margin-bottom: 3rem !important;
 }
 
 .div-card {
@@ -349,57 +337,119 @@ footer .footer-icon-separador-pu {
 
 /* Estilos para el menú de accesibilidad */
 .sb-sidenav-menu .nav-link {
-    display: flex;
-    flex-direction: column; /* Alinea el icono y el texto en columna */
-    align-items: center; /* Centra el contenido horizontalmente */
-    padding: 10px 15px 0 30px;
-    color: #fff;
-    text-align: center; /* Centra el texto */
+	display: flex;
+	flex-direction: column; /* Alinea el icono y el texto en columna */
+	align-items: center; /* Centra el contenido horizontalmente */
+	padding: 10px 15px 0 30px;
+	color: #fff;
+	text-align: center; /* Centra el texto */
 }
 
 .sb-sidenav-menu .sb-nav-link-icon {
-    margin-bottom: 5px; /* Espacio entre el icono y el texto */
-    display: block;
+	margin-bottom: 5px; /* Espacio entre el icono y el texto */
+	display: block;
 }
 
 .sb-sidenav-menu .nav-text {
-    white-space: normal; /* Permite que el texto se divida en varias líneas */
-    font-size: 0.75rem; /* Ajusta el tamaño de la fuente si es necesario */
+	white-space: normal; /* Permite que el texto se divida en varias líneas */
+	font-size: 0.75rem; /* Ajusta el tamaño de la fuente si es necesario */
 }
 
 .sb-sidenav-menu .nav-link i {
-    font-size: 1.5rem; /* Ajusta el tamaño del icono */
-    display: block;
+	font-size: 1.5rem; /* Ajusta el tamaño del icono */
+	display: block;
 }
 
 /* Estilos personalizados */
-#option1, #option2, #option3 {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
+#option1,
+#option2,
+#option3 {
+	width: 100%;
+	padding: 0.5rem;
+	margin-bottom: 1rem;
 	border: 1px solid #b69664;
 	border-radius: 5px;
 	color: #b69664;
 }
 
 #buscarBtn {
-    border-color: #b69664;
-    color: white;
-    padding: 0.5rem 1rem;
-    width: 100%;
+	border-color: #b69664;
+	color: white;
+	padding: 0.5rem 1rem;
+	width: 100%;
 	margin: 30px 0 0 0;
 }
 
+.loginCiudadania {
+	color: #ffffff;
+}
 
-@media (min-width: 768px) {
-    #option1, #option2, #option3, #buscarBtn {
-        margin-bottom: 0;
-    }
+/*Estilos del buscador*/
+
+
+
+
+
+/*
+#buscador {
+	width: 48%; 
+}
+
+*/
+
+#regdisp {
+	padding-right: 1rem;
 }
 
 
-@media screen and (max-width: 1100px){
-	.div-escudo{
+.txtBusqueda {
+	margin-bottom: 0rem;
+}
+
+
+
+#btn-search {
+	background-color: #7f2841;
+	border-color: #b69664;
+}
+
+#btnRegresar {
+	background-color: #7f2841;
+	border-color: #b69664;
+	color: #ffffff;
+	margin:0 10rem;
+}
+
+
+/*
+#nombreRegulacion {
+	border: 1px solid;
+	margin:0 10rem;
+	width: 60%;
+}
+*/
+
+/*-------------------*/
+
+
+@media (min-width: 768px) {
+	#option1,
+	#option2,
+	#option3,
+	#buscarBtn {
+		margin-bottom: 0;
+	}
+}
+
+@media screen and (max-width: 1100px) {
+	.div-escudo {
 		display: none;
+	}
+}
+
+@media screen and (max-width: 1370px) {
+	.div-buscador {
+		margin: 0 10rem;
+		padding: 0 6rem;
 	}
 }

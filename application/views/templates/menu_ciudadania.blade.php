@@ -4,7 +4,7 @@
     });
 </script>
 
-<div id="layoutSidenav_nav" class="div-menu">
+
     <nav class="sb-sidenav sb-sidenav-black" id="sidenavAccordion">
         <div class="sb-sidenav-menu menu-custom">
             <div class="nav">
@@ -54,7 +54,7 @@
             </div>
         </div>
     </nav>
-</div>
+
 
 
 
