@@ -9,6 +9,7 @@ class RegulacionController extends CI_Controller
         parent::__construct();
         $this->load->model('RegulacionModel');
         $this->load->model('NotificacionesModel');
+        date_default_timezone_set('America/Mexico_City');
     }
 
     public function index()
@@ -758,6 +759,7 @@ class RegulacionController extends CI_Controller
         $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
         $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
         $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
+        $idUser = $user->id;
         if ($regulacion) {
             // Determinar el usuario destino en función del grupo del usuario actual
             if ($group->name === 'sujeto_obligado') {
@@ -771,6 +773,10 @@ class RegulacionController extends CI_Controller
                 $Estatus = 2;
             }
 
+            //guardar relacion usuario-regulacion
+            $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
+
+            // Enviar la regulación
             $this->RegulacionModel->enviar_regulacion($id_regulacion, $Estatus);
 
             $data = [
@@ -796,6 +802,7 @@ class RegulacionController extends CI_Controller
         $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
         $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
         $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
+        $idUser = $user->id;
         if ($regulacion) {
             $this->RegulacionModel->devolver_regulacion($id_regulacion);
 
@@ -816,6 +823,9 @@ class RegulacionController extends CI_Controller
                 'leido' => 0, // Indica que la notificación no ha sido leída
                 'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
             ];
+
+            $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
+
             $this->NotificacionesModel->crearNotificacion($data);
 
             // Devolver respuesta JSON de éxito

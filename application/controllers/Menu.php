@@ -25,9 +25,11 @@ class Menu extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
+        $id = $user->id;
         $notifications = $this->NotificacionesModel->getNotifications($groupName);
         $data['notificaciones'] = $notifications;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $data['enviadas'] = $this->MenuModel->obtenerRegulacionesEnviadasPorUsuario($id, $groupName);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/enviadas', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {

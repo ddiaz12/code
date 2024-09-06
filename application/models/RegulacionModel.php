@@ -386,4 +386,12 @@ class RegulacionModel extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function insertar_rel_usuario_regulacion($idUsuario, $idRegulacion) {
+        $data = array(
+            'id' => $idUsuario,
+            'ID_Regulacion' => $idRegulacion
+        );
+        $this->db->insert('rel_usuario_regulacion', $data);
+    }
 }

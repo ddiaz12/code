@@ -13,7 +13,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownBalanced">
                         <h6 class="dropdown-header">Regulaciones</h6>
-                        <li><a class="dropdown-item" href="menu/menu_buzon"><i class="fa-solid fa-inbox icon-inbox"></i> Mi
+                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_buzon'); ?>"><i class="fa-solid fa-inbox icon-inbox"></i> Mi
                                 buzon</a></li>
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_enviadas'); ?>"><i
                                     class="fa-solid fa-paper-plane icon-sent"></i>

@@ -33,32 +33,26 @@
                             <th class="tTabla-color">Nombre</th>
                             <th class="tTabla-color">Homoclave</th>
                             <th class="tTabla-color">Estatus</th>
-                            <th class="tTabla-color">Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <!--
-                                            @foreach ($usuarios as $usuario)
-    <tr>
-                                                    <td>{{ $usuario->id }}</td>
-                                                    <td>{{ $usuario->nombre_completo }}</td>
-                                                    <td>{{ $usuario->tipo_sujeto_obligado }}</td>
-                                                    <td>{{ $usuario->sujeto_obligado }}</td>
-                                                    <td>{{ $usuario->unidad_administrativa }}</td>
-                                                    <td>{{ $usuario->estatus }}</td>
-                                                    <td>
-                                                        <a href="<?php echo base_url('usuarios/editar_usuario/' . $usuario->id); ?>"
-                                                            class="btn btn-warning">
-                                                            <i class="fas fa-edit"></i>
-                                                        </a>
-                                                        <button class="btn btn-danger" data-id_oficina="{{ $usuario->id }}">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-    @endforeach
-                                            -->
+                        @foreach ($enviadas as $enviada)
+                            <tr>
+                                <td>{{ $enviada->ID_Regulacion }}</td>
+                                <td>{{ $enviada->Nombre_Regulacion }}</td>
+                                <td>{{ $enviada->Homoclave }}</td>
+                                <td>
+                                    @if ($enviada->Estatus == 0)
+                                        Regulación Devuelta a Sujeto Obligado
+                                    @elseif ($enviada->Estatus == 2)
+                                        Regulación enviada a Consejería
+                                    @else
+                                        {{ $enviada->Estatus }}
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
