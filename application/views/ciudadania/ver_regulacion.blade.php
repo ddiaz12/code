@@ -157,7 +157,7 @@
             <p><strong>Fecha de última actualización:</strong>
                 <?php echo !empty($regulacionCaracteristicas->Fecha_Act) ? $regulacionCaracteristicas->Fecha_Act : 'No disponible'; ?>
             </p>
-            <p><strong>Vigencia de la regulacion:</strong>
+            <p><strong>Vigencia de la regulación:</strong>
                 <?php echo !empty($regulacionCaracteristicas->Vigencia) ? $regulacionCaracteristicas->Vigencia : 'No disponible'; ?>
             </p>
             <p><strong>Orden de gobierno que la emite:</strong>
@@ -232,7 +232,7 @@
                 <p>Información sobre Trámites y servicios vinculados...</p>
             </div>
 
-            <button class="btn-accordion"><i class="fas fa-tasks"></i> Sector/actividad economica</button>
+            <button class="btn-accordion"><i class="fas fa-tasks"></i> Sector/actividad económica</button>
             <div class="content">
                 <?php if (!empty($sectores)): ?>
                 <ul>
