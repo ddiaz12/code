@@ -92,6 +92,7 @@ Registro Estatal de Regulaciones
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-paper-plane" title="Enviar"></i>
                             </button>
+                            
                         </td>
                     </tr>
                     <?php        endif; ?>

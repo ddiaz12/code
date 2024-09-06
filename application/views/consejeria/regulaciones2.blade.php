@@ -79,10 +79,6 @@ Registro Estatal de Regulaciones
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-undo" title="Devolver"></i>
                             </button>
-                            <button class="btn btn-dorado btn-sm enviar-regulacion"
-                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
                         </td>
                     </tr>
                     <?php        endif; ?>
