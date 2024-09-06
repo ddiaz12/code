@@ -78,21 +78,25 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
                             <!-- Botones de acción en vertical -->
-                            <button class="btn btn-warning btn-sm edit-row">
+                            <button class="btn btn-warning btn-sm edit-row" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm delete-row">
+                            <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
-                            <button class="btn btn-secondary btn-sm btn-devolver"
+                            <button class="btn btn-secondary btn-sm btn-devolver" title="Devolver"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-undo" title="Devolver"></i>
                             </button>
-                            <button class="btn btn-dorado btn-sm enviar-regulacion"
+                            <button class="btn btn-dorado btn-sm enviar-regulacion" title="Enviar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-paper-plane" title="Enviar"></i>
                             </button>
-                            
+                            <button class="btn btn-info btn-sm btn-trazabilidad" title="Trazabilidad"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>" data-toggle="modal"
+                                data-target="#trazabilidadModal">
+                                <i class="fas fa-history"></i>
+                            </button>
                         </td>
                     </tr>
                     <?php        endif; ?>
@@ -104,10 +108,49 @@ Registro Estatal de Regulaciones
                     <?php endif; ?>
                 </tbody>
             </table>
+            <!-- Modal de trazabilidad -->
+            <div class="modal fade" id="trazabilidadModal" tabindex="-1" role="dialog"
+                aria-labelledby="trazabilidadModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="trazabilidadModalLabel">Trazabilidad</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="trazabilidadContent">
+                                <!-- Aquí se mostrará la trazabilidad cargada por AJAX -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script>
+    // Cargar la trazabilidad de la regulación
+    $(document).on('click', '.btn-trazabilidad', function () {
+        var regulacionId = $(this).data('id');
+        $.ajax({
+            url: '<?php echo base_url('RegulacionController/obtenerTrazabilidad'); ?>',
+            type: 'POST',
+            data: { id: regulacionId },
+            success: function (response) {
+                $('#trazabilidadContent').html(response);
+                $('#trazabilidadModal').modal('show');
+            },
+            error: function () {
+                $('#trazabilidadContent').html('<p>Error al cargar la trazabilidad.</p>');
+            }
+        });
+    });
+
     $(document).ready(function () {
         // Evento para actualizar el estatus de las regulaciones
         $('tbody').on('click', '.delete-row', function () {

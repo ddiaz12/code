@@ -394,4 +394,17 @@ class RegulacionModel extends CI_Model {
         );
         $this->db->insert('rel_usuario_regulacion', $data);
     }
+
+    public function registrarMovimiento($data){
+        $this->db->insert('trazabilidad', $data);
+    }
+
+    public function obtenerTrazabilidadPorRegulacion($idRegulacion) {
+        $this->db->select('*');
+        $this->db->from('trazabilidad');
+        $this->db->where('ID_Regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
 }

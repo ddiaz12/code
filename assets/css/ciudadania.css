@@ -450,6 +450,6 @@ footer .footer-icon-separador-pu {
 @media screen and (max-width: 1370px) {
 	.div-buscador {
 		margin: 0 10rem;
-		padding: 0 6rem;
+		padding: 4rem 6rem 0 6rem;
 	}
 }

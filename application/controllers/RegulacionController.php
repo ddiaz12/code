@@ -550,36 +550,36 @@ class RegulacionController extends CI_Controller
                         // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
-                                'ID_Nat' =>  $new_id_nat,
+                                'ID_Nat' => $new_id_nat,
                                 'ID_Regulacion' => $regulacionItem
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
                         }
                     }
-                } 
+                }
 
-            // Obtener el ID_relNaturaleza más grande y agregar uno más grande
-            $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
-            $new_id_rel_nat = $max_id_rel_nat + 1;
+                // Obtener el ID_relNaturaleza más grande y agregar uno más grande
+                $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
+                $new_id_rel_nat = $max_id_rel_nat + 1;
 
-            // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
-            $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
+                // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
+                $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
 
-            // Guardar en la base de datos rel_nat_reg
-            $data_rel_nat = array(
-                'ID_relNaturaleza' => $new_id_rel_nat,
-                'ID_Regulacion' => $last_id_regulacion,
-                'ID_Nat' => $new_id_nat,
-                'ID_sector' => null,
-                'ID_subsector' => null,
-                'ID_rama' => null,
-                'ID_subrama' => null,
-                'ID_clase' => null
-            );
-            $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                // Guardar en la base de datos rel_nat_reg
+                $data_rel_nat = array(
+                    'ID_relNaturaleza' => $new_id_rel_nat,
+                    'ID_Regulacion' => $last_id_regulacion,
+                    'ID_Nat' => $new_id_nat,
+                    'ID_sector' => null,
+                    'ID_subsector' => null,
+                    'ID_rama' => null,
+                    'ID_subrama' => null,
+                    'ID_clase' => null
+                );
+                $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
 
-            echo json_encode(array('status' => 'success'));
-         }  
+                echo json_encode(array('status' => 'success'));
+            }
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             $inputEnlace = $this->input->post('inputEnlace');
             $iNormativo = $this->input->post('iNormativo');
@@ -789,6 +789,17 @@ class RegulacionController extends CI_Controller
             ];
             $this->NotificacionesModel->crearNotificacion($data);
 
+            // Registrar el movimiento en la trazabilidad
+            $dataTrazabilidad = [
+                'ID_Regulacion' => $id_regulacion,
+                'fecha_movimiento' => date('Y-m-d H:i:s'),
+                'descripcion_movimiento' => 'Regulación enviada',
+                'usuario_responsable' => $user->email,
+                'estatus_anterior' => 'Creado',
+                'estatus_nuevo' => 'Enviado'
+            ];
+            $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
+
             // Devolver respuesta JSON de éxito
             echo json_encode(['success' => true, 'message' => 'La regulación ha sido enviada correctamente.']);
         } else {
@@ -836,6 +847,20 @@ class RegulacionController extends CI_Controller
         }
     }
 
+
+    public function obtenerTrazabilidad()
+    {
+        $idRegulacion = $this->input->post('id');
+        $trazabilidad = $this->RegulacionModel->obtenerTrazabilidadPorRegulacion($idRegulacion);
+    
+        // Generar el HTML para la trazabilidad
+        $html = $this->blade->render('regulaciones' . DIRECTORY_SEPARATOR . 'trazabilidad', ['trazabilidad' => $trazabilidad]);
+    
+        // Devolver la respuesta
+        echo $html;
+    }
+    
+
     public function marcar_leido($id_notificacion)
     {
         $result = $this->NotificacionesModel->marcarComoLeido($id_notificacion);
@@ -858,7 +883,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function actualizar_estatus() {
+    public function actualizar_estatus()
+    {
         $id = $this->input->post('id');
 
         if ($id) {
@@ -872,7 +898,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function show_emiten($id_caract) {
+    public function show_emiten($id_caract)
+    {
         // Cargar el modelo
         $this->load->model('RegulacionModel');
 
