@@ -115,17 +115,16 @@ Registro Estatal de Regulaciones
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="trazabilidadModalLabel">Trazabilidad</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                         <div class="modal-body">
                             <div id="trazabilidadContent">
-                                <!-- Aquí se mostrará la trazabilidad cargada por AJAX -->
+                                <!-- Aquí se cargará la trazabilidad en formato timeline por AJAX -->
+                                <ul class="timeline">
+                                    <!-- Items del timeline serán agregados dinámicamente -->
+                                </ul>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
@@ -133,21 +132,60 @@ Registro Estatal de Regulaciones
         </div>
     </div>
 </div>
+
+@endsection
+@section('footer')
+@include('templates/footer')
+@endsection
+
+@section('js')
+<script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/trazabilidad.js'); ?>"></script>
 <script>
-    // Cargar la trazabilidad de la regulación
-    $(document).on('click', '.btn-trazabilidad', function () {
-        var regulacionId = $(this).data('id');
-        $.ajax({
-            url: '<?php echo base_url('RegulacionController/obtenerTrazabilidad'); ?>',
-            type: 'POST',
-            data: { id: regulacionId },
-            success: function (response) {
-                $('#trazabilidadContent').html(response);
-                $('#trazabilidadModal').modal('show');
-            },
-            error: function () {
-                $('#trazabilidadContent').html('<p>Error al cargar la trazabilidad.</p>');
-            }
+    // Cargar la trazabilidad de una regulación
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-trazabilidad').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/obtenerTrazabilidad'); ?>';
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + id
+                })
+                    .then(response => response.json()) // Asumimos que la respuesta será en formato JSON
+                    .then(data => {
+                        var timelineContent = '';
+
+                        // Generar el HTML del timeline
+                        data.forEach(function (registro, index) {
+                            timelineContent += `
+                        <li class="timeline-item">
+                            <span class="timeline-date">${new Date(registro.fecha_movimiento).toLocaleDateString()}</span>
+                            <div class="timeline-content">
+                                <h5>${registro.usuario_responsable}</h5>
+                                <p>Descripcion de movimiento: ${registro.descripcion_movimiento}</p>
+                                <p>Fecha envio: ${new Date(registro.fecha_movimiento).toLocaleString()}</p>
+                            </div>
+                        </li>
+                    `;
+                        });
+
+                        // Insertar el contenido en el modal
+                        document.querySelector('#trazabilidadContent .timeline').innerHTML = timelineContent;
+
+                        // Mostrar el modal
+                        var trazabilidadModal = new bootstrap.Modal(document.getElementById('trazabilidadModal'));
+                        trazabilidadModal.show();
+                    })
+                    .catch(error => {
+                        document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';
+                    });
+            });
         });
     });
 
@@ -183,16 +221,7 @@ Registro Estatal de Regulaciones
             }
         });
     });
-</script>
 
-@endsection
-@section('footer')
-@include('templates/footer')
-@endsection
-
-@section('js')
-<script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
-<script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.btn-devolver').forEach(function (element) {
             element.addEventListener('click', function (event) {

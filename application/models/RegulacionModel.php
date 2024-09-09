@@ -400,7 +400,7 @@ class RegulacionModel extends CI_Model {
     }
 
     public function obtenerTrazabilidadPorRegulacion($idRegulacion) {
-        $this->db->select('*');
+        $this->db->select ('*');
         $this->db->from('trazabilidad');
         $this->db->where('ID_Regulacion', $idRegulacion);
         $query = $this->db->get();

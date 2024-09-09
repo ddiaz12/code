@@ -52,6 +52,11 @@ Registro Estatal de Regulaciones
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
+                            <button class="btn btn-info btn-sm btn-trazabilidad" title="Trazabilidad"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>" data-toggle="modal"
+                                data-target="#trazabilidadModal">
+                                <i class="fas fa-history"></i>
+                            </button>
                         </td>
                     </tr>
                     <?php        endif; ?>
@@ -63,6 +68,27 @@ Registro Estatal de Regulaciones
                     <?php endif; ?>
                 </tbody>
             </table>
+            <!-- Modal de trazabilidad -->
+            <div class="modal fade" id="trazabilidadModal" tabindex="-1" role="dialog"
+                aria-labelledby="trazabilidadModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="trazabilidadModalLabel">Trazabilidad</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div id="trazabilidadContent">
+                                <!-- Aquí se cargará la trazabilidad en formato timeline por AJAX -->
+                                <ul class="timeline">
+                                    <!-- Items del timeline serán agregados dinámicamente -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -121,6 +147,52 @@ Registro Estatal de Regulaciones
                             });
                     }
                 });
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-trazabilidad').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/obtenerTrazabilidad'); ?>';
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + id
+                })
+                    .then(response => response.json()) // Asumimos que la respuesta será en formato JSON
+                    .then(data => {
+                        var timelineContent = '';
+
+                        // Generar el HTML del timeline
+                        data.forEach(function (registro, index) {
+                            timelineContent += `
+                        <li class="timeline-item">
+                            <span class="timeline-date">${new Date(registro.fecha_movimiento).toLocaleDateString()}</span>
+                            <div class="timeline-content">
+                                <h5>${registro.usuario_responsable}</h5>
+                                <p>Descripcion de movimiento: ${registro.descripcion_movimiento}</p>
+                                <p>Fecha envio: ${new Date(registro.fecha_movimiento).toLocaleString()}</p>
+                            </div>
+                        </li>
+                    `;
+                        });
+
+                        // Insertar el contenido en el modal
+                        document.querySelector('#trazabilidadContent .timeline').innerHTML = timelineContent;
+
+                        // Mostrar el modal
+                        var trazabilidadModal = new bootstrap.Modal(document.getElementById('trazabilidadModal'));
+                        trazabilidadModal.show();
+                    })
+                    .catch(error => {
+                        document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';
+                    });
             });
         });
     });

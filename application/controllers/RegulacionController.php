@@ -836,8 +836,18 @@ class RegulacionController extends CI_Controller
             ];
 
             $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
-
             $this->NotificacionesModel->crearNotificacion($data);
+
+            // Registrar el movimiento en la trazabilidad
+            $dataTrazabilidad = [
+                'ID_Regulacion' => $id_regulacion,
+                'fecha_movimiento' => date('Y-m-d H:i:s'),
+                'descripcion_movimiento' => 'Regulación devuelta',
+                'usuario_responsable' => $user->email,
+                'estatus_anterior' => 'Enviado',
+                'estatus_nuevo' => 'Devuelto'
+            ];
+            $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
 
             // Devolver respuesta JSON de éxito
             echo json_encode(['success' => true, 'message' => 'La regulación ha sido devuelta correctamente.']);
@@ -853,12 +863,10 @@ class RegulacionController extends CI_Controller
         $idRegulacion = $this->input->post('id');
         $trazabilidad = $this->RegulacionModel->obtenerTrazabilidadPorRegulacion($idRegulacion);
     
-        // Generar el HTML para la trazabilidad
-        $html = $this->blade->render('regulaciones' . DIRECTORY_SEPARATOR . 'trazabilidad', ['trazabilidad' => $trazabilidad]);
-    
-        // Devolver la respuesta
-        echo $html;
+        // Devolver la respuesta en formato JSON
+        echo json_encode($trazabilidad);
     }
+    
     
 
     public function marcar_leido($id_notificacion)

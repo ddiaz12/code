@@ -18,11 +18,11 @@
         </ol>
         <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
         <!-- Botón para abrir otra vista -->
-        <div class="d-flex justify-content-end mb-3">
+        <!--<div class="d-flex justify-content-end mb-3">
             <a href="<?php echo base_url(''); ?>" class="btn btn-primary btn-agregarOficina">
-                <i class="fas fa-download me-1"></i> Descargar excel
+            <i class="fas fa-download me-1"></i> Descargar excel
             </a>
-        </div>
+        </div>-->
 
         <div class="card mb-4 div-datatables">
             <div class="card-body">

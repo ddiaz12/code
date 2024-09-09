@@ -46,11 +46,11 @@ Registro Estatal de Regulaciones
                             <?php        echo $notificacion->fecha_envio; ?>
                         </td>
                         <td>
-                            <button class="btn btn-dorado marcar-leido"
+                            <button class="btn btn-dorado btn-sm marcar-leido"
                                 data-id="<?php        echo $notificacion->id_notificacion; ?>">
                                 <i class="fas fa-check"></i> Marcar como leído
                             </button>
-                            <button class="btn btn-danger eliminar-notificacion" data-id="<?php echo $notificacion->id_notificacion; ?>">
+                            <button class="btn btn-danger btn-sm eliminar-notificacion" data-id="<?php echo $notificacion->id_notificacion; ?>">
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>
                         </td>
