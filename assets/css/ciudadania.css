@@ -107,8 +107,6 @@ a.cursor.denuncia-menu.nav-link {
 #sidenavAccordion {
 	width: 83%;
 	background-color: #b69664;
-	border-top-right-radius: 10px; /* Ajusta el radio del borde superior derecho */
-	border-bottom-right-radius: 10px; /* Ajusta el radio del borde inferior derecho */
 }
 
 #layoutSidenav #layoutSidenav_nav {
@@ -232,7 +230,8 @@ a.cursor.denuncia-menu.nav-link {
 #advancedSearch {
 	background-color: transparent;
 	border: none;
-	color: #000000; /* Cambia esto al color que quieras para el icono */
+	color: #000000; 
+	padding: 0%;
 }
 
 #advancedSearchOptions {
@@ -352,7 +351,8 @@ footer .footer-icon-separador-pu {
 
 .sb-sidenav-menu .nav-text {
 	white-space: normal; /* Permite que el texto se divida en varias líneas */
-	font-size: 0.75rem; /* Ajusta el tamaño de la fuente si es necesario */
+	font-size: 0.75rem; 
+	color: black;
 }
 
 .sb-sidenav-menu .nav-link i {

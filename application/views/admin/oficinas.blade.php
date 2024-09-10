@@ -31,7 +31,7 @@
                             <th class="tTabla-color">Id</th>
                             <th class="tTabla-color">Nombre</th>
                             <th class="tTabla-color">Tipo</th>
-                            <th class="tTabla-color">Fecha de actualizacion</th>
+                            <th class="tTabla-color">Fecha de actualización</th>
                             <th class="tTabla-color">Acciones</th>
                         </tr>
                     </thead>

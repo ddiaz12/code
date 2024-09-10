@@ -33,13 +33,15 @@ Registro Estatal de Regulaciones
                                     </button>
                                 </div>
                             </div>
-                            <div class="text-center mt-3 txtBusqueda">
+                            <div class="d-flex justify-content-between align-items-center mt-3 txtBusqueda">
                                 <label id="regdisp">Regulaciones Disponibles:
                                     <?php echo $numeroDeRegulaciones; ?></label>
-                                <label for="advancedSearch">Búsqueda avanzada</label>
-                                <button id="advancedSearch" class="btn btn-link" onclick="toggleAdvancedSearch()">
-                                    <i class="fas fa-arrow-down"></i>
-                                </button>
+                                <div>
+                                    <label for="advancedSearch">Búsqueda avanzada</label>
+                                    <button id="advancedSearch" class="btn btn-link" onclick="toggleAdvancedSearch()">
+                                        <i class="fas fa-arrow-down"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
