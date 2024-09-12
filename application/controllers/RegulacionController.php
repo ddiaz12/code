@@ -22,11 +22,14 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $notifications = $this->NotificacionesModel->getNotificationsGrupos($groupName);
+        $iduser = $user->id;
         $data['notificaciones'] = $notifications;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['regulaciones'] = $this->RegulacionModel->get_all_regulaciones();
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($iduser);
+            $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_por_usuario($iduser);
             $this->blade->render('sujeto/regulaciones2', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
             $this->blade->render('regulaciones/regulaciones2', $data);
@@ -765,11 +768,8 @@ class RegulacionController extends CI_Controller
             if ($group->name === 'sujeto_obligado') {
                 $usuario_destino = 'sedeco,admin'; // Notificar a 'sedeco' y 'admin'
                 $Estatus = 1;
-            } elseif ($group->name === 'sedeco') {
+            } elseif (($group->name === 'sedeco') || ($group->name === 'admin')) {
                 $usuario_destino = 'consejeria'; // Notificar a 'consejeria'
-                $Estatus = 2;
-            } else {
-                $usuario_destino = 'consejeria'; // Default o caso no esperado
                 $Estatus = 2;
             }
 
@@ -817,25 +817,22 @@ class RegulacionController extends CI_Controller
         if ($regulacion) {
             $this->RegulacionModel->devolver_regulacion($id_regulacion);
 
-            // Determinar el usuario destino en función del grupo del usuario actual
-            if ($group->name === 'sedeco') {
-                $usuario_destino = 'sujeto_obligado'; // Notificar a 'sedeco' y 'admin'
-            } elseif ($group->name === 'consejeria') {
-                $usuario_destino = 'sujeto_obligado'; // Notificar a 'consejeria'
-            } else {
-                $usuario_destino = 'sujeto_obligado'; // Default o caso no esperado
-            }
+            //guardar relacion usuario-regulacion
+            $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
+            // Obtener el usuario creador de la regulación
+            $usuario_creador = $regulacion->id_usuario_creador;
 
             $data = [
                 'titulo' => 'Regulación Devuelta',
                 'mensaje' => 'Se ha devuelto la regulación: ' . $regulacion->Nombre_Regulacion,
-                'usuario_destino' => $usuario_destino, // Identificador del usuario o grupo
+                'id_usuario' => $usuario_creador, 
+                'usuario_destino' => null, 
                 'id_regulacion' => $id_regulacion,
                 'leido' => 0, // Indica que la notificación no ha sido leída
                 'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
             ];
 
-            $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
+
             $this->NotificacionesModel->crearNotificacion($data);
 
             // Registrar el movimiento en la trazabilidad
@@ -857,17 +854,72 @@ class RegulacionController extends CI_Controller
         }
     }
 
+    public function publicar_regulacion($idRegulacion)
+    {
+        $this->RegulacionModel->publicar_regulacion($idRegulacion);
+        echo json_encode(['success' => true, 'message' => 'La regulación ha sido publicada correctamente.']);
+    }
+
+    public function aprobar_regulacion($id_regulacion)
+    {
+        $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
+        $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
+        $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
+        $idUser = $user->id;
+        if ($regulacion) {
+            $this->RegulacionModel->aprobar_regulacion($id_regulacion);
+
+            // Determinar el usuario destino en función del grupo del usuario actual
+            if ($group->name === 'sedeco') {
+                $usuario_destino = 'consejeria'; // Notificar a 'consejeria'
+            } elseif ($group->name === 'consejeria') {
+                $usuario_destino = 'admin'; // Notificar a 'admin'
+            } else {
+                $usuario_destino = 'admin'; // Default o caso no esperado
+            }
+
+            $data = [
+                'titulo' => 'Regulación Aprobada',
+                'mensaje' => 'Se ha aprobado la regulación: ' . $regulacion->Nombre_Regulacion,
+                'usuario_destino' => $usuario_destino, // Identificador del usuario o grupo
+                'id_regulacion' => $id_regulacion,
+                'leido' => 0, // Indica que la notificación no ha sido leída
+                'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
+            ];
+
+            $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
+            $this->NotificacionesModel->crearNotificacion($data);
+
+            // Registrar el movimiento en la trazabilidad
+            $dataTrazabilidad = [
+                'ID_Regulacion' => $id_regulacion,
+                'fecha_movimiento' => date('Y-m-d H:i:s'),
+                'descripcion_movimiento' => 'Regulación aprobada',
+                'usuario_responsable' => $user->email,
+                'estatus_anterior' => 'Enviado',
+                'estatus_nuevo' => 'Aprobado'
+            ];
+            $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
+
+            // Devolver respuesta JSON de éxito
+            echo json_encode(['success' => true, 'message' => 'La regulación ha sido aprobada correctamente.']);
+        } else {
+            // Devolver respuesta JSON de error
+            echo json_encode(['success' => false, 'message' => 'No se encontró la regulación con el ID proporcionado.']);
+        }
+    }
+
 
     public function obtenerTrazabilidad()
     {
         $idRegulacion = $this->input->post('id');
         $trazabilidad = $this->RegulacionModel->obtenerTrazabilidadPorRegulacion($idRegulacion);
-    
+
         // Devolver la respuesta en formato JSON
         echo json_encode($trazabilidad);
     }
-    
-    
+
+
 
     public function marcar_leido($id_notificacion)
     {

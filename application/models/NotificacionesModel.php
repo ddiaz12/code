@@ -9,10 +9,19 @@ class NotificacionesModel extends CI_Model
         parent::__construct();
     }
 
-    public function getNotifications($groupName){
+    public function getNotifications($userId)
+    {
         $this->db->select('notificaciones.*');
         $this->db->from('notificaciones');
-        $this->db->like('notificaciones.usuario_destino', $groupName);
+        $this->db->where('notificaciones.id_usuario', $userId);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getNotificationsGrupos($GroupName){
+        $this->db->select('notificaciones.*');
+        $this->db->from('notificaciones');
+        $this->db->like('notificaciones.usuario_destino', $GroupName);
         $query = $this->db->get();
         return $query->result();
     }
@@ -36,10 +45,16 @@ class NotificacionesModel extends CI_Model
         return $this->db->update('notificaciones');
     }
 
-    public function countUnreadNotifications($rol)
+    public function countUnreadNotificationsgroups($rol)
     {
         $this->db->where('leido', 0);
         $this->db->like('usuario_destino', $rol);
+        return $this->db->count_all_results('notificaciones');
+    }
+
+    public function countUnreadNotificationsId($id){
+        $this->db->where('leido', 0);
+        $this->db->where('id_usuario', $id);
         return $this->db->count_all_results('notificaciones');
     }
 

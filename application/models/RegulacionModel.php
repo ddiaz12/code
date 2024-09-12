@@ -406,5 +406,16 @@ class RegulacionModel extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function publicar_regulacion($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $this->db->update('ma_regulacion', array('Estatus' => 4));
+    }
     
+
+    public function get_regulaciones_por_usuario($id_usuario) {
+        $this->db->where('id_usuario_creador', $id_usuario);
+        $query = $this->db->get('ma_regulacion');
+        return $query->result();
+    }
 }

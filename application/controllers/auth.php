@@ -58,9 +58,9 @@ class Auth extends CI_Controller
             $groupName = $group->name;
 
             // Obtener las notificaciones y el conteo de notificaciones no leídas
-            $notifications = $this->NotificacionesModel->getNotifications($groupName);
+            $notifications = $this->NotificacionesModel->getNotificationsGrupos($groupName);
             $this->data['notificaciones'] = $notifications;
-            $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+            $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
 
             // Obtén los usuarios desde Ion Auth
             $users = $this->ion_auth->users()->result();
@@ -634,9 +634,7 @@ class Auth extends CI_Controller
         $usuarios = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($usuarios->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
-        $this->data['notificaciones'] = $notifications;
-        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
 
         $tables = $this->config->item('tables', 'ion_auth');
         $identity_column = $this->config->item('identity', 'ion_auth');
@@ -860,9 +858,7 @@ class Auth extends CI_Controller
         $usuarios = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($usuarios->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
-        $this->data['notificaciones'] = $notifications;
-        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
 
         $user = $this->ion_auth->user($id)->row();
         $groups = $this->ion_auth->groups()->result_array();

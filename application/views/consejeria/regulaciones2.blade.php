@@ -83,7 +83,11 @@ Registro Estatal de Regulaciones
                             <button class="btn btn-info btn-sm btn-trazabilidad" title="Trazabilidad"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>" data-toggle="modal"
                                 data-target="#trazabilidadModal">
-                                <i class="fas fa-history"></i>
+                                <i class="fas fa-clock"></i>
+                            </button>
+                            <button class="btn btn-success btn-sm btn-publicar"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
+                                <i class="fa-solid fa-file-arrow-up" title="Publicar"></i>
                             </button>
                         </td>
                     </tr>
@@ -261,6 +265,57 @@ Registro Estatal de Regulaciones
                     .catch(error => {
                         document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';
                     });
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-publicar').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/publicar_regulacion/'); ?>' + id;
+
+                Swal.fire({
+                    title: '¿Publicar regulación?',
+                    text: "Publicar regulacion en el portal",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, publicar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: '¡Éxito!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'Aceptar'
+                                    }).then(() => {
+                                        location.reload(); // Recargar la página
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'Aceptar'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un problema al publicar la regulación.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            });
+                    }
+                });
             });
         });
     });

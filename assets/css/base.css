@@ -389,6 +389,11 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	border-left: 2px solid #007bff;
 	padding-left: 10px;
 }
+
+.breadcrumb
+{
+	margin-left: 3em;
+}
 /*-----------------------------------------------------------------------------------*/
 
 @media screen and (max-width: 990px) {
