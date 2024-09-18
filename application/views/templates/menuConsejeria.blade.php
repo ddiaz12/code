@@ -18,7 +18,7 @@
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_enviadas'); ?>"><i
                                     class="fa-solid fa-paper-plane icon-sent"></i>
                                 Enviadas</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-bullhorn icon-published"></i>
+                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_publicadas'); ?>"><i class="fa-solid fa-bullhorn icon-published"></i>
                                 Publicadas</a></li>
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-bullhorn icon-published"></i>
                                 Despublicadas</a></li>

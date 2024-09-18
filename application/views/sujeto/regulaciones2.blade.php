@@ -57,6 +57,11 @@ Registro Estatal de Regulaciones
                                 data-target="#trazabilidadModal">
                                 <i class="fas fa-history"></i>
                             </button>
+                            <button class="btn btn-sm btn-comentarios" title="Comentarios"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
+                                <i class="fas fa-comments"></i>
+                            </button>
+
                         </td>
                     </tr>
                     <?php        endif; ?>
@@ -91,6 +96,43 @@ Registro Estatal de Regulaciones
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="comentariosModal" tabindex="-1" aria-labelledby="comentariosModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="comentariosModalLabel">Comentarios</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" id="comentarioNuevo" placeholder="Comentario"></textarea>
+                    <input type="text" id="buscarComentario" class="form-control my-3" placeholder="Buscar comentario">
+                    <button class="btn btn-warning" id="buscarBtn">Buscar</button>
+
+                    <!-- Aquí se mostrarán los comentarios -->
+                    <table class="table table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th>Comentario</th>
+                                <th>Usuario</th>
+                                <th>Fecha y hora de creación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comentariosContent">
+                            <!-- Aquí se insertarán los comentarios via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary btn-agregarOficina"
+                        id="guardarComentarioBtn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection
 @section('footer')
@@ -194,6 +236,54 @@ Registro Estatal de Regulaciones
                         document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';
                     });
             });
+        });
+    });
+
+    $('#guardarComentarioBtn').click(function () {
+        var comentario = $('#comentarioNuevo').val();
+        var regulacionId = $('.btn-comentarios').data('id'); // Asume que ya tienes el ID de la regulación cargado en algún lugar
+
+        $.ajax({
+            url: '<?php echo base_url('Comentarios/guardarComentario'); ?>',
+            type: 'POST',
+            data: {
+                comentario: comentario,
+                idRegulacion: regulacionId
+            },
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                    alert(result.message);
+                    $('#comentarioNuevo').val(''); // Limpiar el campo de comentario
+                    // Recargar comentarios
+                    cargarComentarios(regulacionId);
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('Error al guardar el comentario.');
+            }
+        });
+    });
+
+
+    $(document).on('click', '.btn-comentarios', function () {
+        var regulacionId = $(this).data('id');
+
+        // Petición AJAX para obtener los comentarios
+        $.ajax({
+            url: '<?php echo base_url('Comentarios/obtenerComentarios'); ?>',
+            type: 'POST',
+            data: { id: regulacionId },
+            success: function (response) {
+                $('#comentariosContent').html(response);
+                var comentariosModal = new bootstrap.Modal(document.getElementById('comentariosModal'));
+                comentariosModal.show();
+            },
+            error: function () {
+                $('#comentariosContent').html('<tr><td colspan="3">Error al cargar los comentarios.</td></tr>');
+            }
         });
     });
 </script>

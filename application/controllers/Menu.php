@@ -153,6 +153,27 @@ class Menu extends CI_Controller
             redirect('auth/logout', 'refresh');
         }
     }
+    public function menu_publicadas(){
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $userId = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+        $data['publicadas'] = $this->MenuModel->getRegulacionesPublicada();
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $notifications = $this->NotificacionesModel->getNotifications($userId);
+            $data['notificaciones'] = $notifications;
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
+            $this->blade->render('menuSujeto/publicadas', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/publicadas', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuConsejeria/publicadas', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
+    }
 
     public function agregar_unidades()
     {

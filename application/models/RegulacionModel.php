@@ -12,6 +12,7 @@ class RegulacionModel extends CI_Model {
     public function get_regulaciones()
     {
         $this->db->select('*'); 
+        $this->db->where('publicada', 1);
         $query = $this->db->get('ma_regulacion');
         return $query->num_rows() > 0 ? $query->result() : [];
     }
@@ -409,7 +410,12 @@ class RegulacionModel extends CI_Model {
 
     public function publicar_regulacion($id_regulacion) {
         $this->db->where('ID_Regulacion', $id_regulacion);
-        $this->db->update('ma_regulacion', array('Estatus' => 4));
+        $this->db->update('ma_regulacion', array('Estatus' => 4, 'publicada' => 1));
+    }
+
+    public function despublicar_regulacion($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $this->db->update('ma_regulacion', array('Estatus' => 2, 'publicada' => 0));
     }
     
 

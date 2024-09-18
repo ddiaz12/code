@@ -22,9 +22,7 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotificationsGrupos($groupName);
         $iduser = $user->id;
-        $data['notificaciones'] = $notifications;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['regulaciones'] = $this->RegulacionModel->get_all_regulaciones();
         if ($this->ion_auth->in_group('sujeto_obligado')) {
@@ -45,9 +43,8 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
-        $data['notificaciones'] = $notifications;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $id = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
         $data['tipos_ordenamiento'] = $this->RegulacionModel->getTiposOrdenamiento2();
         $data['indices'] = $this->RegulacionModel->getIndices();
         // Imprime los datos en la consola
@@ -66,9 +63,7 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
-        $data['notificaciones'] = $notifications;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         // Obtener los datos de la regulación
         $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
         $this->blade->render('regulaciones/materias-exentas', $data);
@@ -79,9 +74,7 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
-        $data['notificaciones'] = $notifications;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $this->blade->render('regulaciones/nat-regulacioes', $data);
     }
 
@@ -825,8 +818,8 @@ class RegulacionController extends CI_Controller
             $data = [
                 'titulo' => 'Regulación Devuelta',
                 'mensaje' => 'Se ha devuelto la regulación: ' . $regulacion->Nombre_Regulacion,
-                'id_usuario' => $usuario_creador, 
-                'usuario_destino' => null, 
+                'id_usuario' => $usuario_creador,
+                'usuario_destino' => null,
                 'id_regulacion' => $id_regulacion,
                 'leido' => 0, // Indica que la notificación no ha sido leída
                 'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
@@ -857,56 +850,52 @@ class RegulacionController extends CI_Controller
     public function publicar_regulacion($idRegulacion)
     {
         $this->RegulacionModel->publicar_regulacion($idRegulacion);
+
+        // Obtener el usuario actual
+        $user = $this->ion_auth->user()->row();
+        $idUser = $user->id;
+
+        $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $idRegulacion);
+
+        // Registrar el movimiento en la trazabilidad
+        $dataTrazabilidad = [
+            'ID_Regulacion' => $idRegulacion,
+            'fecha_movimiento' => date('Y-m-d H:i:s'),
+            'descripcion_movimiento' => 'Regulación publicada',
+            'usuario_responsable' => $user->email,
+            'estatus_anterior' => 'Enviado',
+            'estatus_nuevo' => 'Publicado'
+        ];
+
+        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
+
+
         echo json_encode(['success' => true, 'message' => 'La regulación ha sido publicada correctamente.']);
     }
 
-    public function aprobar_regulacion($id_regulacion)
+    public function despublicar_regulacion($idRegulacion)
     {
-        $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
-        $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
-        $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
+        $this->RegulacionModel->despublicar_regulacion($idRegulacion);
+
+        // Obtener el usuario actual
+        $user = $this->ion_auth->user()->row();
         $idUser = $user->id;
-        if ($regulacion) {
-            $this->RegulacionModel->aprobar_regulacion($id_regulacion);
 
-            // Determinar el usuario destino en función del grupo del usuario actual
-            if ($group->name === 'sedeco') {
-                $usuario_destino = 'consejeria'; // Notificar a 'consejeria'
-            } elseif ($group->name === 'consejeria') {
-                $usuario_destino = 'admin'; // Notificar a 'admin'
-            } else {
-                $usuario_destino = 'admin'; // Default o caso no esperado
-            }
+        $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $idRegulacion);
 
-            $data = [
-                'titulo' => 'Regulación Aprobada',
-                'mensaje' => 'Se ha aprobado la regulación: ' . $regulacion->Nombre_Regulacion,
-                'usuario_destino' => $usuario_destino, // Identificador del usuario o grupo
-                'id_regulacion' => $id_regulacion,
-                'leido' => 0, // Indica que la notificación no ha sido leída
-                'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
-            ];
+        // Registrar el movimiento en la trazabilidad
+        $dataTrazabilidad = [
+            'ID_Regulacion' => $idRegulacion,
+            'fecha_movimiento' => date('Y-m-d H:i:s'),
+            'descripcion_movimiento' => 'Regulación despublicada',
+            'usuario_responsable' => $user->email,
+            'estatus_anterior' => 'Publicado',
+            'estatus_nuevo' => 'Enviado'
+        ];
 
-            $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
-            $this->NotificacionesModel->crearNotificacion($data);
+        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
 
-            // Registrar el movimiento en la trazabilidad
-            $dataTrazabilidad = [
-                'ID_Regulacion' => $id_regulacion,
-                'fecha_movimiento' => date('Y-m-d H:i:s'),
-                'descripcion_movimiento' => 'Regulación aprobada',
-                'usuario_responsable' => $user->email,
-                'estatus_anterior' => 'Enviado',
-                'estatus_nuevo' => 'Aprobado'
-            ];
-            $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
-
-            // Devolver respuesta JSON de éxito
-            echo json_encode(['success' => true, 'message' => 'La regulación ha sido aprobada correctamente.']);
-        } else {
-            // Devolver respuesta JSON de error
-            echo json_encode(['success' => false, 'message' => 'No se encontró la regulación con el ID proporcionado.']);
-        }
+        echo json_encode(['success' => true, 'message' => 'La regulación ha sido despublicada correctamente.']);
     }
 
 

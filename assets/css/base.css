@@ -245,6 +245,18 @@ h3,
 	color: white;
 }
 
+.btn-comentarios{
+	background-color: #5F9EA0;
+	--bs-btn-active-bg: #3389a5;
+	--bs-btn-active-color: white;
+	color: white;
+}
+
+.btn-comentarios:hover{
+	background-color: #3389a5;
+	color: white;
+}
+
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 	background-color: #923244 !important;
 }

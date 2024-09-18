@@ -171,18 +171,29 @@ class MenuModel extends CI_Model
         $this->db->update('cat_sujeto_obligado', array('status' => 0));
     }
 
-public function obtenerRegulacionesEnviadasPorUsuario($userId, $tipoUsuario)
-{
-    $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, ma_regulacion.Estatus');
-    $this->db->from('rel_usuario_regulacion');
-    $this->db->join('ma_regulacion', 'rel_usuario_regulacion.ID_Regulacion = ma_regulacion.ID_Regulacion');
-    $this->db->join('users_groups', 'rel_usuario_regulacion.id = users_groups.user_id');
-    $this->db->join('groups', 'users_groups.group_id = groups.id');
-    $this->db->where('rel_usuario_regulacion.id', $userId);
-    $this->db->where('groups.name', $tipoUsuario);
-    $query = $this->db->get();
-    return $query->result();
-}
+    public function obtenerRegulacionesEnviadasPorUsuario($userId, $tipoUsuario)
+    {
+        $this->db->distinct();
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+        ma_regulacion.Estatus, ma_regulacion.publicada');
+        $this->db->from('rel_usuario_regulacion');
+        $this->db->join('ma_regulacion', 'rel_usuario_regulacion.ID_Regulacion = ma_regulacion.ID_Regulacion');
+        $this->db->join('users_groups', 'rel_usuario_regulacion.id = users_groups.user_id');
+        $this->db->join('groups', 'users_groups.group_id = groups.id');
+        $this->db->where('rel_usuario_regulacion.id', $userId);
+        $this->db->where('groups.name', $tipoUsuario);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getRegulacionesPublicada(){
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+        ma_regulacion.Estatus, ma_regulacion.publicada');
+        $this->db->from('ma_regulacion');
+        $this->db->where('ma_regulacion.publicada', 1);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
 }
 
