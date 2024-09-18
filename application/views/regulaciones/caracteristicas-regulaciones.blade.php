@@ -957,11 +957,21 @@ $(document).ready(function() {
                                                                 (
                                                                     'Datos de rel_indice insertados correctamente'
                                                                 );
+                                                            // Redirigir a la página especificada
+                                                            window
+                                                                .location
+                                                                .href =
+                                                                'http://localhost/code/RegulacionController/mat_exentas';
                                                         } else {
                                                             alert
                                                                 (
                                                                     'Error al insertar los datos de rel_indice'
                                                                 );
+                                                            // Redirigir a la página especificada
+                                                            window
+                                                                .location
+                                                                .href =
+                                                                'http://localhost/code/RegulacionController/mat_exentas';
                                                         }
                                                     }
                                                 });
