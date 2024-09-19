@@ -380,9 +380,9 @@ class RegulacionModel extends CI_Model {
     }
 
     public function obtenerSectoresPorRegulacion($idRegulacion) {
-        $this->db->select('sector.Nombre as Sector');
+        $this->db->select('sector.Nombre_Sector as Sector');
         $this->db->from('rel_nat_reg');
-        $this->db->join('sectores as sector', 'rel_nat_reg.ID_sector = sector.ID_sector');
+        $this->db->join('cat_sector as sector', 'rel_nat_reg.ID_sector = sector.ID_sector');
         $this->db->where('rel_nat_reg.ID_Regulacion', $idRegulacion);
         $query = $this->db->get();
         return $query->result();

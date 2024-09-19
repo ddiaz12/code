@@ -135,7 +135,7 @@
             </ul>
             <?php else: ?>
             <p>No hay regulaciones vinculadas.</p>
-             <?php endif; ?>
+            <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-tasks"></i> Trámites y servicios vinculados</button>

@@ -70,15 +70,26 @@
         <div class="section">
             <h4>Materias Reguladas:</h4>
             <ul>
-                <li>Salud</li>
-                <li>Administrativa</li>
+                @if (count($materias) > 0)
+                    @foreach ($materias as $materia)
+                        <li>{{ $materia->Materia }}</li>
+                    @endforeach
+                @else
+                    <li>No hay materias disponibles.</li>
+                @endif
             </ul>
         </div>
 
         <div class="section">
             <h4>Sectores regulados:</h4>
             <ul>
-                <li>Servicios de salud y de asistencia social</li>
+            @if (count($sectores) > 0)
+                    @foreach ($sectores as $sector)
+                        <li>{{ $sector->Sector }}</li>
+                    @endforeach
+                @else
+                    <li>No hay sectores disponibles.</li>
+                @endif
             </ul>
         </div>
     </div>
