@@ -220,6 +220,18 @@ h3,
 	color: white;
 }
 
+.btn-tinto {
+	background-color: #7f2841;
+	--bs-btn-active-bg: #923244;
+	--bs-btn-active-color: white;
+	color: white;
+}
+
+.btn-tinto:hover {
+	background-color: #923244;
+	color: white;
+}
+
 .btn-agregarGrupo {
 	--bs-btn-hover-bg: #7f2841;
 	margin-right: 20px;
@@ -275,6 +287,17 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	padding: 8px;
 }
 */
+
+/*Estilos para la tabla de comentarios*/
+.table td {
+    max-width: 140px; 
+	word-wrap: break-word; 
+}
+
+.table th {
+    white-space: nowrap;
+}
+/*---------------------------------------*/
 
 #datatablesSimple {
 	margin-bottom: 20px;

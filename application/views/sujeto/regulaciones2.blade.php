@@ -73,65 +73,13 @@ Registro Estatal de Regulaciones
                     <?php endif; ?>
                 </tbody>
             </table>
-            <!-- Modal de trazabilidad -->
-            <div class="modal fade" id="trazabilidadModal" tabindex="-1" role="dialog"
-                aria-labelledby="trazabilidadModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="trazabilidadModalLabel">Trazabilidad</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div id="trazabilidadContent">
-                                <!-- Aquí se cargará la trazabilidad en formato timeline por AJAX -->
-                                <ul class="timeline">
-                                    <!-- Items del timeline serán agregados dinámicamente -->
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+    <!-- Modal de trazabilidad -->
+    @include('modal/trazabilidad')
 
-    <div class="modal fade" id="comentariosModal" tabindex="-1" aria-labelledby="comentariosModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="comentariosModalLabel">Comentarios</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <textarea class="form-control" id="comentarioNuevo" placeholder="Comentario"></textarea>
-                    <input type="text" id="buscarComentario" class="form-control my-3" placeholder="Buscar comentario">
-                    <button class="btn btn-warning" id="buscarBtn">Buscar</button>
-
-                    <!-- Aquí se mostrarán los comentarios -->
-                    <table class="table table-bordered mt-3">
-                        <thead>
-                            <tr>
-                                <th>Comentario</th>
-                                <th>Usuario</th>
-                                <th>Fecha y hora de creación</th>
-                            </tr>
-                        </thead>
-                        <tbody id="comentariosContent">
-                            <!-- Aquí se insertarán los comentarios via AJAX -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary btn-agregarOficina"
-                        id="guardarComentarioBtn">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Modal de comentarios -->
+    @include('modal/comentarios')
 
 </div>
 @endsection
@@ -141,6 +89,7 @@ Registro Estatal de Regulaciones
 
 @section('js')
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/buscarComentario.js'); ?>"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.enviar-regulacion').forEach(function (element) {
@@ -239,9 +188,15 @@ Registro Estatal de Regulaciones
         });
     });
 
+    $(document).on('click', '.btn-comentarios', function () {
+        var regulacionId = $(this).data('id');
+        cargarComentarios(regulacionId);
+        $('#guardarComentarioBtn').data('regulacionId', regulacionId); // Guardar el ID de la regulación en el botón de guardar
+    });
+
     $('#guardarComentarioBtn').click(function () {
         var comentario = $('#comentarioNuevo').val();
-        var regulacionId = $('.btn-comentarios').data('id'); // Asume que ya tienes el ID de la regulación cargado en algún lugar
+        var regulacionId = $(this).data('regulacionId'); // Obtener el ID de la regulación almacenado en el botón de guardar
 
         $.ajax({
             url: '<?php echo base_url('Comentarios/guardarComentario'); ?>',
@@ -256,7 +211,7 @@ Registro Estatal de Regulaciones
                     alert(result.message);
                     $('#comentarioNuevo').val(''); // Limpiar el campo de comentario
                     // Recargar comentarios
-                    cargarComentarios(regulacionId);
+                    location.reload();
                 } else {
                     alert(result.message);
                 }
@@ -268,9 +223,7 @@ Registro Estatal de Regulaciones
     });
 
 
-    $(document).on('click', '.btn-comentarios', function () {
-        var regulacionId = $(this).data('id');
-
+    function cargarComentarios(regulacionId) {
         // Petición AJAX para obtener los comentarios
         $.ajax({
             url: '<?php echo base_url('Comentarios/obtenerComentarios'); ?>',
@@ -285,6 +238,6 @@ Registro Estatal de Regulaciones
                 $('#comentariosContent').html('<tr><td colspan="3">Error al cargar los comentarios.</td></tr>');
             }
         });
-    });
+    }
 </script>
 @endsection
