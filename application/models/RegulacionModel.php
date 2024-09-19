@@ -228,4 +228,162 @@ class RegulacionModel extends CI_Model {
         $this->db->where('ID_Regulacion', $id_regulacion);
         $this->db->update('ma_regulacion', array('Estatus' => 0));
     }
+
+    public function actualizar_estatus($id) {
+        $this->db->set('Estatus', 0);
+        $this->db->where('ID_Regulacion', $id);
+        $this->db->update('ma_regulacion');
+    }
+
+    public function get_regulacion_by_id($id) {
+        $this->db->where('ID_Regulacion', $id);
+        $query = $this->db->get('ma_regulacion');
+        return $query->row_array();
+    }
+
+    public function get_caracteristicas_by_id($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $query = $this->db->get('de_regulacion_caracteristicas');
+        return $query->row_array();
+    }
+
+    public function get_tipo_ordenamiento_by_id($id) {
+        $this->db->where('ID_tOrdJur', $id);
+        $query = $this->db->get('cat_tipo_ord_jur');
+        return $query->row_array();
+    }
+
+    public function get_emiten_by_caract($id_caract) {
+        $this->db->where('ID_caract', $id_caract);
+        $query = $this->db->get('rel_autoridades_emiten');
+        return $query->result_array();
+    }
+
+    public function get_aplican_by_caract($id_caract) {
+        $this->db->where('ID_caract', $id_caract);
+        $query = $this->db->get('rel_autoridades_aplican');
+        return $query->result_array();
+    }
+
+    public function get_dependencias_by_emiten($emiten_ids) {
+        if (!empty($emiten_ids)) {  // Aquí cambiamos de empty a !empty
+            if (is_array($emiten_ids)) {
+                $this->db->where_in('ID_Dependencia', $emiten_ids);
+            } else {
+                $this->db->where('ID_Dependencia', $emiten_ids);
+            }
+        }else{
+            return [];
+        }
+        $query = $this->db->get('cat_tipo_dependencia');
+        return $query->result_array();
+    }
+    
+    public function get_dependencias_by_aplican($aplican_ids) {
+        if (!empty($aplican_ids)) {  // Aquí cambiamos de empty a !empty
+            if (is_array($aplican_ids)) {
+                $this->db->where_in('ID_Dependencia', $aplican_ids);
+            } else {
+                $this->db->where('ID_Dependencia', $aplican_ids);
+            }
+        }else{
+            return [];
+        }
+        $query = $this->db->get('cat_tipo_dependencia');
+        return $query->result_array();
+    }
+    
+
+    public function get_indices_by_caract($id_caract) {
+        $this->db->where('ID_caract', $id_caract);
+        $query = $this->db->get('de_indice');
+        return $query->result_array();
+    }
+
+    public function get_rel_by_indice($indice_ids) {
+        if (empty($indice_ids)) {
+            return array(); // Retorna un array vacío si no hay IDs
+        }else{
+            if (is_array($indice_ids)) {
+                $this->db->where_in('ID_Indice', $indice_ids);
+            } else {
+                $this->db->where('ID_Indice', $indice_ids);
+            }
+        }
+        $query = $this->db->get('rel_indice');
+        return $query->result_array();
+    }
+
+    public function get_materias_by_regulacion($id_regulacion) {
+        $this->db->select('cat_regulacion_materias_gub.Nombre_Materia');
+        $this->db->from('rel_regulaciones_materias');
+        $this->db->join('cat_regulacion_materias_gub', 'rel_regulaciones_materias.ID_Materia = cat_regulacion_materias_gub.ID_Materia');
+        $this->db->where('rel_regulaciones_materias.ID_Regulacion', $id_regulacion);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function has_materias($id_regulacion) {
+        $this->db->from('rel_regulaciones_materias');
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->count_all_results() > 0;
+    }
+
+    public function updateRegulacion($id, $data){
+        $this->db->where('ID_Regulacion', $id);
+        return $this->db->update('ma_regulacion', $data);
+    }
+
+    public function updateCaracteristicas($id_regulacion, $data){
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('de_regulacion_caracteristicas', $data);
+    }
+
+    public function deleteEmiten($ID_caract, $ID_Dependencia){
+        $this->db->where('ID_caract', $ID_caract);
+        $this->db->where('ID_Emiten', $ID_Dependencia);
+        return $this->db->delete('rel_autoridades_emiten');
+    }
+
+    public function deleteAplican($ID_caract, $ID_Dependencia){
+        $this->db->where('ID_caract', $ID_caract);
+        $this->db->where('ID_Aplican', $ID_Dependencia);
+        return $this->db->delete('rel_autoridades_aplican');
+    }
+
+    public function verificarRelAutoridadesEmiten($ID_caract) {
+        $this->db->select('ID_Emiten');
+        $this->db->where('ID_caract', $ID_caract);
+        $query = $this->db->get('rel_autoridades_emiten');
+    
+        if ($query->num_rows() > 0) {
+            return array_column($query->result_array(), 'ID_Emiten'); // Devuelve un array de ID_Emiten
+        } else {
+            return false; // No existen registros
+        }
+    }
+    public function getDependenciasEmiten($ID_caract) {
+        $this->db->select('ID_Emiten');
+        $this->db->where('ID_caract', $ID_caract);
+        $query = $this->db->get('rel_autoridades_emiten');
+    
+        if ($query->num_rows() > 0) {
+            return array_column($query->result_array(), 'ID_Emiten'); // Devuelve un array de ID_Emiten
+        } else {
+            return []; // Devuelve un array vacío si no hay registros
+        }
+    }
+
+    
+    public function get_existentes_by_caract($ID_caract) {
+    $this->db->select('ID_Emiten');
+    $this->db->where('ID_caract', $ID_caract);
+    $query = $this->db->get('rel_autoridades_emiten');
+
+    if ($query->num_rows() > 0) {
+        return array_column($query->result_array(), 'ID_Emiten'); // Devuelve un array de ID_Emiten
+    } else {
+        return []; // Devuelve un array vacío si no hay registros
+    }
+}
 }

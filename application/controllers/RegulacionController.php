@@ -236,6 +236,12 @@ class RegulacionController extends CI_Controller
         }
     }
 
+    public function get_regulacion_by_id($id) {
+        $this->db->where('ID_Regulacion', $id);
+        $query = $this->db->get('ma_regulacion');
+        return $query->row_array();
+    }
+
     public function insertarRelAutoridadesEmiten() {
         // Cargar el modelo
         $this->load->model('RegulacionModel');
@@ -868,5 +874,19 @@ class RegulacionController extends CI_Controller
         } else {
             echo json_encode(['status' => 'empty']);
         }
+    }
+    public function obtenerExistentesPorCaract() {
+        $ID_caract = $this->input->post('ID_caract');
+    
+        // Verificar si el ID_caract está presente
+        if (empty($ID_caract)) {
+            echo json_encode(['status' => 'error', 'message' => 'ID_caract no proporcionado']);
+            return;
+        }
+    
+        // Obtener los registros existentes desde el modelo
+        $existentes = $this->RegulacionModel->get_existentes_by_caract($ID_caract);
+    
+        echo json_encode(['status' => 'success', 'data' => $existentes]);
     }
 }
