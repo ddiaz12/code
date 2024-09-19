@@ -100,12 +100,6 @@ class RegulacionController extends CI_Controller
         // Obtener los indices basados en los ID_Indice
         $data['relindice'] = $this->RegulacionModel->get_rel_by_indice($indice_ids);
 
-        // Guardar el campo 'ID_caract' en otra variable
-        $id_caract = $data['caracteristicas']['ID_caract'];
-
-        // Obtener las dependencias que emiten
-        $data['dependenciasEmiten'] = $this->RegulacionModel->getDependenciasEmiten($id_caract); // Obtener las dependencias que emiten
-
         // Pasar los datos a la vista
         $this->blade->render('regulaciones/editar_caracteristicas', $data);
     }

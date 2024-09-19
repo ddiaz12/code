@@ -25,6 +25,7 @@ Registro Estatal de Regulaciones
         </a>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
@@ -41,6 +42,7 @@ Registro Estatal de Regulaciones
                 <tbody>
                     <?php if (!empty($regulaciones)): ?>
                     <?php foreach ($regulaciones as $regulacion): ?>
+                    <?php if ($regulacion['Estatus'] == 1): // Mostrar solo si Estatus es igual a 1 ?>
                     <?php if ($regulacion['Estatus'] == 1): // Mostrar solo si Estatus es igual a 1 ?>
                     <tr>
                         <td><?php echo $regulacion['ID_Regulacion']; ?></td>
@@ -62,6 +64,7 @@ Registro Estatal de Regulaciones
                         </td>
 
                     </tr>
+                    <?php endif; ?>
                     <?php endif; ?>
                     <?php endforeach; ?>
                     <?php else: ?>
