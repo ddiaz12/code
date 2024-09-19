@@ -25,6 +25,7 @@ Registro Estatal de Regulaciones
         </a>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
@@ -78,7 +79,8 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
                             <!-- Botones de acción en vertical -->
-                            <button class="btn btn-warning btn-sm edit-row" title="Editar">
+                            <button class="btn btn-warning btn-sm edit-row" title="Editar"
+                                    data-id="<?php echo $regulacion['ID_Regulacion']; ?>">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
@@ -102,6 +104,7 @@ Registro Estatal de Regulaciones
                                 <i class="fas fa-comments"></i>
                             </button>
                         </td>
+
                     </tr>
                     <?php        endif; ?>
                     <?php    endforeach; ?>
@@ -197,7 +200,7 @@ Registro Estatal de Regulaciones
                         let res = JSON.parse(response);
                         if (res.status === 'success') {
                             alert('Estatus actualizado exitosamente.');
-                            window.location.href = 'http://localhost/code/RegulacionController';
+                            window.location.href =  'http://localhost/code/RegulacionController';
                         } else {
                             alert('Hubo un error al actualizar el estatus.');
                         }
@@ -208,7 +211,15 @@ Registro Estatal de Regulaciones
                 });
             }
         });
+        // Captura el evento de clic en el botón de editar
+    $('.edit-row').on('click', function() {
+        // Obtiene el ID de la regulación del atributo data-id
+        var idRegulacion = $(this).data('id');
+        
+        // Redirecciona a la URL de edición con el ID_Regulacion
+        window.location.href = '<?= base_url("RegulacionController/edit_caract/"); ?>' + idRegulacion;
     });
+});
 
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.btn-devolver').forEach(function (element) {
