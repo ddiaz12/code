@@ -25,6 +25,7 @@ Registro Estatal de Regulaciones
         </a>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
@@ -42,6 +43,7 @@ Registro Estatal de Regulaciones
                     <?php if (!empty($regulaciones)): ?>
                     <?php foreach ($regulaciones as $regulacion): ?>
                     <?php if ($regulacion['Estatus'] == 1): // Mostrar solo si Estatus es igual a 1 ?>
+                    <?php if ($regulacion['Estatus'] == 1): // Mostrar solo si Estatus es igual a 1 ?>
                     <tr>
                         <td><?php echo $regulacion['ID_Regulacion']; ?></td>
                         <td><?php echo $regulacion['Nombre_Regulacion']; ?></td>
@@ -51,7 +53,8 @@ Registro Estatal de Regulaciones
                         <td>
                             <!-- Botones de acción en vertical -->
                             <div class="btn-group-vertical">
-                                <button class="btn btn-warning btn-sm edit-row">
+                                <button class="btn btn-warning btn-sm edit-row"
+                                    data-id="<?php echo $regulacion['ID_Regulacion']; ?>">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button class="btn btn-danger btn-sm delete-row">
@@ -59,7 +62,9 @@ Registro Estatal de Regulaciones
                                 </button>
                             </div>
                         </td>
+
                     </tr>
+                    <?php endif; ?>
                     <?php endif; ?>
                     <?php endforeach; ?>
                     <?php else: ?>
@@ -93,7 +98,7 @@ $(document).ready(function() {
                     let res = JSON.parse(response);
                     if (res.status === 'success') {
                         alert('Estatus actualizado exitosamente.');
-                        window.location.href ='http://localhost/code/RegulacionController';
+                        window.location.href = 'http://localhost/code/RegulacionController';
                     } else {
                         alert('Hubo un error al actualizar el estatus.');
                     }
@@ -103,6 +108,14 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+    // Captura el evento de clic en el botón de editar
+    $('.edit-row').on('click', function() {
+        // Obtiene el ID de la regulación del atributo data-id
+        var idRegulacion = $(this).data('id');
+        
+        // Redirecciona a la URL de edición con el ID_Regulacion
+        window.location.href = '<?= base_url("RegulacionController/edit_caract/"); ?>' + idRegulacion;
     });
 });
 </script>

@@ -102,7 +102,9 @@ Registro Estatal de Regulaciones
                                     <label for="selectUnidad">Tipo de ordenamiento jurídico<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="selectUnidad" name="unidad" required>
-                                        <option disabled selected>
+                                        <option
+                                            value="<?php echo isset($tipo_ordenamiento_guardado['ID_tOrdJur']) ? $tipo_ordenamiento_guardado['ID_tOrdJur'] : ''; ?>"
+                                            disabled selected>
                                             <?php echo isset($tipo_ordenamiento_guardado['Tipo_Ordenamiento']) ? $tipo_ordenamiento_guardado['Tipo_Ordenamiento'] : 'Selecciona una opción'; ?>
                                         </option>
                                         <?php foreach ($tipos_ordenamiento as $tipo): ?>
@@ -113,29 +115,29 @@ Registro Estatal de Regulaciones
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de Expedición de la regulación<span
+                                    <label for="Fecha_Exp">Fecha de Expedición de la regulación<span
                                             class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="inputFecha" name="fecha_expedicion"
+                                    <input type="date" class="form-control" id="Fecha_Exp" name="fecha_expedicion"
                                         value="<?php echo isset($caracteristicas['Fecha_Exp']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Exp'])) : ''; ?>"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de publicación de la regulación<span
+                                    <label for="Fecha_Publi">Fecha de publicación de la regulación<span
                                             class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="inputFecha" name="fecha_publicacion"
+                                    <input type="date" class="form-control" id="Fecha_Publi" name="fecha_publicacion"
                                         value="<?php echo isset($caracteristicas['Fecha_Publi']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Publi'])) : ''; ?>"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de Vigor<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="inputFecha" name="fecha_vigor"
+                                    <label for="Fecha_Vigor">Fecha de Vigor<span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="Fecha_Vigor" name="fecha_vigor"
                                         value="<?php echo isset($caracteristicas['Fecha_Vigor']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Vigor'])) : ''; ?>"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de última actualización<span
+                                    <label for="Fecha_Act">Fecha de última actualización<span
                                             class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="inputFecha" name="fecha_act"
+                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act"
                                         value="<?php echo isset($caracteristicas['Fecha_Act']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Act'])) : ''; ?>"
                                         required>
                                 </div>
@@ -350,7 +352,7 @@ Registro Estatal de Regulaciones
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
+
                                     </tbody>
                                 </table>
 
@@ -555,486 +557,262 @@ $(document).ready(function() {
     // Manejar el evento de clic en el botón de eliminar
     $('#emitenTable').on('click', '.delete-row', function() {
         var row = $(this).closest('tr');
-        var id = row.data('id');
+        var ID_Dependencia = row.find('td').eq(0).text().trim(); // Ajusta el índice según la posición de ID_Dependencia en la fila
+        var ID_caract = <?= json_encode($caracteristicas['ID_caract']) ?>;
 
-        // Eliminar la fila de la tabla
-        row.remove();
+        console.log('ID de la dependencia a eliminar:', ID_Dependencia);
+        console.log('ID de la característica:', ID_caract);
+        console.log('Array antes de eliminar:', emitenArray);
 
-        // Eliminar el registro del array
-        emitenArray = emitenArray.filter(function(item) {
-            return item.ID_Dependencia !== id;
-        });
+        // Confirmar la eliminación
+        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+            // Eliminar la fila de la tabla
+            row.remove();
 
-        console.log('Registro eliminado. Array actualizado:', emitenArray);
+            // Eliminar el registro del array
+            emitenArray = emitenArray.filter(function(item) {
+                return item.ID_Dependencia !== ID_Dependencia;
+            });
+
+            console.log('Registro eliminado. Array actualizado:', emitenArray);
+
+            // Enviar la solicitud AJAX para eliminar el registro de la base de datos
+            $.ajax({
+                url: '<?= base_url("RegulacionController/eliminarEmiten") ?>',
+                type: 'POST',
+                data: {
+                    ID_caract: ID_caract,
+                    ID_Dependencia: ID_Dependencia
+                },
+                success: function(response) {
+                    var result = JSON.parse(response);
+                    if (result.status === 'success') {
+                        alert('Registro eliminado exitosamente de la base de datos.');
+                    } else {
+                        alert('Error al eliminar el registro de la base de datos: ' + result.message);
+                    }
+                },
+                error: function() {
+                    alert('Error en la solicitud AJAX para eliminar el registro de la base de datos.');
+                }
+            });
+        }
     });
 
+    // Manejar el evento de clic en el botón de eliminar para la tabla aplicanTable
     $('#aplicanTable').on('click', '.delete-row', function() {
         var row = $(this).closest('tr');
-        var id = row.data('id');
+        var ID_Dependencia = row.find('td').eq(0).text().trim(); // Obtener el ID_Dependencia de la primera celda
+        var ID_caract = <?= json_encode($caracteristicas['ID_caract']) ?>;
 
-        // Eliminar la fila de la tabla
-        row.remove();
+        console.log('ID de la dependencia a eliminar:', ID_Dependencia);
+        console.log('ID de la característica:', ID_caract);
+        console.log('Array antes de eliminar:', aplicanArray);
 
-        // Eliminar el registro del array
-        aplicanArray = aplicanArray.filter(function(item) {
-            return item.ID_Dependencia !== id;
-        });
+        // Confirmar la eliminación
+        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+            // Eliminar la fila de la tabla
+            row.remove();
 
-        console.log('Registro eliminado. Array actualizado:', aplicanArray);
+            // Eliminar el registro del array
+            aplicanArray = aplicanArray.filter(function(item) {
+                return item.ID_Dependencia !== ID_Dependencia;
+            });
+
+            console.log('Registro eliminado. Array actualizado:', aplicanArray);
+
+            // Enviar la solicitud AJAX para eliminar el registro de la base de datos
+            $.ajax({
+                url: '<?= base_url("RegulacionController/eliminarAplican") ?>',
+                type: 'POST',
+                data: {
+                    ID_caract: ID_caract,
+                    ID_Dependencia: ID_Dependencia
+                },
+                success: function(response) {
+                    var result = JSON.parse(response);
+                    if (result.status === 'success') {
+                        alert('Registro eliminado exitosamente de la base de datos.');
+                    } else {
+                        alert('Error al eliminar el registro de la base de datos: ' + result.message);
+                    }
+                },
+                error: function() {
+                    alert('Error en la solicitud AJAX para eliminar el registro de la base de datos.');
+                }
+            });
+        }
     });
 });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-var caracteristicasData = {}; // Declaración global
-var reIndice = []; // Declaración global
-
 $(document).ready(function() {
+    // Asegúrate de que ID_DependenciasEmiten esté definido y contenga los valores correctos
+    var ID_DependenciasEmiten = <?= json_encode($dependenciasEmiten) ?>;
+    
     $('#botonGuardar').on('click', function() {
+        // Obtener el valor del select
+        var ID_tOrdJur = $('#selectUnidad').val();
+        
+        // Si el valor es null o una cadena vacía, obtener el valor de la opción por defecto
+        if (!ID_tOrdJur) {
+            ID_tOrdJur = $('#selectUnidad option:selected').val();
+        }
+
+        // Obtener los datos del formulario
         var formData = {
-            nombre: '',
-            campoExtra: '',
-            objetivoReg: '',
-            unidad: '',
-            sujeto: '',
-            fecha_expedicion: '',
-            fecha_publicacion: '',
-            fecha_vigor: '',
-            fecha_act: ''
+            ID_Regulacion: <?= json_encode($regulacion['ID_Regulacion']) ?>,
+            nombre: $('#inputNombre').val(),
+            campoExtra: $('#campoExtra').val(),
+            objetivoReg: $('#inputObjetivo').val(),
+            ID_caract: <?= json_encode($caracteristicas['ID_caract']) ?>,
+            ID_tOrdJur: ID_tOrdJur,
+            Nombre: $('#inputNombre').val(),
+            Ambito_Aplicacion: <?= json_encode($caracteristicas['Ambito_Aplicacion']) ?>,
+            Fecha_Exp: $('#Fecha_Exp').val(),
+            Fecha_Publi: $('#Fecha_Publi').val(),
+            Fecha_Vigor: $('#Fecha_Vigor').val(),
+            Fecha_Act: $('#Fecha_Act').val(),
+            Vigencia: $('#campoExtra').val(),
+            Orden_Gob: $('#selectUnidad2').val()
         };
+        console.log('Datos del formulario:', formData);
 
-        $('input, input[type="date"], select, textarea').each(function() {
-            var id = $(this).attr('id');
-            if (id !== 'AutoridadesEmiten' && id !== 'AutoridadesAplican' && id !==
-                'inputTexto' && id !== 'selectIndicePadre' && id !== 'selectAplican' &&
-                id !== 'selectVigencia' && !id.includes('si') && !id.includes('no') && !id
-                .includes('apsi') && !id.includes('apno')) {
-                var name = $(this).attr('name');
-                var value = $(this).val();
-                formData[name] = value;
-            }
-        });
-
-        // Imprimir formData en consola
-        console.log(formData);
-
+        // Enviar la solicitud AJAX para modificar la regulación
         $.ajax({
-            url: '<?php echo base_url('RegulacionController/insertarRegulacion'); ?>',
+            url: '<?= base_url("RegulacionController/modificarRegulacion") ?>',
             type: 'POST',
             data: formData,
             success: function(response) {
                 var result = JSON.parse(response);
                 if (result.status === 'success') {
-                    alert('Datos insertados correctamente');
-                    console.log('result', result);
-
-                    // Obtener el ID_Regulacion devuelto en la respuesta
-                    var ID_Regulacion = result.ID_Regulacion;
-                    console.log('ID_Regulacion', ID_Regulacion);
-
+                    // Enviar la solicitud AJAX para modificar las características
                     $.ajax({
-                        url: '<?php echo base_url('RegulacionController/obtenerMaxIDCaract'); ?>',
-                        type: 'GET',
-                        success: function(maxIDResponse) {
-                            var maxID = parseInt(maxIDResponse) + 1;
-
-                            $.ajax({
-                                url: '<?php echo base_url('RegulacionController/obtenerMaxIDRegulacion'); ?>',
-                                type: 'GET',
-                                success: function(maxIDRegResponse) {
-                                    var maxIDReg = parseInt(
-                                        maxIDRegResponse);
-
-                                    // Asignar valores a la variable global caracteristicasData
-                                    caracteristicasData = {
-                                        ID_caract: maxID,
-                                        ID_Regulacion: maxIDReg,
-                                        ID_tOrdJur: formData
-                                            .unidad,
-                                        Nombre: formData.nombre,
-                                        Ambito_Aplicacion: formData
-                                            .sujeto,
-                                        Fecha_Exp: formData
-                                            .fecha_expedicion,
-                                        Fecha_Publi: formData
-                                            .fecha_publicacion,
-                                        Fecha_Vigor: formData
-                                            .fecha_vigor,
-                                        Fecha_Act: formData
-                                            .fecha_act,
-                                        Vigencia: formData
-                                            .campoExtra,
-                                        Orden_Gob: formData
-                                            .orden
-                                    };
-
-                                    // Imprimir caracteristicasData en consola
-                                    console.log(
-                                        caracteristicasData);
-
-                                    $.ajax({
-                                        url: '<?php echo base_url('RegulacionController/insertarCaracteristicas'); ?>',
-                                        type: 'POST',
-                                        data: caracteristicasData,
-                                        success: function(
-                                            caractResponse
-                                        ) {
-                                            var caractResult =
-                                                JSON
-                                                .parse(
-                                                    caractResponse
-                                                );
-                                            if (caractResult
-                                                .status ===
-                                                'success'
-                                            ) {
-                                                alert(
-                                                    'Características insertadas correctamente'
-                                                );
-
-                                                // Obtener todos los ID_Dependencia de la tabla emitenTable
-                                                var
-                                                    ID_DependenciasEmiten = [];
-                                                $('#emitenTable tbody tr')
-                                                    .each(
-                                                        function() {
-                                                            var ID_Dependencia =
-                                                                $(
-                                                                    this
-                                                                )
-                                                                .find(
-                                                                    'td'
-                                                                )
-                                                                .eq(
-                                                                    0
-                                                                )
-                                                                .text();
-                                                            ID_DependenciasEmiten
-                                                                .push(
-                                                                    ID_Dependencia
-                                                                );
-                                                        }
-                                                    );
-
-                                                // Insertar en la tabla rel_autoridades_emiten
-                                                ID_DependenciasEmiten
-                                                    .forEach(
-                                                        function(
-                                                            ID_Dependencia
-                                                        ) {
-                                                            var relDataEmiten = {
-                                                                ID_Emiten: ID_Dependencia,
-                                                                ID_Caract: caracteristicasData
-                                                                    .ID_caract
-                                                            };
-
-                                                            $.ajax({
-                                                                url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesEmiten'); ?>',
-                                                                type: 'POST',
-                                                                data: relDataEmiten,
-                                                                success: function(
-                                                                    relResponse
-                                                                ) {
-                                                                    var relResult =
-                                                                        JSON
-                                                                        .parse(
-                                                                            relResponse
-                                                                        );
-                                                                    if (relResult
-                                                                        .status ===
-                                                                        'success'
-                                                                    ) {
-                                                                        console
-                                                                            .log(
-                                                                                'Relación Emiten insertada correctamente'
-                                                                            );
-                                                                    } else {
-                                                                        console
-                                                                            .log(
-                                                                                'Error al insertar la relación'
-                                                                            );
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    );
-
-                                                // Obtener todos los ID_Dependencia de la tabla aplicanTable
-                                                var
-                                                    ID_DependenciasAplican = [];
-                                                $('#aplicanTable tbody tr')
-                                                    .each(
-                                                        function() {
-                                                            var ID_Dependencia =
-                                                                $(
-                                                                    this
-                                                                )
-                                                                .find(
-                                                                    'td'
-                                                                )
-                                                                .eq(
-                                                                    0
-                                                                )
-                                                                .text();
-                                                            ID_DependenciasAplican
-                                                                .push(
-                                                                    ID_Dependencia
-                                                                );
-                                                        }
-                                                    );
-
-                                                // Insertar en la tabla rel_autoridades_aplican
-                                                ID_DependenciasAplican
-                                                    .forEach(
-                                                        function(
-                                                            ID_Dependencia
-                                                        ) {
-                                                            var relDataAplican = {
-                                                                ID_Aplican: ID_Dependencia,
-                                                                ID_Caract: caracteristicasData
-                                                                    .ID_caract
-                                                            };
-
-                                                            $.ajax({
-                                                                url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesAplican'); ?>',
-                                                                type: 'POST',
-                                                                data: relDataAplican,
-                                                                success: function(
-                                                                    relResponse
-                                                                ) {
-                                                                    var relResult =
-                                                                        JSON
-                                                                        .parse(
-                                                                            relResponse
-                                                                        );
-                                                                    if (relResult
-                                                                        .status ===
-                                                                        'success'
-                                                                    ) {
-                                                                        console
-                                                                            .log(
-                                                                                'Relación Aplican insertada correctamente'
-                                                                            );
-                                                                    } else {
-                                                                        console
-                                                                            .log(
-                                                                                'Error al insertar la relación'
-                                                                            );
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    );
-
-                                                // Lógica de insertarDatosTabla directamente aquí
-                                                var
-                                                    datosTabla = [];
-                                                $('#resultTable tbody tr')
-                                                    .each(
-                                                        function() {
-                                                            var ID_Indice =
-                                                                $(
-                                                                    this
-                                                                )
-                                                                .find(
-                                                                    'td'
-                                                                )
-                                                                .eq(
-                                                                    0
-                                                                )
-                                                                .text();
-                                                            var Texto =
-                                                                $(
-                                                                    this
-                                                                )
-                                                                .find(
-                                                                    'td'
-                                                                )
-                                                                .eq(
-                                                                    1
-                                                                )
-                                                                .text();
-                                                            var Orden =
-                                                                $(
-                                                                    this
-                                                                )
-                                                                .find(
-                                                                    'td'
-                                                                )
-                                                                .eq(
-                                                                    2
-                                                                )
-                                                                .text();
-
-                                                            var filaDatos = {
-                                                                ID_Indice: ID_Indice,
-                                                                ID_caract: caracteristicasData
-                                                                    .ID_caract,
-                                                                Texto: Texto,
-                                                                Orden: Orden
-                                                            };
-
-                                                            datosTabla
-                                                                .push(
-                                                                    filaDatos
-                                                                );
-                                                        }
-                                                    );
-
-                                                // Imprimir datosTabla en consola
-                                                console
-                                                    .log(
-                                                        datosTabla
-                                                    );
-
-                                                // Insertar los datos en la base de datos
-                                                $.ajax({
-                                                    url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
-                                                    type: 'POST',
-                                                    data: {
-                                                        datosTabla: datosTabla
-                                                    },
-                                                    success: function(
-                                                        response
-                                                    ) {
-                                                        var result =
-                                                            JSON
-                                                            .parse(
-                                                                response
-                                                            );
-                                                        if (result
-                                                            .status ===
-                                                            'success'
-                                                        ) {
-                                                            alert
-                                                                (
-                                                                    'Datos de la tabla insertados correctamente'
-                                                                );
-                                                        } else {
-                                                            alert
-                                                                (
-                                                                    'Error al insertar los datos de la tabla'
-                                                                );
-                                                        }
-                                                    }
-                                                });
-
-                                                // Insertar datos en la tabla rel_indice
-                                                var
-                                                    relIndiceData = [];
-                                                $('#resultTable tbody tr')
-                                                    .each(
-                                                        function(
-                                                            index
-                                                        ) {
-                                                            var ID_Indice =
-                                                                $(
-                                                                    this
-                                                                )
-                                                                .find(
-                                                                    'td'
-                                                                )
-                                                                .eq(
-                                                                    0
-                                                                )
-                                                                .text();
-                                                            var ID_Jerarquia =
-                                                                reIndice[
-                                                                    index
-                                                                ] ?
-                                                                reIndice[
-                                                                    index
-                                                                ]
-                                                                .ID_Jerarquia :
-                                                                null;
-                                                            var ID_Padre =
-                                                                reIndice[
-                                                                    index
-                                                                ] ?
-                                                                reIndice[
-                                                                    index
-                                                                ]
-                                                                .ID_Indice :
-                                                                null;
-
-                                                            if (ID_Jerarquia &&
-                                                                ID_Padre
-                                                            ) {
-                                                                var filaRelIndice = {
-                                                                    ID_Jerarquia: ID_Jerarquia,
-                                                                    ID_Indice: ID_Indice,
-                                                                    ID_Padre: ID_Padre
-                                                                };
-
-                                                                relIndiceData
-                                                                    .push(
-                                                                        filaRelIndice
-                                                                    );
+                        url: '<?= base_url("RegulacionController/modificarCaracteristicas") ?>',
+                        type: 'POST',
+                        data: formData,
+                        success: function(response) {
+                            var result = JSON.parse(response);
+                            console.log('ID_DependenciasEmiten:', ID_DependenciasEmiten);
+                            if (result.status === 'success') {
+                                // Verificar si hay registros en rel_autoridades_emiten con el ID_caract
+                                $.ajax({
+                                    url: '<?= base_url("RegulacionController/verificarRelAutoridadesEmiten") ?>',
+                                    type: 'POST',
+                                    data: { ID_caract: formData.ID_caract },
+                                    success: function(response) {
+                                        var result = JSON.parse(response);
+                                        if (result.status === 'empty') {
+                                            // No hay registros, insertar los datos
+                                            // Obtener todos los ID_Dependencia de la tabla emitenTable
+                                            var ID_DependenciasEmiten = [];
+                                            $('#emitenTable tbody tr').each(
+                                                function() {
+                                                    var ID_Dependencia =$(this).find('td').eq(0).text();
+                                                    ID_DependenciasEmiten.push(ID_Dependencia);
+                                                }
+                                            );
+                                            // Insertar en la tabla rel_autoridades_emiten
+                                            ID_DependenciasEmiten.forEach(
+                                                function(ID_Dependencia) {
+                                                    var relDataEmiten = {
+                                                        ID_Emiten: ID_Dependencia,
+                                                        ID_Caract: formData.ID_caract
+                                                    };
+                                                    $.ajax({
+                                                        url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>',
+                                                        type: 'POST',
+                                                        data: relDataEmiten,
+                                                        success: function(response) {
+                                                            var result = JSON.parse(response);
+                                                            if (result.status === 'success') {
+                                                                alert('Regulación, características y relación de autoridades modificadas exitosamente.');
+                                                                // Opcional: Redirigir o actualizar la página
+                                                                location.reload();
+                                                            } else {
+                                                                alert('Error al insertar la relación de autoridades: ' + result.message);
                                                             }
+                                                        },
+                                                        error: function() {
+                                                            alert('Error en la solicitud AJAX para insertar la relación de autoridades.');
                                                         }
-                                                    );
+                                                    });
+                                                }
+                                            ); 
+                                        } else {
+                                            // Hay registros existentes, insertar solo los nuevos
+                                            $.ajax({
+                                                url: '<?= base_url("RegulacionController/obtenerExistentesPorCaract") ?>',
+                                                type: 'POST',
+                                                data: { ID_caract: formData.ID_caract },
+                                                success: function(response) {
+                                                    var result = JSON.parse(response);
+                                                    if (result.status === 'success') {
+                                                        var existentes = result.data; // Contiene los ID_Emiten existentes
+                                                        var nuevos = ID_DependenciasEmiten.filter(function(ID_Dependencia) {
+                                                            return !existentes.includes(ID_Dependencia);
+                                                        });
 
-                                                // Imprimir relIndiceData en consola
-                                                console
-                                                    .log(
-                                                        relIndiceData
-                                                    );
-
-                                                // Insertar los datos en la base de datos
-                                                $.ajax({
-                                                    url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
-                                                    type: 'POST',
-                                                    data: {
-                                                        relIndiceData: relIndiceData
-                                                    },
-                                                    success: function(
-                                                        response
-                                                    ) {
-                                                        var result =
-                                                            JSON
-                                                            .parse(
-                                                                response
-                                                            );
-                                                        if (result
-                                                            .status ===
-                                                            'success'
-                                                        ) {
-                                                            alert
-                                                                (
-                                                                    'Datos de rel_indice insertados correctamente'
-                                                                );
-                                                            // Redirigir a la página especificada
-                                                            window
-                                                                .location
-                                                                .href =
-                                                                'http://localhost/code/RegulacionController/mat_exentas';
+                                                        if (nuevos.length > 0) {
+                                                            nuevos.forEach(function(ID_Dependencia) {
+                                                                var relDataEmiten = {
+                                                                ID_Emiten: ID_Dependencia,
+                                                                ID_Caract: formData.ID_caract
+                                                                };
+                                                                $.ajax({
+                                                                    url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>',
+                                                                    type: 'POST',
+                                                                    data: relDataEmiten,
+                                                                    success: function(response) {
+                                                                        var result = JSON.parse(response);
+                                                                        if (result.status === 'success') {
+                                                                            alert('Regulación, características y relación de autoridades modificadas exitosamente.');
+                                                                            // Opcional: Redirigir o actualizar la página
+                                                                            location.reload();
+                                                                        } else {
+                                                                            alert('Error al insertar la relación de autoridades: ' + result.message);
+                                                                        }
+                                                                    },
+                                                                    error: function() {
+                                                                    alert('Error en la solicitud AJAX para insertar la relación de autoridades.');
+                                                                    }
+                                                                });
+                                                            });
                                                         } else {
-                                                            alert
-                                                                (
-                                                                    'Error al insertar los datos de rel_indice'
-                                                                );
-                                                            // Redirigir a la página especificada
-                                                            window
-                                                                .location
-                                                                .href =
-                                                                'http://localhost/code/RegulacionController/mat_exentas';
-                                                        }
+                                                        alert('Regulación y características modificadas exitosamente.');
+                                                        // Opcional: Redirigir o actualizar la página
+                                                        location.reload();
                                                     }
-                                                });
-
-                                            } else {
-                                                alert(
-                                                    'Error al insertar las características'
-                                                );
-                                            }
+                                                } else {
+                                                alert('Error al obtener los registros existentes: ' + result.message);
+                                                }
+                                                },
+                                                error: function() {
+                                                alert('Error en la solicitud AJAX para obtener los registros existentes.');
+                                                }
+                                            });
                                         }
-                                    });
-                                }
-                            });
+                                    },
+                                    error: function() {
+                                        alert('Error en la solicitud AJAX para verificar la relación de autoridades.');
+                                    }
+                                });
+                            } else {
+                                alert('Error al modificar las características: ' + result.message);
+                            }
+                        },
+                        error: function() {
+                            alert('Error en la solicitud AJAX para modificar las características');
                         }
                     });
                 } else {
-                    alert('Error al insertar los datos');
+                    alert('Error al modificar la regulación: ' + result.message);
                 }
+            },
+            error: function() {
+                alert('Error en la solicitud AJAX para modificar la regulación');
             }
         });
     });

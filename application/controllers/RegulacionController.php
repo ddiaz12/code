@@ -734,4 +734,147 @@ class RegulacionController extends CI_Controller
         echo 'console.log(' . json_encode($emiten) . ');';
         echo '</script>';
     }
+
+    public function editarCaracteristicas($id) {
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+        // Obtener los datos necesarios usando el $id
+        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id);
+        // Cargar la vista con los datos
+        $this->blade->render('editar_caracteristicas', $data);
+    }
+
+    public function modificarRegulacion(){
+        $formData = $this->input->post();
+
+        // Verificar que los índices existan en formData
+        if (!isset($formData['ID_Regulacion']) || !isset($formData['nombre']) || !isset($formData['campoExtra']) || !isset($formData['objetivoReg'])) {
+            echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
+            return;
+        }
+
+        // Preparar los datos para actualizar
+        $data = array(
+            'Nombre_Regulacion' => $formData['nombre'],
+            'Vigencia' => $formData['campoExtra'],
+            'Objetivo_Reg' => $formData['objetivoReg']
+        );
+
+        // Actualizar los datos
+        $this->load->model('RegulacionModel');
+        $result = $this->RegulacionModel->updateRegulacion($formData['ID_Regulacion'], $data);
+
+        // Verificar el resultado de la actualización
+        if ($result) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Error al actualizar la regulación'));
+        }
+    }
+
+    public function modificarCaracteristicas(){
+        $formData = $this->input->post();
+
+        // Verificar que los índices existan en formData
+        if (!isset($formData['ID_Regulacion']) || !isset($formData['ID_caract']) || !isset($formData['ID_tOrdJur']) || !isset($formData['Nombre']) || !isset($formData['Ambito_Aplicacion']) || !isset($formData['Fecha_Exp']) || !isset($formData['Fecha_Publi']) || !isset($formData['Fecha_Vigor']) || !isset($formData['Fecha_Act']) || !isset($formData['Vigencia']) || !isset($formData['Orden_Gob'])) {
+            echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
+            return;
+        }
+
+        // Preparar los datos para actualizar
+        $data = array(
+            'ID_caract' => $formData['ID_caract'],
+            'ID_tOrdJur' => $formData['ID_tOrdJur'],
+            'Nombre' => $formData['Nombre'],
+            'Ambito_Aplicacion' => $formData['Ambito_Aplicacion'],
+            'Fecha_Exp' => $formData['Fecha_Exp'],
+            'Fecha_Publi' => $formData['Fecha_Publi'],
+            'Fecha_Vigor' => $formData['Fecha_Vigor'],
+            'Fecha_Act' => $formData['Fecha_Act'],
+            'Vigencia' => $formData['Vigencia'],
+            'Orden_Gob' => $formData['Orden_Gob']
+        );
+
+        // Actualizar los datos
+        $this->load->model('RegulacionModel');
+        $result = $this->RegulacionModel->updateCaracteristicas($formData['ID_Regulacion'], $data);
+
+        // Verificar el resultado de la actualización
+        if ($result) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Error al actualizar las características de la regulación'));
+        }
+    }
+
+    public function eliminarEmiten(){
+        $ID_caract = $this->input->post('ID_caract');
+        $ID_Dependencia = $this->input->post('ID_Dependencia');
+
+        if (!$ID_caract || !$ID_Dependencia) {
+            echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
+            return;
+        }
+
+        $this->load->model('RegulacionModel');
+        $result = $this->RegulacionModel->deleteEmiten($ID_caract, $ID_Dependencia);
+
+        if ($result) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Error al eliminar el registro de la base de datos'));
+        }
+    }
+
+    public function eliminarAplican(){
+        $ID_caract = $this->input->post('ID_caract');
+        $ID_Dependencia = $this->input->post('ID_Dependencia');
+
+        if (!$ID_caract || !$ID_Dependencia) {
+            echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
+            return;
+        }
+
+        $this->load->model('RegulacionModel');
+        $result = $this->RegulacionModel->deleteAplican($ID_caract, $ID_Dependencia);
+
+        if ($result) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Error al eliminar el registro de la base de datos'));
+        }
+    }
+
+    public function verificarRelAutoridadesEmiten() {
+        $ID_caract = $this->input->post('ID_caract');
+    
+        // Verificar si el ID_caract está presente
+        if (empty($ID_caract)) {
+            echo json_encode(['status' => 'error', 'message' => 'ID_caract no proporcionado']);
+            return;
+        }
+    
+        // Consultar la base de datos para verificar si existen registros con el ID_caract
+        $result = $this->RegulacionModel->verificarRelAutoridadesEmiten($ID_caract);
+    
+        if ($result) {
+            echo json_encode(['status' => 'exists', 'data' => $result]);
+        } else {
+            echo json_encode(['status' => 'empty']);
+        }
+    }
+    public function obtenerExistentesPorCaract() {
+        $ID_caract = $this->input->post('ID_caract');
+    
+        // Verificar si el ID_caract está presente
+        if (empty($ID_caract)) {
+            echo json_encode(['status' => 'error', 'message' => 'ID_caract no proporcionado']);
+            return;
+        }
+    
+        // Obtener los registros existentes desde el modelo
+        $existentes = $this->RegulacionModel->get_existentes_by_caract($ID_caract);
+    
+        echo json_encode(['status' => 'success', 'data' => $existentes]);
+    }
 }
