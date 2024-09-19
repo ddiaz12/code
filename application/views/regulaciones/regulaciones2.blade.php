@@ -44,8 +44,7 @@ Registro Estatal de Regulaciones
                     <?php    foreach ($regulaciones as $regulacion): ?>
                     <?php        if ($regulacion->Estatus == 1): ?>
                     <?php 
-
-            $background_color = 'gray';
+                    $background_color = 'gray';
             // Obtener la notificación relacionada con la regulación
             $notificacion = $this->NotificacionesModel->getNotificacionPorRegulacion($regulacion->ID_Regulacion);
 
@@ -65,14 +64,13 @@ Registro Estatal de Regulaciones
             } else {
                 $dias_restantes = 'N/A'; // Si no hay notificación, no se puede calcular
             }
-                    ?>
+                ?>
                     <tr>
                         <td><?php            echo $regulacion->ID_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Nombre_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Homoclave; ?></td>
                         <td>
-                            <span class="status-circle"
-                                style="background-color: <?php            echo $background_color; ?>;">
+                            <span class="status-circle" style="background-color: <?php            echo $background_color; ?>;">
                                 <?php            echo is_numeric($dias_restantes) ? $dias_restantes : $dias_restantes; ?>
                             </span>
                         </td>
@@ -80,7 +78,7 @@ Registro Estatal de Regulaciones
                         <td>
                             <!-- Botones de acción en vertical -->
                             <button class="btn btn-warning btn-sm edit-row" title="Editar"
-                                    data-id="<?php echo $regulacion['ID_Regulacion']; ?>">
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
@@ -104,7 +102,6 @@ Registro Estatal de Regulaciones
                                 <i class="fas fa-comments"></i>
                             </button>
                         </td>
-
                     </tr>
                     <?php        endif; ?>
                     <?php    endforeach; ?>
@@ -200,7 +197,7 @@ Registro Estatal de Regulaciones
                         let res = JSON.parse(response);
                         if (res.status === 'success') {
                             alert('Estatus actualizado exitosamente.');
-                            window.location.href =  'http://localhost/code/RegulacionController';
+                            window.location.href = 'http://localhost/code/RegulacionController';
                         } else {
                             alert('Hubo un error al actualizar el estatus.');
                         }
@@ -212,14 +209,14 @@ Registro Estatal de Regulaciones
             }
         });
         // Captura el evento de clic en el botón de editar
-    $('.edit-row').on('click', function() {
-        // Obtiene el ID de la regulación del atributo data-id
-        var idRegulacion = $(this).data('id');
-        
-        // Redirecciona a la URL de edición con el ID_Regulacion
-        window.location.href = '<?= base_url("RegulacionController/edit_caract/"); ?>' + idRegulacion;
+        $('.edit-row').on('click', function () {
+            // Obtiene el ID de la regulación del atributo data-id
+            var idRegulacion = $(this).data('id');
+
+            // Redirecciona a la URL de edición con el ID_Regulacion
+            window.location.href = '<?= base_url("RegulacionController/edit_caract/"); ?>' + idRegulacion;
+        });
     });
-});
 
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.btn-devolver').forEach(function (element) {
