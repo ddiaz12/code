@@ -236,12 +236,6 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function get_regulacion_by_id($id) {
-        $this->db->where('ID_Regulacion', $id);
-        $query = $this->db->get('ma_regulacion');
-        return $query->row_array();
-    }
-
     public function insertarRelAutoridadesEmiten() {
         // Cargar el modelo
         $this->load->model('RegulacionModel');
