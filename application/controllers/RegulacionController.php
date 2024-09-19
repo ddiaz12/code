@@ -65,7 +65,7 @@ class RegulacionController extends CI_Controller
         $groupName = $group->name;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         // Obtener los datos de la regulación
-        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
+        //$data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
         $this->blade->render('regulaciones/materias-exentas', $data);
     }
 
