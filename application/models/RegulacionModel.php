@@ -12,6 +12,7 @@ class RegulacionModel extends CI_Model {
     public function get_regulaciones()
     {
         $this->db->select('*'); 
+        $this->db->where('publicada', 1);
         $query = $this->db->get('ma_regulacion');
         return $query->num_rows() > 0 ? $query->result() : [];
     }
@@ -221,10 +222,15 @@ class RegulacionModel extends CI_Model {
 
     public function get_all_regulaciones() {
         $query = $this->db->get('ma_regulacion');
-        return $query->result_array();
+        return $query->result();
     }
 
-    public function enviar_regulacion($id_regulacion){
+    public function enviar_regulacion($id_regulacion, $Estatus){
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $this->db->update('ma_regulacion', array('Estatus' => $Estatus));
+    }
+
+    public function devolver_regulacion($id_regulacion){
         $this->db->where('ID_Regulacion', $id_regulacion);
         $this->db->update('ma_regulacion', array('Estatus' => 0));
     }
@@ -386,4 +392,107 @@ class RegulacionModel extends CI_Model {
         return []; // Devuelve un array vacío si no hay registros
     }
 }
+
+    public function obtenerCaracteristicasRegulacion($id) {
+        $this->db->select('de_regulacion_caracteristicas.*, cat_tipo_ord_jur.Tipo_Ordenamiento');
+        $this->db->from('de_regulacion_caracteristicas');
+        $this->db->join('cat_tipo_ord_jur', 'de_regulacion_caracteristicas.ID_tOrdJur = cat_tipo_ord_jur.ID_tOrdJur');
+        $this->db->where('de_regulacion_caracteristicas.ID_Regulacion', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function obtenerEnlaceOficial($id) {
+        $this->db->select('Enlace_Oficial');
+        $this->db->from('de_naturaleza_regulacion');
+        $this->db->join('rel_nat_reg', 'de_naturaleza_regulacion.ID_Nat = rel_nat_reg.ID_Nat');
+        $this->db->where('rel_nat_reg.ID_Regulacion', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function obtenerIndicePorRegulacion($idRegulacion) {
+        $this->db->select('Texto, Orden');
+        $this->db->from('de_indice');
+        $this->db->join('de_regulacion_caracteristicas', 'de_indice.ID_caract = de_regulacion_caracteristicas.ID_caract');
+        $this->db->where('de_regulacion_caracteristicas.ID_Regulacion', $idRegulacion);
+        $this->db->order_by('Orden', 'ASC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function obtenerAutoridadesPorRegulacion($idRegulacion) {
+        $this->db->select('aplican_dep.Tipo_Dependencia as Autoridad_Aplican, emiten_dep.Tipo_Dependencia as Autoridad_Emiten');
+        $this->db->from('rel_autoridades_aplican as aplican');
+        $this->db->join('cat_tipo_dependencia as aplican_dep', 'aplican.ID_Aplican = aplican_dep.ID_Dependencia');
+        $this->db->join('rel_autoridades_emiten as emiten', 'aplican.ID_caract = emiten.ID_caract');
+        $this->db->join('cat_tipo_dependencia as emiten_dep', 'emiten.ID_Emiten = emiten_dep.ID_Dependencia');
+        $this->db->where('aplican.ID_caract', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function obtenerMateriasExentas($idRegulacion) {
+        $this->db->select('materias.Nombre_Materia as Materia');
+        $this->db->from('rel_regulaciones_materias');
+        $this->db->join('cat_regulacion_materias_gub as materias', 'rel_regulaciones_materias.ID_Materias = materias.ID_Materia');
+        $this->db->where('rel_regulaciones_materias.ID_Regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function obtenerRegulacionesVinculadas($idRegulacion) {
+        $this->db->select('regulacion.Nombre_Regulacion');
+        $this->db->from('derivada_reg');
+        $this->db->join('ma_regulacion as regulacion', 'derivada_reg.ID_Nat = regulacion.ID_Regulacion');
+        $this->db->where('derivada_reg.ID_Regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function obtenerSectoresPorRegulacion($idRegulacion) {
+        $this->db->select('sector.Nombre_Sector as Sector');
+        $this->db->from('rel_nat_reg');
+        $this->db->join('cat_sector as sector', 'rel_nat_reg.ID_sector = sector.ID_sector');
+        $this->db->where('rel_nat_reg.ID_Regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function insertar_rel_usuario_regulacion($idUsuario, $idRegulacion) {
+        $data = array(
+            'id' => $idUsuario,
+            'ID_Regulacion' => $idRegulacion
+        );
+        $this->db->insert('rel_usuario_regulacion', $data);
+    }
+
+    public function registrarMovimiento($data){
+        $this->db->insert('trazabilidad', $data);
+    }
+
+    public function obtenerTrazabilidadPorRegulacion($idRegulacion) {
+        $this->db->select ('*');
+        $this->db->from('trazabilidad');
+        $this->db->where('ID_Regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function publicar_regulacion($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $this->db->update('ma_regulacion', array('Estatus' => 4, 'publicada' => 1));
+    }
+
+    public function despublicar_regulacion($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $this->db->update('ma_regulacion', array('Estatus' => 2, 'publicada' => 0));
+    }
+    
+
+    public function get_regulaciones_por_usuario($id_usuario) {
+        $this->db->where('id_usuario_creador', $id_usuario);
+        $query = $this->db->get('ma_regulacion');
+        return $query->result();
+    }
 }

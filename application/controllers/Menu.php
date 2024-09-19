@@ -8,6 +8,7 @@ class Menu extends CI_Controller
         parent::__construct();
         $this->load->model('MenuModel');
         $this->load->library('form_validation');
+        $this->load->model('NotificacionesModel');
         if (!$this->ion_auth->logged_in()) {
             print_r($this->ion_auth->logged_in());
             redirect('auth/login', 'refresh');
@@ -21,12 +22,19 @@ class Menu extends CI_Controller
 
     public function menu_enviadas()
     {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $id = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+        $data['enviadas'] = $this->MenuModel->obtenerRegulacionesEnviadasPorUsuario($id, $groupName);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('menuSujeto/enviadas');
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
+            $this->blade->render('menuSujeto/enviadas', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/enviadas');
+            $this->blade->render('menuAdmin/enviadas', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuSupervisor/enviadas');
+            $this->blade->render('menuConsejeria/enviadas', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');
@@ -35,9 +43,15 @@ class Menu extends CI_Controller
 
     public function menu_sujeto()
     {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $id = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($id);
             $this->blade->render('menuSujeto/sujeto-obligado', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/sujeto-obligado', $data);
@@ -51,9 +65,15 @@ class Menu extends CI_Controller
 
     public function menu_unidades()
     {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $id = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['unidades'] = $this->MenuModel->getUnidadesAdministrativas();
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
             $this->blade->render('menuSujeto/unidades-administrativas', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/unidades-administrativas', $data);
@@ -67,12 +87,20 @@ class Menu extends CI_Controller
 
     public function menu_guia()
     {
+        
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('menuSujeto/guia');
+            $this->blade->render('menuSujeto/guia', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/guia');
+            $this->blade->render('menuAdmin/guia', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuSupervisor/guia');
+            $this->blade->render('menuSupervisor/guia', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');
@@ -81,12 +109,20 @@ class Menu extends CI_Controller
 
     public function menu_log()
     {
+        
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('menuSujeto/log');
+            $this->blade->render('menuSujeto/log', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/log');
+            $this->blade->render('menuAdmin/log', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuSupervisor/log');
+            $this->blade->render('menuSupervisor/log', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');
@@ -95,12 +131,44 @@ class Menu extends CI_Controller
 
     public function menu_buzon()
     {
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $userId = $user->id;
+        $notifications = $this->NotificacionesModel->getNotificationsGrupos($groupName);
+        $data['notificaciones'] = $notifications;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('menuSujeto/buzon');
+            $notifications = $this->NotificacionesModel->getNotifications($userId);
+            $data['notificaciones'] = $notifications;
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
+            $this->blade->render('menuSujeto/buzon', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/buzon');
+            $this->blade->render('menuAdmin/buzon', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuSupervisor/buzon');
+            $this->blade->render('menuConsejeria/buzon', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
+    }
+    public function menu_publicadas(){
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $userId = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+        $data['publicadas'] = $this->MenuModel->getRegulacionesPublicada();
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $notifications = $this->NotificacionesModel->getNotifications($userId);
+            $data['notificaciones'] = $notifications;
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
+            $this->blade->render('menuSujeto/publicadas', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/publicadas', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuConsejeria/publicadas', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');
@@ -109,6 +177,12 @@ class Menu extends CI_Controller
 
     public function agregar_unidades()
     {
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $id = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();
@@ -116,6 +190,7 @@ class Menu extends CI_Controller
         $data['asentamientos'] = $this->MenuModel->getCatAsentamientos();
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
             $this->blade->render('menuSujeto/agregar-unidad', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/agregar-unidad', $data);
@@ -300,6 +375,11 @@ class Menu extends CI_Controller
             // Redirige a la página de autenticación si el ID no es un número
             redirect('home', 'refresh');
         }
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $iduser = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
         $data['municipios'] = $this->MenuModel->getCatMunicipios();
@@ -309,6 +389,7 @@ class Menu extends CI_Controller
         $data['asentamientos'] = $this->MenuModel->getCatAsentamientos();
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($iduser);
             $this->blade->render('menuSujeto/editar-unidad', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/editar-unidad', $data);
@@ -471,12 +552,18 @@ class Menu extends CI_Controller
 
     public function agregar_sujeto()
     {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $id = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('menuSujeto/agregar-sujeto');
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($id);
+            $this->blade->render('menuSujeto/agregar-sujeto', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/agregar-sujeto');
+            $this->blade->render('menuAdmin/agregar-sujeto', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuSupervisor/agregar-sujeto');
+            $this->blade->render('menuSupervisor/agregar-sujeto', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/login', 'refresh');
@@ -543,10 +630,15 @@ class Menu extends CI_Controller
             redirect('home', 'refresh');
         }
 
-        //$data['tipos'] = $this->MenuModel->getTipoSujetoObligado();
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $iduser = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['sujeto'] = $this->MenuModel->getSujeto($id);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($iduser);
             $this->blade->render('menuSujeto/editar-sujeto', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/editar-sujeto', $data);

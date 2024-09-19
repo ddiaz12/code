@@ -49,28 +49,4 @@
     @include('templates/footer')
 @endsection
 @section('js')
-    <script>
-        $(document).ready(function() {
-            $('#datatablesSimple').DataTable({
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-                }
-            });
-        });
-
-        $(document).ready(function() {
-            $('.btn-danger').click(function() {
-                var id = $(this).data('id_oficina');
-
-                $.ajax({
-                    url: '<?php echo base_url('oficinas/eliminar_oficina/'); ?>' + id,
-                    type: 'POST',
-                    success: function(result) {
-                        // Recargar la página o hacer algo con el resultado
-                        location.reload();
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

@@ -15,12 +15,20 @@ class Home extends CI_Controller {
     }
 
     public function home(){
+        $this->load->model('NotificacionesModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $userId = $user->id;
+        $rol = $group->name;
+
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($rol);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('home/home-sujeto');
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
+            $this->blade->render('home/home-sujeto', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('home/home-admin');
+            $this->blade->render('home/home-admin', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('home/home-consejeria');
+            $this->blade->render('home/home-consejeria', $data);
         } else {
             redirect('auth/login', 'refresh');
         }

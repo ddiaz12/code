@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     <link href="<?php echo site_url('assets/css/styles.css'); ?>" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo site_url('assets/css/base.css'); ?>">
+    
 
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>

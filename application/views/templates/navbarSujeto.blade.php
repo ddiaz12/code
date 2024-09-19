@@ -25,8 +25,13 @@
             10:00
         </li>
         <!-- Timer -->
-        <li class="nav-item">
-            <a class="nav-link" href="#!"><i class="fas fa-envelope fa-lg"></i></a>
+        <li class="nav-item position-relative">
+            <a class="nav-link" href="<?php echo base_url('menu/menu_buzon'); ?>">
+                <i class="fas fa-envelope fa-lg"></i>
+                @if($unread_notifications > 0)
+                    <span class="badge badge-danger">{{ $unread_notifications }}</span>
+                @endif
+            </a>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"

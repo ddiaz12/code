@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarSujeto')
+@include('templates/navbarConsejeria')
 @endsection
 @section('menu')
-@include('templates/menuSujeto')
+@include('templates/menuConsejeria')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -40,28 +40,59 @@ Registro Estatal de Regulaciones
                 <tbody>
                     <?php if (!empty($regulaciones)): ?>
                     <?php    foreach ($regulaciones as $regulacion): ?>
-                    <?php        if ($regulacion->Estatus == 0): ?>
+                    <?php        if ($regulacion->Estatus == 2): ?>
+                    <?php 
+
+            $background_color = 'gray';
+            // Obtener la notificación relacionada con la regulación
+            $notificacion = $this->NotificacionesModel->getNotificacionPorRegulacion($regulacion->ID_Regulacion);
+
+            if ($notificacion) {
+                // Calcular los días restantes
+                $fecha_actual = new DateTime(); // Fecha actual
+                $fecha_recepcion = new DateTime($notificacion->fecha_envio); // Fecha de recepción
+                $dias_transcurridos = $fecha_actual->diff($fecha_recepcion)->days; // Diferencia en días
+                $dias_restantes = max(0, 10 - $dias_transcurridos); // Días restantes
+
+                // Cambiar color según los días restantes
+                if ($dias_restantes > 0) {
+                    $background_color = '#B69664'; // Verde si hay días restantes
+                } else {
+                    $background_color = '#7f2841'; // Rojo si se llega a cero
+                }
+            } else {
+                $dias_restantes = 'N/A'; // Si no hay notificación, no se puede calcular
+            }
+                    ?>
                     <tr>
                         <td><?php            echo $regulacion->ID_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Nombre_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Homoclave; ?></td>
-                        <td><?php            echo $regulacion->Estatus; ?></td>
+                        <td>
+                            <span class="status-circle"
+                                style="background-color: <?php            echo $background_color; ?>;">
+                                <?php            echo is_numeric($dias_restantes) ? $dias_restantes : $dias_restantes; ?>
+                            </span>
+                        </td>
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
-                            <button class="btn btn-dorado btn-sm enviar-regulacion"
+                            <button class="btn btn-secondary btn-sm btn-devolver"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
-                                <i class="fas fa-paper-plane"></i>
+                                <i class="fas fa-undo" title="Devolver"></i>
                             </button>
                             <button class="btn btn-info btn-sm btn-trazabilidad" title="Trazabilidad"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>" data-toggle="modal"
                                 data-target="#trazabilidadModal">
-                                <i class="fas fa-history"></i>
+                                <i class="fas fa-clock"></i>
+                            </button>
+                            <button class="btn btn-success btn-sm btn-publicar"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
+                                <i class="fa-solid fa-file-arrow-up" title="Publicar"></i>
                             </button>
                             <button class="btn btn-sm btn-comentarios" title="Comentarios"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-comments"></i>
                             </button>
-
                         </td>
                     </tr>
                     <?php        endif; ?>
@@ -80,7 +111,6 @@ Registro Estatal de Regulaciones
 
     <!-- Modal de comentarios -->
     @include('modal/comentarios')
-
 </div>
 @endsection
 @section('footer')
@@ -92,18 +122,18 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/buscarComentario.js'); ?>"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.enviar-regulacion').forEach(function (element) {
+        document.querySelectorAll('.btn-devolver').forEach(function (element) {
             element.addEventListener('click', function (event) {
                 event.preventDefault();
                 var id = this.getAttribute('data-id');
-                var url = '<?php echo base_url('RegulacionController/enviar_regulacion/'); ?>' + id;
+                var url = '<?php echo base_url('RegulacionController/devolver_regulacion/'); ?>' + id;
 
                 Swal.fire({
-                    title: '¿Enviar regulación?',
-                    text: "Enviar regulacion a sedeco",
+                    title: '¿Devolver regulación?',
+                    text: "Devolver regulacion a sujeto obligado",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Sí, Enviar',
+                    confirmButtonText: 'Sí, devolver',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -131,13 +161,53 @@ Registro Estatal de Regulaciones
                             .catch(error => {
                                 Swal.fire({
                                     title: 'Error',
-                                    text: 'Hubo un problema al enviar la regulación.',
+                                    text: 'Hubo un problema al devolver la regulación.',
                                     icon: 'error',
                                     confirmButtonText: 'Aceptar'
                                 });
                             });
                     }
                 });
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.enviar-regulacion').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/enviar_regulacion/'); ?>' + id;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: '¡Éxito!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            }).then(() => {
+                                location.reload(); // Recargar la página
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Hubo un problema al enviar la regulación.',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    });
             });
         });
     });
@@ -188,6 +258,57 @@ Registro Estatal de Regulaciones
         });
     });
 
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-publicar').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/publicar_regulacion/'); ?>' + id;
+
+                Swal.fire({
+                    title: '¿Publicar regulación?',
+                    text: "Publicar regulacion en el portal",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, publicar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: '¡Éxito!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'Aceptar'
+                                    }).then(() => {
+                                        location.reload(); // Recargar la página
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonText: 'Aceptar'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un problema al publicar la regulación.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            });
+                    }
+                });
+            });
+        });
+    });
+
     $(document).on('click', '.btn-comentarios', function () {
         var regulacionId = $(this).data('id');
         cargarComentarios(regulacionId);
@@ -221,7 +342,6 @@ Registro Estatal de Regulaciones
             }
         });
     });
-
 
     function cargarComentarios(regulacionId) {
         // Petición AJAX para obtener los comentarios

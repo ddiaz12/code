@@ -13,12 +13,12 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownBalanced">
                         <h6 class="dropdown-header">Regulaciones</h6>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-inbox icon-inbox"></i> Mi
+                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_buzon'); ?>"><i class="fa-solid fa-inbox icon-inbox"></i> Mi
                                 buzon</a></li>
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_enviadas'); ?>"><i
                                     class="fa-solid fa-paper-plane icon-sent"></i>
                                 Enviadas</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-bullhorn icon-published"></i>
+                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_publicadas'); ?>"><i class="fa-solid fa-bullhorn icon-published"></i>
                                 Publicadas</a></li>
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-bullhorn icon-published"></i>
                                 Despublicadas</a></li>
@@ -44,7 +44,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownGear">
                         <h6 class="dropdown-header">Ayuda</h6>
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_unidades'); ?>">Unidades administrativas</a></li>
-                        <li><a class="dropdown-item" href="<?php echo base_url('regulaciones'); ?>">Regulaciones</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url('RegulacionController'); ?>">Regulaciones</a></li>
                     </ul>
                 </div>
                 <div class="dropdown">

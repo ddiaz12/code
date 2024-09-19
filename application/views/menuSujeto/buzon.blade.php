@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuSujeto')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -22,7 +22,7 @@ Registro Estatal de Regulaciones
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
-                <thead>
+            <thead>
                     <tr>
                         <th class="tTabla-color">Titulo</th>
                         <th class="tTabla-color">Mensaje</th>
@@ -33,7 +33,7 @@ Registro Estatal de Regulaciones
                     <?php if (!empty($notificaciones)): ?>
                     <?php    foreach ($notificaciones as $notificacion): ?>
                     <tr>
-                        <td
+                    <td
                             class="<?php        echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
                             <?php        echo $notificacion->titulo; ?>
                         </td>
@@ -74,7 +74,7 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
         $('.marcar-leido').click(function () {
             var id = $(this).data('id');
 
@@ -141,6 +141,5 @@ Registro Estatal de Regulaciones
             });
         });
     }); 
-
 </script>
 @endsection

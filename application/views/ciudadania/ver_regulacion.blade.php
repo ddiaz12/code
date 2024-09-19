@@ -46,156 +46,124 @@
 </head>
 
 <body>
-<div id="GobNavbar" class="container-fluid navbarGob op GobNavbar">
-        <div class="row align-items-center">
-            <div class="div-escudo">
-                <a class="navbar-brand" href="https://www.col.gob.mx/">
-                    <!-- <i class="fa fa-home fa-2x" style="color:#fff;"></i>    nav-image-colima-estado -->
-                    <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" id="logo"
-                        title="Ir al portal" alt="colima estado">
-                </a>
-            </div>
-            <div class="col">
-                <nav class="navbar navbar-toggleable-md navbar-light ">
-                    <button class="navbar-toggler navbar-toggler-right custom-toggler" type="button"
-                        data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-md-center div-navbar" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item active">
-                                <a class="nav-link cursor denuncia-menu" target="_blank"
-                                    href="https://www.col.gob.mx/coronavirus">CORONAVIRUS</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="https://www.col.gob.mx/Portal/Tramites">Tr&aacute;mites</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Gobierno</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="https://www.col.gob.mx/Portal/#sec_atencion">Cont&aacute;ctanos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link cursor" target="_blank"
-                                    href="https://www.col.gob.mx/DatosAbiertos">Datos</a>
-                            </li>
-                            <!-- <li class="nav-item">
-		      	<a href="https://www.col.gob.mx/transparencia" class="nav-link cursor" target="_blank">Transparencia</a>
-		      </li> -->
-                            <li class="nav-item">
-                                <a href="https://www.col.gob.mx/Portal/contenido/NDYzMDY=" class="nav-link cursor"
-                                    target="_blank">Transparencia</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link cursor denuncia-menu"
-                                    href="https://www.col.gob.mx/index.php/Portal/denuncia">DENUNCIA</a>
-                            </li>
-                            <!--
-                                <li class="nav-item">
-                                    <a class="nav-link" id="navbar-search-li-first" href="#" onclick="ocultar(this)"><i
-                                            alt="Buscar" title="Buscar" class="fa fa-search" aria-hidden="true"></i></a>
-                                </li>-->
-
-                            <!--
-                                <form id="formBusqueda" method="GET"
-                                    action="https://www.col.gob.mx/Portal/detalle_busqueda"
-                                    class="nav-item display-none" id="navbar-search-li-second">
-                                    <div class="input-group" id="navbar-input-search">
-                                        <input type="text" name="q" class="form-control">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-secondary" type="submit">
-                                                <i alt="Buscar" title="Buscar" class="fa fa-search"
-                                                    aria-hidden="true"></i></button>
-                                        </span>
-                                    </div>
-                                </form>
-                                -->
-                        </ul>
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item login">
-                                <a class="nav-link" href="<?php echo base_url('home'); ?>">
-                                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-            <a href="#" class="scrollToTop" id="ScrollTop"></a>
-            <script type="text/javascript">
-                function ocultar(elem) {
-                    var id = elem.id;
-                    document.getElementById(id).style.display = "none";
-                    //document.getElementById("navbar-search-li-second").style.display = "inline";
-                    document.getElementById("formBusqueda").style.display = "inline";
-                }
-            </script>
-        </div>
-
-    </div>
+    @include('templates/navbarCiudadania')
 
     <div class="container regulation-container">
-        <h1 class="regulation-title"><?php    echo $regulacion->Nombre_Regulacion; ?></h1>
+        <h1 class="regulation-title">
+            <?php echo !empty($regulacion->Nombre_Regulacion) ? $regulacion->Nombre_Regulacion : 'No disponible'; ?>
+        </h1>
         <div class="regulation-info">
-            <p><strong>Tipo de ordenamiento jurídico:</strong> Reglamento</p>
-            <p><strong>Fecha de expedicion de la regulacion:</strong> 07 noviembre 2009</p>
-            <p><strong>Fecha de publicación de la regulación:</strong> 07 noviembre 2009</p>
-            <p><strong>Fecha de vigor:</strong> 07 noviembre 2009</p>
-            <p><strong>Fecha de última actualización:</strong> 19 marzo 2022</p>
-            <p><strong>Vigencia de la regulacion:</strong> 07 noviembre 2009</p>
-            <p><strong>Orden de gobierno que la emite:</strong> Reglamento</p>
-            <p><strong>Ámbito de la aplicación:</strong> <span class="application-badge">Estatal</span> <span
-                    class="application-badge"><i class="fas fa-map-marker-alt"></i> Colima</span></p>
-            <p><a href="#">Enlace de la regulación</a></p>
+            <p><strong>Tipo de ordenamiento jurídico:</strong>
+                <?php echo !empty($regulacionCaracteristicas->Tipo_Ordenamiento) ? $regulacionCaracteristicas->Tipo_Ordenamiento : 'No disponible'; ?>
+            </p>
+            <p><strong>Fecha de expedición de la regulación:</strong>
+                <?php echo !empty($regulacionCaracteristicas->Fecha_Exp) ? $regulacionCaracteristicas->Fecha_Exp : 'No disponible'; ?>
+            </p>
+            <p><strong>Fecha de publicación de la regulación:</strong>
+                <?php echo !empty($regulacionCaracteristicas->Fecha_Publi) ? $regulacionCaracteristicas->Fecha_Publi : 'No disponible'; ?>
+            </p>
+            <p><strong>Fecha de vigor:</strong>
+                <?php echo !empty($regulacionCaracteristicas->Fecha_Vigor) ? $regulacionCaracteristicas->Fecha_Vigor : 'No disponible'; ?>
+            </p>
+            <p><strong>Fecha de última actualización:</strong>
+                <?php echo !empty($regulacionCaracteristicas->Fecha_Act) ? $regulacionCaracteristicas->Fecha_Act : 'No disponible'; ?>
+            </p>
+            <p><strong>Vigencia de la regulación:</strong>
+                <?php echo !empty($regulacionCaracteristicas->Vigencia) ? $regulacionCaracteristicas->Vigencia : 'No disponible'; ?>
+            </p>
+            <p><strong>Orden de gobierno que la emite:</strong>
+                <?php echo !empty($regulacionCaracteristicas->Orden_Gob) ? $regulacionCaracteristicas->Orden_Gob : 'No disponible'; ?>
+            </p>
+            <p><strong>Ámbito de la aplicación:</strong> <span
+                    class="application-badge"><?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?></span>
+                <span class="application-badge"><i class="fas fa-map-marker-alt"></i> Colima</span>
+            </p>
+            <p><a href="<?php echo !empty($enlace_oficial->Enlace_Oficial) ? $enlace_oficial->Enlace_Oficial : '#'; ?>">Enlace
+                    de la regulación</a></p>
         </div>
 
-        <p>In velit dolor cillum sint proident ipsum cupidatat cillum anim cupidatat. Duis fugiat veniam velit duis
-            cillum eiusmod.
-            Cupidatat adipisicing voluptate cupidatat veniam quis reprehenderit nostrud consequat..</p>
+        <p><?php echo !empty($regulacion->Objetivo_Reg) ? $regulacion->Objetivo_Reg : 'No disponible'; ?></p>
 
         <div class="related-sections">
             <button class="btn-accordion"><i class="fas fa-list"></i> Índice</button>
             <div class="content">
-                <p>Contenido del Índice...</p>
+            <?php if (!empty($indice)): ?>
+            <ul>
+                <?php    foreach ($indice as $item): ?>
+                <li><?php        echo $item->Orden . '. ' . $item->Texto; ?></li>
+                <?php    endforeach; ?>
+            </ul>
+            <?php else: ?>
+            <p>No hay información disponible sobre el Índice.</p>
+            <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-user-tie"></i> Autoridades</button>
             <div class="content">
-                <p>Información sobre las Autoridades...</p>
+            <?php if (!empty($autoridades)): ?>
+            <ul>
+                <?php    foreach ($autoridades as $autoridad): ?>
+                <li>Aplican: <?php        echo $autoridad->Autoridad_Aplican; ?></li>
+                <li>Emiten: <?php        echo $autoridad->Autoridad_Emiten; ?></li>
+                <?php    endforeach; ?>
+            </ul>
+            <?php else: ?>
+            <p>No hay información disponible sobre las autoridades.</p>
+            <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-book"></i> Materias Exentas</button>
             <div class="content">
-                <p>Detalles sobre materias exentas...</p>
+            <?php if (!empty($materias)): ?>
+            <ul>
+                <?php    foreach ($materias as $materia): ?>
+                <li><?php        echo $materia->Materia; ?></li>
+                <?php    endforeach; ?>
+            </ul>
+            <?php else: ?>
+            <p>No hay información disponible sobre materias exentas.</p>
+            <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-link"></i> Regulaciones vinculadas</button>
             <div class="content">
-                <p>Información sobre Trámites y servicios vinculados...</p>
+            <?php if (!empty($regulacionesVinculadas)): ?>
+            <ul>
+                <?php    foreach ($regulacionesVinculadas as $vinculada): ?>
+                <li><?php        echo $vinculada->Nombre_Regulacion; ?></li>
+                <?php    endforeach; ?>
+            </ul>
+            <?php else: ?>
+            <p>No hay regulaciones vinculadas.</p>
+            <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-tasks"></i> Trámites y servicios vinculados</button>
             <div class="content">
-                <p>Información sobre Trámites y servicios vinculados...</p>
+            <p>Información sobre Trámites y servicios vinculados...</p>
             </div>
 
-            <button class="btn-accordion"><i class="fas fa-tasks"></i> Sector/actividad economica</button>
+            <button class="btn-accordion"><i class="fas fa-tasks"></i> Sector/actividad económica</button>
             <div class="content">
-                <p>Información sobre Sector/actividad economica...</p>
+            <?php if (!empty($sectores)): ?>
+            <ul>
+                <?php    foreach ($sectores as $sector): ?>
+                <li><?php        echo $sector->Sector; ?></li>
+                <?php    endforeach; ?>
+            </ul>
+            <?php else: ?>
+            <p>No hay información disponible sobre el sector/actividad económica.</p>
+            <?php endif; ?>
             </div>
         </div>
 
         <div class="row mt-4">
             <div class="col-md-6">
-                <a href="<?php echo base_url('ciudadania'); ?>"
-                class="btn btn-secondary btn-block">Regresar<i></i></a>
+            <a href="<?php echo base_url('ciudadania'); ?>" class="btn btn-secondary btn-block">Regresar<i></i></a>
             </div>
             <div class="col-md-6">
-                <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"
-                    class="btn-download">Descargar regulación <i class="fas fa-download"></i></a>
+            <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"
+                class="btn-download">Descargar regulación <i class="fas fa-download"></i></a>
             </div>
         </div>
 
