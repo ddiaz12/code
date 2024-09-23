@@ -17,7 +17,8 @@ class RegulacionModel extends CI_Model {
         return $query->num_rows() > 0 ? $query->result() : [];
     }
     public function contarRegulaciones() {
-        return $this->db->count_all('ma_regulacion');
+        $this->db->where('publicada', 1);
+        return $this->db->count_all_results('ma_regulacion');
     }
     public function buscarPorNombre($nombre) {
         $this->db->like('Nombre_Regulacion', $nombre);
@@ -453,11 +454,12 @@ class RegulacionModel extends CI_Model {
 
     public function obtenerAutoridadesPorRegulacion($idRegulacion) {
         $this->db->select('aplican_dep.Tipo_Dependencia as Autoridad_Aplican, emiten_dep.Tipo_Dependencia as Autoridad_Emiten');
-        $this->db->from('rel_autoridades_aplican as aplican');
+        $this->db->from('de_regulacion_caracteristicas as caract');
+        $this->db->join('rel_autoridades_aplican as aplican', 'caract.ID_caract = aplican.ID_caract');
         $this->db->join('cat_tipo_dependencia as aplican_dep', 'aplican.ID_Aplican = aplican_dep.ID_Dependencia');
-        $this->db->join('rel_autoridades_emiten as emiten', 'aplican.ID_caract = emiten.ID_caract');
+        $this->db->join('rel_autoridades_emiten as emiten', 'caract.ID_caract = emiten.ID_caract');
         $this->db->join('cat_tipo_dependencia as emiten_dep', 'emiten.ID_Emiten = emiten_dep.ID_Dependencia');
-        $this->db->where('aplican.ID_caract', $idRegulacion);
+        $this->db->where('caract.ID_Regulacion', $idRegulacion);
         $query = $this->db->get();
         return $query->result();
     }
@@ -474,7 +476,7 @@ class RegulacionModel extends CI_Model {
     public function obtenerRegulacionesVinculadas($idRegulacion) {
         $this->db->select('regulacion.Nombre_Regulacion');
         $this->db->from('derivada_reg');
-        $this->db->join('ma_regulacion as regulacion', 'derivada_reg.ID_Nat = regulacion.ID_Regulacion');
+        $this->db->join('ma_regulacion as regulacion', 'derivada_reg.ID_Regulacion = regulacion.ID_Regulacion');
         $this->db->where('derivada_reg.ID_Regulacion', $idRegulacion);
         $query = $this->db->get();
         return $query->result();

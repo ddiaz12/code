@@ -62,8 +62,7 @@
         <div class="section">
             <h4>Sujetos Regulados:</h4>
             <ul>
-                <li>Poder Ejecutivo</li>
-                <li>Público en general</li>
+                <p>No hay sujetos regulados</p>
             </ul>
         </div>
 
@@ -83,7 +82,7 @@
         <div class="section">
             <h4>Sectores regulados:</h4>
             <ul>
-            @if (count($sectores) > 0)
+                @if (!empty($sectores))
                     @foreach ($sectores as $sector)
                         <li>{{ $sector->Sector }}</li>
                     @endforeach
@@ -113,34 +112,36 @@
         <h3>Autoridades</h3>
     </div>
     <div class="content">
-        <p><strong>Autoridad que la emite:</strong> Poder Ejecutivo</p>
-        <p><strong>Autoridad que la aplica:</strong> Servicios de Salud del Estado de Querétaro (SESEQ)</p>
+        @if (!empty($autoridades))
+            @foreach ($autoridades as $autoridad)
+                <p><strong>Autoridad que la emite:</strong> {{ $autoridad->Autoridad_Emiten }}</p>
+                <p><strong>Autoridad que la aplica:</strong> {{ $autoridad->Autoridad_Aplican }}</p>
+            @endforeach
+        @else
+            <p>No hay autoridades disponibles.</p>
+        @endif
     </div>
 
     <div class="subheader">
         <h3>Regulaciones Vinculadas</h3>
     </div>
     <div class="content">
-        <p>No existen relaciones</p>
+        @if (!empty($regulacionesVinculadas))
+            <ul>
+                @foreach ($regulacionesVinculadas as $vinculada)
+                    <li>{{ $vinculada->Nombre_Regulacion }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>No existen relaciones</p>
+        @endif
     </div>
 
     <div class="subheader">
         <h3>Trámites y Servicios Relacionados</h3>
     </div>
     <div class="content">
-        <p><strong>Trámites Relacionados:</strong></p>
-        <ul>
-            <li>Servicios Relacionados</li>
-            <li>Solicitud de visita diagnóstica de campo normativo</li>
-        </ul>
-    </div>
-
-    <div class="subheader">
-        <h3>Inspecciones Relacionadas</h3>
-    </div>
-    <div class="content">
-        <p><strong>Fundamento jurídico para la realización de inspecciones, verificaciones y visitas
-                domiciliarias:</strong> No existe fundamento</p>
+        <p>No existen trámites relacionados</p>
     </div>
 
     <div class="subheader">

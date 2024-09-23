@@ -89,6 +89,7 @@ class Ciudadania extends CI_Controller
         $data['autoridades'] = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($id);
         $data['materias'] = $this->RegulacionModel->obtenerMateriasExentas($id);
         $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
+        $data['sectores'] = $this->RegulacionModel->obtenerSectoresPorRegulacion($id);
         $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'ver_regulacion', $data);
     }
 
