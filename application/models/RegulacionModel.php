@@ -237,7 +237,7 @@ class RegulacionModel extends CI_Model {
     }
 
     public function actualizar_estatus($id) {
-        $this->db->set('Estatus', 0);
+        $this->db->set('Estatus', 9);
         $this->db->where('ID_Regulacion', $id);
         $this->db->update('ma_regulacion');
     }
