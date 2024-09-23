@@ -47,15 +47,17 @@ class RegulacionController extends CI_Controller
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
         $data['tipos_ordenamiento'] = $this->RegulacionModel->getTiposOrdenamiento2();
         $data['indices'] = $this->RegulacionModel->getIndices();
-        // Imprime los datos en la consola
-        echo '<script>';
-        echo 'console.log(' . json_encode($data['tipos_ordenamiento']) . ');';
-        echo 'console.log(' . json_encode($data['indices']) . ');';
-        echo '</script>';
-        // Depura el contenido de $data['tipos_ordenamiento']
 
-
-        $this->blade->render('regulaciones/caracteristicas-regulaciones', $data);
+        if($this->ion_auth->in_group('sujeto_obligado')){
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
+            $this->blade->render('sujeto/caracteristicas-regulaciones', $data);
+        }elseif($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')){
+            $this->blade->render('regulaciones/caracteristicas-regulaciones', $data);
+        }elseif($this->ion_auth->in_group('consejeria')){
+            $this->blade->render('consejeria/caracteristicas-regulaciones', $data);
+        }else{
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function mat_exentas()
@@ -66,7 +68,16 @@ class RegulacionController extends CI_Controller
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         // Obtener los datos de la regulación
         //$data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
-        $this->blade->render('regulaciones/materias-exentas', $data);
+        if($this->ion_auth->in_group('sujeto_obligado')){
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+            $this->blade->render('sujeto/materias-exentas', $data);
+        }elseif($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')){
+            $this->blade->render('regulaciones/materias-exentas', $data);
+        }elseif($this->ion_auth->in_group('consejeria')){
+            $this->blade->render('consejeria/materias-exentas', $data);
+        }else{
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function nat_regulaciones()
@@ -75,7 +86,17 @@ class RegulacionController extends CI_Controller
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        $this->blade->render('regulaciones/nat-regulacioes', $data);
+        
+        if($this->ion_auth->in_group('sujeto_obligado')){
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+            $this->blade->render('sujeto/nat-regulacioes', $data);
+        }elseif($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')){
+            $this->blade->render('regulaciones/nat-regulacioes', $data);
+        }elseif($this->ion_auth->in_group('consejeria')){
+            $this->blade->render('consejeria/nat-regulacioes', $data);
+        }else{
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function edit_caract($id_regulacion)
