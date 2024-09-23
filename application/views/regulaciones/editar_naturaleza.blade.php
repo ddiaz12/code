@@ -194,7 +194,7 @@ Registro Estatal de Regulaciones
                             <label for="inputEnlace">Enlace oficial de la regulación<span
                                     class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
-                                placeholder="http://" required>
+                                placeholder="http://" value="<?= isset($enlace_oficial) ? $enlace_oficial : '' ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="radioGroup">Tipo de documento:</label>
@@ -254,6 +254,229 @@ Registro Estatal de Regulaciones
 </div>
 <script>
 $(document).ready(function() {
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+    console.log('ID_Regulacion:', id_regulacion);
+
+    // Realizar la solicitud AJAX para verificar el sector
+    $.ajax({
+        url: '<?= base_url("RegulacionController/verificarSector") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                // Si el campo ID_sector no es nulo, marcar el radio button con id "si"
+                $('#si').prop('checked', true);
+                $('#inputs').show();
+                $('#selectedSectorsTable').show();
+                $('#selectedSubsectorsTable').show();
+                $('#selectedRamasTable').show();
+                $('#selectedSubramasTable').show();
+                $('#selectedClasesTable').show();
+            }
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para verificar el sector.');
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+
+    // Realizar la solicitud AJAX para obtener los sectores
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerSectoresPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Nombres de sectores obtenidos:', response);
+
+            // Limpiar el tbody de la tabla
+            $('#selectedSectorsTable tbody').empty();
+
+            // Agregar los nombres de los sectores a la tabla
+            response.forEach(function(sector) {
+                $('#selectedSectorsTable tbody').append('<tr><td>' + sector.Nombre_Sector + '</td></tr>');
+            });
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los sectores.');
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+
+    // Realizar la solicitud AJAX para obtener los subsectors
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerSubsectoresPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Nombres de subsectors obtenidos:', response);
+
+            // Limpiar el tbody de la tabla
+            $('#selectedSubsectorsTable tbody').empty();
+
+            // Agregar los nombres de los subsectors a la tabla
+            response.forEach(function(subsector) {
+                $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsector.Nombre_Subsector + '</td></tr>');
+            });
+
+            // Mostrar la tabla si tiene datos
+            if (response.length > 0) {
+                $('#selectedSubsectorsTable').show();
+            }
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los subsectors.');
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+
+    // Realizar la solicitud AJAX para obtener las ramas
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerRamasPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Nombres de ramas obtenidos:', response);
+
+            // Limpiar el tbody de la tabla
+            $('#selectedRamasTable tbody').empty();
+
+            // Agregar los nombres de las ramas a la tabla
+            response.forEach(function(rama) {
+                $('#selectedRamasTable tbody').append('<tr><td>' + rama.Nombre_Rama + '</td></tr>');
+            });
+
+            // Mostrar la tabla si tiene datos
+            if (response.length > 0) {
+                $('#selectedRamasTable').show();
+            }
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener las ramas.');
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+
+    // Realizar la solicitud AJAX para obtener las subramas
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerSubramasPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Nombres de subramas obtenidos:', response);
+
+            // Limpiar el tbody de la tabla
+            $('#selectedSubramasTable tbody').empty();
+
+            // Agregar los nombres de las subramas a la tabla
+            response.forEach(function(subrama) {
+                $('#selectedSubramasTable tbody').append('<tr><td>' + subrama.Nombre_Subrama + '</td></tr>');
+            });
+
+            // Mostrar la tabla si tiene datos
+            if (response.length > 0) {
+                $('#selectedSubramasTable').show();
+            }
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener las subramas.');
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+
+    // Realizar la solicitud AJAX para obtener las clases
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerClasesPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Nombres de clases obtenidos:', response);
+
+            // Limpiar el tbody de la tabla
+            $('#selectedClasesTable tbody').empty();
+
+            // Agregar los nombres de las clases a la tabla
+            response.forEach(function(clase) {
+                $('#selectedClasesTable tbody').append('<tr><td>' + clase.Nombre_Clase + '</td></tr>');
+            });
+
+            // Mostrar la tabla si tiene datos
+            if (response.length > 0) {
+                $('#selectedClasesTable').show();
+            }
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener las clases.');
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+
+    // Realizar la solicitud AJAX para obtener las regulaciones
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerRegulacionesPorNat") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Nombres de regulaciones obtenidos:', response);
+
+            // Limpiar el tbody de la tabla
+            $('#selectedRegulacionesTable tbody').empty();
+
+            // Agregar los nombres de las regulaciones a la tabla
+            response.forEach(function(regulacion) {
+                $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacion.Nombre_Regulacion + '</td></tr>');
+            });
+
+            // Mostrar la tabla si tiene datos
+            if (response.length > 0) {
+                $('#selectedRegulacionesTable').show();
+            }
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener las regulaciones.');
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
     $('input[type=radio][name=opcion]').change(function() {
         if (this.value == 'si') {
             $('#checkboxes').show();
@@ -270,11 +493,158 @@ $(document).ready(function() {
     let selectedRamas = []; // Declaración global
     let selectedSubramas = []; // Declaración global
     let selectedClases = []; // Declaración global
+    let selectedSectorsIds = []; // Declaración global
+    let selectedSubsectorsIds = []; // Declaración global
+    let selectedRamasIds = []; // Declaración global
+    let selectedSubramasIds = []; // Declaración global
+    let selectedClasesIds = []; // Declaración global
     let selectedRegulaciones = []; // Declaración global
     let iNormativo = null; // Declaración global
+    var idSectores = [];
+    var idSubsectores = [];
+    var idRamas = [];
+    var idSubramas = [];
+    var idClases = [];
+    var idRegulaciones = [];
+
 // Aqui se hace la busqueda de los sectores y se muestran en una lista
 $(document).ready(function() {
-    
+
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+
+    // Realizar la solicitud AJAX para obtener los ID de los sectores
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerIdSectoresPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('ID de sectores obtenidos:', response);
+
+            // Guardar los ID de los sectores en un array
+            idSectores = response.map(function(sector) {
+                return sector.ID_Sector;
+            });
+
+            // Imprimir los ID de los sectores en la consola
+            console.log('Array de ID de sectores:', idSectores);
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los ID de los sectores.');
+        }
+    });
+
+    // Realizar la solicitud AJAX para obtener los ID de los subsectores
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerIdSubsectoresPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('ID de subsectores obtenidos:', response);
+
+            // Guardar los ID de los subsectores en un array
+            idSubsectores = response.map(function(subsector) {
+                return subsector.ID_Subsector;
+            });
+
+            // Imprimir los ID de los subsectores en la consola
+            console.log('Array de ID de subsectores:', idSubsectores);
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los ID de los sectores.');
+        }
+    });
+
+    // Realizar la solicitud AJAX para obtener los ID de las ramas
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerIdRamasPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('ID de ramas obtenidos:', response);
+
+            // Guardar los ID de las ramas en un array
+            idRamas = response.map(function(rama) {
+                return rama.ID_Rama;
+            });
+
+            // Imprimir los ID de las ramas en la consola
+            console.log('Array de ID de ramas:', idRamas);
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los ID de las ramas.');
+        }
+    });
+
+    // Realizar la solicitud AJAX para obtener los ID de las subramas
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerIdSubramasPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('ID de subramas obtenidos:', response);
+
+            // Guardar los ID de las subramas en un array
+            idSubramas = response.map(function(subrama) {
+                return subrama.ID_Subrama;
+            });
+
+            // Imprimir los ID de las subramas en la consola
+            console.log('Array de ID de subramas:', idSubramas);
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los ID de las subramas.');
+        }
+    });
+
+    // Realizar la solicitud AJAX para obtener los ID de las clases
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerIdClasesPorRegulacion") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('ID de clases obtenidos:', response);
+
+            // Guardar los ID de las clases en un array
+            var idClases = response.map(function(clase) {
+                return clase.ID_Clase;
+            });
+
+            // Imprimir los ID de las clases en la consola
+            console.log('Array de ID de clases:', idClases);
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los ID de las clases.');
+        }
+    });
+
+    // Realizar la solicitud AJAX para obtener los ID de las regulaciones
+    $.ajax({
+        url: '<?= base_url("RegulacionController/obtenerIdRegulacionesPorNat") ?>',
+        type: 'POST',
+        data: { id_regulacion: id_regulacion },
+        dataType: 'json',
+        success: function(response) {
+            console.log('ID de regulaciones obtenidos:', response);
+
+            // Guardar los ID de las regulaciones en un array
+            idRegulaciones = response.map(function(regulacion) {
+                return regulacion.ID_Regulacion;
+            });
+
+            // Imprimir los ID de las regulaciones en la consola
+            console.log('Array de ID de regulaciones por nat:', idRegulaciones);
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los ID de las regulaciones.');
+        }
+    });
+
     $('#SectorInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
@@ -303,6 +673,7 @@ $(document).ready(function() {
             ID_sector: sectorId,
             Nombre_Sector: sectorName
         });
+        selectedSectorsIds.push(sectorId); // Guardar solo el valor numérico
         console.log(selectedSectors);
         // Ocultar la lista y borrar el texto del input
         $('#sectorResults').empty();
@@ -366,6 +737,7 @@ $(document).ready(function() {
             ID_subsector: subsectorId,
             Nombre_Subsector: subsectorName
         });
+        selectedSubsectorsIds.push(subsectorId); // Guardar solo el valor numérico
         console.log(selectedSubsectors);
 
         // Ocultar la lista y borrar el texto del input
@@ -429,6 +801,7 @@ $(document).ready(function() {
             ID_Rama: ramaId,
             Nombre_Rama: ramaName
         });
+        selectedRamasIds.push(ramaId); // Guardar solo el valor numérico
         console.log(selectedRamas);
 
         // Ocultar la lista y borrar el texto del input
@@ -491,6 +864,7 @@ $(document).ready(function() {
             ID_Subrama: subramaId,
             Nombre_Subrama: subramaName
         });
+        selectedSubramasIds.push(subramaId); // Guardar solo el valor numérico
         console.log(selectedSubramas);
 
         // Ocultar la lista y borrar el texto del input
@@ -554,6 +928,7 @@ $(document).ready(function() {
             ID_clase: claseId,
             Nombre_Clase: claseName
         });
+        selectedClasesIds.push(claseId); // Guardar solo el valor numérico
         console.log(selectedClases);
 
         // Ocultar la lista y borrar el texto del input
@@ -615,10 +990,9 @@ $(document).ready(function() {
         let regulacionId = $(this).data('id');
         let regulacionName = $(this).text();
         selectedRegulaciones.push({
-            ID_Regulacion: regulacionId,
-            Nombre_Regulacion: regulacionName
+            ID_Regulacion: regulacionId
         });
-        console.log(selectedRegulaciones);
+        console.log('regulaciones',selectedRegulaciones);
 
         // Ocultar la lista y borrar el texto del input
         $('#vinculadasResults').empty();
@@ -645,12 +1019,88 @@ $(document).ready(function() {
     //verificamos que se de click en el boton guardar y validamos si es si o no
     //aqui guardamos los datos
     $('#btnGnat').on('click', function() {
+        // Filtrar los sectores seleccionados eliminando los que están en idSectores
+        // var filteredSectors;
+        // if (JSON.stringify(idSectores.sort()) === JSON.stringify(selectedSectorsIds.sort())) {
+        //     filteredSectors = selectedSectorsIds;
+        // } else {
+        //     filteredSectors = selectedSectorsIds.filter(function(sectorId) {
+        //         return !idSectores.includes(sectorId);
+        //     });
+        // }
+        var filteredSectors = selectedSectorsIds.filter(function(sectorId) {
+            return !idSectores.includes(sectorId);
+        });
+        console.log('sectores filtrados',filteredSectors);
+
+        // Filtrar los subsectores seleccionados eliminando los que están en idSubsectores
+        // var filteredSubsectors;
+        // if (JSON.stringify(idSubsectores.sort()) === JSON.stringify(selectedSubsectorsIds.sort())) {
+        //     filteredSubsectors = selectedSubsectorsIds;
+        // } else {
+        //     filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
+        //         return !idSubsectores.includes(subsectorId);
+        //     });
+        // }
+        var filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
+            return !idSubsectores.includes(subsectorId);
+        });
+        console.log('subsectores filtrados',filteredSubsectors);
+
+        // Filtrar las ramas seleccionadas eliminando las que están en idRamas
+        // var filteredRamas;
+        // if (JSON.stringify(idRamas.sort()) === JSON.stringify(selectedRamasIds.sort())) {
+        //     filteredRamas = selectedRamasIds;
+        // } else {
+        //     filteredRamas = selectedRamasIds.filter(function(ramaId) {
+        //         return !idRamas.includes(ramaId);
+        //     });
+        // }
+        var filteredRamas = selectedRamasIds.filter(function(ramaId) {
+            return !idRamas.includes(ramaId);
+        });
+        console.log('ramas filtradas',filteredRamas);
+
+        // Filtrar las subramas seleccionadas eliminando las que están en idSubramas
+        // var filteredSubramas;
+        // if (JSON.stringify(idSubramas.sort()) === JSON.stringify(selectedSubramas.sort())) {
+        //     filteredSubramas = selectedSubramas;
+        // } else {
+        //     filteredSubramas = selectedSubramas.filter(function(subramaId) {
+        //         return !idSubramas.includes(subramaId);
+        //     });
+        // }
+        var filteredSubramas = selectedSubramasIds.filter(function(subramaId) {
+            return !idSubramas.includes(subramaId);
+        });
+        console.log('subramas filtradas',filteredSubramas);
+
+        // Filtrar las clases seleccionadas eliminando las que están en idSubramas
+        // var filteredClases;
+        // if (JSON.stringify(idClases.sort()) === JSON.stringify(selectedClasesIds.sort())) {
+        //     filteredClases = selectedClasesIds;
+        // } else {
+        //     filteredClases = selectedClasesIds.filter(function(claseId) {
+        //         return !idClases.includes(claseId);
+        //     });
+        // }
+        var filteredClases = selectedClasesIds.filter(function(claseId) {
+            return !idClases.includes(claseId);
+        });
+        console.log('clases filtradas',filteredClases);
+
+        var filteredRegulaciones = selectedRegulaciones.filter(function(regulacionId) {
+            return !idRegulaciones.includes(regulacionId);
+        });
+        console.log('clases filtradas',filteredRegulaciones);
+
         if ($('#no').is(':checked')) {
             let inputEnlace = $('#inputEnlace').val();
             $.ajax({
-                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
+                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
                 type: 'POST',
                 data: {
+                    id_regulacion: id_regulacion,
                     btn_clicked: true,
                     radio_no_selected: true,
                     inputEnlace: inputEnlace,
@@ -661,39 +1111,44 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.status === 'success') {
                         alert('Datos guardados exitosamente');
+                        //window.location.href ='http://localhost/code/RegulacionController';
                     } else {
                         alert('Error al guardar los datos: ' + response.message);
+                        //window.location.href ='http://localhost/code/RegulacionController';
                     }
                 }
             });
         } else if ($('#si').is(':checked')) {
             let inputEnlace = $('#inputEnlace').val();
             $.ajax({
-                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
+                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
                 type: 'POST',
                 data: {
+                    id_regulacion: id_regulacion,
                     btn_clicked: true,
                     radio_si_selected: true,
                     inputEnlace: inputEnlace,
                     iNormativo: iNormativo,
-                    selectedRegulaciones: selectedRegulaciones,
-                    selectedSectors: selectedSectors,
-                    selectedSubsectors: selectedSubsectors,
-                    selectedRamas: selectedRamas,
-                    selectedSubramas: selectedSubramas,
-                    selectedClases: selectedClases
+                    selectedRegulaciones: filteredRegulaciones,
+                    selectedSectors: filteredSectors,
+                    selectedSubsectors: filteredSubsectors,
+                    selectedRamas: filteredRamas,
+                    selectedSubramas: filteredSubramas,
+                    selectedClases: filteredClases
                 },
                 dataType: 'json',
                 success: function(response) {
                     if (response.status === 'success') {
                         alert('Datos guardados exitosamente');
-                        window.location.href ='http://localhost/code/RegulacionController';
+                        //window.location.href ='http://localhost/code/RegulacionController';
                     } else {
                         alert('Error al guardar los datos: ' + response.message);
+                        //window.location.href ='http://localhost/code/RegulacionController';
                     }
                 }
             });
         }
+        //window.location.href ='http://localhost/code/RegulacionController';
     });
 });
 </script>

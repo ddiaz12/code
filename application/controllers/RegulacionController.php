@@ -80,6 +80,11 @@ class RegulacionController extends CI_Controller
 
     public function edit_caract($id_regulacion)
     {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $iduser = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         // Cargar el modelo
         $this->load->model('RegulacionModel');
 
@@ -128,6 +133,11 @@ class RegulacionController extends CI_Controller
 
     public function edit_mat($id_regulacion)
     {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $iduser = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         // Cargar el modelo
         $this->load->model('RegulacionModel');
 
@@ -144,19 +154,32 @@ class RegulacionController extends CI_Controller
         $data['materias'] = $materias;
         $data['has_materias'] = $has_materias;
 
-        $this->blade->render('regulaciones/editar_materias');
+        $this->blade->render('regulaciones/editar_materias', $data);
     }
 
-    public function edit_nat()
+    public function edit_nat($id_regulacion)
     {
-        $this->blade->render('regulaciones/editar_naturaleza');
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
-        $data['notificaciones'] = $notifications;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
-        $this->blade->render('regulaciones/nat-regulacioes', $data);
+        $iduser = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Obtener los datos de la regulación
+        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
+        // Obtener los datos de la naturaleza de natreg
+        $data['natreg'] = $this->RegulacionModel->get_rel_nat_reg_by_id($id_regulacion);
+        // Obtener los datos de la naturaleza de la regulación
+        $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
+        // Obtener los datos de las regulaciones vinculadas
+        $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
+        // Pasar el valor de Enlace_Oficial a la vista
+        $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
+
+        $this->blade->render('regulaciones/editar_naturaleza', $data);
     }
 
     public function search()
@@ -269,6 +292,10 @@ class RegulacionController extends CI_Controller
         // Obtener los datos de la solicitud POST
         $ID_Emiten = $this->input->post('ID_Emiten');
         $ID_Caract = $this->input->post('ID_Caract');
+        // print_r('ID_Emiten');
+        // print_r($ID_Emiten);
+        // print_r('ID_Caract');
+        // print_r($ID_Caract);
 
         // Validar los datos
         if (empty($ID_Emiten) || empty($ID_Caract)) {
@@ -389,6 +416,8 @@ class RegulacionController extends CI_Controller
     {
         // Obtener los datos enviados desde el cliente
         $relIndiceData = $this->input->post('relIndiceData');
+        //print_r($relIndiceData);
+        //exit($relIndiceData);
 
         // Verificar que los datos no estén vacíos
         if (!empty($relIndiceData)) {
@@ -401,7 +430,7 @@ class RegulacionController extends CI_Controller
                 );
 
                 $this->db->insert('rel_indice', $insertData);
-            }
+                }
 
             // Enviar una respuesta de éxito
             echo json_encode(array('status' => 'success'));
@@ -516,133 +545,288 @@ class RegulacionController extends CI_Controller
         echo json_encode($results);
     }
 
-    public function save_naturaleza_regulacion()
-    {
-        $this->load->model('RegulacionModel');
+public function save_naturaleza_regulacion()
+{
+    $this->load->model('RegulacionModel');
 
-        // Verificar si el botón fue clickeado y el radiobutton "no" está seleccionado
-        if ($this->input->post('btn_clicked') && $this->input->post('radio_no_selected')) {
-            $inputEnlace = $this->input->post('inputEnlace');
-            $iNormativo = $this->input->post('iNormativo');
-            $selectedRegulaciones = $this->input->post('selectedRegulaciones');
+    // Verificar si el botón fue clickeado y el radiobutton "no" está seleccionado
+    if ($this->input->post('btn_clicked') && $this->input->post('radio_no_selected')) {
+        $inputEnlace = $this->input->post('inputEnlace');
+        $iNormativo = $this->input->post('iNormativo');
+        $selectedRegulaciones = $this->input->post('selectedRegulaciones');
 
-            // Obtener el ID_Nat más grande y agregar uno más grande
-            $max_id_nat = $this->RegulacionModel->get_max_id_nat();
-            $new_id_nat = $max_id_nat + 1;
+        // Obtener el ID_Nat más grande y agregar uno más grande
+        $max_id_nat = $this->RegulacionModel->get_max_id_nat();
+        $new_id_nat = $max_id_nat + 1;
 
-            // Guardar en la base de datos de_naturaleza_regulacion
-            $data = array(
+        // Guardar en la base de datos de_naturaleza_regulacion
+        $data = array(
+            'ID_Nat' => $new_id_nat,
+            'Enlace_Oficial' => $inputEnlace,
+            'Instrumento_normativo' => $iNormativo
+        );
+        $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
+        // Guardar en la base de datos derivada_reg
+        if (!empty($selectedRegulaciones)) {
+            foreach ($selectedRegulaciones as $regulacion) {
+                // Verificar si $regulacion es un array
+                if (is_array($regulacion)) {
+                    // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
+                    foreach ($regulacion as $regulacionItem) {
+                        $data_derivada = array(
+                            'ID_Nat' => $new_id_nat,
+                            'ID_Regulacion' => $regulacionItem
+                        );
+                        $this->RegulacionModel->insert_derivada_reg($data_derivada);
+                    }
+                }
+            }
+
+            // Obtener el ID_relNaturaleza más grande y agregar uno más grande
+            $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
+            $new_id_rel_nat = $max_id_rel_nat + 1;
+
+            // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
+            $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
+
+            // Guardar en la base de datos rel_nat_reg
+            $data_rel_nat = array(
+                'ID_relNaturaleza' => $new_id_rel_nat,
+                'ID_Regulacion' => $last_id_regulacion,
                 'ID_Nat' => $new_id_nat,
-                'Enlace_Oficial' => $inputEnlace,
-                'Instrumento_normativo' => $iNormativo
+                'ID_sector' => null,
+                'ID_subsector' => null,
+                'ID_rama' => null,
+                'ID_subrama' => null,
+                'ID_clase' => null
             );
-            $this->RegulacionModel->insert_naturaleza_regulacion($data);
+            $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
 
-            // Guardar en la base de datos derivada_reg
-            if (!empty($selectedRegulaciones)) {
-                foreach ($selectedRegulaciones as $regulacion) {
-                    // Verificar si $regulacion es un array
-                    if (is_array($regulacion)) {
-                        // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
-                        foreach ($regulacion as $regulacionItem) {
-                            $data_derivada = array(
-                                'ID_Nat' => $new_id_nat,
-                                'ID_Regulacion' => $regulacionItem
-                            );
-                            $this->RegulacionModel->insert_derivada_reg($data_derivada);
+            echo json_encode(array('status' => 'success'));
+        }
+    } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
+        $inputEnlace = $this->input->post('inputEnlace');
+        $iNormativo = $this->input->post('iNormativo');
+        $selectedRegulaciones = $this->input->post('selectedRegulaciones');
+        $selectedSectors = $this->input->post('selectedSectors');
+        $selectedSubsectors = $this->input->post('selectedSubsectors');
+        $selectedRamas = $this->input->post('selectedRamas');
+        $selectedSubramas = $this->input->post('selectedSubramas');
+        $selectedClases = $this->input->post('selectedClases');
+
+        // Obtener el ID_Nat más grande y agregar uno más grande
+        $max_id_nat = $this->RegulacionModel->get_max_id_nat();
+        $new_id_nat = $max_id_nat + 1;
+
+        // Guardar en la base de datos de_naturaleza_regulacion
+        $data = array(
+            'ID_Nat' => $new_id_nat,
+            'Enlace_Oficial' => $inputEnlace,
+            'Instrumento_normativo' => $iNormativo
+        );
+        $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
+        // Guardar en la base de datos derivada_reg
+        if (!empty($selectedRegulaciones)) {
+            foreach ($selectedRegulaciones as $regulacion) {
+                // Verificar si $regulacion es un array
+                if (is_array($regulacion)) {
+                    // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
+                    foreach ($regulacion as $regulacionItem) {
+                        $data_derivada = array(
+                            'ID_Nat' => $new_id_nat,
+                            'ID_Regulacion' => $regulacionItem
+                        );
+                        $this->RegulacionModel->insert_derivada_reg($data_derivada);
+                    }
+                }
+            }
+
+            // Obtener el ID_relNaturaleza más grande y agregar uno más grande
+            $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
+            $new_id_rel_nat = $max_id_rel_nat + 1;
+
+            // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
+            $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
+
+            // Guardar en la base de datos rel_nat_reg
+            if (!empty($selectedSectors) || !empty($selectedSubsectors) || !empty($selectedRamas) || !empty($selectedSubramas) || !empty($selectedClases)) {
+                foreach ($selectedSectors as $sector) {
+                    foreach ($selectedSubsectors as $subsector) {
+                        foreach ($selectedRamas as $rama) {
+                            foreach ($selectedSubramas as $subrama) {
+                                foreach ($selectedClases as $clase) {
+                                    $data_rel_nat = array(
+                                        'ID_relNaturaleza' => $new_id_rel_nat,
+                                        'ID_Regulacion' => $last_id_regulacion,
+                                        'ID_Nat' => $new_id_nat,
+                                        'ID_sector' => $sector,
+                                        'ID_subsector' => $subsector,
+                                        'ID_rama' => $rama,
+                                        'ID_subrama' => $subrama,
+                                        'ID_clase' => $clase
+                                    );
+                                    print_r($data_rel_nat);
+                                    $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                                    $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
+                                }
+                            }
                         }
                     }
                 }
-
-                // Obtener el ID_relNaturaleza más grande y agregar uno más grande
-                $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
-                $new_id_rel_nat = $max_id_rel_nat + 1;
-
-                // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
-                $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
-
-                // Guardar en la base de datos rel_nat_reg
-                $data_rel_nat = array(
-                    'ID_relNaturaleza' => $new_id_rel_nat,
-                    'ID_Regulacion' => $last_id_regulacion,
-                    'ID_Nat' => $new_id_nat,
-                    'ID_sector' => null,
-                    'ID_subsector' => null,
-                    'ID_rama' => null,
-                    'ID_subrama' => null,
-                    'ID_clase' => null
-                );
-                $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-
-                echo json_encode(array('status' => 'success'));
             }
-        } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
-            $inputEnlace = $this->input->post('inputEnlace');
-            $iNormativo = $this->input->post('iNormativo');
-            $selectedRegulaciones = $this->input->post('selectedRegulaciones');
-            $selectedSectors = $this->input->post('selectedSectors');
-            $selectedSubsectors = $this->input->post('selectedSubsectors');
-            $selectedRamas = $this->input->post('selectedRamas');
-            $selectedSubramas = $this->input->post('selectedSubramas');
-            $selectedClases = $this->input->post('selectedClases');
 
-
-            // Obtener el ID_Nat más grande y agregar uno más grande
-            $max_id_nat = $this->RegulacionModel->get_max_id_nat();
-            $new_id_nat = $max_id_nat + 1;
-
-            // Guardar en la base de datos de_naturaleza_regulacion
-            $data = array(
-                'ID_Nat' => $new_id_nat,
-                'Enlace_Oficial' => $inputEnlace,
-                'Instrumento_normativo' => $iNormativo
-            );
-            $this->RegulacionModel->insert_naturaleza_regulacion($data);
-
-            // Guardar en la base de datos derivada_reg
-            if (!empty($selectedRegulaciones)) {
-                foreach ($selectedRegulaciones as $regulacion) {
-                    // Verificar si $regulacion es un array
-                    if (is_array($regulacion)) {
-                        // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
-                        foreach ($regulacion as $regulacionItem) {
-                            $data_derivada = array(
-                                'ID_Nat' => $new_id_nat,
-                                'ID_Regulacion' => $regulacionItem
-                            );
-                            $this->RegulacionModel->insert_derivada_reg($data_derivada);
-                        }
-                    }
-                }
-
-
-
-                // Obtener el ID_relNaturaleza más grande y agregar uno más grande
-                $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
-                $new_id_rel_nat = $max_id_rel_nat + 1;
-
-                // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
-                $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
-
-                // Guardar en la base de datos rel_nat_reg
-                $data_rel_nat = array(
-                    'ID_relNaturaleza' => $new_id_rel_nat,
-                    'ID_Regulacion' => $last_id_regulacion,
-                    'ID_Nat' => $new_id_nat,
-                    'ID_sector' => !empty($selectedSectors) ? $selectedSectors : null,
-                    'ID_subsector' => !empty($selectedSubsectors) ? $selectedSubsectors : null,
-                    'ID_rama' => !empty($selectedRamas) ? $selectedRamas : null,
-                    'ID_subrama' => !empty($selectedSubramas) ? $selectedSubramas : null,
-                    'ID_clase' => !empty($selectedClases) ? $selectedClases : null
-                );
-                $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-
-                echo json_encode(array('status' => 'success'));
-            } else {
-                echo json_encode(array('status' => 'error', 'message' => 'Invalid request'));
-            }
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Invalid request'));
         }
     }
+}
+public function save_naturaleza_regulacion2()
+{
+    $id_regulacion = $this->input->post('id_regulacion');
+    $this->load->model('RegulacionModel');
+
+    // Verificar si el botón fue clickeado y el radiobutton "no" está seleccionado
+    if ($this->input->post('btn_clicked') && $this->input->post('radio_no_selected')) {
+        $inputEnlace = $this->input->post('inputEnlace');
+        $iNormativo = $this->input->post('iNormativo');
+        $selectedRegulaciones = $this->input->post('selectedRegulaciones');
+
+        // Obtener el ID_Nat más grande y agregar uno más grande
+        $max_id_nat = $this->RegulacionModel->get_max_id_nat();
+        $new_id_nat = $max_id_nat + 1;
+
+        // Guardar en la base de datos de_naturaleza_regulacion
+        $data = array(
+            'ID_Nat' => $new_id_nat,
+            'Enlace_Oficial' => $inputEnlace,
+            'Instrumento_normativo' => $iNormativo
+        );
+        $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
+        // Guardar en la base de datos derivada_reg
+        if (!empty($selectedRegulaciones)) {
+            foreach ($selectedRegulaciones as $regulacion) {
+                // Verificar si $regulacion es un array
+                if (is_array($regulacion)) {
+                    // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
+                    foreach ($regulacion as $regulacionItem) {
+                        $data_derivada = array(
+                            'ID_Nat' => $new_id_nat,
+                            'ID_Regulacion' => $regulacionItem
+                        );
+                        $this->RegulacionModel->insert_derivada_reg($data_derivada);
+                    }
+                }
+            }
+
+            // Obtener el ID_relNaturaleza más grande y agregar uno más grande
+            $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
+            $new_id_rel_nat = $max_id_rel_nat + 1;
+
+            // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
+            $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
+
+            // Guardar en la base de datos rel_nat_reg
+            $data_rel_nat = array(
+                'ID_relNaturaleza' => $new_id_rel_nat,
+                'ID_Regulacion' => $id_regulacion,
+                'ID_Nat' => $new_id_nat,
+                'ID_sector' => null,
+                'ID_subsector' => null,
+                'ID_rama' => null,
+                'ID_subrama' => null,
+                'ID_clase' => null
+            );
+            $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+
+            echo json_encode(array('status' => 'success'));
+        }
+    } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
+        $inputEnlace = $this->input->post('inputEnlace');
+        $iNormativo = $this->input->post('iNormativo');
+        $selectedRegulaciones = $this->input->post('selectedRegulaciones');
+        $selectedSectors = $this->input->post('selectedSectors');
+        $selectedSubsectors = $this->input->post('selectedSubsectors');
+        $selectedRamas = $this->input->post('selectedRamas');
+        $selectedSubramas = $this->input->post('selectedSubramas');
+        $selectedClases = $this->input->post('selectedClases');
+
+        // Obtener el ID_Nat más grande y agregar uno más grande
+        $max_id_nat = $this->RegulacionModel->get_max_id_nat();
+        $new_id_nat = $max_id_nat + 1;
+
+        // Guardar en la base de datos de_naturaleza_regulacion
+        $data = array(
+            'ID_Nat' => $new_id_nat,
+            'Enlace_Oficial' => $inputEnlace,
+            'Instrumento_normativo' => $iNormativo
+        );
+        $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
+        // Guardar en la base de datos derivada_reg
+        if (!empty($selectedRegulaciones)) {
+            foreach ($selectedRegulaciones as $regulacion) {
+                // Verificar si $regulacion es un array
+                if (is_array($regulacion)) {
+                    // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
+                    foreach ($regulacion as $regulacionItem) {
+                        $data_derivada = array(
+                            'ID_Nat' => $new_id_nat,
+                            'ID_Regulacion' => $regulacionItem
+                        );
+                        $this->RegulacionModel->insert_derivada_reg($data_derivada);
+                    }
+                }
+            }
+
+            // Obtener el ID_relNaturaleza más grande y agregar uno más grande
+            $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
+            $new_id_rel_nat = $max_id_rel_nat + 1;
+
+            // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
+            $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
+
+            // Guardar en la base de datos rel_nat_reg
+            if (!empty($selectedSectors) || !empty($selectedSubsectors) || !empty($selectedRamas) || !empty($selectedSubramas) || !empty($selectedClases)) {
+                foreach ($selectedSectors as $sector) {
+                    if (empty($sector)) continue;
+                    foreach ($selectedSubsectors as $subsector) {
+                        if (empty($subsector)) continue;
+                        foreach ($selectedRamas as $rama) {
+                            if (empty($rama)) continue;
+                            foreach ($selectedSubramas as $subrama) {
+                                if (empty($subrama)) continue;
+                                foreach ($selectedClases as $clase) {
+                                    if (empty($clase)) continue;
+                                    $data_rel_nat = array(
+                                        'ID_relNaturaleza' => $new_id_rel_nat,
+                                        'ID_Regulacion' => $id_regulacion,
+                                        'ID_Nat' => $new_id_nat,
+                                        'ID_sector' => $sector,
+                                        'ID_subsector' => $subsector,
+                                        'ID_rama' => $rama,
+                                        'ID_subrama' => $subrama,
+                                        'ID_clase' => $clase
+                                    );
+                                    print_r($data_rel_nat);
+                                    $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                                    $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Invalid request'));
+        }
+    }
+}
 
     public function listar_regulaciones()
     {
@@ -1090,6 +1274,7 @@ class RegulacionController extends CI_Controller
             echo json_encode(['status' => 'empty']);
         }
     }
+
     public function obtenerExistentesPorCaract() {
         $ID_caract = $this->input->post('ID_caract');
     
@@ -1103,5 +1288,456 @@ class RegulacionController extends CI_Controller
         $existentes = $this->RegulacionModel->get_existentes_by_caract($ID_caract);
     
         echo json_encode(['status' => 'success', 'data' => $existentes]);
+    }
+
+    public function verificarRelAutoridadesAplican() {
+        $ID_caract = $this->input->post('ID_caract');
+    
+        // Verificar si el ID_caract está presente
+        if (empty($ID_caract)) {
+            echo json_encode(['status' => 'error', 'message' => 'ID_caract no proporcionado']);
+            return;
+        }
+    
+        // Consultar la base de datos para verificar si existen registros con el ID_caract
+        $result = $this->RegulacionModel->verificarRelAutoridadesAplican($ID_caract);
+    
+        if ($result) {
+            echo json_encode(['status' => 'exists', 'data' => $result]);
+        } else {
+            echo json_encode(['status' => 'empty']);
+        }
+    }
+
+    public function obtenerExistentesPorCaractAplican() {
+        $ID_caract = $this->input->post('ID_caract');
+    
+        // Verificar si el ID_caract está presente
+        if (empty($ID_caract)) {
+            echo json_encode(['status' => 'error', 'message' => 'ID_caract no proporcionado']);
+            return;
+        }
+    
+        // Obtener los registros existentes desde el modelo
+        $existentes = $this->RegulacionModel->get_existentes_by_caract2($ID_caract);
+    
+        echo json_encode(['status' => 'success', 'data' => $existentes]);
+    }
+
+    public function obtenerNuevoIdJerarquia() {
+        // Obtener el último ID_Jerarquia desde el modelo
+        $ultimoIdJerarquia = $this->RegulacionModel->get_last_id_jerarquia();
+        $nuevoIdJerarquia = $ultimoIdJerarquia + 1;
+    
+        echo json_encode(['status' => 'success', 'nuevoIdJerarquia' => $nuevoIdJerarquia]);
+    }
+
+    public function get_indices_by_caract_ajax() {
+        $ID_caract = $this->input->post('ID_caract');
+        $indices = $this->RegulacionModel->get_indices_by_caract($ID_caract);
+        echo json_encode($indices);
+    }
+
+public function buscarIndiceEnRelIndice() {
+    $ID_Indice = $this->input->post('ID_Indice');
+
+    // Buscar en la tabla rel_indice
+    $this->db->where('ID_Indice', $ID_Indice);
+    $this->db->or_where('ID_Padre', $ID_Indice);
+    $query = $this->db->get('rel_indice');
+
+    if ($query->num_rows() > 0) {
+        echo json_encode($query->result_array());
+    } else {
+        echo json_encode([]);
+    }
+}
+
+public function eliminarEnRelIndice() {
+    $ID_Indice = $this->input->post('ID_Indice');
+
+    // Eliminar en la tabla rel_indice
+    $this->db->where('ID_Indice', $ID_Indice);
+    $this->db->or_where('ID_Padre', $ID_Indice);
+    if ($this->db->delete('rel_indice')) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'No se pudo eliminar los registros en rel_indice.']);
+    }
+}
+
+public function eliminarIndice() {
+    $ID_caract = $this->input->post('ID_caract');
+    $ID_Indice = $this->input->post('ID_Indice');
+
+    // Lógica para eliminar el registro de la base de datos
+    $this->db->where('ID_caract', $ID_caract);
+    $this->db->where('ID_Indice', $ID_Indice);
+    if ($this->db->delete('de_indice')) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'No se pudo eliminar el registro.']);
+    }
+}
+public function verificarRegistrosEnDeIndice() {
+    $ID_caract = $this->input->post('ID_caract');
+
+    // Verificar si existen registros con el ID_caract en la tabla de_indice
+    $this->db->where('ID_caract', $ID_caract);
+    $query = $this->db->get('de_indice');
+
+    if ($query->num_rows() > 0) {
+        $registrosExistentes = array_column($query->result_array(), 'ID_Indice');
+        echo json_encode(['existe' => true, 'registrosExistentes' => $registrosExistentes]);
+    } else {
+        echo json_encode(['existe' => false, 'registrosExistentes' => []]);
+    }
+}
+
+public function getMateriasExentas() {
+    $id_regulacion = $this->input->post('id_regulacion');
+
+    // Verificar si id_regulacion es nulo
+    if (is_null($id_regulacion)) {
+        // Devolver un array vacío como JSON
+        echo json_encode([]);
+        return;
+    }
+
+    // Cargar el modelo
+    $this->load->model('RegulacionModel');
+
+    // Obtener los registros de la tabla rel_regulaciones_materias
+    $registros = $this->RegulacionModel->get_materias_by_regulacion2($id_regulacion);
+
+    // Devolver los registros como JSON
+    echo json_encode($registros);
+}
+
+public function getNombresMaterias() {
+    $idMaterias = $this->input->post('idMaterias');
+
+    // Verificar si idMaterias está vacío
+    if (empty($idMaterias)) {
+        // Devolver un array vacío como JSON
+        echo json_encode([]);
+        return;
+    }
+
+    // Cargar el modelo
+    $this->load->model('RegulacionModel');
+
+    // Obtener los nombres de las materias
+    $nombresMaterias = $this->RegulacionModel->get_nombres_materias($idMaterias);
+
+    // Devolver los nombres como JSON
+    echo json_encode($nombresMaterias);
+}
+
+public function eliminarMateriasExentas() {
+    $id_regulacion = $this->input->post('id_regulacion');
+
+    // Eliminar los registros existentes con el id_regulacion
+    $this->db->where('ID_Regulacion', $id_regulacion);
+    $this->db->delete('rel_regulaciones_materias');
+
+    if ($this->db->affected_rows() > 0) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'No se encontraron registros para eliminar.']);
+    }
+}
+
+public function obtenerMaterias()
+    {
+        $id_regulacion = $this->input->post('id_regulacion');
+        // Obtener los labels enviados desde el cliente
+        $labels = $this->input->post('labels');
+
+        // Verificar que los labels no estén vacíos
+        if (!empty($labels)) {
+            // Buscar los ID_materia correspondientes en la tabla cat_regulacion_materias_gub
+            $this->db->select('ID_materia');
+            $this->db->from('cat_regulacion_materias_gub');
+            $this->db->where_in('Nombre_Materia', $labels);
+            $query = $this->db->get();
+            $idMaterias = $query->result_array();
+
+            // Enviar una respuesta de éxito con los datos
+            echo json_encode(array(
+                'status' => 'success',
+                'idMaterias' => $idMaterias,
+                'id_regulacion' => $id_regulacion
+            ));
+        } else {
+            // Enviar una respuesta de error
+            echo json_encode(array('status' => 'error', 'message' => 'No labels provided'));
+        }
+    }
+    public function verificarSector() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener el registro de la tabla rel_nat_reg
+        $registro = $this->RegulacionModel->get_rel_nat_reg_by_id($id_regulacion);
+    
+        // Verificar si el campo ID_sector no es nulo
+        if ($registro && !is_null($registro['ID_sector'])) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+    public function obtenerSectoresPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_Sector de la tabla rel_nat_reg
+        $sectores = $this->RegulacionModel->get_sectores_by_regulacion($id_regulacion);
+    
+        if (empty($sectores)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Obtener los nombres de los sectores de la tabla cat_sector
+        $id_sectores = array_column($sectores, 'ID_Sector');
+        $nombres_sectores = $this->RegulacionModel->get_nombres_sectores($id_sectores);
+    
+        // Devolver los nombres de los sectores como JSON
+        echo json_encode($nombres_sectores);
+    }
+    public function obtenerSubsectoresPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_subsector de la tabla rel_nat_reg
+        $subsectores = $this->RegulacionModel->get_subsectores_by_regulacion($id_regulacion);
+    
+        if (empty($subsectores)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Obtener los nombres de los subsectors de la tabla cat_subsector
+        $id_subsectores = array_column($subsectores, 'ID_Subsector');
+        $nombres_subsectores = $this->RegulacionModel->get_nombres_subsectores($id_subsectores);
+    
+        // Devolver los nombres de los subsectors como JSON
+        echo json_encode($nombres_subsectores);
+    }
+    public function obtenerRamasPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_rama de la tabla rel_nat_reg
+        $ramas = $this->RegulacionModel->get_ramas_by_regulacion($id_regulacion);
+    
+        if (empty($ramas)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Obtener los nombres de las ramas de la tabla cat_rama
+        $id_ramas = array_column($ramas, 'ID_Rama');
+        $nombres_ramas = $this->RegulacionModel->get_nombres_ramas($id_ramas);
+    
+        // Devolver los nombres de las ramas como JSON
+        echo json_encode($nombres_ramas);
+    }
+
+    public function obtenerSubramasPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_subrama de la tabla rel_nat_reg
+        $subramas = $this->RegulacionModel->get_subramas_by_regulacion($id_regulacion);
+    
+        if (empty($subramas)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Obtener los nombres de las subramas de la tabla cat_subrama
+        $id_subramas = array_column($subramas, 'ID_Subrama');
+        $nombres_subramas = $this->RegulacionModel->get_nombres_subramas($id_subramas);
+    
+        // Devolver los nombres de las subramas como JSON
+        echo json_encode($nombres_subramas);
+    }
+
+    public function obtenerClasesPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_clase de la tabla rel_nat_reg
+        $clases = $this->RegulacionModel->get_clases_by_regulacion($id_regulacion);
+    
+        if (empty($clases)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Obtener los nombres de las clases de la tabla cat_clase
+        $id_clases = array_column($clases, 'ID_Clase');
+        $nombres_clases = $this->RegulacionModel->get_nombres_clases($id_clases);
+    
+        // Devolver los nombres de las clases como JSON
+        echo json_encode($nombres_clases);
+    }
+
+    public function obtenerRegulacionesPorNat() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_Nat de la tabla derivada_reg
+        $nats = $this->RegulacionModel->get_nats_by_regulacion($id_regulacion);
+    
+        if (empty($nats)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Obtener los ID_Regulacion de la tabla derivada_reg
+        $id_nats = array_column($nats, 'ID_Nat');
+        $regulaciones = $this->RegulacionModel->get_regulaciones_by_nats($id_nats);
+    
+        if (empty($regulaciones)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Obtener los nombres de las regulaciones de la tabla ma_regulacion
+        $id_regulaciones = array_column($regulaciones, 'ID_Regulacion');
+        $nombres_regulaciones = $this->RegulacionModel->get_nombres_regulaciones($id_regulaciones);
+    
+        // Devolver los nombres de las regulaciones como JSON
+        echo json_encode($nombres_regulaciones);
+    }
+
+    public function obtenerIdSectoresPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_Sector de la tabla rel_nat_reg
+        $sectores = $this->RegulacionModel->get_sectores_by_regulacion($id_regulacion);
+
+        if (empty($sectores)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Devolver los ID_Sector como JSON
+        echo json_encode($sectores);
+    }
+
+    public function obtenerIdSubsectoresPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_subsector de la tabla rel_nat_reg
+        $subsectores = $this->RegulacionModel->get_subsectores_by_regulacion($id_regulacion);
+
+        if (empty($subsectores)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Devolver los ID_subsector como JSON
+        echo json_encode($subsectores);
+    }
+
+    public function obtenerIdRamasPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_rama de la tabla rel_nat_reg
+        $ramas = $this->RegulacionModel->get_ramas_by_regulacion($id_regulacion);
+
+        if (empty($ramas)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Devolver los ID_rama como JSON
+        echo json_encode($ramas);
+    }
+
+    public function obtenerIdSubramasPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_subrama de la tabla rel_nat_reg
+        $subramas = $this->RegulacionModel->get_subramas_by_regulacion($id_regulacion);
+
+        if (empty($subramas)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Devolver los ID_subrama como JSON
+        echo json_encode($subramas);
+    }
+
+    public function obtenerIdClasesPorRegulacion() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_clase de la tabla rel_nat_reg
+        $clases = $this->RegulacionModel->get_clases_by_regulacion($id_regulacion);
+
+        if (empty($clases)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Devolver los ID_clase como JSON
+        echo json_encode($clases);
+    }
+
+    public function obtenerIdRegulacionesPorNat() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener los ID_Nat de la tabla derivada_reg
+        $nats = $this->RegulacionModel->get_nats_by_regulacion($id_regulacion);
+    
+        if (empty($nats)) {
+            echo json_encode([]);
+            return;
+        }
+    
+        // Obtener los ID_Regulacion de la tabla derivada_reg
+        $id_nats = array_column($nats, 'ID_Nat');
+        $regulaciones = $this->RegulacionModel->get_regulaciones_by_nats($id_nats);
+    
+        // Devolver los ID_Regulacion como JSON
+        echo json_encode($regulaciones);
     }
 }

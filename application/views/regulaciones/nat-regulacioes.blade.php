@@ -270,6 +270,11 @@ $(document).ready(function() {
     let selectedRamas = []; // Declaración global
     let selectedSubramas = []; // Declaración global
     let selectedClases = []; // Declaración global
+    let selectedSectorsIds = []; // Declaración global
+    let selectedSubsectorsIds = []; // Declaración global
+    let selectedRamasIds = []; // Declaración global
+    let selectedSubramasIds = []; // Declaración global
+    let selectedClasesIds = []; // Declaración global
     let selectedRegulaciones = []; // Declaración global
     let iNormativo = null; // Declaración global
 // Aqui se hace la busqueda de los sectores y se muestran en una lista
@@ -303,6 +308,7 @@ $(document).ready(function() {
             ID_sector: sectorId,
             Nombre_Sector: sectorName
         });
+        selectedSectorsIds.push(sectorId); // Guardar solo el valor numérico
         console.log(selectedSectors);
         // Ocultar la lista y borrar el texto del input
         $('#sectorResults').empty();
@@ -366,6 +372,7 @@ $(document).ready(function() {
             ID_subsector: subsectorId,
             Nombre_Subsector: subsectorName
         });
+        selectedSubsectorsIds.push(subsectorId); // Guardar solo el valor numérico
         console.log(selectedSubsectors);
 
         // Ocultar la lista y borrar el texto del input
@@ -429,6 +436,7 @@ $(document).ready(function() {
             ID_Rama: ramaId,
             Nombre_Rama: ramaName
         });
+        selectedRamasIds.push(ramaId); // Guardar solo el valor numérico
         console.log(selectedRamas);
 
         // Ocultar la lista y borrar el texto del input
@@ -491,6 +499,7 @@ $(document).ready(function() {
             ID_Subrama: subramaId,
             Nombre_Subrama: subramaName
         });
+        selectedSubramasIds.push(subramaId); // Guardar solo el valor numérico
         console.log(selectedSubramas);
 
         // Ocultar la lista y borrar el texto del input
@@ -554,6 +563,7 @@ $(document).ready(function() {
             ID_clase: claseId,
             Nombre_Clase: claseName
         });
+        selectedClasesIds.push(claseId); // Guardar solo el valor numérico
         console.log(selectedClases);
 
         // Ocultar la lista y borrar el texto del input
@@ -615,10 +625,9 @@ $(document).ready(function() {
         let regulacionId = $(this).data('id');
         let regulacionName = $(this).text();
         selectedRegulaciones.push({
-            ID_Regulacion: regulacionId,
-            Nombre_Regulacion: regulacionName
+            ID_Regulacion: regulacionId
         });
-        console.log(selectedRegulaciones);
+        console.log('regulaciones',selectedRegulaciones);
 
         // Ocultar la lista y borrar el texto del input
         $('#vinculadasResults').empty();
@@ -661,8 +670,10 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.status === 'success') {
                         alert('Datos guardados exitosamente');
+                        window.location.href ='http://localhost/code/RegulacionController';
                     } else {
                         alert('Error al guardar los datos: ' + response.message);
+                        window.location.href ='http://localhost/code/RegulacionController';
                     }
                 }
             });
@@ -677,11 +688,11 @@ $(document).ready(function() {
                     inputEnlace: inputEnlace,
                     iNormativo: iNormativo,
                     selectedRegulaciones: selectedRegulaciones,
-                    selectedSectors: selectedSectors,
-                    selectedSubsectors: selectedSubsectors,
-                    selectedRamas: selectedRamas,
-                    selectedSubramas: selectedSubramas,
-                    selectedClases: selectedClases
+                    selectedSectors: selectedSectorsIds,
+                    selectedSubsectors: selectedSubsectorsIds,
+                    selectedRamas: selectedRamasIds,
+                    selectedSubramas: selectedSubramasIds,
+                    selectedClases: selectedClasesIds
                 },
                 dataType: 'json',
                 success: function(response) {
@@ -690,10 +701,12 @@ $(document).ready(function() {
                         window.location.href ='http://localhost/code/RegulacionController';
                     } else {
                         alert('Error al guardar los datos: ' + response.message);
+                        window.location.href ='http://localhost/code/RegulacionController';
                     }
                 }
             });
         }
+        window.location.href ='http://localhost/code/RegulacionController';
     });
 });
 </script>

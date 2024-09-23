@@ -539,6 +539,8 @@ $(document).ready(function() {
     });
 });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 var caracteristicasData = {}; // Declaración global
 var reIndice = []; // Declaración global
@@ -568,6 +570,8 @@ $(document).ready(function() {
                 formData[name] = value;
             }
         });
+
+        
 
         // Imprimir formData en consola
         console.log(formData);
@@ -873,106 +877,67 @@ $(document).ready(function() {
                                                     }
                                                 });
 
-                                                // Insertar datos en la tabla rel_indice
-                                                var
-                                                    relIndiceData = [];
-                                                $('#resultTable tbody tr')
-                                                    .each(
-                                                        function(
-                                                            index
-                                                        ) {
-                                                            var ID_Indice =
-                                                                $(
-                                                                    this
-                                                                )
-                                                                .find(
-                                                                    'td'
-                                                                )
-                                                                .eq(
-                                                                    0
-                                                                )
-                                                                .text();
-                                                            var ID_Jerarquia =
-                                                                reIndice[
-                                                                    index
-                                                                ] ?
-                                                                reIndice[
-                                                                    index
-                                                                ]
-                                                                .ID_Jerarquia :
-                                                                null;
-                                                            var ID_Padre =
-                                                                reIndice[
-                                                                    index
-                                                                ] ?
-                                                                reIndice[
-                                                                    index
-                                                                ]
-                                                                .ID_Indice :
-                                                                null;
-
-                                                            if (ID_Jerarquia &&
-                                                                ID_Padre
-                                                            ) {
-                                                                var filaRelIndice = {
-                                                                    ID_Jerarquia: ID_Jerarquia,
-                                                                    ID_Indice: ID_Indice,
-                                                                    ID_Padre: ID_Padre
-                                                                };
-
-                                                                relIndiceData
-                                                                    .push(
-                                                                        filaRelIndice
-                                                                    );
-                                                            }
-                                                        }
-                                                    );
-
-                                                // Imprimir relIndiceData en consola
-                                                console
-                                                    .log(
-                                                        relIndiceData
-                                                    );
-
-                                                // Insertar los datos en la base de datos
+                                                // Obtener el nuevo ID_Jerarquia
                                                 $.ajax({
-                                                    url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
-                                                    type: 'POST',
-                                                    data: {
-                                                        relIndiceData: relIndiceData
-                                                    },
-                                                    success: function(
-                                                        response
-                                                    ) {
-                                                        var result =
-                                                            JSON
-                                                            .parse(
-                                                                response
-                                                            );
-                                                        if (result
-                                                            .status ===
-                                                            'success'
-                                                        ) {
-                                                            alert
-                                                                (
-                                                                    'Datos de rel_indice insertados correctamente'
-                                                                );
-                                                            // Redirigir a la página especificada
-                                                            window
-                                                                .location
-                                                                .href =
-                                                                'http://localhost/code/RegulacionController/mat_exentas';
+                                                    url: '<?= base_url("RegulacionController/obtenerNuevoIdJerarquia") ?>',
+                                                    type: 'GET',
+                                                    success: function(response) {
+                                                        var result = JSON.parse(response);
+                                                        if (result.status === 'success') {
+                                                            var nuevoIdJerarquia = result.nuevoIdJerarquia;
+                                                            console.log('Nuevo ID_Jerarquia:', nuevoIdJerarquia); // Verificar el nuevo ID_Jerarquia
+
+                                                            // Insertar datos en la tabla rel_indice
+                                                            var relIndiceData = [];
+                                                            $('#resultTable tbody tr').each(function(index) {
+                                                                var ID_Indice = $(this).find('td').eq(0).text().trim();
+                                                                console.log('ID_Indice:', ID_Indice); // Verificar que ID_Indice se obtenga correctamente
+
+                                                                var ID_Jerarquia = nuevoIdJerarquia + index; // Incrementar el ID_Jerarquia para cada fila
+                                                                var ID_Padre = $('#selectIndicePadre').val();
+
+                                                                console.log('ID_Jerarquia:', ID_Jerarquia); // Verificar que ID_Jerarquia se obtenga correctamente
+                                                                console.log('ID_Padre:', ID_Padre); // Verificar que ID_Padre se obtenga correctamente
+
+                                                                if (ID_Padre) {
+                                                                    var filaRelIndice = {
+                                                                        ID_Jerarquia: ID_Jerarquia,
+                                                                        ID_Indice: ID_Indice,
+                                                                        ID_Padre: ID_Padre
+                                                                    };
+
+                                                                    relIndiceData.push(filaRelIndice);
+                                                                }
+                                                            });
+
+                                                            console.log('relIndiceData:', relIndiceData); // Verificar el contenido final de relIndiceData
+
+                                                            // Insertar los datos en la base de datos
+                                                            $.ajax({
+                                                                url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
+                                                                type: 'POST',
+                                                                data: {
+                                                                    relIndiceData: relIndiceData
+                                                                },
+                                                                success: function(response) {
+                                                                    var result = JSON.parse(response);
+                                                                    if (result.status === 'success') {
+                                                                        alert('Datos de rel_indice insertados correctamente');
+                                                                        // Redirigir a la página especificada
+                                                                        window.location.href = 'http://localhost/code/RegulacionController/mat_exentas';
+                                                                    } else {
+                                                                        alert('Error al insertar los datos de rel_indice');
+                                                                        // Redirigir a la página especificada
+                                                                        window.location.href = 'http://localhost/code/RegulacionController/mat_exentas';
+                                                                    }
+                                                                }
+                                                            });
                                                         } else {
-                                                            alert
-                                                                (
-                                                                    'Error al insertar los datos de rel_indice'
-                                                                );
-                                                            // Redirigir a la página especificada
-                                                            window
-                                                                .location
-                                                                .href =
-                                                                'http://localhost/code/RegulacionController/mat_exentas';
+                                                            alert('Error al obtener el nuevo ID_Jerarquia: ' + result.message);
                                                         }
+                                                    },
+                                                    error: function() {
+                                                        alert('Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.');
                                                     }
                                                 });
 
@@ -1098,6 +1063,19 @@ $(document).ready(function() {
         } else {
             alert('Por favor, seleccione un índice padre.');
         }
+    });
+});
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Obtener el valor seleccionado en el select con id "selectIndicePadre"
+    $('#selectIndicePadre').on('change', function() {
+        var selectedValue = $(this).val();
+        console.log('Valor seleccionado:',
+        selectedValue); // Imprimir el valor seleccionado en la consola
     });
 });
 </script>
