@@ -80,8 +80,10 @@ class RegulacionController extends CI_Controller
 
     public function edit_caract($id_regulacion)
     {
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
 
         $data['tipos_ordenamiento'] = $this->RegulacionModel->getTiposOrdenamiento2();
         $data['indices'] = $this->RegulacionModel->getIndices();

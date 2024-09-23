@@ -25,22 +25,22 @@ Registro Estatal de Regulaciones
             <div class="col-md-3 p-0 d-flex flex-column">
                 <!-- New card -->
                 <style>
-                .custom-link {
-                    color: black;
-                    cursor: pointer !important;
-                    font-size: 19px;
-                    /* Adjust as needed */
-                }
+                    .custom-link {
+                        color: black;
+                        cursor: pointer !important;
+                        font-size: 19px;
+                        /* Adjust as needed */
+                    }
 
-                .custom-link:hover {
-                    color: gray;
-                    text-decoration: none;
-                }
+                    .custom-link:hover {
+                        color: gray;
+                        text-decoration: none;
+                    }
 
-                .custom-link i {
-                    font-size: 24px;
-                    /* Adjust as needed */
-                }
+                    .custom-link i {
+                        font-size: 24px;
+                        /* Adjust as needed */
+                    }
                 </style>
                 <div class="card flex-grow-1">
                     <div class="card" style="border: none;">
@@ -198,8 +198,8 @@ Registro Estatal de Regulaciones
                                     <tbody>
                                         <?php foreach ($dependencias as $dependencia): ?>
 
-                                        <td><?php echo $dependencia['ID_Dependencia']; ?></td>
-                                        <td><?php echo $dependencia['Tipo_Dependencia']; ?></td>
+                                        <td><?php    echo $dependencia['ID_Dependencia']; ?></td>
+                                        <td><?php    echo $dependencia['Tipo_Dependencia']; ?></td>
                                         <td>
                                             <button class="btn btn-danger btn-sm delete-row">
                                                 <i class="fas fa-trash-alt"></i></button>
@@ -262,23 +262,23 @@ Registro Estatal de Regulaciones
                                                 </thead>
                                                 <tbody>
                                                     <?php if (is_array($dependenciasAp)): ?>
-                                                    <?php foreach ($dependenciasAp as $dependenciaAp): ?>
-                                                    <?php if (is_array($dependenciaAp) && isset($dependenciaAp['ID_Dependencia']) && isset($dependenciaAp['Tipo_Dependencia'])): ?>
+                                                    <?php    foreach ($dependenciasAp as $dependenciaAp): ?>
+                                                    <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_Dependencia']) && isset($dependenciaAp['Tipo_Dependencia'])): ?>
                                                     <tr>
-                                                        <td><?php echo $dependenciaAp['ID_Dependencia']; ?></td>
-                                                        <td><?php echo $dependenciaAp['Tipo_Dependencia']; ?></td>
+                                                        <td><?php            echo $dependenciaAp['ID_Dependencia']; ?></td>
+                                                        <td><?php            echo $dependenciaAp['Tipo_Dependencia']; ?></td>
                                                         <td>
                                                             <button class="btn btn-danger btn-sm delete-row">
                                                                 <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         </td>
                                                     </tr>
-                                                    <?php else: ?>
+                                                    <?php        else: ?>
                                                     <tr>
                                                         <td colspan="3">Datos de dependencia no válidos</td>
                                                     </tr>
-                                                    <?php endif; ?>
-                                                    <?php endforeach; ?>
+                                                    <?php        endif; ?>
+                                                    <?php    endforeach; ?>
                                                     <?php else: ?>
                                                     <tr>
                                                         <td colspan="3">No hay dependencias disponibles</td>
@@ -380,548 +380,548 @@ Registro Estatal de Regulaciones
 
 @section('js')
 <script>
-function mostrarCampo() {
-    var siSeleccionado = document.getElementById("si").checked;
-    var otroCampo = document.getElementById("otroCampo");
+    function mostrarCampo() {
+        var siSeleccionado = document.getElementById("si").checked;
+        var otroCampo = document.getElementById("otroCampo");
 
-    if (siSeleccionado) {
-        otroCampo.style.display = "block";
-    } else {
-        otroCampo.style.display = "none";
-    }
-}
-</script>
-<script>
-function mostrarCampo2() {
-    var si = document.getElementById('apsi');
-    var no = document.getElementById('apno');
-    var selectUnidad2Container = document.getElementById('selectUnidad2Container');
-    var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
-    var apTContainer = document.getElementById('apTContainer');
-
-    if (no.checked) {
-        selectUnidad2Container.style.display = 'block';
-        autoridadesAplicanContainer.style.display = 'block';
-        apTContainer.style.display = 'block';
-    } else if (si.checked) {
-        selectUnidad2Container.style.display = 'none';
-        autoridadesAplicanContainer.style.display = 'none';
-        apTContainer.style.display = 'none';
-    } else {
-        selectUnidad2Container.style.display = 'none';
-        autoridadesAplicanContainer.style.display = 'none';
-        apTContainer.style.display = 'none';
-    }
-}
-
-// Inicializar la visibilidad de los campos al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
-    mostrarCampo2();
-});
-</script>
-<script>
-$(document).ready(function() {
-    var emitenArray = [];
-    var aplicanArray = [];
-
-    // Método para AutoridadesEmiten
-    $('#AutoridadesEmiten').on('input', function() {
-        var query = $(this).val();
-        console.log('Query:', query); // Verifica que la consulta esté bien
-        if (query.length > 0) {
-            $.ajax({
-                url: '<?= base_url('RegulacionController/search') ?>',
-                method: 'GET',
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    console.log('Response data:',
-                        data); // Verifica que la respuesta sea la esperada
-                    try {
-                        var results = JSON.parse(data);
-                        var resultsContainer = $('#searchResults');
-                        resultsContainer.empty();
-                        results.forEach(function(item) {
-                            resultsContainer.append(
-                                '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                item.ID_Dependencia + '">' + item
-                                .Tipo_Dependencia + '</a>');
-                        });
-                    } catch (e) {
-                        console.error('Error parsing JSON:', e);
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('AJAX error:', textStatus, errorThrown);
-                }
-            });
+        if (siSeleccionado) {
+            otroCampo.style.display = "block";
         } else {
+            otroCampo.style.display = "none";
+        }
+    }
+</script>
+<script>
+    function mostrarCampo2() {
+        var si = document.getElementById('apsi');
+        var no = document.getElementById('apno');
+        var selectUnidad2Container = document.getElementById('selectUnidad2Container');
+        var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
+        var apTContainer = document.getElementById('apTContainer');
+
+        if (no.checked) {
+            selectUnidad2Container.style.display = 'block';
+            autoridadesAplicanContainer.style.display = 'block';
+            apTContainer.style.display = 'block';
+        } else if (si.checked) {
+            selectUnidad2Container.style.display = 'none';
+            autoridadesAplicanContainer.style.display = 'none';
+            apTContainer.style.display = 'none';
+        } else {
+            selectUnidad2Container.style.display = 'none';
+            autoridadesAplicanContainer.style.display = 'none';
+            apTContainer.style.display = 'none';
+        }
+    }
+
+    // Inicializar la visibilidad de los campos al cargar la página
+    document.addEventListener('DOMContentLoaded', function () {
+        mostrarCampo2();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var emitenArray = [];
+        var aplicanArray = [];
+
+        // Método para AutoridadesEmiten
+        $('#AutoridadesEmiten').on('input', function () {
+            var query = $(this).val();
+            console.log('Query:', query); // Verifica que la consulta esté bien
+            if (query.length > 0) {
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/search') ?>',
+                    method: 'GET',
+                    data: {
+                        query: query
+                    },
+                    success: function (data) {
+                        console.log('Response data:',
+                            data); // Verifica que la respuesta sea la esperada
+                        try {
+                            var results = JSON.parse(data);
+                            var resultsContainer = $('#searchResults');
+                            resultsContainer.empty();
+                            results.forEach(function (item) {
+                                resultsContainer.append(
+                                    '<a href="#" class="list-group-item list-group-item-action" data-id="' +
+                                    item.ID_Dependencia + '">' + item
+                                        .Tipo_Dependencia + '</a>');
+                            });
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                    }
+                });
+            } else {
+                $('#searchResults').empty();
+            }
+        });
+
+        // Método para AutoridadesAplican
+        $('#AutoridadesAplican').on('input', function () {
+            var query = $(this).val();
+            console.log('Query:', query); // Verifica que la consulta esté bien
+            if (query.length > 0) {
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/search') ?>',
+                    method: 'GET',
+                    data: {
+                        query: query
+                    },
+                    success: function (data) {
+                        console.log('Response data:',
+                            data); // Verifica que la respuesta sea la esperada
+                        try {
+                            var results = JSON.parse(data);
+                            var resultsContainer = $('#searchResults2');
+                            resultsContainer.empty();
+                            results.forEach(function (item) {
+                                resultsContainer.append(
+                                    '<a href="#" class="list-group-item list-group-item-action" data-id="' +
+                                    item.ID_Dependencia + '">' + item
+                                        .Tipo_Dependencia + '</a>');
+                            });
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                    }
+                });
+            } else {
+                $('#searchResults2').empty();
+            }
+        });
+
+        // Handle click on search result for AutoridadesEmiten
+        $(document).on('click', '#searchResults .list-group-item', function () {
+            var id = $(this).data('id');
+            var text = $(this).text();
+            emitenArray.push({
+                ID_Dependencia: id,
+                Tipo_Dependencia: text
+            });
+            $('#AutoridadesEmiten').val('');
             $('#searchResults').empty();
-        }
-    });
+            updateEmitenTable();
+        });
 
-    // Método para AutoridadesAplican
-    $('#AutoridadesAplican').on('input', function() {
-        var query = $(this).val();
-        console.log('Query:', query); // Verifica que la consulta esté bien
-        if (query.length > 0) {
-            $.ajax({
-                url: '<?= base_url('RegulacionController/search') ?>',
-                method: 'GET',
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    console.log('Response data:',
-                        data); // Verifica que la respuesta sea la esperada
-                    try {
-                        var results = JSON.parse(data);
-                        var resultsContainer = $('#searchResults2');
-                        resultsContainer.empty();
-                        results.forEach(function(item) {
-                            resultsContainer.append(
-                                '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                item.ID_Dependencia + '">' + item
-                                .Tipo_Dependencia + '</a>');
-                        });
-                    } catch (e) {
-                        console.error('Error parsing JSON:', e);
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('AJAX error:', textStatus, errorThrown);
-                }
+        // Handle click on search result for AutoridadesAplican
+        $(document).on('click', '#searchResults2 .list-group-item', function () {
+            var id = $(this).data('id');
+            var text = $(this).text();
+            aplicanArray.push({
+                ID_Dependencia: id,
+                Tipo_Dependencia: text
             });
-        } else {
+            $('#AutoridadesAplican').val('');
             $('#searchResults2').empty();
-        }
-    });
-
-    // Handle click on search result for AutoridadesEmiten
-    $(document).on('click', '#searchResults .list-group-item', function() {
-        var id = $(this).data('id');
-        var text = $(this).text();
-        emitenArray.push({
-            ID_Dependencia: id,
-            Tipo_Dependencia: text
+            updateAplicanTable();
         });
-        $('#AutoridadesEmiten').val('');
-        $('#searchResults').empty();
-        updateEmitenTable();
-    });
 
-    // Handle click on search result for AutoridadesAplican
-    $(document).on('click', '#searchResults2 .list-group-item', function() {
-        var id = $(this).data('id');
-        var text = $(this).text();
-        aplicanArray.push({
-            ID_Dependencia: id,
-            Tipo_Dependencia: text
-        });
-        $('#AutoridadesAplican').val('');
-        $('#searchResults2').empty();
-        updateAplicanTable();
-    });
+        function updateEmitenTable() {
+            var tableBody = $('#emitenTable tbody');
+            tableBody.empty();
 
-    function updateEmitenTable() {
-        var tableBody = $('#emitenTable tbody');
-        tableBody.empty();
-
-        emitenArray.forEach(function(item) {
-            var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                '<td>' + item.ID_Dependencia + '</td>' +
-                '<td>' + item.Tipo_Dependencia + '</td>' +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>';
-            tableBody.append(row);
-        });
-    }
-
-    function updateAplicanTable() {
-        var tableBody = $('#aplicanTable tbody');
-        tableBody.empty();
-
-        aplicanArray.forEach(function(item) {
-            var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                '<td>' + item.ID_Dependencia + '</td>' +
-                '<td>' + item.Tipo_Dependencia + '</td>' +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>';
-            tableBody.append(row);
-        });
-    }
-
-    // Manejar el evento de clic en el botón de eliminar
-    $('#emitenTable').on('click', '.delete-row', function() {
-        var row = $(this).closest('tr');
-        var ID_Dependencia = row.find('td').eq(0).text().trim(); // Ajusta el índice según la posición de ID_Dependencia en la fila
-        var ID_caract = <?= json_encode($caracteristicas['ID_caract']) ?>;
-
-        console.log('ID de la dependencia a eliminar:', ID_Dependencia);
-        console.log('ID de la característica:', ID_caract);
-        console.log('Array antes de eliminar:', emitenArray);
-
-        // Confirmar la eliminación
-        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-            // Eliminar la fila de la tabla
-            row.remove();
-
-            // Eliminar el registro del array
-            emitenArray = emitenArray.filter(function(item) {
-                return item.ID_Dependencia !== ID_Dependencia;
+            emitenArray.forEach(function (item) {
+                var row = '<tr data-id="' + item.ID_Dependencia + '">' +
+                    '<td>' + item.ID_Dependencia + '</td>' +
+                    '<td>' + item.Tipo_Dependencia + '</td>' +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>';
+                tableBody.append(row);
             });
+        }
 
-            console.log('Registro eliminado. Array actualizado:', emitenArray);
+        function updateAplicanTable() {
+            var tableBody = $('#aplicanTable tbody');
+            tableBody.empty();
 
-            // Enviar la solicitud AJAX para eliminar el registro de la base de datos
-            $.ajax({
-                url: '<?= base_url("RegulacionController/eliminarEmiten") ?>',
-                type: 'POST',
-                data: {
-                    ID_caract: ID_caract,
-                    ID_Dependencia: ID_Dependencia
-                },
-                success: function(response) {
-                    var result = JSON.parse(response);
-                    if (result.status === 'success') {
-                        alert('Registro eliminado exitosamente de la base de datos.');
-                    } else {
-                        alert('Error al eliminar el registro de la base de datos: ' + result.message);
+            aplicanArray.forEach(function (item) {
+                var row = '<tr data-id="' + item.ID_Dependencia + '">' +
+                    '<td>' + item.ID_Dependencia + '</td>' +
+                    '<td>' + item.Tipo_Dependencia + '</td>' +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>';
+                tableBody.append(row);
+            });
+        }
+
+        // Manejar el evento de clic en el botón de eliminar
+        $('#emitenTable').on('click', '.delete-row', function () {
+            var row = $(this).closest('tr');
+            var ID_Dependencia = row.find('td').eq(0).text().trim(); // Ajusta el índice según la posición de ID_Dependencia en la fila
+            var ID_caract = <?= json_encode($caracteristicas['ID_caract']) ?>;
+
+            console.log('ID de la dependencia a eliminar:', ID_Dependencia);
+            console.log('ID de la característica:', ID_caract);
+            console.log('Array antes de eliminar:', emitenArray);
+
+            // Confirmar la eliminación
+            if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+                // Eliminar la fila de la tabla
+                row.remove();
+
+                // Eliminar el registro del array
+                emitenArray = emitenArray.filter(function (item) {
+                    return item.ID_Dependencia !== ID_Dependencia;
+                });
+
+                console.log('Registro eliminado. Array actualizado:', emitenArray);
+
+                // Enviar la solicitud AJAX para eliminar el registro de la base de datos
+                $.ajax({
+                    url: '<?= base_url("RegulacionController/eliminarEmiten") ?>',
+                    type: 'POST',
+                    data: {
+                        ID_caract: ID_caract,
+                        ID_Dependencia: ID_Dependencia
+                    },
+                    success: function (response) {
+                        var result = JSON.parse(response);
+                        if (result.status === 'success') {
+                            alert('Registro eliminado exitosamente de la base de datos.');
+                        } else {
+                            alert('Error al eliminar el registro de la base de datos: ' + result.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error en la solicitud AJAX para eliminar el registro de la base de datos.');
                     }
-                },
-                error: function() {
-                    alert('Error en la solicitud AJAX para eliminar el registro de la base de datos.');
-                }
-            });
-        }
-    });
+                });
+            }
+        });
 
-    // Manejar el evento de clic en el botón de eliminar para la tabla aplicanTable
-    $('#aplicanTable').on('click', '.delete-row', function() {
-        var row = $(this).closest('tr');
-        var ID_Dependencia = row.find('td').eq(0).text().trim(); // Obtener el ID_Dependencia de la primera celda
-        var ID_caract = <?= json_encode($caracteristicas['ID_caract']) ?>;
+        // Manejar el evento de clic en el botón de eliminar para la tabla aplicanTable
+        $('#aplicanTable').on('click', '.delete-row', function () {
+            var row = $(this).closest('tr');
+            var ID_Dependencia = row.find('td').eq(0).text().trim(); // Obtener el ID_Dependencia de la primera celda
+            var ID_caract = <?= json_encode($caracteristicas['ID_caract']) ?>;
 
-        console.log('ID de la dependencia a eliminar:', ID_Dependencia);
-        console.log('ID de la característica:', ID_caract);
-        console.log('Array antes de eliminar:', aplicanArray);
+            console.log('ID de la dependencia a eliminar:', ID_Dependencia);
+            console.log('ID de la característica:', ID_caract);
+            console.log('Array antes de eliminar:', aplicanArray);
 
-        // Confirmar la eliminación
-        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-            // Eliminar la fila de la tabla
-            row.remove();
+            // Confirmar la eliminación
+            if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+                // Eliminar la fila de la tabla
+                row.remove();
 
-            // Eliminar el registro del array
-            aplicanArray = aplicanArray.filter(function(item) {
-                return item.ID_Dependencia !== ID_Dependencia;
-            });
+                // Eliminar el registro del array
+                aplicanArray = aplicanArray.filter(function (item) {
+                    return item.ID_Dependencia !== ID_Dependencia;
+                });
 
-            console.log('Registro eliminado. Array actualizado:', aplicanArray);
+                console.log('Registro eliminado. Array actualizado:', aplicanArray);
 
-            // Enviar la solicitud AJAX para eliminar el registro de la base de datos
-            $.ajax({
-                url: '<?= base_url("RegulacionController/eliminarAplican") ?>',
-                type: 'POST',
-                data: {
-                    ID_caract: ID_caract,
-                    ID_Dependencia: ID_Dependencia
-                },
-                success: function(response) {
-                    var result = JSON.parse(response);
-                    if (result.status === 'success') {
-                        alert('Registro eliminado exitosamente de la base de datos.');
-                    } else {
-                        alert('Error al eliminar el registro de la base de datos: ' + result.message);
+                // Enviar la solicitud AJAX para eliminar el registro de la base de datos
+                $.ajax({
+                    url: '<?= base_url("RegulacionController/eliminarAplican") ?>',
+                    type: 'POST',
+                    data: {
+                        ID_caract: ID_caract,
+                        ID_Dependencia: ID_Dependencia
+                    },
+                    success: function (response) {
+                        var result = JSON.parse(response);
+                        if (result.status === 'success') {
+                            alert('Registro eliminado exitosamente de la base de datos.');
+                        } else {
+                            alert('Error al eliminar el registro de la base de datos: ' + result.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error en la solicitud AJAX para eliminar el registro de la base de datos.');
                     }
-                },
-                error: function() {
-                    alert('Error en la solicitud AJAX para eliminar el registro de la base de datos.');
-                }
-            });
-        }
+                });
+            }
+        });
     });
-});
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    // Asegúrate de que ID_DependenciasEmiten esté definido y contenga los valores correctos
-    var ID_DependenciasEmiten = <?= json_encode($dependenciasEmiten) ?>;
-    
-    $('#botonGuardar').on('click', function() {
-        // Obtener el valor del select
-        var ID_tOrdJur = $('#selectUnidad').val();
-        
-        // Si el valor es null o una cadena vacía, obtener el valor de la opción por defecto
-        if (!ID_tOrdJur) {
-            ID_tOrdJur = $('#selectUnidad option:selected').val();
-        }
+    $(document).ready(function () {
+        // Asegúrate de que ID_DependenciasEmiten esté definido y contenga los valores correctos
+        var ID_DependenciasEmiten = <?= json_encode($dependenciasEmiten) ?>;
 
-        // Obtener los datos del formulario
-        var formData = {
-            ID_Regulacion: <?= json_encode($regulacion['ID_Regulacion']) ?>,
-            nombre: $('#inputNombre').val(),
-            campoExtra: $('#campoExtra').val(),
-            objetivoReg: $('#inputObjetivo').val(),
-            ID_caract: <?= json_encode($caracteristicas['ID_caract']) ?>,
-            ID_tOrdJur: ID_tOrdJur,
-            Nombre: $('#inputNombre').val(),
-            Ambito_Aplicacion: <?= json_encode($caracteristicas['Ambito_Aplicacion']) ?>,
-            Fecha_Exp: $('#Fecha_Exp').val(),
-            Fecha_Publi: $('#Fecha_Publi').val(),
-            Fecha_Vigor: $('#Fecha_Vigor').val(),
-            Fecha_Act: $('#Fecha_Act').val(),
-            Vigencia: $('#campoExtra').val(),
-            Orden_Gob: $('#selectUnidad2').val()
-        };
-        console.log('Datos del formulario:', formData);
+        $('#botonGuardar').on('click', function () {
+            // Obtener el valor del select
+            var ID_tOrdJur = $('#selectUnidad').val();
 
-        // Enviar la solicitud AJAX para modificar la regulación
-        $.ajax({
-            url: '<?= base_url("RegulacionController/modificarRegulacion") ?>',
-            type: 'POST',
-            data: formData,
-            success: function(response) {
-                var result = JSON.parse(response);
-                if (result.status === 'success') {
-                    // Enviar la solicitud AJAX para modificar las características
-                    $.ajax({
-                        url: '<?= base_url("RegulacionController/modificarCaracteristicas") ?>',
-                        type: 'POST',
-                        data: formData,
-                        success: function(response) {
-                            var result = JSON.parse(response);
-                            console.log('ID_DependenciasEmiten:', ID_DependenciasEmiten);
-                            if (result.status === 'success') {
-                                // Verificar si hay registros en rel_autoridades_emiten con el ID_caract
-                                $.ajax({
-                                    url: '<?= base_url("RegulacionController/verificarRelAutoridadesEmiten") ?>',
-                                    type: 'POST',
-                                    data: { ID_caract: formData.ID_caract },
-                                    success: function(response) {
-                                        var result = JSON.parse(response);
-                                        if (result.status === 'empty') {
-                                            // No hay registros, insertar los datos
-                                            // Obtener todos los ID_Dependencia de la tabla emitenTable
-                                            var ID_DependenciasEmiten = [];
-                                            $('#emitenTable tbody tr').each(
-                                                function() {
-                                                    var ID_Dependencia =$(this).find('td').eq(0).text();
-                                                    ID_DependenciasEmiten.push(ID_Dependencia);
-                                                }
-                                            );
-                                            // Insertar en la tabla rel_autoridades_emiten
-                                            ID_DependenciasEmiten.forEach(
-                                                function(ID_Dependencia) {
-                                                    var relDataEmiten = {
-                                                        ID_Emiten: ID_Dependencia,
-                                                        ID_Caract: formData.ID_caract
-                                                    };
-                                                    $.ajax({
-                                                        url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>',
-                                                        type: 'POST',
-                                                        data: relDataEmiten,
-                                                        success: function(response) {
-                                                            var result = JSON.parse(response);
-                                                            if (result.status === 'success') {
-                                                                alert('Regulación, características y relación de autoridades modificadas exitosamente.');
+            // Si el valor es null o una cadena vacía, obtener el valor de la opción por defecto
+            if (!ID_tOrdJur) {
+                ID_tOrdJur = $('#selectUnidad option:selected').val();
+            }
+
+            // Obtener los datos del formulario
+            var formData = {
+                ID_Regulacion: <?= json_encode($regulacion['ID_Regulacion']) ?>,
+                nombre: $('#inputNombre').val(),
+                campoExtra: $('#campoExtra').val(),
+                objetivoReg: $('#inputObjetivo').val(),
+                ID_caract: <?= json_encode($caracteristicas['ID_caract']) ?>,
+                ID_tOrdJur: ID_tOrdJur,
+                Nombre: $('#inputNombre').val(),
+                Ambito_Aplicacion: <?= json_encode($caracteristicas['Ambito_Aplicacion']) ?>,
+                Fecha_Exp: $('#Fecha_Exp').val(),
+                Fecha_Publi: $('#Fecha_Publi').val(),
+                Fecha_Vigor: $('#Fecha_Vigor').val(),
+                Fecha_Act: $('#Fecha_Act').val(),
+                Vigencia: $('#campoExtra').val(),
+                Orden_Gob: $('#selectUnidad2').val()
+            };
+            console.log('Datos del formulario:', formData);
+
+            // Enviar la solicitud AJAX para modificar la regulación
+            $.ajax({
+                url: '<?= base_url("RegulacionController/modificarRegulacion") ?>',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    var result = JSON.parse(response);
+                    if (result.status === 'success') {
+                        // Enviar la solicitud AJAX para modificar las características
+                        $.ajax({
+                            url: '<?= base_url("RegulacionController/modificarCaracteristicas") ?>',
+                            type: 'POST',
+                            data: formData,
+                            success: function (response) {
+                                var result = JSON.parse(response);
+                                console.log('ID_DependenciasEmiten:', ID_DependenciasEmiten);
+                                if (result.status === 'success') {
+                                    // Verificar si hay registros en rel_autoridades_emiten con el ID_caract
+                                    $.ajax({
+                                        url: '<?= base_url("RegulacionController/verificarRelAutoridadesEmiten") ?>',
+                                        type: 'POST',
+                                        data: { ID_caract: formData.ID_caract },
+                                        success: function (response) {
+                                            var result = JSON.parse(response);
+                                            if (result.status === 'empty') {
+                                                // No hay registros, insertar los datos
+                                                // Obtener todos los ID_Dependencia de la tabla emitenTable
+                                                var ID_DependenciasEmiten = [];
+                                                $('#emitenTable tbody tr').each(
+                                                    function () {
+                                                        var ID_Dependencia = $(this).find('td').eq(0).text();
+                                                        ID_DependenciasEmiten.push(ID_Dependencia);
+                                                    }
+                                                );
+                                                // Insertar en la tabla rel_autoridades_emiten
+                                                ID_DependenciasEmiten.forEach(
+                                                    function (ID_Dependencia) {
+                                                        var relDataEmiten = {
+                                                            ID_Emiten: ID_Dependencia,
+                                                            ID_Caract: formData.ID_caract
+                                                        };
+                                                        $.ajax({
+                                                            url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>',
+                                                            type: 'POST',
+                                                            data: relDataEmiten,
+                                                            success: function (response) {
+                                                                var result = JSON.parse(response);
+                                                                if (result.status === 'success') {
+                                                                    alert('Regulación, características y relación de autoridades modificadas exitosamente.');
+                                                                    // Opcional: Redirigir o actualizar la página
+                                                                    location.reload();
+                                                                } else {
+                                                                    alert('Error al insertar la relación de autoridades: ' + result.message);
+                                                                }
+                                                            },
+                                                            error: function () {
+                                                                alert('Error en la solicitud AJAX para insertar la relación de autoridades.');
+                                                            }
+                                                        });
+                                                    }
+                                                );
+                                            } else {
+                                                // Hay registros existentes, insertar solo los nuevos
+                                                $.ajax({
+                                                    url: '<?= base_url("RegulacionController/obtenerExistentesPorCaract") ?>',
+                                                    type: 'POST',
+                                                    data: { ID_caract: formData.ID_caract },
+                                                    success: function (response) {
+                                                        var result = JSON.parse(response);
+                                                        if (result.status === 'success') {
+                                                            var existentes = result.data; // Contiene los ID_Emiten existentes
+                                                            var nuevos = ID_DependenciasEmiten.filter(function (ID_Dependencia) {
+                                                                return !existentes.includes(ID_Dependencia);
+                                                            });
+
+                                                            if (nuevos.length > 0) {
+                                                                nuevos.forEach(function (ID_Dependencia) {
+                                                                    var relDataEmiten = {
+                                                                        ID_Emiten: ID_Dependencia,
+                                                                        ID_Caract: formData.ID_caract
+                                                                    };
+                                                                    $.ajax({
+                                                                        url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>',
+                                                                        type: 'POST',
+                                                                        data: relDataEmiten,
+                                                                        success: function (response) {
+                                                                            var result = JSON.parse(response);
+                                                                            if (result.status === 'success') {
+                                                                                alert('Regulación, características y relación de autoridades modificadas exitosamente.');
+                                                                                // Opcional: Redirigir o actualizar la página
+                                                                                location.reload();
+                                                                            } else {
+                                                                                alert('Error al insertar la relación de autoridades: ' + result.message);
+                                                                            }
+                                                                        },
+                                                                        error: function () {
+                                                                            alert('Error en la solicitud AJAX para insertar la relación de autoridades.');
+                                                                        }
+                                                                    });
+                                                                });
+                                                            } else {
+                                                                alert('Regulación y características modificadas exitosamente.');
                                                                 // Opcional: Redirigir o actualizar la página
                                                                 location.reload();
-                                                            } else {
-                                                                alert('Error al insertar la relación de autoridades: ' + result.message);
                                                             }
-                                                        },
-                                                        error: function() {
-                                                            alert('Error en la solicitud AJAX para insertar la relación de autoridades.');
-                                                        }
-                                                    });
-                                                }
-                                            ); 
-                                        } else {
-                                            // Hay registros existentes, insertar solo los nuevos
-                                            $.ajax({
-                                                url: '<?= base_url("RegulacionController/obtenerExistentesPorCaract") ?>',
-                                                type: 'POST',
-                                                data: { ID_caract: formData.ID_caract },
-                                                success: function(response) {
-                                                    var result = JSON.parse(response);
-                                                    if (result.status === 'success') {
-                                                        var existentes = result.data; // Contiene los ID_Emiten existentes
-                                                        var nuevos = ID_DependenciasEmiten.filter(function(ID_Dependencia) {
-                                                            return !existentes.includes(ID_Dependencia);
-                                                        });
-
-                                                        if (nuevos.length > 0) {
-                                                            nuevos.forEach(function(ID_Dependencia) {
-                                                                var relDataEmiten = {
-                                                                ID_Emiten: ID_Dependencia,
-                                                                ID_Caract: formData.ID_caract
-                                                                };
-                                                                $.ajax({
-                                                                    url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>',
-                                                                    type: 'POST',
-                                                                    data: relDataEmiten,
-                                                                    success: function(response) {
-                                                                        var result = JSON.parse(response);
-                                                                        if (result.status === 'success') {
-                                                                            alert('Regulación, características y relación de autoridades modificadas exitosamente.');
-                                                                            // Opcional: Redirigir o actualizar la página
-                                                                            location.reload();
-                                                                        } else {
-                                                                            alert('Error al insertar la relación de autoridades: ' + result.message);
-                                                                        }
-                                                                    },
-                                                                    error: function() {
-                                                                    alert('Error en la solicitud AJAX para insertar la relación de autoridades.');
-                                                                    }
-                                                                });
-                                                            });
                                                         } else {
-                                                        alert('Regulación y características modificadas exitosamente.');
-                                                        // Opcional: Redirigir o actualizar la página
-                                                        location.reload();
+                                                            alert('Error al obtener los registros existentes: ' + result.message);
+                                                        }
+                                                    },
+                                                    error: function () {
+                                                        alert('Error en la solicitud AJAX para obtener los registros existentes.');
                                                     }
-                                                } else {
-                                                alert('Error al obtener los registros existentes: ' + result.message);
-                                                }
-                                                },
-                                                error: function() {
-                                                alert('Error en la solicitud AJAX para obtener los registros existentes.');
-                                                }
-                                            });
+                                                });
+                                            }
+                                        },
+                                        error: function () {
+                                            alert('Error en la solicitud AJAX para verificar la relación de autoridades.');
                                         }
-                                    },
-                                    error: function() {
-                                        alert('Error en la solicitud AJAX para verificar la relación de autoridades.');
-                                    }
-                                });
-                            } else {
-                                alert('Error al modificar las características: ' + result.message);
+                                    });
+                                } else {
+                                    alert('Error al modificar las características: ' + result.message);
+                                }
+                            },
+                            error: function () {
+                                alert('Error en la solicitud AJAX para modificar las características');
                             }
-                        },
-                        error: function() {
-                            alert('Error en la solicitud AJAX para modificar las características');
-                        }
-                    });
-                } else {
-                    alert('Error al modificar la regulación: ' + result.message);
+                        });
+                    } else {
+                        alert('Error al modificar la regulación: ' + result.message);
+                    }
+                },
+                error: function () {
+                    alert('Error en la solicitud AJAX para modificar la regulación');
                 }
-            },
-            error: function() {
-                alert('Error en la solicitud AJAX para modificar la regulación');
+            });
+        });
+    });
+</script>
+<script>
+    function closeModal() {
+        $('.modal').modal('hide'); // Oculta el modal
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('.btn-indice').click(function () {
+            $('#myModal').modal('show');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var lastInsertedID_Indice =
+            null; // Variable para almacenar el último ID_Indice insertado
+        var lastInsertedOrden =
+            null; // Variable para almacenar el último Orden insertado
+
+        $('#guardarIbtn').on('click', function () {
+            var inputTexto = $('#inputTexto').val();
+
+            if (lastInsertedID_Indice === null ||
+                lastInsertedOrden === null) {
+                // Si es la primera inserción, obtener los valores de la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                    method: 'GET',
+                    success: function (data) {
+                        var maxValues = JSON.parse(
+                            data);
+                        lastInsertedID_Indice =
+                            parseInt(maxValues
+                                .ID_Indice) + 1;
+                        lastInsertedOrden =
+                            parseInt(maxValues
+                                .Orden) + 1;
+
+                        var newRow = '<tr><td>' +
+                            lastInsertedID_Indice +
+                            '</td><td>' +
+                            inputTexto +
+                            '</td><td>' +
+                            lastInsertedOrden +
+                            '</td></tr>';
+                        $('#resultTable tbody')
+                            .append(newRow);
+                    },
+                    error: function (jqXHR, textStatus,
+                        errorThrown) {
+                        console.error('AJAX error:',
+                            textStatus,
+                            errorThrown);
+                    }
+                });
+            } else {
+                // Si no es la primera inserción, incrementar los últimos valores insertados
+                lastInsertedID_Indice++;
+                lastInsertedOrden++;
+
+                var newRow = '<tr><td>' +
+                    lastInsertedID_Indice + '</td><td>' +
+                    inputTexto + '</td><td>' +
+                    lastInsertedOrden + '</td></tr>';
+                $('#resultTable tbody').append(newRow);
             }
         });
     });
-});
 </script>
 <script>
-function closeModal() {
-    $('.modal').modal('hide'); // Oculta el modal
-}
-</script>
-<script>
-$(document).ready(function() {
-    $('.btn-indice').click(function() {
-        $('#myModal').modal('show');
+    $(document).ready(function () {
+        var reIndice = [];
+        var currentIDJerarquia = 0;
+
+        // Obtener el valor máximo de ID_Jerarquia al cargar la página
+        $.ajax({
+            url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
+            type: 'GET',
+            success: function (response) {
+                currentIDJerarquia = parseInt(response);
+            }
+        });
+
+        $('#guardarIbtn').on('click', function () {
+            var selectedIDIndice = $('#selectIndicePadre')
+                .val();
+
+            if (selectedIDIndice !==
+                'Seleccione un índice padre') {
+                currentIDJerarquia += 1;
+
+                var newEntry = {
+                    ID_Indice: selectedIDIndice,
+                    ID_Jerarquia: currentIDJerarquia
+                };
+
+                reIndice.push(newEntry);
+
+                // Imprimir reIndice en consola
+                console.log(reIndice);
+            } else {
+                alert('Por favor, seleccione un índice padre.');
+            }
+        });
     });
-});
-</script>
-<script>
-$(document).ready(function() {
-    var lastInsertedID_Indice =
-        null; // Variable para almacenar el último ID_Indice insertado
-    var lastInsertedOrden =
-        null; // Variable para almacenar el último Orden insertado
-
-    $('#guardarIbtn').on('click', function() {
-        var inputTexto = $('#inputTexto').val();
-
-        if (lastInsertedID_Indice === null ||
-            lastInsertedOrden === null) {
-            // Si es la primera inserción, obtener los valores de la base de datos
-            $.ajax({
-                url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                method: 'GET',
-                success: function(data) {
-                    var maxValues = JSON.parse(
-                        data);
-                    lastInsertedID_Indice =
-                        parseInt(maxValues
-                            .ID_Indice) + 1;
-                    lastInsertedOrden =
-                        parseInt(maxValues
-                            .Orden) + 1;
-
-                    var newRow = '<tr><td>' +
-                        lastInsertedID_Indice +
-                        '</td><td>' +
-                        inputTexto +
-                        '</td><td>' +
-                        lastInsertedOrden +
-                        '</td></tr>';
-                    $('#resultTable tbody')
-                        .append(newRow);
-                },
-                error: function(jqXHR, textStatus,
-                    errorThrown) {
-                    console.error('AJAX error:',
-                        textStatus,
-                        errorThrown);
-                }
-            });
-        } else {
-            // Si no es la primera inserción, incrementar los últimos valores insertados
-            lastInsertedID_Indice++;
-            lastInsertedOrden++;
-
-            var newRow = '<tr><td>' +
-                lastInsertedID_Indice + '</td><td>' +
-                inputTexto + '</td><td>' +
-                lastInsertedOrden + '</td></tr>';
-            $('#resultTable tbody').append(newRow);
-        }
-    });
-});
-</script>
-<script>
-$(document).ready(function() {
-    var reIndice = [];
-    var currentIDJerarquia = 0;
-
-    // Obtener el valor máximo de ID_Jerarquia al cargar la página
-    $.ajax({
-        url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
-        type: 'GET',
-        success: function(response) {
-            currentIDJerarquia = parseInt(response);
-        }
-    });
-
-    $('#guardarIbtn').on('click', function() {
-        var selectedIDIndice = $('#selectIndicePadre')
-            .val();
-
-        if (selectedIDIndice !==
-            'Seleccione un índice padre') {
-            currentIDJerarquia += 1;
-
-            var newEntry = {
-                ID_Indice: selectedIDIndice,
-                ID_Jerarquia: currentIDJerarquia
-            };
-
-            reIndice.push(newEntry);
-
-            // Imprimir reIndice en consola
-            console.log(reIndice);
-        } else {
-            alert('Por favor, seleccione un índice padre.');
-        }
-    });
-});
 </script>
 @endsection
