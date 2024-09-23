@@ -48,6 +48,13 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Estatus; ?></td>
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
+                            <button class="btn btn-warning btn-sm edit-row" title="Editar"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                             <button class="btn btn-dorado btn-sm enviar-regulacion"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-paper-plane"></i>
@@ -61,7 +68,6 @@ Registro Estatal de Regulaciones
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-comments"></i>
                             </button>
-
                         </td>
                     </tr>
                     <?php        endif; ?>
@@ -91,6 +97,47 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/buscarComentario.js'); ?>"></script>
 <script>
+    $(document).ready(function () {
+        // Evento para actualizar el estatus de las regulaciones
+        $('tbody').on('click', '.delete-row', function () {
+            // Obtener el ID de la regulación de la fila
+            let regulacionId = $(this).closest('tr').find('td:first').text();
+
+            // Confirmar la actualización
+            if (confirm('¿Estás seguro de que deseas actualizar el estatus de esta regulación?')) {
+                // Hacer una solicitud AJAX para actualizar el estatus en la base de datos
+                $.ajax({
+                    url: 'RegulacionController/actualizar_estatus', // Ruta en tu backend
+                    type: 'POST',
+                    data: {
+                        id: regulacionId,
+                        csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>' // Token CSRF para seguridad
+                    },
+                    success: function (response) {
+                        let res = JSON.parse(response);
+                        if (res.status === 'success') {
+                            alert('Estatus actualizado exitosamente.');
+                            window.location.href = 'http://localhost/code/RegulacionController';
+                        } else {
+                            alert('Hubo un error al actualizar el estatus.');
+                        }
+                    },
+                    error: function () {
+                        alert('Hubo un error al actualizar el estatus.');
+                    }
+                });
+            }
+        });
+        // Captura el evento de clic en el botón de editar
+        $('.edit-row').on('click', function () {
+            // Obtiene el ID de la regulación del atributo data-id
+            var idRegulacion = $(this).data('id');
+
+            // Redirecciona a la URL de edición con el ID_Regulacion
+            window.location.href = '<?= base_url("RegulacionController/edit_caract/"); ?>' + idRegulacion;
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.enviar-regulacion').forEach(function (element) {
             element.addEventListener('click', function (event) {
