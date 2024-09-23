@@ -96,120 +96,149 @@ Registro Estatal de Regulaciones
 
                         <div class="align-content-center d-flex justify-content-center align-items-center">
                             <div id="checkboxes" style="display: none; flex-wrap: wrap; column-count: 3;">
-                                <!-- Generar 29 checkboxes -->
                                 <div>
-                                    <input type="checkbox" id="checkbox1" name="checkbox1" value="checkbox1">
+                                    <input type="checkbox" id="checkbox1" name="Fiscal" value="Fiscal">
                                     <label for="checkbox1">Fiscal</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox2" name="checkbox2" value="checkbox2">
+                                    <input type="checkbox" id="checkbox2" name="Aduanera" value="Aduanera">
                                     <label for="checkbox2">Aduanera</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox3" name="checkbox3" value="checkbox3">
+                                    <input type="checkbox" id="checkbox3" name="Armas de fuego y explosivos"
+                                        value="Armas de fuego y explosivos">
                                     <label for="checkbox3">Armas de fuego y explosivos</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox4" name="checkbox4" value="checkbox4">
+                                    <input type="checkbox" id="checkbox4" name="Comercio exterior"
+                                        value="Comercio exterior">
                                     <label for="checkbox4">Comercio exterior</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox5" name="checkbox5" value="checkbox5">
+                                    <input type="checkbox" id="checkbox5" name="Constatar medidas de protección civil"
+                                        value="Constatar medidas de protección civil">
                                     <label for="checkbox5">Constatar medidas de protección civil</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox6" name="checkbox6" value="checkbox6">
+                                    <input type="checkbox" id="checkbox6" name="Derechos e intereses del consumidor"
+                                        value="Derechos e intereses del consumidor">
                                     <label for="checkbox6">Derechos e intereses del consumidor</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox7" name="checkbox7" value="checkbox7">
+                                    <input type="checkbox" id="checkbox7" name="Infraestructura y/o construcción"
+                                        value="Infraestructura y/o construcción">
                                     <label for="checkbox7">Infraestructura y/o construcción</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox8" name="checkbox8" value="checkbox8">
+                                    <input type="checkbox" id="checkbox8" name="Medio ambiente" value="Medio ambiente">
                                     <label for="checkbox8">Medio ambiente</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox9" name="checkbox9" value="checkbox9">
+                                    <input type="checkbox" id="checkbox9"
+                                        name="Operaciones con recursos de procedencia ilícita"
+                                        value="Operaciones con recursos de procedencia ilícita">
                                     <label for="checkbox9">Operaciones con recursos de procedencia ilícita</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox10" name="checkbox10" value="checkbox10">
+                                    <input type="checkbox" id="checkbox10" name="Otra" value="Otra">
                                     <label for="checkbox10">Otra</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox11" name="checkbox11" value="checkbox11">
+                                    <input type="checkbox" id="checkbox11" name="Programas sociales"
+                                        value="Programas sociales">
                                     <label for="checkbox11">Programas sociales</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox12" name="checkbox12" value="checkbox12">
+                                    <input type="checkbox" id="checkbox12" name="Protección contra riesgos sanitarios"
+                                        value="Protección contra riesgos sanitarios">
                                     <label for="checkbox12">Protección contra riesgos sanitarios</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox13" name="checkbox13" value="checkbox13">
-                                    <label for="checkbox13">Proteger la sanidad y la inocuidad agroalimentaria, animal y vegetal</label>
+                                    <input type="checkbox" id="checkbox13"
+                                        name="Proteger la sanidad y la inocuidad agroalimentaria, animal y vegetal"
+                                        value="Proteger la sanidad y la inocuidad agroalimentaria, animal y vegetal">
+                                    <label for="checkbox13">Proteger la sanidad y la inocuidad agroalimentaria, animal y
+                                        vegetal</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox14" name="checkbox14" value="checkbox14">
+                                    <input type="checkbox" id="checkbox14" name="Recursos naturales"
+                                        value="Recursos naturales">
                                     <label for="checkbox14">Recursos naturales</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox15" name="checkbox15" value="checkbox15">
+                                    <input type="checkbox" id="checkbox15" name="Resguardar la seguridad Nacional"
+                                        value="Resguardar la seguridad Nacional">
                                     <label for="checkbox15">Resguardar la seguridad Nacional</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox16" name="checkbox16" value="checkbox16">
-                                    <label for="checkbox16">Revisión de contratos petroleros (art. 37-B-VII y 63 LISH)</label>
+                                    <input type="checkbox" id="checkbox16"
+                                        name="Revisión de contratos petroleros (art. 37-B-VII y 63 LISH)"
+                                        value="Revisión de contratos petroleros (art. 37-B-VII y 63 LISH)">
+                                    <label for="checkbox16">Revisión de contratos petroleros (art. 37-B-VII y 63
+                                        LISH)</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox17" name="checkbox17" value="checkbox17">
+                                    <input type="checkbox" id="checkbox17" name="Salud humana" value="Salud humana">
                                     <label for="checkbox17">Salud humana</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox18" name="checkbox18" value="checkbox18">
-                                    <label for="checkbox18">Salud pública, medicamentos, asistencia sanitaria y/o sanidad</label>
+                                    <input type="checkbox" id="checkbox18"
+                                        name="Salud pública, medicamentos, asistencia sanitaria y/o sanidad"
+                                        value="Salud pública, medicamentos, asistencia sanitaria y/o sanidad">
+                                    <label for="checkbox18">Salud pública, medicamentos, asistencia sanitaria y/o
+                                        sanidad</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox19" name="checkbox19" value="checkbox19">
+                                    <input type="checkbox" id="checkbox19" name="Sector financiero"
+                                        value="Sector financiero">
                                     <label for="checkbox19">Sector financiero</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox20" name="checkbox20" value="checkbox20">
+                                    <input type="checkbox" id="checkbox20" name="Seguridad alimentaria"
+                                        value="Seguridad alimentaria">
                                     <label for="checkbox20">Seguridad alimentaria</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox21" name="checkbox21" value="checkbox21">
+                                    <input type="checkbox" id="checkbox21" name="Seguridad de la población"
+                                        value="Seguridad de la población">
                                     <label for="checkbox21">Seguridad de la población</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox22" name="checkbox22" value="checkbox22">
-                                    <label for="checkbox22">Seguridad de los productos no alimentarios y protección del consumidor</label>
+                                    <input type="checkbox" id="checkbox22"
+                                        name="Seguridad de los productos no alimentarios y protección del consumidor"
+                                        value="Seguridad de los productos no alimentarios y protección del consumidor">
+                                    <label for="checkbox22">Seguridad de los productos no alimentarios y protección del
+                                        consumidor</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox23" name="checkbox23" value="checkbox23">
+                                    <input type="checkbox" id="checkbox23" name="Seguridad nuclear"
+                                        value="Seguridad nuclear">
                                     <label for="checkbox23">Seguridad nuclear</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox24" name="checkbox24" value="checkbox24">
+                                    <input type="checkbox" id="checkbox24" name="Seguridad social"
+                                        value="Seguridad social">
                                     <label for="checkbox24">Seguridad social</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox25" name="checkbox25" value="checkbox25">
-                                    <label for="checkbox25">Seguridad, protección y/ salud laboral</label>
+                                    <input type="checkbox" id="checkbox25" name="Seguridad, protección y salud laboral"
+                                        value="Seguridad, protección y salud laboral">
+                                    <label for="checkbox25">Seguridad, protección y salud laboral</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox26" name="checkbox26" value="checkbox26">
+                                    <input type="checkbox" id="checkbox26" name="Trabajo" value="Trabajo">
                                     <label for="checkbox26">Trabajo</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox27" name="checkbox27" value="checkbox27">
+                                    <input type="checkbox" id="checkbox27" name="Transporte" value="Transporte">
                                     <label for="checkbox27">Transporte</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" id="checkbox28" name="checkbox28" value="checkbox28">
+                                    <input type="checkbox" id="checkbox28" name="Turismo" value="Turismo">
                                     <label for="checkbox28">Turismo</label>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
@@ -227,6 +256,71 @@ Registro Estatal de Regulaciones
 @section('js')
 <script>
 $(document).ready(function() {
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+
+    // Realizar la solicitud AJAX para obtener los registros
+    $.ajax({
+        url: '<?= base_url("RegulacionController/getMateriasExentas") ?>',
+        type: 'POST',
+        data: {
+            id_regulacion: id_regulacion
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log('Registros obtenidos:', response);
+
+            // Obtener los ID_Materia de los registros obtenidos
+            var idMaterias = response.map(function(item) {
+                return item.ID_Materias;
+            });
+            console.log('ID_Materias:', idMaterias);
+
+            // Si el array idMaterias no está vacío, marcar el input radio con id "si"
+            if (idMaterias.length > 0) {
+                $('#si').prop('checked', true);
+                $('#checkboxes').show();
+            }
+
+            // Realizar la solicitud AJAX para obtener los nombres de las materias
+            $.ajax({
+                url: '<?= base_url("RegulacionController/getNombresMaterias") ?>',
+                type: 'POST',
+                data: {
+                    idMaterias: idMaterias
+                },
+                dataType: 'json',
+                success: function(response) {
+                    //console.log('Nombres de materias obtenidos:', response);
+
+                    // Comparar los nombres de las materias con los nombres de los checkboxes
+                    var nombresMaterias = response.map(function(item) {
+                        return item.Nombre_Materia;
+                    });
+                    console.log('Nombres de materias:', nombresMaterias);
+
+                    $('#checkboxes input[type="checkbox"]').each(function() {
+                        var checkboxName = $(this).attr('name');
+                        if (nombresMaterias.includes(checkboxName)) {
+                            $(this).prop('checked', true);
+                        }
+                    });
+                },
+                error: function() {
+                    console.error(
+                        'Error en la solicitud AJAX para obtener los nombres de las materias.'
+                        );
+                }
+            });
+        },
+        error: function() {
+            console.error('Error en la solicitud AJAX para obtener los registros.');
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
     $('input[type=radio][name=opcion]').change(function() {
         if (this.value == 'si') {
             $('#checkboxes').show();
@@ -237,6 +331,8 @@ $(document).ready(function() {
 });
 </script>
 <script>
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
 $(document).ready(function() {
     $('#btnCheck').on('click', function(event) {
         event.preventDefault(); // Evitar el envío del formulario
@@ -254,56 +350,74 @@ $(document).ready(function() {
             // Imprimir los textos de los labels en la consola
             console.log(selectedLabels);
 
-            // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
+            
+
+            // Hacer una solicitud AJAX para eliminar los registros existentes con el id_regulacion
             $.ajax({
-                url: '<?php echo base_url('RegulacionController/obtenerMateriasYUltimoIDRegulacion'); ?>',
+                url: '<?= base_url("RegulacionController/eliminarMateriasExentas") ?>',
                 type: 'POST',
                 data: {
-                    labels: selectedLabels
+                    id_regulacion: id_regulacion
                 },
-                success: function(response) {
-                    var result = JSON.parse(response);
-                    if (result.status === 'success') {
-                        var idMaterias = result.idMaterias;
-                        var ultimoIDRegulacion = result.ultimoIDRegulacion;
+                success: function(deleteResponse) {
+                    var deleteResult = JSON.parse(deleteResponse);
+                    if (deleteResult.status === 'success') {
+                        console.log('Registros eliminados correctamente.');
 
-                        // Imprimir los ID_materia y el último ID_Regulacion en la consola
-                        console.log('ID_materias:', idMaterias);
-                        console.log('Último ID_Regulacion:', ultimoIDRegulacion);
-
-                        // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
+                        // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
                         $.ajax({
-                            url: '<?php echo base_url('RegulacionController/insertarRelRegulacionesMaterias'); ?>',
+                            url: '<?= base_url("RegulacionController/obtenerMaterias") ?>',
                             type: 'POST',
                             data: {
-                                idMaterias: idMaterias,
-                                ultimoIDRegulacion: ultimoIDRegulacion
+                                id_regulacion: id_regulacion,
+                                labels: selectedLabels
                             },
-                            success: function(insertResponse) {
-                                var insertResult = JSON.parse(insertResponse);
-                                if (insertResult.status === 'success') {
-                                    console.log(
-                                        'Datos insertados correctamente en rel_regulaciones_materias'
-                                        );
-                                    // Redirigir al usuario al enlace especificado
-                                    window.location.href =
-                                        'http://localhost/code/RegulacionController/nat_regulaciones';
+                            success: function(response) {
+                                var result = JSON.parse(response);
+                                if (result.status === 'success') {
+                                    var idMaterias = result.idMaterias;
+                                    var id_regulacion = result.id_regulacion;
+
+                                    // Imprimir los ID_materia y el último ID_Regulacion en la consola
+                                    console.log('ID_materias:', idMaterias);
+                                    console.log('id_regulacion:', id_regulacion);
+
+                                    // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
+                                    $.ajax({
+                                        url: '<?= base_url("RegulacionController/insertarRelRegulacionesMaterias") ?>',
+                                        type: 'POST',
+                                        data: {
+                                            idMaterias: idMaterias,
+                                            ultimoIDRegulacion: id_regulacion
+                                        },
+                                        success: function(insertResponse) {
+                                            var insertResult = JSON.parse(insertResponse);
+                                            if (insertResult.status === 'success') {
+                                                console.log('Datos insertados correctamente en rel_regulaciones_materias');
+                                                // Redirigir al usuario al enlace especificado
+                                                window.location.href = '<?= base_url("RegulacionController/edit_nat/"); ?>'+ id_regulacion;
+                                            } else {
+                                                console.error('Error al insertar datos:', insertResult.message);
+                                            }
+                                        },
+                                        error: function(error) {
+                                            console.error('Error en la solicitud AJAX:', error);
+                                        }
+                                    });
                                 } else {
-                                    console.error('Error al insertar datos:',
-                                        insertResult.message);
+                                    console.error('Error:', result.message);
                                 }
                             },
                             error: function(error) {
-                                console.error('Error en la solicitud AJAX:',
-                                    error);
+                                console.error('Error en la solicitud AJAX:', error);
                             }
                         });
                     } else {
-                        console.error('Error:', result.message);
+                        console.error('Error al eliminar registros:', deleteResult.message);
                     }
                 },
                 error: function(error) {
-                    console.error('Error en la solicitud AJAX:', error);
+                    console.error('Error en la solicitud AJAX para eliminar registros:', error);
                 }
             });
         }
