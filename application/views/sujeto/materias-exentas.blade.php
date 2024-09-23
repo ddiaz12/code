@@ -286,8 +286,7 @@ $(document).ready(function() {
                                         'Datos insertados correctamente en rel_regulaciones_materias'
                                         );
                                     // Redirigir al usuario al enlace especificado
-                                    window.location.href =
-                                        'http://localhost/code/RegulacionController/nat_regulaciones';
+                                    window.location.href = '<?php echo base_url('RegulacionController/nat_regulaciones'); ?>';
                                 } else {
                                     console.error('Error al insertar datos:',
                                         insertResult.message);
