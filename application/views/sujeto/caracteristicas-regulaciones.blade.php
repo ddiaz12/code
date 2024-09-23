@@ -924,11 +924,11 @@ $(document).ready(function() {
                                                                     if (result.status === 'success') {
                                                                         alert('Datos de rel_indice insertados correctamente');
                                                                         // Redirigir a la página especificada
-                                                                        window.location.href = 'http://localhost/code/RegulacionController/mat_exentas';
+                                                                        window.location.href = '<?php echo base_url('RegulacionController/mat_exentas'); ?>';
                                                                     } else {
                                                                         alert('Error al insertar los datos de rel_indice');
                                                                         // Redirigir a la página especificada
-                                                                        window.location.href = 'http://localhost/code/RegulacionController/mat_exentas';
+                                                                        window.location.href = '<?php echo base_url('RegulacionController/mat_exentas'); ?>';
                                                                     }
                                                                 }
                                                             });
