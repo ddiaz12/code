@@ -583,8 +583,6 @@ class RegulacionController extends CI_Controller
 
 public function save_naturaleza_regulacion()
 {
-    $this->load->model('RegulacionModel');
-
     // Verificar si el botón fue clickeado y el radiobutton "no" está seleccionado
     if ($this->input->post('btn_clicked') && $this->input->post('radio_no_selected')) {
         $inputEnlace = $this->input->post('inputEnlace');
@@ -722,7 +720,6 @@ public function save_naturaleza_regulacion()
 public function save_naturaleza_regulacion2()
 {
     $id_regulacion = $this->input->post('id_regulacion');
-    $this->load->model('RegulacionModel');
 
     // Verificar si el botón fue clickeado y el radiobutton "no" está seleccionado
     if ($this->input->post('btn_clicked') && $this->input->post('radio_no_selected')) {
