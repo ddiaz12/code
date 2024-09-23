@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
     </li>
 </ol>
 <div class="container mt-5">
@@ -1020,79 +1020,87 @@ Registro Estatal de Regulaciones
         //verificamos que se de click en el boton guardar y validamos si es si o no
         //aqui guardamos los datos
         $('#btnGnat').on('click', function () {
-            // Filtrar los sectores seleccionados eliminando los que están en idSectores
-            // var filteredSectors;
-            // if (JSON.stringify(idSectores.sort()) === JSON.stringify(selectedSectorsIds.sort())) {
-            //     filteredSectors = selectedSectorsIds;
-            // } else {
-            //     filteredSectors = selectedSectorsIds.filter(function(sectorId) {
-            //         return !idSectores.includes(sectorId);
-            //     });
-            // }
-            var filteredSectors = selectedSectorsIds.filter(function (sectorId) {
-                return !idSectores.includes(sectorId);
-            });
+             //Filtrar los sectores seleccionados eliminando los que están en idSectores
+             var filteredSectors;
+             if (JSON.stringify(idSectores.sort()) === JSON.stringify(selectedSectorsIds.sort())) {
+                 filteredSectors = selectedSectorsIds;
+             } else {
+                 filteredSectors = selectedSectorsIds.filter(function(sectorId) {
+                     return !idSectores.includes(sectorId);
+                 });
+            }
+            // var filteredSectors = selectedSectorsIds.filter(function (sectorId) {
+            //     return !idSectores.includes(sectorId);
+            // });
             console.log('sectores filtrados', filteredSectors);
 
             // Filtrar los subsectores seleccionados eliminando los que están en idSubsectores
-            // var filteredSubsectors;
-            // if (JSON.stringify(idSubsectores.sort()) === JSON.stringify(selectedSubsectorsIds.sort())) {
-            //     filteredSubsectors = selectedSubsectorsIds;
-            // } else {
-            //     filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
-            //         return !idSubsectores.includes(subsectorId);
-            //     });
-            // }
-            var filteredSubsectors = selectedSubsectorsIds.filter(function (subsectorId) {
-                return !idSubsectores.includes(subsectorId);
-            });
+             var filteredSubsectors;
+             if (JSON.stringify(idSubsectores.sort()) === JSON.stringify(selectedSubsectorsIds.sort())) {
+                 filteredSubsectors = selectedSubsectorsIds;
+             } else {
+                 filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
+                     return !idSubsectores.includes(subsectorId);
+                 });
+            }
+            // var filteredSubsectors = selectedSubsectorsIds.filter(function (subsectorId) {
+            //     return !idSubsectores.includes(subsectorId);
+            // });
             console.log('subsectores filtrados', filteredSubsectors);
 
-            // Filtrar las ramas seleccionadas eliminando las que están en idRamas
-            // var filteredRamas;
-            // if (JSON.stringify(idRamas.sort()) === JSON.stringify(selectedRamasIds.sort())) {
-            //     filteredRamas = selectedRamasIds;
-            // } else {
-            //     filteredRamas = selectedRamasIds.filter(function(ramaId) {
-            //         return !idRamas.includes(ramaId);
-            //     });
-            // }
-            var filteredRamas = selectedRamasIds.filter(function (ramaId) {
-                return !idRamas.includes(ramaId);
-            });
+             //Filtrar las ramas seleccionadas eliminando las que están en idRamas
+             var filteredRamas;
+             if (JSON.stringify(idRamas.sort()) === JSON.stringify(selectedRamasIds.sort())) {
+                 filteredRamas = selectedRamasIds;
+             } else {
+                 filteredRamas = selectedRamasIds.filter(function(ramaId) {
+                     return !idRamas.includes(ramaId);
+                 });
+            }
+            // var filteredRamas = selectedRamasIds.filter(function (ramaId) {
+            //     return !idRamas.includes(ramaId);
+            // });
             console.log('ramas filtradas', filteredRamas);
 
-            // Filtrar las subramas seleccionadas eliminando las que están en idSubramas
-            // var filteredSubramas;
-            // if (JSON.stringify(idSubramas.sort()) === JSON.stringify(selectedSubramas.sort())) {
-            //     filteredSubramas = selectedSubramas;
-            // } else {
-            //     filteredSubramas = selectedSubramas.filter(function(subramaId) {
-            //         return !idSubramas.includes(subramaId);
-            //     });
-            // }
-            var filteredSubramas = selectedSubramasIds.filter(function (subramaId) {
-                return !idSubramas.includes(subramaId);
-            });
+             //Filtrar las subramas seleccionadas eliminando las que están en idSubramas
+             var filteredSubramas;
+             if (JSON.stringify(idSubramas.sort()) === JSON.stringify(selectedSubramasIds.sort())) {
+                 filteredSubramas = selectedSubramasIds;
+             } else {
+                 filteredSubramas = selectedSubramasIds.filter(function(subramaId) {
+                     return !idSubramas.includes(subramaId);
+                 });
+             }
+            // var filteredSubramas = selectedSubramasIds.filter(function (subramaId) {
+            //     return !idSubramas.includes(subramaId);
+            // });
             console.log('subramas filtradas', filteredSubramas);
 
-            // Filtrar las clases seleccionadas eliminando las que están en idSubramas
-            // var filteredClases;
-            // if (JSON.stringify(idClases.sort()) === JSON.stringify(selectedClasesIds.sort())) {
-            //     filteredClases = selectedClasesIds;
-            // } else {
-            //     filteredClases = selectedClasesIds.filter(function(claseId) {
-            //         return !idClases.includes(claseId);
-            //     });
-            // }
-            var filteredClases = selectedClasesIds.filter(function (claseId) {
-                return !idClases.includes(claseId);
-            });
+             //Filtrar las clases seleccionadas eliminando las que están en idSubramas
+             var filteredClases;
+             if (JSON.stringify(idClases.sort()) === JSON.stringify(selectedClasesIds.sort())) {
+                 filteredClases = selectedClasesIds;
+             } else {
+                 filteredClases = selectedClasesIds.filter(function(claseId) {
+                     return !idClases.includes(claseId);
+                 });
+             }
+            // var filteredClases = selectedClasesIds.filter(function (claseId) {
+            //     return !idClases.includes(claseId);
+            // });
             console.log('clases filtradas', filteredClases);
-
-            var filteredRegulaciones = selectedRegulaciones.filter(function (regulacionId) {
-                return !idRegulaciones.includes(regulacionId);
-            });
+            
+            var filteredRegulaciones;
+             if (JSON.stringify(idRegulaciones.sort()) === JSON.stringify(selectedRegulaciones.sort())) {
+                filteredRegulaciones = selectedRegulaciones;
+             } else {
+                filteredRegulaciones = selectedRegulaciones.filter(function(regulacionId) {
+                     return !idRegulaciones.includes(regulacionId);
+                 });
+             }
+            // var filteredRegulaciones = selectedRegulaciones.filter(function (regulacionId) {
+            //     return !idRegulaciones.includes(regulacionId);
+            // });
             console.log('clases filtradas', filteredRegulaciones);
 
             if ($('#no').is(':checked')) {

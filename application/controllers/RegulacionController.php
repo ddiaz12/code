@@ -234,7 +234,13 @@ class RegulacionController extends CI_Controller
 
     public function insertarRegulacion()
     {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $id = $user->id;
         $formData = $this->input->post();
+
+        
 
 
         // Verificar que los índices existan en formData
@@ -247,13 +253,22 @@ class RegulacionController extends CI_Controller
         $maxID = $this->RegulacionModel->getMaxID();
         $newID = $maxID + 1;
 
+        // Determinar el estatus basado en el grupo del usuario
+        $Estatus = 0; // Valor por defecto
+        if ($groupName == 'admin' || $groupName == 'sedeco') {
+            $Estatus = 1;
+        } elseif ($groupName == 'sujeto_obligado') {
+            $Estatus = 0;
+        }
+
         // Preparar los datos para insertar
         $data = array(
             'ID_Regulacion' => $newID,
             'ID_tRegulacion' => NULL,
+            'id_usuario_creador' => $id,
             'Nombre_Regulacion' => $formData['nombre'],
             'Homoclave' => 'R-IPR-CHH-0-IPR-001',
-            'Estatus' => 1,
+            'Estatus' => $Estatus,
             'Vigencia' => $formData['campoExtra'],
             'Objetivo_Reg' => $formData['objetivoReg']
         );
