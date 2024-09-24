@@ -44,6 +44,9 @@ class Comentarios extends CI_Controller {
                 echo '<td>' . htmlspecialchars($comentario->comentario) . '</td>';
                 echo '<td>' . htmlspecialchars($comentario->usuario) . '</td>';
                 echo '<td>' . date('Y-m-d H:i:s', strtotime($comentario->fecha_creacion)) . '</td>';
+                echo '<td>';
+                echo '<button class="btn btn-danger btn-sm btn-eliminar-comentario" data-id="' . $comentario->ID_comentario . '">Eliminar</button>';
+                echo '</td>';
                 echo '</tr>';
             }
         } else {
@@ -51,5 +54,10 @@ class Comentarios extends CI_Controller {
         }
     }
     
+    public function eliminarComentario() {
+        $idComentario = $this->input->post('id');
+        $this->ComentariosModel->eliminarComentario($idComentario);
+        echo json_encode(['status' => 'success', 'message' => 'Comentario eliminado correctamente']);
+    }
 
 }

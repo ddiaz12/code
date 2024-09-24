@@ -359,5 +359,37 @@ Registro Estatal de Regulaciones
             }
         });
     }
+
+    $(document).on('click', '.btn-eliminar-comentario', function () {
+        var comentarioId = $(this).data('id');
+        var regulacionId = $(this).data('regulacion-id');
+
+        $.ajax({
+            url: '<?php echo base_url('Comentarios/eliminarComentario'); ?>',
+            type: 'POST',
+            data: {
+                id: comentarioId,
+                idRegulacion: regulacionId
+            },
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: result.message,
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message,
+                    });
+                }
+            },
+        });
+    });
 </script>
 @endsection

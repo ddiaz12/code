@@ -539,8 +539,6 @@ $(document).ready(function() {
     });
 });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
 var caracteristicasData = {}; // Declaración global
 var reIndice = []; // Declaración global
@@ -1066,9 +1064,6 @@ $(document).ready(function() {
     });
 });
 </script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
 $(document).ready(function() {
     // Obtener el valor seleccionado en el select con id "selectIndicePadre"

@@ -12,13 +12,18 @@ class ComentariosModel extends CI_Model {
     }
 
     public function obtenerComentariosPorRegulacion($idRegulacion) {
-        $this->db->select('comentario, fecha_creacion, users.email as usuario');
+        $this->db->select('ID_comentario ,comentario, fecha_creacion, users.email as usuario');
         $this->db->from('de_regulacion_usuario_com');
         $this->db->join('users', 'users.id = de_regulacion_usuario_com.id');
         $this->db->where('ID_Regulacion', $idRegulacion);
         $this->db->order_by('fecha_creacion', 'DESC');
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function eliminarComentario($idComentario) {
+        $this->db->where('ID_comentario', $idComentario);
+        $this->db->delete('de_regulacion_usuario_com');
     }
     
 }

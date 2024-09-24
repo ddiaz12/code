@@ -117,7 +117,7 @@ Registro Estatal de Regulaciones
                         let res = JSON.parse(response);
                         if (res.status === 'success') {
                             alert('Estatus actualizado exitosamente.');
-                            window.location.href = 'http://localhost/code/RegulacionController';
+                            window.location.href = '<?php echo base_url('RegulacionController'); ?>';
                         } else {
                             alert('Hubo un error al actualizar el estatus.');
                         }
@@ -255,17 +255,23 @@ Registro Estatal de Regulaciones
             success: function (response) {
                 var result = JSON.parse(response);
                 if (result.status === 'success') {
-                    alert(result.message);
-                    $('#comentarioNuevo').val(''); // Limpiar el campo de comentario
-                    // Recargar comentarios
-                    location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: result.message,
+                    }).then(() => {
+                        $('#comentarioNuevo').val(''); // Limpiar el campo de comentario
+                        // Recargar comentarios
+                            location.reload();
+                    });
                 } else {
-                    alert(result.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message,
+                    });
                 }
             },
-            error: function () {
-                alert('Error al guardar el comentario.');
-            }
         });
     });
 
@@ -286,5 +292,37 @@ Registro Estatal de Regulaciones
             }
         });
     }
+
+    $(document).on('click', '.btn-eliminar-comentario', function () {
+        var comentarioId = $(this).data('id');
+        var regulacionId = $(this).data('regulacion-id');
+
+        $.ajax({
+            url: '<?php echo base_url('Comentarios/eliminarComentario'); ?>',
+            type: 'POST',
+            data: {
+                id: comentarioId,
+                idRegulacion: regulacionId
+            },
+            success: function (response) {
+                var result = JSON.parse(response);
+                if (result.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: result.message,
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message,
+                    });
+                }
+            },
+        });
+    });
 </script>
 @endsection

@@ -21,6 +21,7 @@
                                 <th>Comentario</th>
                                 <th>Usuario</th>
                                 <th>Fecha y hora de creación</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="comentariosContent">
