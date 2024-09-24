@@ -244,7 +244,7 @@ Registro Estatal de Regulaciones
                     </script>
                     <div class="d-flex justify-content-end mb-3">
                         <button type="submit" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
-                        <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                        <a href="<?php echo base_url('RegulacionController'); ?>"
                             class="btn btn-secondary me-2">Cancelar</a>
                     </div>
                 </div>
