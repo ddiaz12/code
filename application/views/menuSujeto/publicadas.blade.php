@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarConsejeria')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuConsejeria')
+@include('templates/menuSujeto')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -45,9 +45,9 @@ Registro Estatal de Regulaciones
                                     class="btn btn-danger btn-sm">
                                     <i class="fas fa-eye" title="Ver regulacion"></i>
                                 </a>
-                                <button class="btn btn-warning btn-sm modificar-regulacion"
+                                <button class="btn btn-dorado btn-sm modificar-regulacion"
                                     data-id="<?php    echo $publicada->ID_Regulacion; ?>">
-                                    <i class="fas fa-edit" title="Modificar regulación"></i>
+                                    <i class="fas fa-sync-alt" title="Modificar regulacion"></i>
                                 </button>
                         </tr>
                         </tr>
@@ -71,20 +71,54 @@ Registro Estatal de Regulaciones
             }
         });
     });
+
+    $(document).ready(function () {
+        $('.modificar-regulacion').on('click', function () {
+            var regulacionId = $(this).data('id');
     
-    $('.modificar-regulacion').click(function () {
-        var id = $(this).data('id');
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¿Quieres modificar la regulación?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: '¡Sí, modificar!',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "<?php echo base_url('ciudadania/modificarRegulacion/'); ?>" + id;
-            }
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Quieres cambiar el estatus de esta regulación a modificada?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cambiarlo!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '<?php echo base_url('menu/modificarRegulacion'); ?>',
+                        type: 'POST',
+                        data: {
+                            id: regulacionId
+                        },
+                        success: function (response) {
+                            var result = JSON.parse(response);
+                            if (result.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Éxito',
+                                    text: 'Estatus de la regulación cambio a modificada.',
+                                }).then(() => {
+                                    location.reload(); // Recargar la página para reflejar los cambios
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al cambiar el estatus de la regulación.',
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error en la solicitud AJAX.',
+                            });
+                        }
+                    });
+                }
+            });
         });
     });
 </script>

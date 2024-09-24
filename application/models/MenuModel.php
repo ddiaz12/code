@@ -74,6 +74,18 @@ class MenuModel extends CI_Model
         return $query->row();
     }
 
+    public function getRegulacionesModificadas($id)
+    {
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+        ma_regulacion.Estatus, ma_regulacion.publicada');
+        $this->db->from('rel_usuario_regulacion');
+        $this->db->join('ma_regulacion', 'rel_usuario_regulacion.ID_Regulacion = ma_regulacion.ID_Regulacion');
+        $this->db->where('rel_usuario_regulacion.id', $id);
+        $this->db->where('ma_regulacion.Estatus', 4);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function obtenerHorariosUnidad($id)
     {
         $this->db->select('de_horarios.*');
@@ -186,13 +198,27 @@ class MenuModel extends CI_Model
         return $query->result();
     }
 
-    public function getRegulacionesPublicada(){
-        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+    public function getRegulacionesPublicada($id){
+        $this->db->select('ma_regulacion.ID_Regulacion, id_usuario_creador, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
         ma_regulacion.Estatus, ma_regulacion.publicada');
         $this->db->from('ma_regulacion');
         $this->db->where('ma_regulacion.publicada', 1);
+        $this->db->where('ma_regulacion.Estatus', 3);
+        $this->db->where('ma_regulacion.id_usuario_creador', $id);
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function modificarRegulacion($id_regulacion)
+    {
+        // Datos a actualizar
+        $data = array(
+            'estatus' => 4
+        );
+    
+        // Actualizar la regulación en la base de datos
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('ma_regulacion', $data);
     }
 
 }

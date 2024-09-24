@@ -513,7 +513,7 @@ class RegulacionModel extends CI_Model {
 
     public function publicar_regulacion($id_regulacion) {
         $this->db->where('ID_Regulacion', $id_regulacion);
-        $this->db->update('ma_regulacion', array('Estatus' => 4, 'publicada' => 1));
+        $this->db->update('ma_regulacion', array('Estatus' => 3, 'publicada' => 1));
     }
 
     public function despublicar_regulacion($id_regulacion) {
