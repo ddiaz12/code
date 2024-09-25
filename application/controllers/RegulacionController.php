@@ -589,6 +589,7 @@ public function save_naturaleza_regulacion()
         $iNormativo = $this->input->post('iNormativo');
         $selectedRegulaciones = $this->input->post('selectedRegulaciones');
 
+
         // Obtener el ID_Nat más grande y agregar uno más grande
         $max_id_nat = $this->RegulacionModel->get_max_id_nat();
         $new_id_nat = $max_id_nat + 1;

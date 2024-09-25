@@ -224,6 +224,7 @@ Registro Estatal de Regulaciones
                                     } else if (this.value == 'liga') {
                                         $('#urlInput').show();
                                         $('#fileInput').hide();
+
                                     }
                                 });
                             });
@@ -647,6 +648,8 @@ Registro Estatal de Regulaciones
                 iNormativo = 0;
             } else if ($('#liga').is(':checked')) {
                 iNormativo = 1;
+                
+
             }
             console.log('iNormativo:', iNormativo);
         });
