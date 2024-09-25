@@ -193,12 +193,18 @@ class RegulacionController extends CI_Controller
         $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
         // Obtener los datos de la naturaleza de natreg
         $data['natreg'] = $this->RegulacionModel->get_rel_nat_reg_by_id($id_regulacion);
-        // Obtener los datos de la naturaleza de la regulación
-        $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
-        // Obtener los datos de las regulaciones vinculadas
-        $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
-        // Pasar el valor de Enlace_Oficial a la vista
-        $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
+        if ($data['natreg'] == null) {
+        }else{
+            $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
+            $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
+            $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
+        }
+        // // Obtener los datos de la naturaleza de la regulación
+        // $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
+        // // Obtener los datos de las regulaciones vinculadas
+        // $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
+        // // Pasar el valor de Enlace_Oficial a la vista
+        // $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
 
         $this->blade->render('regulaciones/editar_naturaleza', $data);
     }
@@ -710,6 +716,23 @@ public function save_naturaleza_regulacion()
                         }
                     }
                 }
+            } else if (!empty($selectedSectors) || !empty($selectedSubsectors)) {
+                foreach ($selectedSectors as $sector) {
+                    foreach ($selectedSubsectors as $subsector) {
+                        $data_rel_nat = array(
+                            'ID_relNaturaleza' => $new_id_rel_nat,
+                            'ID_Regulacion' => $last_id_regulacion,
+                            'ID_Nat' => $new_id_nat,
+                            'ID_sector' => $sector,
+                            'ID_subsector' => $subsector,
+                            'ID_rama' => null,
+                            'ID_subrama' => null,
+                            'ID_clase' => null
+                        );
+                        $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                        $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
+                    }
+                }
             }
 
             echo json_encode(array('status' => 'success'));
@@ -824,7 +847,7 @@ public function save_naturaleza_regulacion2()
             $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
 
             // Guardar en la base de datos rel_nat_reg
-            if (!empty($selectedSectors) || !empty($selectedSubsectors) || !empty($selectedRamas) || !empty($selectedSubramas) || !empty($selectedClases)) {
+            if (!empty($selectedSectors) && !empty($selectedSubsectors) && !empty($selectedRamas) && !empty($selectedSubramas) && !empty($selectedClases)) {
                 foreach ($selectedSectors as $sector) {
                     if (empty($sector)) continue;
                     foreach ($selectedSubsectors as $subsector) {
@@ -851,6 +874,23 @@ public function save_naturaleza_regulacion2()
                                 }
                             }
                         }
+                    }
+                }
+            } else if (!empty($selectedSectors) && !empty($selectedSubsectors)) {
+                foreach ($selectedSectors as $sector) {
+                    foreach ($selectedSubsectors as $subsector) {
+                        $data_rel_nat = array(
+                            'ID_relNaturaleza' => $new_id_rel_nat,
+                            'ID_Regulacion' => $id_regulacion,
+                            'ID_Nat' => $new_id_nat,
+                            'ID_sector' => $sector,
+                            'ID_subsector' => $subsector,
+                            'ID_rama' => null,
+                            'ID_subrama' => null,
+                            'ID_clase' => null
+                        );
+                        $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                        $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
                     }
                 }
             }
