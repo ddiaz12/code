@@ -163,7 +163,15 @@ class RegulacionController extends CI_Controller
         $data['relindice'] = $this->RegulacionModel->get_rel_by_indice($indice_ids);
 
         // Pasar los datos a la vista
-        $this->blade->render('regulaciones/editar_caracteristicas', $data);
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/editar_caracteristicas', $data);
+        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
+            $this->blade->render('regulaciones/editar_caracteristicas', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/editar_caracteristicas', $data);
+        } else {
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function edit_mat($id_regulacion)
@@ -189,7 +197,15 @@ class RegulacionController extends CI_Controller
         $data['materias'] = $materias;
         $data['has_materias'] = $has_materias;
 
-        $this->blade->render('regulaciones/editar_materias', $data);
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/editar_materias', $data);
+        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
+            $this->blade->render('regulaciones/editar_materias', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/editar_materias', $data);
+        } else {
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function edit_nat($id_regulacion)
@@ -199,9 +215,6 @@ class RegulacionController extends CI_Controller
         $groupName = $group->name;
         $iduser = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
 
         // Obtener los datos de la regulación
         $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
@@ -219,8 +232,18 @@ class RegulacionController extends CI_Controller
         // $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
         // // Pasar el valor de Enlace_Oficial a la vista
         // $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
+        //Obtener de_naturaleza_regulacion por ID_Regulacion
+        $data['natreg'] = $this->RegulacionModel->get_naturaleza_regulacion_by_regulacion($id_regulacion);
 
-        $this->blade->render('regulaciones/editar_naturaleza', $data);
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/editar_naturaleza', $data);
+        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
+            $this->blade->render('regulaciones/editar_naturaleza', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/editar_naturaleza', $data);
+        } else {
+            redirect('auth/login', 'refresh');
+        }
     }
 
     public function search()
@@ -634,7 +657,8 @@ class RegulacionController extends CI_Controller
                 'ID_Nat' => $new_id_nat,
                 'Enlace_Oficial' => $inputEnlace,
                 'Instrumento_normativo' => $iNormativo,
-                'file_path' => !empty($file_path) ? $file_path : $url // Usar URL si file_path está vacío
+                'file_path' => !empty($file_path) ? $file_path : null,
+                'url' => !empty($url) ? $url : null
             );
             $this->RegulacionModel->insert_naturaleza_regulacion($data);
 
@@ -687,7 +711,8 @@ class RegulacionController extends CI_Controller
                 'ID_Nat' => $new_id_nat,
                 'Enlace_Oficial' => $inputEnlace,
                 'Instrumento_normativo' => $iNormativo,
-                'file_path' => !empty($file_path) ? $file_path : $url // Usar URL si file_path está vacío
+                'file_path' => !empty($file_path) ? $file_path : null,
+                'url' => !empty($url) ? $url : null
             );
             $this->RegulacionModel->insert_naturaleza_regulacion($data);
 
