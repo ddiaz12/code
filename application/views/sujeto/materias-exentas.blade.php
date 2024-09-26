@@ -25,22 +25,22 @@ Registro Estatal de Regulaciones
             <div class="col-md-3 p-0 d-flex flex-column">
                 <!-- New card -->
                 <style>
-                .custom-link {
-                    color: black;
-                    cursor: pointer !important;
-                    font-size: 19px;
-                    /* Adjust as needed */
-                }
+                    .custom-link {
+                        color: black;
+                        cursor: pointer !important;
+                        font-size: 19px;
+                        /* Adjust as needed */
+                    }
 
-                .custom-link:hover {
-                    color: gray;
-                    text-decoration: none;
-                }
+                    .custom-link:hover {
+                        color: gray;
+                        text-decoration: none;
+                    }
 
-                .custom-link i {
-                    font-size: 24px;
-                    /* Adjust as needed */
-                }
+                    .custom-link i {
+                        font-size: 24px;
+                        /* Adjust as needed */
+                    }
                 </style>
                 <div class="card flex-grow-1">
                     <div class="card" style="border: none;">
@@ -147,7 +147,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox13" name="checkbox13" value="checkbox13">
-                                    <label for="checkbox13">Proteger la sanidad y la inocuidad agroalimentaria, animal y vegetal</label>
+                                    <label for="checkbox13">Proteger la sanidad y la inocuidad agroalimentaria, animal y
+                                        vegetal</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox14" name="checkbox14" value="checkbox14">
@@ -159,7 +160,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox16" name="checkbox16" value="checkbox16">
-                                    <label for="checkbox16">Revisión de contratos petroleros (art. 37-B-VII y 63 LISH)</label>
+                                    <label for="checkbox16">Revisión de contratos petroleros (art. 37-B-VII y 63
+                                        LISH)</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox17" name="checkbox17" value="checkbox17">
@@ -167,7 +169,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox18" name="checkbox18" value="checkbox18">
-                                    <label for="checkbox18">Salud pública, medicamentos, asistencia sanitaria y/o sanidad</label>
+                                    <label for="checkbox18">Salud pública, medicamentos, asistencia sanitaria y/o
+                                        sanidad</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox19" name="checkbox19" value="checkbox19">
@@ -183,7 +186,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox22" name="checkbox22" value="checkbox22">
-                                    <label for="checkbox22">Seguridad de los productos no alimentarios y protección del consumidor</label>
+                                    <label for="checkbox22">Seguridad de los productos no alimentarios y protección del
+                                        consumidor</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox23" name="checkbox23" value="checkbox23">
@@ -213,9 +217,9 @@ Registro Estatal de Regulaciones
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
-                        <button type="submit" id="btnCheck" class="btn btn-success btn-guardar">Guardar</button>
-                        <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                        <a href="<?php echo base_url('RegulacionController'); ?>"
                             class="btn btn-secondary me-2">Cancelar</a>
+                        <button type="submit" id="btnCheck" class="btn btn-success btn-guardar">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -226,87 +230,87 @@ Registro Estatal de Regulaciones
 @endsection
 @section('js')
 <script>
-$(document).ready(function() {
-    $('input[type=radio][name=opcion]').change(function() {
-        if (this.value == 'si') {
-            $('#checkboxes').show();
-        } else if (this.value == 'no') {
-            $('#checkboxes').hide();
-        }
+    $(document).ready(function () {
+        $('input[type=radio][name=opcion]').change(function () {
+            if (this.value == 'si') {
+                $('#checkboxes').show();
+            } else if (this.value == 'no') {
+                $('#checkboxes').hide();
+            }
+        });
     });
-});
 </script>
 <script>
-$(document).ready(function() {
-    $('#btnCheck').on('click', function(event) {
-        event.preventDefault(); // Evitar el envío del formulario
+    $(document).ready(function () {
+        $('#btnCheck').on('click', function (event) {
+            event.preventDefault(); // Evitar el envío del formulario
 
-        if ($('#si').is(':checked')) {
-            var selectedLabels = [];
+            if ($('#si').is(':checked')) {
+                var selectedLabels = [];
 
-            $('input[type="checkbox"]').each(function() {
-                if ($(this).is(':checked')) {
-                    var label = $('label[for="' + $(this).attr('id') + '"]').text();
-                    selectedLabels.push(label);
-                }
-            });
-
-            // Imprimir los textos de los labels en la consola
-            console.log(selectedLabels);
-
-            // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
-            $.ajax({
-                url: '<?php echo base_url('RegulacionController/obtenerMateriasYUltimoIDRegulacion'); ?>',
-                type: 'POST',
-                data: {
-                    labels: selectedLabels
-                },
-                success: function(response) {
-                    var result = JSON.parse(response);
-                    if (result.status === 'success') {
-                        var idMaterias = result.idMaterias;
-                        var ultimoIDRegulacion = result.ultimoIDRegulacion;
-
-                        // Imprimir los ID_materia y el último ID_Regulacion en la consola
-                        console.log('ID_materias:', idMaterias);
-                        console.log('Último ID_Regulacion:', ultimoIDRegulacion);
-
-                        // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
-                        $.ajax({
-                            url: '<?php echo base_url('RegulacionController/insertarRelRegulacionesMaterias'); ?>',
-                            type: 'POST',
-                            data: {
-                                idMaterias: idMaterias,
-                                ultimoIDRegulacion: ultimoIDRegulacion
-                            },
-                            success: function(insertResponse) {
-                                var insertResult = JSON.parse(insertResponse);
-                                if (insertResult.status === 'success') {
-                                    console.log(
-                                        'Datos insertados correctamente en rel_regulaciones_materias'
-                                        );
-                                    // Redirigir al usuario al enlace especificado
-                                    window.location.href = '<?php echo base_url('RegulacionController/nat_regulaciones'); ?>';
-                                } else {
-                                    console.error('Error al insertar datos:',
-                                        insertResult.message);
-                                }
-                            },
-                            error: function(error) {
-                                console.error('Error en la solicitud AJAX:',
-                                    error);
-                            }
-                        });
-                    } else {
-                        console.error('Error:', result.message);
+                $('input[type="checkbox"]').each(function () {
+                    if ($(this).is(':checked')) {
+                        var label = $('label[for="' + $(this).attr('id') + '"]').text();
+                        selectedLabels.push(label);
                     }
-                },
-                error: function(error) {
-                    console.error('Error en la solicitud AJAX:', error);
-                }
-            });
-        }
+                });
+
+                // Imprimir los textos de los labels en la consola
+                console.log(selectedLabels);
+
+                // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
+                $.ajax({
+                    url: '<?php echo base_url('RegulacionController/obtenerMateriasYUltimoIDRegulacion'); ?>',
+                    type: 'POST',
+                    data: {
+                        labels: selectedLabels
+                    },
+                    success: function (response) {
+                        var result = JSON.parse(response);
+                        if (result.status === 'success') {
+                            var idMaterias = result.idMaterias;
+                            var ultimoIDRegulacion = result.ultimoIDRegulacion;
+
+                            // Imprimir los ID_materia y el último ID_Regulacion en la consola
+                            console.log('ID_materias:', idMaterias);
+                            console.log('Último ID_Regulacion:', ultimoIDRegulacion);
+
+                            // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
+                            $.ajax({
+                                url: '<?php echo base_url('RegulacionController/insertarRelRegulacionesMaterias'); ?>',
+                                type: 'POST',
+                                data: {
+                                    idMaterias: idMaterias,
+                                    ultimoIDRegulacion: ultimoIDRegulacion
+                                },
+                                success: function (insertResponse) {
+                                    var insertResult = JSON.parse(insertResponse);
+                                    if (insertResult.status === 'success') {
+                                        console.log(
+                                            'Datos insertados correctamente en rel_regulaciones_materias'
+                                        );
+                                        // Redirigir al usuario al enlace especificado
+                                        window.location.href = '<?php echo base_url('RegulacionController/nat_regulaciones'); ?>';
+                                    } else {
+                                        console.error('Error al insertar datos:',
+                                            insertResult.message);
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error('Error en la solicitud AJAX:',
+                                        error);
+                                }
+                            });
+                        } else {
+                            console.error('Error:', result.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error en la solicitud AJAX:', error);
+                    }
+                });
+            }
+        });
     });
-});
 </script>
 @endsection

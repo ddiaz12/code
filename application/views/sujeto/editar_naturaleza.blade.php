@@ -209,40 +209,38 @@ Registro Estatal de Regulaciones
                         <div id="fileInput" class="form-group" style="display: none;">
                             <label for="file">Subir Documento:</label>
                             <input type="file" class="form-control-file" id="file">
+                            <br>
+                            <!-- Mostrar el nombre del archivo actual -->
+                            <?php if (!empty($natreg) && !empty($natreg[0]['file_path'])): ?>
+                                <small id="current_file" class="form-text text-muted">
+                                    Archivo actual: <?php echo basename($natreg[0]['file_path']); ?>
+                                </small>
+                                <br>
+                                <!-- Mostrar la imagen actual -->
+                                <img src="<?php echo base_url('assets/ftp/' . basename($natreg[0]['file_path'])); ?>"
+                                    alt="Imagen actual" class="img-fluid">
+                            <?php endif; ?>
+                            <br>
+                            <small id="msg_file" class="text-danger"></small>
                         </div>
                         <div id="urlInput" class="form-group" style="display: none;">
                             <label for="url">URL del Documento:</label>
-                            <input type="text" class="form-control" id="url" placeholder="http://">
-                        </div>
-
-
-                        <script>
-                            $(document).ready(function () {
-                                $('input[type=radio][name=opcion2]').change(function () {
-                                    if (this.value == 'documento') {
-                                        $('#fileInput').show();
-                                        $('#urlInput').hide();
-                                    } else if (this.value == 'liga') {
-                                        $('#urlInput').show();
-                                        $('#fileInput').hide();
+                            <input type="text" class="form-control" id="url" name="url" placeholder="http://"
+                                value="<?php echo !empty($natreg) && !empty($natreg[0]['url']) ? $natreg[0]['url'] : ''; ?>">
+                            <?php if (!empty($natreg) && !empty($natreg[0]['url'])): ?>
+                                <small id="current_url" class="form-text text-muted">
+                                    URL actual:
+                                    <?php
+                                    $url = $natreg[0]['url'];
+                                    if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+                                        $url = "http://" . $url;
                                     }
-                                });
-                            });
-                        </script>
-
+                                    ?>
+                                    <a href="<?php echo $url; ?>" target="_blank"><?php echo $url; ?></a>
+                                </small>
+                            <?php endif; ?>
+                        </div>
                     </div>
-
-                    <script>
-                        $(document).ready(function () {
-                            $('input[type=radio][name=opcion]').change(function () {
-                                if (this.value == 'si') {
-                                    $('#inputs').show();
-                                } else if (this.value == 'no') {
-                                    $('#inputs').hide();
-                                }
-                            });
-                        });
-                    </script>
                     <div class="d-flex justify-content-end mb-3">
                         <button type="submit" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                         <a href="<?php echo base_url('oficinas/oficina'); ?>"
@@ -254,7 +252,39 @@ Registro Estatal de Regulaciones
     </div>
 </div>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
+        $('input[type=radio][name=opcion]').change(function() {
+            if (this.value == 'si') {
+                $('#inputs').show();
+            } else if (this.value == 'no') {
+                $('#inputs').hide();
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $('input[type=radio][name=opcion2]').change(function() {
+            if (this.value == 'documento') {
+                $('#fileInput').show();
+                $('#urlInput').hide();
+            } else if (this.value == 'liga') {
+                $('#urlInput').show();
+                $('#fileInput').hide();
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        var filePath = "<?php echo !empty($natreg) && !empty($natreg[0]['file_path']) ? $natreg[0]['file_path'] : ''; ?>";
+        var url = "<?php echo !empty($natreg) && !empty($natreg[0]['url']) ? $natreg[0]['url'] : ''; ?>";
+        if (url) {
+            $('#urlInput').show();
+        } else if (filePath) {
+            $('#fileInput').show();
+        }
+    });
+
+    $(document).ready(function() {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
         console.log('ID_Regulacion:', id_regulacion);
@@ -263,9 +293,11 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/verificarSector") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 if (response.status === 'success') {
                     // Si el campo ID_sector no es nulo, marcar el radio button con id "si"
                     $('#si').prop('checked', true);
@@ -277,14 +309,14 @@ Registro Estatal de Regulaciones
                     $('#selectedClasesTable').show();
                 }
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para verificar el sector.');
             }
         });
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
 
@@ -292,27 +324,29 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerSectoresPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('Nombres de sectores obtenidos:', response);
 
                 // Limpiar el tbody de la tabla
                 $('#selectedSectorsTable tbody').empty();
 
                 // Agregar los nombres de los sectores a la tabla
-                response.forEach(function (sector) {
+                response.forEach(function(sector) {
                     $('#selectedSectorsTable tbody').append('<tr><td>' + sector.Nombre_Sector + '</td></tr>');
                 });
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener los sectores.');
             }
         });
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
 
@@ -320,16 +354,18 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerSubsectoresPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('Nombres de subsectors obtenidos:', response);
 
                 // Limpiar el tbody de la tabla
                 $('#selectedSubsectorsTable tbody').empty();
 
                 // Agregar los nombres de los subsectors a la tabla
-                response.forEach(function (subsector) {
+                response.forEach(function(subsector) {
                     $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsector.Nombre_Subsector + '</td></tr>');
                 });
 
@@ -338,14 +374,14 @@ Registro Estatal de Regulaciones
                     $('#selectedSubsectorsTable').show();
                 }
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener los subsectors.');
             }
         });
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
 
@@ -353,16 +389,18 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerRamasPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('Nombres de ramas obtenidos:', response);
 
                 // Limpiar el tbody de la tabla
                 $('#selectedRamasTable tbody').empty();
 
                 // Agregar los nombres de las ramas a la tabla
-                response.forEach(function (rama) {
+                response.forEach(function(rama) {
                     $('#selectedRamasTable tbody').append('<tr><td>' + rama.Nombre_Rama + '</td></tr>');
                 });
 
@@ -371,14 +409,14 @@ Registro Estatal de Regulaciones
                     $('#selectedRamasTable').show();
                 }
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener las ramas.');
             }
         });
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
 
@@ -386,16 +424,18 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerSubramasPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('Nombres de subramas obtenidos:', response);
 
                 // Limpiar el tbody de la tabla
                 $('#selectedSubramasTable tbody').empty();
 
                 // Agregar los nombres de las subramas a la tabla
-                response.forEach(function (subrama) {
+                response.forEach(function(subrama) {
                     $('#selectedSubramasTable tbody').append('<tr><td>' + subrama.Nombre_Subrama + '</td></tr>');
                 });
 
@@ -404,14 +444,14 @@ Registro Estatal de Regulaciones
                     $('#selectedSubramasTable').show();
                 }
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener las subramas.');
             }
         });
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
 
@@ -419,16 +459,18 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerClasesPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('Nombres de clases obtenidos:', response);
 
                 // Limpiar el tbody de la tabla
                 $('#selectedClasesTable tbody').empty();
 
                 // Agregar los nombres de las clases a la tabla
-                response.forEach(function (clase) {
+                response.forEach(function(clase) {
                     $('#selectedClasesTable tbody').append('<tr><td>' + clase.Nombre_Clase + '</td></tr>');
                 });
 
@@ -437,14 +479,14 @@ Registro Estatal de Regulaciones
                     $('#selectedClasesTable').show();
                 }
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener las clases.');
             }
         });
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
 
@@ -452,16 +494,18 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerRegulacionesPorNat") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('Nombres de regulaciones obtenidos:', response);
 
                 // Limpiar el tbody de la tabla
                 $('#selectedRegulacionesTable tbody').empty();
 
                 // Agregar los nombres de las regulaciones a la tabla
-                response.forEach(function (regulacion) {
+                response.forEach(function(regulacion) {
                     $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacion.Nombre_Regulacion + '</td></tr>');
                 });
 
@@ -470,15 +514,15 @@ Registro Estatal de Regulaciones
                     $('#selectedRegulacionesTable').show();
                 }
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener las regulaciones.');
             }
         });
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $('input[type=radio][name=opcion]').change(function () {
+    $(document).ready(function() {
+        $('input[type=radio][name=opcion]').change(function() {
             if (this.value == 'si') {
                 $('#checkboxes').show();
             } else if (this.value == 'no') {
@@ -509,7 +553,7 @@ Registro Estatal de Regulaciones
     var idRegulaciones = [];
 
     // Aqui se hace la busqueda de los sectores y se muestran en una lista
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
@@ -518,20 +562,22 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerIdSectoresPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('ID de sectores obtenidos:', response);
 
                 // Guardar los ID de los sectores en un array
-                idSectores = response.map(function (sector) {
+                idSectores = response.map(function(sector) {
                     return sector.ID_Sector;
                 });
 
                 // Imprimir los ID de los sectores en la consola
                 console.log('Array de ID de sectores:', idSectores);
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener los ID de los sectores.');
             }
         });
@@ -540,20 +586,22 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerIdSubsectoresPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('ID de subsectores obtenidos:', response);
 
                 // Guardar los ID de los subsectores en un array
-                idSubsectores = response.map(function (subsector) {
+                idSubsectores = response.map(function(subsector) {
                     return subsector.ID_Subsector;
                 });
 
                 // Imprimir los ID de los subsectores en la consola
                 console.log('Array de ID de subsectores:', idSubsectores);
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener los ID de los sectores.');
             }
         });
@@ -562,20 +610,22 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerIdRamasPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('ID de ramas obtenidos:', response);
 
                 // Guardar los ID de las ramas en un array
-                idRamas = response.map(function (rama) {
+                idRamas = response.map(function(rama) {
                     return rama.ID_Rama;
                 });
 
                 // Imprimir los ID de las ramas en la consola
                 console.log('Array de ID de ramas:', idRamas);
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener los ID de las ramas.');
             }
         });
@@ -584,20 +634,22 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerIdSubramasPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('ID de subramas obtenidos:', response);
 
                 // Guardar los ID de las subramas en un array
-                idSubramas = response.map(function (subrama) {
+                idSubramas = response.map(function(subrama) {
                     return subrama.ID_Subrama;
                 });
 
                 // Imprimir los ID de las subramas en la consola
                 console.log('Array de ID de subramas:', idSubramas);
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener los ID de las subramas.');
             }
         });
@@ -606,20 +658,22 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerIdClasesPorRegulacion") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('ID de clases obtenidos:', response);
 
                 // Guardar los ID de las clases en un array
-                var idClases = response.map(function (clase) {
+                var idClases = response.map(function(clase) {
                     return clase.ID_Clase;
                 });
 
                 // Imprimir los ID de las clases en la consola
                 console.log('Array de ID de clases:', idClases);
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener los ID de las clases.');
             }
         });
@@ -628,25 +682,27 @@ Registro Estatal de Regulaciones
         $.ajax({
             url: '<?= base_url("RegulacionController/obtenerIdRegulacionesPorNat") ?>',
             type: 'POST',
-            data: { id_regulacion: id_regulacion },
+            data: {
+                id_regulacion: id_regulacion
+            },
             dataType: 'json',
-            success: function (response) {
+            success: function(response) {
                 console.log('ID de regulaciones obtenidos:', response);
 
                 // Guardar los ID de las regulaciones en un array
-                idRegulaciones = response.map(function (regulacion) {
+                idRegulaciones = response.map(function(regulacion) {
                     return regulacion.ID_Regulacion;
                 });
 
                 // Imprimir los ID de las regulaciones en la consola
                 console.log('Array de ID de regulaciones por nat:', idRegulaciones);
             },
-            error: function () {
+            error: function() {
                 console.error('Error en la solicitud AJAX para obtener los ID de las regulaciones.');
             }
         });
 
-        $('#SectorInput').on('keyup', function () {
+        $('#SectorInput').on('keyup', function() {
             let searchTerm = $(this).val();
             $.ajax({
                 url: '<?= base_url('RegulacionController/search_sector') ?>',
@@ -655,9 +711,9 @@ Registro Estatal de Regulaciones
                     search_term: searchTerm
                 },
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     $('#sectorResults').empty();
-                    data.forEach(function (sector) {
+                    data.forEach(function(sector) {
                         $('#sectorResults').append('<li data-id="' + sector
                             .ID_sector + '">' + sector.Nombre_Sector +
                             '</li>');
@@ -667,7 +723,7 @@ Registro Estatal de Regulaciones
         });
 
         // Aqui se selecciona el sector y se agrega a la lista
-        $('#sectorResults').on('click', 'li', function () {
+        $('#sectorResults').on('click', 'li', function() {
             let sectorId = $(this).data('id');
             let sectorName = $(this).text();
             selectedSectors.push({
@@ -688,7 +744,7 @@ Registro Estatal de Regulaciones
         });
 
         // Evento para eliminar sectores
-        $('#selectedSectorsTable').on('click', '.delete-row', function () {
+        $('#selectedSectorsTable').on('click', '.delete-row', function() {
             // Obtener el ID del sector de la fila
             let sectorId = $(this).closest('tr').data('id');
 
@@ -696,7 +752,7 @@ Registro Estatal de Regulaciones
             $(this).closest('tr').remove();
 
             // Eliminar el sector del array
-            selectedSectors = selectedSectors.filter(function (sector) {
+            selectedSectors = selectedSectors.filter(function(sector) {
                 return sector.ID_sector !== sectorId;
             });
 
@@ -709,7 +765,7 @@ Registro Estatal de Regulaciones
         });
 
         // Aqui se hace la busqueda de los subsectores y se muestran en una lista
-        $('#SubsectorInput').on('keyup', function () {
+        $('#SubsectorInput').on('keyup', function() {
             let searchTerm = $(this).val();
             $.ajax({
                 url: '<?= base_url('RegulacionController/search_subsector') ?>',
@@ -718,20 +774,20 @@ Registro Estatal de Regulaciones
                     search_term: searchTerm
                 },
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     $('#subsectorResults').empty();
-                    data.forEach(function (subsector) {
+                    data.forEach(function(subsector) {
                         $('#subsectorResults').append(
                             '<li class="list-group-item" data-id="' +
                             subsector.ID_subsector + '">' + subsector
-                                .Nombre_Subsector + '</li>');
+                            .Nombre_Subsector + '</li>');
                     });
                 }
             });
         });
 
         // Aqui se selecciona el subsector y se agrega a la lista
-        $('#subsectorResults').on('click', 'li', function () {
+        $('#subsectorResults').on('click', 'li', function() {
             let subsectorId = $(this).data('id');
             let subsectorName = $(this).text();
             selectedSubsectors.push({
@@ -753,7 +809,7 @@ Registro Estatal de Regulaciones
         });
 
         // Evento para eliminar subsectores
-        $('#selectedSubsectorsTable').on('click', '.delete-row', function () {
+        $('#selectedSubsectorsTable').on('click', '.delete-row', function() {
             // Obtener el ID del subsector de la fila
             let subsectorId = $(this).closest('tr').data('id');
 
@@ -761,7 +817,7 @@ Registro Estatal de Regulaciones
             $(this).closest('tr').remove();
 
             // Eliminar el subsector del array
-            selectedSubsectors = selectedSubsectors.filter(function (subsector) {
+            selectedSubsectors = selectedSubsectors.filter(function(subsector) {
                 return subsector.ID_subsector !== subsectorId;
             });
 
@@ -774,7 +830,7 @@ Registro Estatal de Regulaciones
         });
 
         // Aqui se hace la busqueda de las ramas y se muestran en una lista
-        $('#RamaInput').on('keyup', function () {
+        $('#RamaInput').on('keyup', function() {
             let searchTerm = $(this).val();
             $.ajax({
                 url: '<?= base_url('RegulacionController/search_rama') ?>',
@@ -783,19 +839,19 @@ Registro Estatal de Regulaciones
                     search_term: searchTerm
                 },
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     $('#ramaResults').empty();
-                    data.forEach(function (rama) {
+                    data.forEach(function(rama) {
                         $('#ramaResults').append(
                             '<li class="list-group-item" data-id="' + rama
-                                .ID_Rama + '">' + rama.Nombre_Rama + '</li>');
+                            .ID_Rama + '">' + rama.Nombre_Rama + '</li>');
                     });
                 }
             });
         });
 
         // Aqui se selecciona la rama y se agrega a la lista
-        $('#ramaResults').on('click', 'li', function () {
+        $('#ramaResults').on('click', 'li', function() {
             let ramaId = $(this).data('id');
             let ramaName = $(this).text();
             selectedRamas.push({
@@ -816,7 +872,7 @@ Registro Estatal de Regulaciones
         });
 
         // Evento para eliminar ramas
-        $('#selectedRamasTable').on('click', '.delete-row', function () {
+        $('#selectedRamasTable').on('click', '.delete-row', function() {
             // Obtener el ID de la rama de la fila
             let ramaId = $(this).closest('tr').data('id');
 
@@ -824,7 +880,7 @@ Registro Estatal de Regulaciones
             $(this).closest('tr').remove();
 
             // Eliminar la rama del array
-            selectedRamas = selectedRamas.filter(function (rama) {
+            selectedRamas = selectedRamas.filter(function(rama) {
                 return rama.ID_Rama !== ramaId;
             });
 
@@ -837,7 +893,7 @@ Registro Estatal de Regulaciones
         });
 
         // Aqui se hace la busqueda de las subramas y se muestran en una lista
-        $('#SubramaInput').on('keyup', function () {
+        $('#SubramaInput').on('keyup', function() {
             let searchTerm = $(this).val();
             $.ajax({
                 url: '<?= base_url('RegulacionController/search_subrama') ?>',
@@ -846,19 +902,19 @@ Registro Estatal de Regulaciones
                     search_term: searchTerm
                 },
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     $('#subramaResults').empty();
-                    data.forEach(function (subrama) {
+                    data.forEach(function(subrama) {
                         $('#subramaResults').append(
                             '<li class="list-group-item" data-id="' + subrama
-                                .ID_Subrama + '">' + subrama.Nombre_Subrama + '</li>');
+                            .ID_Subrama + '">' + subrama.Nombre_Subrama + '</li>');
                     });
                 }
             });
         });
 
         // Aqui se selecciona la subrama y se agrega a la lista
-        $('#subramaResults').on('click', 'li', function () {
+        $('#subramaResults').on('click', 'li', function() {
             let subramaId = $(this).data('id');
             let subramaName = $(this).text();
             selectedSubramas.push({
@@ -880,7 +936,7 @@ Registro Estatal de Regulaciones
         });
 
         // Evento para eliminar subramas
-        $('#selectedSubramasTable').on('click', '.delete-row', function () {
+        $('#selectedSubramasTable').on('click', '.delete-row', function() {
             // Obtener el ID de la subrama de la fila
             let subramaId = $(this).closest('tr').data('id');
 
@@ -888,7 +944,7 @@ Registro Estatal de Regulaciones
             $(this).closest('tr').remove();
 
             // Eliminar la subrama del array
-            selectedSubramas = selectedSubramas.filter(function (subrama) {
+            selectedSubramas = selectedSubramas.filter(function(subrama) {
                 return subrama.ID_Subrama !== subramaId;
             });
 
@@ -901,7 +957,7 @@ Registro Estatal de Regulaciones
         });
 
         // Aqui se hace la busqueda de las clases y se muestran en una lista
-        $('#ClaseInput').on('keyup', function () {
+        $('#ClaseInput').on('keyup', function() {
             let searchTerm = $(this).val();
             $.ajax({
                 url: '<?= base_url('RegulacionController/search_clase') ?>',
@@ -910,19 +966,19 @@ Registro Estatal de Regulaciones
                     search_term: searchTerm
                 },
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     $('#claseResults').empty();
-                    data.forEach(function (clase) {
+                    data.forEach(function(clase) {
                         $('#claseResults').append(
                             '<li class="list-group-item" data-id="' + clase
-                                .ID_clase + '">' + clase.Nombre_Clase + '</li>');
+                            .ID_clase + '">' + clase.Nombre_Clase + '</li>');
                     });
                 }
             });
         });
 
         // Aqui se selecciona la clase y se agrega a la lista
-        $('#claseResults').on('click', 'li', function () {
+        $('#claseResults').on('click', 'li', function() {
             let claseId = $(this).data('id');
             let claseName = $(this).text();
             selectedClases.push({
@@ -944,7 +1000,7 @@ Registro Estatal de Regulaciones
         });
 
         // Evento para eliminar clases
-        $('#selectedClasesTable').on('click', '.delete-row', function () {
+        $('#selectedClasesTable').on('click', '.delete-row', function() {
             // Obtener el ID de la clase de la fila
             let ClaseId = $(this).closest('tr').data('id');
 
@@ -952,7 +1008,7 @@ Registro Estatal de Regulaciones
             $(this).closest('tr').remove();
 
             // Eliminar la clase del array
-            selectedClases = selectedClases.filter(function (clase) {
+            selectedClases = selectedClases.filter(function(clase) {
                 return clase.ID_clase !== ClaseId;
             });
 
@@ -965,7 +1021,7 @@ Registro Estatal de Regulaciones
         });
 
         //aqui busca las regulaciones y las muesta en una lista
-        $('#inputVinculadas').on('keyup', function () {
+        $('#inputVinculadas').on('keyup', function() {
             let searchTerm = $(this).val();
             $.ajax({
                 url: '<?= base_url('RegulacionController/search_regulacion') ?>',
@@ -974,12 +1030,12 @@ Registro Estatal de Regulaciones
                     search_term: searchTerm
                 },
                 dataType: 'json',
-                success: function (data) {
+                success: function(data) {
                     $('#vinculadasResults').empty();
-                    data.forEach(function (regulacion) {
+                    data.forEach(function(regulacion) {
                         $('#vinculadasResults').append(
                             '<li class="list-group-item" data-id="' + regulacion
-                                .ID_Regulacion + '">' + regulacion.Nombre_Regulacion +
+                            .ID_Regulacion + '">' + regulacion.Nombre_Regulacion +
                             '</li>');
                     });
                 }
@@ -987,7 +1043,7 @@ Registro Estatal de Regulaciones
         });
 
         //aqui selecciona la regulacion y la agrega a la lista
-        $('#vinculadasResults').on('click', 'li', function () {
+        $('#vinculadasResults').on('click', 'li', function() {
             let regulacionId = $(this).data('id');
             let regulacionName = $(this).text();
             selectedRegulaciones.push({
@@ -1008,7 +1064,7 @@ Registro Estatal de Regulaciones
 
         //aqui validamos si es documento o liga
         // 0 = documento, 1 = liga
-        $('input[name="opcion2"]').on('change', function () {
+        $('input[name="opcion2"]').on('change', function() {
             if ($('#documento').is(':checked')) {
                 iNormativo = 0;
             } else if ($('#liga').is(':checked')) {
@@ -1019,7 +1075,7 @@ Registro Estatal de Regulaciones
 
         //verificamos que se de click en el boton guardar y validamos si es si o no
         //aqui guardamos los datos
-        $('#btnGnat').on('click', function () {
+        $('#btnGnat').on('click', function() {
             // Filtrar los sectores seleccionados eliminando los que están en idSectores
             // var filteredSectors;
             // if (JSON.stringify(idSectores.sort()) === JSON.stringify(selectedSectorsIds.sort())) {
@@ -1029,7 +1085,7 @@ Registro Estatal de Regulaciones
             //         return !idSectores.includes(sectorId);
             //     });
             // }
-            var filteredSectors = selectedSectorsIds.filter(function (sectorId) {
+            var filteredSectors = selectedSectorsIds.filter(function(sectorId) {
                 return !idSectores.includes(sectorId);
             });
             console.log('sectores filtrados', filteredSectors);
@@ -1043,7 +1099,7 @@ Registro Estatal de Regulaciones
             //         return !idSubsectores.includes(subsectorId);
             //     });
             // }
-            var filteredSubsectors = selectedSubsectorsIds.filter(function (subsectorId) {
+            var filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
                 return !idSubsectores.includes(subsectorId);
             });
             console.log('subsectores filtrados', filteredSubsectors);
@@ -1057,7 +1113,7 @@ Registro Estatal de Regulaciones
             //         return !idRamas.includes(ramaId);
             //     });
             // }
-            var filteredRamas = selectedRamasIds.filter(function (ramaId) {
+            var filteredRamas = selectedRamasIds.filter(function(ramaId) {
                 return !idRamas.includes(ramaId);
             });
             console.log('ramas filtradas', filteredRamas);
@@ -1071,7 +1127,7 @@ Registro Estatal de Regulaciones
             //         return !idSubramas.includes(subramaId);
             //     });
             // }
-            var filteredSubramas = selectedSubramasIds.filter(function (subramaId) {
+            var filteredSubramas = selectedSubramasIds.filter(function(subramaId) {
                 return !idSubramas.includes(subramaId);
             });
             console.log('subramas filtradas', filteredSubramas);
@@ -1085,12 +1141,12 @@ Registro Estatal de Regulaciones
             //         return !idClases.includes(claseId);
             //     });
             // }
-            var filteredClases = selectedClasesIds.filter(function (claseId) {
+            var filteredClases = selectedClasesIds.filter(function(claseId) {
                 return !idClases.includes(claseId);
             });
             console.log('clases filtradas', filteredClases);
 
-            var filteredRegulaciones = selectedRegulaciones.filter(function (regulacionId) {
+            var filteredRegulaciones = selectedRegulaciones.filter(function(regulacionId) {
                 return !idRegulaciones.includes(regulacionId);
             });
             console.log('clases filtradas', filteredRegulaciones);
@@ -1109,7 +1165,7 @@ Registro Estatal de Regulaciones
                         selectedRegulaciones: selectedRegulaciones
                     },
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         if (response.status === 'success') {
                             alert('Datos guardados exitosamente');
                             //window.location.href ='http://localhost/code/RegulacionController';
@@ -1138,7 +1194,7 @@ Registro Estatal de Regulaciones
                         selectedClases: filteredClases
                     },
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         if (response.status === 'success') {
                             alert('Datos guardados exitosamente');
                             //window.location.href ='http://localhost/code/RegulacionController';

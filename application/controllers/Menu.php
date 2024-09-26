@@ -159,7 +159,7 @@ class Menu extends CI_Controller
         $groupName = $group->name;
         $userId = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        $data['publicadas'] = $this->MenuModel->getRegulacionesPublicada();
+        $data['publicadas'] = $this->MenuModel->getRegulacionesPublicada($userId);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $notifications = $this->NotificacionesModel->getNotifications($userId);
             $data['notificaciones'] = $notifications;
@@ -172,6 +172,42 @@ class Menu extends CI_Controller
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');
+        }
+    }
+
+    public function menu_modificadas(){
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $userId = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+        $data['modificadas'] = $this->MenuModel->getRegulacionesModificadas($userId);
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
+            $this->blade->render('menuSujeto/modificadas', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/modificadas', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuConsejeria/modificadas', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
+    }
+
+    //Cambiar estatus de la regulacion para modificarlas
+    public function modificarRegulacion()
+    {
+        $id_regulacion = $this->input->post('id');
+    
+        // Llamar al modelo para modificar la regulación
+        $result = $this->MenuModel->modificarRegulacion($id_regulacion);
+    
+        // Verificar el resultado y devolver una respuesta adecuada
+        if ($result) {
+            echo json_encode(array('status' => 'success', 'message' => 'Regulación modificada exitosamente.'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Error al modificar la regulación.'));
         }
     }
 

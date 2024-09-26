@@ -335,6 +335,15 @@ class RegulacionModel extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_naturaleza_regulacion_by_regulacion($id_regulacion) {
+        $this->db->select('de_naturaleza_regulacion.*');
+        $this->db->from('derivada_reg');
+        $this->db->join('de_naturaleza_regulacion', 'derivada_reg.ID_Nat = de_naturaleza_regulacion.ID_Nat');
+        $this->db->where('derivada_reg.ID_Regulacion', $id_regulacion);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function has_materias($id_regulacion) {
         $this->db->from('rel_regulaciones_materias');
         $this->db->where('ID_Regulacion', $id_regulacion);
@@ -513,7 +522,7 @@ class RegulacionModel extends CI_Model {
 
     public function publicar_regulacion($id_regulacion) {
         $this->db->where('ID_Regulacion', $id_regulacion);
-        $this->db->update('ma_regulacion', array('Estatus' => 4, 'publicada' => 1));
+        $this->db->update('ma_regulacion', array('Estatus' => 3, 'publicada' => 1));
     }
 
     public function despublicar_regulacion($id_regulacion) {
