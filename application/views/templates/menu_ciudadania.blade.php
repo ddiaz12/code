@@ -40,9 +40,10 @@
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-landmark"></i>
                     </div>
-                    <span class="nav-text">Catálogo Nacional de Regulaciones Trámites y Servicios (CNARTyS)</span>
+                    <span class="nav-text">(CNARTyS)</span>
                 </a>
             </div>
+            <!--
             <div class="nav">
                 <a class="nav-link" href="#" data-toggle="tooltip" data-placement="right" title="Accesibilidad"
                     onclick="showAccessibilityMenu()">
@@ -52,6 +53,7 @@
                     <span class="nav-text">Accesibilidad</span>
                 </a>
             </div>
+            -->
         </div>
     </nav>
 

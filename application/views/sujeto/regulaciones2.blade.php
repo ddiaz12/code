@@ -21,7 +21,7 @@ Registro Estatal de Regulaciones
     <div class="d-flex justify-content-end mb-3">
         <a href="<?php echo base_url("RegulacionController/caracteristicas_reg") ?>"
             class="btn btn-primary btn-agregarOficina">
-            <i class="fas fa-plus-circle me-1"></i> Agregar Regulacion
+            <i class="fas fa-plus-circle me-1"></i> Agregar Regulación
         </a>
     </div>
     <div class="card mb-4 div-datatables">
@@ -48,7 +48,7 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Estatus; ?></td>
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
-                            <button class="btn btn-warning btn-sm edit-row" title="Editar"
+                            <button class="btn btn-gris btn-sm edit-row" title="Editar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-edit"></i>
                             </button>
@@ -59,12 +59,12 @@ Registro Estatal de Regulaciones
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
-                            <button class="btn btn-info btn-sm btn-trazabilidad" title="Trazabilidad"
+                            <button class="btn btn-tinto btn-sm btn-trazabilidad" title="Trazabilidad"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>" data-toggle="modal"
                                 data-target="#trazabilidadModal">
                                 <i class="fas fa-history"></i>
                             </button>
-                            <button class="btn btn-sm btn-comentarios" title="Comentarios"
+                            <button class="btn btn-tinto2 btn-sm btn-comentarios" title="Comentarios"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-comments"></i>
                             </button>

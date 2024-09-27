@@ -49,6 +49,7 @@ a.cursor.denuncia-menu.nav-link {
 .div-escudo {
 	width: 11%;
 	padding: 10px 0 10px 0;
+	margin-right: 3rem;
 }
 
 #logo {
@@ -153,12 +154,19 @@ a.cursor.denuncia-menu.nav-link {
 .fa-file-contract,
 .fa-person-circle-exclamation,
 .fa-circle-exclamation,
-.fa-landmark,
-.fa-universal-access {
+.fa-landmark
+{
 	color: rgb(8, 8, 8);
 	font-size: 30px; /* Ajusta el tamaño del icono aquí */
 	margin: 15px 0 10px 10px;
 }
+
+.fa-universal-access {
+	color: rgba(6, 172, 222, 0.887);
+	font-size: 30px; /* Ajusta el tamaño del icono aquí */
+	padding: 0px 0px 0px 0px;
+}
+
 
 #accessibilityMenu {
 	display: none;
@@ -373,11 +381,16 @@ footer .footer-icon-separador-pu {
 }
 
 #buscarBtn {
-	border-color: #b69664;
+	background-color: #7f2841;
 	color: white;
 	padding: 0.5rem 1rem;
-	width: 100%;
+	width: 31%;
 	margin: 30px 0 0 0;
+}
+
+#buscarBtn:hover {
+	background-color: #923244;
+	cursor: pointer;
 }
 
 .loginCiudadania {
@@ -386,9 +399,11 @@ footer .footer-icon-separador-pu {
 
 /*Estilos del buscador*/
 
-
-
-
+.flecha:hover {
+	cursor: pointer;
+	color:#b69664;
+	transform: translateY(-3px);
+}
 
 /*
 #buscador {

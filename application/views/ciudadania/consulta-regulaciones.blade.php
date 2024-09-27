@@ -13,8 +13,8 @@ Registro Estatal de Regulaciones
 <div class="container mt-4 div-buscador">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="text-center">Registro Estatal de Regulaciones</h1>
-            <p class="text-center">Consulta las regulaciones vigentes en el estado de Colima.</p>
+            <h1 class="text-center">Registro Estatal de Regulaciones (RER)</h1>
+            <p class="text-center">Consulta las regulaciones vigentes en el Estado de Colima.</p>
         </div>
     </div>
     <div class="row mt-4">
@@ -39,7 +39,7 @@ Registro Estatal de Regulaciones
                                 <div>
                                     <label for="advancedSearch">Búsqueda avanzada</label>
                                     <button id="advancedSearch" class="btn btn-link" onclick="toggleAdvancedSearch()">
-                                        <i class="fas fa-arrow-down"></i>
+                                        <i class="fas fa-arrow-down flecha"></i>
                                     </button>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@ Registro Estatal de Regulaciones
                             </div>
                         </div>
                         <div class="col-md-12 text-center">
-                            <button type="button" class="btn btn-dorado" id="buscarBtn">Buscar</button>
+                            <button type="button" class="btn" id="buscarBtn">Buscar</button>
                         </div>
                     </div>
                 </div>
@@ -111,8 +111,6 @@ Registro Estatal de Regulaciones
     </div>
     @include('templates/footerCiudadania')   
 </div>
-
-
 @endsection
 @section('footer')
 

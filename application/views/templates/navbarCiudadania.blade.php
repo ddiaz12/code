@@ -38,6 +38,15 @@
                                 target="_blank">Transparencia</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="tooltip" data-placement="right"
+                                title="Accesibilidad" onclick="showAccessibilityMenu()">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fa-solid fa-universal-access"></i>
+                                </div>
+                                <span class="nav-text"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link cursor denuncia-menu"
                                 href="https://www.col.gob.mx/index.php/Portal/denuncia">DENUNCIA</a>
                         </li>

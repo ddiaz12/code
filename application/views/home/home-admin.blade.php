@@ -18,7 +18,7 @@ Registro Estatal de Regulaciones
                 <h6 class="m-0 font-weight-bold text-cards">Regulaciones</h6>
             </div>
             <div class="card-body ">
-                Administrar cualquier normativa de carácter general.
+                Administrar normativas.
             </div>
             <div class="card-footer text-center">
                 <a href="<?php echo base_url('RegulacionController'); ?>"
@@ -30,7 +30,7 @@ Registro Estatal de Regulaciones
                 <h6 class="m-0 font-weight-bold text-cards">Oficinas</h6>
             </div>
             <div class="card-body ">
-                Consulta tus oficinas de tu independencia.
+                Consulta las oficinas de tu independencia.
             </div>
             <div class="card-footer text-center">
                 <a href="<?php echo base_url('oficinas'); ?>" class="btn btn-primary btn-oficina">Administrar</a>
@@ -41,8 +41,7 @@ Registro Estatal de Regulaciones
                 <h6 class="m-0 font-weight-bold text-cards">Usuarios</h6>
             </div>
             <div class="card-body">
-                Administrar usuarios de la plataforma del Catálogo Nacional
-                de Trámites y Servicios.
+                Administrar usuarios.
             </div>
             <div class="card-footer text-center">
                 <a href="<?php echo base_url('auth'); ?>" class="btn btn-primary btn-oficina">Administrar</a>

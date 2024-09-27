@@ -283,9 +283,6 @@ class RegulacionController extends CI_Controller
         $id = $user->id;
         $formData = $this->input->post();
 
-
-
-
         // Verificar que los índices existan en formData
         if (!isset($formData['nombre']) || !isset($formData['campoExtra']) || !isset($formData['objetivoReg'])) {
             echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
@@ -315,6 +312,21 @@ class RegulacionController extends CI_Controller
             'Vigencia' => $formData['campoExtra'],
             'Objetivo_Reg' => $formData['objetivoReg']
         );
+
+        //guardar relacion usuario-regulacion
+        $this->RegulacionModel->insertar_rel_usuario_regulacion($id, $newID);
+
+        // Registrar el movimiento en la trazabilidad
+        $dataTrazabilidad = [
+            'ID_Regulacion' => $newID,
+            'fecha_movimiento' => date('Y-m-d H:i:s'),
+            'descripcion_movimiento' => 'Regulación Creada',
+            'usuario_responsable' => $user->email,
+            'estatus_anterior' => null,
+            'estatus_nuevo' => 'Creada'
+        ];
+
+        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
 
         // Insertar los datos
         $this->RegulacionModel->insertRegulacion($data);
@@ -952,20 +964,10 @@ class RegulacionController extends CI_Controller
                 // Guardar en la base de datos rel_nat_reg
                 if (!empty($selectedSectors) && !empty($selectedSubsectors) && !empty($selectedRamas) && !empty($selectedSubramas) && !empty($selectedClases)) {
                     foreach ($selectedSectors as $sector) {
-                        if (empty($sector))
-                            continue;
                         foreach ($selectedSubsectors as $subsector) {
-                            if (empty($subsector))
-                                continue;
                             foreach ($selectedRamas as $rama) {
-                                if (empty($rama))
-                                    continue;
                                 foreach ($selectedSubramas as $subrama) {
-                                    if (empty($subrama))
-                                        continue;
                                     foreach ($selectedClases as $clase) {
-                                        if (empty($clase))
-                                            continue;
                                         $data_rel_nat = array(
                                             'ID_relNaturaleza' => $new_id_rel_nat,
                                             'ID_Regulacion' => $id_regulacion,
@@ -1016,105 +1018,6 @@ class RegulacionController extends CI_Controller
         $this->blade->render('regulaciones/regulaciones2', $data);
     }
 
-    public function guardar_regulacion()
-    {
-        $this->form_validation->set_rules(
-            'nombre',
-            'Nombre',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
-            array(
-                'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras.'
-            )
-        );
-        $this->form_validation->set_rules('sujeto', 'Ambito de Aplicacion', 'required');
-        $this->form_validation->set_rules('unidad', 'Tipo de ordenamiento jurídico', 'required');
-        $this->form_validation->set_rules('fecha_expedicion', 'Fecha de publicación de la regulación', 'required');
-        $this->form_validation->set_rules('fecha_act', 'Fecha de última actualización', 'required');
-        $this->form_validation->set_rules('orden', 'Orden de gobierno que la emite', 'required');
-        $this->form_validation->set_rules('aut_emiten', 'Orden de gobierno que la emite', 'required');
-        $this->form_validation->set_rules('objetivoReg', 'Describa el objetivo de la regulación', 'required');
-
-
-        if ($this->form_validation->run() != FALSE) {
-            $ID_caract = $this->input->post('sujeto');
-            $ID_Regulacion = $this->input->post('fecha_expedicion');
-            $Nombre = $this->input->post('nombre', true);
-            $Ambito_Aplicacion = $this->input->post('sujeto');
-            $ID_tOrdJur = $this->input->post('unidad');
-            $Fecha_Exp = $this->input->post('fecha_expedicion');
-            $Fecha_Act = $this->input->post('fecha_act');
-            $Vigencia = $this->input->post('campoExtra');
-            $Orden_Gob = $this->input->post('orden', true);
-            $ID_Aplican = $this->input->post('inputVialidad', true);
-            $ID_Emiten = $this->input->post('Aut_emiten');
-            $ID_Indice = $this->input->post('num_exterior');
-            $Texto = $this->input->post('texto');
-            $ID_Jerarquia = $this->input->post('extension');
-            $ID_Padre = $this->input->post('indicePadre', true);
-            $ID_Hijo = $this->input->post('notas', true);
-            $Objetivo_Reg = $this->input->post('objetivoReg');
-
-            $data = array(
-                'ID_caract' => $ID_caract,
-                'ID_Regulacion' => $ID_Regulacion,
-                'Nombre' => $Nombre,
-                'Ambito_Aplicacion' => $Ambito_Aplicacion,
-                'ID_tOrdJur' => $ID_tOrdJur,
-                'Fecha_Exp' => $Fecha_Exp,
-                'Fecha_Act' => $Fecha_Act,
-                'Vigencia' => $Vigencia,
-                'Orden_Gob' => $Orden_Gob,
-                'ID_Aplican' => $ID_Aplican,
-                'ID_Emiten' => $ID_Emiten,
-                'ID_Indice' => $ID_Indice,
-                'Texto' => $Texto,
-                'ID_Jerarquia' => $ID_Jerarquia,
-                'ID_Padre' => $ID_Padre,
-                'ID_Hijo' => $ID_Hijo,
-                'Objetivo_Reg' => $Objetivo_Reg,
-            );
-
-            // Verificar que los horarios estén completos antes de insertar la oficina
-            if (!empty($horarios_)) {
-                $horarios = json_decode($horarios_);
-                foreach ($horarios as $horario) {
-                    $aperturas = $horario->apertura;
-                    $cierres = $horario->cierre;
-
-                    // Si falta algún dato de apertura o cierre, mostrar mensaje de error
-                    if (empty($aperturas) || empty($cierres)) {
-                        $response = array('status' => 'error', 'message' => 'Falta información en los campos de apertura o cierre.');
-                        echo json_encode($response);
-                        return;
-                    }
-                }
-            }
-
-            // Insertar la oficina después de validar los horarios
-            $id_oficina = $this->RegulacionModel->insertar_caractRegulacion($data);
-
-            if (!empty($horarios_)) {
-                $horarios = json_decode($horarios_);
-                foreach ($horarios as $horario) {
-                    $dias = $horario->dia;
-                    $aperturas = $horario->apertura;
-                    $cierres = $horario->cierre;
-
-                    $id_horario = $this->RegulacionModel->insertar_horario($dias, $aperturas, $cierres);
-
-                    // Asociar la oficina con el horario de atención en la tabla rel_oficina_horario
-                    $this->RegulacionModel->asociar_oficina_horario($id_oficina, $id_horario);
-                }
-            }
-
-            $response = array('status' => 'success', 'redirect_url' => 'index');
-            echo json_encode($response);
-        } else {
-            $response = array('status' => 'error', 'errores' => $this->form_validation->error_array());
-            echo json_encode($response);
-        }
-    }
 
     public function enviar_regulacion($id_regulacion)
     {
@@ -1132,8 +1035,6 @@ class RegulacionController extends CI_Controller
                 $Estatus = 2;
             }
 
-            //guardar relacion usuario-regulacion
-            $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
 
             // Enviar la regulación
             $this->RegulacionModel->enviar_regulacion($id_regulacion, $Estatus);
@@ -1176,8 +1077,6 @@ class RegulacionController extends CI_Controller
         if ($regulacion) {
             $this->RegulacionModel->devolver_regulacion($id_regulacion);
 
-            //guardar relacion usuario-regulacion
-            $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $id_regulacion);
             // Obtener el usuario creador de la regulación
             $usuario_creador = $regulacion->id_usuario_creador;
 
@@ -1221,8 +1120,6 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $idUser = $user->id;
 
-        $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $idRegulacion);
-
         // Registrar el movimiento en la trazabilidad
         $dataTrazabilidad = [
             'ID_Regulacion' => $idRegulacion,
@@ -1246,8 +1143,6 @@ class RegulacionController extends CI_Controller
         // Obtener el usuario actual
         $user = $this->ion_auth->user()->row();
         $idUser = $user->id;
-
-        $this->RegulacionModel->insertar_rel_usuario_regulacion($idUser, $idRegulacion);
 
         // Registrar el movimiento en la trazabilidad
         $dataTrazabilidad = [
