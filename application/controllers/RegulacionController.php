@@ -313,6 +313,9 @@ class RegulacionController extends CI_Controller
             'Objetivo_Reg' => $formData['objetivoReg']
         );
 
+        //guardar relacion usuario-regulacion
+        $this->RegulacionModel->insertar_rel_usuario_regulacion($id, $newID);
+
         // Registrar el movimiento en la trazabilidad
         $dataTrazabilidad = [
             'ID_Regulacion' => $newID,
