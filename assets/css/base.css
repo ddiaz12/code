@@ -232,6 +232,42 @@ h3,
 	color: white;
 }
 
+.btn-gris{
+	background-color: #4b4f54;
+	--bs-btn-active-bg: #61666c;
+	--bs-btn-active-color: white;
+	color: white;
+}
+
+.btn-gris:hover{
+	background-color: #61666c;
+	color: white;
+}
+
+.btn-tinto {
+	background-color: #7f2841;
+	--bs-btn-active-bg: #923244;
+	--bs-btn-active-color: white;
+	color: white;
+}
+
+.btn-tinto:hover {
+	background-color: #923244;
+	color: white;
+}
+
+.btn-tinto2{
+	background-color: #612233;
+	--bs-btn-active-bg: #923244;
+	--bs-btn-active-color: white;
+	color: white;
+}
+
+.btn-tinto2:hover{
+	background-color: #923244;
+	color: white;
+}
+
 .btn-agregarGrupo {
 	--bs-btn-hover-bg: #7f2841;
 	margin-right: 20px;
@@ -257,12 +293,14 @@ h3,
 	color: white;
 }
 
+/*
 .btn-comentarios{
 	background-color: #5F9EA0;
 	--bs-btn-active-bg: #3389a5;
 	--bs-btn-active-color: white;
 	color: white;
 }
+*/
 
 .btn-comentarios:hover{
 	background-color: #3389a5;

@@ -19,7 +19,7 @@
         <!-- Botón para abrir otra vista -->
         <div class="d-flex justify-content-end mb-3">
             <a href="<?php echo base_url('regulaciones/caracteristicas_reg'); ?>" class="btn btn-primary btn-agregarOficina">
-                <i class="fas fa-plus-circle me-1"></i> Agregar Regulacion
+                <i class="fas fa-plus-circle me-1"></i> Agregar Regulación
             </a>
         </div>
         <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
