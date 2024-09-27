@@ -283,9 +283,6 @@ class RegulacionController extends CI_Controller
         $id = $user->id;
         $formData = $this->input->post();
 
-
-
-
         // Verificar que los índices existan en formData
         if (!isset($formData['nombre']) || !isset($formData['campoExtra']) || !isset($formData['objetivoReg'])) {
             echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
@@ -315,6 +312,18 @@ class RegulacionController extends CI_Controller
             'Vigencia' => $formData['campoExtra'],
             'Objetivo_Reg' => $formData['objetivoReg']
         );
+
+        // Registrar el movimiento en la trazabilidad
+        $dataTrazabilidad = [
+            'ID_Regulacion' => $newID,
+            'fecha_movimiento' => date('Y-m-d H:i:s'),
+            'descripcion_movimiento' => 'Regulación Creada',
+            'usuario_responsable' => $user->email,
+            'estatus_anterior' => null,
+            'estatus_nuevo' => 'Creada'
+        ];
+
+        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
 
         // Insertar los datos
         $this->RegulacionModel->insertRegulacion($data);
@@ -952,20 +961,10 @@ class RegulacionController extends CI_Controller
                 // Guardar en la base de datos rel_nat_reg
                 if (!empty($selectedSectors) && !empty($selectedSubsectors) && !empty($selectedRamas) && !empty($selectedSubramas) && !empty($selectedClases)) {
                     foreach ($selectedSectors as $sector) {
-                        if (empty($sector))
-                            continue;
                         foreach ($selectedSubsectors as $subsector) {
-                            if (empty($subsector))
-                                continue;
                             foreach ($selectedRamas as $rama) {
-                                if (empty($rama))
-                                    continue;
                                 foreach ($selectedSubramas as $subrama) {
-                                    if (empty($subrama))
-                                        continue;
                                     foreach ($selectedClases as $clase) {
-                                        if (empty($clase))
-                                            continue;
                                         $data_rel_nat = array(
                                             'ID_relNaturaleza' => $new_id_rel_nat,
                                             'ID_Regulacion' => $id_regulacion,

@@ -1154,7 +1154,6 @@ $(document).ready(function() {
         //     return !idRegulaciones.includes(regulacionId);
         // });
         console.log('clases filtradas', filteredRegulaciones);
-
         if ($('#no').is(':checked')) {
             let inputEnlace = $('#inputEnlace').val();
             $.ajax({
