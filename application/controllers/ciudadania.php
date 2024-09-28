@@ -11,7 +11,6 @@ class Ciudadania extends CI_Controller
         $this->load->model('RegulacionModel');
     }
 
-
     public function index()
     {
         $this->consulta();
