@@ -248,7 +248,7 @@ Registro Estatal de Regulaciones
                                 <div class="d-flex justify-content-between mb-3">
                                     <p>Índice de regulación</p>
                                     <button type="submit" id="botonIndice"
-                                        class="btn btn-success btn-indice">Indice</button>
+                                        class="btn btn-indice">Indice</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
                                         aria-labelledby="myModalLabel" aria-hidden="true">
@@ -290,7 +290,7 @@ Registro Estatal de Regulaciones
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                         onclick="closeModal()">Cerrar</button>
                                                     <button type="button" id="guardarIbtn"
-                                                        class="btn btn-primary">Guardar
+                                                        class="btn btn-tinto">Guardar
                                                         cambios</button>
                                                 </div>
                                             </div>

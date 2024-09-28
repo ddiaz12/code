@@ -336,7 +336,7 @@ Registro Estatal de Regulaciones
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                         onclick="closeModal()">Cerrar</button>
                                                     <button type="button" id="guardarIbtn"
-                                                        class="btn btn-primary">Guardar
+                                                        class="btn btn-tinto">Guardar
                                                         cambios</button>
                                                 </div>
                                             </div>

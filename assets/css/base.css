@@ -220,14 +220,16 @@ h3,
 	color: white;
 }
 
-.btn-tinto {
+.btn-tinto,
+.btn-indice {
 	background-color: #7f2841;
 	--bs-btn-active-bg: #923244;
 	--bs-btn-active-color: white;
 	color: white;
 }
 
-.btn-tinto:hover {
+.btn-tinto:hover,
+.btn-indice:hover {
 	background-color: #923244;
 	color: white;
 }
@@ -241,18 +243,6 @@ h3,
 
 .btn-gris:hover{
 	background-color: #61666c;
-	color: white;
-}
-
-.btn-tinto {
-	background-color: #7f2841;
-	--bs-btn-active-bg: #923244;
-	--bs-btn-active-color: white;
-	color: white;
-}
-
-.btn-tinto:hover {
-	background-color: #923244;
 	color: white;
 }
 
