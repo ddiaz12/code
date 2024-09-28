@@ -78,174 +78,181 @@ Registro Estatal de Regulaciones
             <div class="col-md-9 p-0">
                 <div class="card">
                     <div class="card-header text-white">Naturaleza de la regulación</div>
-                    <div class="card-body d-flex flex-column justify-content-center">
-                        <div class="row justify-content-center">
-                            <label for="radioGroup">¿La regulación está asociada a una actividad
-                                económica?</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="si" name="opcion" value="si">
-                                <label for="si">Sí</label>
-                                <input type="radio" id="no" name="opcion" value="no">
-                                <label for="no">No</label>
+                    <form id="formGnat" enctype="multipart/form-data">
+                    <input type="hidden" id="idRegulacion" name="idRegulacion" value="{{ $regulaciones->ID_Regulacion }}">
+                    <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $naturaleza->ID_Nat }}">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <label for="radioGroup">¿La regulación está asociada a una actividad
+                                    económica?</label>
+                                <div id="radioGroup">
+                                    <input type="radio" id="si" name="opcion" value="si">
+                                    <label for="si">Sí</label>
+                                    <input type="radio" id="no" name="opcion" value="no">
+                                    <label for="no">No</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group" id="inputs" style="display: none;">
-                            <!-- Generar 5 inputs -->
-                            <div class="form-group row justify-content-center">
-                                <label for="SectorInput">Sector<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SectorInput" name="SectorInput"
-                                    placeholder="Selecciona una opcion" required>
+                            <div class="form-group" id="inputs" style="display: none;">
+                                <!-- Generar 5 inputs -->
+                                <div class="form-group row justify-content-center">
+                                    <label for="SectorInput">Sector<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="SectorInput" name="SectorInput"
+                                        placeholder="Selecciona una opcion" required>
 
+                                </div>
+                                <ul id="sectorResults"></ul>
+                                <table id="selectedSectorsTable" class="table table-striped mt-4">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Sector</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <label for="SubsectorInput">Subsector<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="SubsectorInput" name="SubsectorInput"
+                                        placeholder="Selecciona una opcion" required>
+                                </div>
+                                <ul id="subsectorResults" class="list-group mt-2"></ul>
+                                <table id="selectedSubsectorsTable" class="table table-striped mt-4"
+                                    style="display: none;">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Subsector</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <label for="RamaInput">Rama<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="RamaInput" name="RamaInput"
+                                        placeholder="Selecciona una opcion" required>
+                                </div>
+                                <ul id="ramaResults" class="list-group mt-2"></ul>
+                                <table id="selectedRamasTable" class="table table-striped mt-4" style="display: none;">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Rama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
+                                        placeholder="Selecciona una opcion" required>
+                                </div>
+                                <ul id="subramaResults" class="list-group mt-2"></ul>
+                                <table id="selectedSubramasTable" class="table table-striped mt-4"
+                                    style="display: none;">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Subrama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
+                                        placeholder="Selecciona una opcion" required>
+                                </div>
+                                <ul id="claseResults" class="list-group mt-2"></ul>
+                                <table id="selectedClasesTable" class="table table-striped mt-4" style="display: none;">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Clase</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
                             </div>
-                            <ul id="sectorResults"></ul>
-                            <table id="selectedSectorsTable" class="table table-striped mt-4">
+                            <div class="form-group">
+                                <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta
+                                    regulación<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
+                                    placeholder="Regulaciones Vinculadas" required>
+                            </div>
+                            <ul id="vinculadasResults" class="list-group mt-2"></ul>
+                            <table id="selectedRegulacionesTable" class="table table-striped mt-4"
+                                style="display: none;">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>Nombre Sector</th>
+                                        <th>Nombre Regulacion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- Las filas se agregarán aquí -->
                                 </tbody>
                             </table>
-                            <div class="row justify-content-center">
-                                <label for="SubsectorInput">Subsector<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SubsectorInput" name="SubsectorInput"
-                                    placeholder="Selecciona una opcion" required>
+                            <div class="form-group">
+                                <label for="inputEnlace">Enlace oficial de la regulación<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
+                                    placeholder="http://" value="<?= isset($enlace_oficial) ? $enlace_oficial : '' ?>"
+                                    required>
                             </div>
-                            <ul id="subsectorResults" class="list-group mt-2"></ul>
-                            <table id="selectedSubsectorsTable" class="table table-striped mt-4" style="display: none;">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nombre Subsector</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Las filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-                            <div class="row justify-content-center">
-                                <label for="RamaInput">Rama<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="RamaInput" name="RamaInput"
-                                    placeholder="Selecciona una opcion" required>
+                            <div class="form-group">
+                                <label for="radioGroup">Tipo de documento:</label>
+                                <div id="radioGroup">
+                                    <input type="radio" id="documento" name="opcion2" value="documento">
+                                    <label for="documento">Documento</label>
+                                    <input type="radio" id="liga" name="opcion2" value="liga">
+                                    <label for="liga">Liga de Documento</label>
+                                </div>
                             </div>
-                            <ul id="ramaResults" class="list-group mt-2"></ul>
-                            <table id="selectedRamasTable" class="table table-striped mt-4" style="display: none;">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nombre Rama</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Las filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-                            <div class="row justify-content-center">
-                                <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
-                                    placeholder="Selecciona una opcion" required>
-                            </div>
-                            <ul id="subramaResults" class="list-group mt-2"></ul>
-                            <table id="selectedSubramasTable" class="table table-striped mt-4" style="display: none;">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nombre Subrama</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Las filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-                            <div class="row justify-content-center">
-                                <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
-                                    placeholder="Selecciona una opcion" required>
-                            </div>
-                            <ul id="claseResults" class="list-group mt-2"></ul>
-                            <table id="selectedClasesTable" class="table table-striped mt-4" style="display: none;">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nombre Clase</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Las filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta
-                                regulación<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
-                                placeholder="Regulaciones Vinculadas" required>
-                        </div>
-                        <ul id="vinculadasResults" class="list-group mt-2"></ul>
-                        <table id="selectedRegulacionesTable" class="table table-striped mt-4" style="display: none;">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Nombre Regulacion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Las filas se agregarán aquí -->
-                            </tbody>
-                        </table>
-                        <div class="form-group">
-                            <label for="inputEnlace">Enlace oficial de la regulación<span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
-                                placeholder="http://" value="<?= isset($enlace_oficial) ? $enlace_oficial : '' ?>"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="radioGroup">Tipo de documento:</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="documento" name="opcion2" value="documento">
-                                <label for="documento">Documento</label>
-                                <input type="radio" id="liga" name="opcion2" value="liga">
-                                <label for="liga">Liga de Documento</label>
-                            </div>
-                        </div>
-                        <div id="fileInput" class="form-group" style="display: none;">
-                            <label for="file">Subir Documento:</label>
-                            <input type="file" class="form-control-file" id="file">
-                            <br>
-                            <!-- Mostrar el nombre del archivo actual -->
-                            <?php if (!empty($natreg) && !empty($natreg[0]['file_path'])): ?>
-                                <small id="current_file" class="form-text text-muted">
-                                    Archivo actual: <?php echo basename($natreg[0]['file_path']); ?>
-                                </small>
+                            <div id="fileInput" class="form-group" style="display: none;">
+                                <label for="file">Subir Documento:</label>
+                                <input type="file" class="form-control-file" id="userfile" name="userfile">
                                 <br>
-                                <!-- Mostrar la imagen actual -->
-                                <img src="<?php echo base_url('assets/ftp/' . basename($natreg[0]['file_path'])); ?>"
-                                    alt="Imagen actual" class="img-fluid">
-                            <?php endif; ?>
-                            <br>
-                            <small id="msg_file" class="text-danger"></small>
+                                <!-- Mostrar el nombre del archivo actual -->
+                                <?php if (!empty($natreg) && !empty($natreg[0]['file_path'])): ?>
+                                    <small id="current_file" class="form-text text-muted">
+                                        Archivo actual: <?php echo basename($natreg[0]['file_path']); ?>
+                                    </small>
+                                    <br>
+                                    <!-- Mostrar la imagen actual -->
+                                    <img src="<?php echo base_url('assets/ftp/' . basename($natreg[0]['file_path'])); ?>"
+                                        alt="Imagen actual" class="img-fluid">
+                                <?php endif; ?>
+                                <br>
+                                <small id="msg_file" class="text-danger"></small>
+                            </div>
+                            <div id="urlInput" class="form-group" style="display: none;">
+                                <label for="url">URL del Documento:</label>
+                                <input type="text" class="form-control" id="url" name="url" placeholder="http://"
+                                    value="<?php echo !empty($natreg) && !empty($natreg[0]['url']) ? $natreg[0]['url'] : ''; ?>">
+                                <?php if (!empty($natreg) && !empty($natreg[0]['url'])): ?>
+                                    <small id="current_url" class="form-text text-muted">
+                                        URL actual:
+                                        <?php
+                                        $url = $natreg[0]['url'];
+                                        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+                                            $url = "http://" . $url;
+                                        }
+                                        ?>
+                                        <a href="<?php echo $url; ?>" target="_blank"><?php echo $url; ?></a>
+                                    </small>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                        <div id="urlInput" class="form-group" style="display: none;">
-                            <label for="url">URL del Documento:</label>
-                            <input type="text" class="form-control" id="url" name="url" placeholder="http://"
-                                value="<?php echo !empty($natreg) && !empty($natreg[0]['url']) ? $natreg[0]['url'] : ''; ?>">
-                            <?php if (!empty($natreg) && !empty($natreg[0]['url'])): ?>
-                                <small id="current_url" class="form-text text-muted">
-                                    URL actual:
-                                    <?php
-                                    $url = $natreg[0]['url'];
-                                    if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-                                        $url = "http://" . $url;
-                                    }
-                                    ?>
-                                    <a href="<?php echo $url; ?>" target="_blank"><?php echo $url; ?></a>
-                                </small>
-                            <?php endif; ?>
+                        <div class="d-flex justify-content-end mb-3">
+                            <a href="<?php echo base_url('RegulacionController'); ?>"
+                                class="btn btn-secondary me-2">Cancelar</a>
+                            <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-end mb-3">
-                        <button type="submit" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
-                        <a href="<?php echo base_url('oficinas/oficina'); ?>"
-                            class="btn btn-secondary me-2">Cancelar</a>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1076,71 +1083,28 @@ Registro Estatal de Regulaciones
         //verificamos que se de click en el boton guardar y validamos si es si o no
         //aqui guardamos los datos
         $('#btnGnat').on('click', function() {
-            // Filtrar los sectores seleccionados eliminando los que están en idSectores
-            // var filteredSectors;
-            // if (JSON.stringify(idSectores.sort()) === JSON.stringify(selectedSectorsIds.sort())) {
-            //     filteredSectors = selectedSectorsIds;
-            // } else {
-            //     filteredSectors = selectedSectorsIds.filter(function(sectorId) {
-            //         return !idSectores.includes(sectorId);
-            //     });
-            // }
+            var formData = new FormData($('#formGnat')[0]);
+
             var filteredSectors = selectedSectorsIds.filter(function(sectorId) {
                 return !idSectores.includes(sectorId);
             });
             console.log('sectores filtrados', filteredSectors);
 
-            // Filtrar los subsectores seleccionados eliminando los que están en idSubsectores
-            // var filteredSubsectors;
-            // if (JSON.stringify(idSubsectores.sort()) === JSON.stringify(selectedSubsectorsIds.sort())) {
-            //     filteredSubsectors = selectedSubsectorsIds;
-            // } else {
-            //     filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
-            //         return !idSubsectores.includes(subsectorId);
-            //     });
-            // }
             var filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
                 return !idSubsectores.includes(subsectorId);
             });
             console.log('subsectores filtrados', filteredSubsectors);
 
-            // Filtrar las ramas seleccionadas eliminando las que están en idRamas
-            // var filteredRamas;
-            // if (JSON.stringify(idRamas.sort()) === JSON.stringify(selectedRamasIds.sort())) {
-            //     filteredRamas = selectedRamasIds;
-            // } else {
-            //     filteredRamas = selectedRamasIds.filter(function(ramaId) {
-            //         return !idRamas.includes(ramaId);
-            //     });
-            // }
             var filteredRamas = selectedRamasIds.filter(function(ramaId) {
                 return !idRamas.includes(ramaId);
             });
             console.log('ramas filtradas', filteredRamas);
 
-            // Filtrar las subramas seleccionadas eliminando las que están en idSubramas
-            // var filteredSubramas;
-            // if (JSON.stringify(idSubramas.sort()) === JSON.stringify(selectedSubramas.sort())) {
-            //     filteredSubramas = selectedSubramas;
-            // } else {
-            //     filteredSubramas = selectedSubramas.filter(function(subramaId) {
-            //         return !idSubramas.includes(subramaId);
-            //     });
-            // }
             var filteredSubramas = selectedSubramasIds.filter(function(subramaId) {
                 return !idSubramas.includes(subramaId);
             });
             console.log('subramas filtradas', filteredSubramas);
 
-            // Filtrar las clases seleccionadas eliminando las que están en idSubramas
-            // var filteredClases;
-            // if (JSON.stringify(idClases.sort()) === JSON.stringify(selectedClasesIds.sort())) {
-            //     filteredClases = selectedClasesIds;
-            // } else {
-            //     filteredClases = selectedClasesIds.filter(function(claseId) {
-            //         return !idClases.includes(claseId);
-            //     });
-            // }
             var filteredClases = selectedClasesIds.filter(function(claseId) {
                 return !idClases.includes(claseId);
             });
@@ -1151,61 +1115,70 @@ Registro Estatal de Regulaciones
             });
             console.log('clases filtradas', filteredRegulaciones);
 
+            // Agregar idRegulacion al formData
+            var idRegulacion = $('#idRegulacion').val();
+            formData.append('idRegulacion', idRegulacion);
+
+            var idNaturaleza = $('#idNaturaleza').val();
+            formData.append('idNaturaleza', idNaturaleza);
+
             if ($('#no').is(':checked')) {
-                let inputEnlace = $('#inputEnlace').val();
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
-                    type: 'POST',
-                    data: {
-                        id_regulacion: id_regulacion,
-                        btn_clicked: true,
-                        radio_no_selected: true,
-                        inputEnlace: inputEnlace,
-                        iNormativo: iNormativo,
-                        selectedRegulaciones: selectedRegulaciones
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            alert('Datos guardados exitosamente');
-                            //window.location.href ='http://localhost/code/RegulacionController';
-                        } else {
-                            alert('Error al guardar los datos: ' + response.message);
-                            //window.location.href ='http://localhost/code/RegulacionController';
-                        }
-                    }
-                });
+                formData.append('btn_clicked', true);
+                formData.append('radio_no_selected', true);
+                formData.append('inputEnlace', $('#inputEnlace').val());
+                formData.append('iNormativo', iNormativo);
+                formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+                formData.append('url', $('#url').val());
             } else if ($('#si').is(':checked')) {
-                let inputEnlace = $('#inputEnlace').val();
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
-                    type: 'POST',
-                    data: {
-                        id_regulacion: id_regulacion,
-                        btn_clicked: true,
-                        radio_si_selected: true,
-                        inputEnlace: inputEnlace,
-                        iNormativo: iNormativo,
-                        selectedRegulaciones: filteredRegulaciones,
-                        selectedSectors: filteredSectors,
-                        selectedSubsectors: filteredSubsectors,
-                        selectedRamas: filteredRamas,
-                        selectedSubramas: filteredSubramas,
-                        selectedClases: filteredClases
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            alert('Datos guardados exitosamente');
-                            //window.location.href ='http://localhost/code/RegulacionController';
-                        } else {
-                            alert('Error al guardar los datos: ' + response.message);
-                            //window.location.href ='http://localhost/code/RegulacionController';
-                        }
-                    }
-                });
+                formData.append('btn_clicked', true);
+                formData.append('radio_si_selected', true);
+                formData.append('inputEnlace', $('#inputEnlace').val());
+                formData.append('iNormativo', iNormativo);
+                formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+                formData.append('selectedSectors', JSON.stringify(selectedSectorsIds));
+                formData.append('selectedSubsectors', JSON.stringify(selectedSubsectorsIds));
+                formData.append('selectedRamas', JSON.stringify(selectedRamasIds));
+                formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
+                formData.append('selectedClases', JSON.stringify(selectedClasesIds));
+                formData.append('url', $('#url').val());
             }
-            //window.location.href ='http://localhost/code/RegulacionController';
+
+            $.ajax({
+                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function(response) {
+                    console.log('Respuesta del servidor:', response);
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'Datos guardados exitosamente',
+                        }).then(() => {
+                            window.location.href = '<?= base_url('RegulacionController') ?>';
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al guardar los datos: ' + response.message,
+                        }).then(() => {
+                            window.location.href = '<?= base_url('RegulacionController') ?>';
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error en la solicitud AJAX:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error en la solicitud AJAX: ' + error,
+                    });
+                }
+            });
         });
     });
 </script>

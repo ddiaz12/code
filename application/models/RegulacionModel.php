@@ -193,6 +193,17 @@ class RegulacionModel extends CI_Model {
         $this->db->insert('de_naturaleza_regulacion', $data);
     }
 
+    public function update_naturaleza_regulacion($data) {
+        $this->db->where('ID_Nat', $data['ID_Nat']);
+        $this->db->update('de_naturaleza_regulacion', $data);
+    }
+
+    public function get_naturaleza_regulacion($id){ 
+        $this->db->where('ID_Nat', $id);
+        $query = $this->db->get('de_naturaleza_regulacion');
+        return $query->row();
+    }
+
     public function insert_derivada_reg($data) {
         $this->db->insert('derivada_reg', $data);
     }
@@ -208,6 +219,13 @@ class RegulacionModel extends CI_Model {
         }
         
         return $result['ID_relNaturaleza'];
+    }
+
+    public function get_regulaciones_by_id($idRegulacion) {
+        $this->db->where('ID_Regulacion', $idRegulacion);
+        $query = $this->db->get('ma_regulacion');
+        return $query->row();
+        
     }
 
     public function get_last_id_regulacion() {
@@ -342,6 +360,21 @@ class RegulacionModel extends CI_Model {
         $this->db->where('derivada_reg.ID_Regulacion', $id_regulacion);
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+    public function getNaturalezaRegulacionByRegulacion($id_regulacion) {
+        $this->db->select('de_naturaleza_regulacion.ID_Nat');
+        $this->db->from('derivada_reg');
+        $this->db->join('de_naturaleza_regulacion', 'derivada_reg.ID_Nat = de_naturaleza_regulacion.ID_Nat');
+        $this->db->where('derivada_reg.ID_Regulacion', $id_regulacion);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function getNaturalezaRegulacion($id_nat) {
+        $this->db->where('ID_Nat', $id_nat);
+        $query = $this->db->get('de_naturaleza_regulacion');
+        return $query->row();
     }
 
     public function has_materias($id_regulacion) {

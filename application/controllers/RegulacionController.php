@@ -234,6 +234,9 @@ class RegulacionController extends CI_Controller
         // $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
         //Obtener de_naturaleza_regulacion por ID_Regulacion
         $data['natreg'] = $this->RegulacionModel->get_naturaleza_regulacion_by_regulacion($id_regulacion);
+        //Obtener de_naturaleza_regulacion por ID_Nat
+        $data['naturaleza'] = $this->RegulacionModel->getNaturalezaRegulacionByRegulacion($id_regulacion);
+        $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_by_id($id_regulacion);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/editar_naturaleza', $data);
@@ -313,9 +316,6 @@ class RegulacionController extends CI_Controller
             'Objetivo_Reg' => $formData['objetivoReg']
         );
 
-        //guardar relacion usuario-regulacion
-        $this->RegulacionModel->insertar_rel_usuario_regulacion($id, $newID);
-
         // Registrar el movimiento en la trazabilidad
         $dataTrazabilidad = [
             'ID_Regulacion' => $newID,
@@ -326,10 +326,14 @@ class RegulacionController extends CI_Controller
             'estatus_nuevo' => 'Creada'
         ];
 
-        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
 
         // Insertar los datos
         $this->RegulacionModel->insertRegulacion($data);
+
+        //guardar relacion usuario-regulacion
+        $this->RegulacionModel->insertar_rel_usuario_regulacion($id, $newID);
+
+        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
 
         // Responder a la solicitud AJAX
         echo json_encode(array('status' => 'success'));
@@ -716,6 +720,7 @@ class RegulacionController extends CI_Controller
             $selectedRamas = json_decode($this->input->post('selectedRamas'), true);
             $selectedSubramas = json_decode($this->input->post('selectedSubramas'), true);
             $selectedClases = json_decode($this->input->post('selectedClases'), true);
+
             $max_id_nat = $this->RegulacionModel->get_max_id_nat();
             $new_id_nat = $max_id_nat + 1;
 
@@ -858,25 +863,65 @@ class RegulacionController extends CI_Controller
 
     public function save_naturaleza_regulacion2()
     {
-        $id_regulacion = $this->input->post('id_regulacion');
+        $id_regulacion = $this->input->post('idRegulacion');
+        $idNaturaleza = $this->input->post('idNaturaleza');
+
+        // Obtener el registro existente de la base de datos
+        $existing_record = $this->RegulacionModel->get_naturaleza_regulacion($idNaturaleza);
+
+        // Inicializar la variable file_path
+        $file_path = null;
+
+        // Subir nuevo archivo si existe
+        if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
+            $file = $_FILES['userfile'];
+            $user = $this->ion_auth->user()->row();
+            $userId = $user->id;
+            $upload_result = $this->uploadFile($file, $userId);
+
+            if ($upload_result['status'] == 'success') {
+                $file_path = $upload_result['file_path'];
+
+                // Eliminar archivo anterior si existe y no es el mismo que el nuevo archivo
+                if (!empty($existing_record->file_path) && $existing_record->file_path !== $file_path) {
+                    $this->connectFTP();
+                    $this->ftp->delete_file($existing_record->file_path); // Eliminar archivo anterior
+                    $this->disconnectFTP();
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => $upload_result['file_error']]);
+                return;
+            }
+        }
 
         // Verificar si el botón fue clickeado y el radiobutton "no" está seleccionado
         if ($this->input->post('btn_clicked') && $this->input->post('radio_no_selected')) {
             $inputEnlace = $this->input->post('inputEnlace');
             $iNormativo = $this->input->post('iNormativo');
-            $selectedRegulaciones = $this->input->post('selectedRegulaciones');
+            $selectedRegulaciones = json_decode($this->input->post('selectedRegulaciones'), true);
+            $url = $this->input->post('url');
 
             // Obtener el ID_Nat más grande y agregar uno más grande
             $max_id_nat = $this->RegulacionModel->get_max_id_nat();
             $new_id_nat = $max_id_nat + 1;
 
-            // Guardar en la base de datos de_naturaleza_regulacion
+            $existing_record = $this->RegulacionModel->get_naturaleza_regulacion($idNaturaleza);
+
             $data = array(
-                'ID_Nat' => $new_id_nat,
+                'ID_Nat' => $idNaturaleza,
                 'Enlace_Oficial' => $inputEnlace,
-                'Instrumento_normativo' => $iNormativo
+                'Instrumento_normativo' => $iNormativo,
+                'file_path' => !empty($file_path) ? $file_path : null,
+                'url' => !empty($url) ? $url : null
             );
-            $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
+            if ($existing_record) {
+                // Actualizar el registro existente
+                $this->RegulacionModel->update_naturaleza_regulacion($data);
+            } else {
+                // Insertar un nuevo registro
+                $this->RegulacionModel->insert_naturaleza_regulacion($data);
+            }
 
             // Guardar en la base de datos derivada_reg
             if (!empty($selectedRegulaciones)) {
@@ -912,31 +957,44 @@ class RegulacionController extends CI_Controller
                     'ID_subrama' => null,
                     'ID_clase' => null
                 );
+
                 $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
 
                 echo json_encode(array('status' => 'success'));
             }
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             $inputEnlace = $this->input->post('inputEnlace');
+            $url = $this->input->post('url');
             $iNormativo = $this->input->post('iNormativo');
-            $selectedRegulaciones = $this->input->post('selectedRegulaciones');
-            $selectedSectors = $this->input->post('selectedSectors');
-            $selectedSubsectors = $this->input->post('selectedSubsectors');
-            $selectedRamas = $this->input->post('selectedRamas');
-            $selectedSubramas = $this->input->post('selectedSubramas');
-            $selectedClases = $this->input->post('selectedClases');
+            $selectedRegulaciones = json_decode($this->input->post('selectedRegulaciones'), true);
+            $selectedSectors = json_decode($this->input->post('selectedSectors'), true);
+            $selectedSubsectors = json_decode($this->input->post('selectedSubsectors'), true);
+            $selectedRamas = json_decode($this->input->post('selectedRamas'), true);
+            $selectedSubramas = json_decode($this->input->post('selectedSubramas'), true);
+            $selectedClases = json_decode($this->input->post('selectedClases'), true);
 
             // Obtener el ID_Nat más grande y agregar uno más grande
             $max_id_nat = $this->RegulacionModel->get_max_id_nat();
             $new_id_nat = $max_id_nat + 1;
 
             // Guardar en la base de datos de_naturaleza_regulacion
+            $existing_record = $this->RegulacionModel->get_naturaleza_regulacion($idNaturaleza);
+
             $data = array(
-                'ID_Nat' => $new_id_nat,
+                'ID_Nat' => $idNaturaleza,
                 'Enlace_Oficial' => $inputEnlace,
-                'Instrumento_normativo' => $iNormativo
+                'Instrumento_normativo' => $iNormativo,
+                'file_path' => !empty($file_path) ? $file_path : null,
+                'url' => !empty($url) ? $url : null
             );
-            $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
+            if ($existing_record) {
+                // Actualizar el registro existente
+                $this->RegulacionModel->update_naturaleza_regulacion($data);
+            } else {
+                // Insertar un nuevo registro
+                $this->RegulacionModel->insert_naturaleza_regulacion($data);
+            }
 
             // Guardar en la base de datos derivada_reg
             if (!empty($selectedRegulaciones)) {
@@ -953,62 +1011,60 @@ class RegulacionController extends CI_Controller
                         }
                     }
                 }
+            }
 
-                // Obtener el ID_relNaturaleza más grande y agregar uno más grande
-                $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
-                $new_id_rel_nat = $max_id_rel_nat + 1;
+            // Obtener el ID_relNaturaleza más grande y agregar uno más grande
+            $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
+            $new_id_rel_nat = $max_id_rel_nat + 1;
 
-                // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
-                $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
+            // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
+            $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
 
-                // Guardar en la base de datos rel_nat_reg
-                if (!empty($selectedSectors) && !empty($selectedSubsectors) && !empty($selectedRamas) && !empty($selectedSubramas) && !empty($selectedClases)) {
-                    foreach ($selectedSectors as $sector) {
-                        foreach ($selectedSubsectors as $subsector) {
-                            foreach ($selectedRamas as $rama) {
-                                foreach ($selectedSubramas as $subrama) {
-                                    foreach ($selectedClases as $clase) {
-                                        $data_rel_nat = array(
-                                            'ID_relNaturaleza' => $new_id_rel_nat,
-                                            'ID_Regulacion' => $id_regulacion,
-                                            'ID_Nat' => $new_id_nat,
-                                            'ID_sector' => $sector,
-                                            'ID_subsector' => $subsector,
-                                            'ID_rama' => $rama,
-                                            'ID_subrama' => $subrama,
-                                            'ID_clase' => $clase
-                                        );
-                                        print_r($data_rel_nat);
-                                        $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-                                        $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
-                                    }
+            // Guardar en la base de datos rel_nat_reg
+            if (!empty($selectedSectors) && !empty($selectedSubsectors) && !empty($selectedRamas) && !empty($selectedSubramas) && !empty($selectedClases)) {
+                foreach ($selectedSectors as $sector) {
+                    foreach ($selectedSubsectors as $subsector) {
+                        foreach ($selectedRamas as $rama) {
+                            foreach ($selectedSubramas as $subrama) {
+                                foreach ($selectedClases as $clase) {
+                                    $data_rel_nat = array(
+                                        'ID_relNaturaleza' => $new_id_rel_nat,
+                                        'ID_Regulacion' => $id_regulacion,
+                                        'ID_Nat' => $new_id_nat,
+                                        'ID_sector' => $sector,
+                                        'ID_subsector' => $subsector,
+                                        'ID_rama' => $rama,
+                                        'ID_subrama' => $subrama,
+                                        'ID_clase' => $clase
+                                    );
+                                    $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                                    $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
                                 }
                             }
                         }
                     }
-                } else if (!empty($selectedSectors) && !empty($selectedSubsectors)) {
-                    foreach ($selectedSectors as $sector) {
-                        foreach ($selectedSubsectors as $subsector) {
-                            $data_rel_nat = array(
-                                'ID_relNaturaleza' => $new_id_rel_nat,
-                                'ID_Regulacion' => $id_regulacion,
-                                'ID_Nat' => $new_id_nat,
-                                'ID_sector' => $sector,
-                                'ID_subsector' => $subsector,
-                                'ID_rama' => null,
-                                'ID_subrama' => null,
-                                'ID_clase' => null
-                            );
-                            $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-                            $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
-                        }
+                }
+            } else if (!empty($selectedSectors) && !empty($selectedSubsectors)) {
+                foreach ($selectedSectors as $sector) {
+                    foreach ($selectedSubsectors as $subsector) {
+                        $data_rel_nat = array(
+                            'ID_relNaturaleza' => $new_id_rel_nat,
+                            'ID_Regulacion' => $id_regulacion,
+                            'ID_Nat' => $new_id_nat,
+                            'ID_sector' => $sector,
+                            'ID_subsector' => $subsector,
+                            'ID_rama' => null,
+                            'ID_subrama' => null,
+                            'ID_clase' => null
+                        );
+                        $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                        $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
                     }
                 }
-
-                echo json_encode(array('status' => 'success'));
-            } else {
-                echo json_encode(array('status' => 'error', 'message' => 'Invalid request'));
             }
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Invalid request'));
         }
     }
 
