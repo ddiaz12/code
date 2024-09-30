@@ -9,6 +9,20 @@
 	font-family: "Geomanist", sans-serif;
 }
 
+.menu-regulacion{
+	font-size:medium;
+}
+
+.lista-regulacion
+{
+	padding: 2rem 0 0 0;
+}
+
+.iconos-regulacion
+{
+	padding: 0.5rem 0 ;
+}
+
 .loader {
 	display: none;
 	position: fixed;

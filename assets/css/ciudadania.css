@@ -7,6 +7,7 @@
 	font-family: "Geomanist", sans-serif;
 }
 
+
 h1,
 .h1 {
 	font-weight: 600;
@@ -452,7 +453,7 @@ footer .footer-icon-separador-pu {
 	#option2,
 	#option3,
 	#buscarBtn {
-		margin-bottom: 0;
+		margin-bottom: 2rem;
 	}
 }
 
