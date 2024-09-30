@@ -1904,6 +1904,10 @@ class RegulacionController extends CI_Controller
         // Devolver los ID_Regulacion como JSON
         echo json_encode($regulaciones);
     }
-
-
+    public function getMaxValuesTram()
+    {
+        $this->load->model('RegulacionModel');
+        $maxValues = $this->RegulacionModel->getMaxValuesTram();
+        echo json_encode($maxValues);
+    }
 }

@@ -50,7 +50,8 @@ Registro Estatal de Regulaciones
                                     <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_1">Características de la Regulación</label>
+                                        <label class="menu-regulacion" for="image_1">Características de la
+                                            Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
@@ -198,7 +199,8 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="d-flex justify-content-between mb-3">
                             <p>Tramites y servicios</p>
-                            <button type="submit" id="botonIndice" class="btn btn-success btn-indice">Indice</button>
+                            <button type="submit" id="botonTramites"
+                                class="btn btn-success btn-tramites">Tramites</button>
                             <!-- Modal -->
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
                                 aria-labelledby="myModalLabel" aria-hidden="true">
@@ -214,24 +216,14 @@ Registro Estatal de Regulaciones
                                         <div class="modal-body">
                                             <form>
                                                 <div class="form-group">
-                                                    <label for="inputTexto">Texto</label>
-                                                    <input type="text" class="form-control" id="inputTexto"
-                                                        placeholder="Ingrese texto" name="texto">
+                                                    <label for="inputTram">Nombre</label>
+                                                    <input type="text" class="form-control" id="inputTram"
+                                                        placeholder="Ingrese el Nombre" name="NombreTram">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="selectIndicePadre">Índice
-                                                        Padre</label>
-                                                    <select class="form-control" id="selectIndicePadre"
-                                                        name="indicePadre">
-                                                        <option>Seleccione un índice padre</option>
-                                                        <?php if (!empty($indices)): ?>
-                                                        <?php    foreach ($indices as $indice): ?>
-                                                        <option value="<?= $indice->ID_Indice ?>">
-                                                            <?= $indice->Texto ?>
-                                                        </option>
-                                                        <?php    endforeach; ?>
-                                                        <?php endif; ?>
-                                                    </select>
+                                                    <label for="inputDir">Direccion</label>
+                                                    <input type="text" class="form-control" id="inputDir"
+                                                        placeholder="http://" name="NombreDir">
                                                 </div>
                                             </form>
                                         </div>
@@ -245,6 +237,76 @@ Registro Estatal de Regulaciones
                                 </div>
                             </div>
                         </div>
+                        <table id="tramitesTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID_Tramites</th>
+                                    <th>Nombre</th>
+                                    <th>Dirección</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las filas se agregarán dinámicamente aquí -->
+                            </tbody>
+                        </table>
+                        <script>
+                        $(document).ready(function() {
+                            var lastInsertedID_Tramites =null; 
+                            // Variable para almacenar el último ID_Tramites insertado
+
+                            $('#guardarIbtn').on('click', function() {
+                                var inputTram = $('#inputTram').val();
+
+                                if (lastInsertedID_Tramites == null) {
+                                    // Si es la primera inserción, obtener los valores de la base de datos
+                                    $.ajax({
+                                        url: '<?= base_url('RegulacionController/getMaxValuesTram') ?>',
+                                        method: 'GET',
+                                        success: function(data) {
+                                            var maxValues = JSON.parse(
+                                                data);
+                                                if (lastInsertedID_Tramites == null) {}else{}
+                                            lastInsertedID_Tramites = 1;
+
+                                            var newRow = '<tr><td>' +
+                                                lastInsertedID_Tramites +
+                                                '</td><td>' +
+                                                inputTram +
+                                                '</td><td>' +
+                                            $('#tramitesTable tbody')
+                                                .append(newRow);
+                                        },
+                                        error: function(jqXHR, textStatus,
+                                            errorThrown) {
+                                            console.error('AJAX error:',
+                                                textStatus,
+                                                errorThrown);
+                                        }
+                                    });
+                                } else {
+                                    // Si no es la primera inserción, incrementar los últimos valores insertados
+                                    lastInsertedID_Tramites++;
+
+                                    var newRow = '<tr><td>' +
+                                        lastInsertedID_Tramites + '</td><td>' +
+                                        inputTram + '</td><td>';
+                                    $('#tramitesTable tbody').append(newRow);
+                                }
+                            });
+                        });
+                        </script>
+                        <script>
+                        $(document).ready(function() {
+                            $('.btn-tramites').click(function() {
+                                $('#myModal').modal('show');
+                            });
+                        });
+                        </script>
+                        <script>
+                        function closeModal() {
+                            $('.modal').modal('hide'); // Oculta el modal
+                        }
+                        </script>
                         <div class="form-group">
                             <label for="radioGroup">Tipo de documento:</label>
                             <div id="radioGroup">
