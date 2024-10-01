@@ -713,4 +713,9 @@ class RegulacionModel extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function getMaxValuesTram() {
+        $this->db->select_max('ID_Tramites');
+        $query = $this->db->get('de_tramitesyservicios');
+        return $query->result();
+    }
 }
