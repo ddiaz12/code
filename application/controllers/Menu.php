@@ -6,9 +6,10 @@ class Menu extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('MenuModel');
         $this->load->library('form_validation');
+        $this->load->model('MenuModel');
         $this->load->model('NotificacionesModel');
+        $this->load->model('RegulacionModel');
         if (!$this->ion_auth->logged_in()) {
             print_r($this->ion_auth->logged_in());
             redirect('auth/login', 'refresh');
@@ -159,11 +160,14 @@ class Menu extends CI_Controller
         $groupName = $group->name;
         $userId = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        $data['publicadas'] = $this->MenuModel->getRegulacionesPublicada($userId);
+        $data['publicadas'] = $this->MenuModel->getRegulacionesPublicadas();
+        $data['regulaciones'] = $this->RegulacionModel->get_all_regulaciones();
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $notifications = $this->NotificacionesModel->getNotifications($userId);
             $data['notificaciones'] = $notifications;
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
+            $data['publicadas'] = $this->MenuModel->getRegulacionesPublicada($userId);
+            $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_por_usuario($userId);
             $this->blade->render('menuSujeto/publicadas', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/publicadas', $data);

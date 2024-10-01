@@ -292,10 +292,6 @@ class RegulacionController extends CI_Controller
             return;
         }
 
-        // Obtener el ID más grande y sumar 1
-        $maxID = $this->RegulacionModel->getMaxID();
-        $newID = $maxID + 1;
-
         // Determinar el estatus basado en el grupo del usuario
         $Estatus = 0; // Valor por defecto
         if ($groupName == 'admin' || $groupName == 'sedeco') {
@@ -306,7 +302,6 @@ class RegulacionController extends CI_Controller
 
         // Preparar los datos para insertar
         $data = array(
-            'ID_Regulacion' => $newID,
             'ID_tRegulacion' => NULL,
             'id_usuario_creador' => $id,
             'Nombre_Regulacion' => $formData['nombre'],
@@ -316,9 +311,12 @@ class RegulacionController extends CI_Controller
             'Objetivo_Reg' => $formData['objetivoReg']
         );
 
+        // Insertar los datos
+       $id_regulacion = $this->RegulacionModel->insertRegulacion($data);
+
         // Registrar el movimiento en la trazabilidad
         $dataTrazabilidad = [
-            'ID_Regulacion' => $newID,
+            'ID_Regulacion' => $id_regulacion,
             'fecha_movimiento' => date('Y-m-d H:i:s'),
             'descripcion_movimiento' => 'Regulación Creada',
             'usuario_responsable' => $user->email,
@@ -326,12 +324,8 @@ class RegulacionController extends CI_Controller
             'estatus_nuevo' => 'Creada'
         ];
 
-
-        // Insertar los datos
-        $this->RegulacionModel->insertRegulacion($data);
-
         //guardar relacion usuario-regulacion
-        $this->RegulacionModel->insertar_rel_usuario_regulacion($id, $newID);
+        $this->RegulacionModel->insertar_rel_usuario_regulacion($id, $id_regulacion);
 
         $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
 

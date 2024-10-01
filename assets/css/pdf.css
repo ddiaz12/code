@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Geomanist:wght@400;700&display=swap');
 
-body {
-    font-family: 'Geomanist', sans-serif;
-}
-
 h1,
 .h1 {
 	font-weight: 600 !important;

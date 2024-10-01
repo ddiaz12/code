@@ -42,7 +42,7 @@ Registro Estatal de Regulaciones
                         /* Adjust as needed */
                     }
                 </style>
-                <div class="card flex-grow-1">
+                <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
@@ -90,7 +90,7 @@ Registro Estatal de Regulaciones
                                 <label for="si">Sí</label>
 
                                 <input type="radio" id="no" name="opcion" value="no">
-                                <label for="no">No</label>
+                                <label class="ms-2" for="no">No</label>
                             </div>
                         </div>
 

@@ -42,31 +42,32 @@ Registro Estatal de Regulaciones
                         /* Adjust as needed */
                     }
                 </style>
-                <div class="card flex-grow-1">
+                <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
-                            <ul class="list-unstyled">
-                                <li>
+                            <ul class="list-unstyled lista-regulacion">
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-list-check"></i>
-                                        <label for="image_1">Características de la Regulación</label>
+                                        <i class="fa-solid fa-list-check fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_1">Características de la
+                                            Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-table-list"></i>
-                                        <label for="image_2">Materias Exentas</label>
+                                        <i class="fa-solid fa-table-list fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-book"></i>
-                                        <label for="image_3">Naturaleza de la Regulación</label>
+                                        <i class="fa-solid fa-book fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
                                     </a>
                                 </li>
                             </ul>
@@ -86,11 +87,9 @@ Registro Estatal de Regulaciones
                             </div>
                             <div id="radioGroup"
                                 class="d-flex align-content-center  justify-content-center align-items-center">
-                                <input type="radio" id="si" name="opcion" value="si">
-                                <label for="si">Sí</label>
-
-                                <input type="radio" id="no" name="opcion" value="no">
-                                <label for="no">No</label>
+                                <label for="si"><input type="radio" id="si" name="opcion" value="si">Sí</label>
+                                <label class="ms-2" for="no"> <input type="radio" id="no" name="opcion"
+                                        value="no">No</label>
                             </div>
                         </div>
 
@@ -217,9 +216,9 @@ Registro Estatal de Regulaciones
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="<?php echo base_url('RegulacionController'); ?>"
-                            class="btn btn-secondary me-2">Cancelar</a>
                         <button type="submit" id="btnCheck" class="btn btn-success btn-guardar">Guardar</button>
+                        <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                            class="btn btn-secondary me-2">Cancelar</a>
                     </div>
                 </div>
             </div>
@@ -291,6 +290,7 @@ Registro Estatal de Regulaciones
                                         );
                                         // Redirigir al usuario al enlace especificado
                                         window.location.href = '<?php echo base_url('RegulacionController/nat_regulaciones'); ?>';
+
                                     } else {
                                         console.error('Error al insertar datos:',
                                             insertResult.message);
