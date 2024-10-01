@@ -9,7 +9,7 @@
 <h1 align="center">Code</h1>
 
 <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/{{ddiaz12}}/code?color=56BEB8">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/ddiaz12/code?color=56BEB8">
 
   <img alt="Github language count" src="https://img.shields.io/github/languages/count/{{ddiaz12}}/code?color=56BEB8">
 
