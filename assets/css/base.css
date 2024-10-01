@@ -9,20 +9,6 @@
 	font-family: "Geomanist", sans-serif;
 }
 
-.menu-regulacion{
-	font-size:medium;
-}
-
-.lista-regulacion
-{
-	padding: 2rem 0 0 0;
-}
-
-.iconos-regulacion
-{
-	padding: 0.5rem 0 ;
-}
-
 .loader {
 	display: none;
 	position: fixed;
@@ -142,6 +128,20 @@ h3,
 	padding-left: 1.7rem;
 }
 
+.menu-regulacion{
+	font-size:medium;
+}
+
+.lista-regulacion
+{
+	padding: 2rem 0 0 0;
+}
+
+.iconos-regulacion
+{
+	padding: 0.5rem 0 ;
+}
+
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
 	width: 112px;
 }
@@ -184,6 +184,10 @@ h3,
 
 .card {
 	--bs-card-border-color: rgb(0 0 0);
+}
+
+.bordes{
+	--bs-card-border-color:rgb(209, 209, 209);;
 }
 
 .card-oficina {
@@ -304,12 +308,12 @@ h3,
 	--bs-btn-active-color: white;
 	color: white;
 }
-*/
 
 .btn-comentarios:hover{
 	background-color: #3389a5;
 	color: white;
 }
+*/
 
 div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 	background-color: #923244 !important;

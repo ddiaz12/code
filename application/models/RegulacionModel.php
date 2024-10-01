@@ -99,6 +99,7 @@ class RegulacionModel extends CI_Model {
 
     public function insertRegulacion($data) {
         $this->db->insert('ma_regulacion', $data);
+        return $this->db->insert_id();
     }
     public function obtenerMaxIDCaract() {
         $this->db->select_max('ID_caract');

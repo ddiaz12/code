@@ -30,32 +30,41 @@ Registro Estatal de Regulaciones
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($publicadas as $publicada)
-                        <tr>
-                            <td>{{ $publicada->ID_Regulacion }}</td>
-                            <td>{{ $publicada->Nombre_Regulacion }}</td>
-                            <td>{{ $publicada->Homoclave }}</td>
-                            <td>
-                                @if ($publicada->publicada == 1)
-                                    Regulación publicada
+                    @if (!empty($regulaciones) && !empty($publicadas))
+                        @foreach ($regulaciones as $regulacion)
+                            @foreach ($publicadas as $publicada)
+                                @if ($regulacion->ID_Regulacion == $publicada->ID_Regulacion)
+                                    <tr>
+                                        <td>{{ $publicada->ID_Regulacion }}</td>
+                                        <td>{{ $publicada->Nombre_Regulacion }}</td>
+                                        <td>{{ $publicada->Homoclave }}</td>
+                                        <td>
+                                            @if ($publicada->publicada == 1)
+                                                Regulación publicada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="<?php                echo base_url('ciudadania/verRegulacion/' . $publicada->ID_Regulacion); ?>"
+                                                class="btn btn-danger btn-sm">
+                                                <i class="fas fa-eye" title="Ver regulacion"></i>
+                                            </a>
+                                            <button class="btn btn-tinto btn-sm btn-trazabilidad" title="Trazabilidad"
+                                                data-id="{{ $regulacion->ID_Regulacion }}" data-toggle="modal"
+                                                data-target="#trazabilidadModal">
+                                                <i class="fas fa-history"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 @endif
-                            </td>
-                            <td>
-                                <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $publicada->ID_Regulacion); ?>"
-                                    class="btn btn-danger btn-sm">
-                                    <i class="fas fa-eye" title="Ver regulacion"></i>
-                                </a>
-                                <button class="btn btn-secondary btn-sm despublicar-regulacion"
-                                    data-id="<?php    echo $publicada->ID_Regulacion; ?>">
-                                    <i class="fa-solid fa-file-arrow-down" title="Despublicar"></i>
-                                </button>
-                        </tr>
-                        </tr>
-                    @endforeach
+                            @endforeach
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
     </div>
+    <!-- Modal de trazabilidad -->
+    @include('modal/trazabilidad')
 </div>
 <!-- Contenido -->
 @endsection
@@ -74,7 +83,7 @@ Registro Estatal de Regulaciones
 
     $('.despublicar-regulacion').click(function () {
         var id = $(this).data('id');
-        Swal.fire({ 
+        Swal.fire({
             title: '¿Estás seguro?',
             text: "¿Quieres despiblicar la regulación?",
             icon: 'warning',
@@ -108,6 +117,53 @@ Registro Estatal de Regulaciones
                     }
                 });
             }
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-trazabilidad').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/obtenerTrazabilidad'); ?>';
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + id
+                })
+                    .then(response => response.json()) // Asumimos que la respuesta será en formato JSON
+                    .then(data => {
+                        var timelineContent = '';
+
+                        // Generar el HTML del timeline
+                        data.forEach(function (registro, index) {
+                            timelineContent += `
+                        <li class="timeline-item">
+                            <span class="timeline-date">${new Date(registro.fecha_movimiento).toLocaleDateString()}</span>
+                            <div class="timeline-content">
+                                <h5>${registro.usuario_responsable}</h5>
+                                <p>Descripcion de movimiento: ${registro.descripcion_movimiento}</p>
+                                <p>Fecha: ${new Date(registro.fecha_movimiento).toLocaleString()}</p>
+                            </div>
+                        </li>
+                    `;
+                        });
+
+                        // Insertar el contenido en el modal
+                        document.querySelector('#trazabilidadContent .timeline').innerHTML = timelineContent;
+
+                        // Mostrar el modal
+                        var trazabilidadModal = new bootstrap.Modal(document.getElementById('trazabilidadModal'));
+                        trazabilidadModal.show();
+                    })
+                    .catch(error => {
+                        document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';
+                    });
+            });
         });
     });
 </script>

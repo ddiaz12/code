@@ -42,7 +42,7 @@ Registro Estatal de Regulaciones
                     /* Adjust as needed */
                 }
                 </style>
-                <div class="card flex-grow-1">
+                <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">

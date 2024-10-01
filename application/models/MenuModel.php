@@ -209,6 +209,17 @@ class MenuModel extends CI_Model
         return $query->result();
     }
 
+    public function getRegulacionesPublicadas()
+    {
+        $this->db->select('ma_regulacion.ID_Regulacion, id_usuario_creador, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+        ma_regulacion.Estatus, ma_regulacion.publicada');
+        $this->db->from('ma_regulacion');
+        $this->db->where('ma_regulacion.publicada', 1);
+        $this->db->where('ma_regulacion.Estatus', 3);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function modificarRegulacion($id_regulacion)
     {
         // Datos a actualizar

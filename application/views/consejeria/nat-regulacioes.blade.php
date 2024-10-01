@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarSujeto')
+@include('templates/navbarConsejeria')
 @endsection
 @section('menu')
-@include('templates/menuSujeto')
+@include('templates/menuConsejeria')
 @endsection
 
 @section('contenido')
@@ -42,31 +42,31 @@ Registro Estatal de Regulaciones
                     /* Adjust as needed */
                 }
                 </style>
-                <div class="card flex-grow-1">
+                <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
-                            <ul class="list-unstyled">
-                                <li>
+                            <ul class="list-unstyled lista-regulacion">
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-list-check"></i>
-                                        <label for="image_1">Características de la Regulación</label>
+                                        <i class="fa-solid fa-list-check fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_1">Características de la Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-table-list"></i>
-                                        <label for="image_2">Materias Exentas</label>
+                                        <i class="fa-solid fa-table-list fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-book"></i>
-                                        <label for="image_3">Naturaleza de la Regulación</label>
+                                        <i class="fa-solid fa-book fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
                                     </a>
                                 </li>
                             </ul>
@@ -196,6 +196,55 @@ Registro Estatal de Regulaciones
                             <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
                                 placeholder="http://" required>
                         </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <p>Tramites y servicios</p>
+                            <button type="submit" id="botonIndice" class="btn btn-success btn-indice">Indice</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="myModalLabel">Índice
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="inputTexto">Texto</label>
+                                                    <input type="text" class="form-control" id="inputTexto"
+                                                        placeholder="Ingrese texto" name="texto">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="selectIndicePadre">Índice
+                                                        Padre</label>
+                                                    <select class="form-control" id="selectIndicePadre"
+                                                        name="indicePadre">
+                                                        <option>Seleccione un índice padre</option>
+                                                        <?php if (!empty($indices)): ?>
+                                                        <?php    foreach ($indices as $indice): ?>
+                                                        <option value="<?= $indice->ID_Indice ?>">
+                                                            <?= $indice->Texto ?>
+                                                        </option>
+                                                        <?php    endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                onclick="closeModal()">Cerrar</button>
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
+                                                cambios</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="radioGroup">Tipo de documento:</label>
                             <div id="radioGroup">
@@ -265,21 +314,21 @@ $(document).ready(function() {
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    let selectedSectors = []; // Declaración global
-    let selectedSubsectors = []; // Declaración global
-    let selectedRamas = []; // Declaración global
-    let selectedSubramas = []; // Declaración global
-    let selectedClases = []; // Declaración global
-    let selectedSectorsIds = []; // Declaración global
-    let selectedSubsectorsIds = []; // Declaración global
-    let selectedRamasIds = []; // Declaración global
-    let selectedSubramasIds = []; // Declaración global
-    let selectedClasesIds = []; // Declaración global
-    let selectedRegulaciones = []; // Declaración global
-    let iNormativo = null; // Declaración global
+let selectedSectors = []; // Declaración global
+let selectedSubsectors = []; // Declaración global
+let selectedRamas = []; // Declaración global
+let selectedSubramas = []; // Declaración global
+let selectedClases = []; // Declaración global
+let selectedSectorsIds = []; // Declaración global
+let selectedSubsectorsIds = []; // Declaración global
+let selectedRamasIds = []; // Declaración global
+let selectedSubramasIds = []; // Declaración global
+let selectedClasesIds = []; // Declaración global
+let selectedRegulaciones = []; // Declaración global
+let iNormativo = null; // Declaración global
 // Aqui se hace la busqueda de los sectores y se muestran en una lista
 $(document).ready(function() {
-    
+
     $('#SectorInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
@@ -316,9 +365,10 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedSectorsTable').show();
-        $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName + '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>');
+        $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName +
+            '<td><button class="btn btn-danger btn-sm delete-row">' +
+            '<i class="fas fa-trash-alt"></i></button></td>' +
+            '</tr>');
     });
 
     // Evento para eliminar sectores
@@ -381,9 +431,10 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedSubsectorsTable').show();
-        $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsectorName + '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>');
+        $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsectorName +
+            '<td><button class="btn btn-danger btn-sm delete-row">' +
+            '<i class="fas fa-trash-alt"></i></button></td>' +
+            '</tr>');
     });
 
     // Evento para eliminar subsectores
@@ -445,8 +496,9 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedRamasTable').show();
-        $('#selectedRamasTable tbody').append('<tr><td>' + ramaName + '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>');
+        $('#selectedRamasTable tbody').append('<tr><td>' + ramaName +
+            '<td><button class="btn btn-danger btn-sm delete-row">' +
+            '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>');
     });
 
     // Evento para eliminar ramas
@@ -508,9 +560,10 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedSubramasTable').show();
-        $('#selectedSubramasTable tbody').append('<tr><td>' + subramaName + '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>');
+        $('#selectedSubramasTable tbody').append('<tr><td>' + subramaName +
+            '<td><button class="btn btn-danger btn-sm delete-row">' +
+            '<i class="fas fa-trash-alt"></i></button></td>' +
+            '</tr>');
     });
 
     // Evento para eliminar subramas
@@ -572,9 +625,10 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedClasesTable').show();
-        $('#selectedClasesTable tbody').append('<tr><td>' + claseName + '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>');
+        $('#selectedClasesTable tbody').append('<tr><td>' + claseName +
+            '<td><button class="btn btn-danger btn-sm delete-row">' +
+            '<i class="fas fa-trash-alt"></i></button></td>' +
+            '</tr>');
     });
 
     // Evento para eliminar clases
@@ -627,7 +681,7 @@ $(document).ready(function() {
         selectedRegulaciones.push({
             ID_Regulacion: regulacionId
         });
-        console.log('regulaciones',selectedRegulaciones);
+        console.log('regulaciones', selectedRegulaciones);
 
         // Ocultar la lista y borrar el texto del input
         $('#vinculadasResults').empty();
@@ -635,9 +689,10 @@ $(document).ready(function() {
 
         // Mostrar la tabla y agregar una fila
         $('#selectedRegulacionesTable').show();
-        $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>');
+        $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName +
+            '<td><button class="btn btn-danger btn-sm delete-row">' +
+            '<i class="fas fa-trash-alt"></i></button></td>' +
+            '</tr>');
     });
 
     //aqui validamos si es documento o liga
@@ -670,10 +725,10 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.status === 'success') {
                         alert('Datos guardados exitosamente');
-                        window.location.href ='http://localhost/code/RegulacionController';
+                        window.location.href = 'http://localhost/code/RegulacionController';
                     } else {
                         alert('Error al guardar los datos: ' + response.message);
-                        window.location.href ='http://localhost/code/RegulacionController';
+                        window.location.href = 'http://localhost/code/RegulacionController';
                     }
                 }
             });
@@ -698,15 +753,15 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.status === 'success') {
                         alert('Datos guardados exitosamente');
-                        window.location.href ='http://localhost/code/RegulacionController';
+                        window.location.href = 'http://localhost/code/RegulacionController';
                     } else {
                         alert('Error al guardar los datos: ' + response.message);
-                        window.location.href ='http://localhost/code/RegulacionController';
+                        window.location.href = 'http://localhost/code/RegulacionController';
                     }
                 }
             });
         }
-        window.location.href ='http://localhost/code/RegulacionController';
+        window.location.href = 'http://localhost/code/RegulacionController';
     });
 });
 </script>

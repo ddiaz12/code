@@ -42,31 +42,32 @@ Registro Estatal de Regulaciones
                         /* Adjust as needed */
                     }
                 </style>
-                <div class="card flex-grow-1">
+                <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
-                            <ul class="list-unstyled">
-                                <li>
+                            <ul class="list-unstyled lista-regulacion">
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-list-check"></i>
-                                        <label for="image_1">Características de la Regulación</label>
+                                        <i class="fa-solid fa-list-check fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_1">Características de la
+                                            Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-table-list"></i>
-                                        <label for="image_2">Materias Exentas</label>
+                                        <i class="fa-solid fa-table-list fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-book"></i>
-                                        <label for="image_3">Naturaleza de la Regulación</label>
+                                        <i class="fa-solid fa-book fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
                                     </a>
                                 </li>
                             </ul>
@@ -79,7 +80,7 @@ Registro Estatal de Regulaciones
                 <!-- Existing card -->
                 <div class="card flex-grow-1">
                     <div class="card">
-                        <div class="card-header text-white">Agregar Regulacion</div>
+                        <div class="card-header text-white">Agregar Regulación</div>
                         <div class="card-body">
 
                             <!-- Formulario de agregar regulaciones -->
@@ -87,10 +88,10 @@ Registro Estatal de Regulaciones
                                 <div class="form-group">
                                     <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="inputNombre" name="nombre"
-                                        placeholder="Nombre de la regulacion" required>
+                                        placeholder="Nombre de la regulación" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectSujeto">Ambito de Aplicacion<span
+                                    <label for="selectSujeto">Ámbito de aplicación<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="selectSujeto" name="sujeto" required>
                                         <option disabled selected>Selecciona una opción</option>
@@ -122,7 +123,8 @@ Registro Estatal de Regulaciones
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de Vigor<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de entrada en vigor<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_vigor" required>
                                 </div>
                                 <div class="col-md-6">
@@ -140,7 +142,7 @@ Registro Estatal de Regulaciones
                                                     <input type="radio" name="opcion" id="si" onclick="mostrarCampo()">
                                                     Sí
                                                 </label>
-                                                <label>
+                                                <label class="ms-2">
                                                     <input type="radio" name="opcion" id="no" onclick="mostrarCampo()">
                                                     No
                                                 </label>
@@ -171,7 +173,6 @@ Registro Estatal de Regulaciones
                                         <div id="searchResults" class="list-group"></div>
                                     </div>
                                 </div>
-                                <h5>Autoridades que emiten la regulación</h5>
                                 <table id="emitenTable" class="table">
                                     <thead>
                                         <tr>
@@ -195,7 +196,7 @@ Registro Estatal de Regulaciones
                                                     <input type="radio" name="opcion" id="apsi"
                                                         onclick="mostrarCampo2()"> Sí
                                                 </label>
-                                                <label>
+                                                <label class="ms-2">
                                                     <input type="radio" name="opcion" id="apno"
                                                         onclick="mostrarCampo2()"> No
                                                 </label>
@@ -225,9 +226,7 @@ Registro Estatal de Regulaciones
                                                 <div id="searchResults2" class="list-group"></div>
                                             </div>
                                         </div>
-
                                         <div id="apTContainer">
-                                            <h5>Autoridades que aplican la regulación</h5>
                                             <table id="aplicanTable" class="table">
                                                 <thead>
                                                     <tr>
@@ -246,9 +245,9 @@ Registro Estatal de Regulaciones
                                 </form>
 
                                 <div class="d-flex justify-content-between mb-3">
-                                    <p>Índice de regulación</p>
+                                    <p>Índice de la regulación</p>
                                     <button type="submit" id="botonIndice"
-                                        class="btn btn-indice">Indice</button>
+                                        class="btn btn-success btn-indice">Indice</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
                                         aria-labelledby="myModalLabel" aria-hidden="true">
@@ -289,8 +288,7 @@ Registro Estatal de Regulaciones
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                         onclick="closeModal()">Cerrar</button>
-                                                    <button type="button" id="guardarIbtn"
-                                                        class="btn btn-tinto">Guardar
+                                                    <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
                                                         cambios</button>
                                                 </div>
                                             </div>
@@ -311,7 +309,7 @@ Registro Estatal de Regulaciones
                                 </table>
 
                                 <div class="form-group">
-                                    <label for="inputObjetivo">Describa el objetivo de la regulación</label>
+                                    <label for="inputObjetivo">Objeto de la regulación</label>
                                     <textarea class="form-control" id="inputObjetivo" name="objetivoReg"></textarea>
                                 </div>
                                 <p></p>
@@ -539,6 +537,8 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     var caracteristicasData = {}; // Declaración global
     var reIndice = []; // Declaración global
@@ -1064,6 +1064,9 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function () {
         // Obtener el valor seleccionado en el select con id "selectIndicePadre"

@@ -3,7 +3,7 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarSujeto')
+@include('templates/navbaSujeto')
 @endsection
 @section('menu')
 @include('templates/menuSujeto')
@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
     </li>
 </ol>
 <div class="container mt-5">
@@ -42,31 +42,31 @@ Registro Estatal de Regulaciones
                         /* Adjust as needed */
                     }
                 </style>
-                <div class="card flex-grow-1">
+                <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
-                            <ul class="list-unstyled">
-                                <li>
+                            <ul class="list-unstyled lista-regulacion">
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-list-check"></i>
-                                        <label for="image_1">Características de la Regulación</label>
+                                        <i class="fa-solid fa-list-check fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_1">Características de la Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-table-list"></i>
-                                        <label for="image_2">Materias Exentas</label>
+                                        <i class="fa-solid fa-table-list fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-book"></i>
-                                        <label for="image_3">Naturaleza de la Regulación</label>
+                                        <i class="fa-solid fa-book fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
                                     </a>
                                 </li>
                             </ul>
@@ -90,7 +90,7 @@ Registro Estatal de Regulaciones
                                 <label for="si">Sí</label>
 
                                 <input type="radio" id="no" name="opcion" value="no">
-                                <label for="no">No</label>
+                                <label class="ms-2" for="no">No</label>
                             </div>
                         </div>
 
@@ -256,6 +256,25 @@ Registro Estatal de Regulaciones
 @section('js')
 <script>
     $(document).ready(function () {
+        
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('input[type=radio][name=opcion]').change(function () {
+            if (this.value == 'si') {
+                $('#checkboxes').show();
+            } else if (this.value == 'no') {
+                $('#checkboxes').hide();
+            }
+        });
+    });
+</script>
+<script>
+    // Obtener el id_regulacion de la vista
+    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+    var idMaterias = [];
+    $(document).ready(function () {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
 
@@ -271,7 +290,7 @@ Registro Estatal de Regulaciones
                 console.log('Registros obtenidos:', response);
 
                 // Obtener los ID_Materia de los registros obtenidos
-                var idMaterias = response.map(function (item) {
+                idMaterias = response.map(function (item) {
                     return item.ID_Materias;
                 });
                 console.log('ID_Materias:', idMaterias);
@@ -317,23 +336,6 @@ Registro Estatal de Regulaciones
                 console.error('Error en la solicitud AJAX para obtener los registros.');
             }
         });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $('input[type=radio][name=opcion]').change(function () {
-            if (this.value == 'si') {
-                $('#checkboxes').show();
-            } else if (this.value == 'no') {
-                $('#checkboxes').hide();
-            }
-        });
-    });
-</script>
-<script>
-    // Obtener el id_regulacion de la vista
-    var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
-    $(document).ready(function () {
         $('#btnCheck').on('click', function (event) {
             event.preventDefault(); // Evitar el envío del formulario
 
@@ -349,11 +351,61 @@ Registro Estatal de Regulaciones
 
                 // Imprimir los textos de los labels en la consola
                 console.log(selectedLabels);
+                if (selectedLabels.length === 0) {
+                    alert('Por favor, seleccione al menos una materia.');
+                    return;
+                }else{
+                    if (idMaterias.length === 0) {
+                        // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
+                        $.ajax({
+                                url: '<?= base_url("RegulacionController/obtenerMaterias") ?>',
+                                type: 'POST',
+                                data: {
+                                    id_regulacion: id_regulacion,
+                                    labels: selectedLabels
+                                },
+                                success: function (response) {
+                                    var result = JSON.parse(response);
+                                    if (result.status === 'success') {
+                                        var idMaterias = result.idMaterias;
+                                        var id_regulacion = result.id_regulacion;
 
+                                        // Imprimir los ID_materia y el último ID_Regulacion en la consola
+                                        console.log('ID_materias:', idMaterias);
+                                        console.log('id_regulacion:', id_regulacion);
 
-
-                // Hacer una solicitud AJAX para eliminar los registros existentes con el id_regulacion
-                $.ajax({
+                                        // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
+                                        $.ajax({
+                                            url: '<?= base_url("RegulacionController/insertarRelRegulacionesMaterias") ?>',
+                                            type: 'POST',
+                                            data: {
+                                                idMaterias: idMaterias,
+                                                ultimoIDRegulacion: id_regulacion
+                                            },
+                                            success: function (insertResponse) {
+                                                var insertResult = JSON.parse(insertResponse);
+                                                if (insertResult.status === 'success') {
+                                                    console.log('Datos insertados correctamente en rel_regulaciones_materias');
+                                                    // Redirigir al usuario al enlace especificado
+                                                    window.location.href = '<?= base_url("RegulacionController/edit_nat/"); ?>' + id_regulacion;
+                                                } else {
+                                                    console.error('Error al insertar datos:', insertResult.message);
+                                                }
+                                            },
+                                            error: function (error) {
+                                                console.error('Error en la solicitud AJAX:', error);
+                                            }
+                                        });
+                                    } else {
+                                        console.error('Error:', result.message);
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error('Error en la solicitud AJAX:', error);
+                                }
+                            });
+                    }else{
+                        $.ajax({
                     url: '<?= base_url("RegulacionController/eliminarMateriasExentas") ?>',
                     type: 'POST',
                     data: {
@@ -420,6 +472,14 @@ Registro Estatal de Regulaciones
                         console.error('Error en la solicitud AJAX para eliminar registros:', error);
                     }
                 });
+                    }
+                     // Hacer una solicitud AJAX para eliminar los registros existentes con el id_regulacion
+                
+                }
+
+               
+            }else{
+                window.location.href = '<?= base_url("RegulacionController/edit_nat/"); ?>' + id_regulacion;
             }
         });
     });

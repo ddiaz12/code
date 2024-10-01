@@ -23,8 +23,6 @@
         <h3>Acerca de la resolución</h3>
     </div>
     <div class="content">
-        <p><strong>Medio de publicación:</strong> Periódico Oficial del Gobierno del Estado de Querétaro "La Sombra de
-            Arteaga"</p>
         <p><strong>Tipo de Ordenamiento jurídico:</strong>
             <?php echo !empty($regulacionCaracteristicas->Tipo_Ordenamiento) ? $regulacionCaracteristicas->Tipo_Ordenamiento : 'No disponible'; ?>
         </p>
@@ -34,17 +32,11 @@
         <p><strong>Vigencia:</strong>
             <?php echo !empty($regulacionCaracteristicas->Vigencia) ? $regulacionCaracteristicas->Vigencia : 'No disponible'; ?>
         </p>
-        <p><strong>Link de creación:</strong> <a
-                href="http://queretaro.gob.mx/transparencia/detalledependencia.aspx?q=YhT5i...">http://queretaro.gob.mx/transparencia/detalledependencia.aspx?q=YhT5i...</a>
-        </p>
 
         <div class="section">
-            <h4>Fechas y links de modificaciones:</h4>
+            <h4>Fecha en que ha sido actualizada:</h4>
             <p><strong>Fecha de actualización:</strong>
                 <?php echo !empty($regulacionCaracteristicas->Fecha_Act) ? $regulacionCaracteristicas->Fecha_Act : 'No disponible'; ?>
-            </p>
-            <p><strong>Link de Modificación:</strong> <a
-                    href="http://lasombradearteaga.segobqueretaro.gob.mx/2005/20050735-01.pdf">lasombradearteaga.segobqueretaro.gob.mx/2005/20050735-01.pdf</a>
             </p>
         </div>
 
@@ -106,6 +98,13 @@
         <?php else: ?>
         <p>No hay información disponible sobre el Índice.</p>
         <?php endif; ?>
+    </div>
+
+    <div class="subheader">
+        <h3>Objeto de la regulacion</h3>
+    </div>
+    <div class="content">
+        <p><?php echo !empty($regulacion->Objetivo_Reg) ? $regulacion->Objetivo_Reg : 'No disponible'; ?></p>
     </div>
 
     <div class="subheader">
