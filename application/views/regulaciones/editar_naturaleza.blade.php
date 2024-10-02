@@ -42,31 +42,31 @@ Registro Estatal de Regulaciones
                     /* Adjust as needed */
                 }
                 </style>
-                <div class="card flex-grow-1 bordes">
+                <div class="card flex-grow-1">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
-                            <ul class="list-unstyled lista-regulacion">
-                                <li class="iconos-regulacion">
+                            <ul class="list-unstyled">
+                                <li>
                                     <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-list-check fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_1">Características de la Regulación</label>
+                                        <i class="fa-solid fa-list-check"></i>
+                                        <label for="image_1">Características de la Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li class="iconos-regulacion">
+                                <li>
                                     <a href="<?php echo base_url('RegulacionController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-table-list fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
+                                        <i class="fa-solid fa-table-list"></i>
+                                        <label for="image_2">Materias Exentas</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li class="iconos-regulacion">
+                                <li>
                                     <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-book fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
+                                        <i class="fa-solid fa-book"></i>
+                                        <label for="image_3">Naturaleza de la Regulación</label>
                                     </a>
                                 </li>
                             </ul>
