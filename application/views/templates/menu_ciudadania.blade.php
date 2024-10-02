@@ -31,7 +31,7 @@
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-person-circle-exclamation"></i>
                     </div>
-                    <span class="nav-text">Protesta Ciudadana y Buzón de Sugerencias</span>
+                    <span class="nav-text">Protesta Ciudadana</span>
                 </a>
             </div>
             <div class="nav">

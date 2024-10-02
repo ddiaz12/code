@@ -242,8 +242,10 @@ class RegulacionModel extends CI_Model {
 
     public function get_all_regulaciones() {
         $query = $this->db->get('ma_regulacion');
-        return $query->result();
+        return $query->result_array();
     }
+
+    
 
     public function enviar_regulacion($id_regulacion, $Estatus){
         $this->db->where('ID_Regulacion', $id_regulacion);
