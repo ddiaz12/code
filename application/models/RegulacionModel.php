@@ -192,6 +192,7 @@ class RegulacionModel extends CI_Model {
 
     public function insert_naturaleza_regulacion($data) {
         $this->db->insert('de_naturaleza_regulacion', $data);
+        return $this->db->insert_id();
     }
 
     public function update_naturaleza_regulacion($data) {
@@ -242,9 +243,14 @@ class RegulacionModel extends CI_Model {
 
     public function get_all_regulaciones() {
         $query = $this->db->get('ma_regulacion');
-        return $query->result_array();
+        return $query->result();
     }
 
+    public function getRegulacionExcel() {
+        $this->db->select('Nombre_Regulacion, Objetivo_Reg, Fecha_Exp, Vigencia, Estatus');
+        $query = $this->db->get('ma_regulacion');
+        return $query->result();
+    }
     
 
     public function enviar_regulacion($id_regulacion, $Estatus){
@@ -362,7 +368,7 @@ class RegulacionModel extends CI_Model {
         $this->db->join('de_naturaleza_regulacion', 'derivada_reg.ID_Nat = de_naturaleza_regulacion.ID_Nat');
         $this->db->where('derivada_reg.ID_Regulacion', $id_regulacion);
         $query = $this->db->get();
-        return $query->result_array();
+        return $query->row();
     }
 
     public function getNaturalezaRegulacionByRegulacion($id_regulacion) {

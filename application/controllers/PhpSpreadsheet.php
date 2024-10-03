@@ -19,7 +19,7 @@ class PhpSpreadsheet extends CI_Controller
     public function descargarRegulaciones()
     {
         // Obtener todas las regulaciones
-        $regulaciones = $this->RegulacionModel->get_all_regulaciones();
+        $regulaciones = $this->RegulacionModel->getRegulacionExcel();
 
         // Crear un nuevo Spreadsheet
         $spreadsheet = new Spreadsheet();
