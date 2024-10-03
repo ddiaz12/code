@@ -3,7 +3,7 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbaSujeto')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
 @include('templates/menuSujeto')
