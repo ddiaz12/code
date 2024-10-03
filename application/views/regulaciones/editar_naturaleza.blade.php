@@ -45,28 +45,28 @@ Registro Estatal de Regulaciones
                 <div class="card flex-grow-1">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
-                            <ul class="list-unstyled">
-                                <li>
+                            <ul class="list-unstyled lista-regulacion">
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-list-check"></i>
-                                        <label for="image_1">Características de la Regulación</label>
+                                        <i class="fa-solid fa-list-check fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_1">Características de la Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-table-list"></i>
-                                        <label for="image_2">Materias Exentas</label>
+                                        <i class="fa-solid fa-table-list fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
                                     </a>
                                 </li>
                                 <p></p>
-                                <li>
+                                <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
-                                        <i class="fa-solid fa-book"></i>
-                                        <label for="image_3">Naturaleza de la Regulación</label>
+                                        <i class="fa-solid fa-book fa-sm"></i>
+                                        <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
                                     </a>
                                 </li>
                             </ul>
@@ -198,48 +198,28 @@ Registro Estatal de Regulaciones
                                 required>
                         </div>
                         <div class="form-group">
-                            <label for="radioGroup">Tipo de documento:</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="documento" name="opcion2" value="documento">
-                                <label for="documento">Documento</label>
-                                <input type="radio" id="liga" name="opcion2" value="liga">
-                                <label for="liga">Liga de Documento</label>
+                                <label for="file">Subir Documento:</label>
+                                <input type="file" class="form-control-file" id="userfile" name="userfile">
+                                <br>
+                                <!-- Mostrar el nombre del archivo actual -->
+                                <?php if (!empty($natreg2->file_path)): ?>
+                                <small id="current_file" class="form-text text-muted">
+                                    Archivo actual: <?php    echo basename($natreg2->file_path); ?>
+                                </small>
+                                <br>
+                                <!-- Mostrar el archivo actual (puede ser una imagen o un PDF) -->
+                                <?php    if (preg_match('/\.(jpg|jpeg|png)$/i', $natreg2->file_path)): ?>
+                                <img src="<?php        echo base_url('assets/ftp/' . basename($natreg2->file_path)); ?>"
+                                    alt="Imagen actual" class="img-fluid">
+                                <?php    elseif (preg_match('/\.(pdf)$/i', $natreg2->file_path)): ?>
+                                <a href="<?php        echo base_url('assets/ftp/' . basename($natreg2->file_path)); ?>"
+                                    target="_blank">Ver documento PDF actual</a>
+                                <?php    endif; ?>  
+                                <?php endif; ?>
+
+                                <br>
+                                <small id="msg_file" class="text-danger"></small>
                             </div>
-                        </div>
-                        <div id="fileInput" class="form-group" style="display: none;">
-                            <label for="file">Subir Documento:</label>
-                            <input type="file" class="form-control-file" id="userfile" name="userfile">
-                            <br>
-                            <!-- Mostrar el nombre del archivo actual -->
-                            <?php if (!empty($natreg) && !empty($natreg[0]['file_path'])): ?>
-                            <small id="current_file" class="form-text text-muted">
-                                Archivo actual: <?php    echo basename($natreg[0]['file_path']); ?>
-                            </small>
-                            <br>
-                            <!-- Mostrar la imagen actual -->
-                            <img src="<?php    echo base_url('assets/ftp/' . basename($natreg[0]['file_path'])); ?>"
-                                alt="Imagen actual" class="img-fluid">
-                            <?php endif; ?>
-                            <br>
-                            <small id="msg_file" class="text-danger"></small>
-                        </div>
-                        <div id="urlInput" class="form-group" style="display: none;">
-                            <label for="url">URL del Documento:</label>
-                            <input type="text" class="form-control" id="url" name="url" placeholder="http://"
-                                value="<?php echo !empty($natreg) && !empty($natreg[0]['url']) ? $natreg[0]['url'] : ''; ?>">
-                            <?php if (!empty($natreg) && !empty($natreg[0]['url'])): ?>
-                            <small id="current_url" class="form-text text-muted">
-                                URL actual:
-                                <?php
-    $url = $natreg[0]['url'];
-    if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
-        $url = "http://" . $url;
-    }
-                                        ?>
-                                <a href="<?php    echo $url; ?>" target="_blank"><?php    echo $url; ?></a>
-                            </small>
-                            <?php endif; ?>
-                        </div>
 
 
                         <script>
