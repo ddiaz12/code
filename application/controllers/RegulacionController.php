@@ -689,7 +689,6 @@ class RegulacionController extends CI_Controller
                 $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
 
                 $data_rel_nat = array(
-                    'ID_relNaturaleza' => $new_id_rel_nat,
                     'ID_Regulacion' => $last_id_regulacion,
                     'ID_Nat' => $id_naturaleza,
                     'ID_sector' => null,
@@ -738,6 +737,7 @@ class RegulacionController extends CI_Controller
                     }
                 }
             }
+            
             $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
             $new_id_rel_nat = $max_id_rel_nat + 1;
             $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
@@ -750,7 +750,6 @@ class RegulacionController extends CI_Controller
                             foreach ($selectedSubramas as $subrama) {
                                 foreach ($selectedClases as $clase) {
                                     $data_rel_nat = array(
-                                        'ID_relNaturaleza' => $new_id_rel_nat,
                                         'ID_Regulacion' => $last_id_regulacion,
                                         'ID_Nat' => $id_naturaleza,
                                         'ID_sector' => $sector,
@@ -770,7 +769,6 @@ class RegulacionController extends CI_Controller
                 foreach ($selectedSectors as $sector) {
                     foreach ($selectedSubsectors as $subsector) {
                         $data_rel_nat = array(
-                            'ID_relNaturaleza' => $new_id_rel_nat,
                             'ID_Regulacion' => $last_id_regulacion,
                             'ID_Nat' => $id_naturaleza,
                             'ID_sector' => $sector,
@@ -925,7 +923,7 @@ class RegulacionController extends CI_Controller
                         // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
-                                'ID_Nat' => $new_id_nat,
+                                'ID_Nat' => $idNaturaleza,
                                 'ID_Regulacion' => $regulacionItem
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
@@ -942,9 +940,8 @@ class RegulacionController extends CI_Controller
 
                 // Guardar en la base de datos rel_nat_reg
                 $data_rel_nat = array(
-                    'ID_relNaturaleza' => $new_id_rel_nat,
                     'ID_Regulacion' => $id_regulacion,
-                    'ID_Nat' => $new_id_nat,
+                    'ID_Nat' => $idNaturaleza,
                     'ID_sector' => null,
                     'ID_subsector' => null,
                     'ID_rama' => null,
@@ -998,7 +995,7 @@ class RegulacionController extends CI_Controller
                         // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
-                                'ID_Nat' => $new_id_nat,
+                                'ID_Nat' => $idNaturaleza,
                                 'ID_Regulacion' => $regulacionItem
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
@@ -1022,9 +1019,8 @@ class RegulacionController extends CI_Controller
                             foreach ($selectedSubramas as $subrama) {
                                 foreach ($selectedClases as $clase) {
                                     $data_rel_nat = array(
-                                        'ID_relNaturaleza' => $new_id_rel_nat,
                                         'ID_Regulacion' => $id_regulacion,
-                                        'ID_Nat' => $new_id_nat,
+                                        'ID_Nat' => $idNaturaleza,
                                         'ID_sector' => $sector,
                                         'ID_subsector' => $subsector,
                                         'ID_rama' => $rama,
@@ -1042,9 +1038,8 @@ class RegulacionController extends CI_Controller
                 foreach ($selectedSectors as $sector) {
                     foreach ($selectedSubsectors as $subsector) {
                         $data_rel_nat = array(
-                            'ID_relNaturaleza' => $new_id_rel_nat,
                             'ID_Regulacion' => $id_regulacion,
-                            'ID_Nat' => $new_id_nat,
+                            'ID_Nat' => $idNaturaleza,
                             'ID_sector' => $sector,
                             'ID_subsector' => $subsector,
                             'ID_rama' => null,
