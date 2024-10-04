@@ -1071,16 +1071,26 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
         $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
         $idUser = $user->id;
+
         if ($regulacion) {
-            // Determinar el usuario destino en función del grupo del usuario actual
+            // Consultar si la regulación fue devuelta por consejería en la trazabilidad
+            $movimiento_consejeria = $this->RegulacionModel->buscarMovimientoDevolucionConsejeria($id_regulacion);
+
+            // Determinar el usuario destino en función del grupo del usuario actual y si fue devuelta por consejería
             if ($group->name === 'sujeto_obligado') {
-                $usuario_destino = 'sedeco,admin'; // Notificar a 'sedeco' y 'admin'
-                $Estatus = 1;
+                if ($movimiento_consejeria) {
+                    // Si la regulación fue devuelta por consejería, enviarla directamente a consejería
+                    $usuario_destino = 'consejeria';
+                    $Estatus = 2;
+                } else {
+                    // En el primer envío, notificar a sedeco y admin
+                    $usuario_destino = 'sedeco,admin';
+                    $Estatus = 1;
+                }
             } elseif (($group->name === 'sedeco') || ($group->name === 'admin')) {
                 $usuario_destino = 'consejeria'; // Notificar a 'consejeria'
                 $Estatus = 2;
             }
-
 
             // Enviar la regulación
             $this->RegulacionModel->enviar_regulacion($id_regulacion, $Estatus);
@@ -1139,11 +1149,21 @@ class RegulacionController extends CI_Controller
 
             $this->NotificacionesModel->crearNotificacion($data);
 
+            // Determinar la descripción del movimiento en función del grupo que devuelve la regulación
+            if (($group->name === 'sedeco') || ($group->name === 'admin')) {
+                $descripcion_movimiento = 'Regulación devuelta por sedeco';
+            } elseif ($group->name === 'consejeria') {
+                $descripcion_movimiento = 'Regulación devuelta por consejería';
+            } else {
+                $descripcion_movimiento = 'Regulación devuelta'; // En caso de que sea otro grupo
+            }
+
+
             // Registrar el movimiento en la trazabilidad
             $dataTrazabilidad = [
                 'ID_Regulacion' => $id_regulacion,
                 'fecha_movimiento' => date('Y-m-d H:i:s'),
-                'descripcion_movimiento' => 'Regulación devuelta',
+                'descripcion_movimiento' => $descripcion_movimiento,
                 'usuario_responsable' => $user->email,
                 'estatus_anterior' => 'Enviado',
                 'estatus_nuevo' => 'Devuelto'

@@ -251,6 +251,15 @@ class RegulacionModel extends CI_Model {
         $query = $this->db->get('ma_regulacion');
         return $query->result();
     }
+
+    public function buscarMovimientoDevolucionConsejeria($id_regulacion) {
+        $this->db->from('trazabilidad'); 
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        $this->db->where('descripcion_movimiento', 'Regulación devuelta por consejería');
+        $query = $this->db->get();
+    
+        return $query->row(); // Retorna el registro si existe
+    }
     
 
     public function enviar_regulacion($id_regulacion, $Estatus){

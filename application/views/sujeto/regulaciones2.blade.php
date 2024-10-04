@@ -147,7 +147,7 @@ Registro Estatal de Regulaciones
 
                 Swal.fire({
                     title: '¿Enviar regulación?',
-                    text: "Enviar regulacion a sedeco",
+                    text: "Enviar regulacion",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Sí, Enviar',
