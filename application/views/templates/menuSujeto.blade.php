@@ -20,8 +20,8 @@
                                 Enviadas</a></li>
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_publicadas'); ?>"><i class="fa-solid fa-bullhorn icon-published"></i>
                                 Publicadas</a></li>
-                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_modificadas'); ?>"><i class="fa-solid fa-edit icon-modified"></i>
-                                Modificadas</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_modificadas'); ?>"><i class="fa-solid fa-gavel icon-modified"></i>
+                        Abrogadas</a></li>
                     </ul>
                 </div>
                 <div class="dropdown">

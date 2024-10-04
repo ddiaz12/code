@@ -1358,6 +1358,27 @@ class RegulacionController extends CI_Controller
 
         // Verificar el resultado de la actualización
         if ($result) {
+            // Obtener la regulación actualizada
+            $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($formData['ID_Regulacion']);
+
+            // Verificar si la regulación está publicada y el usuario es de sujeto obligado
+            if ($regulacion && $regulacion->Estatus == 3 && $this->ion_auth->in_group('sujeto_obligado')) {
+                // Obtener el ID del usuario que creó la regulación
+                $idUsuarioCreador = $regulacion->id_usuario_creador;
+
+                // Crear la notificación para consejería
+                $notificacionData = [
+                    'titulo' => 'Regulación Editada',
+                    'mensaje' => 'La regulación publicada"' . $regulacion->Nombre_Regulacion . '" ha sido editada por el sujeto obligado.',
+                    'id_usuario' => null, // ID del usuario de consejería (puedes ajustar esto según tu lógica)
+                    'usuario_destino' => 'consejeria', // Grupo de consejería
+                    'id_regulacion' => $formData['ID_Regulacion'],
+                    'leido' => 0,
+                    'fecha_envio' => date('Y-m-d H:i:s')
+                ];
+                $this->NotificacionesModel->crearNotificacion($notificacionData);
+            }
+
             echo json_encode(array('status' => 'success'));
         } else {
             echo json_encode(array('status' => 'error', 'message' => 'Error al actualizar las características de la regulación'));

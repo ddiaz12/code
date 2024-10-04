@@ -86,6 +86,15 @@ class MenuModel extends CI_Model
         return $query->result();
     }
 
+    public function getRegulacionesAbrogadas(){
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+        ma_regulacion.Estatus, ma_regulacion.publicada');
+        $this->db->from('ma_regulacion');
+        $this->db->where('ma_regulacion.Estatus', 4);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function obtenerHorariosUnidad($id)
     {
         $this->db->select('de_horarios.*');
@@ -225,6 +234,18 @@ class MenuModel extends CI_Model
         // Datos a actualizar
         $data = array(
             'estatus' => 4
+        );
+    
+        // Actualizar la regulación en la base de datos
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('ma_regulacion', $data);
+    }
+
+    public function modificarRegulacionAbrogada($id_regulacion)
+    {
+        // Datos a actualizar
+        $data = array(
+            'estatus' => 3
         );
     
         // Actualizar la regulación en la base de datos

@@ -36,13 +36,25 @@ class Comentarios extends CI_Controller
             if ($regulacion && $regulacion->Estatus == 3 && $this->ion_auth->in_group('consejeria')) {
                 // Obtener el ID del usuario que creó la regulación
                 $idUsuarioCreador = $regulacion->id_usuario_creador;
-                print_r($regulacion->Nombre_Regulacion);
                 // Crear la notificación
                 $notificacionData = [
                     'titulo' => 'Nuevo Comentario en Regulación publicada',
                     'mensaje' => 'Nuevo comentario en la regulación: ' . $regulacion->Nombre_Regulacion,
                     'id_usuario' => $idUsuarioCreador,
                     'usuario_destino' => null,
+                    'id_regulacion' => $idRegulacion,
+                    'leido' => 0,
+                    'fecha_envio' => date('Y-m-d H:i:s')
+                ];
+                $this->NotificacionesModel->crearNotificacion($notificacionData);
+            }elseif($regulacion && $regulacion->Estatus == 3 && $this->ion_auth->in_group('sujeto_obligado')){
+
+                // Crear la notificación
+                $notificacionData = [
+                    'titulo' => 'Nuevo Comentario en Regulación publicada',
+                    'mensaje' => 'Nuevo comentario en la regulación: ' . $regulacion->Nombre_Regulacion,
+                    'id_usuario' => null,
+                    'usuario_destino' => 'consejeria',
                     'id_regulacion' => $idRegulacion,
                     'leido' => 0,
                     'fecha_envio' => date('Y-m-d H:i:s')

@@ -185,14 +185,15 @@ class Menu extends CI_Controller
         $groupName = $group->name;
         $userId = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        $data['modificadas'] = $this->MenuModel->getRegulacionesModificadas($userId);
+        $data['abrogadas'] = $this->MenuModel->getRegulacionesAbrogadas();
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['modificadas'] = $this->MenuModel->getRegulacionesModificadas($userId);
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
-            $this->blade->render('menuSujeto/modificadas', $data);
+            $this->blade->render('menuSujeto/abrogadas', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/modificadas', $data);
+            $this->blade->render('menuAdmin/abrogadas', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuConsejeria/modificadas', $data);
+            $this->blade->render('menuConsejeria/abrogadas', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');
@@ -203,9 +204,14 @@ class Menu extends CI_Controller
     public function modificarRegulacion()
     {
         $id_regulacion = $this->input->post('id');
+        $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
     
-        // Llamar al modelo para modificar la regulación
-        $result = $this->MenuModel->modificarRegulacion($id_regulacion);
+        if($regulacion && $regulacion->Estatus == 3){
+            $result = $this->MenuModel->modificarRegulacion($id_regulacion);
+        }else if($regulacion && $regulacion->Estatus == 4){
+            $result = $this->MenuModel->modificarRegulacionAbrogada($id_regulacion);
+        }
+        
     
         // Verificar el resultado y devolver una respuesta adecuada
         if ($result) {
@@ -214,6 +220,8 @@ class Menu extends CI_Controller
             echo json_encode(array('status' => 'error', 'message' => 'Error al modificar la regulación.'));
         }
     }
+
+
 
     public function agregar_unidades()
     {

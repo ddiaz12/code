@@ -48,6 +48,10 @@ Registro Estatal de Regulaciones
                                                 class="btn btn-danger btn-sm">
                                                 <i class="fas fa-eye" title="Ver regulacion"></i>
                                             </a>
+                                            <button class="btn btn-dorado btn-sm modificar-regulacion"
+                                                data-id="<?php                echo $publicada->ID_Regulacion; ?>">
+                                                <i class="fas fa-sync-alt" title="Modificar regulacion"></i>
+                                            </button>
                                             <button class="btn btn-tinto btn-sm btn-trazabilidad" title="Trazabilidad"
                                                 data-id="{{ $regulacion->ID_Regulacion }}" data-toggle="modal"
                                                 data-target="#trazabilidadModal">
@@ -86,6 +90,56 @@ Registro Estatal de Regulaciones
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
             }
+        });
+    });
+
+    $(document).ready(function () {
+        $('.modificar-regulacion').on('click', function () {
+            var regulacionId = $(this).data('id');
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Quieres cambiar el estatus de esta regulación a abrogada?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cambiarlo!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '<?php echo base_url('menu/modificarRegulacion'); ?>',
+                        type: 'POST',
+                        data: {
+                            id: regulacionId
+                        },
+                        success: function (response) {
+                            var result = JSON.parse(response);
+                            if (result.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Éxito',
+                                    text: 'Estatus de la regulación cambio a abrogada.',
+                                }).then(() => {
+                                    location.reload(); // Recargar la página para reflejar los cambios
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al cambiar el estatus de la regulación.',
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error en la solicitud AJAX.',
+                            });
+                        }
+                    });
+                }
+            });
         });
     });
 
