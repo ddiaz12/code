@@ -233,9 +233,9 @@ class RegulacionController extends CI_Controller
         // // Pasar el valor de Enlace_Oficial a la vista
         // $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
         //Obtener de_naturaleza_regulacion por ID_Regulacion
-        $data['natreg'] = $this->RegulacionModel->get_naturaleza_regulacion_by_regulacion($id_regulacion);
+        $data['natreg2'] = $this->RegulacionModel->get_naturaleza_regulacion_by_regulacion($id_regulacion);
         //Obtener de_naturaleza_regulacion por ID_Nat
-        $data['naturaleza'] = $this->RegulacionModel->getNaturalezaRegulacionByRegulacion($id_regulacion);
+        $data['natural'] = $this->RegulacionModel->getNaturalezaRegulacionByRegulacion($id_regulacion);
         $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_by_id($id_regulacion);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
@@ -312,7 +312,7 @@ class RegulacionController extends CI_Controller
         );
 
         // Insertar los datos
-       $id_regulacion = $this->RegulacionModel->insertRegulacion($data);
+        $id_regulacion = $this->RegulacionModel->insertRegulacion($data);
 
         // Registrar el movimiento en la trazabilidad
         $dataTrazabilidad = [
@@ -664,44 +664,44 @@ class RegulacionController extends CI_Controller
 
             // Insertar en la tabla de_naturaleza_regulacion
             $data = array(
-                'ID_Nat' => $new_id_nat,
                 'Enlace_Oficial' => $inputEnlace,
                 'Instrumento_normativo' => $iNormativo,
                 'file_path' => !empty($file_path) ? $file_path : null,
                 'url' => !empty($url) ? $url : null
             );
-            $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
+            $id_naturaleza = $this->RegulacionModel->insert_naturaleza_regulacion($data);
 
             // Guardar en la base de datos derivada_reg
             if (!empty($selectedRegulaciones)) {
                 foreach ($selectedRegulaciones as $regulacion) {
                     foreach ($regulacion as $regulacionItem) {
                         $data_derivada = array(
-                            'ID_Nat' => $new_id_nat,
+                            'ID_Nat' => $id_naturaleza,
                             'ID_Regulacion' => $regulacionItem
                         );
                         $this->RegulacionModel->insert_derivada_reg($data_derivada);
                     }
                 }
-
-                $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
-                $new_id_rel_nat = $max_id_rel_nat + 1;
-                $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
-
-                $data_rel_nat = array(
-                    'ID_relNaturaleza' => $new_id_rel_nat,
-                    'ID_Regulacion' => $last_id_regulacion,
-                    'ID_Nat' => $new_id_nat,
-                    'ID_sector' => null,
-                    'ID_subsector' => null,
-                    'ID_rama' => null,
-                    'ID_subrama' => null,
-                    'ID_clase' => null
-                );
-                $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-
-                echo json_encode(array('status' => 'success'));
             }
+
+            $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
+            $new_id_rel_nat = $max_id_rel_nat + 1;
+            $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
+
+            $data_rel_nat = array(
+                'ID_Regulacion' => $last_id_regulacion,
+                'ID_Nat' => $id_naturaleza,
+                'ID_sector' => null,
+                'ID_subsector' => null,
+                'ID_rama' => null,
+                'ID_subrama' => null,
+                'ID_clase' => null
+            );
+            $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+
+            echo json_encode(array('status' => 'success'));
+
 
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             // Verificación si el radio "sí" está seleccionado
@@ -719,25 +719,26 @@ class RegulacionController extends CI_Controller
             $new_id_nat = $max_id_nat + 1;
 
             $data = array(
-                'ID_Nat' => $new_id_nat,
                 'Enlace_Oficial' => $inputEnlace,
                 'Instrumento_normativo' => $iNormativo,
                 'file_path' => !empty($file_path) ? $file_path : null,
                 'url' => !empty($url) ? $url : null
             );
-            $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
+            $id_naturaleza = $this->RegulacionModel->insert_naturaleza_regulacion($data);
 
             if (!empty($selectedRegulaciones)) {
                 foreach ($selectedRegulaciones as $regulacion) {
                     foreach ($regulacion as $regulacionItem) {
                         $data_derivada = array(
-                            'ID_Nat' => $new_id_nat,
+                            'ID_Nat' => $id_naturaleza,
                             'ID_Regulacion' => $regulacionItem
                         );
                         $this->RegulacionModel->insert_derivada_reg($data_derivada);
                     }
                 }
             }
+
             $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
             $new_id_rel_nat = $max_id_rel_nat + 1;
             $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
@@ -750,9 +751,8 @@ class RegulacionController extends CI_Controller
                             foreach ($selectedSubramas as $subrama) {
                                 foreach ($selectedClases as $clase) {
                                     $data_rel_nat = array(
-                                        'ID_relNaturaleza' => $new_id_rel_nat,
                                         'ID_Regulacion' => $last_id_regulacion,
-                                        'ID_Nat' => $new_id_nat,
+                                        'ID_Nat' => $id_naturaleza,
                                         'ID_sector' => $sector,
                                         'ID_subsector' => $subsector,
                                         'ID_rama' => $rama,
@@ -770,9 +770,8 @@ class RegulacionController extends CI_Controller
                 foreach ($selectedSectors as $sector) {
                     foreach ($selectedSubsectors as $subsector) {
                         $data_rel_nat = array(
-                            'ID_relNaturaleza' => $new_id_rel_nat,
                             'ID_Regulacion' => $last_id_regulacion,
-                            'ID_Nat' => $new_id_nat,
+                            'ID_Nat' => $id_naturaleza,
                             'ID_sector' => $sector,
                             'ID_subsector' => $subsector,
                             'ID_rama' => null,
@@ -925,37 +924,36 @@ class RegulacionController extends CI_Controller
                         // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
-                                'ID_Nat' => $new_id_nat,
+                                'ID_Nat' => $idNaturaleza,
                                 'ID_Regulacion' => $regulacionItem
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
                         }
                     }
                 }
-
-                // Obtener el ID_relNaturaleza más grande y agregar uno más grande
-                $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
-                $new_id_rel_nat = $max_id_rel_nat + 1;
-
-                // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
-                $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
-
-                // Guardar en la base de datos rel_nat_reg
-                $data_rel_nat = array(
-                    'ID_relNaturaleza' => $new_id_rel_nat,
-                    'ID_Regulacion' => $id_regulacion,
-                    'ID_Nat' => $new_id_nat,
-                    'ID_sector' => null,
-                    'ID_subsector' => null,
-                    'ID_rama' => null,
-                    'ID_subrama' => null,
-                    'ID_clase' => null
-                );
-
-                $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-
-                echo json_encode(array('status' => 'success'));
             }
+            // Obtener el ID_relNaturaleza más grande y agregar uno más grande
+            $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
+            $new_id_rel_nat = $max_id_rel_nat + 1;
+
+            // Obtener el último ID_Regulacion ingresado en la tabla ma_regulacion
+            $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
+
+            // Guardar en la base de datos rel_nat_reg
+            $data_rel_nat = array(
+                'ID_Regulacion' => $id_regulacion,
+                'ID_Nat' => $idNaturaleza,
+                'ID_sector' => null,
+                'ID_subsector' => null,
+                'ID_rama' => null,
+                'ID_subrama' => null,
+                'ID_clase' => null
+            );
+
+            $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+
+            echo json_encode(array('status' => 'success'));
+
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             $inputEnlace = $this->input->post('inputEnlace');
             $url = $this->input->post('url');
@@ -998,7 +996,7 @@ class RegulacionController extends CI_Controller
                         // Si es un array, iterar sobre sus valores para realizar múltiples inserciones
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
-                                'ID_Nat' => $new_id_nat,
+                                'ID_Nat' => $idNaturaleza,
                                 'ID_Regulacion' => $regulacionItem
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
@@ -1022,9 +1020,8 @@ class RegulacionController extends CI_Controller
                             foreach ($selectedSubramas as $subrama) {
                                 foreach ($selectedClases as $clase) {
                                     $data_rel_nat = array(
-                                        'ID_relNaturaleza' => $new_id_rel_nat,
                                         'ID_Regulacion' => $id_regulacion,
-                                        'ID_Nat' => $new_id_nat,
+                                        'ID_Nat' => $idNaturaleza,
                                         'ID_sector' => $sector,
                                         'ID_subsector' => $subsector,
                                         'ID_rama' => $rama,
@@ -1042,9 +1039,8 @@ class RegulacionController extends CI_Controller
                 foreach ($selectedSectors as $sector) {
                     foreach ($selectedSubsectors as $subsector) {
                         $data_rel_nat = array(
-                            'ID_relNaturaleza' => $new_id_rel_nat,
                             'ID_Regulacion' => $id_regulacion,
-                            'ID_Nat' => $new_id_nat,
+                            'ID_Nat' => $idNaturaleza,
                             'ID_sector' => $sector,
                             'ID_subsector' => $subsector,
                             'ID_rama' => null,
