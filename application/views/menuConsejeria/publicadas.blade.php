@@ -50,7 +50,7 @@ Registro Estatal de Regulaciones
                                             </a>
                                             <button class="btn btn-dorado btn-sm modificar-regulacion"
                                                 data-id="<?php                echo $publicada->ID_Regulacion; ?>">
-                                                <i class="fas fa-sync-alt" title="Modificar regulacion"></i>
+                                                <i class="fas fa-sync-alt" title="Cambiar estatus"></i>
                                             </button>
                                             <button class="btn btn-tinto btn-sm btn-trazabilidad" title="Trazabilidad"
                                                 data-id="{{ $regulacion->ID_Regulacion }}" data-toggle="modal"
