@@ -251,47 +251,38 @@ Registro Estatal de Regulaciones
                         </table>
                         <script>
                         $(document).ready(function() {
-                            var lastInsertedID_Tramites =null; 
+                            var lastInsertedID_Tramites = null;
                             // Variable para almacenar el último ID_Tramites insertado
 
                             $('#guardarIbtn').on('click', function() {
                                 var inputTram = $('#inputTram').val();
-
-                                if (lastInsertedID_Tramites == null) {
-                                    // Si es la primera inserción, obtener los valores de la base de datos
-                                    $.ajax({
-                                        url: '<?= base_url('RegulacionController/getMaxValuesTram') ?>',
-                                        method: 'GET',
-                                        success: function(data) {
-                                            var maxValues = JSON.parse(
-                                                data);
-                                                if (lastInsertedID_Tramites == null) {}else{}
-                                            lastInsertedID_Tramites = 1;
-
-                                            var newRow = '<tr><td>' +
-                                                lastInsertedID_Tramites +
-                                                '</td><td>' +
-                                                inputTram +
-                                                '</td><td>' +
-                                            $('#tramitesTable tbody')
-                                                .append(newRow);
-                                        },
-                                        error: function(jqXHR, textStatus,
-                                            errorThrown) {
-                                            console.error('AJAX error:',
-                                                textStatus,
-                                                errorThrown);
-                                        }
-                                    });
-                                } else {
-                                    // Si no es la primera inserción, incrementar los últimos valores insertados
-                                    lastInsertedID_Tramites++;
-
-                                    var newRow = '<tr><td>' +
-                                        lastInsertedID_Tramites + '</td><td>' +
-                                        inputTram + '</td><td>';
-                                    $('#tramitesTable tbody').append(newRow);
+                                var inputDir = $('#inputDir').val();
+                                // Verificar que los campos no estén vacíos
+                                if (inputTram === '' || inputDir === '') {
+                                    alert('Por favor, complete todos los campos.');
+                                    return;
                                 }
+
+                                // Obtener la tabla y el número de filas actuales
+                                var table = $('#tramitesTable');
+                                var rowCount = table.find('tr').length;
+
+                                // Crear un nuevo ID_Tramites autoincrementable
+                                var newID = rowCount; // Asumiendo que la primera fila es el encabezado
+
+                                // Crear una nueva fila con los datos ingresados
+                                var newRow = '<tr>' +
+                                    '<td>' + newID + '</td>' +
+                                    '<td>' + inputTram + '</td>' +
+                                    '<td>' + inputDir + '</td>' +
+                                    '</tr>';
+
+                                // Agregar la nueva fila a la tabla
+                                table.append(newRow);
+
+                                // Limpiar los campos de entrada
+                                $('#inputTram').val('');
+                                $('#inputDir').val('');
                             });
                         });
                         </script>
