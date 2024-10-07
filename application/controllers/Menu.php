@@ -88,14 +88,14 @@ class Menu extends CI_Controller
 
     public function menu_guia()
     {
-        
+
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $notifications = $this->NotificacionesModel->getNotifications($groupName);
         $data['notificaciones'] = $notifications;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
-        
+
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/guia', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
@@ -110,7 +110,7 @@ class Menu extends CI_Controller
 
     public function menu_log()
     {
-        
+
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
@@ -154,7 +154,8 @@ class Menu extends CI_Controller
             redirect('auth/logout', 'refresh');
         }
     }
-    public function menu_publicadas(){
+    public function menu_publicadas()
+    {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
@@ -179,7 +180,8 @@ class Menu extends CI_Controller
         }
     }
 
-    public function menu_modificadas(){
+    public function menu_modificadas()
+    {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
@@ -205,14 +207,38 @@ class Menu extends CI_Controller
     {
         $id_regulacion = $this->input->post('id');
         $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
-    
-        if($regulacion && $regulacion->Estatus == 3){
+        // Obtener el usuario actual
+        $user = $this->ion_auth->user()->row();
+
+
+        if ($regulacion && $regulacion->Estatus == 3) {
             $result = $this->MenuModel->modificarRegulacion($id_regulacion);
-        }else if($regulacion && $regulacion->Estatus == 4){
+
+            // Registrar el movimiento en la trazabilidad
+            $dataTrazabilidad = [
+                'ID_Regulacion' => $id_regulacion,
+                'fecha_movimiento' => date('Y-m-d H:i:s'),
+                'descripcion_movimiento' => 'Regulación abrogada',
+                'usuario_responsable' => $user->email,
+                'estatus_anterior' => 'Publicado',
+                'estatus_nuevo' => 'Abrogada'
+            ];
+        } else if ($regulacion && $regulacion->Estatus == 4) {
             $result = $this->MenuModel->modificarRegulacionAbrogada($id_regulacion);
+
+            // Registrar el movimiento en la trazabilidad
+            $dataTrazabilidad = [
+                'ID_Regulacion' => $id_regulacion,
+                'fecha_movimiento' => date('Y-m-d H:i:s'),
+                'descripcion_movimiento' => 'Se le quito el estatus de abrogada a la regulacion',
+                'usuario_responsable' => $user->email,
+                'estatus_anterior' => 'Abrogada',
+                'estatus_nuevo' => 'Publicado'
+            ];
         }
-        
-    
+
+        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
+
         // Verificar el resultado y devolver una respuesta adecuada
         if ($result) {
             echo json_encode(array('status' => 'success', 'message' => 'Regulación modificada exitosamente.'));
