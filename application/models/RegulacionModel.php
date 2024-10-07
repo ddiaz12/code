@@ -281,19 +281,32 @@ class RegulacionModel extends CI_Model
         $query = $this->db->get('ma_regulacion');
         return $query->result();
     }
-
     public function getRegulacionExcel()
     {
         // Seleccionar los campos necesarios de las diferentes tablas
         $this->db->distinct();
-        $this->db->select('ma_regulacion.Nombre_Regulacion, ma_regulacion.Objetivo_Reg, de_regulacion_caracteristicas.Fecha_Publi,
-                           de_regulacion_caracteristicas.Fecha_Exp, ma_regulacion.Vigencia, cat_tipo_ord_jur.Tipo_Ordenamiento');
+        $this->db->select('ma_regulacion.Nombre_Regulacion, de_regulacion_caracteristicas.Ambito_Aplicacion, cat_tipo_ord_jur.Tipo_Ordenamiento,
+                           de_regulacion_caracteristicas.Fecha_Exp, ma_regulacion.Vigencia, de_regulacion_caracteristicas.Fecha_Publi,
+                           de_regulacion_caracteristicas.Fecha_vigor, de_regulacion_caracteristicas.Fecha_Act, de_regulacion_caracteristicas.Orden_Gob,
+                           GROUP_CONCAT(DISTINCT ma_regulacion_vinculada.Nombre_Regulacion) as Regulaciones_Vinculadas, de_naturaleza_regulacion.Enlace_Oficial,
+                           GROUP_CONCAT(DISTINCT cat_tipo_dependencia.Tipo_Dependencia) as Autoridades_Aplican');
 
         // Unir las tablas relacionadas
         $this->db->from('ma_regulacion');
         $this->db->join('rel_nat_reg', 'rel_nat_reg.ID_Regulacion = ma_regulacion.ID_Regulacion', 'left');
         $this->db->join('de_regulacion_caracteristicas', 'de_regulacion_caracteristicas.ID_Regulacion = ma_regulacion.ID_Regulacion', 'left');
         $this->db->join('cat_tipo_ord_jur', 'de_regulacion_caracteristicas.ID_tOrdJur = cat_tipo_ord_jur.ID_tOrdJur', 'left');
+        $this->db->join('de_naturaleza_regulacion', 'rel_nat_reg.ID_Nat = de_naturaleza_regulacion.ID_Nat', 'left');
+        $this->db->join('derivada_reg', 'derivada_reg.ID_Nat = de_naturaleza_regulacion.ID_Nat', 'left');
+        $this->db->join('ma_regulacion as ma_regulacion_vinculada', 'derivada_reg.ID_Regulacion = ma_regulacion_vinculada.ID_Regulacion', 'left');
+        $this->db->join('rel_autoridades_aplican', 'rel_autoridades_aplican.ID_caract = de_regulacion_caracteristicas.ID_caract', 'left');
+        $this->db->join('cat_tipo_dependencia', 'rel_autoridades_aplican.ID_Aplican = cat_tipo_dependencia.ID_Dependencia', 'left');
+
+        // Agrupar por los campos seleccionados
+        $this->db->group_by('ma_regulacion.ID_Regulacion, de_regulacion_caracteristicas.Ambito_Aplicacion, cat_tipo_ord_jur.Tipo_Ordenamiento,
+                             de_regulacion_caracteristicas.Fecha_Exp, ma_regulacion.Vigencia, de_regulacion_caracteristicas.Fecha_Publi,
+                             de_regulacion_caracteristicas.Fecha_vigor, de_regulacion_caracteristicas.Fecha_Act, de_regulacion_caracteristicas.Orden_Gob,
+                             de_naturaleza_regulacion.Enlace_Oficial');
 
         // Obtener los resultados
         $query = $this->db->get();

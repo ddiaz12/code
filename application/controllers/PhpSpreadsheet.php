@@ -35,9 +35,11 @@ class PhpSpreadsheet extends CI_Controller
             ->setCellValue('G1', 'Fecha de entrada en vigor')
             ->setCellValue('H1', 'Fecha de ultima actualizacion')
             ->setCellValue('I1', 'Orden de gobierno que la emite')
-            ->setCellValue('J1', 'Regulaciones vinculadas')
-            ->setCellValue('K1', 'Enlace oficial de la regulacion')
-            ->setCellValue('L1', 'Tramites y servicio');
+            ->setCellValue('J1', 'Dependencias que aplican la regulacion')
+            ->setCellValue('K1', 'Regulaciones vinculadas')
+            ->setCellValue('L1', 'Enlace oficial de la regulacion')
+            ->setCellValue('M1', 'Ultimo cambio en sistema')
+            ->setCellValue('N1', 'Ultima creacion en sistema');
 
         // Recorrer los datos de las regulaciones y agregarlos al Excel
         $row = 2; // Comienza en la fila 2 para los datos
@@ -51,9 +53,9 @@ class PhpSpreadsheet extends CI_Controller
                 ->setCellValue('G' . $row, $regulacion->Fecha_vigor)
                 ->setCellValue('H' . $row, $regulacion->Fecha_Act)
                 ->setCellValue('I' . $row, $regulacion->Orden_Gob)
-                ->setCellValue('J' . $row, $regulacion->Regulaciones_Vinculadas)
-                ->setCellValue('K' . $row, $regulacion->Enlace_Oficial)
-                ->setCellValue('L' . $row, $regulacion->Tramites_Servicio);
+                ->setCellValue('J' . $row, $regulacion->Autoridades_Aplican)
+                ->setCellValue('K' . $row, $regulacion->Regulaciones_Vinculadas)
+                ->setCellValue('L' . $row, $regulacion->Enlace_Oficial);
             $row++;
         }
 
@@ -70,10 +72,10 @@ class PhpSpreadsheet extends CI_Controller
         ];
 
         // Aplicar estilos solo a la fila de encabezados (A1:J1)
-        $sheet->getStyle('A1:F1')->applyFromArray($styleArray);
+        $sheet->getStyle('A1:L1')->applyFromArray($styleArray);
 
         // Ajustar ancho automático para las columnas
-        foreach (range('A', 'F') as $columnID) {
+        foreach (range('A', 'L') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
 
