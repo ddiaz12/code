@@ -230,8 +230,6 @@ a.cursor.denuncia-menu.nav-link {
 	margin-left: 77rem;
 }
 
-
-
 #btn-search:focus {
 	border-color: #b39362; /* Cambia esto a tu color de contorno preferido */
 }
@@ -239,8 +237,9 @@ a.cursor.denuncia-menu.nav-link {
 #advancedSearch {
 	background-color: transparent;
 	border: none;
-	color: #000000; 
+	color: #7f2841; 
 	padding: 0%;
+	margin-left: 5px;
 }
 
 #advancedSearchOptions {
@@ -294,10 +293,12 @@ footer .footer-backgroundcolor-pu {
 
 .footer-texto-pu {
 	padding-top: 5px;
+	font-size: small;
 }
 
 .footer-link-left {
 	padding-bottom: 20px;
+	font-size: small;
 }
 
 .footer-youtube {
@@ -382,6 +383,10 @@ footer .footer-icon-separador-pu {
 	color: #b69664;
 }
 
+.input-buscador{
+	border: 1px solid #666564;
+}
+
 #buscarBtn {
 	background-color: #7f2841;
 	color: white;
@@ -403,7 +408,7 @@ footer .footer-icon-separador-pu {
 
 .flecha:hover {
 	cursor: pointer;
-	color:#b69664;
+	color:#923244;
 	transform: translateY(-3px);
 }
 

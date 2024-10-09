@@ -17,7 +17,7 @@
                                 <!-- Formulario de agregar oficina -->
                                 <form class="row g-3 " action="<?php echo base_url('ofincinas/insertar'); ?>" method="post">
                                     <div class="form-group">
-                                        <label for="selectSujeto">Sujeto obligado<span
+                                        <label for="selectSujeto">Sujeto Obligado<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-control" id="selectSujeto" required>
                                             <option disabled>Selecciona una opción</option>

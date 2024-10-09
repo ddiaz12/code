@@ -31,7 +31,7 @@
                         <form class="row g-3" id="formUnidad">
                             <input type="hidden" name="id_unidad" value="{{ $unidades->ID_unidad }}">
                             <div class="form-group">
-                                <label for="selectSujeto">Sujeto obligado<span class="text-danger">*</span></label>
+                                <label for="selectSujeto">Sujeto Obligado<span class="text-danger">*</span></label>
                                 <select class="form-control" id="selectSujeto" name="sujeto" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($sujetos as $sujeto)

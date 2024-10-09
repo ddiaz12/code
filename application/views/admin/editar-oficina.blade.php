@@ -28,7 +28,7 @@ Registro Estatal de Regulaciones
                     <form class="row g-3" id="formOficina">
                         <input type="hidden" name="id_oficina" value="{{ $oficinas->ID_Oficina }}">
                         <div class="form-group">
-                            <label for="selectSujeto">Sujeto obligado<span class="text-danger">*</span></label>
+                            <label for="selectSujeto">Sujeto Obligado<span class="text-danger">*</span></label>
                             <select class="form-control" id="selectSujeto" name="sujeto" required>
                                 <option disabled selected>Selecciona una opción</option>
                                 @foreach ($sujetos as $sujeto)

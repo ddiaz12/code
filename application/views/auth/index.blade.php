@@ -36,7 +36,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                 <thead>
                     <tr>
                         <th class="tTabla-color">Nombre completo</th>
-                        <th class="tTabla-color">Sujeto obligado</th>
+                        <th class="tTabla-color">Sujeto Obligado</th>
                         <th class="tTabla-color">Unidad administrativa</th>
                         <th class="tTabla-color">Grupo</th>
                         <th class="tTabla-color">Estatus</th>

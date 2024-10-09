@@ -23,9 +23,9 @@ Registro Estatal de Regulaciones
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
-                            <div id="buscador" class="input-group mb-3" data-mdb-input-init>
+                            <div id="buscador" class="input-group mb-3 " data-mdb-input-init>
                                 <input type="search" id="nombreRegulacion"
-                                    placeholder="Ingrese el nombre de la regulación" class="form-control" required
+                                    placeholder="Ingrese busqueda" class="form-control input-buscador" required
                                     onkeydown="buscarConEnter(event)">
                                 <div class="input-group-append">
                                     <button type="button" id="btn-search" class="btn btn-primary">
