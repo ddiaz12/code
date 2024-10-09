@@ -372,7 +372,8 @@ footer .footer-icon-separador-pu {
 /* Estilos personalizados */
 #option1,
 #option2,
-#option3 {
+#option3,
+#option4 {
 	width: 100%;
 	padding: 0.5rem;
 	margin-bottom: 1rem;

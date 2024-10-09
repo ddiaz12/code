@@ -62,6 +62,20 @@ Registro Estatal de Regulaciones
                             <div class="form-group">
                                 <label for="option3">Dependencia</label>
                                 <select class="form-control" id="option3">
+                                    <option value="">Seleccione una dependencia</option>
+                                    <?php foreach ($dependencias as $dependencia): ?>
+                                    <option value="<?= htmlspecialchars($dependencia['Tipo_Dependencia']); ?>">
+                                        <?= htmlspecialchars($dependencia['Tipo_Dependencia']); ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 offset-md-4"> <!-- Añadimos "offset-md-4" para centrar la columna -->
+                            <div class="form-group">
+                                <label for="option4">Tipo de ordenamiento</label>
+                                <select class="form-control" id="option4">
+                                    <option value="">Seleccione un tipo de ordenamiento</option>
                                     <?php foreach ($tiposOrdenamiento as $tipo): ?>
                                     <option value="<?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>">
                                         <?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>
@@ -237,73 +251,75 @@ Registro Estatal de Regulaciones
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("buscarBtn").addEventListener("click", function () {
-            console.log(
-                "Botón buscar fue clickeado"
-            ); // Esto debería aparecer en la consola cuando hagas clic en el botón.
-            var desdeFecha = document.getElementById("option1").value;
-            var hastaFecha = document.getElementById("option2").value;
-            var dependencia = document.getElementById("option3").value;
-            var busqueda = {
-                desde: desdeFecha,
-                hasta: hastaFecha,
-                dependencia: dependencia
-            };
-            console.log(busqueda);
-            fetch('buscarRegulaciones', {
+    $(document).ready(function () {
+        $('#buscarBtn').on('click', function () {
+            // Capturar los valores de los campos
+            var desde = $('#option1').val();
+            var hasta = $('#option2').val();
+            var dependencia = $('#option3').val();
+            var tipoOrdenamiento = $('#option4').val();
+
+            // Enviar la petición AJAX al servidor
+            $.ajax({
+                url: 'ciudadania/realizarBusquedaAvanzada', // Cambia la URL al controlador adecuado
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+                data: {
+                    desde: desde,
+                    hasta: hasta,
+                    dependencia: dependencia,
+                    tipoOrdenamiento: tipoOrdenamiento
                 },
-                body: JSON.stringify(busqueda),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('La respuesta de la red no fue ok');
-                    }
-                    return response.json().catch(() => {
-                        throw new Error('La respuesta no es JSON válido');
-                    });
-                })
-                .then(data => {
+                success: function (data) {
                     // Limpia el contenedor antes de mostrar nuevos resultados
-                    document.getElementById('cardsReg').innerHTML = '';
-                    // Procesa y muestra los datos en cards
-                    data.forEach(function (regulacion) {
-                        var cardHtml = `
-                        <div class="col-md-4 mb-3">
-                                    <div class="card shadow-sm div-card h-100">
-                                        <div class="card-header py-2">
-                                            <h7 class="m-0 font-weight-bold text-cards card-title">
-                                                <?php    echo $regulacion->Nombre_Regulacion; ?>
-                                            </h7>
-                                        </div>
-                                        <div class="card-body d-flex flex-column">
-                                            <p class="card-text flex-grow-1"><?php echo $regulacion->Objetivo_Reg; ?></p>
-                                        </div>
-                                        <div class="card-footer text-center">
-                                            <a href="#" class="btn btn-secondary btn-sm">Ver Más</a>
-                                        </div>
+                    $('#cardsReg').empty();
+
+                    // Parsear la respuesta JSON
+                    var resultados = JSON.parse(data);
+
+                    // Verifica si resultados es un array
+                    if (Array.isArray(resultados)) {
+                        // Procesa y muestra los datos en cards
+                        resultados.forEach(function (regulacion) {
+                            var cardHtml = `
+                            <div class="col-md-4 mb-3">
+                                <div class="card shadow-sm div-card h-100">
+                                    <div class="card-header py-2">
+                                        <h7 class="m-0 font-weight-bold text-cards card-title">
+                                            ${regulacion.Nombre_Regulacion}
+                                        </h7>
                                     </div>
-                        </div>`;
-                        document.getElementById('cardsReg').innerHTML += cardHtml;
-                    });
-                    // Agrega el botón Regresar
-                    var regresarHtml =
-                        `<div class="mt-3 text-center"><button id="btnRegresar" class="btn btn-primary">Regresar</button></div>`;
-                    document.getElementById('cardsReg').innerHTML += regresarHtml;
-                    // Evento para el botón Regresar
-                    document.getElementById('btnRegresar').addEventListener('click', function () {
-                        window.location
-                            .reload(); // Otra opción es restaurar el contenido original si no quieres recargar.
-                    });
-                })
-                .catch((error) => {
-                    console.error('Error capturado:', error);
-                });
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="card-text flex-grow-1">${regulacion.Objetivo_Reg}</p>
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <a href="#" class="btn btn-secondary btn-sm">Ver Más</a>
+                                    </div>
+                                </div>
+                            </div>`;
+
+                            $('#cardsReg').append(cardHtml);
+                        });
+
+                        // Agrega el botón Regresar
+                        var regresarHtml = `<div class="mt-3 text-center"><button id="btnRegresar" class="btn btn-primary">Regresar</button></div>`;
+                        $('#cardsReg').append(regresarHtml);
+
+                        // Evento para el botón Regresar
+                        $('#btnRegresar').on('click', function () {
+                            window.location.reload(); // Otra opción es restaurar el contenido original si no quieres recargar.
+                        });
+                    } else {
+                        console.error('La respuesta no es un array:', resultados);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error en la búsqueda:', error);
+                }
+            });
         });
     });
+</script>
+
 </script>
 <script>
     function buscarConEnter(event) {

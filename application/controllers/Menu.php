@@ -665,7 +665,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputMateria',
             'Materia',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
+            'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ() ]*$/]',
             array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
         );
 
@@ -734,10 +734,10 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputSujetos',
             'Sujeto obligado',
-            'required|regex_match[/^[a-zA-Z() ]*$/]',
+            'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ() ]*$/]',
             array(
-                'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras'
+            'required' => 'El campo %s es obligatorio.',
+            'regex_match' => 'El campo %s solo puede contener letras'
             )
         );
         //$this->form_validation->set_rules('TipoSujeto', 'Tipo sujeto', 'required');
@@ -750,7 +750,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputMateria',
             'Materia',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
+            'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ() ]*$/]',
             array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
         );
 

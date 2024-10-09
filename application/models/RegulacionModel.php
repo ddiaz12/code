@@ -44,30 +44,52 @@ class RegulacionModel extends CI_Model
         return $query->result_array();
     }
 
+    public function getDependencias()
+    {
+        $query = $this->db->get('cat_tipo_dependencia');
+        return $query->result_array();
+    }
+
     public function getTiposOrdenamiento2()
     {
         $query = $this->db->get('cat_tipo_ord_jur');
         return $query->result();
     }
 
-    public function buscarRegulaciones($desdeFecha, $hastaFecha, $dependencia)
+    public function buscarRegulaciones($desdeFecha, $hastaFecha, $dependencia, $tipoOrdenamiento)
     {
-        if (!empty($desdeFecha) && !empty($hastaFecha) && !empty($dependencia)) {
-            $this->db->select('Nombre_Regulacion, Objetivo_Reg');
-            $this->db->from('ma_regulacion');
-            $this->db->join('de_regulacion_caracteristicas', 'ma_regulacion.ID_Regulacion = de_regulacion_caracteristicas.ID_Regulacion', 'inner');
-            $this->db->join('cat_tipo_ord_jur', 'de_regulacion_caracteristicas.ID_tOrdJur = cat_tipo_ord_jur.ID_tOrdJur', 'inner');
+        // Construir la consulta SQL según los filtros
+        $this->db->select('ma_regulacion.Nombre_Regulacion, ma_regulacion.Objetivo_Reg');
+        $this->db->from('ma_regulacion');
+        $this->db->join('de_regulacion_caracteristicas', 'ma_regulacion.ID_Regulacion = de_regulacion_caracteristicas.ID_Regulacion', 'inner');
+        $this->db->join('cat_tipo_ord_jur', 'de_regulacion_caracteristicas.ID_tOrdJur = cat_tipo_ord_jur.ID_tOrdJur', 'inner');
+        $this->db->join('rel_autoridades_aplican', 'de_regulacion_caracteristicas.ID_caract = rel_autoridades_aplican.ID_caract', 'inner');
+        $this->db->join('cat_tipo_dependencia', 'rel_autoridades_aplican.ID_Aplican = cat_tipo_dependencia.ID_Dependencia', 'inner');
+        $this->db->where('ma_regulacion.publicada', 1);
+        
+        // Filtrar por fecha de expedición si se proporcionan las fechas
+        if (!empty($desdeFecha)) {
             $this->db->where('de_regulacion_caracteristicas.Fecha_Exp >=', $desdeFecha);
-            $this->db->where('de_regulacion_caracteristicas.Vigencia <=', $hastaFecha);
-            $this->db->where('cat_tipo_ord_jur.Tipo_Ordenamiento', $dependencia);
-
-            $query = $this->db->get();
-            return $query->result_array();
-        } else {
-            // Considera retornar un valor o manejar el caso donde no todos los parámetros son proporcionados
-            return []; // Retorna un arreglo vacío como ejemplo
         }
+        if (!empty($hastaFecha)) {
+            $this->db->where('de_regulacion_caracteristicas.Fecha_Exp <=', $hastaFecha);
+        }
+
+        // Filtrar por dependencia si se proporciona
+        if (!empty($dependencia)) {
+            $this->db->where('cat_tipo_dependencia.Tipo_Dependencia', $dependencia);
+        }
+
+        // Filtrar por tipo de ordenamiento si se proporciona
+        if (!empty($tipoOrdenamiento)) {
+            $this->db->where('cat_tipo_ord_jur.Tipo_Ordenamiento', $tipoOrdenamiento);
+        }
+
+        // Ejecutar la consulta
+        $query = $this->db->get();
+        return $query->result_array();
     }
+
 
     public function insertar_caractRegulacion($data)
     {
