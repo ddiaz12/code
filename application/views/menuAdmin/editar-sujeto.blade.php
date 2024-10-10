@@ -70,11 +70,19 @@
                                     <small id="msg_inputSiglas" class="text-danger"></small>
                                 </div>
                             </div>
+                            <!--Select de materias-->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputMateria">Materia<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="inputMateria" name="inputMateria"
-                                        value="{{ $sujeto->materia }}" required>
+                                    <select class="form-control" id="inputMateria" name="inputMateria" required>
+                                        <option disabled selected>Selecciona una opción</option>
+                                        @foreach ($materias as $materia)
+                                            <option value="{{ $materia->id_materia }}"
+                                                {{ $materia->id_materia == $sujeto->id_materia ? 'selected' : '' }}>
+                                                {{ $materia->nombre_materia }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     <small id="msg_inputMateria" class="text-danger"></small>
                                 </div>
                             </div>

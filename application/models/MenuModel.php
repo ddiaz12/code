@@ -11,18 +11,20 @@ class MenuModel extends CI_Model
 
     public function getSujetosObligados()
     {
-        //$this->db->select('cat_sujeto_obligado.*');
-        //$this->db->from('cat_sujeto_obligado');
+        $this->db->select('cat_sujeto_obligado.*, cat_materia_sujeto.nombre_materia');
+        $this->db->from('cat_sujeto_obligado');
+        $this->db->join('cat_materia_sujeto', 'cat_sujeto_obligado.id_materia = cat_materia_sujeto.id_materia');
         $this->db->where('cat_sujeto_obligado.nombre_sujeto !=', 'No especificado');
         $this->db->where('cat_sujeto_obligado.status !=', 0);
-        $query = $this->db->get('cat_sujeto_obligado');
+        $query = $this->db->get();
         return $query->result();
     }
 
     public function getSujeto($id)
     {
-        $this->db->select('cat_sujeto_obligado.*');
+        $this->db->select('cat_sujeto_obligado.*, cat_materia_sujeto.nombre_materia');
         $this->db->from('cat_sujeto_obligado');
+        $this->db->join('cat_materia_sujeto', 'cat_sujeto_obligado.id_materia = cat_materia_sujeto.id_materia');
         $this->db->where('cat_sujeto_obligado.ID_sujeto', $id);
         $query = $this->db->get();
         return $query->row();
@@ -58,6 +60,11 @@ class MenuModel extends CI_Model
     public function getCatAsentamientos()
     {
         $query = $this->db->get('cat_nombre_asentamiento');
+        return $query->result();
+    }
+    public function getCatMaterias()
+    {
+        $query = $this->db->get('cat_materia_sujeto');
         return $query->result();
     }
 

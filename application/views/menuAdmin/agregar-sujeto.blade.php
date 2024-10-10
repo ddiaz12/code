@@ -67,19 +67,25 @@ Registro Estatal de Regulaciones
                                 <small id="msg_inputSiglas" class="text-danger"></small>
                             </div>
                         </div>
+                        <!--Select de materias-->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputMateria">Materia<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="inputMateria" name="inputMateria" required>
+                                <select class="form-control" id="inputMateria" name="inputMateria" required>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    @foreach ($materias as $materia)
+                                        <option value="{{ $materia->id_materia }}">{{ $materia->nombre_materia }}</option>
+                                    @endforeach
+                                </select>
                                 <small id="msg_inputMateria" class="text-danger"></small>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end mb-3">
-                            <button type="button" class="btn btn-secondary me-2"
-                                onclick="confirmarCancelar()">Cancelar</button>
-                            <button type="button" onclick="enviarFormulario();"
-                                class="btn btn-guardar btn-rounded">Guardar</button>
-                        </div>
+                            <div class="d-flex justify-content-end mb-3">
+                                <button type="button" class="btn btn-secondary me-2"
+                                    onclick="confirmarCancelar()">Cancelar</button>
+                                <button type="button" onclick="enviarFormulario();"
+                                    class="btn btn-guardar btn-rounded">Guardar</button>
+                            </div>
                     </form>
                 </div>
             </div>

@@ -630,6 +630,7 @@ class Menu extends CI_Controller
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $id = $user->id;
+        $data['materias'] = $this->MenuModel->getCatMaterias();
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($id);
@@ -665,8 +666,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputMateria',
             'Materia',
-            'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ() ]*$/]',
-            array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
+            'required',
         );
 
 
@@ -682,7 +682,7 @@ class Menu extends CI_Controller
                 'nombre_sujeto' => $sujeto,
                 'estado' => $estado,
                 'siglas' => $siglas,
-                'materia' => $materia,
+                'id_materia' => $materia,
                 'status' => 1
             );
 
@@ -709,6 +709,7 @@ class Menu extends CI_Controller
         $groupName = $group->name;
         $iduser = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+        $data['materias'] = $this->MenuModel->getCatMaterias();
         $data['sujeto'] = $this->MenuModel->getSujeto($id);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
@@ -750,8 +751,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputMateria',
             'Materia',
-            'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ() ]*$/]',
-            array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
+            'required'
         );
 
         if ($this->form_validation->run() != FALSE) {
@@ -766,7 +766,7 @@ class Menu extends CI_Controller
                 'nombre_sujeto' => $sujeto,
                 'estado' => $estado,
                 'siglas' => $siglas,
-                'materia' => $materia
+                'id_materia' => $materia
             );
 
             $this->MenuModel->actualizar_sujeto($id_sujeto, $data);
