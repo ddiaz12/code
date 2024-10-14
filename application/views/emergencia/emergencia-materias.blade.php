@@ -13,10 +13,10 @@ Registro Estatal de Regulaciones
 <ol class="breadcrumb mb-4 mt-5">
     <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
     </li>
-    <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
-                class="fas fa-file-alt me-1"></i>Regulaciones</a>
+    <li class="breadcrumb-item"><a href="<?php echo base_url('emergency'); ?>"><i
+                class="fas fa-file-alt me-1"></i>Emergencia</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar Regulacion de Emergencia
     </li>
 </ol>
 <div class="container mt-5">
@@ -47,7 +47,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_caract'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
@@ -56,7 +56,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_materias'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
                                         <label class="menu-regulacion" for="image_2">Materias Exentas</label>
@@ -64,7 +64,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_nat_reg'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
@@ -259,7 +259,7 @@ Registro Estatal de Regulaciones
 
                 // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
                 $.ajax({
-                    url: '<?php echo base_url('RegulacionController/obtenerMateriasYUltimoIDRegulacion'); ?>',
+                    url: '<?php echo base_url('emergency/obtenerMateriasYUltimoIDRegulacion'); ?>',
                     type: 'POST',
                     data: {
                         labels: selectedLabels
@@ -276,7 +276,7 @@ Registro Estatal de Regulaciones
 
                             // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
                             $.ajax({
-                                url: '<?php echo base_url('RegulacionController/insertarRelRegulacionesMaterias'); ?>',
+                                url: '<?php echo base_url('emergency/insertarRelRegulacionesMaterias'); ?>',
                                 type: 'POST',
                                 data: {
                                     idMaterias: idMaterias,
@@ -289,7 +289,7 @@ Registro Estatal de Regulaciones
                                             'Datos insertados correctamente en rel_regulaciones_materias'
                                         );
                                         // Redirigir al usuario al enlace especificado
-                                        window.location.href = '<?php echo base_url('RegulacionController/nat_regulaciones'); ?>';
+                                        window.location.href = '<?php echo base_url('emergency/emergencia_nat_reg'); ?>';
 
                                     } else {
                                         console.error('Error al insertar datos:',
@@ -311,7 +311,7 @@ Registro Estatal de Regulaciones
                 });
             }else{
                 // Redirigir al usuario al enlace especificado
-                window.location.href = '<?php echo base_url('RegulacionController/nat_regulaciones'); ?>';
+                window.location.href = '<?php echo base_url('emergency/emergencia_nat_reg'); ?>';
             }
         });
     });

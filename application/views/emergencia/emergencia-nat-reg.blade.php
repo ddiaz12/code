@@ -13,10 +13,10 @@ Registro Estatal de Regulaciones
 <ol class="breadcrumb mb-4 mt-5">
     <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
     </li>
-    <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
-                class="fas fa-file-alt me-1"></i>Regulaciones</a>
+    <li class="breadcrumb-item"><a href="<?php echo base_url('emergency'); ?>"><i
+                class="fas fa-file-alt me-1"></i>Emergencia</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar Regulacion de Emergencia
     </li>
 </ol>
 <div class="container mt-5">
@@ -47,7 +47,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_caract'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
@@ -56,7 +56,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_materias'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
                                         <label class="menu-regulacion" for="image_2">Materias Exentas</label>
@@ -64,7 +64,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_nat_reg'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
@@ -413,7 +413,7 @@ $(document).ready(function() {
     $('#SectorInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_sector') ?>',
+            url: '<?= base_url('emergency/search_sector') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -477,7 +477,7 @@ $(document).ready(function() {
     $('#SubsectorInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_subsector') ?>',
+            url: '<?= base_url('emergency/search_subsector') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -543,7 +543,7 @@ $(document).ready(function() {
     $('#RamaInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_rama') ?>',
+            url: '<?= base_url('emergency/search_rama') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -607,7 +607,7 @@ $(document).ready(function() {
     $('#SubramaInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_subrama') ?>',
+            url: '<?= base_url('emergency/search_subrama') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -672,7 +672,7 @@ $(document).ready(function() {
     $('#ClaseInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_clase') ?>',
+            url: '<?= base_url('emergency/search_clase') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -737,7 +737,7 @@ $(document).ready(function() {
     $('#inputVinculadas').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_regulacion') ?>',
+            url: '<?= base_url('emergency/search_regulacion') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -823,7 +823,7 @@ $(document).ready(function() {
                 */
 
             $.ajax({
-                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
+                url: '<?= base_url('emergency/save_naturaleza_regulacion') ?>',
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -839,7 +839,7 @@ $(document).ready(function() {
                             text: 'Datos guardados exitosamente',
                         }).then(() => {
                             window.location.href =
-                                '<?= base_url('RegulacionController') ?>';
+                                '<?= base_url('emergency') ?>';
                         });
                     } else {
                         Swal.fire({
@@ -849,7 +849,7 @@ $(document).ready(function() {
                                 .message,
                         }).then(() => {
                             window.location.href =
-                                '<?= base_url('RegulacionController') ?>';
+                                '<?= base_url('emergency') ?>';
                         });
                     }
                 },

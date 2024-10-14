@@ -25,22 +25,22 @@ Registro Estatal de Regulaciones
             <div class="col-md-3 p-0 d-flex flex-column">
                 <!-- New card -->
                 <style>
-                    .custom-link {
-                        color: black;
-                        cursor: pointer !important;
-                        font-size: 19px;
-                        /* Adjust as needed */
-                    }
+                .custom-link {
+                    color: black;
+                    cursor: pointer !important;
+                    font-size: 19px;
+                    /* Adjust as needed */
+                }
 
-                    .custom-link:hover {
-                        color: gray;
-                        text-decoration: none;
-                    }
+                .custom-link:hover {
+                    color: gray;
+                    text-decoration: none;
+                }
 
-                    .custom-link i {
-                        font-size: 24px;
-                        /* Adjust as needed */
-                    }
+                .custom-link i {
+                    font-size: 24px;
+                    /* Adjust as needed */
+                }
                 </style>
                 <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
@@ -130,18 +130,24 @@ Registro Estatal de Regulaciones
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="Fecha_Vigor">Fecha de entrada en vigor<span class="text-danger">*</span></label>
+                                    <label for="Fecha_Vigor">Fecha de entrada en vigor<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Vigor" name="fecha_vigor"
                                         value="<?php echo isset($caracteristicas['Fecha_Vigor']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Vigor'])) : ''; ?>"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="Fecha_Act">Fecha de última actualización<span
-                                            class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act"
-                                        value="<?php echo isset($caracteristicas['Fecha_Act']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Act'])) : ''; ?>"
-                                        required>
+                                    <label for="Fecha_Act">Fecha de última actualización</label>
+                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required
+                                        readonly>
                                 </div>
+                                <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    var Fecha_Act = document.getElementById('Fecha_Act');
+                                    var today = new Date().toISOString().split('T')[0];
+                                    Fecha_Act.value = today;
+                                });
+                                </script>
 
                                 <form>
                                     <div class="d-flex justify-content-between mb-3">
@@ -353,238 +359,238 @@ Registro Estatal de Regulaciones
                                     </thead>
                                     <tbody>
                                         <script>
-                                            $(document).ready(function () {
-                                                // Obtener los datos del formulario
-                                                var formData = {
-                                                    ID_caract: <?= json_encode($caracteristicas['ID_caract']) ?>,
-                                                };
+                                        $(document).ready(function() {
+                                            // Obtener los datos del formulario
+                                            var formData = {
+                                                ID_caract: <?= json_encode($caracteristicas['ID_caract']) ?>,
+                                            };
 
-                                                // Función para obtener los índices y actualizar la tabla
-                                                function obtenerIndicesYActualizarTabla() {
-                                                    $.ajax({
-                                                        url: '<?= base_url("RegulacionController/get_indices_by_caract_ajax") ?>',
-                                                        type: 'POST',
-                                                        data: {
-                                                            ID_caract: formData.ID_caract
-                                                        },
-                                                        dataType: 'json',
-                                                        success: function (response) {
-                                                            var tbody = $('#resultTable tbody');
-                                                            tbody
-                                                                .empty(); // Limpiar el contenido existente
+                                            // Función para obtener los índices y actualizar la tabla
+                                            function obtenerIndicesYActualizarTabla() {
+                                                $.ajax({
+                                                    url: '<?= base_url("RegulacionController/get_indices_by_caract_ajax") ?>',
+                                                    type: 'POST',
+                                                    data: {
+                                                        ID_caract: formData.ID_caract
+                                                    },
+                                                    dataType: 'json',
+                                                    success: function(response) {
+                                                        var tbody = $('#resultTable tbody');
+                                                        tbody
+                                                            .empty(); // Limpiar el contenido existente
 
-                                                            if (response.length > 0) {
-                                                                response.forEach(function (row) {
-                                                                    var tr = $('<tr>');
-                                                                    tr.append($('<td>').text(row
-                                                                        .ID_Indice));
-                                                                    tr.append($('<td>').text(row
-                                                                        .Texto));
-                                                                    tr.append($('<td>').text(row
-                                                                        .Orden));
-                                                                    tr.append($('<td><button class="btn btn-danger btn-sm delete-row">' +
-                                                                        '<i class="fas fa-trash-alt"></i></button>'
-                                                                    ).text(row
-                                                                        .Accion));
+                                                        if (response.length > 0) {
+                                                            response.forEach(function(row) {
+                                                                var tr = $('<tr>');
+                                                                tr.append($('<td>').text(row
+                                                                    .ID_Indice));
+                                                                tr.append($('<td>').text(row
+                                                                    .Texto));
+                                                                tr.append($('<td>').text(row
+                                                                    .Orden));
+                                                                tr.append($('<td><button class="btn btn-danger btn-sm delete-row">' +
+                                                                    '<i class="fas fa-trash-alt"></i></button>'
+                                                                ).text(row
+                                                                    .Accion));
 
-                                                                    tbody.append(tr);
-                                                                });
-                                                            } else { }
-                                                        },
-                                                        error: function () {
-                                                            alert('Error al obtener los índices.');
-                                                        }
-                                                    });
-                                                }
+                                                                tbody.append(tr);
+                                                            });
+                                                        } else {}
+                                                    },
+                                                    error: function() {
+                                                        alert('Error al obtener los índices.');
+                                                    }
+                                                });
+                                            }
 
-                                                // Llamar a la función para obtener los índices y actualizar la tabla
-                                                obtenerIndicesYActualizarTabla();
-                                            });
+                                            // Llamar a la función para obtener los índices y actualizar la tabla
+                                            obtenerIndicesYActualizarTabla();
+                                        });
                                         </script>
                                     </tbody>
                                 </table>
 
                                 <script>
-                                    $(document).ready(function () {
-                                        // Array para almacenar los índices
-                                        var indicesArray = <?= json_encode($indice) ?>;
+                                $(document).ready(function() {
+                                    // Array para almacenar los índices
+                                    var indicesArray = <?= json_encode($indice) ?>;
 
-                                        // Asegurarse de que indicesArray es un array
-                                        if (!Array.isArray(indicesArray)) {
-                                            indicesArray = [];
-                                        }
+                                    // Asegurarse de que indicesArray es un array
+                                    if (!Array.isArray(indicesArray)) {
+                                        indicesArray = [];
+                                    }
 
-                                        // Manejar el evento de clic en el botón de eliminar
-                                        $('#resultTable').on('click', '.delete-row', function () {
-                                            var row = $(this).closest('tr');
-                                            var ID_Indice = row.find('td').eq(0).text()
-                                                .trim(); // Ajusta el índice según la posición de ID_Indice en la fila
-                                            var ID_caract =
-                                                <?= json_encode($caracteristicas['ID_caract']) ?>;
+                                    // Manejar el evento de clic en el botón de eliminar
+                                    $('#resultTable').on('click', '.delete-row', function() {
+                                        var row = $(this).closest('tr');
+                                        var ID_Indice = row.find('td').eq(0).text()
+                                            .trim(); // Ajusta el índice según la posición de ID_Indice en la fila
+                                        var ID_caract =
+                                            <?= json_encode($caracteristicas['ID_caract']) ?>;
 
-                                            console.log('ID del índice a eliminar:', ID_Indice);
-                                            console.log('ID de la característica:', ID_caract);
-                                            console.log('Array antes de eliminar:', indicesArray);
+                                        console.log('ID del índice a eliminar:', ID_Indice);
+                                        console.log('ID de la característica:', ID_caract);
+                                        console.log('Array antes de eliminar:', indicesArray);
 
-                                            // Confirmar la eliminación
-                                            if (confirm(
+                                        // Confirmar la eliminación
+                                        if (confirm(
                                                 '¿Estás seguro de que deseas eliminar este registro?'
                                             )) {
-                                                // Buscar el valor de ID_Indice en la tabla rel_indice
-                                                $.ajax({
-                                                    url: '<?= base_url("RegulacionController/buscarIndiceEnRelIndice") ?>',
-                                                    type: 'POST',
-                                                    data: {
-                                                        ID_Indice: ID_Indice
-                                                    },
-                                                    dataType: 'json',
-                                                    success: function (response) {
-                                                        console.log(
-                                                            'Resultados de la búsqueda en rel_indice:',
-                                                            response);
+                                            // Buscar el valor de ID_Indice en la tabla rel_indice
+                                            $.ajax({
+                                                url: '<?= base_url("RegulacionController/buscarIndiceEnRelIndice") ?>',
+                                                type: 'POST',
+                                                data: {
+                                                    ID_Indice: ID_Indice
+                                                },
+                                                dataType: 'json',
+                                                success: function(response) {
+                                                    console.log(
+                                                        'Resultados de la búsqueda en rel_indice:',
+                                                        response);
 
-                                                        // Si hay resultados, eliminar los registros en rel_indice
-                                                        if (response.length > 0) {
-                                                            $.ajax({
-                                                                url: '<?= base_url("RegulacionController/eliminarEnRelIndice") ?>',
-                                                                type: 'POST',
-                                                                data: {
-                                                                    ID_Indice: ID_Indice
-                                                                },
-                                                                success: function (
+                                                    // Si hay resultados, eliminar los registros en rel_indice
+                                                    if (response.length > 0) {
+                                                        $.ajax({
+                                                            url: '<?= base_url("RegulacionController/eliminarEnRelIndice") ?>',
+                                                            type: 'POST',
+                                                            data: {
+                                                                ID_Indice: ID_Indice
+                                                            },
+                                                            success: function(
+                                                                deleteResponse
+                                                            ) {
+                                                                console.log(
+                                                                    'Registros eliminados en rel_indice:',
                                                                     deleteResponse
-                                                                ) {
-                                                                    console.log(
-                                                                        'Registros eliminados en rel_indice:',
-                                                                        deleteResponse
-                                                                    );
+                                                                );
 
-                                                                    // Eliminar la fila de la tabla
-                                                                    row.remove();
+                                                                // Eliminar la fila de la tabla
+                                                                row.remove();
 
-                                                                    // Eliminar el registro del array
-                                                                    indicesArray =
-                                                                        indicesArray
-                                                                            .filter(
-                                                                                function (
-                                                                                    item
-                                                                                ) {
-                                                                                    return item
-                                                                                        .ID_Indice !==
-                                                                                        ID_Indice;
-                                                                                });
-
-                                                                    console.log(
-                                                                        'Registro eliminado. Array actualizado:',
-                                                                        indicesArray
-                                                                    );
-
-                                                                    // Enviar la solicitud AJAX para eliminar el registro de la base de datos
-                                                                    $.ajax({
-                                                                        url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
-                                                                        type: 'POST',
-                                                                        data: {
-                                                                            ID_caract: ID_caract,
-                                                                            ID_Indice: ID_Indice
-                                                                        },
-                                                                        success: function (
-                                                                            response
+                                                                // Eliminar el registro del array
+                                                                indicesArray =
+                                                                    indicesArray
+                                                                    .filter(
+                                                                        function(
+                                                                            item
                                                                         ) {
-                                                                            var result =
-                                                                                JSON
-                                                                                    .parse(
-                                                                                        response
-                                                                                    );
-                                                                            if (result
-                                                                                .status ===
-                                                                                'success'
-                                                                            ) {
-                                                                                alert
-                                                                                    (
-                                                                                        'Registro eliminado exitosamente de la base de datos.'
-                                                                                    );
-                                                                            } else {
-                                                                                alert
-                                                                                    ('Error al eliminar el registro de la base de datos: ' +
-                                                                                        result
-                                                                                            .message
-                                                                                    );
-                                                                            }
-                                                                        },
-                                                                        error: function () {
+                                                                            return item
+                                                                                .ID_Indice !==
+                                                                                ID_Indice;
+                                                                        });
+
+                                                                console.log(
+                                                                    'Registro eliminado. Array actualizado:',
+                                                                    indicesArray
+                                                                );
+
+                                                                // Enviar la solicitud AJAX para eliminar el registro de la base de datos
+                                                                $.ajax({
+                                                                    url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
+                                                                    type: 'POST',
+                                                                    data: {
+                                                                        ID_caract: ID_caract,
+                                                                        ID_Indice: ID_Indice
+                                                                    },
+                                                                    success: function(
+                                                                        response
+                                                                    ) {
+                                                                        var result =
+                                                                            JSON
+                                                                            .parse(
+                                                                                response
+                                                                            );
+                                                                        if (result
+                                                                            .status ===
+                                                                            'success'
+                                                                        ) {
                                                                             alert
                                                                                 (
-                                                                                    'Error en la solicitud AJAX para eliminar el registro de la base de datos.'
+                                                                                    'Registro eliminado exitosamente de la base de datos.'
+                                                                                );
+                                                                        } else {
+                                                                            alert
+                                                                                ('Error al eliminar el registro de la base de datos: ' +
+                                                                                    result
+                                                                                    .message
                                                                                 );
                                                                         }
-                                                                    });
-                                                                },
-                                                                error: function () {
-                                                                    alert(
-                                                                        'Error en la solicitud AJAX para eliminar registros en rel_indice.'
-                                                                    );
-                                                                }
-                                                            });
-                                                        } else {
-                                                            // Si no hay resultados en rel_indice, proceder con la eliminación normal
-                                                            row.remove();
-
-                                                            // Eliminar el registro del array
-                                                            indicesArray = indicesArray.filter(
-                                                                function (item) {
-                                                                    return item
-                                                                        .ID_Indice !==
-                                                                        ID_Indice;
-                                                                });
-
-                                                            console.log(
-                                                                'Registro eliminado. Array actualizado:',
-                                                                indicesArray);
-
-                                                            // Enviar la solicitud AJAX para eliminar el registro de la base de datos
-                                                            $.ajax({
-                                                                url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
-                                                                type: 'POST',
-                                                                data: {
-                                                                    ID_caract: ID_caract,
-                                                                    ID_Indice: ID_Indice
-                                                                },
-                                                                success: function (
-                                                                    response) {
-                                                                    var result =
-                                                                        JSON.parse(
-                                                                            response
-                                                                        );
-                                                                    if (result
-                                                                        .status ===
-                                                                        'success') {
-                                                                        alert(
-                                                                            'Registro eliminado exitosamente de la base de datos.'
-                                                                        );
-                                                                    } else {
-                                                                        alert('Error al eliminar el registro de la base de datos: ' +
-                                                                            result
-                                                                                .message
-                                                                        );
+                                                                    },
+                                                                    error: function() {
+                                                                        alert
+                                                                            (
+                                                                                'Error en la solicitud AJAX para eliminar el registro de la base de datos.'
+                                                                            );
                                                                     }
-                                                                },
-                                                                error: function () {
+                                                                });
+                                                            },
+                                                            error: function() {
+                                                                alert(
+                                                                    'Error en la solicitud AJAX para eliminar registros en rel_indice.'
+                                                                );
+                                                            }
+                                                        });
+                                                    } else {
+                                                        // Si no hay resultados en rel_indice, proceder con la eliminación normal
+                                                        row.remove();
+
+                                                        // Eliminar el registro del array
+                                                        indicesArray = indicesArray.filter(
+                                                            function(item) {
+                                                                return item
+                                                                    .ID_Indice !==
+                                                                    ID_Indice;
+                                                            });
+
+                                                        console.log(
+                                                            'Registro eliminado. Array actualizado:',
+                                                            indicesArray);
+
+                                                        // Enviar la solicitud AJAX para eliminar el registro de la base de datos
+                                                        $.ajax({
+                                                            url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
+                                                            type: 'POST',
+                                                            data: {
+                                                                ID_caract: ID_caract,
+                                                                ID_Indice: ID_Indice
+                                                            },
+                                                            success: function(
+                                                                response) {
+                                                                var result =
+                                                                    JSON.parse(
+                                                                        response
+                                                                    );
+                                                                if (result
+                                                                    .status ===
+                                                                    'success') {
                                                                     alert(
-                                                                        'Error en la solicitud AJAX para eliminar el registro de la base de datos.'
+                                                                        'Registro eliminado exitosamente de la base de datos.'
+                                                                    );
+                                                                } else {
+                                                                    alert('Error al eliminar el registro de la base de datos: ' +
+                                                                        result
+                                                                        .message
                                                                     );
                                                                 }
-                                                            });
-                                                        }
-                                                    },
-                                                    error: function () {
-                                                        alert(
-                                                            'Error en la solicitud AJAX para buscar el índice en rel_indice.'
-                                                        );
+                                                            },
+                                                            error: function() {
+                                                                alert(
+                                                                    'Error en la solicitud AJAX para eliminar el registro de la base de datos.'
+                                                                );
+                                                            }
+                                                        });
                                                     }
-                                                });
-                                            }
-                                        });
+                                                },
+                                                error: function() {
+                                                    alert(
+                                                        'Error en la solicitud AJAX para buscar el índice en rel_indice.'
+                                                    );
+                                                }
+                                            });
+                                        }
                                     });
+                                });
                                 </script>
 
                                 <div class="form-group">
@@ -611,155 +617,157 @@ Registro Estatal de Regulaciones
 
 @section('js')
 <script>
-    function mostrarCampo() {
-        var siSeleccionado = document.getElementById("si").checked;
-        var otroCampo = document.getElementById("otroCampo");
+function mostrarCampo() {
+    var siSeleccionado = document.getElementById("si").checked;
+    var otroCampo = document.getElementById("otroCampo");
 
-        if (siSeleccionado) {
-            otroCampo.style.display = "block";
-        } else {
-            otroCampo.style.display = "none";
-        }
+    if (siSeleccionado) {
+        otroCampo.style.display = "block";
+    } else {
+        otroCampo.style.display = "none";
     }
+}
 </script>
 <script>
-    function mostrarCampo2() {
-        var si = document.getElementById('apsi');
-        var no = document.getElementById('apno');
-        var selectUnidad2Container = document.getElementById('selectUnidad2Container');
-        var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
-        var apTContainer = document.getElementById('apTContainer');
+function mostrarCampo2() {
+    var si = document.getElementById('apsi');
+    var no = document.getElementById('apno');
+    var selectUnidad2Container = document.getElementById('selectUnidad2Container');
+    var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
+    var apTContainer = document.getElementById('apTContainer');
 
-        if (no.checked) {
-            selectUnidad2Container.style.display = 'block';
-            autoridadesAplicanContainer.style.display = 'block';
-            apTContainer.style.display = 'block';
-        } else if (si.checked) {
-            selectUnidad2Container.style.display = 'none';
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        } else {
-            selectUnidad2Container.style.display = 'none';
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        }
+    if (no.checked) {
+        selectUnidad2Container.style.display = 'block';
+        autoridadesAplicanContainer.style.display = 'block';
+        apTContainer.style.display = 'block';
+    } else if (si.checked) {
+        selectUnidad2Container.style.display = 'none';
+        autoridadesAplicanContainer.style.display = 'none';
+        apTContainer.style.display = 'none';
+    } else {
+        selectUnidad2Container.style.display = 'none';
+        autoridadesAplicanContainer.style.display = 'none';
+        apTContainer.style.display = 'none';
     }
+}
 
-    // Inicializar la visibilidad de los campos al cargar la página
-    document.addEventListener('DOMContentLoaded', function () {
-        mostrarCampo2();
-    });
+// Inicializar la visibilidad de los campos al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    mostrarCampo2();
+});
 </script>
 <script>
-    $(document).ready(function () {
-        var emitenArray = [];
-        var aplicanArray = [];
+$(document).ready(function() {
+    var emitenArray = [];
+    var aplicanArray = [];
 
-        // Método para AutoridadesEmiten
-        $('#AutoridadesEmiten').on('input', function () {
-            var query = $(this).val();
-            console.log('Query:', query); // Verifica que la consulta esté bien
-            if (query.length > 0) {
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/search') ?>',
-                    method: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function (data) {
-                        console.log('Response data:',
-                            data); // Verifica que la respuesta sea la esperada
-                        try {
-                            var results = JSON.parse(data);
-                            var resultsContainer = $('#searchResults');
-                            resultsContainer.empty();
-                            results.forEach(function (item) {
-                                resultsContainer.append(
-                                    '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                    item.ID_Dependencia + '">' + item
-                                        .Tipo_Dependencia + '</a>');
-                            });
-                        } catch (e) {
-                            console.error('Error parsing JSON:', e);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('AJAX error:', textStatus, errorThrown);
+    // Método para AutoridadesEmiten
+    $('#AutoridadesEmiten').on('input', function() {
+        var query = $(this).val();
+        console.log('Query:', query); // Verifica que la consulta esté bien
+        if (query.length > 0) {
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search') ?>',
+                method: 'GET',
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    console.log('Response data:',
+                        data); // Verifica que la respuesta sea la esperada
+                    try {
+                        var results = JSON.parse(data);
+                        var resultsContainer = $('#searchResults');
+                        resultsContainer.empty();
+                        results.forEach(function(item) {
+                            resultsContainer.append(
+                                '<a href="#" class="list-group-item list-group-item-action" data-id="' +
+                                item.ID_Dependencia + '">' + item
+                                .Tipo_Dependencia + '</a>');
+                        });
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
                     }
-                });
-            } else {
-                $('#searchResults').empty();
-            }
-        });
-
-        // Método para AutoridadesAplican
-        $('#AutoridadesAplican').on('input', function () {
-            var query = $(this).val();
-            console.log('Query:', query); // Verifica que la consulta esté bien
-            if (query.length > 0) {
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/search') ?>',
-                    method: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function (data) {
-                        console.log('Response data:',
-                            data); // Verifica que la respuesta sea la esperada
-                        try {
-                            var results = JSON.parse(data);
-                            var resultsContainer = $('#searchResults2');
-                            resultsContainer.empty();
-                            results.forEach(function (item) {
-                                resultsContainer.append(
-                                    '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                    item.ID_Dependencia + '">' + item
-                                        .Tipo_Dependencia + '</a>');
-                            });
-                        } catch (e) {
-                            console.error('Error parsing JSON:', e);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('AJAX error:', textStatus, errorThrown);
-                    }
-                });
-            } else {
-                $('#searchResults2').empty();
-            }
-        });
-
-        // Handle click on search result for AutoridadesEmiten
-        $(document).on('click', '#searchResults .list-group-item', function () {
-            var id = $(this).data('id');
-            var text = $(this).text();
-            emitenArray.push({
-                ID_Dependencia: id,
-                Tipo_Dependencia: text
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX error:', textStatus, errorThrown);
+                }
             });
-            $('#AutoridadesEmiten').val('');
+        } else {
             $('#searchResults').empty();
-            updateEmitenTable();
-        });
+        }
+    });
 
-        // Handle click on search result for AutoridadesAplican
-        $(document).on('click', '#searchResults2 .list-group-item', function () {
-            var id = $(this).data('id');
-            var text = $(this).text();
-            aplicanArray.push({
-                ID_Dependencia: id,
-                Tipo_Dependencia: text
+    // Método para AutoridadesAplican
+    $('#AutoridadesAplican').on('input', function() {
+        var query = $(this).val();
+        console.log('Query:', query); // Verifica que la consulta esté bien
+        if (query.length > 0) {
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search') ?>',
+                method: 'GET',
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    console.log('Response data:',
+                        data); // Verifica que la respuesta sea la esperada
+                    try {
+                        var results = JSON.parse(data);
+                        var resultsContainer = $('#searchResults2');
+                        resultsContainer.empty();
+                        results.forEach(function(item) {
+                            resultsContainer.append(
+                                '<a href="#" class="list-group-item list-group-item-action" data-id="' +
+                                item.ID_Dependencia + '">' + item
+                                .Tipo_Dependencia + '</a>');
+                        });
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX error:', textStatus, errorThrown);
+                }
             });
-            $('#AutoridadesAplican').val('');
+        } else {
             $('#searchResults2').empty();
-            updateAplicanTable();
+        }
+    });
+
+    // Handle click on search result for AutoridadesEmiten
+    $(document).on('click', '#searchResults .list-group-item', function() {
+        var id = $(this).data('id');
+        var text = $(this).text();
+        emitenArray.push({
+            ID_Dependencia: id,
+            Tipo_Dependencia: text
         });
+        $('#AutoridadesEmiten').val('');
+        $('#searchResults').empty();
+        updateEmitenTable();
+    });
+
+    // Handle click on search result for AutoridadesAplican
+    $(document).on('click', '#searchResults2 .list-group-item', function() {
+        var id = $(this).data('id');
+        var text = $(this).text();
+        aplicanArray.push({
+            ID_Dependencia: id,
+            Tipo_Dependencia: text
+        });
+        $('#AutoridadesAplican').val('');
+        $('#searchResults2').empty();
+        updateAplicanTable();
+    });
 
     function updateEmitenTable() {
         var tableBody = $('#emitenTable tbody');
         //tableBody.empty();
 
-            emitenArray.forEach(function (item) {
+        emitenArray.forEach(function(item) {
+            // Verificar si la fila ya existe
+            if (tableBody.find('tr[data-id="' + item.ID_Dependencia + '"]').length === 0) {
                 var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                     '<td>' + item.ID_Dependencia + '</td>' +
                     '<td>' + item.Tipo_Dependencia + '</td>' +
@@ -767,14 +775,17 @@ Registro Estatal de Regulaciones
                     '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>';
                 tableBody.append(row);
-            });
-        }
+            }
+        });
+    }
 
     function updateAplicanTable() {
         var tableBody = $('#aplicanTable tbody');
         //tableBody.empty();
 
-            aplicanArray.forEach(function (item) {
+        aplicanArray.forEach(function(item) {
+            // Verificar si la fila ya existe
+            if (tableBody.find('tr[data-id="' + item.ID_Dependencia + '"]').length === 0) {
                 var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                     '<td>' + item.ID_Dependencia + '</td>' +
                     '<td>' + item.Tipo_Dependencia + '</td>' +
@@ -782,8 +793,9 @@ Registro Estatal de Regulaciones
                     '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>';
                 tableBody.append(row);
-            });
-        }
+            }
+        });
+    }
 
     // Manejar el evento de clic en el botón de eliminar
     $('#emitenTable').on('click', '.delete-row', function() {
@@ -792,21 +804,21 @@ Registro Estatal de Regulaciones
             .trim(); // Ajusta el índice según la posición de ID_Dependencia en la fila
         var ID_caract = <?= json_encode($caracteristicas['ID_caract']) ?>;
 
-            console.log('ID de la dependencia a eliminar:', ID_Dependencia);
-            console.log('ID de la característica:', ID_caract);
-            console.log('Array antes de eliminar:', emitenArray);
+        console.log('ID de la dependencia a eliminar:', ID_Dependencia);
+        console.log('ID de la característica:', ID_caract);
+        console.log('Array antes de eliminar:', emitenArray);
 
-            // Confirmar la eliminación
-            if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-                // Eliminar la fila de la tabla
-                row.remove();
+        // Confirmar la eliminación
+        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+            // Eliminar la fila de la tabla
+            row.remove();
 
-                // Eliminar el registro del array
-                emitenArray = emitenArray.filter(function (item) {
-                    return item.ID_Dependencia !== ID_Dependencia;
-                });
+            // Eliminar el registro del array
+            emitenArray = emitenArray.filter(function(item) {
+                return item.ID_Dependencia !== ID_Dependencia;
+            });
 
-                console.log('Registro eliminado. Array actualizado:', emitenArray);
+            console.log('Registro eliminado. Array actualizado:', emitenArray);
 
             // Enviar la solicitud AJAX para eliminar el registro de la base de datos
             $.ajax({
@@ -841,21 +853,21 @@ Registro Estatal de Regulaciones
             .trim(); // Obtener el ID_Dependencia de la primera celda
         var ID_caract = <?= json_encode($caracteristicas['ID_caract']) ?>;
 
-            console.log('ID de la dependencia a eliminar:', ID_Dependencia);
-            console.log('ID de la característica:', ID_caract);
-            console.log('Array antes de eliminar:', aplicanArray);
+        console.log('ID de la dependencia a eliminar:', ID_Dependencia);
+        console.log('ID de la característica:', ID_caract);
+        console.log('Array antes de eliminar:', aplicanArray);
 
-            // Confirmar la eliminación
-            if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
-                // Eliminar la fila de la tabla
-                row.remove();
+        // Confirmar la eliminación
+        if (confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+            // Eliminar la fila de la tabla
+            row.remove();
 
-                // Eliminar el registro del array
-                aplicanArray = aplicanArray.filter(function (item) {
-                    return item.ID_Dependencia !== ID_Dependencia;
-                });
+            // Eliminar el registro del array
+            aplicanArray = aplicanArray.filter(function(item) {
+                return item.ID_Dependencia !== ID_Dependencia;
+            });
 
-                console.log('Registro eliminado. Array actualizado:', aplicanArray);
+            console.log('Registro eliminado. Array actualizado:', aplicanArray);
 
             // Enviar la solicitud AJAX para eliminar el registro de la base de datos
             $.ajax({
@@ -897,24 +909,24 @@ $(document).ready(function() {
             ID_tOrdJur = $('#selectUnidad option:selected').val();
         }
 
-            // Obtener los datos del formulario
-            var formData = {
-                ID_Regulacion: <?= json_encode($regulacion['ID_Regulacion']) ?>,
-                nombre: $('#inputNombre').val(),
-                campoExtra: $('#campoExtra').val(),
-                objetivoReg: $('#inputObjetivo').val(),
-                ID_caract: <?= json_encode($caracteristicas['ID_caract']) ?>,
-                ID_tOrdJur: ID_tOrdJur,
-                Nombre: $('#inputNombre').val(),
-                Ambito_Aplicacion: <?= json_encode($caracteristicas['Ambito_Aplicacion']) ?>,
-                Fecha_Exp: $('#Fecha_Exp').val(),
-                Fecha_Publi: $('#Fecha_Publi').val(),
-                Fecha_Vigor: $('#Fecha_Vigor').val(),
-                Fecha_Act: $('#Fecha_Act').val(),
-                Vigencia: $('#campoExtra').val(),
-                Orden_Gob: $('#selectUnidad2').val()
-            };
-            console.log('Datos del formulario:', formData);
+        // Obtener los datos del formulario
+        var formData = {
+            ID_Regulacion: <?= json_encode($regulacion['ID_Regulacion']) ?>,
+            nombre: $('#inputNombre').val(),
+            campoExtra: $('#campoExtra').val(),
+            objetivoReg: $('#inputObjetivo').val(),
+            ID_caract: <?= json_encode($caracteristicas['ID_caract']) ?>,
+            ID_tOrdJur: ID_tOrdJur,
+            Nombre: $('#inputNombre').val(),
+            Ambito_Aplicacion: <?= json_encode($caracteristicas['Ambito_Aplicacion']) ?>,
+            Fecha_Exp: $('#Fecha_Exp').val(),
+            Fecha_Publi: $('#Fecha_Publi').val(),
+            Fecha_Vigor: $('#Fecha_Vigor').val(),
+            Fecha_Act: $('#Fecha_Act').val(),
+            Vigencia: $('#campoExtra').val(),
+            Orden_Gob: $('#selectUnidad2').val()
+        };
+        console.log('Datos del formulario:', formData);
 
         // Enviar la solicitud AJAX para modificar la regulación
         $.ajax({
@@ -1446,7 +1458,7 @@ $(document).ready(function() {
                                             console.log(
                                                 'Registros existentes:',
                                                 registrosExistentes
-                                                );
+                                            );
 
                                             // Lógica de insertarDatosTabla directamente aquí
                                             var datosTabla = [];
@@ -1456,21 +1468,21 @@ $(document).ready(function() {
                                                         $(this)
                                                         .find(
                                                             'td'
-                                                            )
+                                                        )
                                                         .eq(0)
                                                         .text();
                                                     var Texto =
                                                         $(this)
                                                         .find(
                                                             'td'
-                                                            )
+                                                        )
                                                         .eq(1)
                                                         .text();
                                                     var Orden =
                                                         $(this)
                                                         .find(
                                                             'td'
-                                                            )
+                                                        )
                                                         .eq(2)
                                                         .text();
 
@@ -1479,7 +1491,7 @@ $(document).ready(function() {
                                                         registrosExistentes
                                                         .includes(
                                                             ID_Indice
-                                                            )) {
+                                                        )) {
                                                         var filaDatos = {
                                                             ID_Indice: ID_Indice,
                                                             ID_caract: formData
@@ -1491,7 +1503,7 @@ $(document).ready(function() {
                                                         datosTabla
                                                             .push(
                                                                 filaDatos
-                                                                );
+                                                            );
                                                     }
                                                 });
 
@@ -1509,23 +1521,25 @@ $(document).ready(function() {
                                                 },
                                                 success: function(
                                                     response
-                                                    ) {
+                                                ) {
                                                     var result =
                                                         JSON
                                                         .parse(
                                                             response
-                                                            );
+                                                        );
                                                     if (result
                                                         .status ===
                                                         'success'
-                                                        ) {
+                                                    ) {
                                                         alert
                                                             (
-                                                                'Datos de la tabla insertados correctamente');
+                                                                'Datos de la tabla insertados correctamente'
+                                                            );
                                                     } else {
                                                         alert
                                                             (
-                                                                'Error al insertar los datos de la tabla');
+                                                                'Error al insertar los datos de la tabla'
+                                                            );
                                                     }
                                                 }
                                             });
@@ -1536,16 +1550,16 @@ $(document).ready(function() {
                                                 type: 'GET',
                                                 success: function(
                                                     response
-                                                    ) {
+                                                ) {
                                                     var result =
                                                         JSON
                                                         .parse(
                                                             response
-                                                            );
+                                                        );
                                                     if (result
                                                         .status ===
                                                         'success'
-                                                        ) {
+                                                    ) {
                                                         var nuevoIdJerarquia =
                                                             result
                                                             .nuevoIdJerarquia;
@@ -1553,59 +1567,63 @@ $(document).ready(function() {
                                                             .log(
                                                                 'Nuevo ID_Jerarquia:',
                                                                 nuevoIdJerarquia
-                                                                ); // Verificar el nuevo ID_Jerarquia
+                                                            ); // Verificar el nuevo ID_Jerarquia
 
                                                         // Insertar datos en la tabla rel_indice
                                                         var
-                                                    relIndiceData = [];
+                                                            relIndiceData = [];
                                                         $('#resultTable tbody tr')
                                                             .each(
                                                                 function(
                                                                     index
-                                                                    ) {
+                                                                ) {
                                                                     var ID_Indice =
                                                                         $(
-                                                                            this)
+                                                                            this
+                                                                        )
                                                                         .find(
                                                                             'td'
-                                                                            )
+                                                                        )
                                                                         .eq(
-                                                                            0)
+                                                                            0
+                                                                        )
                                                                         .text()
                                                                         .trim();
                                                                     console
                                                                         .log(
                                                                             'ID_Indice:',
                                                                             ID_Indice
-                                                                            ); // Verificar que ID_Indice se obtenga correctamente
+                                                                        ); // Verificar que ID_Indice se obtenga correctamente
 
                                                                     var ID_Jerarquia =
                                                                         nuevoIdJerarquia +
                                                                         index; // Incrementar el ID_Jerarquia para cada fila
                                                                     var ID_Padre =
                                                                         $(
-                                                                            '#selectIndicePadre')
+                                                                            '#selectIndicePadre'
+                                                                        )
                                                                         .val();
 
                                                                     console
                                                                         .log(
                                                                             'ID_Jerarquia:',
                                                                             ID_Jerarquia
-                                                                            ); // Verificar que ID_Jerarquia se obtenga correctamente
+                                                                        ); // Verificar que ID_Jerarquia se obtenga correctamente
                                                                     console
                                                                         .log(
                                                                             'ID_Padre:',
                                                                             ID_Padre
-                                                                            ); // Verificar que ID_Padre se obtenga correctamente
+                                                                        ); // Verificar que ID_Padre se obtenga correctamente
 
                                                                     if (
-                                                                        ID_Padre) {
+                                                                        ID_Padre
+                                                                    ) {
                                                                         if (!
                                                                             registrosExistentes
                                                                             .includes(
                                                                                 ID_Indice
-                                                                                )
-                                                                            ) {
+                                                                            )
+                                                                        ) {
                                                                             var filaRelIndice = {
                                                                                 ID_Jerarquia: ID_Jerarquia,
                                                                                 ID_Indice: ID_Indice,
@@ -1614,17 +1632,17 @@ $(document).ready(function() {
                                                                             relIndiceData
                                                                                 .push(
                                                                                     filaRelIndice
-                                                                                    );
+                                                                                );
                                                                         }
                                                                     }
                                                                 }
-                                                                );
+                                                            );
 
                                                         console
                                                             .log(
                                                                 'relIndiceData:',
                                                                 relIndiceData
-                                                                ); // Verificar el contenido final de relIndiceData
+                                                            ); // Verificar el contenido final de relIndiceData
 
                                                         // Insertar los datos en la base de datos
                                                         $.ajax({
@@ -1635,35 +1653,43 @@ $(document).ready(function() {
                                                             },
                                                             success: function(
                                                                 response
-                                                                ) {
+                                                            ) {
                                                                 var result =
                                                                     JSON
                                                                     .parse(
                                                                         response
-                                                                        );
+                                                                    );
                                                                 if (result
                                                                     .status ===
                                                                     'success'
-                                                                    ) {
+                                                                ) {
                                                                     alert
                                                                         (
-                                                                            'Datos de rel_indice insertados correctamente');
+                                                                            'Datos de rel_indice insertados correctamente'
+                                                                        );
                                                                     // Redirigir a la página especificada
-                                                                    var idRegulacion = formData.ID_Regulacion;
+                                                                    var idRegulacion =
+                                                                        formData
+                                                                        .ID_Regulacion;
                                                                     window
                                                                         .location
                                                                         .href =
-                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>'+ idRegulacion;
+                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                        idRegulacion;
                                                                 } else {
                                                                     alert
                                                                         (
-                                                                            'Error al insertar los datos de rel_indice');
+                                                                            'Error al insertar los datos de rel_indice'
+                                                                        );
                                                                     // Redirigir a la página especificada
-                                                                    var idRegulacion = formData.ID_Regulacion;
+                                                                    var idRegulacion =
+                                                                        formData
+                                                                        .ID_Regulacion;
                                                                     window
                                                                         .location
                                                                         .href =
-                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>'+ idRegulacion;
+                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                        idRegulacion;
                                                                 }
                                                             }
                                                         });
@@ -1672,13 +1698,14 @@ $(document).ready(function() {
                                                             ('Error al obtener el nuevo ID_Jerarquia: ' +
                                                                 result
                                                                 .message
-                                                                );
+                                                            );
                                                     }
                                                 },
                                                 error: function() {
                                                     alert
                                                         (
-                                                            'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.');
+                                                            'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
+                                                        );
                                                 }
                                             });
                                         } else {
@@ -1781,16 +1808,16 @@ $(document).ready(function() {
                                                 type: 'GET',
                                                 success: function(
                                                     response
-                                                    ) {
+                                                ) {
                                                     var result =
                                                         JSON
                                                         .parse(
                                                             response
-                                                            );
+                                                        );
                                                     if (result
                                                         .status ===
                                                         'success'
-                                                        ) {
+                                                    ) {
                                                         var nuevoIdJerarquia =
                                                             result
                                                             .nuevoIdJerarquia;
@@ -1798,53 +1825,57 @@ $(document).ready(function() {
                                                             .log(
                                                                 'Nuevo ID_Jerarquia:',
                                                                 nuevoIdJerarquia
-                                                                ); // Verificar el nuevo ID_Jerarquia
+                                                            ); // Verificar el nuevo ID_Jerarquia
 
                                                         // Insertar datos en la tabla rel_indice
                                                         var
-                                                    relIndiceData = [];
+                                                            relIndiceData = [];
                                                         $('#resultTable tbody tr')
                                                             .each(
                                                                 function(
                                                                     index
-                                                                    ) {
+                                                                ) {
                                                                     var ID_Indice =
                                                                         $(
-                                                                            this)
+                                                                            this
+                                                                        )
                                                                         .find(
                                                                             'td'
-                                                                            )
+                                                                        )
                                                                         .eq(
-                                                                            0)
+                                                                            0
+                                                                        )
                                                                         .text()
                                                                         .trim();
                                                                     console
                                                                         .log(
                                                                             'ID_Indice:',
                                                                             ID_Indice
-                                                                            ); // Verificar que ID_Indice se obtenga correctamente
+                                                                        ); // Verificar que ID_Indice se obtenga correctamente
 
                                                                     var ID_Jerarquia =
                                                                         nuevoIdJerarquia +
                                                                         index; // Incrementar el ID_Jerarquia para cada fila
                                                                     var ID_Padre =
                                                                         $(
-                                                                            '#selectIndicePadre')
+                                                                            '#selectIndicePadre'
+                                                                        )
                                                                         .val();
 
                                                                     console
                                                                         .log(
                                                                             'ID_Jerarquia:',
                                                                             ID_Jerarquia
-                                                                            ); // Verificar que ID_Jerarquia se obtenga correctamente
+                                                                        ); // Verificar que ID_Jerarquia se obtenga correctamente
                                                                     console
                                                                         .log(
                                                                             'ID_Padre:',
                                                                             ID_Padre
-                                                                            ); // Verificar que ID_Padre se obtenga correctamente
+                                                                        ); // Verificar que ID_Padre se obtenga correctamente
 
                                                                     if (
-                                                                        ID_Padre) {
+                                                                        ID_Padre
+                                                                    ) {
                                                                         var filaRelIndice = {
                                                                             ID_Jerarquia: ID_Jerarquia,
                                                                             ID_Indice: ID_Indice,
@@ -1854,16 +1885,16 @@ $(document).ready(function() {
                                                                         relIndiceData
                                                                             .push(
                                                                                 filaRelIndice
-                                                                                );
+                                                                            );
                                                                     }
                                                                 }
-                                                                );
+                                                            );
 
                                                         console
                                                             .log(
                                                                 'relIndiceData:',
                                                                 relIndiceData
-                                                                ); // Verificar el contenido final de relIndiceData
+                                                            ); // Verificar el contenido final de relIndiceData
 
                                                         // Insertar los datos en la base de datos
                                                         $.ajax({
@@ -1874,35 +1905,43 @@ $(document).ready(function() {
                                                             },
                                                             success: function(
                                                                 response
-                                                                ) {
+                                                            ) {
                                                                 var result =
                                                                     JSON
                                                                     .parse(
                                                                         response
-                                                                        );
+                                                                    );
                                                                 if (result
                                                                     .status ===
                                                                     'success'
-                                                                    ) {
+                                                                ) {
                                                                     alert
                                                                         (
-                                                                            'Datos de rel_indice insertados correctamente');
+                                                                            'Datos de rel_indice insertados correctamente'
+                                                                        );
                                                                     // Redirigir a la página especificada
-                                                                    var idRegulacion = formData.ID_Regulacion;
+                                                                    var idRegulacion =
+                                                                        formData
+                                                                        .ID_Regulacion;
                                                                     window
                                                                         .location
                                                                         .href =
-                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>'+ idRegulacion;
+                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                        idRegulacion;
                                                                 } else {
                                                                     alert
                                                                         (
-                                                                            'Error al insertar los datos de rel_indice');
+                                                                            'Error al insertar los datos de rel_indice'
+                                                                        );
                                                                     // Redirigir a la página especificada
-                                                                    var idRegulacion = formData.ID_Regulacion;
+                                                                    var idRegulacion =
+                                                                        formData
+                                                                        .ID_Regulacion;
                                                                     window
                                                                         .location
                                                                         .href =
-                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>'+ idRegulacion;
+                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                        idRegulacion;
                                                                 }
                                                             }
                                                         });
@@ -1911,20 +1950,22 @@ $(document).ready(function() {
                                                             ('Error al obtener el nuevo ID_Jerarquia: ' +
                                                                 result
                                                                 .message
-                                                                );
+                                                            );
                                                     }
                                                 },
                                                 error: function() {
                                                     alert
                                                         (
-                                                            'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.');
+                                                            'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
+                                                        );
                                                 }
                                             });
                                         }
                                     },
                                     error: function() {
                                         alert(
-                                            'Error en la solicitud AJAX para verificar registros en de_indice.');
+                                            'Error en la solicitud AJAX para verificar registros en de_indice.'
+                                        );
                                     }
                                 });
 
@@ -1952,42 +1993,42 @@ $(document).ready(function() {
 });
 </script>
 <script>
-    function closeModal() {
-        $('.modal').modal('hide'); // Oculta el modal
-    }
+function closeModal() {
+    $('.modal').modal('hide'); // Oculta el modal
+}
 </script>
 <script>
-    $(document).ready(function () {
-        $('.btn-indice').click(function () {
-            $('#myModal').modal('show');
-        });
+$(document).ready(function() {
+    $('.btn-indice').click(function() {
+        $('#myModal').modal('show');
     });
+});
 </script>
 <script>
-    $(document).ready(function () {
-        var lastInsertedID_Indice =
-            null; // Variable para almacenar el último ID_Indice insertado
-        var lastInsertedOrden =
-            null; // Variable para almacenar el último Orden insertado
+$(document).ready(function() {
+    var lastInsertedID_Indice =
+        null; // Variable para almacenar el último ID_Indice insertado
+    var lastInsertedOrden =
+        null; // Variable para almacenar el último Orden insertado
 
-        $('#guardarIbtn').on('click', function () {
-            var inputTexto = $('#inputTexto').val();
+    $('#guardarIbtn').on('click', function() {
+        var inputTexto = $('#inputTexto').val();
 
-            if (lastInsertedID_Indice === null ||
-                lastInsertedOrden === null) {
-                // Si es la primera inserción, obtener los valores de la base de datos
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                    method: 'GET',
-                    success: function (data) {
-                        var maxValues = JSON.parse(
-                            data);
-                        lastInsertedID_Indice =
-                            parseInt(maxValues
-                                .ID_Indice) + 1;
-                        lastInsertedOrden =
-                            parseInt(maxValues
-                                .Orden) + 1;
+        if (lastInsertedID_Indice === null ||
+            lastInsertedOrden === null) {
+            // Si es la primera inserción, obtener los valores de la base de datos
+            $.ajax({
+                url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                method: 'GET',
+                success: function(data) {
+                    var maxValues = JSON.parse(
+                        data);
+                    lastInsertedID_Indice =
+                        parseInt(maxValues
+                            .ID_Indice) + 1;
+                    lastInsertedOrden =
+                        parseInt(maxValues
+                            .Orden) + 1;
 
                     var newRow = '<tr><td>' +
                         lastInsertedID_Indice +
@@ -1996,8 +2037,8 @@ $(document).ready(function() {
                         '</td><td>' +
                         lastInsertedOrden +
                         '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>';
+                        '<i class="fas fa-trash-alt"></i></button></td>' +
+                        '</tr>';
                     $('#resultTable tbody')
                         .append(newRow);
                 },
@@ -2025,40 +2066,40 @@ $(document).ready(function() {
 });
 </script>
 <script>
-    $(document).ready(function () {
-        var reIndice = [];
-        var currentIDJerarquia = 0;
+$(document).ready(function() {
+    var reIndice = [];
+    var currentIDJerarquia = 0;
 
-        // Obtener el valor máximo de ID_Jerarquia al cargar la página
-        $.ajax({
-            url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
-            type: 'GET',
-            success: function (response) {
-                currentIDJerarquia = parseInt(response);
-            }
-        });
-
-        $('#guardarIbtn').on('click', function () {
-            var selectedIDIndice = $('#selectIndicePadre')
-                .val();
-
-            if (selectedIDIndice !==
-                'Seleccione un índice padre') {
-                currentIDJerarquia += 1;
-
-                var newEntry = {
-                    ID_Indice: selectedIDIndice,
-                    ID_Jerarquia: currentIDJerarquia
-                };
-
-                reIndice.push(newEntry);
-
-                // Imprimir reIndice en consola
-                console.log(reIndice);
-            } else {
-                alert('Por favor, seleccione un índice padre.');
-            }
-        });
+    // Obtener el valor máximo de ID_Jerarquia al cargar la página
+    $.ajax({
+        url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
+        type: 'GET',
+        success: function(response) {
+            currentIDJerarquia = parseInt(response);
+        }
     });
+
+    $('#guardarIbtn').on('click', function() {
+        var selectedIDIndice = $('#selectIndicePadre')
+            .val();
+
+        if (selectedIDIndice !==
+            'Seleccione un índice padre') {
+            currentIDJerarquia += 1;
+
+            var newEntry = {
+                ID_Indice: selectedIDIndice,
+                ID_Jerarquia: currentIDJerarquia
+            };
+
+            reIndice.push(newEntry);
+
+            // Imprimir reIndice en consola
+            console.log(reIndice);
+        } else {
+            alert('Por favor, seleccione un índice padre.');
+        }
+    });
+});
 </script>
 @endsection

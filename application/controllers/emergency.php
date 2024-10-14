@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class RegulacionController extends CI_Controller
+class emergency extends CI_Controller
 {
 
     public function __construct()
@@ -28,10 +28,10 @@ class RegulacionController extends CI_Controller
 
     public function index()
     {
-        $this->regulaciones();
+        $this->emergencia();
     }
 
-    public function regulaciones()
+    public function emergencia()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -42,17 +42,17 @@ class RegulacionController extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($iduser);
             $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_por_usuario($iduser);
-            $this->blade->render('sujeto/regulaciones2', $data);
+            $this->blade->render('sujeto/emergencia-inicio', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/regulaciones2', $data);
+            $this->blade->render('emergencia/emergencia-inicio', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/regulaciones2', $data);
+            $this->blade->render('consejeria/emergencia-inicio', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function caracteristicas_reg()
+    public function emergencia_caract()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -64,17 +64,17 @@ class RegulacionController extends CI_Controller
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
-            $this->blade->render('sujeto/caracteristicas-regulaciones', $data);
+            $this->blade->render('sujeto/emergencia-caracter', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/caracteristicas-regulaciones', $data);
+            $this->blade->render('emergencia/emergencia-caracter', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/caracteristicas-regulaciones', $data);
+            $this->blade->render('consejeria/emergencia-caracter', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function mat_exentas()
+    public function emergencia_materias()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -84,17 +84,17 @@ class RegulacionController extends CI_Controller
         //$data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-            $this->blade->render('sujeto/materias-exentas', $data);
+            $this->blade->render('sujeto/emergencia-materias', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/materias-exentas', $data);
+            $this->blade->render('emergencia/emergencia-materias', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/materias-exentas', $data);
+            $this->blade->render('consejeria/emergencia-materias', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function nat_regulaciones()
+    public function emergencia_nat_reg()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -103,11 +103,11 @@ class RegulacionController extends CI_Controller
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-            $this->blade->render('sujeto/nat-regulacioes', $data);
+            $this->blade->render('sujeto/emergencia-nat-reg', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/nat-regulacioes', $data);
+            $this->blade->render('emergencia/emergencia-nat-reg', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/nat-regulacioes', $data);
+            $this->blade->render('consejeria/emergencia-nat-reg', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
@@ -293,11 +293,11 @@ class RegulacionController extends CI_Controller
         }
 
         // Determinar el estatus basado en el grupo del usuario
-        $Estatus = 0; // Valor por defecto
+        $Estatus = 5; // Valor por defecto
         if ($groupName == 'admin' || $groupName == 'sedeco') {
             $Estatus = 1;
         } elseif ($groupName == 'sujeto_obligado') {
-            $Estatus = 0;
+            $Estatus = 5;
         }
 
         // Preparar los datos para insertar

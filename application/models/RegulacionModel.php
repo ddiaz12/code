@@ -101,6 +101,7 @@ class RegulacionModel extends CI_Model {
         $this->db->insert('ma_regulacion', $data);
         return $this->db->insert_id();
     }
+    
     public function obtenerMaxIDCaract() {
         $this->db->select_max('ID_caract');
         $query = $this->db->get('de_regulacion_caracteristicas');
@@ -725,5 +726,14 @@ class RegulacionModel extends CI_Model {
         $this->db->select_max('ID_Tramites');
         $query = $this->db->get('de_tramitesyservicios');
         return $query->result();
+    }
+    public function insert_tramite($data) {
+        $this->db->insert('de_tramitesyservicios', $data);
+        return $this->db->insert_id(); // Retorna el ID del registro insertado
+    }
+
+    public function get_tramite_by_id($id) {
+        $query = $this->db->get_where('tramites', ['ID_Tramites' => $id]);
+        return $query->row_array(); // Retorna el registro como un array
     }
 }
