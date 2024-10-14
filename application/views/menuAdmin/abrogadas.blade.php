@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarSujeto')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuSujeto')
+@include('templates/menuAdmin')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -14,10 +14,9 @@ Registro Estatal de Regulaciones
     <ol class="breadcrumb mb-4 mt-5">
         <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
         </li>
-        <li class="breadcrumb-item active"><i class="fas fa-envelope me-1"></i>Enviadas</li>
+        <li class="breadcrumb-item active"><i class="fas fa-file me-1"></i>Regulaciones Abrogadas</li>
     </ol>
     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
-
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
@@ -27,23 +26,24 @@ Registro Estatal de Regulaciones
                         <th class="tTabla-color">Nombre</th>
                         <th class="tTabla-color">Homoclave</th>
                         <th class="tTabla-color">Estatus</th>
+                        <th class="tTabla-color">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($enviadas as $enviada)
+                    @foreach ($abrogadas as $abrogada)
                         <tr>
-                            <td>{{ $enviada->ID_Regulacion }}</td>
-                            <td>{{ $enviada->Nombre_Regulacion }}</td>
-                            <td>{{ $enviada->Homoclave }}</td>
+                            <td>{{ $abrogada->ID_Regulacion }}</td>
+                            <td>{{ $abrogada->Nombre_Regulacion }}</td>
+                            <td>{{ $abrogada->Homoclave }}</td>
                             <td>
-                                @if ($enviada->Estatus == 1)
-                                    Regulación enviada a SEDECO
-                                @elseif ($enviada->Estatus == 2)
-                                    Regulación enviada a Consejería
-                                @else
-                                    {{ $enviada->Estatus }}
-                                @endif
+                                <span class="badge bg-warning text-dark">Abrogada</span>
                             </td>
+                            <td>
+                                <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $abrogada->ID_Regulacion); ?>"
+                                    class="btn btn-danger btn-sm">
+                                    <i class="fas fa-eye" title="Ver regulacion"></i>
+                                </a>
+                        </tr>
                         </tr>
                     @endforeach
                 </tbody>
@@ -65,20 +65,7 @@ Registro Estatal de Regulaciones
             }
         });
     });
-
-    $(document).ready(function () {
-        $('.btn-danger').click(function () {
-            var id = $(this).data('id_oficina');
-
-            $.ajax({
-                url: '<?php echo base_url('oficinas/eliminar_oficina/'); ?>' + id,
-                type: 'POST',
-                success: function (result) {
-                    // Recargar la página o hacer algo con el resultado
-                    location.reload();
-                }
-            });
-        });
-    });
+    
 </script>
+
 @endsection

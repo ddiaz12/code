@@ -26,9 +26,8 @@ class Ciudadania extends CI_Controller
         $numeroDeRegulaciones = $this->RegulacionModel->contarRegulaciones(); // Contar regulaciones
         $data['regulaciones'] = $regulaciones;
         $data['numeroDeRegulaciones'] = $numeroDeRegulaciones;
-        error_log(print_r($regulaciones, true));
-
         $data['tiposOrdenamiento'] = $this->desplegarTipos();
+        $data['dependencias'] = $this->RegulacionModel->getDependencias();
         $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'consulta-regulaciones', $data);
     }
 
@@ -63,19 +62,18 @@ class Ciudadania extends CI_Controller
 
     //     echo json_encode($resultados);
     // }
-    public function buscarRegulaciones()
+    public function realizarBusquedaAvanzada()
     {
-        // Obtiene los datos JSON del cuerpo de la solicitud
-        $json = file_get_contents('php://input');
-        $data = json_decode($json);
+        // Obtener los datos enviados por POST
+        $desde = $this->input->post('desde');
+        $hasta = $this->input->post('hasta');
+        $dependencia = $this->input->post('dependencia');
+        $tipoOrdenamiento = $this->input->post('tipoOrdenamiento');
 
-        // Accede a cada uno de los valores
-        $desdeFecha = $data->desde;
-        $hastaFecha = $data->hasta;
-        $dependencia = $data->dependencia;
+        // Llamar al modelo para realizar la búsqueda
+        $resultados = $this->RegulacionModel->buscarRegulaciones($desde, $hasta, $dependencia, $tipoOrdenamiento);
 
-        $resultados = $this->RegulacionModel->buscarRegulaciones($desdeFecha, $hastaFecha, $dependencia);
-
+        // Retornar los resultados en formato JSON
         echo json_encode($resultados);
     }
 

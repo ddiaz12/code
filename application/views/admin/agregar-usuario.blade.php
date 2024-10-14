@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="selectTipoSujeto">Tipo de sujeto obligado<span
+                                    <label for="selectTipoSujeto">Tipo de Sujeto Obligado<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="selectTipoSujeto" name="selectTipoSujeto" required>
                                         <option disabled selected>Selecciona una opción</option>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="selectSujetos">Sujeto obligado<span class="text-danger">*</span></label>
+                                    <label for="selectSujetos">Sujeto Obligado<span class="text-danger">*</span></label>
                                     <select class="form-control" id="selectSujetos" name="selectSujetos" required>
                                         <option disabled selected>Selecciona una opción</option>
                                         <?php foreach ($sujetos as $sujeto): ?>

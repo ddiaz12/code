@@ -88,14 +88,14 @@ class Menu extends CI_Controller
 
     public function menu_guia()
     {
-        
+
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $notifications = $this->NotificacionesModel->getNotifications($groupName);
         $data['notificaciones'] = $notifications;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
-        
+
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('menuSujeto/guia', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
@@ -110,7 +110,7 @@ class Menu extends CI_Controller
 
     public function menu_log()
     {
-        
+
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
@@ -154,7 +154,8 @@ class Menu extends CI_Controller
             redirect('auth/logout', 'refresh');
         }
     }
-    public function menu_publicadas(){
+    public function menu_publicadas()
+    {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
@@ -179,20 +180,43 @@ class Menu extends CI_Controller
         }
     }
 
-    public function menu_modificadas(){
+    public function menu_modificadas()
+    {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $userId = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        $data['modificadas'] = $this->MenuModel->getRegulacionesModificadas($userId);
+        $data['abrogadas'] = $this->MenuModel->getRegulacionesAbrogadas();
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['modificadas'] = $this->MenuModel->getRegulacionesModificadas($userId);
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
-            $this->blade->render('menuSujeto/modificadas', $data);
+            $this->blade->render('menuSujeto/abrogadas', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/modificadas', $data);
+            $this->blade->render('menuAdmin/abrogadas', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuConsejeria/modificadas', $data);
+            $this->blade->render('menuConsejeria/abrogadas', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
+    }
+
+    public function menu_emergencia(){
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $userId = $user->id;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+        $data['emergencias'] = $this->MenuModel->getRegulacionesEmergencia();
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['emergencias'] = $this->MenuModel->getRegulacionesEmergencia($userId);
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
+            $this->blade->render('menuSujeto/emergencia', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('menuAdmin/emergencia', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('menuConsejeria/emergencia', $data);
         } else {
             // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/logout', 'refresh');
@@ -203,10 +227,39 @@ class Menu extends CI_Controller
     public function modificarRegulacion()
     {
         $id_regulacion = $this->input->post('id');
-    
-        // Llamar al modelo para modificar la regulación
-        $result = $this->MenuModel->modificarRegulacion($id_regulacion);
-    
+        $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
+        // Obtener el usuario actual
+        $user = $this->ion_auth->user()->row();
+
+
+        if ($regulacion && $regulacion->Estatus == 3) {
+            $result = $this->MenuModel->modificarRegulacion($id_regulacion);
+
+            // Registrar el movimiento en la trazabilidad
+            $dataTrazabilidad = [
+                'ID_Regulacion' => $id_regulacion,
+                'fecha_movimiento' => date('Y-m-d H:i:s'),
+                'descripcion_movimiento' => 'Regulación abrogada',
+                'usuario_responsable' => $user->email,
+                'estatus_anterior' => 'Publicado',
+                'estatus_nuevo' => 'Abrogada'
+            ];
+        } else if ($regulacion && $regulacion->Estatus == 4) {
+            $result = $this->MenuModel->modificarRegulacionAbrogada($id_regulacion);
+
+            // Registrar el movimiento en la trazabilidad
+            $dataTrazabilidad = [
+                'ID_Regulacion' => $id_regulacion,
+                'fecha_movimiento' => date('Y-m-d H:i:s'),
+                'descripcion_movimiento' => 'Se le quito el estatus de abrogada a la regulacion',
+                'usuario_responsable' => $user->email,
+                'estatus_anterior' => 'Abrogada',
+                'estatus_nuevo' => 'Publicado'
+            ];
+        }
+
+        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
+
         // Verificar el resultado y devolver una respuesta adecuada
         if ($result) {
             echo json_encode(array('status' => 'success', 'message' => 'Regulación modificada exitosamente.'));
@@ -214,6 +267,8 @@ class Menu extends CI_Controller
             echo json_encode(array('status' => 'error', 'message' => 'Error al modificar la regulación.'));
         }
     }
+
+
 
     public function agregar_unidades()
     {
@@ -596,6 +651,7 @@ class Menu extends CI_Controller
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $id = $user->id;
+        $data['materias'] = $this->MenuModel->getCatMaterias();
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($id);
@@ -631,8 +687,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputMateria',
             'Materia',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
-            array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
+            'required',
         );
 
 
@@ -648,7 +703,7 @@ class Menu extends CI_Controller
                 'nombre_sujeto' => $sujeto,
                 'estado' => $estado,
                 'siglas' => $siglas,
-                'materia' => $materia,
+                'id_materia' => $materia,
                 'status' => 1
             );
 
@@ -675,6 +730,7 @@ class Menu extends CI_Controller
         $groupName = $group->name;
         $iduser = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+        $data['materias'] = $this->MenuModel->getCatMaterias();
         $data['sujeto'] = $this->MenuModel->getSujeto($id);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
@@ -700,10 +756,10 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputSujetos',
             'Sujeto obligado',
-            'required|regex_match[/^[a-zA-Z() ]*$/]',
+            'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ() ]*$/]',
             array(
-                'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras'
+            'required' => 'El campo %s es obligatorio.',
+            'regex_match' => 'El campo %s solo puede contener letras'
             )
         );
         //$this->form_validation->set_rules('TipoSujeto', 'Tipo sujeto', 'required');
@@ -716,8 +772,7 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'inputMateria',
             'Materia',
-            'required|regex_match[/^[a-zA-Z ]*$/]',
-            array('required' => 'El campo %s es obligatorio.', 'regex_match' => 'El campo %s solo puede contener letras')
+            'required'
         );
 
         if ($this->form_validation->run() != FALSE) {
@@ -732,7 +787,7 @@ class Menu extends CI_Controller
                 'nombre_sujeto' => $sujeto,
                 'estado' => $estado,
                 'siglas' => $siglas,
-                'materia' => $materia
+                'id_materia' => $materia
             );
 
             $this->MenuModel->actualizar_sujeto($id_sujeto, $data);

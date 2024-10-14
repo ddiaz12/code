@@ -89,7 +89,7 @@ Registro Estatal de Regulaciones
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fa-solid fa-file-arrow-up" title="Publicar"></i>
                             </button>
-                            <button class="btn btn-sm btn-comentarios" title="Comentarios"
+                            <button class="btn btn-tinto2 btn-sm btn-comentarios" title="Comentarios"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-comments"></i>
                             </button>

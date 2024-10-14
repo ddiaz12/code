@@ -11,18 +11,20 @@ class MenuModel extends CI_Model
 
     public function getSujetosObligados()
     {
-        //$this->db->select('cat_sujeto_obligado.*');
-        //$this->db->from('cat_sujeto_obligado');
+        $this->db->select('cat_sujeto_obligado.*, cat_materia_sujeto.nombre_materia');
+        $this->db->from('cat_sujeto_obligado');
+        $this->db->join('cat_materia_sujeto', 'cat_sujeto_obligado.id_materia = cat_materia_sujeto.id_materia');
         $this->db->where('cat_sujeto_obligado.nombre_sujeto !=', 'No especificado');
         $this->db->where('cat_sujeto_obligado.status !=', 0);
-        $query = $this->db->get('cat_sujeto_obligado');
+        $query = $this->db->get();
         return $query->result();
     }
 
     public function getSujeto($id)
     {
-        $this->db->select('cat_sujeto_obligado.*');
+        $this->db->select('cat_sujeto_obligado.*, cat_materia_sujeto.nombre_materia');
         $this->db->from('cat_sujeto_obligado');
+        $this->db->join('cat_materia_sujeto', 'cat_sujeto_obligado.id_materia = cat_materia_sujeto.id_materia');
         $this->db->where('cat_sujeto_obligado.ID_sujeto', $id);
         $query = $this->db->get();
         return $query->row();
@@ -60,6 +62,11 @@ class MenuModel extends CI_Model
         $query = $this->db->get('cat_nombre_asentamiento');
         return $query->result();
     }
+    public function getCatMaterias()
+    {
+        $query = $this->db->get('cat_materia_sujeto');
+        return $query->result();
+    }
 
     public function getUnidad($id)
     {
@@ -82,6 +89,30 @@ class MenuModel extends CI_Model
         $this->db->join('ma_regulacion', 'rel_usuario_regulacion.ID_Regulacion = ma_regulacion.ID_Regulacion');
         $this->db->where('rel_usuario_regulacion.id', $id);
         $this->db->where('ma_regulacion.Estatus', 4);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getRegulacionesAbrogadas(){
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+        ma_regulacion.Estatus, ma_regulacion.publicada');
+        $this->db->from('ma_regulacion');
+        $this->db->where('ma_regulacion.Estatus', 4);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function getRegulacionesEmergencia($userId = null)
+    {
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+        ma_regulacion.Estatus, ma_regulacion.publicada');
+        $this->db->from('ma_regulacion');
+    
+        if ($userId !== null) {
+            $this->db->join('rel_usuario_regulacion', 'rel_usuario_regulacion.ID_Regulacion = ma_regulacion.ID_Regulacion');
+            $this->db->where('rel_usuario_regulacion.id', $userId);
+        }
+    
+        $this->db->where('ma_regulacion.Estatus', 5);
         $query = $this->db->get();
         return $query->result();
     }
@@ -225,6 +256,18 @@ class MenuModel extends CI_Model
         // Datos a actualizar
         $data = array(
             'estatus' => 4
+        );
+    
+        // Actualizar la regulación en la base de datos
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('ma_regulacion', $data);
+    }
+
+    public function modificarRegulacionAbrogada($id_regulacion)
+    {
+        // Datos a actualizar
+        $data = array(
+            'estatus' => 3
         );
     
         // Actualizar la regulación en la base de datos

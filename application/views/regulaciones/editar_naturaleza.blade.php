@@ -51,6 +51,7 @@ Registro Estatal de Regulaciones
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
+                                           
                                             Regulación</label>
                                     </a>
                                 </li>
@@ -79,23 +80,27 @@ Registro Estatal de Regulaciones
             <div class="col-md-9 p-0">
                 <div class="card">
                     <div class="card-header text-white">Naturaleza de la regulación</div>
-                    <div class="card-body d-flex flex-column justify-content-center">
-                        <div class="row justify-content-center">
-                            <label for="radioGroup">¿La regulación está asociada a una actividad
-                                económica?</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="si" name="opcion" value="si">
-                                <label for="si">Sí</label>
-                                <input type="radio" id="no" name="opcion" value="no">
-                                <label for="no">No</label>
+                    <form id="formGnat" enctype="multipart/form-data">
+                        <input type="hidden" id="idRegulacion" name="idRegulacion"
+                            value="{{ $regulaciones->ID_Regulacion }}">
+                        <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat }}">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <label for="radioGroup">¿La regulación está asociada a una actividad
+                                    económica?</label>
+                                <div id="radioGroup">
+                                    <input type="radio" id="si" name="opcion" value="si">
+                                    <label for="si">Sí</label>
+                                    <input type="radio" id="no" name="opcion" value="no">
+                                    <label for="no">No</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group" id="inputs" style="display: none;">
-                            <!-- Generar 5 inputs -->
-                            <div class="form-group row justify-content-center">
-                                <label for="SectorInput">Sector<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SectorInput" name="SectorInput"
-                                    placeholder="Selecciona una opcion" required>
+                            <div class="form-group" id="inputs" style="display: none;">
+                                <!-- Generar 5 inputs -->
+                                <div class="form-group row justify-content-center">
+                                    <label for="SectorInput">Sector<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="SectorInput" name="SectorInput"
+                                        placeholder="Selecciona una opcion" required>
 
                             </div>
                             <ul id="sectorResults"></ul>
@@ -237,7 +242,7 @@ Registro Estatal de Regulaciones
                         });
                         </script>
 
-                    </div>
+                        </div>
 
                     <script>
                     $(document).ready(function() {

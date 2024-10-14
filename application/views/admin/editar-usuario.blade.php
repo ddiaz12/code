@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="selectTipoSujeto">Tipo de sujeto obligado<span
+                                    <label for="selectTipoSujeto">Tipo de Sujeto Obligado<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="selectTipoSujeto" name="selectTipoSujeto" required>
                                         <option disabled>Selecciona una opción</option>
@@ -82,7 +82,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="selectSujetoObligado">Sujeto obligado<span
+                                    <label for="selectSujetoObligado">Sujeto Obligado<span
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="selectSujetoObligado" name="selectSujetoObligado"
                                         required>

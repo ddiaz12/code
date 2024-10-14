@@ -15,13 +15,13 @@ Registro Estatal de Regulaciones
     <ol class="breadcrumb mb-4 mt-5">
         <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
         </li>
-        <li class="breadcrumb-item active"><i class="fas fa-user me-1"></i>Sujeto obligado</li>
+        <li class="breadcrumb-item active"><i class="fas fa-user me-1"></i>Sujeto Obligado</li>
     </ol>
     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
     <!-- Botón para abrir otra vista -->
     <div class="d-flex justify-content-end mb-3">
         <a href="<?php echo base_url('menu/agregar_sujeto'); ?>" class="btn btn-primary btn-agregarOficina">
-            <i class="fas fa-plus-circle me-1"></i> Agregar sujeto obligado
+            <i class="fas fa-plus-circle me-1"></i> Agregar Sujeto Obligado
         </a>
     </div>
     <div class="card mb-4 div-datatables">
@@ -30,7 +30,7 @@ Registro Estatal de Regulaciones
                 <thead>
                     <tr>
                         <th class="tTabla-color">Id</th>
-                        <th class="tTabla-color">Nombre sujeto obligado</th>
+                        <th class="tTabla-color">Nombre Sujeto Obligado</th>
                         <th class="tTabla-color">Siglas</th>
                         <th class="tTabla-color">Materia</th>
                         <th class="tTabla-color">Acciones</th>
@@ -42,7 +42,7 @@ Registro Estatal de Regulaciones
                         <td><?php    echo $sujeto->ID_sujeto; ?></td>
                         <td><?php    echo $sujeto->nombre_sujeto; ?></td>
                         <td><?php    echo $sujeto->siglas; ?></td>
-                        <td><?php    echo $sujeto->materia; ?></td>
+                        <td><?php    echo $sujeto->nombre_materia; ?></td>
                         <td>
                             <a href="<?php    echo base_url('menu/editar_sujeto/' . base64_encode($sujeto->ID_sujeto)); ?>"
                                 class="btn btn-dorado btn-sm">
@@ -86,7 +86,7 @@ Registro Estatal de Regulaciones
                         success: function (result) {
                             Swal.fire(
                                 '¡Eliminado!',
-                                'El sujeto obligado ha sido eliminado correctamente.',
+                                'El Sujeto Obligado ha sido eliminado correctamente.',
                                 'success'
                             ).then((result) => {
                                 if (result.isConfirmed) {
@@ -97,7 +97,7 @@ Registro Estatal de Regulaciones
                         error: function () {
                             Swal.fire(
                                 'Error',
-                                'No se pudo eliminar al sujeto obligado',
+                                'No se pudo eliminar al Sujeto Obligado',
                                 'error'
                             );
                         }

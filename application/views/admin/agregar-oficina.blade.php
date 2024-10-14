@@ -29,7 +29,7 @@ Registro Estatal de Regulaciones
                     <!-- Formulario de agregar oficina -->
                     <form class="row g-3" id="fromOficina">
                         <div class="form-group">
-                            <label for="selectSujeto">Sujeto obligado<span class="text-danger">*</span></label>
+                            <label for="selectSujeto">Sujeto Obligado<span class="text-danger">*</span></label>
                             <select class="form-control" id="selectSujeto" name="sujeto">
                                 <option disabled selected>Selecciona una opción</option>
                                 @foreach ($sujetos as $sujeto)
