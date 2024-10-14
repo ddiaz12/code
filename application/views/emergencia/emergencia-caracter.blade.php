@@ -13,12 +13,58 @@ Registro Estatal de Regulaciones
 <ol class="breadcrumb mb-4 mt-5">
     <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
     </li>
-    <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
-                class="fas fa-file-alt me-1"></i>Regulaciones</a>
+    <li class="breadcrumb-item"><a href="<?php echo base_url('emergency'); ?>"><i
+                class="fas fa-file-alt me-1"></i>Emergencia</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar Regulacion de Emergencia
     </li>
 </ol>
+<style>
+.center-text-tinto {
+    text-align: center;
+    color: red;
+    /* Código de color hexadecimal para tinto */
+    font-weight: bold;
+    font-size: 23px;
+    margin-top: 60px;
+}
+
+.center-right-text {
+    text-align: right;
+    /* font-weight: bold; */
+    padding-right: 52px;
+    font-size: 20px;
+    margin-top: 60px;
+}
+
+.right-text {
+    text-align: right;
+    /* font-weight: bold; */
+    padding-right: 54px;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.emergency-icon {
+    text-align: center;
+    color: red;
+    font-size: 78px;
+    /* Tamaño grande */
+    margin-top: 20px;
+}
+</style>
+<!-- Icono de emergencia centrado y en grande -->
+<div class="emergency-icon">
+    <i class="fas fa-exclamation-triangle"></i>
+</div>
+<h4 class="center-text-tinto">En caso de EMERGENCIA soló llene los campos obligatorios* y en un plazo no mayor a 10
+    días, complete la totalidad del registro.</h4>
+<p>
+<h6 class="center-right-text">Artículo 34.
+    1. Los Sujetos Obligados serán responsables del registro y actualización
+    permanente del Registro Estatal de Regulaciones.</h6>
+</p>
+<h5 class="right-text">Ley de Mejora Regulatoria para el Estado de Colima y sus Municipios</h5>
 <div class="container mt-5">
     <div class="row justify-content-center div-formOficina">
         <div class="row d-flex d-flex align-items-stretch">
@@ -47,7 +93,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_caract'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
@@ -56,7 +102,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_materias'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
                                         <label class="menu-regulacion" for="image_2">Materias Exentas</label>
@@ -64,7 +110,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
+                                    <a href="<?php echo base_url('emergency/emergencia_nat_reg'); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
@@ -319,7 +365,7 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
-                                    <a href="<?php echo base_url('RegulacionController'); ?>"
+                                    <a href="<?php echo base_url('emergency'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
                                     <button type="button" class="btn btn-success btn-guardar"
                                         id="botonGuardar">Guardar</button>
@@ -386,7 +432,7 @@ $(document).ready(function() {
         console.log('Query:', query); // Verifica que la consulta esté bien
         if (query.length > 0) {
             $.ajax({
-                url: '<?= base_url('RegulacionController/search') ?>',
+                url: '<?= base_url('emergency/search') ?>',
                 method: 'GET',
                 data: {
                     query: query
@@ -423,7 +469,7 @@ $(document).ready(function() {
         console.log('Query:', query); // Verifica que la consulta esté bien
         if (query.length > 0) {
             $.ajax({
-                url: '<?= base_url('RegulacionController/search') ?>',
+                url: '<?= base_url('emergency/search') ?>',
                 method: 'GET',
                 data: {
                     query: query
@@ -600,7 +646,7 @@ $(document).ready(function() {
             return;
         } else {
             $.ajax({
-                url: '<?php echo base_url('RegulacionController/insertarRegulacion'); ?>',
+                url: '<?php echo base_url('emergency/insertarRegulacion'); ?>',
                 type: 'POST',
                 data: formData,
                 success: function(response) {
@@ -614,13 +660,13 @@ $(document).ready(function() {
                         console.log('ID_Regulacion', ID_Regulacion);
 
                         $.ajax({
-                            url: '<?php echo base_url('RegulacionController/obtenerMaxIDCaract'); ?>',
+                            url: '<?php echo base_url('emergency/obtenerMaxIDCaract'); ?>',
                             type: 'GET',
                             success: function(maxIDResponse) {
                                 var maxID = parseInt(maxIDResponse) + 1;
 
                                 $.ajax({
-                                    url: '<?php echo base_url('RegulacionController/obtenerMaxIDRegulacion'); ?>',
+                                    url: '<?php echo base_url('emergency/obtenerMaxIDRegulacion'); ?>',
                                     type: 'GET',
                                     success: function(
                                         maxIDRegResponse) {
@@ -656,7 +702,7 @@ $(document).ready(function() {
                                             caracteristicasData);
 
                                         $.ajax({
-                                            url: '<?php echo base_url('RegulacionController/insertarCaracteristicas'); ?>',
+                                            url: '<?php echo base_url('emergency/insertarCaracteristicas'); ?>',
                                             type: 'POST',
                                             data: caracteristicasData,
                                             success: function(
@@ -713,7 +759,7 @@ $(document).ready(function() {
                                                                 };
 
                                                                 $.ajax({
-                                                                    url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesEmiten'); ?>',
+                                                                    url: '<?php echo base_url('emergency/insertarRelAutoridadesEmiten'); ?>',
                                                                     type: 'POST',
                                                                     data: relDataEmiten,
                                                                     success: function(
@@ -780,7 +826,7 @@ $(document).ready(function() {
                                                                 };
 
                                                                 $.ajax({
-                                                                    url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesAplican'); ?>',
+                                                                    url: '<?php echo base_url('emergency/insertarRelAutoridadesAplican'); ?>',
                                                                     type: 'POST',
                                                                     data: relDataAplican,
                                                                     success: function(
@@ -873,7 +919,7 @@ $(document).ready(function() {
 
                                                     // Insertar los datos en la base de datos
                                                     $.ajax({
-                                                        url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
+                                                        url: '<?php echo base_url('emergency/insertarDatosTabla'); ?>',
                                                         type: 'POST',
                                                         data: {
                                                             datosTabla: datosTabla
@@ -906,7 +952,7 @@ $(document).ready(function() {
 
                                                     // Obtener el nuevo ID_Jerarquia
                                                     $.ajax({
-                                                        url: '<?= base_url("RegulacionController/obtenerNuevoIdJerarquia") ?>',
+                                                        url: '<?= base_url("emergency/obtenerNuevoIdJerarquia") ?>',
                                                         type: 'GET',
                                                         success: function(
                                                             response
@@ -1000,7 +1046,7 @@ $(document).ready(function() {
 
                                                                 // Insertar los datos en la base de datos
                                                                 $.ajax({
-                                                                    url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
+                                                                    url: '<?php echo base_url('emergency/insertarRelIndice'); ?>',
                                                                     type: 'POST',
                                                                     data: {
                                                                         relIndiceData: relIndiceData
@@ -1025,7 +1071,7 @@ $(document).ready(function() {
                                                                             window
                                                                                 .location
                                                                                 .href =
-                                                                                '<?php echo base_url('RegulacionController/mat_exentas'); ?>';
+                                                                                '<?php echo base_url('emergency/emergencia_materias'); ?>';
                                                                         } else {
                                                                             console
                                                                                 .log(
@@ -1035,7 +1081,7 @@ $(document).ready(function() {
                                                                             window
                                                                                 .location
                                                                                 .href =
-                                                                                '<?php echo base_url('RegulacionController/mat_exentas'); ?>';
+                                                                                '<?php echo base_url('emergency/emergencia_materias'); ?>';
                                                                         }
                                                                     }
                                                                 });
@@ -1099,7 +1145,7 @@ $(document).ready(function() {
         var inputTexto = $('#inputTexto').val();
 
         $.ajax({
-            url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+            url: '<?= base_url('emergency/getMaxValues') ?>',
             method: 'GET',
             success: function(data) {
                 var maxValues = JSON.parse(data);
@@ -1117,8 +1163,10 @@ $(document).ready(function() {
                     lastInsertedOrden = parseInt(maxValues.Orden) + 1;
                     // Verificar si la tabla con id resultTable no está vacía
                     if ($('#resultTable tbody tr').length > 0) {
-                        lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $('#resultTable tbody tr').length+1;
-                        lastInsertedOrden = parseInt(maxValues.Orden) + $('#resultTable tbody tr').length+1;
+                        lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
+                            '#resultTable tbody tr').length + 1;
+                        lastInsertedOrden = parseInt(maxValues.Orden) + $(
+                            '#resultTable tbody tr').length + 1;
                     }
                 }
 
@@ -1170,7 +1218,7 @@ $(document).ready(function() {
 
     // Obtener el valor máximo de ID_Jerarquia al cargar la página
     $.ajax({
-        url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
+        url: '<?php echo base_url('emergency/obtenerMaxIDJerarquia'); ?>',
         type: 'GET',
         success: function(response) {
             currentIDJerarquia = parseInt(response);

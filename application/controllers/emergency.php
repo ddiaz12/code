@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class RegulacionController extends CI_Controller
+class emergency extends CI_Controller
 {
 
     public function __construct()
@@ -28,10 +28,10 @@ class RegulacionController extends CI_Controller
 
     public function index()
     {
-        $this->regulaciones();
+        $this->emergencia();
     }
 
-    public function regulaciones()
+    public function emergencia()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -42,17 +42,17 @@ class RegulacionController extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($iduser);
             $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_por_usuario($iduser);
-            $this->blade->render('sujeto/regulaciones2', $data);
+            $this->blade->render('sujeto/emergencia-inicio', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/regulaciones2', $data);
+            $this->blade->render('emergencia/emergencia-inicio', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/regulaciones2', $data);
+            $this->blade->render('consejeria/emergencia-inicio', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function caracteristicas_reg()
+    public function emergencia_caract()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -64,17 +64,17 @@ class RegulacionController extends CI_Controller
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
-            $this->blade->render('sujeto/caracteristicas-regulaciones', $data);
+            $this->blade->render('sujeto/emergencia-caracter', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/caracteristicas-regulaciones', $data);
+            $this->blade->render('emergencia/emergencia-caracter', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/caracteristicas-regulaciones', $data);
+            $this->blade->render('consejeria/emergencia-caracter', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function mat_exentas()
+    public function emergencia_materias()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -84,17 +84,17 @@ class RegulacionController extends CI_Controller
         //$data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-            $this->blade->render('sujeto/materias-exentas', $data);
+            $this->blade->render('sujeto/emergencia-materias', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/materias-exentas', $data);
+            $this->blade->render('emergencia/emergencia-materias', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/materias-exentas', $data);
+            $this->blade->render('consejeria/emergencia-materias', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function nat_regulaciones()
+    public function emergencia_nat_reg()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -103,11 +103,11 @@ class RegulacionController extends CI_Controller
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-            $this->blade->render('sujeto/nat-regulacioes', $data);
+            $this->blade->render('sujeto/emergencia-nat-reg', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/nat-regulacioes', $data);
+            $this->blade->render('emergencia/emergencia-nat-reg', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/nat-regulacioes', $data);
+            $this->blade->render('consejeria/emergencia-nat-reg', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
@@ -293,11 +293,11 @@ class RegulacionController extends CI_Controller
         }
 
         // Determinar el estatus basado en el grupo del usuario
-        $Estatus = 0; // Valor por defecto
+        $Estatus = 5; // Valor por defecto
         if ($groupName == 'admin' || $groupName == 'sedeco') {
             $Estatus = 1;
         } elseif ($groupName == 'sujeto_obligado') {
-            $Estatus = 0;
+            $Estatus = 5;
         }
 
         // Preparar los datos para insertar
@@ -1106,26 +1106,16 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
         $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
         $idUser = $user->id;
-
         if ($regulacion) {
-            // Consultar si la regulación fue devuelta por consejería en la trazabilidad
-            $movimiento_consejeria = $this->RegulacionModel->buscarMovimientoDevolucionConsejeria($id_regulacion);
-
-            // Determinar el usuario destino en función del grupo del usuario actual y si fue devuelta por consejería
+            // Determinar el usuario destino en función del grupo del usuario actual
             if ($group->name === 'sujeto_obligado') {
-                if ($movimiento_consejeria) {
-                    // Si la regulación fue devuelta por consejería, enviarla directamente a consejería
-                    $usuario_destino = 'consejeria';
-                    $Estatus = 2;
-                } else {
-                    // En el primer envío, notificar a sedeco y admin
-                    $usuario_destino = 'sedeco,admin';
-                    $Estatus = 1;
-                }
+                $usuario_destino = 'sedeco,admin'; // Notificar a 'sedeco' y 'admin'
+                $Estatus = 1;
             } elseif (($group->name === 'sedeco') || ($group->name === 'admin')) {
                 $usuario_destino = 'consejeria'; // Notificar a 'consejeria'
                 $Estatus = 2;
             }
+
 
             // Enviar la regulación
             $this->RegulacionModel->enviar_regulacion($id_regulacion, $Estatus);
@@ -1184,21 +1174,11 @@ class RegulacionController extends CI_Controller
 
             $this->NotificacionesModel->crearNotificacion($data);
 
-            // Determinar la descripción del movimiento en función del grupo que devuelve la regulación
-            if (($group->name === 'sedeco') || ($group->name === 'admin')) {
-                $descripcion_movimiento = 'Regulación devuelta por sedeco';
-            } elseif ($group->name === 'consejeria') {
-                $descripcion_movimiento = 'Regulación devuelta por consejería';
-            } else {
-                $descripcion_movimiento = 'Regulación devuelta'; // En caso de que sea otro grupo
-            }
-
-
             // Registrar el movimiento en la trazabilidad
             $dataTrazabilidad = [
                 'ID_Regulacion' => $id_regulacion,
                 'fecha_movimiento' => date('Y-m-d H:i:s'),
-                'descripcion_movimiento' => $descripcion_movimiento,
+                'descripcion_movimiento' => 'Regulación devuelta',
                 'usuario_responsable' => $user->email,
                 'estatus_anterior' => 'Enviado',
                 'estatus_nuevo' => 'Devuelto'
@@ -1394,27 +1374,6 @@ class RegulacionController extends CI_Controller
 
         // Verificar el resultado de la actualización
         if ($result) {
-            // Obtener la regulación actualizada
-            $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($formData['ID_Regulacion']);
-
-            // Verificar si la regulación está publicada y el usuario es de sujeto obligado
-            if ($regulacion && $regulacion->Estatus == 3 && $this->ion_auth->in_group('sujeto_obligado')) {
-                // Obtener el ID del usuario que creó la regulación
-                $idUsuarioCreador = $regulacion->id_usuario_creador;
-
-                // Crear la notificación para consejería
-                $notificacionData = [
-                    'titulo' => 'Regulación Editada',
-                    'mensaje' => 'La regulación publicada"' . $regulacion->Nombre_Regulacion . '" ha sido editada por el Sujeto Obligado.',
-                    'id_usuario' => null,
-                    'usuario_destino' => 'consejeria', // Grupo de consejería
-                    'id_regulacion' => $formData['ID_Regulacion'],
-                    'leido' => 0,
-                    'fecha_envio' => date('Y-m-d H:i:s')
-                ];
-                $this->NotificacionesModel->crearNotificacion($notificacionData);
-            }
-
             echo json_encode(array('status' => 'success'));
         } else {
             echo json_encode(array('status' => 'error', 'message' => 'Error al actualizar las características de la regulación'));
