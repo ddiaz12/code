@@ -1370,7 +1370,7 @@ class RegulacionController extends CI_Controller
                 $notificacionData = [
                     'titulo' => 'Regulación Editada',
                     'mensaje' => 'La regulación publicada"' . $regulacion->Nombre_Regulacion . '" ha sido editada por el Sujeto Obligado.',
-                    'id_usuario' => null, // ID del usuario de consejería (puedes ajustar esto según tu lógica)
+                    'id_usuario' => null,
                     'usuario_destino' => 'consejeria', // Grupo de consejería
                     'id_regulacion' => $formData['ID_Regulacion'],
                     'leido' => 0,

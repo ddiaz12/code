@@ -44,7 +44,6 @@ Registro Estatal de Regulaciones
                                     <i class="fas fa-eye" title="Ver regulacion"></i>
                                 </a>
                         </tr>
-                        </tr>
                     @endforeach
                 </tbody>
             </table>
