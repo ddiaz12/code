@@ -101,6 +101,21 @@ class MenuModel extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function getRegulacionesEmergencia($userId = null)
+    {
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
+        ma_regulacion.Estatus, ma_regulacion.publicada');
+        $this->db->from('ma_regulacion');
+    
+        if ($userId !== null) {
+            $this->db->join('rel_usuario_regulacion', 'rel_usuario_regulacion.ID_Regulacion = ma_regulacion.ID_Regulacion');
+            $this->db->where('rel_usuario_regulacion.id', $userId);
+        }
+    
+        $this->db->where('ma_regulacion.Estatus', 5);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     public function obtenerHorariosUnidad($id)
     {
