@@ -479,7 +479,7 @@ footer .footer-icon-separador-pu {
 /* Pantallas medianas (1024px a 1444px) */
 @media screen and (min-width: 1024px) and (max-width: 1444px) {
     .div-buscador {
-        padding: 3rem 1rem 0 11rem;
+        padding: 4rem 2rem 0 9rem;
     }
 }
 
@@ -487,13 +487,13 @@ footer .footer-icon-separador-pu {
 @media screen and (min-width: 768px) and (max-width: 1023px) {
     .div-buscador {
         margin: 0 3rem;
-        padding: 2rem 2rem 0 9rem;
+        padding: 4rem 2rem 0 9rem;
     }
 }
 
 /* Pantallas muy pequeñas (menos de 768px) */
 @media screen and (max-width: 767px) {
     .div-buscador {
-        padding: 1rem 2rem 0 2rem;
+        padding: 4rem 2rem 0 2rem;
     }
 }

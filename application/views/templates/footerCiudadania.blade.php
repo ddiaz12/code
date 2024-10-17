@@ -30,17 +30,17 @@
                             <ul class="list-inline">
                                 <li class="list-inline-item"><span class="footer-icon-separador-pu"></span><a
                                         href="https://www.facebook.com/gobiernocolima/" target="_blank"
-                                        title="Facebook"><i class="fa-brands fa-facebook footer-facebook fa-2x"
+                                        title="Facebook"><i class="fa-brands fa-facebook footer-facebook fa-lg"
                                             aria-hidden="true"></a></i></li>
                                 <li class="list-inline-item">
                                     <span class="footer-icon-separador-pu"></span>
                                     <a href="https://twitter.com/gobiernocolima" target="_blank" title="Twitter">
-                                        <i class="fa-brands fa-x-twitter footer-twitter fa-2x" aria-hidden="true"></i>
+                                        <i class="fa-brands fa-x-twitter footer-twitter fa-lg" aria-hidden="true"></i>
                                     </a>
                                 </li>
                                 <li class="list-inline-item "><span class="footer-icon-separador-pu"></span><a
                                         href="https://www.youtube.com/user/GobiernoColima" target="_blank"
-                                        title="Youtube"><i class="fa-brands fa-youtube footer-youtube fa-2x"
+                                        title="Youtube"><i class="fa-brands fa-youtube footer-youtube fa-lg"
                                             aria-hidden="true"></a></i></li>
                                 <!--
                                 <li class="list-inline-item "><span class="footer-icon-separador-pu"></span><a
@@ -49,7 +49,7 @@
                                 -->
                                 <li class="list-inline-item "><span class="footer-icon-separador-pu"></span><a
                                         href="https://soundcloud.com/gobcolradio/" target="_blank" title="SoundCloud"><i
-                                            class="fa-brands fa-soundcloud footer-soundcloud fa-2x"
+                                            class="fa-brands fa-soundcloud footer-soundcloud fa-lg"
                                             aria-hidden="true"></a></i>
                                 </li>
                             </ul>
