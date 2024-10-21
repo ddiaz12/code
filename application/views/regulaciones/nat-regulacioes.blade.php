@@ -205,7 +205,7 @@ Registro Estatal de Regulaciones
                                 <p></p>
                             </div>
                             <div class="d-flex justify-content-between mb-3">
-                                <p>Tramites y servicios</p>
+                                <p id="tramitesText">Tramites y servicios</p>
                                 <button type="submit" id="botonTramites"
                                     class="btn btn-success btn-tramites">Tramites</button>
                                 <!-- Modal -->
@@ -214,7 +214,7 @@ Registro Estatal de Regulaciones
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="myModalLabel">Índice
+                                                <h5 class="modal-title" id="myModalLabel">Tramites y servicios
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
@@ -780,88 +780,96 @@ $(document).ready(function() {
     //aqui guardamos los datos
     $(document).ready(function() {
         $('#btnGnat').on('click', function() {
-            var formData = new FormData($('#formGnat')[0]);
-
-            if ($('#no').is(':checked')) {
-                formData.append('btn_clicked', true);
-                formData.append('radio_no_selected', true);
-                formData.append('inputEnlace', $('#inputEnlace').val());
-                formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
-                formData.append('url', $('#url').val());
-            } else if ($('#si').is(':checked')) {
-                formData.append('btn_clicked', true);
-                formData.append('radio_si_selected', true);
-                formData.append('inputEnlace', $('#inputEnlace').val());
-                formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
-                formData.append('selectedSectors', JSON.stringify(selectedSectorsIds));
-                formData.append('selectedSubsectors', JSON.stringify(selectedSubsectorsIds));
-                formData.append('selectedRamas', JSON.stringify(selectedRamasIds));
-                formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
-                formData.append('selectedClases', JSON.stringify(selectedClasesIds));
-                formData.append('url', $('#url').val());
-            }
-            // Extraer registros de la tabla tramitesTable
-            var tramites = [];
-            $('#tramitesTable tbody tr').each(function() {
-                var nombre = $(this).find('td').eq(1).text();
-                var direccion = $(this).find('td').eq(2).text();
-                tramites.push({
-                    Nombre: nombre,
-                    Direccion: direccion
+            if (!$('#si').is(':checked') && !$('#no').is(':checked') || $('#tramitesTable tbody tr').length === 0 || $('#inputEnlace').val() === '') {
+                if ($('#tramitesTable tbody tr').length === 0){
+                    $('#tramitesText').css('color', 'red');
+                    $('#tramitesText').after('<span class="error-message" style="color: red;">Por favor, agregue al menos un trámite.</span>');
+                }
+                if ($('#inputEnlace').val() === '') {
+                    $('#inputEnlace').css('border-color', 'red');
+                    $('#inputEnlace').after('<span class="error-message" style="color: red;">Por favor, complete este campo.</span>');
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, seleccione una opción y agregue al menos un trámite',
                 });
-            });
+                return;
+            }else{
+                var formData = new FormData($('#formGnat')[0]);
 
-            // Agregar el array tramites al formData
-            formData.append('tramites', JSON.stringify(tramites));
-            console.log('formData:', formData.get('tramites'));
+                if ($('#no').is(':checked')) {
+                    formData.append('btn_clicked', true);
+                    formData.append('radio_no_selected', true);
+                    formData.append('inputEnlace', $('#inputEnlace').val());
+                    formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+                } else if ($('#si').is(':checked')) {
+                    formData.append('btn_clicked', true);
+                    formData.append('radio_si_selected', true);
+                    formData.append('inputEnlace', $('#inputEnlace').val());
+                    formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+                    formData.append('selectedSectors', JSON.stringify(selectedSectorsIds));
+                    formData.append('selectedSubsectors', JSON.stringify(selectedSubsectorsIds));
+                    formData.append('selectedRamas', JSON.stringify(selectedRamasIds));
+                    formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
+                    formData.append('selectedClases', JSON.stringify(selectedClasesIds));
+                }
+                // Extraer registros de la tabla tramitesTable
+                var tramites = [];
+                $('#tramitesTable tbody tr').each(function() {
+                    var nombre = $(this).find('td').eq(1).text();
+                    var direccion = $(this).find('td').eq(2).text();
+                    tramites.push({
+                        Nombre: nombre,
+                        Direccion: direccion
+                    });
+                });
 
-            // Imprimir los datos en la consola para depuración
-            /*
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
-            }
-                */
+                // Agregar el array tramites al formData
+                formData.append('tramites', JSON.stringify(tramites));
+                console.log('formData:', formData.get('tramites'));
 
-            $.ajax({
-                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
-                success: function(response) {
-                    console.log('Respuesta del servidor:', response);
-                    if (response.status === 'success') {
-                        // Agregar los registros a la tabla tramitesTable
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Éxito',
-                            text: 'Datos guardados exitosamente',
-                        }).then(() => {
-                            window.location.href =
-                                '<?= base_url('RegulacionController') ?>';
-                        });
-                    } else {
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log('Respuesta del servidor:', response);
+                        if (response.status === 'success') {
+                            // Agregar los registros a la tabla tramitesTable
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: 'Datos guardados exitosamente',
+                            }).then(() => {
+                                window.location.href =
+                                    '<?= base_url('RegulacionController') ?>';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al guardar los datos: ' + response
+                                    .message,
+                            }).then(() => {
+                                window.location.href =
+                                    '<?= base_url('RegulacionController') ?>';
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error en la solicitud AJAX:', error);
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Error al guardar los datos: ' + response
-                                .message,
-                        }).then(() => {
-                            window.location.href =
-                                '<?= base_url('RegulacionController') ?>';
+                            text: 'Error en la solicitud AJAX: ' + error,
                         });
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error en la solicitud AJAX:', error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error en la solicitud AJAX: ' + error,
-                    });
-                }
-            });
+                });
+            }
         });
     });
 });

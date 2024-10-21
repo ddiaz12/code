@@ -14,7 +14,7 @@ Registro Estatal de Regulaciones
     <ol class="breadcrumb mb-4 mt-5">
         <li class="breadcrumb-item"><a href="<?php echo base_url("home") ?>"><i class="fas fa-home me-1"></i>Home</a>
         </li>
-        <li class="breadcrumb-item active"><i class="fas fa-file-alt me-1"></i>Regulaciones</li>            
+        <li class="breadcrumb-item active"><i class="fas fa-file-alt me-1"></i>Emergencia</li>            
     </ol>
     <!-- Botón para abrir otra vista -->
     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>

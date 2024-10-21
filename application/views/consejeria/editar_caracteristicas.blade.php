@@ -624,31 +624,32 @@ Registro Estatal de Regulaciones
 </script>
 <script>
     function mostrarCampo2() {
-        var si = document.getElementById('apsi');
-        var no = document.getElementById('apno');
-        var selectUnidad2Container = document.getElementById('selectUnidad2Container');
-        var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
-        var apTContainer = document.getElementById('apTContainer');
+    var si = document.getElementById('apsi');
+    var no = document.getElementById('apno');
+    var selectUnidad2Container = document.getElementById('selectUnidad2Container');
+    var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
+    var apTContainer = document.getElementById('apTContainer');
+    var aplicanTable = document.getElementById('aplicanTable');
 
-        if (no.checked) {
-            selectUnidad2Container.style.display = 'block';
-            autoridadesAplicanContainer.style.display = 'block';
-            apTContainer.style.display = 'block';
-        } else if (si.checked) {
-            selectUnidad2Container.style.display = 'none';
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        } else {
-            selectUnidad2Container.style.display = 'none';
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        }
+    // Verificar si la tabla no está vacía
+    if (aplicanTable && aplicanTable.rows.length > 1) { // Asumiendo que la primera fila es el encabezado
+        no.checked = true;
     }
 
-    // Inicializar la visibilidad de los campos al cargar la página
-    document.addEventListener('DOMContentLoaded', function () {
-        mostrarCampo2();
-    });
+    if (no.checked) {
+        selectUnidad2Container.style.display = 'block';
+        autoridadesAplicanContainer.style.display = 'block';
+        apTContainer.style.display = 'block';
+    } else if (si.checked) {
+        selectUnidad2Container.style.display = 'none';
+        autoridadesAplicanContainer.style.display = 'none';
+        apTContainer.style.display = 'none';
+    } else {
+        selectUnidad2Container.style.display = 'none';
+        autoridadesAplicanContainer.style.display = 'none';
+        apTContainer.style.display = 'none';
+    }
+}
 </script>
 <script>
     $(document).ready(function () {

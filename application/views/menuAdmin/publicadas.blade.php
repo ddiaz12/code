@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarConsejeria')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuConsejeria')
+@include('templates/menuAdmin')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -48,6 +48,10 @@ Registro Estatal de Regulaciones
                                                 class="btn btn-danger btn-sm">
                                                 <i class="fas fa-eye" title="Ver regulacion"></i>
                                             </a>
+                                            <button class="btn btn-gris btn-sm edit-row" title="Editar"
+                                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
                                             <button class="btn btn-tinto btn-sm btn-trazabilidad" title="Trazabilidad"
                                                 data-id="{{ $regulacion->ID_Regulacion }}" data-toggle="modal"
                                                 data-target="#trazabilidadModal">
@@ -124,6 +128,18 @@ Registro Estatal de Regulaciones
                         document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';
                     });
             });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Captura el evento de clic en el botón de editar
+        $('.edit-row').on('click', function () {
+            // Obtiene el ID de la regulación del atributo data-id
+            var idRegulacion = $(this).data('id');
+
+            // Redirecciona a la URL de edición con el ID_Regulacion
+            window.location.href = '<?= base_url("PublicadasController/edit_public_caract/"); ?>' + idRegulacion;
         });
     });
 </script>

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class emergency extends CI_Controller
+class PublicadasController extends CI_Controller
 {
 
     public function __construct()
@@ -28,10 +28,10 @@ class emergency extends CI_Controller
 
     public function index()
     {
-        $this->emergencia();
+        $this->regulaciones();
     }
 
-    public function emergencia()
+    public function regulaciones()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -42,17 +42,17 @@ class emergency extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($iduser);
             $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_por_usuario($iduser);
-            $this->blade->render('sujeto/emergencia-inicio', $data);
+            $this->blade->render('sujeto/regulaciones2', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('emergencia/emergencia-inicio', $data);
+            $this->blade->render('regulaciones/regulaciones2', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/emergencia-inicio', $data);
+            $this->blade->render('consejeria/regulaciones2', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function emergencia_caract()
+    public function caracteristicas_reg()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -64,17 +64,17 @@ class emergency extends CI_Controller
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
-            $this->blade->render('sujeto/emergencia-caracter', $data);
+            $this->blade->render('sujeto/caracteristicas-regulaciones', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('emergencia/emergencia-caracter', $data);
+            $this->blade->render('regulaciones/caracteristicas-regulaciones', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/emergencia-caracter', $data);
+            $this->blade->render('consejeria/caracteristicas-regulaciones', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function emergencia_materias()
+    public function mat_exentas()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -84,17 +84,17 @@ class emergency extends CI_Controller
         //$data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-            $this->blade->render('sujeto/emergencia-materias', $data);
+            $this->blade->render('sujeto/materias-exentas', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('emergencia/emergencia-materias', $data);
+            $this->blade->render('regulaciones/materias-exentas', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/emergencia-materias', $data);
+            $this->blade->render('consejeria/materias-exentas', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function emergencia_nat_reg()
+    public function nat_regulaciones()
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -103,17 +103,17 @@ class emergency extends CI_Controller
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-            $this->blade->render('sujeto/emergencia-nat-reg', $data);
+            $this->blade->render('sujeto/nat-regulacioes', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('emergencia/emergencia-nat-reg', $data);
+            $this->blade->render('regulaciones/nat-regulacioes', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/emergencia-nat-reg', $data);
+            $this->blade->render('consejeria/nat-regulacioes', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function edit_caract($id_regulacion)
+    public function edit_public_caract($id_regulacion)
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -162,53 +162,25 @@ class emergency extends CI_Controller
         // Obtener los indices basados en los ID_Indice
         $data['relindice'] = $this->RegulacionModel->get_rel_by_indice($indice_ids);
 
+        // obtener los datos de la tabla de mat_sec_suj
+        $data['mat_sec'] = $this->RegulacionModel->get_mat_sec_by_id_caract($data['caracteristicas']['ID_caract']);
+
+        // obtener los datos de la tabla de mat_sec_suj
+        $data['fundamentos'] = $this->RegulacionModel->get_fun_by_id_caract($data['caracteristicas']['ID_caract']);
+
         // Pasar los datos a la vista
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('sujeto/editar_caracteristicas', $data);
+            $this->blade->render('sujeto/editar_publi_caract', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/editar_caracteristicas', $data);
+            $this->blade->render('publicadas/editar_publi_caract', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/editar_caracteristicas', $data);
+            $this->blade->render('consejeria/editar_publi_caract', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
     }
 
-    public function edit_mat($id_regulacion)
-    {
-        $user = $this->ion_auth->user()->row();
-        $group = $this->ion_auth->get_users_groups($user->id)->row();
-        $groupName = $group->name;
-        $iduser = $user->id;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
-
-        // Obtener los datos de la regulación
-        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
-
-        // Obtener las materias relacionadas con la regulación
-        $materias = $this->RegulacionModel->get_materias_by_regulacion($id_regulacion);
-
-        // Verificar si hay materias relacionadas
-        $has_materias = $this->RegulacionModel->has_materias($id_regulacion);
-
-        // Pasar los datos a la vista
-        $data['materias'] = $materias;
-        $data['has_materias'] = $has_materias;
-
-        if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('sujeto/editar_materias', $data);
-        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/editar_materias', $data);
-        } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/editar_materias', $data);
-        } else {
-            redirect('auth/login', 'refresh');
-        }
-    }
-
-    public function edit_nat($id_regulacion)
+    public function edit_public_nat($id_regulacion)
     {
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -221,29 +193,25 @@ class emergency extends CI_Controller
         // Obtener los datos de la naturaleza de natreg
         $data['natreg'] = $this->RegulacionModel->get_rel_nat_reg_by_id($id_regulacion);
         if ($data['natreg'] == null) {
+            $data['id_nat'] = $this->RegulacionModel->get_max_id_nat()+1;
         } else {
+            $data['id_nat'] = $data['natreg']['ID_Nat'];
             $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
             $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
+            $data['tramites'] = $this->RegulacionModel->get_tramites_by_id_nat($data['natreg']['ID_Nat']);
             $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
         }
-        // // Obtener los datos de la naturaleza de la regulación
-        // $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
-        // // Obtener los datos de las regulaciones vinculadas
-        // $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
-        // // Pasar el valor de Enlace_Oficial a la vista
-        // $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
-        //Obtener de_naturaleza_regulacion por ID_Regulacion
         $data['natreg2'] = $this->RegulacionModel->get_naturaleza_regulacion_by_regulacion($id_regulacion);
         //Obtener de_naturaleza_regulacion por ID_Nat
         $data['natural'] = $this->RegulacionModel->getNaturalezaRegulacionByRegulacion($id_regulacion);
         $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_by_id($id_regulacion);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('sujeto/editar_naturaleza', $data);
+            $this->blade->render('sujeto/editar_publi_naturaleza', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/editar_naturaleza', $data);
+            $this->blade->render('publicadas/editar_publi_naturaleza', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/editar_naturaleza', $data);
+            $this->blade->render('consejeria/editar_publi_naturaleza', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
@@ -293,14 +261,12 @@ class emergency extends CI_Controller
         }
 
         // Determinar el estatus basado en el grupo del usuario
-        $Estatus = 5; // Valor por defecto
+        $Estatus = 0; // Valor por defecto
         if ($groupName == 'admin' || $groupName == 'sedeco') {
-            $Estatus = 5;
+            $Estatus = 1;
         } elseif ($groupName == 'sujeto_obligado') {
-            $Estatus = 5;
+            $Estatus = 0;
         }
-
-        $publicada = 1;
 
         // Preparar los datos para insertar
         $data = array(
@@ -309,7 +275,6 @@ class emergency extends CI_Controller
             'Nombre_Regulacion' => $formData['nombre'],
             'Homoclave' => 'R-IPR-CHH-0-IPR-001',
             'Estatus' => $Estatus,
-            'publicada' => $publicada,
             'Vigencia' => $formData['campoExtra'],
             'Objetivo_Reg' => $formData['objetivoReg'],
             'Fecha_Cre_Sys' => date('Y-m-d'),// Agregar solo la fecha del sistema
@@ -661,7 +626,7 @@ class emergency extends CI_Controller
             $inputEnlace = $this->input->post('inputEnlace');
             $iNormativo = null;
             $selectedRegulaciones = json_decode($this->input->post('selectedRegulaciones'), true);
-            $url = $this->input->post('url');
+            $url = null;
             $tram = $this->input->post('tram');
             $dir = $this->input->post('dir');
 
@@ -674,7 +639,7 @@ class emergency extends CI_Controller
                 'Enlace_Oficial' => $inputEnlace,
                 'Instrumento_normativo' => $iNormativo,
                 'file_path' => !empty($file_path) ? $file_path : null,
-                'url' => !empty($url) ? $url : null
+                'url' => null
             );
 
             $id_naturaleza = $this->RegulacionModel->insert_naturaleza_regulacion($data);
@@ -720,6 +685,7 @@ class emergency extends CI_Controller
                 $this->RegulacionModel->insert_tramite($data_tramite);
             }
             echo json_encode(array('status' => 'success'));
+            exit();
         } else {
             log_message('error', 'Invalid tramites data: ' . print_r($tramites, true));
         }
@@ -727,7 +693,6 @@ class emergency extends CI_Controller
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             // Verificación si el radio "sí" está seleccionado
             $inputEnlace = $this->input->post('inputEnlace');
-            $url = $this->input->post('url');
             $iNormativo = null;
             $selectedRegulaciones = json_decode($this->input->post('selectedRegulaciones'), true);
             $selectedSectors = json_decode($this->input->post('selectedSectors'), true);
@@ -735,6 +700,8 @@ class emergency extends CI_Controller
             $selectedRamas = json_decode($this->input->post('selectedRamas'), true);
             $selectedSubramas = json_decode($this->input->post('selectedSubramas'), true);
             $selectedClases = json_decode($this->input->post('selectedClases'), true);
+            $tram = $this->input->post('tram');
+            $dir = $this->input->post('dir');
 
             $max_id_nat = $this->RegulacionModel->get_max_id_nat();
             $new_id_nat = $max_id_nat + 1;
@@ -743,7 +710,7 @@ class emergency extends CI_Controller
                 'Enlace_Oficial' => $inputEnlace,
                 'Instrumento_normativo' => $iNormativo,
                 'file_path' => !empty($file_path) ? $file_path : null,
-                'url' => !empty($url) ? $url : null
+                'url' => null
             );
 
             $id_naturaleza = $this->RegulacionModel->insert_naturaleza_regulacion($data);
@@ -765,7 +732,7 @@ class emergency extends CI_Controller
             $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
 
             // Guardar en la base de datos rel_nat_reg
-            if (!empty($selectedSectors) || !empty($selectedSubsectors) || !empty($selectedRamas) || !empty($selectedSubramas) || !empty($selectedClases)) {
+            if (!empty($selectedSectors) && !empty($selectedSubsectors) && !empty($selectedRamas) && !empty($selectedSubramas) && !empty($selectedClases)) {
                 foreach ($selectedSectors as $sector) {
                     foreach ($selectedSubsectors as $subsector) {
                         foreach ($selectedRamas as $rama) {
@@ -787,21 +754,36 @@ class emergency extends CI_Controller
                         }
                     }
                 }
-            } else if (!empty($selectedSectors) || !empty($selectedSubsectors)) {
-                foreach ($selectedSectors as $sector) {
-                    foreach ($selectedSubsectors as $subsector) {
-                        $data_rel_nat = array(
-                            'ID_Regulacion' => $last_id_regulacion,
-                            'ID_Nat' => $id_naturaleza,
-                            'ID_sector' => $sector,
-                            'ID_subsector' => $subsector,
-                            'ID_rama' => null,
-                            'ID_subrama' => null,
-                            'ID_clase' => null
-                        );
-                        $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-                        $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
+            } else if (!empty($selectedSectors) && !empty($selectedSubsectors)) {
+                // Verifica que los campos se ingresen en orden
+                if ((empty($selectedRamas) && empty($selectedSubramas) && empty($selectedClases)) ||
+                    (!empty($selectedRamas) && empty($selectedSubramas) && empty($selectedClases)) ||
+                    (!empty($selectedRamas) && !empty($selectedSubramas) && empty($selectedClases))) {
+                    
+                    foreach ($selectedSectors as $sector) {
+                        foreach ($selectedSubsectors as $subsector) {
+                            foreach ($selectedRamas as $rama) {
+                                foreach ($selectedSubramas as $subrama) {
+                                    foreach ($selectedClases as $clase) {
+                                        $data_rel_nat = array(
+                                            'ID_Regulacion' => $last_id_regulacion,
+                                            'ID_Nat' => $id_naturaleza,
+                                            'ID_sector' => $sector,
+                                            'ID_subsector' => $subsector,
+                                            'ID_rama' => !empty($rama) ? $rama : null,
+                                            'ID_subrama' => !empty($subrama) ? $subrama : null,
+                                            'ID_clase' => null
+                                        );
+                                        $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                                        $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
+                                    }
+                                }
+                            }
+                        }
                     }
+                } else {
+                    // Manejo de error: los campos no están en el orden correcto
+                    echo "Error: Los campos deben ser ingresados en orden.";
                 }
             }
 
@@ -817,7 +799,7 @@ class emergency extends CI_Controller
                 );
                 $this->RegulacionModel->insert_tramite($data_tramite);
             }
-            echo json_encode(array('status' => 'success'));
+            
         } else {
             log_message('error', 'Invalid tramites data: ' . print_r($tramites, true));
         }
@@ -990,7 +972,22 @@ class emergency extends CI_Controller
 
             $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
 
-            echo json_encode(array('status' => 'success'));
+            // Extraer registros de la tabla tramitesTable y guardarlos en la base de datos
+            $tramites = json_decode($this->input->post('tramites'), true);
+
+            if (is_array($tramites)) {
+                foreach ($tramites as $tramite) {
+                    $data_tramite = array(
+                        'ID_Nat' => $idNaturaleza,
+                        'Nombre' => $tramite['Nombre'],
+                        'Direccion' => $tramite['Direccion']
+                    );
+                    $this->RegulacionModel->insert_tramite($data_tramite);
+                }
+                echo json_encode(array('status' => 'success'));
+            } else {
+                log_message('error', 'Invalid tramites data: ' . print_r($tramites, true));
+            }
 
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             $inputEnlace = $this->input->post('inputEnlace');
@@ -1090,7 +1087,22 @@ class emergency extends CI_Controller
                     }
                 }
             }
-            echo json_encode(array('status' => 'success'));
+            // Extraer registros de la tabla tramitesTable y guardarlos en la base de datos
+            $tramites = json_decode($this->input->post('tramites'), true);
+
+            if (is_array($tramites)) {
+                foreach ($tramites as $tramite) {
+                    $data_tramite = array(
+                        'ID_Nat' => $idNaturaleza,
+                        'Nombre' => $tramite['Nombre'],
+                        'Direccion' => $tramite['Direccion']
+                    );
+                    $this->RegulacionModel->insert_tramite($data_tramite);
+                }
+                echo json_encode(array('status' => 'success'));
+            } else {
+                log_message('error', 'Invalid tramites data: ' . print_r($tramites, true));
+            }
         } else {
             echo json_encode(array('status' => 'error', 'message' => 'Invalid request'));
         }
@@ -1964,5 +1976,144 @@ class emergency extends CI_Controller
 
         // Retornar el registro insertado como JSON
         echo json_encode($new_tramite);
+    }
+    public function guardarRegistros() {
+        // Obtiene los datos enviados por la solicitud AJAX
+        $registros = $this->input->post('registros');
+        $ID_caract = $this->input->post('ID_caract');
+
+        // Verifica que los datos no estén vacíos
+        if (!empty($registros) && !empty($ID_caract)) {
+            foreach ($registros as $registro) {
+                $data = array(
+                    'ID_MatSec' => $registro['ID_MatSec'],
+                    'ID_caract' => $ID_caract,
+                    'Materias' => $registro['Materias'],
+                    'Sectores' => $registro['Sectores'],
+                    'SujetosRegulados' => $registro['SujetosRegulados']
+                );
+
+                // Inserta los datos en la tabla de_mat_sec_suj
+                $this->RegulacionModel->insertarRegistro($data);
+            }
+
+            // Responde con éxito
+            echo json_encode(array('status' => 'success'));
+        } else {
+            // Responde con error si los datos están vacíos
+            echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
+        }
+    }
+
+    public function InsertarFundamentos() {
+        // Obtiene los datos enviados por la solicitud AJAX
+        $fundamentos = $this->input->post('fundamentos');
+        $ID_caract = $this->input->post('ID_caract');
+
+        // Verifica que los datos no estén vacíos
+        if (!empty($fundamentos) && !empty($ID_caract)) {
+            foreach ($fundamentos as $fundamento) {
+                $data = array(
+                    'ID_Fun' => $fundamento['ID_Fun'],
+                    'ID_caract' => $ID_caract,
+                    'Nombre' => $fundamento['Nombre'],
+                    'Articulo' => $fundamento['Articulo'],
+                    'Link' => $fundamento['Link']
+                );
+
+                // Inserta los datos en la tabla de_mat_sec_suj
+                $this->RegulacionModel->insertFun($data);
+            }
+
+            // Responde con éxito
+            echo json_encode(array('status' => 'success'));
+        } else {
+            // Responde con error si los datos están vacíos
+            echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
+        }
+    }
+    public function verificarRegistros() {
+        $ultimoID = $this->RegulacionModel->obtenerUltimoIDMatSec();
+        $existenRegistros = $ultimoID !== null;
+
+        echo json_encode(array(
+            'existenRegistros' => $existenRegistros,
+            'ultimoID' => $ultimoID
+        ));
+    }
+    public function verificarRegistros2() {
+        $ID_caract = $this->input->get('ID_caract');
+        $ultimoID = $this->RegulacionModel->obtenerUltimoIDMatSec();
+        $registrosExistentes = $this->RegulacionModel->get_registros_by_id_caract($ID_caract);
+        $existenRegistros = $ultimoID !== null;
+
+        echo json_encode(array(
+            'ID_caract' => $ID_caract,
+            'existenRegistros' => $existenRegistros,
+            'ultimoID' => $ultimoID,
+            'registrosExistentes' => $registrosExistentes
+        ));
+    }
+    public function verificarFundamentos() {
+        $ultimoID = $this->RegulacionModel->obtenerUltimoIDFun();
+        $existenRegistros = $ultimoID !== null;
+
+        echo json_encode(array(
+            'existenRegistros' => $existenRegistros,
+            'ultimoID' => $ultimoID
+        ));
+    }
+    public function verificarFundamentos2() {
+        $ID_caract = $this->input->get('ID_caract');
+        $ultimoID = $this->RegulacionModel->obtenerUltimoIDFun();
+        $registrosExistentes = $this->RegulacionModel->get_fundamentos_by_id_caract($ID_caract);
+        $existenRegistros = $ultimoID !== null;
+
+        echo json_encode(array(
+            'ID_caract' => $ID_caract,
+            'existenRegistros' => $existenRegistros,
+            'ultimoID' => $ultimoID,
+            'registrosExistentes' => $registrosExistentes
+        ));
+    }
+    public function verificarTramites() {
+        $ID_Nat = $this->input->get('ID_Nat');
+        $ultimoID = $this->RegulacionModel->obtenerUltimoIDTram();
+        $registrosExistentes = $this->RegulacionModel->get_tramites_by_id_nat($ID_Nat);
+        $existenRegistros = $ultimoID !== null;
+
+        echo json_encode(array(
+            'ID_Nat' => $ID_Nat,
+            'existenRegistros' => $existenRegistros,
+            'ultimoID' => $ultimoID,
+            'registrosExistentes' => $registrosExistentes
+        ));
+    }
+    public function eliminarRegistro() {
+        $ID_MatSec = $this->input->post('ID_MatSec');
+
+        if ($this->RegulacionModel->eliminarRegistro($ID_MatSec)) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error'));
+        }
+    }
+    public function eliminarFundamento() {
+        $ID_Fun = $this->input->post('ID_Fun');
+
+        if ($this->RegulacionModel->eliminarFun($ID_Fun)) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error'));
+        }
+    }
+    public function eliminarTramite() {
+        $ID_Tram = $this->input->post('ID_Tram');
+
+        if ($this->RegulacionModel->eliminarTram($ID_Tram)) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error'));
+        }
     }
 }

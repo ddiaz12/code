@@ -13,10 +13,10 @@ Registro Estatal de Regulaciones
 <ol class="breadcrumb mb-4 mt-5">
     <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
     </li>
-    <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
-                class="fas fa-file-alt me-1"></i>Regulaciones</a>
+    <li class="breadcrumb-item"><a href="<?php echo base_url('PublicadasController'); ?>"><i
+                class="fas fa-file-alt me-1"></i>Regulaciones publicadas</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar Publicadas
     </li>
 </ol>
 <div class="container mt-5">
@@ -47,7 +47,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('PublicadasController/edit_public_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
@@ -56,15 +56,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
-                                        class="custom-link">
-                                        <i class="fa-solid fa-table-list fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
-                                    </a>
-                                </li>
-                                <p></p>
-                                <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('PublicadasController/edit_public_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
@@ -93,7 +85,7 @@ Registro Estatal de Regulaciones
                                 <div class="form-group">
                                     <label for="selectSujeto">Ámbito de aplicación<span
                                             class="text-danger">*</span></label>
-                                    <select class="form-control" id="selectSujeto" name="sujeto" required>
+                                    <select class="form-control" id="selectSujeto" name="sujeto" required disabled>
                                         <option disabled selected><?php echo $caracteristicas['Ambito_Aplicacion']; ?>
                                         </option>
                                         <option value="Estatal">Estatal</option>
@@ -102,7 +94,7 @@ Registro Estatal de Regulaciones
                                 <div class="form-group">
                                     <label for="selectUnidad">Tipo de ordenamiento jurídico<span
                                             class="text-danger">*</span></label>
-                                    <select class="form-control" id="selectUnidad" name="unidad" required>
+                                    <select class="form-control" id="selectUnidad" name="unidad" required disabled>
                                         <option
                                             value="<?php echo isset($tipo_ordenamiento_guardado['ID_tOrdJur']) ? $tipo_ordenamiento_guardado['ID_tOrdJur'] : ''; ?>"
                                             disabled selected>
@@ -120,21 +112,21 @@ Registro Estatal de Regulaciones
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Exp" name="fecha_expedicion"
                                         value="<?php echo isset($caracteristicas['Fecha_Exp']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Exp'])) : ''; ?>"
-                                        required>
+                                        required disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Publi">Fecha de publicación de la regulación<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Publi" name="fecha_publicacion"
                                         value="<?php echo isset($caracteristicas['Fecha_Publi']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Publi'])) : ''; ?>"
-                                        required>
+                                        required disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Vigor">Fecha de entrada en vigor<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Vigor" name="fecha_vigor"
                                         value="<?php echo isset($caracteristicas['Fecha_Vigor']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Vigor'])) : ''; ?>"
-                                        required>
+                                        required disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Act">Fecha de última actualización</label>
@@ -171,7 +163,7 @@ Registro Estatal de Regulaciones
                                             <label for="campoExtra">Vigencia de la regulación</label>
                                             <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                                 value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
-                                                required>
+                                                required disabled>
                                         </div>
                                     </div>
                                 </form>
@@ -179,7 +171,7 @@ Registro Estatal de Regulaciones
                                 <div class="form-group">
                                     <label for="inputVialidad">Orden de gobierno que la emite:<span
                                             class="text-danger">*</span></label>
-                                    <select class="form-control" id="selectUnidad" name="orden" required>
+                                    <select class="form-control" id="selectUnidad" name="orden" required disabled>
                                         <option disabled selected><?php echo $caracteristicas['Orden_Gob']; ?>
                                         <option value="Estatal">Colima</option>
                                     </select>
@@ -239,7 +231,7 @@ Registro Estatal de Regulaciones
                                                 <label for="selectUnidad2">Orden de gobierno que la
                                                     emite:<span class="text-danger">*</span></label>
                                                 <select class="form-control" id="selectUnidad2" name="selectUnidad2"
-                                                    required>
+                                                    required disabled>
                                                     <option disabled selected>Selecciona una opción
                                                     </option>
                                                     <option value="Estatal">Colima</option>
@@ -368,7 +360,7 @@ Registro Estatal de Regulaciones
                                             // Función para obtener los índices y actualizar la tabla
                                             function obtenerIndicesYActualizarTabla() {
                                                 $.ajax({
-                                                    url: '<?= base_url("RegulacionController/get_indices_by_caract_ajax") ?>',
+                                                    url: '<?= base_url("PublicadasController/get_indices_by_caract_ajax") ?>',
                                                     type: 'POST',
                                                     data: {
                                                         ID_caract: formData.ID_caract
@@ -438,7 +430,7 @@ Registro Estatal de Regulaciones
                                             )) {
                                             // Buscar el valor de ID_Indice en la tabla rel_indice
                                             $.ajax({
-                                                url: '<?= base_url("RegulacionController/buscarIndiceEnRelIndice") ?>',
+                                                url: '<?= base_url("PublicadasController/buscarIndiceEnRelIndice") ?>',
                                                 type: 'POST',
                                                 data: {
                                                     ID_Indice: ID_Indice
@@ -452,7 +444,7 @@ Registro Estatal de Regulaciones
                                                     // Si hay resultados, eliminar los registros en rel_indice
                                                     if (response.length > 0) {
                                                         $.ajax({
-                                                            url: '<?= base_url("RegulacionController/eliminarEnRelIndice") ?>',
+                                                            url: '<?= base_url("PublicadasController/eliminarEnRelIndice") ?>',
                                                             type: 'POST',
                                                             data: {
                                                                 ID_Indice: ID_Indice
@@ -487,7 +479,7 @@ Registro Estatal de Regulaciones
 
                                                                 // Enviar la solicitud AJAX para eliminar el registro de la base de datos
                                                                 $.ajax({
-                                                                    url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
+                                                                    url: '<?= base_url("PublicadasController/eliminarIndice") ?>',
                                                                     type: 'POST',
                                                                     data: {
                                                                         ID_caract: ID_caract,
@@ -549,7 +541,7 @@ Registro Estatal de Regulaciones
 
                                                         // Enviar la solicitud AJAX para eliminar el registro de la base de datos
                                                         $.ajax({
-                                                            url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
+                                                            url: '<?= base_url("PublicadasController/eliminarIndice") ?>',
                                                             type: 'POST',
                                                             data: {
                                                                 ID_caract: ID_caract,
@@ -599,53 +591,7 @@ Registro Estatal de Regulaciones
                                         name="objetivoReg"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
                                 </div>
                                 <p></p>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <p>Materias, Sectores y Sujetos Regulados</p>
-                                    <button type="submit" id="botonMaterias"
-                                        class="btn btn-success btn-tinto btn-materias">Materias</button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="matModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="myModalLabel">Materias, Sectores y
-                                                        Sujetos Regulados
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form>
-                                                        <div class="form-group">
-                                                            <label for="inputMat">Materias</label>
-                                                            <input type="text" class="form-control" id="inputMat"
-                                                                placeholder="Ingrese la Materia" name="NombreTram">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputSec">Sectores</label>
-                                                            <input type="text" class="form-control" id="inputSec"
-                                                                placeholder="Ingrese el Sector" name="NombreSec">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputSuj">Sujetos Regulados</label>
-                                                            <input type="text" class="form-control" id="inputSuj"
-                                                                placeholder="Ingrese el Sujeto" name="NombreSuj">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                        onclick="closeModal()">Cerrar</button>
-                                                    <button type="button" id="guardarMat" class="btn btn-tinto">Guardar
-                                                        cambios</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <table id="materiasTable" class="table">
                                     <thead>
                                         <tr>
@@ -678,51 +624,6 @@ Registro Estatal de Regulaciones
                                 </table>
                                 <p></p>
                                 <p></p>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <p>Fundamentos Jurídicos</p>
-                                    <button type="submit" id="botofundamentos"
-                                        class="btn btn-success btn btn-tinto btn-fundamentos">Agregar Fundamento</button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="funModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="myModalLabel">Fundamentos Jurídicos</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form>
-                                                        <div class="form-group">
-                                                            <label for="inputNomReg">Nombre de la Regulacion</label>
-                                                            <input type="text" class="form-control" id="inputNomReg"
-                                                                placeholder="Ingrese el Nombre" name="NombreReg">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputArt">Articulo, párrafo, numeral, etc.</label>
-                                                            <input type="text" class="form-control" id="inputArt"
-                                                                placeholder="Ingrese el Articulo" name="NombreArt">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputLink">Link</label>
-                                                            <input type="text" class="form-control" id="inputLink"
-                                                                placeholder="http://" name="NombreLink">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                        onclick="closeModal()">Cerrar</button>
-                                                    <button type="button" id="guardarFun" class="btn btn-tinto">Guardar
-                                                        cambios</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <table id="fundamentoTable" class="table">
                                     <thead>
                                         <tr>
@@ -755,7 +656,7 @@ Registro Estatal de Regulaciones
                                 </table>
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
-                                    <a href="<?php echo base_url('RegulacionController'); ?>"
+                                    <a href="<?php echo base_url('PublicadasController'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
                                     <button type="button" class="btn btn-success btn-guardar"
                                         id="botonGuardar">Guardar</button>
@@ -837,7 +738,7 @@ $(document).ready(function() {
 
         // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
         $.ajax({
-            url: '<?= base_url('RegulacionController/verificarRegistros') ?>',
+            url: '<?= base_url('PublicadasController/verificarRegistros') ?>',
             type: 'GET',
             dataType: 'json',
             success: function(response) {
@@ -887,7 +788,7 @@ $(document).ready(function() {
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Realiza una solicitud AJAX para eliminar el registro de la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/eliminarRegistro') ?>',
+                    url: '<?= base_url('PublicadasController/eliminarRegistro') ?>',
                     type: 'POST',
                     data: { ID_MatSec: idMatSec },
                     success: function(response) {
@@ -915,7 +816,7 @@ $(document).ready(function() {
 
         // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
         $.ajax({
-            url: '<?= base_url('RegulacionController/verificarFundamentos') ?>',
+            url: '<?= base_url('PublicadasController/verificarFundamentos') ?>',
             type: 'GET',
             dataType: 'json',
             success: function(response) {
@@ -964,7 +865,7 @@ $(document).ready(function() {
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Realiza una solicitud AJAX para eliminar el registro de la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/eliminarFundamento') ?>',
+                    url: '<?= base_url('PublicadasController/eliminarFundamento') ?>',
                     type: 'POST',
                     data: { ID_Fun: idFun },
                     success: function(response) {
@@ -997,7 +898,7 @@ $(document).ready(function() {
         console.log('Query:', query); // Verifica que la consulta esté bien
         if (query.length > 0) {
             $.ajax({
-                url: '<?= base_url('RegulacionController/search') ?>',
+                url: '<?= base_url('PublicadasController/search') ?>',
                 method: 'GET',
                 data: {
                     query: query
@@ -1034,7 +935,7 @@ $(document).ready(function() {
         console.log('Query:', query); // Verifica que la consulta esté bien
         if (query.length > 0) {
             $.ajax({
-                url: '<?= base_url('RegulacionController/search') ?>',
+                url: '<?= base_url('PublicadasController/search') ?>',
                 method: 'GET',
                 data: {
                     query: query
@@ -1152,7 +1053,7 @@ $(document).ready(function() {
 
             // Enviar la solicitud AJAX para eliminar el registro de la base de datos
             $.ajax({
-                url: '<?= base_url("RegulacionController/eliminarEmiten") ?>',
+                url: '<?= base_url("PublicadasController/eliminarEmiten") ?>',
                 type: 'POST',
                 data: {
                     ID_caract: ID_caract,
@@ -1201,7 +1102,7 @@ $(document).ready(function() {
 
             // Enviar la solicitud AJAX para eliminar el registro de la base de datos
             $.ajax({
-                url: '<?= base_url("RegulacionController/eliminarAplican") ?>',
+                url: '<?= base_url("PublicadasController/eliminarAplican") ?>',
                 type: 'POST',
                 data: {
                     ID_caract: ID_caract,
@@ -1260,7 +1161,7 @@ $(document).ready(function() {
 
         // Enviar la solicitud AJAX para modificar la regulación
         $.ajax({
-            url: '<?= base_url("RegulacionController/modificarRegulacion") ?>',
+            url: '<?= base_url("PublicadasController/modificarRegulacion") ?>',
             type: 'POST',
             data: formData,
             success: function(response) {
@@ -1268,7 +1169,7 @@ $(document).ready(function() {
                 if (result.status === 'success') {
                     // Enviar la solicitud AJAX para modificar las características
                     $.ajax({
-                        url: '<?= base_url("RegulacionController/modificarCaracteristicas") ?>',
+                        url: '<?= base_url("PublicadasController/modificarCaracteristicas") ?>',
                         type: 'POST',
                         data: formData,
                         success: function(response) {
@@ -1277,7 +1178,7 @@ $(document).ready(function() {
                                 // Verificar si hay registros en rel_autoridades_emiten con el ID_caract
 
                                 $.ajax({
-                                    url: '<?= base_url("RegulacionController/verificarRelAutoridadesEmiten") ?>',
+                                    url: '<?= base_url("PublicadasController/verificarRelAutoridadesEmiten") ?>',
                                     type: 'POST',
                                     data: {
                                         ID_caract: formData.ID_caract
@@ -1316,7 +1217,7 @@ $(document).ready(function() {
                                                             .ID_caract
                                                     };
                                                     $.ajax({
-                                                        url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>',
+                                                        url: '<?= base_url("PublicadasController/insertarRelAutoridadesEmiten") ?>',
                                                         type: 'POST',
                                                         data: relDataEmiten,
                                                         success: function(
@@ -1381,7 +1282,7 @@ $(document).ready(function() {
                                                         );
                                                 });
                                             $.ajax({
-                                                url: '<?= base_url("RegulacionController/obtenerExistentesPorCaract") ?>', // Cambia esto a la ruta correcta de tu controlador
+                                                url: '<?= base_url("PublicadasController/obtenerExistentesPorCaract") ?>', // Cambia esto a la ruta correcta de tu controlador
                                                 type: 'POST',
                                                 data: {
                                                     ID_caract: formData
@@ -1447,7 +1348,7 @@ $(document).ready(function() {
                                                                                 .ID_caract
                                                                             ); // Verificar los datos antes de enviarlos
                                                                         $.ajax({
-                                                                            url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>', // Cambia esto a la ruta correcta de tu controlador
+                                                                            url: '<?= base_url("PublicadasController/insertarRelAutoridadesEmiten") ?>', // Cambia esto a la ruta correcta de tu controlador
                                                                             type: 'POST',
                                                                             data: {
                                                                                 ID_Emiten: id,
@@ -1526,7 +1427,7 @@ $(document).ready(function() {
 
                                 // Repetir el mismo proceso para insertarRelAutoridadesAplican
                                 $.ajax({
-                                    url: '<?= base_url("RegulacionController/verificarRelAutoridadesAplican") ?>',
+                                    url: '<?= base_url("PublicadasController/verificarRelAutoridadesAplican") ?>',
                                     type: 'POST',
                                     data: {
                                         ID_caract: formData.ID_caract
@@ -1565,7 +1466,7 @@ $(document).ready(function() {
                                                             .ID_caract
                                                     };
                                                     $.ajax({
-                                                        url: '<?= base_url("RegulacionController/insertarRelAutoridadesAplican") ?>',
+                                                        url: '<?= base_url("PublicadasController/insertarRelAutoridadesAplican") ?>',
                                                         type: 'POST',
                                                         data: relDataAplican,
                                                         success: function(
@@ -1629,7 +1530,7 @@ $(document).ready(function() {
                                                         );
                                                 });
                                             $.ajax({
-                                                url: '<?= base_url("RegulacionController/obtenerExistentesPorCaractAplican") ?>', // Cambia esto a la ruta correcta de tu controlador
+                                                url: '<?= base_url("PublicadasController/obtenerExistentesPorCaractAplican") ?>', // Cambia esto a la ruta correcta de tu controlador
                                                 type: 'POST',
                                                 data: {
                                                     ID_caract: formData
@@ -1695,7 +1596,7 @@ $(document).ready(function() {
                                                                                 .ID_caract
                                                                             ); // Verificar los datos antes de enviarlos
                                                                         $.ajax({
-                                                                            url: '<?= base_url("RegulacionController/insertarRelAutoridadesAplican") ?>', // Cambia esto a la ruta correcta de tu controlador
+                                                                            url: '<?= base_url("PublicadasController/insertarRelAutoridadesAplican") ?>', // Cambia esto a la ruta correcta de tu controlador
                                                                             type: 'POST',
                                                                             data: {
                                                                                 ID_Aplican: id,
@@ -1775,7 +1676,7 @@ $(document).ready(function() {
                                 var registrosExistentes = []; // Array para almacenar los registros existentes
                                 // Realiza una solicitud AJAX para obtener los registros existentes en la base de datos
                                 $.ajax({
-                                    url: '<?php echo base_url('RegulacionController/verificarRegistros2'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                    url: '<?php echo base_url('PublicadasController/verificarRegistros2'); ?>', // Cambia esta URL a la ruta de tu controlador
                                     type: 'GET',
                                     data: { ID_caract: formData.ID_caract }, // Asegúrate de que caracteristicasData esté definido
                                     dataType: 'json',
@@ -1805,7 +1706,7 @@ $(document).ready(function() {
                                             }       
                                         });
                                         $.ajax({
-                                            url: '<?php echo base_url('RegulacionController/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                            url: '<?php echo base_url('PublicadasController/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
                                             type: 'POST',
                                             data: {
                                                 registros: registros,
@@ -1826,7 +1727,7 @@ $(document).ready(function() {
                                 
                                 var registrosExistentes2 = []; // Array para almacenar los registros existentes
                                 $.ajax({
-                                    url: '<?php echo base_url('RegulacionController/verificarFundamentos2'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                    url: '<?php echo base_url('PublicadasController/verificarFundamentos2'); ?>', // Cambia esta URL a la ruta de tu controlador
                                     type: 'GET',
                                     data: { ID_caract: formData.ID_caract }, // Asegúrate de que caracteristicasData esté definido
                                     dataType: 'json',
@@ -1856,7 +1757,7 @@ $(document).ready(function() {
                                             }       
                                         });
                                         $.ajax({
-                                            url: '<?php echo base_url('RegulacionController/InsertarFundamentos'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                            url: '<?php echo base_url('PublicadasController/InsertarFundamentos'); ?>', // Cambia esta URL a la ruta de tu controlador
                                             type: 'POST',
                                             data: {
                                                 fundamentos: fundamentos,
@@ -1876,7 +1777,7 @@ $(document).ready(function() {
                                 });
 
                                 $.ajax({
-                                    url: '<?= base_url("RegulacionController/verificarRegistrosEnDeIndice") ?>',
+                                    url: '<?= base_url("PublicadasController/verificarRegistrosEnDeIndice") ?>',
                                     type: 'POST',
                                     data: {
                                         ID_caract: formData.ID_caract
@@ -1947,7 +1848,7 @@ $(document).ready(function() {
 
                                             // Insertar los datos en la base de datos
                                             $.ajax({
-                                                url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
+                                                url: '<?php echo base_url('PublicadasController/insertarDatosTabla'); ?>',
                                                 type: 'POST',
                                                 data: {
                                                     datosTabla: datosTabla
@@ -1979,7 +1880,7 @@ $(document).ready(function() {
 
                                             // Obtener el nuevo ID_Jerarquia
                                             $.ajax({
-                                                url: '<?= base_url("RegulacionController/obtenerNuevoIdJerarquia") ?>',
+                                                url: '<?= base_url("PublicadasController/obtenerNuevoIdJerarquia") ?>',
                                                 type: 'GET',
                                                 success: function(
                                                     response
@@ -2079,7 +1980,7 @@ $(document).ready(function() {
 
                                                         // Insertar los datos en la base de datos
                                                         $.ajax({
-                                                            url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
+                                                            url: '<?php echo base_url('PublicadasController/insertarRelIndice'); ?>',
                                                             type: 'POST',
                                                             data: {
                                                                 relIndiceData: relIndiceData
@@ -2107,7 +2008,7 @@ $(document).ready(function() {
                                                                     window
                                                                         .location
                                                                         .href =
-                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                        '<?= base_url("PublicadasController/edit_public_nat/"); ?>' +
                                                                         idRegulacion;
                                                                 } else {
                                                                     alert
@@ -2121,7 +2022,7 @@ $(document).ready(function() {
                                                                     window
                                                                         .location
                                                                         .href =
-                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                        '<?= base_url("PublicadasController/edit_public_nat/"); ?>' +
                                                                         idRegulacion;
                                                                 }
                                                             }
@@ -2205,7 +2106,7 @@ $(document).ready(function() {
 
                                             // Insertar los datos en la base de datos
                                             $.ajax({
-                                                url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
+                                                url: '<?php echo base_url('PublicadasController/insertarDatosTabla'); ?>',
                                                 type: 'POST',
                                                 data: {
                                                     datosTabla: datosTabla
@@ -2237,7 +2138,7 @@ $(document).ready(function() {
 
                                             // Obtener el nuevo ID_Jerarquia
                                             $.ajax({
-                                                url: '<?= base_url("RegulacionController/obtenerNuevoIdJerarquia") ?>',
+                                                url: '<?= base_url("PublicadasController/obtenerNuevoIdJerarquia") ?>',
                                                 type: 'GET',
                                                 success: function(
                                                     response
@@ -2331,7 +2232,7 @@ $(document).ready(function() {
 
                                                         // Insertar los datos en la base de datos
                                                         $.ajax({
-                                                            url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
+                                                            url: '<?php echo base_url('PublicadasController/insertarRelIndice'); ?>',
                                                             type: 'POST',
                                                             data: {
                                                                 relIndiceData: relIndiceData
@@ -2359,7 +2260,7 @@ $(document).ready(function() {
                                                                     window
                                                                         .location
                                                                         .href =
-                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                        '<?= base_url("PublicadasController/edit_public_nat/"); ?>' +
                                                                         idRegulacion;
                                                                 } else {
                                                                     alert
@@ -2373,7 +2274,7 @@ $(document).ready(function() {
                                                                     window
                                                                         .location
                                                                         .href =
-                                                                        '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                        '<?= base_url("PublicadasController/edit_public_nat/"); ?>' +
                                                                         idRegulacion;
                                                                 }
                                                             }
@@ -2451,7 +2352,7 @@ $(document).ready(function() {
             lastInsertedOrden === null) {
             // Si es la primera inserción, obtener los valores de la base de datos
             $.ajax({
-                url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                url: '<?= base_url('PublicadasController/getMaxValues') ?>',
                 method: 'GET',
                 success: function(data) {
                     var maxValues = JSON.parse(
@@ -2505,7 +2406,7 @@ $(document).ready(function() {
 
     // Obtener el valor máximo de ID_Jerarquia al cargar la página
     $.ajax({
-        url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
+        url: '<?php echo base_url('PublicadasController/obtenerMaxIDJerarquia'); ?>',
         type: 'GET',
         success: function(response) {
             currentIDJerarquia = parseInt(response);

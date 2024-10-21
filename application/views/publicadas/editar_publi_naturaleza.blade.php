@@ -13,7 +13,7 @@ Registro Estatal de Regulaciones
 <ol class="breadcrumb mb-4 mt-5">
     <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
     </li>
-    <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
+    <li class="breadcrumb-item"><a href="<?php echo base_url('PublicadasController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
     <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
@@ -47,7 +47,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('PublicadasController/edit_public_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
@@ -56,15 +56,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
-                                        class="custom-link">
-                                        <i class="fa-solid fa-table-list fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
-                                    </a>
-                                </li>
-                                <p></p>
-                                <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('PublicadasController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
@@ -347,7 +339,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para verificar el sector
     $.ajax({
-        url: '<?= base_url("RegulacionController/verificarSector") ?>',
+        url: '<?= base_url("PublicadasController/verificarSector") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -378,7 +370,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener los sectores
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerSectoresPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerSectoresPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -411,7 +403,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener los subsectors
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerSubsectoresPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerSubsectoresPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -450,7 +442,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener las ramas
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerRamasPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerRamasPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -488,7 +480,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener las subramas
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerSubramasPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerSubramasPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -527,7 +519,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener las clases
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerClasesPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerClasesPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -566,7 +558,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener las regulaciones
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerRegulacionesPorNat") ?>',
+        url: '<?= base_url("PublicadasController/obtenerRegulacionesPorNat") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -639,7 +631,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener los ID de los sectores
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerIdSectoresPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerIdSectoresPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -663,7 +655,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener los ID de los subsectores
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerIdSubsectoresPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerIdSubsectoresPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -687,7 +679,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener los ID de las ramas
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerIdRamasPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerIdRamasPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -711,7 +703,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener los ID de las subramas
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerIdSubramasPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerIdSubramasPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -735,7 +727,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener los ID de las clases
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerIdClasesPorRegulacion") ?>',
+        url: '<?= base_url("PublicadasController/obtenerIdClasesPorRegulacion") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -759,7 +751,7 @@ $(document).ready(function() {
 
     // Realizar la solicitud AJAX para obtener los ID de las regulaciones
     $.ajax({
-        url: '<?= base_url("RegulacionController/obtenerIdRegulacionesPorNat") ?>',
+        url: '<?= base_url("PublicadasController/obtenerIdRegulacionesPorNat") ?>',
         type: 'POST',
         data: {
             id_regulacion: id_regulacion
@@ -784,7 +776,7 @@ $(document).ready(function() {
     $('#SectorInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_sector') ?>',
+            url: '<?= base_url('PublicadasController/search_sector') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -848,7 +840,7 @@ $(document).ready(function() {
     $('#SubsectorInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_subsector') ?>',
+            url: '<?= base_url('PublicadasController/search_subsector') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -914,7 +906,7 @@ $(document).ready(function() {
     $('#RamaInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_rama') ?>',
+            url: '<?= base_url('PublicadasController/search_rama') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -978,7 +970,7 @@ $(document).ready(function() {
     $('#SubramaInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_subrama') ?>',
+            url: '<?= base_url('PublicadasController/search_subrama') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -1043,7 +1035,7 @@ $(document).ready(function() {
     $('#ClaseInput').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_clase') ?>',
+            url: '<?= base_url('PublicadasController/search_clase') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -1108,7 +1100,7 @@ $(document).ready(function() {
     $('#inputVinculadas').on('keyup', function() {
         let searchTerm = $(this).val();
         $.ajax({
-            url: '<?= base_url('RegulacionController/search_regulacion') ?>',
+            url: '<?= base_url('PublicadasController/search_regulacion') ?>',
             type: 'POST',
             data: {
                 search_term: searchTerm
@@ -1161,7 +1153,7 @@ $(document).ready(function() {
     var lastIdTramites = $('#tramitesTable tbody tr:last td:first').text();
     var newIdTramites = lastIdTramites ? parseInt(lastIdTramites) + 1 : 1;
     $.ajax({
-        url: '<?= base_url('RegulacionController/verificarTramites') ?>',
+        url: '<?= base_url('PublicadasController/verificarTramites') ?>',
         type: 'GET',
         data: { ID_Nat : id_nat },
         dataType: 'json',
@@ -1212,7 +1204,7 @@ $(document).ready(function() {
         if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
             // Realiza una solicitud AJAX para eliminar el registro de la base de datos
             $.ajax({
-                url: '<?= base_url('RegulacionController/eliminarTramite') ?>',
+                url: '<?= base_url('PublicadasController/eliminarTramite') ?>',
                 type: 'POST',
                 data: { ID_Tramites: idTram },
                 success: function(response) {
@@ -1296,7 +1288,7 @@ $(document).ready(function() {
         var registrosExistentes = []; // Array para almacenar los registros existentes
         // Realiza una solicitud AJAX para obtener los registros existentes en la base de datos
         $.ajax({
-            url: '<?php echo base_url('RegulacionController/verificarTramites'); ?>', // Cambia esta URL a la ruta de tu controlador
+            url: '<?php echo base_url('PublicadasController/verificarTramites'); ?>', // Cambia esta URL a la ruta de tu controlador
             type: 'GET',
             data: { ID_Nat : id_nat }, // Asegúrate de que caracteristicasData esté definido
             dataType: 'json',
@@ -1329,7 +1321,7 @@ $(document).ready(function() {
                 console.log('registrosExistentes:', registrosExistentes);
 
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
+                    url: '<?= base_url('PublicadasController/save_naturaleza_regulacion2') ?>',
                     type: 'POST',
                     data: formData,
                     processData: false,
@@ -1344,7 +1336,7 @@ $(document).ready(function() {
                                 text: 'Datos guardados exitosamente',
                             }).then(() => {
                                 window.location.href =
-                                    '<?= base_url('RegulacionController') ?>';
+                                    '<?= base_url('PublicadasController') ?>';
                             });
                         } else {
                             Swal.fire({
@@ -1353,7 +1345,7 @@ $(document).ready(function() {
                                 text: 'Error al guardar los datos: ' + response.message,
                             }).then(() => {
                                 window.location.href =
-                                    '<?= base_url('RegulacionController') ?>';
+                                    '<?= base_url('PublicadasController') ?>';
                             });
                         }
                     },
