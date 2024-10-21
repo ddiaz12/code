@@ -65,7 +65,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="sujetos">Sujeto obligado<span class="text-danger">*</span></label>
+                            <label for="sujetos">Sujeto Obligado<span class="text-danger">*</span></label>
                             <select class="form-control" id="sujetos" name="sujetos" required>
                                 <option disabled selected>Selecciona una opción</option>
                                 <?php foreach ($sujetos as $sujeto): ?>

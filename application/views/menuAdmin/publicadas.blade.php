@@ -17,6 +17,14 @@ Registro Estatal de Regulaciones
         <li class="breadcrumb-item active"><i class="fas fa-file me-1"></i>Regulaciones publicadas</li>
     </ol>
     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="<?php echo base_url('PhpSpreadsheet/descargarRegulaciones'); ?>" class="btn btn-primary btn-agregar">
+            <i class="fas fa-download me-1"></i> Descargar fichas 
+        </a>
+        <a href="<?php echo base_url('PhpSpreadsheet/descargarRegulacionesOrdenamiento'); ?>" class="btn btn-primary btn-agregarOficina">
+            <i class="fas fa-download me-1"></i> Descargar excel por ordenamiento
+        </a>
+    </div>
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">

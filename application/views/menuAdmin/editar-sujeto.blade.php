@@ -14,9 +14,9 @@
         <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
         </li>
         <li class="breadcrumb-item"><a href="<?php echo base_url('menu/menu_sujeto'); ?>"><i class="fas fa-users me-1"></i>Sujeto
-                obligado</a>
+                Obligado</a>
         </li>
-        <li class="breadcrumb-item active"><i class="fas fa-user-plus me-1"></i>Agregar sujeto obligado</li>
+        <li class="breadcrumb-item active"><i class="fas fa-user-plus me-1"></i>Agregar Sujeto Obligado</li>
     </ol>
     <div class="container mt-5">
         <div class="row justify-content-center div-formUsuario">
@@ -24,7 +24,7 @@
             <div class="col-md-9">
 
                 <div class="card">
-                    <div class="card-header header-usuario text-white">Agregar sujeto obligado</div>
+                    <div class="card-header header-usuario text-white">Agregar Sujeto Obligado</div>
                     <div class="card-body">
 
                         <!-- Formulario de agregar usuario -->
@@ -48,7 +48,7 @@
                             </div>-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="inputSujetos">Sujeto obligado<span class="text-danger">*</span></label>
+                                    <label for="inputSujetos">Sujeto Obligado<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="inputSujetos" name="inputSujetos"
                                         value="{{ $sujeto->nombre_sujeto }}" required>
                                     <small id="msg_inputSujetos" class="text-danger"></small>
@@ -70,11 +70,19 @@
                                     <small id="msg_inputSiglas" class="text-danger"></small>
                                 </div>
                             </div>
+                            <!--Select de materias-->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputMateria">Materia<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="inputMateria" name="inputMateria"
-                                        value="{{ $sujeto->materia }}" required>
+                                    <select class="form-control" id="inputMateria" name="inputMateria" required>
+                                        <option disabled selected>Selecciona una opción</option>
+                                        @foreach ($materias as $materia)
+                                            <option value="{{ $materia->id_materia }}"
+                                                {{ $materia->id_materia == $sujeto->id_materia ? 'selected' : '' }}>
+                                                {{ $materia->nombre_materia }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                     <small id="msg_inputMateria" class="text-danger"></small>
                                 </div>
                             </div>

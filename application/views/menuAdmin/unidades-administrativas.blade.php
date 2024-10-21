@@ -31,7 +31,7 @@
                             <th class="tTabla-color">Id</th>
                             <th class="tTabla-color">Nombre de U.A</th>
                             <th class="tTabla-color">Siglas</th>
-                            <th class="tTabla-color">Nombre sujeto obligado</th>
+                            <th class="tTabla-color">Nombre Sujeto Obligado</th>
                             <th class="tTabla-color">Acciones</th>
                         </tr>
                     </thead>

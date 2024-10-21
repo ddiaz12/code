@@ -17,7 +17,7 @@ Registro Estatal de Regulaciones
                 class="fas fa-users me-1"></i>Sujeto
             obligado</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fas fa-user-plus me-1"></i>Agregar sujeto obligado</li>
+    <li class="breadcrumb-item active"><i class="fas fa-user-plus me-1"></i>Agregar Sujeto Obligado</li>
 </ol>
 <div class="container mt-5">
     <div class="row justify-content-center div-formUsuario">
@@ -25,7 +25,7 @@ Registro Estatal de Regulaciones
         <div class="col-md-9">
 
             <div class="card">
-                <div class="card-header header-usuario text-white">Agregar sujeto obligado</div>
+                <div class="card-header header-usuario text-white">Agregar Sujeto Obligado</div>
                 <div class="card-body">
 
                     <!-- Formulario de agregar usuario -->
@@ -47,7 +47,7 @@ Registro Estatal de Regulaciones
                             </div>-->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputSujetos">Sujeto obligado<span class="text-danger">*</span></label>
+                                <label for="inputSujetos">Sujeto Obligado<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="inputSujetos" name="inputSujetos" required>
                                 <small id="msg_inputSujetos" class="text-danger"></small>
                             </div>
@@ -67,19 +67,25 @@ Registro Estatal de Regulaciones
                                 <small id="msg_inputSiglas" class="text-danger"></small>
                             </div>
                         </div>
+                        <!--Select de materias-->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputMateria">Materia<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="inputMateria" name="inputMateria" required>
+                                <select class="form-control" id="inputMateria" name="inputMateria" required>
+                                    <option disabled selected>Selecciona una opción</option>
+                                    @foreach ($materias as $materia)
+                                        <option value="{{ $materia->id_materia }}">{{ $materia->nombre_materia }}</option>
+                                    @endforeach
+                                </select>
                                 <small id="msg_inputMateria" class="text-danger"></small>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end mb-3">
-                            <button type="button" class="btn btn-secondary me-2"
-                                onclick="confirmarCancelar()">Cancelar</button>
-                            <button type="button" onclick="enviarFormulario();"
-                                class="btn btn-guardar btn-rounded">Guardar</button>
-                        </div>
+                            <div class="d-flex justify-content-end mb-3">
+                                <button type="button" class="btn btn-secondary me-2"
+                                    onclick="confirmarCancelar()">Cancelar</button>
+                                <button type="button" onclick="enviarFormulario();"
+                                    class="btn btn-guardar btn-rounded">Guardar</button>
+                            </div>
                     </form>
                 </div>
             </div>
