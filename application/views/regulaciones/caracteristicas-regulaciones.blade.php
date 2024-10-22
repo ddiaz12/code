@@ -179,7 +179,7 @@ Registro Estatal de Regulaciones
                                 <table id="emitenTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_Dependencia</th>
+                                            <th class="hidden-column">ID_Dependencia</th>
                                             <th>Tipo_Dependencia</th>
                                             <th>Acción</th>
                                         </tr>
@@ -189,6 +189,11 @@ Registro Estatal de Regulaciones
                                     </tbody>
                                 </table>
 
+                                <style>
+                                .hidden-column {
+                                    display: none;
+                                }
+                                </style>
                                 <form>
                                     <div class="d-flex justify-content-align-items mb-3 ">
                                         <div id="selectAplican">
@@ -234,7 +239,7 @@ Registro Estatal de Regulaciones
                                             <table id="aplicanTable" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID_Dependencia</th>
+                                                        <th class="hidden-column">ID_Dependencia</th>
                                                         <th>Tipo_Dependencia</th>
                                                         <th>Acción</th>
                                                     </tr>
@@ -302,7 +307,7 @@ Registro Estatal de Regulaciones
                                 <table id="resultTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_Indice</th>
+                                            <th class="hidden-column">ID_Indice</th>
                                             <th>Texto</th>
                                             <th>Orden</th>
                                             <th>Accion</th>
@@ -368,7 +373,7 @@ Registro Estatal de Regulaciones
                                 <table id="materiasTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_MatSec</th>
+                                            <th class="hidden-column">ID_MatSec</th>
                                             <th>Materias</th>
                                             <th>Sectores</th>
                                             <th>Sujetos Regulados</th>
@@ -429,7 +434,7 @@ Registro Estatal de Regulaciones
                                 <table id="fundamentoTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_Fun</th>
+                                            <th class="hidden-column">ID_Fun</th>
                                             <th>Nombre Regulacion</th>
                                             <th>Articulo</th>
                                             <th>Link</th>
@@ -511,7 +516,7 @@ $(document).ready(function() {
 
             // Crea una nueva fila con los datos
             var newRow = '<tr>' +
-                '<td>' + idCounter + '</td>' +
+                '<td class="hidden-column">' + idCounter + '</td>' +
                 '<td>' + inputMat + '</td>' +
                 '<td>' + inputSec + '</td>' +
                 '<td>' + inputSuj + '</td>' +
@@ -565,7 +570,7 @@ $(document).ready(function() {
 
             // Crea una nueva fila con los datos
             var newRow = '<tr>' +
-                '<td>' + idCounter2 + '</td>' +
+                '<td class="hidden-column">' + idCounter2 + '</td>' +
                 '<td>' + inputNomReg + '</td>' +
                 '<td>' + inputArt + '</td>' +
                 '<td>' + inputLink + '</td>' +
@@ -730,7 +735,7 @@ $(document).ready(function() {
 
         emitenArray.forEach(function(item) {
             var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                '<td>' + item.ID_Dependencia + '</td>' +
+                '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                 '<td>' + item.Tipo_Dependencia + '</td>' +
                 '<td><button class="btn btn-danger btn-sm delete-row">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
@@ -745,7 +750,7 @@ $(document).ready(function() {
 
         aplicanArray.forEach(function(item) {
             var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                '<td>' + item.ID_Dependencia + '</td>' +
+                '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                 '<td>' + item.Tipo_Dependencia + '</td>' +
                 '<td><button class="btn btn-danger btn-sm delete-row">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +

@@ -13,10 +13,10 @@ Registro Estatal de Regulaciones
 <ol class="breadcrumb mb-4 mt-5">
     <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
     </li>
-    <li class="breadcrumb-item"><a href="<?php echo base_url('PublicadasController'); ?>"><i
-                class="fas fa-file-alt me-1"></i>Regulaciones</a>
+    <li class="breadcrumb-item"><a href="<?php echo base_url('menu/menu_publicadas'); ?>"><i
+                class="fas fa-file-alt me-1"></i>Regulaciones publicadas</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar Publicadas
     </li>
 </ol>
 <div class="container mt-5">
@@ -87,7 +87,7 @@ Registro Estatal de Regulaciones
                             <div class="form-group row justify-content-center">
                                 <label for="SectorInput">Sector<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="SectorInput" name="SectorInput"
-                                    placeholder="Selecciona una opcion" required>
+                                    placeholder="Selecciona una opcion" required disabled>
 
                             </div>
                             <ul id="sectorResults"></ul>
@@ -104,7 +104,7 @@ Registro Estatal de Regulaciones
                             <div class="row justify-content-center">
                                 <label for="SubsectorInput">Subsector<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="SubsectorInput" name="SubsectorInput"
-                                    placeholder="Selecciona una opcion" required>
+                                    placeholder="Selecciona una opcion" required disabled>
                             </div>
                             <ul id="subsectorResults" class="list-group mt-2"></ul>
                             <table id="selectedSubsectorsTable" class="table table-striped mt-4" style="display: none;">
@@ -120,7 +120,7 @@ Registro Estatal de Regulaciones
                             <div class="row justify-content-center">
                                 <label for="RamaInput">Rama<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="RamaInput" name="RamaInput"
-                                    placeholder="Selecciona una opcion" required>
+                                    placeholder="Selecciona una opcion" required disabled>
                             </div>
                             <ul id="ramaResults" class="list-group mt-2"></ul>
                             <table id="selectedRamasTable" class="table table-striped mt-4" style="display: none;">
@@ -136,7 +136,7 @@ Registro Estatal de Regulaciones
                             <div class="row justify-content-center">
                                 <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
-                                    placeholder="Selecciona una opcion" required>
+                                    placeholder="Selecciona una opcion" required disabled>
                             </div>
                             <ul id="subramaResults" class="list-group mt-2"></ul>
                             <table id="selectedSubramasTable" class="table table-striped mt-4" style="display: none;">
@@ -152,7 +152,7 @@ Registro Estatal de Regulaciones
                             <div class="row justify-content-center">
                                 <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
-                                    placeholder="Selecciona una opcion" required>
+                                    placeholder="Selecciona una opcion" required disabled>
                             </div>
                             <ul id="claseResults" class="list-group mt-2"></ul>
                             <table id="selectedClasesTable" class="table table-striped mt-4" style="display: none;">
@@ -170,7 +170,7 @@ Registro Estatal de Regulaciones
                             <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta
                                 regulación<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
-                                placeholder="Regulaciones Vinculadas" required>
+                                placeholder="Regulaciones Vinculadas" required disabled>
                         </div>
                         <ul id="vinculadasResults" class="list-group mt-2"></ul>
                         <table id="selectedRegulacionesTable" class="table table-striped mt-4" style="display: none;">
@@ -188,50 +188,10 @@ Registro Estatal de Regulaciones
                                     class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
                                 placeholder="http://" value="<?= isset($enlace_oficial) ? $enlace_oficial : '' ?>"
-                                required>
+                                required disabled>
                         </div>
                         <div>
                             <p></p>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <p id="tramitesText">Tramites y servicios</p>
-                            <button type="submit" id="botonTramites"
-                                class="btn btn-success btn-tramites">Tramites</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="myModalLabel">Índice
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="form-group">
-                                                    <label for="inputTram">Nombre</label>
-                                                    <input type="text" class="form-control" id="inputTram"
-                                                        placeholder="Ingrese el Nombre" name="NombreTram">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputDir">Direccion</label>
-                                                    <input type="text" class="form-control" id="inputDir"
-                                                        placeholder="http://" name="NombreDir">
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                onclick="closeModal()">Cerrar</button>
-                                            <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
-                                                cambios</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <table id="tramitesTable" class="table">
                             <thead>
@@ -248,7 +208,6 @@ Registro Estatal de Regulaciones
                                     <td><?php echo $tramite['ID_Tramites']; ?></td>
                                     <td><?php echo $tramite['Nombre']; ?></td>
                                     <td><?php echo $tramite['Direccion']; ?></td>
-                                    <td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td>
                                     <!-- Agrega más celdas según sea necesario -->
                                 </tr>
                                 <?php endforeach; ?>
@@ -385,8 +344,6 @@ $(document).ready(function() {
             // Agregar los nombres de los sectores a la tabla
             response.forEach(function(sector) {
                 $('#selectedSectorsTable tbody').append('<tr><td>' + sector.Nombre_Sector +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
-                    '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>');
             });
         },
@@ -419,8 +376,6 @@ $(document).ready(function() {
             response.forEach(function(subsector) {
                 $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsector
                     .Nombre_Subsector +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
-                    '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>');
             });
 
@@ -457,8 +412,6 @@ $(document).ready(function() {
             // Agregar los nombres de las ramas a la tabla
             response.forEach(function(rama) {
                 $('#selectedRamasTable tbody').append('<tr><td>' + rama.Nombre_Rama +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
-                    '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>');
             });
 
@@ -496,8 +449,6 @@ $(document).ready(function() {
             response.forEach(function(subrama) {
                 $('#selectedSubramasTable tbody').append('<tr><td>' + subrama
                     .Nombre_Subrama +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
-                    '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>');
             });
 
@@ -534,8 +485,6 @@ $(document).ready(function() {
             // Agregar los nombres de las clases a la tabla
             response.forEach(function(clase) {
                 $('#selectedClasesTable tbody').append('<tr><td>' + clase.Nombre_Clase +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
-                    '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>');
             });
 
@@ -1336,7 +1285,7 @@ $(document).ready(function() {
                                 text: 'Datos guardados exitosamente',
                             }).then(() => {
                                 window.location.href =
-                                    '<?= base_url('PublicadasController') ?>';
+                                    '<?= base_url('menu/menu_publicadas') ?>';
                             });
                         } else {
                             Swal.fire({
@@ -1345,7 +1294,7 @@ $(document).ready(function() {
                                 text: 'Error al guardar los datos: ' + response.message,
                             }).then(() => {
                                 window.location.href =
-                                    '<?= base_url('PublicadasController') ?>';
+                                    '<?= base_url('menu/menu_publicadas') ?>';
                             });
                         }
                     },

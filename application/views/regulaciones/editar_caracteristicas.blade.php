@@ -196,7 +196,7 @@ Registro Estatal de Regulaciones
                                 <table id="emitenTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_Dependencia</th>
+                                            <th class="hidden-column">ID_Dependencia</th>
                                             <th>Tipo_Dependencia</th>
                                             <th>Acción</th>
                                         </tr>
@@ -204,7 +204,7 @@ Registro Estatal de Regulaciones
                                     <tbody>
                                         <?php foreach ($dependencias as $dependencia): ?>
 
-                                        <td><?php    echo $dependencia['ID_Dependencia']; ?></td>
+                                        <td class="hidden-column"><?php    echo $dependencia['ID_Dependencia']; ?></td>
                                         <td><?php    echo $dependencia['Tipo_Dependencia']; ?></td>
                                         <td>
                                             <button class="btn btn-danger btn-sm delete-row">
@@ -259,7 +259,7 @@ Registro Estatal de Regulaciones
                                             <table id="aplicanTable" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID_Dependencia</th>
+                                                        <th class="hidden-column">ID_Dependencia</th>
                                                         <th>Tipo_Dependencia</th>
                                                         <th>Acción</th>
                                                     </tr>
@@ -269,7 +269,7 @@ Registro Estatal de Regulaciones
                                                     <?php    foreach ($dependenciasAp as $dependenciaAp): ?>
                                                     <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_Dependencia']) && isset($dependenciaAp['Tipo_Dependencia'])): ?>
                                                     <tr>
-                                                        <td><?php            echo $dependenciaAp['ID_Dependencia']; ?>
+                                                        <td class="hidden-column"><?php            echo $dependenciaAp['ID_Dependencia']; ?>
                                                         </td>
                                                         <td><?php            echo $dependenciaAp['Tipo_Dependencia']; ?>
                                                         </td>
@@ -351,7 +351,7 @@ Registro Estatal de Regulaciones
                                 <table id="resultTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_Indice</th>
+                                            <th class="hidden-column">ID_Indice</th>
                                             <th>Texto</th>
                                             <th>Orden</th>
                                             <th>Accion</th>
@@ -382,7 +382,7 @@ Registro Estatal de Regulaciones
                                                         if (response.length > 0) {
                                                             response.forEach(function(row) {
                                                                 var tr = $('<tr>');
-                                                                tr.append($('<td>').text(row
+                                                                tr.append($('<td class="hidden-column">').text(row
                                                                     .ID_Indice));
                                                                 tr.append($('<td>').text(row
                                                                     .Texto));
@@ -649,7 +649,7 @@ Registro Estatal de Regulaciones
                                 <table id="materiasTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_MatSec</th>
+                                            <th class="hidden-column">ID_MatSec</th>
                                             <th>Materias</th>
                                             <th>Sectores</th>
                                             <th>Sujetos Regulados</th>
@@ -661,7 +661,7 @@ Registro Estatal de Regulaciones
                                         <?php if (!empty($mat_sec)): ?>
                                         <?php foreach ($mat_sec as $mater): ?>
                                         <tr>
-                                            <td><?php echo $mater['ID_MatSec']; ?></td>
+                                            <td class="hidden-column"><?php echo $mater['ID_MatSec']; ?></td>
                                             <td><?php echo $mater['Materias']; ?></td>
                                             <td><?php echo $mater['Sectores']; ?></td>
                                             <td><?php echo $mater['SujetosRegulados']; ?></td>
@@ -676,6 +676,11 @@ Registro Estatal de Regulaciones
                                         <?php endif; ?>
                                     </tbody>
                                 </table>
+                                <style>
+                                .hidden-column {
+                                    display: none;
+                                }
+                                </style>
                                 <p></p>
                                 <p></p>
                                 <div class="d-flex justify-content-between mb-3">
@@ -726,7 +731,7 @@ Registro Estatal de Regulaciones
                                 <table id="fundamentoTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_Fun</th>
+                                            <th class="hidden-column">ID_Fun</th>
                                             <th>Nombre Regulacion</th>
                                             <th>Articulo</th>
                                             <th>Link</th>
@@ -738,7 +743,7 @@ Registro Estatal de Regulaciones
                                         <?php if (!empty($fundamentos)): ?>
                                         <?php foreach ($fundamentos as $fundamento): ?>
                                         <tr>
-                                            <td><?php echo $fundamento['ID_Fun']; ?></td>
+                                            <td class="hidden-column"><?php echo $fundamento['ID_Fun']; ?></td>
                                             <td><?php echo $fundamento['Nombre']; ?></td>
                                             <td><?php echo $fundamento['Articulo']; ?></td>
                                             <td><?php echo $fundamento['Link']; ?></td>
@@ -1770,7 +1775,7 @@ $(document).ready(function() {
                                     }
                                 });
 
-                                var registrosExistentes = []; // Array para almacenar los registros existentes
+                                var registrosExistentes3 = []; // Array para almacenar los registros existentes
                                 // Realiza una solicitud AJAX para obtener los registros existentes en la base de datos
                                 $.ajax({
                                     url: '<?php echo base_url('RegulacionController/verificarRegistros2'); ?>', // Cambia esta URL a la ruta de tu controlador
@@ -1779,7 +1784,7 @@ $(document).ready(function() {
                                     dataType: 'json',
                                     success: function(response) {
                                         if (response.existenRegistros) {
-                                            registrosExistentes = response.registrosExistentes; // Almacena los registros existentes
+                                            registrosExistentes3 = response.registrosExistentes; // Almacena los registros existentes
                                         }
                                         var registros = [];
                                         $('#materiasTable tbody tr').each(function() {
@@ -1789,26 +1794,36 @@ $(document).ready(function() {
                                             var sujetosRegulados = $(this).find('td').eq(3).text();
 
                                             // Verifica si el registro ya existe en la base de datos
-                                            var existe = registrosExistentes.some(function(registro) {
-                                                return registro.ID_MatSec === idMatSec;
+                                            var existe = registrosExistentes3.some(function(registro) {
+                                                return parseInt(registro.ID_MatSec, 10) === parseInt(idMatSec, 10);
                                             });
 
                                             if (!existe) {
                                                 registros.push({
-                                                    ID_MatSec: idMatSec,
+                                                    ID_MatSec: parseInt(idMatSec, 10), 
                                                     Materias: materias,
                                                     Sectores: sectores,
                                                     SujetosRegulados: sujetosRegulados
                                                 });
                                             }       
                                         });
+                                        console.log('Registros a insertar:', registros);
+                                        console.log('ID_caract: a insertar', formData.ID_caract);
+
+                                        // Verificar que los datos no estén vacíos
+                                        if (registros.length === 0 || !formData.ID_caract) {
+                                            alert('Datos incompletos. Por favor, verifica los datos antes de enviar.');
+                                            return;
+                                        }
+
                                         $.ajax({
                                             url: '<?php echo base_url('RegulacionController/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
                                             type: 'POST',
                                             data: {
                                                 registros: registros,
-                                                ID_caract: formData.ID_caract // Asegúrate de que caracteristicasData esté definido
+                                                ID_caract: parseInt(formData.ID_caract, 10) // Asegúrate de que caracteristicasData esté definido
                                             },
+
                                             success: function(response) {
                                                 alert('Materias Registros guardados exitosamente.');
                                             },

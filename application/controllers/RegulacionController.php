@@ -2056,6 +2056,7 @@ class RegulacionController extends CI_Controller
         // Obtiene los datos enviados por la solicitud AJAX
         $registros = $this->input->post('registros');
         $ID_caract = $this->input->post('ID_caract');
+        
 
         // Verifica que los datos no estén vacíos
         if (!empty($registros) && !empty($ID_caract)) {

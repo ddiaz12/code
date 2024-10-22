@@ -249,7 +249,7 @@ Registro Estatal de Regulaciones
                         <table id="tramitesTable" class="table">
                             <thead>
                                 <tr>
-                                    <th>ID_Tramites</th>
+                                    <th class="hidden-column">ID_Tramites</th>
                                     <th>Nombre</th>
                                     <th>Dirección</th>
                                 </tr>
@@ -258,7 +258,7 @@ Registro Estatal de Regulaciones
                                 <?php if (!empty($tramites)): ?>
                                 <?php foreach ($tramites as $tramite): ?>
                                 <tr>
-                                    <td><?php echo $tramite['ID_Tramites']; ?></td>
+                                    <td class="hidden-column"><?php echo $tramite['ID_Tramites']; ?></td>
                                     <td><?php echo $tramite['Nombre']; ?></td>
                                     <td><?php echo $tramite['Direccion']; ?></td>
                                     <td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td>
@@ -268,6 +268,11 @@ Registro Estatal de Regulaciones
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                        <style>
+                        .hidden-column {
+                            display: none;
+                        }
+                        </style>
                         <div class="form-group">
                             <p><label for="file">
                                     <h7>Subir Documento</h7>
