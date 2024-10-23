@@ -235,7 +235,6 @@ Registro Estatal de Regulaciones
     });
 </script>
 <script>
-<?php
 $(document).ready(function() {
     $('input[type=radio][name=opcion]').change(function() {
         if (this.value == 'si') {

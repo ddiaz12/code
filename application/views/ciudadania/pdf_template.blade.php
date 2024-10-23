@@ -16,7 +16,8 @@
         <?php 
         date_default_timezone_set('America/Mexico_City'); 
         ?>
-        <p>Fecha de generación: <?php echo date('d/m/Y'); ?></p>
+        <p>Fecha de creación de la regulación: <?php echo !empty($regulacion->Fecha_Cre_Sys) ? $regulacion->Fecha_Cre_Sys : 'No disponible'; ?></p>
+        <p>Fecha de ultima actualización de la regulacion: <?php echo !empty($regulacion->Fecha_Act_Sys) ? $regulacion->Fecha_Act_Sys : 'No disponible'; ?> </p>
     </div>
     <br>
     <div class="subheader">

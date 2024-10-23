@@ -202,27 +202,6 @@ class Menu extends CI_Controller
         }
     }
 
-    public function menu_emergencia(){
-        $user = $this->ion_auth->user()->row();
-        $group = $this->ion_auth->get_users_groups($user->id)->row();
-        $groupName = $group->name;
-        $userId = $user->id;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        $data['emergencias'] = $this->MenuModel->getRegulacionesEmergencia();
-        if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $data['emergencias'] = $this->MenuModel->getRegulacionesEmergencia($userId);
-            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
-            $this->blade->render('menuSujeto/emergencia', $data);
-        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
-            $this->blade->render('menuAdmin/emergencia', $data);
-        } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('menuConsejeria/emergencia', $data);
-        } else {
-            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
-            redirect('auth/logout', 'refresh');
-        }
-    }
-
     //Cambiar estatus de la regulacion para modificarlas
     public function modificarRegulacion()
     {

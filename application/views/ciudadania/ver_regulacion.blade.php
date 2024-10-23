@@ -52,6 +52,9 @@
         <h1 class="regulation-title">
             <?php echo !empty($regulacion->Nombre_Regulacion) ? $regulacion->Nombre_Regulacion : 'No disponible'; ?>
         </h1>
+        <?php if (!empty($regulacion->Estatus) && $regulacion->Estatus == 5): ?>
+        <p clase="msg-emergencia"><strong class="text-danger">Esta es una regulación de emergencia</strong></p>
+        <?php endif; ?>
         <div class="regulation-info">
             <p><strong>Tipo de ordenamiento jurídico:</strong>
                 <?php echo !empty($regulacionCaracteristicas->Tipo_Ordenamiento) ? $regulacionCaracteristicas->Tipo_Ordenamiento : 'No disponible'; ?>
@@ -87,83 +90,83 @@
         <div class="related-sections">
             <button class="btn-accordion"><i class="fas fa-list"></i> Índice</button>
             <div class="content">
-            <?php if (!empty($indice)): ?>
-            <ul>
-                <?php    foreach ($indice as $item): ?>
-                <li><?php        echo $item->Orden . '. ' . $item->Texto; ?></li>
-                <?php    endforeach; ?>
-            </ul>
-            <?php else: ?>
-            <p>No hay información disponible sobre el Índice.</p>
-            <?php endif; ?>
+                <?php if (!empty($indice)): ?>
+                <ul>
+                    <?php    foreach ($indice as $item): ?>
+                    <li><?php        echo $item->Orden . '. ' . $item->Texto; ?></li>
+                    <?php    endforeach; ?>
+                </ul>
+                <?php else: ?>
+                <p>No hay información disponible sobre el Índice.</p>
+                <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-user-tie"></i> Autoridades</button>
             <div class="content">
-            <?php if (!empty($autoridades)): ?>
-            <ul>
-                <?php    foreach ($autoridades as $autoridad): ?>
-                <li>Aplican: <?php        echo $autoridad->Autoridad_Aplican; ?></li>
-                <li>Emiten: <?php        echo $autoridad->Autoridad_Emiten; ?></li>
-                <?php    endforeach; ?>
-            </ul>
-            <?php else: ?>
-            <p>No hay información disponible sobre las autoridades.</p>
-            <?php endif; ?>
+                <?php if (!empty($autoridades)): ?>
+                <ul>
+                    <?php    foreach ($autoridades as $autoridad): ?>
+                    <li>Aplican: <?php        echo $autoridad->Autoridad_Aplican; ?></li>
+                    <li>Emiten: <?php        echo $autoridad->Autoridad_Emiten; ?></li>
+                    <?php    endforeach; ?>
+                </ul>
+                <?php else: ?>
+                <p>No hay información disponible sobre las autoridades.</p>
+                <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-book"></i> Materias Exentas</button>
             <div class="content">
-            <?php if (!empty($materias)): ?>
-            <ul>
-                <?php    foreach ($materias as $materia): ?>
-                <li><?php        echo $materia->Materia; ?></li>
-                <?php    endforeach; ?>
-            </ul>
-            <?php else: ?>
-            <p>No hay información disponible sobre materias exentas.</p>
-            <?php endif; ?>
+                <?php if (!empty($materias)): ?>
+                <ul>
+                    <?php    foreach ($materias as $materia): ?>
+                    <li><?php        echo $materia->Materia; ?></li>
+                    <?php    endforeach; ?>
+                </ul>
+                <?php else: ?>
+                <p>No hay información disponible sobre materias exentas.</p>
+                <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-link"></i> Regulaciones vinculadas</button>
             <div class="content">
-            <?php if (!empty($regulacionesVinculadas)): ?>
-            <ul>
-                <?php    foreach ($regulacionesVinculadas as $vinculada): ?>
-                <li><?php        echo $vinculada->Nombre_Regulacion; ?></li>
-                <?php    endforeach; ?>
-            </ul>
-            <?php else: ?>
-            <p>No hay regulaciones vinculadas.</p>
-            <?php endif; ?>
+                <?php if (!empty($regulacionesVinculadas)): ?>
+                <ul>
+                    <?php    foreach ($regulacionesVinculadas as $vinculada): ?>
+                    <li><?php        echo $vinculada->Nombre_Regulacion; ?></li>
+                    <?php    endforeach; ?>
+                </ul>
+                <?php else: ?>
+                <p>No hay regulaciones vinculadas.</p>
+                <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-tasks"></i> Trámites y servicios vinculados</button>
             <div class="content">
-            <p>Información sobre Trámites y servicios vinculados...</p>
+                <p>Información sobre Trámites y servicios vinculados...</p>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-tasks"></i> Sector/actividad económica</button>
             <div class="content">
-            <?php if (!empty($sectores)): ?>
-            <ul>
-                <?php    foreach ($sectores as $sector): ?>
-                <li><?php        echo $sector->Sector; ?></li>
-                <?php    endforeach; ?>
-            </ul>
-            <?php else: ?>
-            <p>No hay información disponible sobre el sector/actividad económica.</p>
-            <?php endif; ?>
+                <?php if (!empty($sectores)): ?>
+                <ul>
+                    <?php    foreach ($sectores as $sector): ?>
+                    <li><?php        echo $sector->Sector; ?></li>
+                    <?php    endforeach; ?>
+                </ul>
+                <?php else: ?>
+                <p>No hay información disponible sobre el sector/actividad económica.</p>
+                <?php endif; ?>
             </div>
         </div>
 
         <div class="row mt-4">
             <div class="col-md-6">
-            <a href="<?php echo base_url('ciudadania'); ?>" class="btn btn-secondary btn-block">Regresar<i></i></a>
+                <a href="<?php echo base_url('ciudadania'); ?>" class="btn btn-secondary btn-block">Regresar<i></i></a>
             </div>
             <div class="col-md-6">
-            <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"
-                class="btn-download">Descargar regulación <i class="fas fa-download"></i></a>
+                <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"
+                    class="btn-download">Descargar regulación <i class="fas fa-download"></i></a>
             </div>
         </div>
 

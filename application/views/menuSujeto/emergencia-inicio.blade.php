@@ -3,12 +3,42 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuSujeto')
 @endsection
 @section('contenido')
+<style>
+    .circle {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 50%;
+        background-color: #B69664;
+        /* Color por defecto */
+        color: white;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0 auto;
+        /* Centrar horizontalmente */
+    }
+
+    .circle.red {
+        background-color: #7f2841;
+        /* Color rojo cuando el contador llega a cero */
+    }
+
+    .circle-container {
+        display: flex;
+        justify-content: center;
+        /* Centrar horizontalmente */
+        align-items: center;
+        /* Centrar verticalmente */
+    }
+</style>
 <!-- Contenido -->
 <div class="container-fluid px-4">
     <ol class="breadcrumb mb-4 mt-5">
@@ -20,7 +50,7 @@ Registro Estatal de Regulaciones
     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
     <div class="d-flex justify-content-end mb-3">
         <a href="<?php echo base_url("emergency/emergencia_caract") ?>" class="btn btn-primary btn-agregarOficina">
-            <i class="fas fa-plus-circle me-1"></i> Agregar regulación de emergencia
+            <i class="fas fa-plus-circle me-1"></i>Agregar regulación de emergencia
         </a>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -46,7 +76,11 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Nombre_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Homoclave; ?></td>
                         <td>
-                            <span class="badge bg-danger">Emergencia</span>
+                            <div class="circle-container">
+                                <span class="circle <?php            echo ($regulacion->dias_restantes <= 0) ? 'red' : ''; ?>">
+                                    <?php            echo $regulacion->dias_restantes; ?>
+                                </span>
+                            </div>
                         </td>
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
@@ -57,10 +91,6 @@ Registro Estatal de Regulaciones
                             </button>
                             <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
                                 <i class="fas fa-trash-alt"></i>
-                            </button>
-                            <button class="btn btn-secondary btn-sm btn-devolver" title="Devolver"
-                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
-                                <i class="fas fa-undo" title="Devolver"></i>
                             </button>
                             <button class="btn btn-dorado btn-sm enviar-regulacion" title="Enviar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
@@ -171,7 +201,7 @@ Registro Estatal de Regulaciones
                         let res = JSON.parse(response);
                         if (res.status === 'success') {
                             alert('Estatus actualizado exitosamente.');
-                            window.location.href = 'http://localhost/code/emergency';
+                            location.reload();
                         } else {
                             alert('Hubo un error al actualizar el estatus.');
                         }

@@ -101,6 +101,8 @@ class MenuModel extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    /*
     public function getRegulacionesEmergencia($userId = null)
     {
         $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Homoclave, 
@@ -116,6 +118,7 @@ class MenuModel extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+   */
 
     public function obtenerHorariosUnidad($id)
     {

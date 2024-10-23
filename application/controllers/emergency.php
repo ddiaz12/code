@@ -39,14 +39,30 @@ class emergency extends CI_Controller
         $iduser = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['regulaciones'] = $this->RegulacionModel->get_all_regulaciones();
+
+        foreach ($data['regulaciones'] as $regulacion) {
+            $fecha_creacion = new DateTime($regulacion->Fecha_Cre_Sys);
+            $fecha_limite = clone $fecha_creacion;
+            $fecha_limite->modify('+11 days');
+            $hoy = new DateTime();
+            $dias_restantes = $hoy->diff($fecha_limite)->format('%r%a');
+            $regulacion->dias_restantes = $dias_restantes;
+        }
+
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($iduser);
             $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_por_usuario($iduser);
-            $this->blade->render('sujeto/emergencia-inicio', $data);
+            foreach ($data['regulaciones'] as $regulacion) {
+                $fecha_creacion = new DateTime($regulacion->Fecha_Cre_Sys);
+                $fecha_limite = clone $fecha_creacion;
+                $fecha_limite->modify('+11 days');
+                $hoy = new DateTime();
+                $dias_restantes = $hoy->diff($fecha_limite)->format('%r%a');
+                $regulacion->dias_restantes = $dias_restantes;
+            }
+            $this->blade->render('menuSujeto/emergencia-inicio', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
             $this->blade->render('emergencia/emergencia-inicio', $data);
-        } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/emergencia-inicio', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
@@ -64,11 +80,9 @@ class emergency extends CI_Controller
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
-            $this->blade->render('sujeto/emergencia-caracter', $data);
+            $this->blade->render('menuSujeto/emergencia-caracter', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
             $this->blade->render('emergencia/emergencia-caracter', $data);
-        } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/emergencia-caracter', $data);
         } else {
             redirect('auth/login', 'refresh');
         }
