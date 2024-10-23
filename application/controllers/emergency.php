@@ -74,45 +74,6 @@ class emergency extends CI_Controller
         }
     }
 
-    public function emergencia_materias()
-    {
-        $user = $this->ion_auth->user()->row();
-        $group = $this->ion_auth->get_users_groups($user->id)->row();
-        $groupName = $group->name;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        // Obtener los datos de la regulación
-        //$data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
-        if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-            $this->blade->render('sujeto/emergencia-materias', $data);
-        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('emergencia/emergencia-materias', $data);
-        } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/emergencia-materias', $data);
-        } else {
-            redirect('auth/login', 'refresh');
-        }
-    }
-
-    public function emergencia_nat_reg()
-    {
-        $user = $this->ion_auth->user()->row();
-        $group = $this->ion_auth->get_users_groups($user->id)->row();
-        $groupName = $group->name;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-
-        if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-            $this->blade->render('sujeto/emergencia-nat-reg', $data);
-        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('emergencia/emergencia-nat-reg', $data);
-        } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/emergencia-nat-reg', $data);
-        } else {
-            redirect('auth/login', 'refresh');
-        }
-    }
-
     public function edit_caract($id_regulacion)
     {
         $user = $this->ion_auth->user()->row();
@@ -169,81 +130,6 @@ class emergency extends CI_Controller
             $this->blade->render('regulaciones/editar_caracteristicas', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/editar_caracteristicas', $data);
-        } else {
-            redirect('auth/login', 'refresh');
-        }
-    }
-
-    public function edit_mat($id_regulacion)
-    {
-        $user = $this->ion_auth->user()->row();
-        $group = $this->ion_auth->get_users_groups($user->id)->row();
-        $groupName = $group->name;
-        $iduser = $user->id;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
-
-        // Obtener los datos de la regulación
-        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
-
-        // Obtener las materias relacionadas con la regulación
-        $materias = $this->RegulacionModel->get_materias_by_regulacion($id_regulacion);
-
-        // Verificar si hay materias relacionadas
-        $has_materias = $this->RegulacionModel->has_materias($id_regulacion);
-
-        // Pasar los datos a la vista
-        $data['materias'] = $materias;
-        $data['has_materias'] = $has_materias;
-
-        if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('sujeto/editar_materias', $data);
-        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/editar_materias', $data);
-        } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/editar_materias', $data);
-        } else {
-            redirect('auth/login', 'refresh');
-        }
-    }
-
-    public function edit_nat($id_regulacion)
-    {
-        $user = $this->ion_auth->user()->row();
-        $group = $this->ion_auth->get_users_groups($user->id)->row();
-        $groupName = $group->name;
-        $iduser = $user->id;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-
-        // Obtener los datos de la regulación
-        $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
-        // Obtener los datos de la naturaleza de natreg
-        $data['natreg'] = $this->RegulacionModel->get_rel_nat_reg_by_id($id_regulacion);
-        if ($data['natreg'] == null) {
-        } else {
-            $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
-            $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
-            $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
-        }
-        // // Obtener los datos de la naturaleza de la regulación
-        // $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
-        // // Obtener los datos de las regulaciones vinculadas
-        // $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
-        // // Pasar el valor de Enlace_Oficial a la vista
-        // $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
-        //Obtener de_naturaleza_regulacion por ID_Regulacion
-        $data['natreg2'] = $this->RegulacionModel->get_naturaleza_regulacion_by_regulacion($id_regulacion);
-        //Obtener de_naturaleza_regulacion por ID_Nat
-        $data['natural'] = $this->RegulacionModel->getNaturalezaRegulacionByRegulacion($id_regulacion);
-        $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_by_id($id_regulacion);
-
-        if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('sujeto/editar_naturaleza', $data);
-        } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/editar_naturaleza', $data);
-        } elseif ($this->ion_auth->in_group('consejeria')) {
-            $this->blade->render('consejeria/editar_naturaleza', $data);
         } else {
             redirect('auth/login', 'refresh');
         }

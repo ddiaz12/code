@@ -161,7 +161,7 @@ Registro Estatal de Regulaciones
                                                 </label>
                                                 <label class="ms-2">
                                                     <input type="radio" name="opcion" id="no" onclick="mostrarCampo()"
-                                                        <?php echo ($regulacion['Vigencia'] == '0000-00-00') ? 'checked' : ''; ?>>
+                                                        <?php echo ($regulacion['Vigencia'] == '0000-00-00') ? 'checked' : ''; ?> checked>
                                                     No
                                                 </label>
                                             </div>
@@ -171,7 +171,7 @@ Registro Estatal de Regulaciones
                                             <label for="campoExtra">Vigencia de la regulación</label>
                                             <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                                 value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
-                                                required>
+                                                required disabled>
                                         </div>
                                     </div>
                                 </form>
@@ -780,11 +780,14 @@ Registro Estatal de Regulaciones
 function mostrarCampo() {
     var siSeleccionado = document.getElementById("si").checked;
     var otroCampo = document.getElementById("otroCampo");
+    var campoExtra = document.getElementById("campoExtra");
 
     if (siSeleccionado) {
-        otroCampo.style.display = "block";
+        otroCampo.disabled = false; // Habilitar el campo
+        campoExtra.disabled = false; // Habilitar el campo de fecha
     } else {
-        otroCampo.style.display = "none";
+        otroCampo.disabled = true; // Bloquear el campo
+        campoExtra.disabled = true; // Bloquear el campo de fecha
     }
 }
 </script>

@@ -47,31 +47,21 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
-                                        class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
                                             Regulación</label>
-                                    </a>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
-                                        class="custom-link">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
                                         <label class="menu-regulacion" for="image_2">Materias Exentas</label>
-                                    </a>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
-                                        class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
-                                    </a>
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                 </div>
@@ -94,7 +84,7 @@ Registro Estatal de Regulaciones
                         </div>
 
                         <div class="align-content-center d-flex justify-content-center align-items-center">
-                            <div id="checkboxes" style="display: none; flex-wrap: wrap; column-count: 3;">
+                            <div id="checkboxes" style="flex-wrap: wrap; column-count: 3;">
                                 <!-- Generar 29 checkboxes -->
                                 <div>
                                     <input type="checkbox" id="checkbox1" name="checkbox1" value="checkbox1">
@@ -229,15 +219,20 @@ Registro Estatal de Regulaciones
 @endsection
 @section('js')
 <script>
-    $(document).ready(function () {
-        $('input[type=radio][name=opcion]').change(function () {
-            if (this.value == 'si') {
-                $('#checkboxes').show();
-            } else if (this.value == 'no') {
-                $('#checkboxes').hide();
-            }
-        });
+$(document).ready(function() {
+    $('input[type=radio][name=opcion]').change(function() {
+        if (this.value == 'si') {
+            $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
+        } else if (this.value == 'no') {
+            $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+        }
     });
+
+    // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
+    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+        $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+    }
+});
 </script>
 <script>
     $(document).ready(function () {

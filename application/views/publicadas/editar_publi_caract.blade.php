@@ -130,16 +130,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Act">Fecha de última actualización</label>
-                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required
-                                        readonly>
+                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required>
                                 </div>
-                                <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    var Fecha_Act = document.getElementById('Fecha_Act');
-                                    var today = new Date().toISOString().split('T')[0];
-                                    Fecha_Act.value = today;
-                                });
-                                </script>
 
                                 <form>
                                     <div class="d-flex justify-content-between mb-3">
@@ -153,7 +145,7 @@ Registro Estatal de Regulaciones
                                                 </label>
                                                 <label class="ms-2">
                                                     <input type="radio" name="opcion" id="no" onclick="mostrarCampo()"
-                                                        <?php echo ($regulacion['Vigencia'] == '0000-00-00') ? 'checked' : ''; ?>>
+                                                        <?php echo ($regulacion['Vigencia'] == '0000-00-00') ? 'checked' : ''; ?>checked>
                                                     No
                                                 </label>
                                             </div>
@@ -168,6 +160,11 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </form>
 
+                                <div class="col-md-6">
+                                    <label for="Act_Reforma">Fecha de última Reforma</label>
+                                    <input type="date" class="form-control" id="Act_Reforma" name="Act_Reforma" required>
+                                </div>
+                                <p></p>
                                 <div class="form-group">
                                     <label for="inputVialidad">Orden de gobierno que la emite:<span
                                             class="text-danger">*</span></label>
@@ -672,11 +669,14 @@ Registro Estatal de Regulaciones
 function mostrarCampo() {
     var siSeleccionado = document.getElementById("si").checked;
     var otroCampo = document.getElementById("otroCampo");
+    var campoExtra = document.getElementById("campoExtra");
 
     if (siSeleccionado) {
-        otroCampo.style.display = "block";
+        otroCampo.disabled = false; // Habilitar el campo
+        campoExtra.disabled = false; // Habilitar el campo de fecha
     } else {
-        otroCampo.style.display = "none";
+        otroCampo.disabled = true; // Bloquear el campo
+        campoExtra.disabled = true; // Bloquear el campo de fecha
     }
 }
 </script>
@@ -687,25 +687,18 @@ function mostrarCampo2() {
     var selectUnidad2Container = document.getElementById('selectUnidad2Container');
     var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
     var apTContainer = document.getElementById('apTContainer');
-    var aplicanTable = document.getElementById('aplicanTable');
-
-    // Verificar si la tabla no está vacía
-    if (aplicanTable && aplicanTable.rows.length > 1) { // Asumiendo que la primera fila es el encabezado
-        no.checked = true;
-    }
+    var selectUnidad2 = document.getElementById('selectUnidad2');
+    var AutoridadesAplican = document.getElementById('AutoridadesAplican');
 
     if (no.checked) {
-        selectUnidad2Container.style.display = 'block';
-        autoridadesAplicanContainer.style.display = 'block';
-        apTContainer.style.display = 'block';
+        selectUnidad2.disabled = false;
+        AutoridadesAplican.disabled = false;
     } else if (si.checked) {
-        selectUnidad2Container.style.display = 'none';
-        autoridadesAplicanContainer.style.display = 'none';
-        apTContainer.style.display = 'none';
+        selectUnidad2.disabled = true;
+        AutoridadesAplican.disabled = true;
     } else {
-        selectUnidad2Container.style.display = 'none';
-        autoridadesAplicanContainer.style.display = 'none';
-        apTContainer.style.display = 'none';
+        selectUnidad2.disabled = true;
+        AutoridadesAplican.disabled = true;
     }
 }
 
@@ -1220,6 +1213,7 @@ $(document).ready(function() {
             Fecha_Vigor: $('#Fecha_Vigor').val(),
             Fecha_Act: $('#Fecha_Act').val(),
             Vigencia: $('#campoExtra').val(),
+            Reformas: $('#Act_Reforma').val(),
             Orden_Gob: $('#selectUnidad2').val()
         };
         console.log('Datos del formulario:', formData);

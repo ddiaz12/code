@@ -89,13 +89,13 @@ Registro Estatal de Regulaciones
                                 <input type="radio" id="si" name="opcion" value="si">
                                 <label for="si">Sí</label>
 
-                                <input type="radio" id="no" name="opcion" value="no">
+                                <input type="radio" id="no" name="opcion" value="no" checked>
                                 <label class="ms-2" for="no">No</label>
                             </div>
                         </div>
 
                         <div class="align-content-center d-flex justify-content-center align-items-center">
-                            <div id="checkboxes" style="display: none; flex-wrap: wrap; column-count: 3;">
+                            <div id="checkboxes" style=" flex-wrap: wrap; column-count: 3;">
                                 <div>
                                     <input type="checkbox" id="checkbox1" name="Fiscal" value="Fiscal">
                                     <label for="checkbox1">Fiscal</label>
@@ -260,15 +260,20 @@ Registro Estatal de Regulaciones
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $('input[type=radio][name=opcion]').change(function () {
-            if (this.value == 'si') {
-                $('#checkboxes').show();
-            } else if (this.value == 'no') {
-                $('#checkboxes').hide();
-            }
-        });
+$(document).ready(function() {
+    $('input[type=radio][name=opcion]').change(function() {
+        if (this.value == 'si') {
+            $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
+        } else if (this.value == 'no') {
+            $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+        }
     });
+
+    // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
+    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+        $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+    }
+});
 </script>
 <script>
     // Obtener el id_regulacion de la vista

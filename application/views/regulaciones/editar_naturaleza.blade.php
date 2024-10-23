@@ -95,7 +95,7 @@ Registro Estatal de Regulaciones
                                     <label for="no">No</label>
                                 </div>
                             </div>
-                            <div class="form-group" id="inputs" style="display: none;">
+                            <div class="form-group" id="inputs">
                                 <!-- Generar 5 inputs -->
                                 <div class="form-group row justify-content-center">
                                     <label for="SectorInput">Sector<span class="text-danger">*</span></label>
@@ -320,11 +320,16 @@ Registro Estatal de Regulaciones
                     $(document).ready(function() {
                         $('input[type=radio][name=opcion]').change(function() {
                             if (this.value == 'si') {
-                                $('#inputs').show();
+                                $('#inputs input').prop('disabled', false); // Desbloquear los inputs
                             } else if (this.value == 'no') {
-                                $('#inputs').hide();
+                                $('#inputs input').prop('disabled', true); // Bloquear los inputs
                             }
                         });
+
+                        // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
+                        if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+                            $('#inputs input').prop('disabled', true); // Bloquear los inputs
+                        }
                     });
                     </script>
                     <div class="d-flex justify-content-end mb-3">
@@ -612,11 +617,16 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('input[type=radio][name=opcion]').change(function() {
         if (this.value == 'si') {
-            $('#checkboxes').show();
+            $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
         } else if (this.value == 'no') {
-            $('#checkboxes').hide();
+            $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
         }
     });
+
+    // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
+    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+        $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+    }
 });
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

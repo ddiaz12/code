@@ -47,28 +47,19 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
-                                        class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
                                             Regulación</label>
-                                    </a>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
-                                        class="custom-link">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
                                         <label class="menu-regulacion" for="image_2">Materias Exentas</label>
-                                    </a>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
-                                        class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
-                                    </a>
                                 </li>
                             </ul>
 
@@ -143,15 +134,15 @@ Registro Estatal de Regulaciones
                                                     Sí
                                                 </label>
                                                 <label class="ms-2">
-                                                    <input type="radio" name="opcion" id="no" onclick="mostrarCampo()">
+                                                    <input type="radio" name="opcion" id="no" onclick="mostrarCampo()" checked>
                                                     No
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" id="otroCampo" style="display:none;">
+                                        <div class="col-md-6" id="otroCampo">
                                             <label for="campoExtra">Vigencia de la regulación</label>
                                             <input type="date" class="form-control" id="campoExtra" name="campoExtra"
-                                                required>
+                                                required disabled>
                                         </div>
                                     </div>
                                 </form>
@@ -332,15 +323,18 @@ Registro Estatal de Regulaciones
 @section('js')
 <script>
     function mostrarCampo() {
-        var siSeleccionado = document.getElementById("si").checked;
-        var otroCampo = document.getElementById("otroCampo");
+    var siSeleccionado = document.getElementById("si").checked;
+    var otroCampo = document.getElementById("otroCampo");
+    var campoExtra = document.getElementById("campoExtra");
 
-        if (siSeleccionado) {
-            otroCampo.style.display = "block";
-        } else {
-            otroCampo.style.display = "none";
-        }
+    if (siSeleccionado) {
+        otroCampo.disabled = false; // Habilitar el campo
+        campoExtra.disabled = false; // Habilitar el campo de fecha
+    } else {
+        otroCampo.disabled = true; // Bloquear el campo
+        campoExtra.disabled = true; // Bloquear el campo de fecha
     }
+}
 </script>
 <script>
     function mostrarCampo2() {
@@ -349,15 +343,15 @@ Registro Estatal de Regulaciones
         var selectUnidad2Container = document.getElementById('selectUnidad2Container');
         var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
         var apTContainer = document.getElementById('apTContainer');
+        var selectUnidad2 = document.getElementById('selectUnidad2');
+        var AutoridadesAplican = document.getElementById('AutoridadesAplican');
 
         if (no.checked) {
-            selectUnidad2Container.style.display = 'block';
-            autoridadesAplicanContainer.style.display = 'block';
-            apTContainer.style.display = 'block';
+            selectUnidad2.required = true;
+            AutoridadesAplican.required = true;
         } else if (si.checked) {
-            selectUnidad2Container.style.display = 'none';
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
+            selectUnidad2.required = false;
+            AutoridadesAplican.required = false;
         } else {
             selectUnidad2Container.style.display = 'none';
             autoridadesAplicanContainer.style.display = 'none';

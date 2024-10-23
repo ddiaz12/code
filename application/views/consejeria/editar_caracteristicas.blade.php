@@ -165,7 +165,7 @@ Registro Estatal de Regulaciones
                                             <label for="campoExtra">Vigencia de la regulación</label>
                                             <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                                 value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
-                                                required>
+                                                required disabled>
                                         </div>
                                     </div>
                                 </form>
@@ -612,42 +612,38 @@ Registro Estatal de Regulaciones
 @section('js')
 <script>
     function mostrarCampo() {
-        var siSeleccionado = document.getElementById("si").checked;
-        var otroCampo = document.getElementById("otroCampo");
+    var siSeleccionado = document.getElementById("si").checked;
+    var otroCampo = document.getElementById("otroCampo");
+    var campoExtra = document.getElementById("campoExtra");
 
-        if (siSeleccionado) {
-            otroCampo.style.display = "block";
-        } else {
-            otroCampo.style.display = "none";
-        }
+    if (siSeleccionado) {
+        otroCampo.disabled = false; // Habilitar el campo
+        campoExtra.disabled = false; // Habilitar el campo de fecha
+    } else {
+        otroCampo.disabled = true; // Bloquear el campo
+        campoExtra.disabled = true; // Bloquear el campo de fecha
     }
+}
 </script>
 <script>
-    function mostrarCampo2() {
+function mostrarCampo2() {
     var si = document.getElementById('apsi');
     var no = document.getElementById('apno');
     var selectUnidad2Container = document.getElementById('selectUnidad2Container');
     var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
     var apTContainer = document.getElementById('apTContainer');
-    var aplicanTable = document.getElementById('aplicanTable');
-
-    // Verificar si la tabla no está vacía
-    if (aplicanTable && aplicanTable.rows.length > 1) { // Asumiendo que la primera fila es el encabezado
-        no.checked = true;
-    }
+    var selectUnidad2 = document.getElementById('selectUnidad2');
+    var AutoridadesAplican = document.getElementById('AutoridadesAplican');
 
     if (no.checked) {
-        selectUnidad2Container.style.display = 'block';
-        autoridadesAplicanContainer.style.display = 'block';
-        apTContainer.style.display = 'block';
+        selectUnidad2.disabled = false;
+        AutoridadesAplican.disabled = false;
     } else if (si.checked) {
-        selectUnidad2Container.style.display = 'none';
-        autoridadesAplicanContainer.style.display = 'none';
-        apTContainer.style.display = 'none';
+        selectUnidad2.disabled = true;
+        AutoridadesAplican.disabled = true;
     } else {
-        selectUnidad2Container.style.display = 'none';
-        autoridadesAplicanContainer.style.display = 'none';
-        apTContainer.style.display = 'none';
+        selectUnidad2.disabled = true;
+        AutoridadesAplican.disabled = true;
     }
 }
 </script>

@@ -47,28 +47,19 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/caracteristicas_reg'); ?>"
-                                        class="custom-link">
-                                        <i class="fa-solid fa-list-check fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_1">Características de la
+                                    <i class="fa-solid fa-list-check fa-sm"></i>
+                                    <label class="menu-regulacion" for="image_1">Características de la
                                             Regulación</label>
-                                    </a>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/mat_exentas'); ?>"
-                                        class="custom-link">
-                                        <i class="fa-solid fa-table-list fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
-                                    </a>
+                                    <i class="fa-solid fa-table-list fa-sm"></i>
+                                    <label class="menu-regulacion" for="image_2">Materias Exentas</label>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/nat_regulaciones'); ?>"
-                                        class="custom-link">
-                                        <i class="fa-solid fa-book fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
-                                    </a>
+                                    <i class="fa-solid fa-book fa-sm"></i>
+                                    <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
                                 </li>
                             </ul>
 
@@ -87,11 +78,11 @@ Registro Estatal de Regulaciones
                                 <div id="radioGroup">
                                     <input type="radio" id="si" name="opcion" value="si">
                                     <label for="si">Sí</label>
-                                    <input type="radio" id="no" name="opcion" value="no">
+                                    <input type="radio" id="no" name="opcion" value="no" checked>
                                     <label for="no">No</label>
                                 </div>
                             </div>
-                            <div class="form-group" id="inputs" style="display: none;">
+                            <div class="form-group" id="inputs">
                                 <!-- Generar 5 inputs -->
                                 <div class="form-group row justify-content-center">
                                     <label for="SectorInput">Sector<span class="text-danger">*</span></label>
@@ -295,11 +286,16 @@ Registro Estatal de Regulaciones
 $(document).ready(function() {
     $('input[type=radio][name=opcion]').change(function() {
         if (this.value == 'si') {
-            $('#inputs').show();
+            $('#inputs input').prop('disabled', false); // Desbloquear los inputs
         } else if (this.value == 'no') {
-            $('#inputs').hide();
+            $('#inputs input').prop('disabled', true); // Bloquear los inputs
         }
     });
+
+    // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
+    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+        $('#inputs input').prop('disabled', true); // Bloquear los inputs
+    }
 });
 
 
@@ -371,17 +367,7 @@ function closeModal() {
 }
 </script>
 
-<script>
-$(document).ready(function() {
-    $('input[type=radio][name=opcion]').change(function() {
-        if (this.value == 'si') {
-            $('#inputs').show();
-        } else if (this.value == 'no') {
-            $('#inputs').hide();
-        }
-    });
-});
-</script>
+
 
 <script>
 $(document).ready(function() {

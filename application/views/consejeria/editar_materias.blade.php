@@ -260,15 +260,20 @@ Registro Estatal de Regulaciones
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $('input[type=radio][name=opcion]').change(function () {
-            if (this.value == 'si') {
-                $('#checkboxes').show();
-            } else if (this.value == 'no') {
-                $('#checkboxes').hide();
-            }
-        });
+$(document).ready(function() {
+    $('input[type=radio][name=opcion]').change(function() {
+        if (this.value == 'si') {
+            $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
+        } else if (this.value == 'no') {
+            $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+        }
     });
+
+    // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
+    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+        $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+    }
+});
 </script>
 <script>
     // Obtener el id_regulacion de la vista
