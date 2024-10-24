@@ -335,6 +335,7 @@ class RegulacionController extends CI_Controller
 
         // Responder a la solicitud AJAX
         echo json_encode(array('status' => 'success'));
+    
     }
 
     public function obtenerMaxIDRegulacion()
@@ -349,7 +350,11 @@ class RegulacionController extends CI_Controller
         $this->load->database();
         $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
         $result = $query->row();
-        echo $result->maxID;
+        if ($result->maxID == null) {
+            $result->maxID = 1;
+        }else{
+            $result->maxID = $result->maxID;
+        }
     }
 
     public function insertarCaracteristicas()
@@ -380,10 +385,17 @@ class RegulacionController extends CI_Controller
     {
         // Cargar el modelo
         $this->load->model('RegulacionModel');
+        $this->load->database();
+        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+        $result = $query->row();
+        if ($result->maxID == null) {
+            $ID_Caract = 1;
+        }else{
+            $ID_Caract = $result->maxID;
+        }
 
         // Obtener los datos de la solicitud POST
         $ID_Emiten = $this->input->post('ID_Emiten');
-        $ID_Caract = $this->input->post('ID_Caract');
         // print_r('ID_Emiten');
         // print_r($ID_Emiten);
         // print_r('ID_Caract');
@@ -416,10 +428,17 @@ class RegulacionController extends CI_Controller
     {
         // Cargar el modelo
         $this->load->model('RegulacionModel');
+        $this->load->database();
+        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+        $result = $query->row();
+        if ($result->maxID == null) {
+            $ID_Caract = 1;
+        }else{
+            $ID_Caract = $result->maxID;
+        }
 
         // Obtener los datos de la solicitud POST
         $ID_Aplican = $this->input->post('ID_Aplican');
-        $ID_Caract = $this->input->post('ID_Caract');
 
         // Validar los datos
         if (empty($ID_Aplican) || empty($ID_Caract)) {
@@ -448,6 +467,14 @@ class RegulacionController extends CI_Controller
     {
         // Obtener los datos enviados por POST
         $datosTabla = $this->input->post('datosTabla');
+        $this->load->database();
+        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+        $result = $query->row();
+        if ($result->maxID == null) {
+            $ID_Caract = 1;
+        }else{
+            $ID_Caract = $result->maxID;
+        }
 
         // Verificar que los datos no estén vacíos
         if (!empty($datosTabla)) {
@@ -455,7 +482,7 @@ class RegulacionController extends CI_Controller
             foreach ($datosTabla as $fila) {
                 $data = array(
                     'ID_Indice' => $fila['ID_Indice'],
-                    'ID_caract' => $fila['ID_caract'],
+                    'ID_caract' => $ID_Caract,
                     'Texto' => $fila['Texto'],
                     'Orden' => $fila['Orden']
                 );
@@ -2053,9 +2080,16 @@ class RegulacionController extends CI_Controller
         echo json_encode($new_tramite);
     }
     public function guardarRegistros() {
+        $this->load->database();
+        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+        $result = $query->row();
+        if ($result->maxID == null) {
+            $ID_Caract = 1;
+        }else{
+            $ID_Caract = $result->maxID;
+        }
         // Obtiene los datos enviados por la solicitud AJAX
         $registros = $this->input->post('registros');
-        $ID_caract = $this->input->post('ID_caract');
         
 
         // Verifica que los datos no estén vacíos
@@ -2072,7 +2106,6 @@ class RegulacionController extends CI_Controller
                 // Inserta los datos en la tabla de_mat_sec_suj
                 $this->RegulacionModel->insertarRegistro($data);
             }
-
             // Responde con éxito
             echo json_encode(array('status' => 'success'));
         } else {
@@ -2082,9 +2115,16 @@ class RegulacionController extends CI_Controller
     }
 
     public function InsertarFundamentos() {
+        $this->load->database();
+        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+        $result = $query->row();
+        if ($result->maxID == null) {
+            $ID_Caract = 1;
+        }else{
+            $ID_Caract = $result->maxID;
+        }
         // Obtiene los datos enviados por la solicitud AJAX
         $fundamentos = $this->input->post('fundamentos');
-        $ID_caract = $this->input->post('ID_caract');
 
         // Verifica que los datos no estén vacíos
         if (!empty($fundamentos) && !empty($ID_caract)) {
