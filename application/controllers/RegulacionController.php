@@ -356,7 +356,6 @@ class RegulacionController extends CI_Controller
     {
         $this->load->database();
         $data = array(
-            'ID_caract' => $this->input->post('ID_caract'),
             'ID_Regulacion' => $this->input->post('ID_Regulacion'),
             'ID_tOrdJur' => $this->input->post('ID_tOrdJur') !== '' ? $this->input->post('ID_tOrdJur') : NULL,
             'Nombre' => $this->input->post('Nombre'),

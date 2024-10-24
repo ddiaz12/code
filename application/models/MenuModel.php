@@ -237,7 +237,6 @@ class MenuModel extends CI_Model
         ma_regulacion.Estatus, ma_regulacion.publicada');
         $this->db->from('ma_regulacion');
         $this->db->where('ma_regulacion.publicada', 1);
-        $this->db->where('ma_regulacion.Estatus', 3);
         $this->db->where('ma_regulacion.id_usuario_creador', $id);
         $query = $this->db->get();
         return $query->result();
@@ -249,7 +248,6 @@ class MenuModel extends CI_Model
         ma_regulacion.Estatus, ma_regulacion.publicada');
         $this->db->from('ma_regulacion');
         $this->db->where('ma_regulacion.publicada', 1);
-        $this->db->where('ma_regulacion.Estatus', 3);
         $query = $this->db->get();
         return $query->result();
     }
