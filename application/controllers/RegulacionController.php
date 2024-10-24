@@ -2093,11 +2093,11 @@ class RegulacionController extends CI_Controller
         
 
         // Verifica que los datos no estén vacíos
-        if (!empty($registros) && !empty($ID_caract)) {
+        if (!empty($registros) && !empty($ID_Caract)) {
             foreach ($registros as $registro) {
                 $data = array(
                     'ID_MatSec' => $registro['ID_MatSec'],
-                    'ID_caract' => $ID_caract,
+                    'ID_caract' => $ID_Caract,
                     'Materias' => $registro['Materias'],
                     'Sectores' => $registro['Sectores'],
                     'SujetosRegulados' => $registro['SujetosRegulados']
@@ -2127,11 +2127,11 @@ class RegulacionController extends CI_Controller
         $fundamentos = $this->input->post('fundamentos');
 
         // Verifica que los datos no estén vacíos
-        if (!empty($fundamentos) && !empty($ID_caract)) {
+        if (!empty($fundamentos) && !empty($ID_Caract)) {
             foreach ($fundamentos as $fundamento) {
                 $data = array(
                     'ID_Fun' => $fundamento['ID_Fun'],
-                    'ID_caract' => $ID_caract,
+                    'ID_caract' => $ID_Caract,
                     'Nombre' => $fundamento['Nombre'],
                     'Articulo' => $fundamento['Articulo'],
                     'Link' => $fundamento['Link']
