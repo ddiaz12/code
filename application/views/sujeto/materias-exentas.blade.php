@@ -79,12 +79,12 @@ Registro Estatal de Regulaciones
                                 class="d-flex align-content-center  justify-content-center align-items-center">
                                 <label for="si"><input type="radio" id="si" name="opcion" value="si">Sí</label>
                                 <label class="ms-2" for="no"> <input type="radio" id="no" name="opcion"
-                                        value="no">No</label>
+                                        value="no" checked>No</label>
                             </div>
                         </div>
 
                         <div class="align-content-center d-flex justify-content-center align-items-center">
-                            <div id="checkboxes" style="display: none; flex-wrap: wrap; column-count: 3;">
+                            <div id="checkboxes" style="flex-wrap: wrap; column-count: 3;">
                                 <!-- Generar 29 checkboxes -->
                                 <div>
                                     <input type="checkbox" id="checkbox1" name="checkbox1" value="checkbox1">
@@ -304,6 +304,9 @@ $(document).ready(function() {
                         console.error('Error en la solicitud AJAX:', error);
                     }
                 });
+            }else{
+                // Redirigir al usuario al enlace especificado
+                window.location.href = '<?php echo base_url('RegulacionController/nat_regulaciones'); ?>';
             }
         });
     });

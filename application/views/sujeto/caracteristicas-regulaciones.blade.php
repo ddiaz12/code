@@ -797,6 +797,7 @@ $(document).ready(function() {
             fecha_vigor: '',
             fecha_act: ''
         };
+        var maxID = 0;
 
         $('input, input[type="date"], select, textarea').each(function() {
             var id = $(this).attr('id');
@@ -867,7 +868,8 @@ $(document).ready(function() {
                             url: '<?php echo base_url('RegulacionController/obtenerMaxIDCaract'); ?>',
                             type: 'GET',
                             success: function(maxIDResponse) {
-                                var maxID = parseInt(maxIDResponse) + 1;
+                                maxID = parseInt(maxIDResponse) + 1;
+                                console.log('maxID: ', maxID);
 
                                 $.ajax({
                                     url: '<?php echo base_url('RegulacionController/obtenerMaxIDRegulacion'); ?>',
@@ -958,8 +960,7 @@ $(document).ready(function() {
                                                             ) {
                                                                 var relDataEmiten = {
                                                                     ID_Emiten: ID_Dependencia,
-                                                                    ID_Caract: caracteristicasData
-                                                                        .ID_caract
+                                                                    ID_Caract: maxID
                                                                 };
 
                                                                 $.ajax({
@@ -1025,8 +1026,7 @@ $(document).ready(function() {
                                                             ) {
                                                                 var relDataAplican = {
                                                                     ID_Aplican: ID_Dependencia,
-                                                                    ID_Caract: caracteristicasData
-                                                                        .ID_caract
+                                                                    ID_Caract: maxID
                                                                 };
 
                                                                 $.ajax({
@@ -1102,8 +1102,7 @@ $(document).ready(function() {
 
                                                                 var filaDatos = {
                                                                     ID_Indice: ID_Indice,
-                                                                    ID_caract: caracteristicasData
-                                                                        .ID_caract,
+                                                                    ID_caract: maxID,
                                                                     Texto: Texto,
                                                                     Orden: Orden
                                                                 };
@@ -1140,8 +1139,7 @@ $(document).ready(function() {
                                                             url: '<?php echo base_url('RegulacionController/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
                                                             type: 'POST',
                                                             data: {
-                                                                registros: registros,
-                                                                ID_caract: caracteristicasData.ID_caract // Asegúrate de que caracteristicasData esté definido
+                                                                registros: registros
                                                             },
                                                             success: function(response) {
                                                                 alert('Materias Registros guardados exitosamente.');
@@ -1170,8 +1168,7 @@ $(document).ready(function() {
                                                             url: '<?php echo base_url('RegulacionController/InsertarFundamentos'); ?>', // Cambia esta URL a la ruta de tu controlador
                                                             type: 'POST',
                                                             data: {
-                                                                fundamentos: fundamentos,
-                                                                ID_caract: caracteristicasData.ID_caract // Asegúrate de que caracteristicasData esté definido
+                                                                fundamentos: fundamentos
                                                             },
                                                             success: function(response) {
                                                                 alert('Fundamentoa Registros guardados exitosamente.');
@@ -1268,11 +1265,15 @@ $(document).ready(function() {
                                                                             var ID_Jerarquia =
                                                                                 nuevoIdJerarquia +
                                                                                 index; // Incrementar el ID_Jerarquia para cada fila
-                                                                            var ID_Padre =
+                                                                            if ($('#selectIndicePadre').val()=='Seleccione un índice padre' || $('#selectIndicePadre').val()=='') {
+                                                                                var ID_Padre = null;
+                                                                            }else{
+                                                                                var ID_Padre =
                                                                                 $(
                                                                                     '#selectIndicePadre'
                                                                                 )
                                                                                 .val();
+                                                                            }
 
                                                                             console
                                                                                 .log(

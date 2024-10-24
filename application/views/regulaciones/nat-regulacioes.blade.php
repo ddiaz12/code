@@ -198,7 +198,7 @@ Registro Estatal de Regulaciones
                             <div class="d-flex justify-content-between mb-3">
                                 <p id="tramitesText">Tramites y servicios</p>
                                 <button type="submit" id="botonTramites"
-                                    class="btn btn-success btn-tramites">Tramites</button>
+                                    class="btn btn-danger btn-tramites">Tramites</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
                                     aria-labelledby="myModalLabel" aria-hidden="true">
