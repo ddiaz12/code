@@ -348,6 +348,130 @@ Registro Estatal de Regulaciones
                                     <textarea class="form-control" id="inputObjetivo" name="objetivoReg"></textarea>
                                 </div>
                                 <p></p>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <p id="matText">Materias, Sectores y Sujetos Regulados<span class="text-danger">*</span></p>
+                                    <button type="submit" id="botonMaterias"
+                                        class="btn btn-success btn-tinto btn-materias">Materias</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="matModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModalLabel">Materias, Sectores y
+                                                        Sujetos Regulados
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="inputMat">Materias</label>
+                                                            <input type="text" class="form-control" id="inputMat"
+                                                                placeholder="Ingrese la Materia" name="NombreTram">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputSec">Sectores</label>
+                                                            <input type="text" class="form-control" id="inputSec"
+                                                                placeholder="Ingrese el Sector" name="NombreSec">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputSuj">Sujetos Regulados</label>
+                                                            <input type="text" class="form-control" id="inputSuj"
+                                                                placeholder="Ingrese el Sujeto" name="NombreSuj">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                        onclick="closeModal()">Cerrar</button>
+                                                    <button type="button" id="guardarMat" class="btn btn-tinto">Guardar
+                                                        cambios</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="materiasTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-column">ID_MatSec</th>
+                                            <th>Materias</th>
+                                            <th>Sectores</th>
+                                            <th>Sujetos Regulados</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán dinámicamente aquí -->
+                                    </tbody>
+                                </table>
+                                <p></p>
+                                <p></p>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <p id="funText">Fundamentos Jurídicos<span class="text-danger">*</span></p>
+                                    <button type="submit" id="botofundamentos"
+                                        class="btn btn-success btn btn-tinto btn-fundamentos">Agregar Fundamento</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="funModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModalLabel">Fundamentos Jurídicos</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="inputNomReg">Nombre de la Regulacion</label>
+                                                            <input type="text" class="form-control" id="inputNomReg"
+                                                                placeholder="Ingrese el Nombre" name="NombreReg">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputArt">Articulo, párrafo, numeral, etc.</label>
+                                                            <input type="text" class="form-control" id="inputArt"
+                                                                placeholder="Ingrese el Articulo" name="NombreArt">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputLink">Link</label>
+                                                            <input type="text" class="form-control" id="inputLink"
+                                                                placeholder="http://" name="NombreLink">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                        onclick="closeModal()">Cerrar</button>
+                                                    <button type="button" id="guardarFun" class="btn btn-tinto">Guardar
+                                                        cambios</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="fundamentoTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-column">ID_Fun</th>
+                                            <th>Nombre Regulacion</th>
+                                            <th>Articulo</th>
+                                            <th>Link</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán dinámicamente aquí -->
+                                    </tbody>
+                                </table>
+                                <p></p>
+                                <p></p>
                                 <div class="d-flex justify-content-end mb-3">
                                     <a href="<?php echo base_url('emergency'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
@@ -381,6 +505,20 @@ function mostrarCampo() {
 }
 </script>
 <script>
+$(document).ready(function() {
+    $('.btn-materias').click(function() {
+        $('#matModal').modal('show');
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    $('.btn-fundamentos').click(function() {
+        $('#funModal').modal('show');
+    });
+});
+</script>
+<script>
 function mostrarCampo2() {
     var si = document.getElementById('apsi');
     var no = document.getElementById('apno');
@@ -406,6 +544,113 @@ function mostrarCampo2() {
 document.addEventListener('DOMContentLoaded', function() {
     mostrarCampo2();
 });
+</script>
+<script>
+    $(document).ready(function() {
+        var idCounter = 1; // Inicializa el contador de ID_MatSec
+
+        // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
+        $.ajax({
+            url: '<?= base_url('emergency/verificarRegistros') ?>',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.existenRegistros) {
+                    idCounter = parseInt(response.ultimoID, 10) + 1; // Inicializa el contador con el último ID + 1
+                }
+            },
+            error: function() {
+                alert('Error al verificar los registros en la base de datos.');
+            }
+        });
+
+        $('#guardarMat').click(function() {
+            // Obtiene los valores de los inputs
+            var inputMat = $('#inputMat').val();
+            var inputSec = $('#inputSec').val();
+            var inputSuj = $('#inputSuj').val();
+
+            // Crea una nueva fila con los datos
+            var newRow = '<tr>' +
+                '<td class="hidden-column">' + idCounter + '</td>' +
+                '<td>' + inputMat + '</td>' +
+                '<td>' + inputSec + '</td>' +
+                '<td>' + inputSuj + '</td>' +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>';
+
+            // Agrega la nueva fila a la tabla
+            $('#materiasTable tbody').append(newRow);
+
+            // Incrementa el contador de ID_MatSec
+            idCounter++;
+
+            // Limpia los valores de los inputs
+            $('#inputMat').val('');
+            $('#inputSec').val('');
+            $('#inputSuj').val('');
+        });
+
+        // Maneja el evento de clic para eliminar una fila
+        $('#materiasTable').on('click', '.delete-row', function() {
+            $(this).closest('tr').remove();
+            idCounter--;
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        var idCounter2 = 1; // Inicializa el contador de ID_MatSec
+
+        // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
+        $.ajax({
+            url: '<?= base_url('emergency/verificarFundamentos') ?>',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.existenRegistros) {
+                    idCounter2 = parseInt(response.ultimoID, 10) + 1; // Inicializa el contador con el último ID + 1
+                }
+            },
+            error: function() {
+                alert('Error al verificar los registros en la base de datos.');
+            }
+        });
+
+        $('#guardarFun').click(function() {
+            // Obtiene los valores de los inputs
+            var inputNomReg = $('#inputNomReg').val();
+            var inputArt = $('#inputArt').val();
+            var inputLink = $('#inputLink').val();
+
+            // Crea una nueva fila con los datos
+            var newRow = '<tr>' +
+                '<td class="hidden-column">' + idCounter2 + '</td>' +
+                '<td>' + inputNomReg + '</td>' +
+                '<td>' + inputArt + '</td>' +
+                '<td>' + inputLink + '</td>' +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>';
+
+            // Agrega la nueva fila a la tabla
+            $('#fundamentoTable tbody').append(newRow);
+
+            // Incrementa el contador de ID_Fun
+            idCounter2++;
+
+            // Limpia los valores de los inputs
+            $('#inputNomReg').val('');
+            $('#inputArt').val('');
+            $('#inputLink').val('');
+        });
+        // Maneja el evento de clic para eliminar una fila
+        $('#fundamentoTable').on('click', '.delete-row', function() {
+            $(this).closest('tr').remove();
+            idCounter2--;
+        });
+    });
 </script>
 <script>
 $(document).ready(function() {
@@ -612,7 +857,7 @@ $(document).ready(function() {
         // Imprimir formData en consola
         console.log(formData);
         if (formData.nombre === '' || formData.fecha_expedicion === '' || ($('#si').is(':checked') &&
-                formData.campoExtra === '')) {
+                formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || $('#fundamentoTable tbody tr').length ===0) {
             if (formData.nombre === '') {
                 $('#inputNombre').after(
                     '<span class="error-message" style="color: red;">El campo "Nombre" es obligatorio.</span>'
@@ -626,6 +871,18 @@ $(document).ready(function() {
             if ($('#si').is(':checked') && formData.campoExtra === '') {
                 $('#campoExtra').after(
                     '<span class="error-message" style="color: red;">El campo "Vigencia de la regulación" es obligatorio cuando se selecciona "Sí".</span>'
+                );
+            }
+            if ($('#materiasTable tbody tr').length === 0) {
+                $('#matText').css('color', 'red');
+                $('#matText').after(
+                    '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Materias, Sectores y Sujetos Regulados".</span>'
+                );
+            }
+            if ($('#fundamentoTable tbody tr').length === 0) {
+                $('#funText').css('color', 'red');
+                $('#funText').after(
+                    '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Fundamentos Jurídicos".</span>'
                 );
             }
             alert('Por favor, complete los campos obligatorios');
@@ -902,6 +1159,63 @@ $(document).ready(function() {
                                                         .log(
                                                             datosTabla
                                                         );
+                                                        var registros = [];
+                                                        $('#materiasTable tbody tr').each(function() {
+                                                            var idMatSec = $(this).find('td').eq(0).text();
+                                                            var materias = $(this).find('td').eq(1).text();
+                                                            var sectores = $(this).find('td').eq(2).text();
+                                                            var sujetosRegulados = $(this).find('td').eq(3).text();
+
+                                                            registros.push({
+                                                                ID_MatSec: idMatSec,
+                                                                Materias: materias,
+                                                                Sectores: sectores,
+                                                                SujetosRegulados: sujetosRegulados
+                                                            });
+                                                        });
+                                                    
+                                                        $.ajax({
+                                                            url: '<?php echo base_url('emergency/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                                            type: 'POST',
+                                                            data: {
+                                                                registros: registros
+                                                            },
+                                                            success: function(response) {
+                                                                alert('Materias Registros guardados exitosamente.');
+                                                            },
+                                                            error: function() {
+                                                                alert('Error al guardar los registros Materias.');
+                                                            }
+                                                        });
+
+                                                        var fundamentos = [];
+                                                        $('#fundamentoTable tbody tr').each(function() {
+                                                            var ID_Fun = $(this).find('td').eq(0).text();
+                                                            var Nombre = $(this).find('td').eq(1).text();
+                                                            var Articulo = $(this).find('td').eq(2).text();
+                                                            var Link = $(this).find('td').eq(3).text();
+
+                                                            fundamentos.push({
+                                                                ID_Fun: ID_Fun,
+                                                                Nombre: Nombre,
+                                                                Articulo: Articulo,
+                                                                Link: Link
+                                                            });
+                                                        });
+
+                                                        $.ajax({
+                                                            url: '<?php echo base_url('emergency/InsertarFundamentos'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                                            type: 'POST',
+                                                            data: {
+                                                                fundamentos: fundamentos
+                                                            },
+                                                            success: function(response) {
+                                                                alert('Fundamentoa Registros guardados exitosamente.');
+                                                            },
+                                                            error: function() {
+                                                                alert('Error al guardar los registros fundamentos');
+                                                            }
+                                                        });
 
                                                     // Insertar los datos en la base de datos
                                                     $.ajax({

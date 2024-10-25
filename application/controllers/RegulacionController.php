@@ -385,17 +385,21 @@ class RegulacionController extends CI_Controller
     {
         // Cargar el modelo
         $this->load->model('RegulacionModel');
-        $this->load->database();
-        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
-        $result = $query->row();
-        if ($result->maxID == null) {
-            $ID_Caract = 1;
-        }else{
-            $ID_Caract = $result->maxID;
-        }
+        
 
         // Obtener los datos de la solicitud POST
         $ID_Emiten = $this->input->post('ID_Emiten');
+        $ID_Caract = $this->input->post('ID_Caract');
+        if (!isset($ID_Caract) || $ID_Caract == null || $ID_Caract == '' || $ID_Caract == 'N/A') {
+            $this->load->database();
+            $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+            $result = $query->row();
+            if ($result->maxID == null) {
+                $ID_Caract = 1;
+            }else{
+                $ID_Caract = $result->maxID;
+            }
+        }
         // print_r('ID_Emiten');
         // print_r($ID_Emiten);
         // print_r('ID_Caract');
@@ -439,6 +443,17 @@ class RegulacionController extends CI_Controller
 
         // Obtener los datos de la solicitud POST
         $ID_Aplican = $this->input->post('ID_Aplican');
+        $ID_Caract = $this->input->post('ID_Caract');
+        if (!isset($ID_Caract) || $ID_Caract == null || $ID_Caract == '' || $ID_Caract == 'N/A') {
+            $this->load->database();
+            $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+            $result = $query->row();
+            if ($result->maxID == null) {
+                $ID_Caract = 1;
+            }else{
+                $ID_Caract = $result->maxID;
+            }
+        }
 
         // Validar los datos
         if (empty($ID_Aplican) || empty($ID_Caract)) {
