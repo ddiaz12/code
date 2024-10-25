@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://openapis.col.gob.mx/API_PU/css/bs4/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="<?php echo base_url("assets/css/styles.css") ?>" rel="stylesheet" />
-    <link rel="stylesheet" href="<?php echo base_url("assets/css/ciudadania.css") ?>">
+    <link rel="stylesheet" href="<?php echo site_url("assets/css/ciudadania.css") ?>">
     <script src="https://use.fontawesome.com/releases/v6.6.0/js/all.js" crossorigin="anonymous"></script>
 
     <!-- Customcss -->

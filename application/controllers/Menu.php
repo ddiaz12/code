@@ -92,11 +92,15 @@ class Menu extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $userId = $user->id;
+        $notifications = $this->NotificacionesModel->getNotificationsGrupos($groupName);
         $data['notificaciones'] = $notifications;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $notifications = $this->NotificacionesModel->getNotifications($userId);
+            $data['notificaciones'] = $notifications;
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
             $this->blade->render('menuSujeto/guia', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/guia', $data);
@@ -114,11 +118,15 @@ class Menu extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
-        $notifications = $this->NotificacionesModel->getNotifications($groupName);
+        $userId = $user->id;
+        $notifications = $this->NotificacionesModel->getNotificationsGrupos($groupName);
         $data['notificaciones'] = $notifications;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $notifications = $this->NotificacionesModel->getNotifications($userId);
+            $data['notificaciones'] = $notifications;
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($userId);
             $this->blade->render('menuSujeto/log', $data);
         } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
             $this->blade->render('menuAdmin/log', $data);
