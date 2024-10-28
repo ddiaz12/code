@@ -168,13 +168,22 @@ Registro Estatal de Regulaciones
                             <label for="file">Archivo</label>
                             <input type="file" class="form-control" id="userfile" name="userfile">
                             <!-- Mostrar el nombre del archivo actual -->
-                            <?php if (!empty($archivo)) : ?>
+                            <?php if (!empty($archivo)): ?>
                                 <small id="current_file" class="form-text text-muted">
                                     Archivo actual: <?php echo basename($archivo); ?>
                                 </small>
                                 <br>
-                                <!-- Mostrar la imagen actual -->
-                                <img src="<?php echo base_url('assets/ftp/' . basename($archivo)); ?>" alt="Imagen actual" class="img-fluid">
+                                <?php if (pathinfo($archivo, PATHINFO_EXTENSION) === 'pdf'): ?>
+                                    <!-- Mostrar enlace para abrir el PDF -->
+                                    <a href="<?php echo base_url('assets/ftp/' . basename($archivo)); ?>" target="_blank"
+                                        class="btn btn-tinto btn-primary btn-sm">
+                                        Abrir PDF
+                                    </a>
+                                <?php else: ?>
+                                    <!-- Mostrar la imagen actual -->
+                                    <img src="<?php echo base_url('assets/ftp/' . basename($archivo)); ?>" alt="Imagen actual"
+                                        class="img-fluid">
+                                <?php endif; ?>
                             <?php endif; ?>
                             <br>
                             <small id="msg_file" class="text-danger"></small>
