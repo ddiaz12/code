@@ -74,10 +74,10 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputNombre',
             'Nombre',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-                'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras.'
+            'required' => 'El campo %s es obligatorio.',
+            'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
             )
         );
         $this->form_validation->set_rules(
@@ -139,10 +139,10 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre de vialidad',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-                'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras.'
+            'required' => 'El campo %s es obligatorio.',
+            'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
             )
         );
 
@@ -275,10 +275,10 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputNombre',
             'Nombre',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-                'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras.'
+            'required' => 'El campo %s es obligatorio.',
+            'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
             )
         );
         $this->form_validation->set_rules(
@@ -338,10 +338,10 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre de vialidad',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-                'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras.'
+            'required' => 'El campo %s es obligatorio.',
+            'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
             )
         );
 

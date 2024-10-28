@@ -976,7 +976,7 @@ class RegulacionController extends CI_Controller
             $inputEnlace = $this->input->post('inputEnlace');
             $iNormativo = $this->input->post('iNormativo');
             $selectedRegulaciones = json_decode($this->input->post('selectedRegulaciones'), true);
-            $url = $this->input->post('url');
+            $url = null;
 
             // Obtener el ID_Nat más grande y agregar uno más grande
             $max_id_nat = $this->RegulacionModel->get_max_id_nat();
@@ -989,7 +989,7 @@ class RegulacionController extends CI_Controller
                 'Enlace_Oficial' => $inputEnlace,
                 'Instrumento_normativo' => $iNormativo,
                 'file_path' => !empty($file_path) ? $file_path : null,
-                'url' => !empty($url) ? $url : null
+                'url' => null
             );
 
             if ($existing_record) {
@@ -1055,7 +1055,7 @@ class RegulacionController extends CI_Controller
 
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             $inputEnlace = $this->input->post('inputEnlace');
-            $url = $this->input->post('url');
+            $url = null;
             $iNormativo = $this->input->post('iNormativo');
             $selectedRegulaciones = json_decode($this->input->post('selectedRegulaciones'), true);
             $selectedSectors = json_decode($this->input->post('selectedSectors'), true);
@@ -1076,7 +1076,7 @@ class RegulacionController extends CI_Controller
                 'Enlace_Oficial' => $inputEnlace,
                 'Instrumento_normativo' => $iNormativo,
                 'file_path' => !empty($file_path) ? $file_path : null,
-                'url' => !empty($url) ? $url : null
+                'url' => null
             );
 
             if ($existing_record) {

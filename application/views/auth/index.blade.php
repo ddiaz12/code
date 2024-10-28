@@ -147,7 +147,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
             title: '¿Quieres mandar un correo a este usuario para que complete sus datos?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Sí, pendiente',
+            confirmButtonText: 'Sí, mandar',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {

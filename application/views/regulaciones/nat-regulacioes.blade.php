@@ -25,22 +25,22 @@ Registro Estatal de Regulaciones
             <div class="col-md-3 p-0 d-flex flex-column">
                 <!-- New card -->
                 <style>
-                .custom-link {
-                    color: black;
-                    cursor: pointer !important;
-                    font-size: 19px;
-                    /* Adjust as needed */
-                }
+                    .custom-link {
+                        color: black;
+                        cursor: pointer !important;
+                        font-size: 19px;
+                        /* Adjust as needed */
+                    }
 
-                .custom-link:hover {
-                    color: gray;
-                    text-decoration: none;
-                }
+                    .custom-link:hover {
+                        color: gray;
+                        text-decoration: none;
+                    }
 
-                .custom-link i {
-                    font-size: 24px;
-                    /* Adjust as needed */
-                }
+                    .custom-link i {
+                        font-size: 24px;
+                        /* Adjust as needed */
+                    }
                 </style>
                 <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
@@ -49,7 +49,7 @@ Registro Estatal de Regulaciones
                                 <li class="iconos-regulacion">
                                     <i class="fa-solid fa-list-check fa-sm"></i>
                                     <label class="menu-regulacion" for="image_1">Características de la
-                                            Regulación</label>
+                                        Regulación</label>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
@@ -255,614 +255,611 @@ Registro Estatal de Regulaciones
                                 <input type="file" class="form-control-file" id="file" name="userfile">
                             </div>
                             <div class="d-flex justify-content-end mb-3">
-
                                 <a href="<?php echo base_url('oficinas/oficina'); ?>"
                                     class="btn btn-secondary me-2">Cancelar</a>
                                 <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                             </div>
                         </div>
-                        <script>
-                        $(document).ready(function() {
-                            $('.btn-tramites').click(function() {
-                                $('#myModal').modal('show');
-                            });
-                        });
-                        </script>
-                        <script>
-                        function closeModal() {
-                            $('.modal').modal('hide'); // Oculta el modal
-                        }
-                        </script>
-
-
+                    </form>
                 </div>
-
-                </form>
             </div>
         </div>
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    $('input[type=radio][name=opcion]').change(function() {
-        if (this.value == 'si') {
-            $('#inputs input').prop('disabled', false); // Desbloquear los inputs
-        } else if (this.value == 'no') {
+    $(document).ready(function () {
+        $('.btn-tramites').click(function () {
+            $('#myModal').modal('show');
+        });
+    });
+</script>
+<script>
+    function closeModal() {
+        $('.modal').modal('hide'); // Oculta el modal
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('input[type=radio][name=opcion]').change(function () {
+            if (this.value == 'si') {
+                $('#inputs input').prop('disabled', false); // Desbloquear los inputs
+            } else if (this.value == 'no') {
+                $('#inputs input').prop('disabled', true); // Bloquear los inputs
+            }
+        });
+
+        // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
+        if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
             $('#inputs input').prop('disabled', true); // Bloquear los inputs
         }
     });
 
-    // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
-    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
-        $('#inputs input').prop('disabled', true); // Bloquear los inputs
+
+
+    $(document).ready(function () {
+        $('input[type=radio][name=opcion]').change(function () {
+            if (this.value == 'si') {
+                $('#checkboxes').show();
+            } else if (this.value == 'no') {
+                $('#checkboxes').hide();
+            }
+        });
+    });
+
+    $('#guardarIbtn').on('click', function () {
+        var inputTram = $('#inputTram').val();
+        var inputDir = $('#inputDir').val();
+
+        // Verificar campos obligatorios
+        if (inputTram === '' || inputDir === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, complete los campos obligatorios',
+            });
+            return;
+        }
+
+        // Obtener el último ID_Tramites de la tabla
+        var lastIdTramites = $('#tramitesTable tbody tr:last td:first').text();
+        var newIdTramites = lastIdTramites ? parseInt(lastIdTramites) + 1 : 1;
+
+        // Insertar el nuevo registro en la tabla
+        var newRow = '<tr><td>' +
+            newIdTramites +
+            '</td><td>' +
+            inputTram +
+            '</td><td>' +
+            inputDir +
+            '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
+        $('#tramitesTable tbody').append(newRow);
+    });
+
+    // Manejar el evento de clic en el botón de eliminar
+    $('#tramitesTable').on('click', '.delete-row', function () {
+        var row = $(this).closest('tr');
+        var rowIndex = row.index();
+        var table = $('#tramitesTable tbody');
+
+        // Eliminar la fila seleccionada
+        row.remove();
+
+        // Reducir "ID_Tramites" y "Orden" de las filas siguientes
+        table.find('tr').each(function (index) {
+            if (index >= rowIndex) {
+                var idTramitesCell = $(this).find('td').eq(0);
+                var newIdTramites = parseInt(idTramitesCell.text()) - 1;
+                idTramitesCell.text(newIdTramites);
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.btn-tramites').click(function () {
+            $('#myModal').modal('show');
+        });
+    });
+</script>
+<script>
+    function closeModal() {
+        $('.modal').modal('hide'); // Oculta el modal
     }
-});
-
-
-
-$(document).ready(function() {
-    $('input[type=radio][name=opcion]').change(function() {
-        if (this.value == 'si') {
-            $('#checkboxes').show();
-        } else if (this.value == 'no') {
-            $('#checkboxes').hide();
-        }
-    });
-});
-
-$('#guardarIbtn').on('click', function() {
-    var inputTram = $('#inputTram').val();
-    var inputDir = $('#inputDir').val();
-
-    // Verificar campos obligatorios
-    if (inputTram === '' || inputDir === '') {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Por favor, complete los campos obligatorios',
-        });
-        return;
-    }
-
-    // Obtener el último ID_Tramites de la tabla
-    var lastIdTramites = $('#tramitesTable tbody tr:last td:first').text();
-    var newIdTramites = lastIdTramites ? parseInt(lastIdTramites) + 1 : 1;
-
-    // Insertar el nuevo registro en la tabla
-    var newRow = '<tr><td>' +
-        newIdTramites +
-        '</td><td>' +
-        inputTram +
-        '</td><td>' +
-        inputDir +
-        '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
-    $('#tramitesTable tbody').append(newRow);
-});
-
-// Manejar el evento de clic en el botón de eliminar
-$('#tramitesTable').on('click', '.delete-row', function() {
-    var row = $(this).closest('tr');
-    var rowIndex = row.index();
-    var table = $('#tramitesTable tbody');
-
-    // Eliminar la fila seleccionada
-    row.remove();
-
-    // Reducir "ID_Tramites" y "Orden" de las filas siguientes
-    table.find('tr').each(function(index) {
-        if (index >= rowIndex) {
-            var idTramitesCell = $(this).find('td').eq(0);
-            var newIdTramites = parseInt(idTramitesCell.text()) - 1;
-            idTramitesCell.text(newIdTramites);
-        }
-    });
-});
-</script>
-<script>
-$(document).ready(function() {
-    $('.btn-tramites').click(function() {
-        $('#myModal').modal('show');
-    });
-});
-</script>
-<script>
-function closeModal() {
-    $('.modal').modal('hide'); // Oculta el modal
-}
 </script>
 
 
 
 <script>
-$(document).ready(function() {
-    $('input[type=radio][name=opcion]').change(function() {
-        if (this.value == 'si') {
-            $('#checkboxes').show();
-        } else if (this.value == 'no') {
-            $('#checkboxes').hide();
-        }
+    $(document).ready(function () {
+        $('input[type=radio][name=opcion]').change(function () {
+            if (this.value == 'si') {
+                $('#checkboxes').show();
+            } else if (this.value == 'no') {
+                $('#checkboxes').hide();
+            }
+        });
     });
-});
 </script>
 
 <script>
-let selectedSectors = []; // Declaración global
-let selectedSubsectors = []; // Declaración global
-let selectedRamas = []; // Declaración global
-let selectedSubramas = []; // Declaración global
-let selectedClases = []; // Declaración global
-let selectedSectorsIds = []; // Declaración global
-let selectedSubsectorsIds = []; // Declaración global
-let selectedRamasIds = []; // Declaración global
-let selectedSubramasIds = []; // Declaración global
-let selectedClasesIds = []; // Declaración global
-let selectedRegulaciones = []; // Declaración global
-// Aqui se hace la busqueda de los sectores y se muestran en una lista
-$(document).ready(function() {
+    let selectedSectors = []; // Declaración global
+    let selectedSubsectors = []; // Declaración global
+    let selectedRamas = []; // Declaración global
+    let selectedSubramas = []; // Declaración global
+    let selectedClases = []; // Declaración global
+    let selectedSectorsIds = []; // Declaración global
+    let selectedSubsectorsIds = []; // Declaración global
+    let selectedRamasIds = []; // Declaración global
+    let selectedSubramasIds = []; // Declaración global
+    let selectedClasesIds = []; // Declaración global
+    let selectedRegulaciones = []; // Declaración global
+    // Aqui se hace la busqueda de los sectores y se muestran en una lista
+    $(document).ready(function () {
 
-    $('#SectorInput').on('keyup', function() {
-        let searchTerm = $(this).val();
-        $.ajax({
-            url: '<?= base_url('RegulacionController/search_sector') ?>',
-            type: 'POST',
-            data: {
-                search_term: searchTerm
-            },
-            dataType: 'json',
-            success: function(data) {
-                $('#sectorResults').empty();
-                data.forEach(function(sector) {
-                    $('#sectorResults').append('<li data-id="' + sector
-                        .ID_sector + '">' + sector.Nombre_Sector +
-                        '</li>');
-                });
-            }
-        });
-    });
-
-    // Aqui se selecciona el sector y se agrega a la lista
-    $('#sectorResults').on('click', 'li', function() {
-        let sectorId = $(this).data('id');
-        let sectorName = $(this).text();
-        selectedSectors.push({
-            ID_sector: sectorId,
-            Nombre_Sector: sectorName
-        });
-        selectedSectorsIds.push(sectorId); // Guardar solo el valor numérico
-        console.log(selectedSectors);
-        // Ocultar la lista y borrar el texto del input
-        $('#sectorResults').empty();
-        $('#SectorInput').val('');
-
-        // Mostrar la tabla y agregar una fila
-        $('#selectedSectorsTable').show();
-        $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName +
-            '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
-    });
-
-    // Evento para eliminar sectores
-    $('#selectedSectorsTable').on('click', '.delete-row', function() {
-        // Obtener el ID del sector de la fila
-        let sectorId = $(this).closest('tr').data('id');
-
-        // Eliminar la fila de la tabla
-        $(this).closest('tr').remove();
-
-        // Eliminar el sector del array
-        selectedSectors = selectedSectors.filter(function(sector) {
-            return sector.ID_sector !== sectorId;
-        });
-
-        console.log(selectedSectors);
-
-        // Ocultar la tabla si no hay más filas
-        if ($('#selectedSectorsTable tbody tr').length === 0) {
-            $('#selectedSectorsTable').hide();
-        }
-    });
-
-    // Aqui se hace la busqueda de los subsectores y se muestran en una lista
-    $('#SubsectorInput').on('keyup', function() {
-        let searchTerm = $(this).val();
-        $.ajax({
-            url: '<?= base_url('RegulacionController/search_subsector') ?>',
-            type: 'POST',
-            data: {
-                search_term: searchTerm
-            },
-            dataType: 'json',
-            success: function(data) {
-                $('#subsectorResults').empty();
-                data.forEach(function(subsector) {
-                    $('#subsectorResults').append(
-                        '<li class="list-group-item" data-id="' +
-                        subsector.ID_subsector + '">' + subsector
-                        .Nombre_Subsector + '</li>');
-                });
-            }
-        });
-    });
-
-    // Aqui se selecciona el subsector y se agrega a la lista
-    $('#subsectorResults').on('click', 'li', function() {
-        let subsectorId = $(this).data('id');
-        let subsectorName = $(this).text();
-        selectedSubsectors.push({
-            ID_subsector: subsectorId,
-            Nombre_Subsector: subsectorName
-        });
-        selectedSubsectorsIds.push(subsectorId); // Guardar solo el valor numérico
-        console.log(selectedSubsectors);
-
-        // Ocultar la lista y borrar el texto del input
-        $('#subsectorResults').empty();
-        $('#SubsectorInput').val('');
-
-        // Mostrar la tabla y agregar una fila
-        $('#selectedSubsectorsTable').show();
-        $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsectorName +
-            '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
-    });
-
-    // Evento para eliminar subsectores
-    $('#selectedSubsectorsTable').on('click', '.delete-row', function() {
-        // Obtener el ID del subsector de la fila
-        let subsectorId = $(this).closest('tr').data('id');
-
-        // Eliminar la fila de la tabla
-        $(this).closest('tr').remove();
-
-        // Eliminar el subsector del array
-        selectedSubsectors = selectedSubsectors.filter(function(subsector) {
-            return subsector.ID_subsector !== subsectorId;
-        });
-
-        console.log(selectedSubsectors);
-
-        // Ocultar la tabla si no hay más filas
-        if ($('#selectedSubsectorsTable tbody tr').length === 0) {
-            $('#selectedSubsectorsTable').hide();
-        }
-    });
-
-    // Aqui se hace la busqueda de las ramas y se muestran en una lista
-    $('#RamaInput').on('keyup', function() {
-        let searchTerm = $(this).val();
-        $.ajax({
-            url: '<?= base_url('RegulacionController/search_rama') ?>',
-            type: 'POST',
-            data: {
-                search_term: searchTerm
-            },
-            dataType: 'json',
-            success: function(data) {
-                $('#ramaResults').empty();
-                data.forEach(function(rama) {
-                    $('#ramaResults').append(
-                        '<li class="list-group-item" data-id="' + rama
-                        .ID_Rama + '">' + rama.Nombre_Rama + '</li>');
-                });
-            }
-        });
-    });
-
-    // Aqui se selecciona la rama y se agrega a la lista
-    $('#ramaResults').on('click', 'li', function() {
-        let ramaId = $(this).data('id');
-        let ramaName = $(this).text();
-        selectedRamas.push({
-            ID_Rama: ramaId,
-            Nombre_Rama: ramaName
-        });
-        selectedRamasIds.push(ramaId); // Guardar solo el valor numérico
-        console.log(selectedRamas);
-
-        // Ocultar la lista y borrar el texto del input
-        $('#ramaResults').empty();
-        $('#RamaInput').val('');
-
-        // Mostrar la tabla y agregar una fila
-        $('#selectedRamasTable').show();
-        $('#selectedRamasTable tbody').append('<tr><td>' + ramaName +
-            '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>');
-    });
-
-    // Evento para eliminar ramas
-    $('#selectedRamasTable').on('click', '.delete-row', function() {
-        // Obtener el ID de la rama de la fila
-        let ramaId = $(this).closest('tr').data('id');
-
-        // Eliminar la fila de la tabla
-        $(this).closest('tr').remove();
-
-        // Eliminar la rama del array
-        selectedRamas = selectedRamas.filter(function(rama) {
-            return rama.ID_Rama !== ramaId;
-        });
-
-        console.log(selectedRamas);
-
-        // Ocultar la tabla si no hay más filas
-        if ($('#selectedRamasTable tbody tr').length === 0) {
-            $('#selectedRamasTable').hide();
-        }
-    });
-
-    // Aqui se hace la busqueda de las subramas y se muestran en una lista
-    $('#SubramaInput').on('keyup', function() {
-        let searchTerm = $(this).val();
-        $.ajax({
-            url: '<?= base_url('RegulacionController/search_subrama') ?>',
-            type: 'POST',
-            data: {
-                search_term: searchTerm
-            },
-            dataType: 'json',
-            success: function(data) {
-                $('#subramaResults').empty();
-                data.forEach(function(subrama) {
-                    $('#subramaResults').append(
-                        '<li class="list-group-item" data-id="' + subrama
-                        .ID_Subrama + '">' + subrama.Nombre_Subrama + '</li>');
-                });
-            }
-        });
-    });
-
-    // Aqui se selecciona la subrama y se agrega a la lista
-    $('#subramaResults').on('click', 'li', function() {
-        let subramaId = $(this).data('id');
-        let subramaName = $(this).text();
-        selectedSubramas.push({
-            ID_Subrama: subramaId,
-            Nombre_Subrama: subramaName
-        });
-        selectedSubramasIds.push(subramaId); // Guardar solo el valor numérico
-        console.log(selectedSubramas);
-
-        // Ocultar la lista y borrar el texto del input
-        $('#subramaResults').empty();
-        $('#SubramaInput').val('');
-
-        // Mostrar la tabla y agregar una fila
-        $('#selectedSubramasTable').show();
-        $('#selectedSubramasTable tbody').append('<tr><td>' + subramaName +
-            '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
-    });
-
-    // Evento para eliminar subramas
-    $('#selectedSubramasTable').on('click', '.delete-row', function() {
-        // Obtener el ID de la subrama de la fila
-        let subramaId = $(this).closest('tr').data('id');
-
-        // Eliminar la fila de la tabla
-        $(this).closest('tr').remove();
-
-        // Eliminar la subrama del array
-        selectedSubramas = selectedSubramas.filter(function(subrama) {
-            return subrama.ID_Subrama !== subramaId;
-        });
-
-        console.log(selectedSubramas);
-
-        // Ocultar la tabla si no hay más filas
-        if ($('#selectedSubramasTable tbody tr').length === 0) {
-            $('#selectedSubramasTable').hide();
-        }
-    });
-
-    // Aqui se hace la busqueda de las clases y se muestran en una lista
-    $('#ClaseInput').on('keyup', function() {
-        let searchTerm = $(this).val();
-        $.ajax({
-            url: '<?= base_url('RegulacionController/search_clase') ?>',
-            type: 'POST',
-            data: {
-                search_term: searchTerm
-            },
-            dataType: 'json',
-            success: function(data) {
-                $('#claseResults').empty();
-                data.forEach(function(clase) {
-                    $('#claseResults').append(
-                        '<li class="list-group-item" data-id="' + clase
-                        .ID_clase + '">' + clase.Nombre_Clase + '</li>');
-                });
-            }
-        });
-    });
-
-    // Aqui se selecciona la clase y se agrega a la lista
-    $('#claseResults').on('click', 'li', function() {
-        let claseId = $(this).data('id');
-        let claseName = $(this).text();
-        selectedClases.push({
-            ID_clase: claseId,
-            Nombre_Clase: claseName
-        });
-        selectedClasesIds.push(claseId); // Guardar solo el valor numérico
-        console.log(selectedClases);
-
-        // Ocultar la lista y borrar el texto del input
-        $('#claseResults').empty();
-        $('#ClaseInput').val('');
-
-        // Mostrar la tabla y agregar una fila
-        $('#selectedClasesTable').show();
-        $('#selectedClasesTable tbody').append('<tr><td>' + claseName +
-            '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
-    });
-
-    // Evento para eliminar clases
-    $('#selectedClasesTable').on('click', '.delete-row', function() {
-        // Obtener el ID de la clase de la fila
-        let ClaseId = $(this).closest('tr').data('id');
-
-        // Eliminar la fila de la tabla
-        $(this).closest('tr').remove();
-
-        // Eliminar la clase del array
-        selectedClases = selectedClases.filter(function(clase) {
-            return clase.ID_clase !== ClaseId;
-        });
-
-        console.log(selectedClases);
-
-        // Ocultar la tabla si no hay más filas
-        if ($('#selectedClasesTable tbody tr').length === 0) {
-            $('#selectedClasesTable').hide();
-        }
-    });
-
-    //aqui busca las regulaciones y las muesta en una lista
-    $('#inputVinculadas').on('keyup', function() {
-        let searchTerm = $(this).val();
-        $.ajax({
-            url: '<?= base_url('RegulacionController/search_regulacion') ?>',
-            type: 'POST',
-            data: {
-                search_term: searchTerm
-            },
-            dataType: 'json',
-            success: function(data) {
-                $('#vinculadasResults').empty();
-                data.forEach(function(regulacion) {
-                    $('#vinculadasResults').append(
-                        '<li class="list-group-item" data-id="' + regulacion
-                        .ID_Regulacion + '">' + regulacion.Nombre_Regulacion +
-                        '</li>');
-                });
-            }
-        });
-    });
-
-    //aqui selecciona la regulacion y la agrega a la lista
-    $('#vinculadasResults').on('click', 'li', function() {
-        let regulacionId = $(this).data('id');
-        let regulacionName = $(this).text();
-        selectedRegulaciones.push({
-            ID_Regulacion: regulacionId
-        });
-        console.log('regulaciones', selectedRegulaciones);
-
-        // Ocultar la lista y borrar el texto del input
-        $('#vinculadasResults').empty();
-        $('#inputVinculadas').val('');
-
-        // Mostrar la tabla y agregar una fila
-        $('#selectedRegulacionesTable').show();
-        $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName +
-            '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
-    });
-
-    //verificamos que se de click en el boton guardar y validamos si es si o no
-    //aqui guardamos los datos
-    $(document).ready(function() {
-        $('#btnGnat').on('click', function() {
-            if (!$('#si').is(':checked') && !$('#no').is(':checked') || $('#tramitesTable tbody tr').length === 0 || $('#inputEnlace').val() === '') {
-                if ($('#tramitesTable tbody tr').length === 0){
-                    $('#tramitesText').css('color', 'red');
-                    $('#tramitesText').after('<span class="error-message" style="color: red;">Por favor, agregue al menos un trámite.</span>');
-                }
-                if ($('#inputEnlace').val() === '') {
-                    $('#inputEnlace').css('border-color', 'red');
-                    $('#inputEnlace').after('<span class="error-message" style="color: red;">Por favor, complete este campo.</span>');
-                }
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Por favor, seleccione una opción y agregue al menos un trámite',
-                });
-                return;
-            }else{
-                var formData = new FormData($('#formGnat')[0]);
-
-                if ($('#no').is(':checked')) {
-                    formData.append('btn_clicked', true);
-                    formData.append('radio_no_selected', true);
-                    formData.append('inputEnlace', $('#inputEnlace').val());
-                    formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
-                } else if ($('#si').is(':checked')) {
-                    formData.append('btn_clicked', true);
-                    formData.append('radio_si_selected', true);
-                    formData.append('inputEnlace', $('#inputEnlace').val());
-                    formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
-                    formData.append('selectedSectors', JSON.stringify(selectedSectorsIds));
-                    formData.append('selectedSubsectors', JSON.stringify(selectedSubsectorsIds));
-                    formData.append('selectedRamas', JSON.stringify(selectedRamasIds));
-                    formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
-                    formData.append('selectedClases', JSON.stringify(selectedClasesIds));
-                }
-                // Extraer registros de la tabla tramitesTable
-                var tramites = [];
-                $('#tramitesTable tbody tr').each(function() {
-                    var nombre = $(this).find('td').eq(1).text();
-                    var direccion = $(this).find('td').eq(2).text();
-                    tramites.push({
-                        Nombre: nombre,
-                        Direccion: direccion
+        $('#SectorInput').on('keyup', function () {
+            let searchTerm = $(this).val();
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search_sector') ?>',
+                type: 'POST',
+                data: {
+                    search_term: searchTerm
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#sectorResults').empty();
+                    data.forEach(function (sector) {
+                        $('#sectorResults').append('<li data-id="' + sector
+                            .ID_sector + '">' + sector.Nombre_Sector +
+                            '</li>');
                     });
-                });
+                }
+            });
+        });
 
-                // Agregar el array tramites al formData
-                formData.append('tramites', JSON.stringify(tramites));
-                console.log('formData:', formData.get('tramites'));
+        // Aqui se selecciona el sector y se agrega a la lista
+        $('#sectorResults').on('click', 'li', function () {
+            let sectorId = $(this).data('id');
+            let sectorName = $(this).text();
+            selectedSectors.push({
+                ID_sector: sectorId,
+                Nombre_Sector: sectorName
+            });
+            selectedSectorsIds.push(sectorId); // Guardar solo el valor numérico
+            console.log(selectedSectors);
+            // Ocultar la lista y borrar el texto del input
+            $('#sectorResults').empty();
+            $('#SectorInput').val('');
 
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: function(response) {
-                        console.log('Respuesta del servidor:', response);
-                        if (response.status === 'success') {
-                            // Agregar los registros a la tabla tramitesTable
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Éxito',
-                                text: 'Datos guardados exitosamente',
-                            }).then(() => {
-                                window.location.href =
-                                    '<?= base_url('RegulacionController') ?>';
-                            });
-                        } else {
+            // Mostrar la tabla y agregar una fila
+            $('#selectedSectorsTable').show();
+            $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
+        });
+
+        // Evento para eliminar sectores
+        $('#selectedSectorsTable').on('click', '.delete-row', function () {
+            // Obtener el ID del sector de la fila
+            let sectorId = $(this).closest('tr').data('id');
+
+            // Eliminar la fila de la tabla
+            $(this).closest('tr').remove();
+
+            // Eliminar el sector del array
+            selectedSectors = selectedSectors.filter(function (sector) {
+                return sector.ID_sector !== sectorId;
+            });
+
+            console.log(selectedSectors);
+
+            // Ocultar la tabla si no hay más filas
+            if ($('#selectedSectorsTable tbody tr').length === 0) {
+                $('#selectedSectorsTable').hide();
+            }
+        });
+
+        // Aqui se hace la busqueda de los subsectores y se muestran en una lista
+        $('#SubsectorInput').on('keyup', function () {
+            let searchTerm = $(this).val();
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search_subsector') ?>',
+                type: 'POST',
+                data: {
+                    search_term: searchTerm
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#subsectorResults').empty();
+                    data.forEach(function (subsector) {
+                        $('#subsectorResults').append(
+                            '<li class="list-group-item" data-id="' +
+                            subsector.ID_subsector + '">' + subsector
+                                .Nombre_Subsector + '</li>');
+                    });
+                }
+            });
+        });
+
+        // Aqui se selecciona el subsector y se agrega a la lista
+        $('#subsectorResults').on('click', 'li', function () {
+            let subsectorId = $(this).data('id');
+            let subsectorName = $(this).text();
+            selectedSubsectors.push({
+                ID_subsector: subsectorId,
+                Nombre_Subsector: subsectorName
+            });
+            selectedSubsectorsIds.push(subsectorId); // Guardar solo el valor numérico
+            console.log(selectedSubsectors);
+
+            // Ocultar la lista y borrar el texto del input
+            $('#subsectorResults').empty();
+            $('#SubsectorInput').val('');
+
+            // Mostrar la tabla y agregar una fila
+            $('#selectedSubsectorsTable').show();
+            $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsectorName +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
+        });
+
+        // Evento para eliminar subsectores
+        $('#selectedSubsectorsTable').on('click', '.delete-row', function () {
+            // Obtener el ID del subsector de la fila
+            let subsectorId = $(this).closest('tr').data('id');
+
+            // Eliminar la fila de la tabla
+            $(this).closest('tr').remove();
+
+            // Eliminar el subsector del array
+            selectedSubsectors = selectedSubsectors.filter(function (subsector) {
+                return subsector.ID_subsector !== subsectorId;
+            });
+
+            console.log(selectedSubsectors);
+
+            // Ocultar la tabla si no hay más filas
+            if ($('#selectedSubsectorsTable tbody tr').length === 0) {
+                $('#selectedSubsectorsTable').hide();
+            }
+        });
+
+        // Aqui se hace la busqueda de las ramas y se muestran en una lista
+        $('#RamaInput').on('keyup', function () {
+            let searchTerm = $(this).val();
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search_rama') ?>',
+                type: 'POST',
+                data: {
+                    search_term: searchTerm
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#ramaResults').empty();
+                    data.forEach(function (rama) {
+                        $('#ramaResults').append(
+                            '<li class="list-group-item" data-id="' + rama
+                                .ID_Rama + '">' + rama.Nombre_Rama + '</li>');
+                    });
+                }
+            });
+        });
+
+        // Aqui se selecciona la rama y se agrega a la lista
+        $('#ramaResults').on('click', 'li', function () {
+            let ramaId = $(this).data('id');
+            let ramaName = $(this).text();
+            selectedRamas.push({
+                ID_Rama: ramaId,
+                Nombre_Rama: ramaName
+            });
+            selectedRamasIds.push(ramaId); // Guardar solo el valor numérico
+            console.log(selectedRamas);
+
+            // Ocultar la lista y borrar el texto del input
+            $('#ramaResults').empty();
+            $('#RamaInput').val('');
+
+            // Mostrar la tabla y agregar una fila
+            $('#selectedRamasTable').show();
+            $('#selectedRamasTable tbody').append('<tr><td>' + ramaName +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>');
+        });
+
+        // Evento para eliminar ramas
+        $('#selectedRamasTable').on('click', '.delete-row', function () {
+            // Obtener el ID de la rama de la fila
+            let ramaId = $(this).closest('tr').data('id');
+
+            // Eliminar la fila de la tabla
+            $(this).closest('tr').remove();
+
+            // Eliminar la rama del array
+            selectedRamas = selectedRamas.filter(function (rama) {
+                return rama.ID_Rama !== ramaId;
+            });
+
+            console.log(selectedRamas);
+
+            // Ocultar la tabla si no hay más filas
+            if ($('#selectedRamasTable tbody tr').length === 0) {
+                $('#selectedRamasTable').hide();
+            }
+        });
+
+        // Aqui se hace la busqueda de las subramas y se muestran en una lista
+        $('#SubramaInput').on('keyup', function () {
+            let searchTerm = $(this).val();
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search_subrama') ?>',
+                type: 'POST',
+                data: {
+                    search_term: searchTerm
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#subramaResults').empty();
+                    data.forEach(function (subrama) {
+                        $('#subramaResults').append(
+                            '<li class="list-group-item" data-id="' + subrama
+                                .ID_Subrama + '">' + subrama.Nombre_Subrama + '</li>');
+                    });
+                }
+            });
+        });
+
+        // Aqui se selecciona la subrama y se agrega a la lista
+        $('#subramaResults').on('click', 'li', function () {
+            let subramaId = $(this).data('id');
+            let subramaName = $(this).text();
+            selectedSubramas.push({
+                ID_Subrama: subramaId,
+                Nombre_Subrama: subramaName
+            });
+            selectedSubramasIds.push(subramaId); // Guardar solo el valor numérico
+            console.log(selectedSubramas);
+
+            // Ocultar la lista y borrar el texto del input
+            $('#subramaResults').empty();
+            $('#SubramaInput').val('');
+
+            // Mostrar la tabla y agregar una fila
+            $('#selectedSubramasTable').show();
+            $('#selectedSubramasTable tbody').append('<tr><td>' + subramaName +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
+        });
+
+        // Evento para eliminar subramas
+        $('#selectedSubramasTable').on('click', '.delete-row', function () {
+            // Obtener el ID de la subrama de la fila
+            let subramaId = $(this).closest('tr').data('id');
+
+            // Eliminar la fila de la tabla
+            $(this).closest('tr').remove();
+
+            // Eliminar la subrama del array
+            selectedSubramas = selectedSubramas.filter(function (subrama) {
+                return subrama.ID_Subrama !== subramaId;
+            });
+
+            console.log(selectedSubramas);
+
+            // Ocultar la tabla si no hay más filas
+            if ($('#selectedSubramasTable tbody tr').length === 0) {
+                $('#selectedSubramasTable').hide();
+            }
+        });
+
+        // Aqui se hace la busqueda de las clases y se muestran en una lista
+        $('#ClaseInput').on('keyup', function () {
+            let searchTerm = $(this).val();
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search_clase') ?>',
+                type: 'POST',
+                data: {
+                    search_term: searchTerm
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#claseResults').empty();
+                    data.forEach(function (clase) {
+                        $('#claseResults').append(
+                            '<li class="list-group-item" data-id="' + clase
+                                .ID_clase + '">' + clase.Nombre_Clase + '</li>');
+                    });
+                }
+            });
+        });
+
+        // Aqui se selecciona la clase y se agrega a la lista
+        $('#claseResults').on('click', 'li', function () {
+            let claseId = $(this).data('id');
+            let claseName = $(this).text();
+            selectedClases.push({
+                ID_clase: claseId,
+                Nombre_Clase: claseName
+            });
+            selectedClasesIds.push(claseId); // Guardar solo el valor numérico
+            console.log(selectedClases);
+
+            // Ocultar la lista y borrar el texto del input
+            $('#claseResults').empty();
+            $('#ClaseInput').val('');
+
+            // Mostrar la tabla y agregar una fila
+            $('#selectedClasesTable').show();
+            $('#selectedClasesTable tbody').append('<tr><td>' + claseName +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
+        });
+
+        // Evento para eliminar clases
+        $('#selectedClasesTable').on('click', '.delete-row', function () {
+            // Obtener el ID de la clase de la fila
+            let ClaseId = $(this).closest('tr').data('id');
+
+            // Eliminar la fila de la tabla
+            $(this).closest('tr').remove();
+
+            // Eliminar la clase del array
+            selectedClases = selectedClases.filter(function (clase) {
+                return clase.ID_clase !== ClaseId;
+            });
+
+            console.log(selectedClases);
+
+            // Ocultar la tabla si no hay más filas
+            if ($('#selectedClasesTable tbody tr').length === 0) {
+                $('#selectedClasesTable').hide();
+            }
+        });
+
+        //aqui busca las regulaciones y las muesta en una lista
+        $('#inputVinculadas').on('keyup', function () {
+            let searchTerm = $(this).val();
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search_regulacion') ?>',
+                type: 'POST',
+                data: {
+                    search_term: searchTerm
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#vinculadasResults').empty();
+                    data.forEach(function (regulacion) {
+                        $('#vinculadasResults').append(
+                            '<li class="list-group-item" data-id="' + regulacion
+                                .ID_Regulacion + '">' + regulacion.Nombre_Regulacion +
+                            '</li>');
+                    });
+                }
+            });
+        });
+
+        //aqui selecciona la regulacion y la agrega a la lista
+        $('#vinculadasResults').on('click', 'li', function () {
+            let regulacionId = $(this).data('id');
+            let regulacionName = $(this).text();
+            selectedRegulaciones.push({
+                ID_Regulacion: regulacionId
+            });
+            console.log('regulaciones', selectedRegulaciones);
+
+            // Ocultar la lista y borrar el texto del input
+            $('#vinculadasResults').empty();
+            $('#inputVinculadas').val('');
+
+            // Mostrar la tabla y agregar una fila
+            $('#selectedRegulacionesTable').show();
+            $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>');
+        });
+
+        //verificamos que se de click en el boton guardar y validamos si es si o no
+        //aqui guardamos los datos
+        $(document).ready(function () {
+            $('#btnGnat').on('click', function () {
+                if (!$('#si').is(':checked') && !$('#no').is(':checked') || $('#tramitesTable tbody tr').length === 0 || $('#inputEnlace').val() === '') {
+                    if ($('#tramitesTable tbody tr').length === 0) {
+                        $('#tramitesText').css('color', 'red');
+                        $('#tramitesText').after('<span class="error-message" style="color: red;">Por favor, agregue al menos un trámite.</span>');
+                    }
+                    if ($('#inputEnlace').val() === '') {
+                        $('#inputEnlace').css('border-color', 'red');
+                        $('#inputEnlace').after('<span class="error-message" style="color: red;">Por favor, complete este campo.</span>');
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Por favor, seleccione una opción y agregue al menos un trámite',
+                    });
+                    return;
+                } else {
+                    var formData = new FormData($('#formGnat')[0]);
+
+                    if ($('#no').is(':checked')) {
+                        formData.append('btn_clicked', true);
+                        formData.append('radio_no_selected', true);
+                        formData.append('inputEnlace', $('#inputEnlace').val());
+                        formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+                    } else if ($('#si').is(':checked')) {
+                        formData.append('btn_clicked', true);
+                        formData.append('radio_si_selected', true);
+                        formData.append('inputEnlace', $('#inputEnlace').val());
+                        formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+                        formData.append('selectedSectors', JSON.stringify(selectedSectorsIds));
+                        formData.append('selectedSubsectors', JSON.stringify(selectedSubsectorsIds));
+                        formData.append('selectedRamas', JSON.stringify(selectedRamasIds));
+                        formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
+                        formData.append('selectedClases', JSON.stringify(selectedClasesIds));
+                    }
+                    // Extraer registros de la tabla tramitesTable
+                    var tramites = [];
+                    $('#tramitesTable tbody tr').each(function () {
+                        var nombre = $(this).find('td').eq(1).text();
+                        var direccion = $(this).find('td').eq(2).text();
+                        tramites.push({
+                            Nombre: nombre,
+                            Direccion: direccion
+                        });
+                    });
+
+                    // Agregar el array tramites al formData
+                    formData.append('tramites', JSON.stringify(tramites));
+                    console.log('formData:', formData.get('tramites'));
+
+                    $.ajax({
+                        url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function (response) {
+                            console.log('Respuesta del servidor:', response);
+                            if (response.status === 'success') {
+                                // Agregar los registros a la tabla tramitesTable
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Éxito',
+                                    text: 'Datos guardados exitosamente',
+                                }).then(() => {
+                                    window.location.href =
+                                        '<?= base_url('RegulacionController') ?>';
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al guardar los datos: ' + response
+                                        .message,
+                                }).then(() => {
+                                    window.location.href =
+                                        '<?= base_url('RegulacionController') ?>';
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error en la solicitud AJAX:', error);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: 'Error al guardar los datos: ' + response
-                                    .message,
-                            }).then(() => {
-                                window.location.href =
-                                    '<?= base_url('RegulacionController') ?>';
+                                text: 'Error en la solicitud AJAX: ' + error,
                             });
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error en la solicitud AJAX:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Error en la solicitud AJAX: ' + error,
-                        });
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
     });
-});
 </script>
 @endsection
 </body>

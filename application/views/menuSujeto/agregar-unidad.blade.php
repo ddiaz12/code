@@ -272,7 +272,7 @@ Registro Estatal de Regulaciones
                     $('#msg_error').hide();
                     // Mostrar el mensaje de error específico para los horarios
                     $('#msg_error_horarios').text(
-                        'Ha ocurrido un error en los horarios de atención. Por favor, verifica los horarios e inténtalo de nuevo.'
+                        'Ha ocurrido un error al intentar guardar. Por favor, verifica los campos e inténtalo de nuevo.'
                     );
                     $('#msg_error_horarios').show();
                     // Limpia los mensajes de error anteriores
