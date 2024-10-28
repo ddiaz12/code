@@ -390,7 +390,7 @@ class RegulacionController extends CI_Controller
         // Obtener los datos de la solicitud POST
         $ID_Emiten = $this->input->post('ID_Emiten');
         $ID_Caract = $this->input->post('ID_Caract');
-        if (!isset($ID_Caract) || $ID_Caract == null || $ID_Caract == '' || $ID_Caract == 'N/A') {
+        if (!isset($ID_Caract) || $ID_Caract == null || $ID_Caract == '' || $ID_Caract == 'N/A' || !is_numeric($ID_Caract)) {
             $this->load->database();
             $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
             $result = $query->row();
@@ -433,7 +433,7 @@ class RegulacionController extends CI_Controller
         // Obtener los datos de la solicitud POST
         $ID_Aplican = $this->input->post('ID_Aplican');
         $ID_Caract = $this->input->post('ID_Caract');
-        if (!isset($ID_Caract) || $ID_Caract == null || $ID_Caract == '' || $ID_Caract == 'N/A') {
+        if (!isset($ID_Caract) || $ID_Caract == null || $ID_Caract == '' || $ID_Caract == 'N/A' || !is_numeric($ID_Caract)) {
             $this->load->database();
             $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
             $result = $query->row();
@@ -475,7 +475,7 @@ class RegulacionController extends CI_Controller
         // Verificar que los datos no estén vacíos
         if (!empty($datosTabla)) {
             // Insertar cada fila de datos en la base de datos
-            if ($datosTabla[0]['ID_caract'] == null) {
+            if ($datosTabla[0]['ID_caract'] == null || !is_numeric($datosTabla[0]['ID_caract'])) {
                 $this->load->database();
                 $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
                 $result = $query->row();
@@ -1479,7 +1479,6 @@ class RegulacionController extends CI_Controller
             'Fecha_Vigor' => $formData['Fecha_Vigor'],
             'Fecha_Act' => $formData['Fecha_Act'],
             'Vigencia' => $formData['Vigencia'],
-            'Act_Reforma' => $formData['Act_Reforma'],
             'Orden_Gob' => $formData['Orden_Gob']
         );
 
@@ -2102,7 +2101,7 @@ class RegulacionController extends CI_Controller
         // Obtiene los datos enviados por la solicitud AJAX
         $registros = $this->input->post('registros');
         $ID_caract = $this->input->post('ID_caract');
-        if ($ID_caract == null || $ID_caract == '' || $ID_caract == 'N/A') {
+        if ($ID_caract == null || $ID_caract == '' || $ID_caract == 'N/A' || !is_numeric($ID_caract)) {
             $this->load->database();
             $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
             $result = $query->row();
@@ -2141,7 +2140,7 @@ class RegulacionController extends CI_Controller
         // Obtiene los datos enviados por la solicitud AJAX
         $fundamentos = $this->input->post('fundamentos');
         $ID_caract = $this->input->post('ID_caract');
-        if ($ID_caract == null || $ID_caract == '' || $ID_caract == 'N/A') {
+        if ($ID_caract == null || $ID_caract == '' || $ID_caract == 'N/A' || !is_numeric($ID_caract)) {
             $this->load->database();
             $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
             $result = $query->row();
@@ -2154,7 +2153,7 @@ class RegulacionController extends CI_Controller
         }
 
         // Verifica que los datos no estén vacíos
-        if (!empty($fundamentos) && !empty($ID_Caract)) {
+        if (!empty($fundamentos) && !empty($ID_caract)) {
             foreach ($fundamentos as $fundamento) {
                 $data = array(
                     'ID_Fun' => $fundamento['ID_Fun'],

@@ -1380,6 +1380,7 @@ class PublicadasController extends CI_Controller
             'Fecha_Vigor' => $formData['Fecha_Vigor'],
             'Fecha_Act' => $formData['Fecha_Act'],
             'Vigencia' => $formData['Vigencia'],
+            'Act_Reforma' => $formData['Act_Reforma'],
             'Orden_Gob' => $formData['Orden_Gob']
         );
 
