@@ -430,17 +430,6 @@ class RegulacionController extends CI_Controller
 
     public function insertarRelAutoridadesAplican()
     {
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
-        $this->load->database();
-        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
-        $result = $query->row();
-        if ($result->maxID == null) {
-            $ID_Caract = 1;
-        }else{
-            $ID_Caract = $result->maxID;
-        }
-
         // Obtener los datos de la solicitud POST
         $ID_Aplican = $this->input->post('ID_Aplican');
         $ID_Caract = $this->input->post('ID_Caract');
@@ -482,29 +471,44 @@ class RegulacionController extends CI_Controller
     {
         // Obtener los datos enviados por POST
         $datosTabla = $this->input->post('datosTabla');
-        $this->load->database();
-        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
-        $result = $query->row();
-        if ($result->maxID == null) {
-            $ID_Caract = 1;
-        }else{
-            $ID_Caract = $result->maxID;
-        }
 
         // Verificar que los datos no estén vacíos
         if (!empty($datosTabla)) {
             // Insertar cada fila de datos en la base de datos
-            foreach ($datosTabla as $fila) {
-                $data = array(
-                    'ID_Indice' => $fila['ID_Indice'],
-                    'ID_caract' => $ID_Caract,
-                    'Texto' => $fila['Texto'],
-                    'Orden' => $fila['Orden']
-                );
-
-                // Llamar al modelo para insertar los datos
-                $this->RegulacionModel->insertarDatosTabla($data);
+            if ($datosTabla[0]['ID_caract'] == null) {
+                $this->load->database();
+                $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+                $result = $query->row();
+                if ($result->maxID == null) {
+                    $ID_Caract = 1;
+                }else{
+                    $ID_Caract = $result->maxID;
+                }
+                foreach ($datosTabla as $fila) {
+                    $data = array(
+                        'ID_Indice' => $fila['ID_Indice'],
+                        'ID_caract' => $ID_Caract,
+                        'Texto' => $fila['Texto'],
+                        'Orden' => $fila['Orden']
+                    );
+    
+                    // Llamar al modelo para insertar los datos
+                    $this->RegulacionModel->insertarDatosTabla($data);
+                }
+            }else{
+                foreach ($datosTabla as $fila) {
+                    $data = array(
+                        'ID_Indice' => $fila['ID_Indice'],
+                        'ID_caract' => $fila['ID_caract'],
+                        'Texto' => $fila['Texto'],
+                        'Orden' => $fila['Orden']
+                    );
+    
+                    // Llamar al modelo para insertar los datos
+                    $this->RegulacionModel->insertarDatosTabla($data);
+                }
             }
+            
 
             // Responder con éxito
             echo json_encode(array('status' => 'success'));
@@ -2095,24 +2099,28 @@ class RegulacionController extends CI_Controller
         echo json_encode($new_tramite);
     }
     public function guardarRegistros() {
-        $this->load->database();
-        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
-        $result = $query->row();
-        if ($result->maxID == null) {
-            $ID_Caract = 1;
-        }else{
-            $ID_Caract = $result->maxID;
-        }
         // Obtiene los datos enviados por la solicitud AJAX
         $registros = $this->input->post('registros');
+        $ID_caract = $this->input->post('ID_caract');
+        if ($ID_caract == null || $ID_caract == '' || $ID_caract == 'N/A') {
+            $this->load->database();
+            $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+            $result = $query->row();
+            if ($result->maxID == null) {
+                $ID_Caract = 1;
+            }else{
+                $ID_Caract = $result->maxID;
+            }
+            $ID_caract = $ID_Caract;
+        }
         
 
         // Verifica que los datos no estén vacíos
-        if (!empty($registros) && !empty($ID_Caract)) {
+        if (!empty($registros) && !empty($ID_caract)) {
             foreach ($registros as $registro) {
                 $data = array(
                     'ID_MatSec' => $registro['ID_MatSec'],
-                    'ID_caract' => $ID_Caract,
+                    'ID_caract' => $ID_caract,
                     'Materias' => $registro['Materias'],
                     'Sectores' => $registro['Sectores'],
                     'SujetosRegulados' => $registro['SujetosRegulados']
@@ -2130,23 +2138,27 @@ class RegulacionController extends CI_Controller
     }
 
     public function InsertarFundamentos() {
-        $this->load->database();
-        $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
-        $result = $query->row();
-        if ($result->maxID == null) {
-            $ID_Caract = 1;
-        }else{
-            $ID_Caract = $result->maxID;
-        }
         // Obtiene los datos enviados por la solicitud AJAX
         $fundamentos = $this->input->post('fundamentos');
+        $ID_caract = $this->input->post('ID_caract');
+        if ($ID_caract == null || $ID_caract == '' || $ID_caract == 'N/A') {
+            $this->load->database();
+            $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+            $result = $query->row();
+            if ($result->maxID == null) {
+                $ID_Caract = 1;
+            }else{
+                $ID_Caract = $result->maxID;
+            }
+            $ID_caract = $ID_Caract;
+        }
 
         // Verifica que los datos no estén vacíos
         if (!empty($fundamentos) && !empty($ID_Caract)) {
             foreach ($fundamentos as $fundamento) {
                 $data = array(
                     'ID_Fun' => $fundamento['ID_Fun'],
-                    'ID_caract' => $ID_Caract,
+                    'ID_caract' => $ID_caract,
                     'Nombre' => $fundamento['Nombre'],
                     'Articulo' => $fundamento['Articulo'],
                     'Link' => $fundamento['Link']
