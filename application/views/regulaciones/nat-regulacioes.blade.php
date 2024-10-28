@@ -316,7 +316,11 @@ $('#guardarIbtn').on('click', function() {
 
     // Verificar campos obligatorios
     if (inputTram === '' || inputDir === '') {
-        alert('Por favor, complete los campos obligatorios');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, complete los campos obligatorios',
+        });
         return;
     }
 

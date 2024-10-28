@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarSujeto')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuSujeto')
+@include('templates/menuAdmin')
 @endsection
 
 @section('contenido')
@@ -316,7 +316,11 @@ $('#guardarIbtn').on('click', function() {
 
     // Verificar campos obligatorios
     if (inputTram === '' || inputDir === '') {
-        alert('Por favor, complete los campos obligatorios');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, complete los campos obligatorios',
+        });
         return;
     }
 

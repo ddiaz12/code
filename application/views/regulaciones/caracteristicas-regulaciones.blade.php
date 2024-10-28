@@ -491,7 +491,11 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                alert('Error al verificar los registros en la base de datos.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al verificar los registros en la base de datos.'
+                });
             }
         });
 
@@ -545,7 +549,11 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                alert('Error al verificar los registros en la base de datos.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al verificar los registros en la base de datos.'
+                });
             }
         });
 
@@ -847,7 +855,11 @@ $(document).ready(function() {
                     '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Fundamentos Jurídicos".</span>'
                 );
             }
-            alert('Por favor, complete los campos obligatorios');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, complete los campos obligatorios.'
+            });
             return;
         } else {
             $.ajax({
@@ -857,8 +869,13 @@ $(document).ready(function() {
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        alert('Datos insertados correctamente');
-                        console.log('result', result);
+                        // alert('Datos insertados correctamente');
+                        // console.log('result', result);
+                        // Swal.fire({
+                        //     icon: 'success',
+                        //     title: 'Éxito',
+                        //     text: 'Datos insertados correctamente.'
+                        // });
 
                         // Obtener el ID_Regulacion devuelto en la respuesta
                         var ID_Regulacion = result.ID_Regulacion;
@@ -923,10 +940,12 @@ $(document).ready(function() {
                                                     .status ===
                                                     'success'
                                                 ) {
-                                                    alert
-                                                        (
-                                                            'Características insertadas correctamente'
-                                                        );
+                                                    Swal
+                                                        .fire({
+                                                            icon: 'success',
+                                                            title: 'Éxito',
+                                                            text: 'Características insertadas correctamente.'
+                                                        });
 
                                                     // Obtener todos los ID_Dependencia de la tabla emitenTable
                                                     var
@@ -1142,10 +1161,10 @@ $(document).ready(function() {
                                                                 registros: registros
                                                             },
                                                             success: function(response) {
-                                                                alert('Materias Registros guardados exitosamente.');
+                                                                console.log('Materias Registros guardados exitosamente.');
                                                             },
                                                             error: function() {
-                                                                alert('Error al guardar los registros Materias.');
+                                                                console.log('Error al guardar los registros Materias.');
                                                             }
                                                         });
 
@@ -1171,10 +1190,10 @@ $(document).ready(function() {
                                                                 fundamentos: fundamentos
                                                             },
                                                             success: function(response) {
-                                                                alert('Fundamentoa Registros guardados exitosamente.');
+                                                                console.log('Fundamentoa Registros guardados exitosamente.');
                                                             },
                                                             error: function() {
-                                                                alert('Error al guardar los registros fundamentos');
+                                                                console.log('Error al guardar los registros fundamentos');
                                                             }
                                                         });
 
@@ -1351,7 +1370,7 @@ $(document).ready(function() {
                                                                     }
                                                                 });
                                                             } else {
-                                                                alert
+                                                                console.log
                                                                     ('Error al obtener el nuevo ID_Jerarquia: ' +
                                                                         result
                                                                         .message
@@ -1359,14 +1378,14 @@ $(document).ready(function() {
                                                             }
                                                         },
                                                         error: function() {
-                                                            alert
+                                                            console.log
                                                                 (
                                                                     'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
                                                                 );
                                                         }
                                                     });
                                                 } else {
-                                                    alert
+                                                    console.log
                                                         (
                                                             'Error al insertar las características'
                                                         );
@@ -1378,7 +1397,7 @@ $(document).ready(function() {
                             }
                         });
                     } else {
-                        alert('Error al insertar los datos');
+                        console.log('Error al insertar los datos');
                     }
                 }
             });

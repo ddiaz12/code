@@ -258,21 +258,6 @@ class RegulacionController extends CI_Controller
         echo json_encode($results);
     }
 
-    /*
-    public function index()
-    {
-        $regulaciones = $this->RegulacionModel->get_regulaciones();
-        // Asegurarse de que $regulaciones siempre sea un array.
-        if (!is_array($regulaciones)) {
-            $regulaciones = [];
-        }
-        $data['regulaciones'] = $regulaciones;
-        // Depuración: Imprimir el contenido de $regulaciones
-        error_log(print_r($regulaciones, true));
-        return view('consulta-regulaciones', ['regulaciones' => $regulaciones]);
-        $this->load->view('ciudadania/consulta-regulaciones', $data);
-    }
-    */
     public function getMaxValues()
     {
         $this->load->model('RegulacionModel');

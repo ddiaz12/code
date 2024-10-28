@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarConsejeria')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuConsejeria')
+@include('templates/menuAdmin')
 @endsection
 
 @section('contenido')
@@ -89,13 +89,13 @@ Registro Estatal de Regulaciones
                                 <input type="radio" id="si" name="opcion" value="si">
                                 <label for="si">Sí</label>
 
-                                <input type="radio" id="no" name="opcion" value="no">
+                                <input type="radio" id="no" name="opcion" value="no" checked>
                                 <label class="ms-2" for="no">No</label>
                             </div>
                         </div>
 
                         <div class="align-content-center d-flex justify-content-center align-items-center">
-                            <div id="checkboxes" style="display: none; flex-wrap: wrap; column-count: 3;">
+                            <div id="checkboxes" style=" flex-wrap: wrap; column-count: 3;">
                                 <div>
                                     <input type="checkbox" id="checkbox1" name="Fiscal" value="Fiscal">
                                     <label for="checkbox1">Fiscal</label>

@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarSujeto')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuSujeto')
+@include('templates/menuAdmin')
 @endsection
 
 @section('contenido')
@@ -1192,7 +1192,11 @@ $(document).ready(function() {
             }
         },
         error: function() {
-            alert('Error al verificar los registros en la base de datos.');
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Error al verificar los registros en la base de datos.'
+            });
         }
     });
 
@@ -1202,7 +1206,11 @@ $(document).ready(function() {
 
         // Verificar campos obligatorios
         if (inputTram === '' || inputDir === '') {
-            alert('Por favor, complete los campos obligatorios');
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Por favor, complete los campos obligatorios.'
+            });
             return;
         }
 
@@ -1247,7 +1255,11 @@ $(document).ready(function() {
                     }
                 },
                 error: function() {
-                    alert('Error al eliminar el registro de la base de datos.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Error al eliminar el registro de la base de datos.'
+                    });
                 }
             });
         }
@@ -1388,7 +1400,11 @@ $(document).ready(function() {
                 });
             },
             error: function() {
-                alert('Error al verificar los registros en la base de datos.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al verificar los registros en la base de datos.',
+                });
             }
         });
         

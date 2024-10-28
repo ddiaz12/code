@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarConsejeria')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuConsejeria')
+@include('templates/menuAdmin')
 @endsection
 
 @section('contenido')
@@ -25,22 +25,22 @@ Registro Estatal de Regulaciones
             <div class="col-md-3 p-0 d-flex flex-column">
                 <!-- New card -->
                 <style>
-                    .custom-link {
-                        color: black;
-                        cursor: pointer !important;
-                        font-size: 19px;
-                        /* Adjust as needed */
-                    }
+                .custom-link {
+                    color: black;
+                    cursor: pointer !important;
+                    font-size: 19px;
+                    /* Adjust as needed */
+                }
 
-                    .custom-link:hover {
-                        color: gray;
-                        text-decoration: none;
-                    }
+                .custom-link:hover {
+                    color: gray;
+                    text-decoration: none;
+                }
 
-                    .custom-link i {
-                        font-size: 24px;
-                        /* Adjust as needed */
-                    }
+                .custom-link i {
+                    font-size: 24px;
+                    /* Adjust as needed */
+                }
                 </style>
                 <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
@@ -82,16 +82,14 @@ Registro Estatal de Regulaciones
                                         placeholder="Nombre de la regulación" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectSujeto">Ámbito de aplicación<span
-                                            class="text-danger">*</span></label>
+                                    <label for="selectSujeto">Ámbito de aplicación</label>
                                     <select class="form-control" id="selectSujeto" name="sujeto" required>
                                         <option disabled selected>Selecciona una opción</option>
                                         <option value="Estatal">Estatal</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="selectUnidad">Tipo de ordenamiento jurídico<span
-                                            class="text-danger">*</span></label>
+                                    <label for="selectUnidad">Tipo de ordenamiento jurídico</label>
                                     <select class="form-control" id="selectUnidad" name="unidad" required>
                                         <option disabled selected>Selecciona una opción</option>
                                         <?php foreach ($tipos_ordenamiento as $tipo): ?>
@@ -108,19 +106,16 @@ Registro Estatal de Regulaciones
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de publicación de la regulación<span
-                                            class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de publicación de la regulación</label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_publicacion"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de entrada en vigor<span
-                                            class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de entrada en vigor</label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_vigor" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de última actualización<span
-                                            class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de última actualización</label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_act" required>
                                 </div>
 
@@ -140,7 +135,8 @@ Registro Estatal de Regulaciones
                                             </div>
                                         </div>
                                         <div class="col-md-6" id="otroCampo">
-                                            <label for="campoExtra">Vigencia de la regulación</label>
+                                            <label for="campoExtra">Vigencia de la regulación<span
+                                                    class="text-danger">*</span></label>
                                             <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                                 required disabled>
                                         </div>
@@ -148,17 +144,17 @@ Registro Estatal de Regulaciones
                                 </form>
 
                                 <div class="form-group">
-                                    <label for="inputVialidad">Orden de gobierno que la emite:<span
-                                            class="text-danger">*</span></label>
+                                    <label for="inputVialidad">Orden de gobierno que la emite:</label>
                                     <select class="form-control" id="selectUnidad" name="orden" required>
                                         <option disabled selected>Selecciona una opción</option>
-                                        <option value="Estatal">Colima</option>
+                                        <option value="Poder Ejecutivo">Poder Ejecutivo</option>
+                                        <option value="Poder Legistativo">Poder Legistativo</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="AutoridadesEmiten">Autoridades que emiten la
-                                            regulación<span class="text-danger">*</span></label>
+                                            regulación</label>
                                         <input type="text" class="form-control" id="AutoridadesEmiten" name="aut_emiten"
                                             required>
                                         <div id="searchResults" class="list-group"></div>
@@ -167,7 +163,7 @@ Registro Estatal de Regulaciones
                                 <table id="emitenTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_Dependencia</th>
+                                            <th class="hidden-column">ID_Dependencia</th>
                                             <th>Tipo_Dependencia</th>
                                             <th>Acción</th>
                                         </tr>
@@ -177,6 +173,11 @@ Registro Estatal de Regulaciones
                                     </tbody>
                                 </table>
 
+                                <style>
+                                .hidden-column {
+                                    display: none;
+                                }
+                                </style>
                                 <form>
                                     <div class="d-flex justify-content-align-items mb-3 ">
                                         <div id="selectAplican">
@@ -204,7 +205,8 @@ Registro Estatal de Regulaciones
                                                     required>
                                                     <option disabled selected>Selecciona una opción
                                                     </option>
-                                                    <option value="Estatal">Colima</option>
+                                                    <option value="Poder Ejecutivo">Poder Ejecutivo</option>
+                                                    <option value="Poder Legistativo">Poder Legistativo</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -221,7 +223,7 @@ Registro Estatal de Regulaciones
                                             <table id="aplicanTable" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID_Dependencia</th>
+                                                        <th class="hidden-column">ID_Dependencia</th>
                                                         <th>Tipo_Dependencia</th>
                                                         <th>Acción</th>
                                                     </tr>
@@ -289,9 +291,10 @@ Registro Estatal de Regulaciones
                                 <table id="resultTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID_Indice</th>
+                                            <th class="hidden-column">ID_Indice</th>
                                             <th>Texto</th>
                                             <th>Orden</th>
+                                            <th>Accion</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -303,6 +306,129 @@ Registro Estatal de Regulaciones
                                     <label for="inputObjetivo">Objeto de la regulación</label>
                                     <textarea class="form-control" id="inputObjetivo" name="objetivoReg"></textarea>
                                 </div>
+                                <p></p>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <p id="matText">Materias, Sectores y Sujetos Regulados<span class="text-danger">*</span></p>
+                                    <button type="submit" id="botonMaterias"
+                                        class="btn btn-success btn-tinto btn-materias">Materias</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="matModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModalLabel">Materias, Sectores y
+                                                        Sujetos Regulados
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="inputMat">Materias</label>
+                                                            <input type="text" class="form-control" id="inputMat"
+                                                                placeholder="Ingrese la Materia" name="NombreTram">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputSec">Sectores</label>
+                                                            <input type="text" class="form-control" id="inputSec"
+                                                                placeholder="Ingrese el Sector" name="NombreSec">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputSuj">Sujetos Regulados</label>
+                                                            <input type="text" class="form-control" id="inputSuj"
+                                                                placeholder="Ingrese el Sujeto" name="NombreSuj">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                        onclick="closeModal()">Cerrar</button>
+                                                    <button type="button" id="guardarMat" class="btn btn-tinto">Guardar
+                                                        cambios</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="materiasTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-column">ID_MatSec</th>
+                                            <th>Materias</th>
+                                            <th>Sectores</th>
+                                            <th>Sujetos Regulados</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán dinámicamente aquí -->
+                                    </tbody>
+                                </table>
+                                <p></p>
+                                <p></p>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <p id="funText">Fundamentos Jurídicos<span class="text-danger">*</span></p>
+                                    <button type="submit" id="botofundamentos"
+                                        class="btn btn-success btn btn-tinto btn-fundamentos">Agregar Fundamento</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="funModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModalLabel">Fundamentos Jurídicos</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="inputNomReg">Nombre de la Regulacion</label>
+                                                            <input type="text" class="form-control" id="inputNomReg"
+                                                                placeholder="Ingrese el Nombre" name="NombreReg">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputArt">Articulo, párrafo, numeral, etc.</label>
+                                                            <input type="text" class="form-control" id="inputArt"
+                                                                placeholder="Ingrese el Articulo" name="NombreArt">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="inputLink">Link</label>
+                                                            <input type="text" class="form-control" id="inputLink"
+                                                                placeholder="http://" name="NombreLink">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                        onclick="closeModal()">Cerrar</button>
+                                                    <button type="button" id="guardarFun" class="btn btn-tinto">Guardar
+                                                        cambios</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="fundamentoTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="hidden-column">ID_Fun</th>
+                                            <th>Nombre Regulacion</th>
+                                            <th>Articulo</th>
+                                            <th>Link</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán dinámicamente aquí -->
+                                    </tbody>
+                                </table>
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
                                     <a href="<?php echo base_url('RegulacionController'); ?>"
@@ -322,7 +448,7 @@ Registro Estatal de Regulaciones
 
 @section('js')
 <script>
-    function mostrarCampo() {
+function mostrarCampo() {
     var siSeleccionado = document.getElementById("si").checked;
     var otroCampo = document.getElementById("otroCampo");
     var campoExtra = document.getElementById("campoExtra");
@@ -337,246 +463,419 @@ Registro Estatal de Regulaciones
 }
 </script>
 <script>
-    function mostrarCampo2() {
-        var si = document.getElementById('apsi');
-        var no = document.getElementById('apno');
-        var selectUnidad2Container = document.getElementById('selectUnidad2Container');
-        var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
-        var apTContainer = document.getElementById('apTContainer');
-        var selectUnidad2 = document.getElementById('selectUnidad2');
-        var AutoridadesAplican = document.getElementById('AutoridadesAplican');
+$(document).ready(function() {
+    $('.btn-materias').click(function() {
+        $('#matModal').modal('show');
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    $('.btn-fundamentos').click(function() {
+        $('#funModal').modal('show');
+    });
+});
+</script>
+<script>
+    $(document).ready(function() {
+        var idCounter = 1; // Inicializa el contador de ID_MatSec
 
-        if (no.checked) {
-            selectUnidad2.required = true;
-            AutoridadesAplican.required = true;
-        } else if (si.checked) {
-            selectUnidad2.required = false;
-            AutoridadesAplican.required = false;
-        } else {
-            selectUnidad2Container.style.display = 'none';
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        }
-    }
+        // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
+        $.ajax({
+            url: '<?= base_url('RegulacionController/verificarRegistros') ?>',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.existenRegistros) {
+                    idCounter = parseInt(response.ultimoID, 10) + 1; // Inicializa el contador con el último ID + 1
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al verificar los registros en la base de datos.'
+                });
+            }
+        });
 
-    // Inicializar la visibilidad de los campos al cargar la página
-    document.addEventListener('DOMContentLoaded', function () {
-        mostrarCampo2();
+        $('#guardarMat').click(function() {
+            // Obtiene los valores de los inputs
+            var inputMat = $('#inputMat').val();
+            var inputSec = $('#inputSec').val();
+            var inputSuj = $('#inputSuj').val();
+
+            // Crea una nueva fila con los datos
+            var newRow = '<tr>' +
+                '<td class="hidden-column">' + idCounter + '</td>' +
+                '<td>' + inputMat + '</td>' +
+                '<td>' + inputSec + '</td>' +
+                '<td>' + inputSuj + '</td>' +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>';
+
+            // Agrega la nueva fila a la tabla
+            $('#materiasTable tbody').append(newRow);
+
+            // Incrementa el contador de ID_MatSec
+            idCounter++;
+
+            // Limpia los valores de los inputs
+            $('#inputMat').val('');
+            $('#inputSec').val('');
+            $('#inputSuj').val('');
+        });
+
+        // Maneja el evento de clic para eliminar una fila
+        $('#materiasTable').on('click', '.delete-row', function() {
+            $(this).closest('tr').remove();
+            idCounter--;
+        });
     });
 </script>
 <script>
-    $(document).ready(function () {
-        var emitenArray = [];
-        var aplicanArray = [];
+    $(document).ready(function() {
+        var idCounter2 = 1; // Inicializa el contador de ID_MatSec
 
-        // Método para AutoridadesEmiten
-        $('#AutoridadesEmiten').on('input', function () {
-            var query = $(this).val();
-            console.log('Query:', query); // Verifica que la consulta esté bien
-            if (query.length > 0) {
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/search') ?>',
-                    method: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function (data) {
-                        console.log('Response data:',
-                            data); // Verifica que la respuesta sea la esperada
-                        try {
-                            var results = JSON.parse(data);
-                            var resultsContainer = $('#searchResults');
-                            resultsContainer.empty();
-                            results.forEach(function (item) {
-                                resultsContainer.append(
-                                    '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                    item.ID_Dependencia + '">' + item
-                                        .Tipo_Dependencia + '</a>');
-                            });
-                        } catch (e) {
-                            console.error('Error parsing JSON:', e);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('AJAX error:', textStatus, errorThrown);
-                    }
+        // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
+        $.ajax({
+            url: '<?= base_url('RegulacionController/verificarFundamentos') ?>',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.existenRegistros) {
+                    idCounter2 = parseInt(response.ultimoID, 10) + 1; // Inicializa el contador con el último ID + 1
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al verificar los registros en la base de datos.'
                 });
-            } else {
-                $('#searchResults').empty();
             }
         });
 
-        // Método para AutoridadesAplican
-        $('#AutoridadesAplican').on('input', function () {
-            var query = $(this).val();
-            console.log('Query:', query); // Verifica que la consulta esté bien
-            if (query.length > 0) {
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/search') ?>',
-                    method: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function (data) {
-                        console.log('Response data:',
-                            data); // Verifica que la respuesta sea la esperada
-                        try {
-                            var results = JSON.parse(data);
-                            var resultsContainer = $('#searchResults2');
-                            resultsContainer.empty();
-                            results.forEach(function (item) {
-                                resultsContainer.append(
-                                    '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                    item.ID_Dependencia + '">' + item
-                                        .Tipo_Dependencia + '</a>');
-                            });
-                        } catch (e) {
-                            console.error('Error parsing JSON:', e);
-                        }
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.error('AJAX error:', textStatus, errorThrown);
-                    }
-                });
-            } else {
-                $('#searchResults2').empty();
-            }
+        $('#guardarFun').click(function() {
+            // Obtiene los valores de los inputs
+            var inputNomReg = $('#inputNomReg').val();
+            var inputArt = $('#inputArt').val();
+            var inputLink = $('#inputLink').val();
+
+            // Crea una nueva fila con los datos
+            var newRow = '<tr>' +
+                '<td class="hidden-column">' + idCounter2 + '</td>' +
+                '<td>' + inputNomReg + '</td>' +
+                '<td>' + inputArt + '</td>' +
+                '<td>' + inputLink + '</td>' +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>';
+
+            // Agrega la nueva fila a la tabla
+            $('#fundamentoTable tbody').append(newRow);
+
+            // Incrementa el contador de ID_Fun
+            idCounter2++;
+
+            // Limpia los valores de los inputs
+            $('#inputNomReg').val('');
+            $('#inputArt').val('');
+            $('#inputLink').val('');
         });
-
-        // Handle click on search result for AutoridadesEmiten
-        $(document).on('click', '#searchResults .list-group-item', function () {
-            var id = $(this).data('id');
-            var text = $(this).text();
-            emitenArray.push({
-                ID_Dependencia: id,
-                Tipo_Dependencia: text
-            });
-            $('#AutoridadesEmiten').val('');
-            $('#searchResults').empty();
-            updateEmitenTable();
-        });
-
-        // Handle click on search result for AutoridadesAplican
-        $(document).on('click', '#searchResults2 .list-group-item', function () {
-            var id = $(this).data('id');
-            var text = $(this).text();
-            aplicanArray.push({
-                ID_Dependencia: id,
-                Tipo_Dependencia: text
-            });
-            $('#AutoridadesAplican').val('');
-            $('#searchResults2').empty();
-            updateAplicanTable();
-        });
-
-        function updateEmitenTable() {
-            var tableBody = $('#emitenTable tbody');
-            tableBody.empty();
-
-            emitenArray.forEach(function (item) {
-                var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                    '<td>' + item.ID_Dependencia + '</td>' +
-                    '<td>' + item.Tipo_Dependencia + '</td>' +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
-                    '<i class="fas fa-trash-alt"></i></button></td>' +
-                    '</tr>';
-                tableBody.append(row);
-            });
-        }
-
-        function updateAplicanTable() {
-            var tableBody = $('#aplicanTable tbody');
-            tableBody.empty();
-
-            aplicanArray.forEach(function (item) {
-                var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                    '<td>' + item.ID_Dependencia + '</td>' +
-                    '<td>' + item.Tipo_Dependencia + '</td>' +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
-                    '<i class="fas fa-trash-alt"></i></button></td>' +
-                    '</tr>';
-                tableBody.append(row);
-            });
-        }
-
-        // Manejar el evento de clic en el botón de eliminar
-        $('#emitenTable').on('click', '.delete-row', function () {
-            var row = $(this).closest('tr');
-            var id = row.data('id');
-
-            // Eliminar la fila de la tabla
-            row.remove();
-
-            // Eliminar el registro del array
-            emitenArray = emitenArray.filter(function (item) {
-                return item.ID_Dependencia !== id;
-            });
-
-            console.log('Registro eliminado. Array actualizado:', emitenArray);
-        });
-
-        $('#aplicanTable').on('click', '.delete-row', function () {
-            var row = $(this).closest('tr');
-            var id = row.data('id');
-
-            // Eliminar la fila de la tabla
-            row.remove();
-
-            // Eliminar el registro del array
-            aplicanArray = aplicanArray.filter(function (item) {
-                return item.ID_Dependencia !== id;
-            });
-
-            console.log('Registro eliminado. Array actualizado:', aplicanArray);
+        // Maneja el evento de clic para eliminar una fila
+        $('#fundamentoTable').on('click', '.delete-row', function() {
+            $(this).closest('tr').remove();
+            idCounter2--;
         });
     });
+</script>
+<script>
+function mostrarCampo2() {
+    var si = document.getElementById('apsi');
+    var no = document.getElementById('apno');
+    var selectUnidad2Container = document.getElementById('selectUnidad2Container');
+    var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
+    var apTContainer = document.getElementById('apTContainer');
+    var selectUnidad2 = document.getElementById('selectUnidad2');
+    var AutoridadesAplican = document.getElementById('AutoridadesAplican');
+
+    if (no.checked) {
+        selectUnidad2.disabled = false;
+        AutoridadesAplican.disabled = false;
+    } else if (si.checked) {
+        selectUnidad2.disabled = true;
+        AutoridadesAplican.disabled = true;
+    } else {
+        selectUnidad2.disabled = true;
+        AutoridadesAplican.disabled = true;
+    }
+}
+
+// Inicializar la visibilidad de los campos al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    mostrarCampo2();
+});
+</script>
+<script>
+$(document).ready(function() {
+    var emitenArray = [];
+    var aplicanArray = [];
+
+    // Método para AutoridadesEmiten
+    $('#AutoridadesEmiten').on('input', function() {
+        var query = $(this).val();
+        console.log('Query:', query); // Verifica que la consulta esté bien
+        if (query.length > 0) {
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search') ?>',
+                method: 'GET',
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    console.log('Response data:',
+                        data); // Verifica que la respuesta sea la esperada
+                    try {
+                        var results = JSON.parse(data);
+                        var resultsContainer = $('#searchResults');
+                        resultsContainer.empty();
+                        results.forEach(function(item) {
+                            resultsContainer.append(
+                                '<a href="#" class="list-group-item list-group-item-action" data-id="' +
+                                item.ID_Dependencia + '">' + item
+                                .Tipo_Dependencia + '</a>');
+                        });
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX error:', textStatus, errorThrown);
+                }
+            });
+        } else {
+            $('#searchResults').empty();
+        }
+    });
+
+    // Método para AutoridadesAplican
+    $('#AutoridadesAplican').on('input', function() {
+        var query = $(this).val();
+        console.log('Query:', query); // Verifica que la consulta esté bien
+        if (query.length > 0) {
+            $.ajax({
+                url: '<?= base_url('RegulacionController/search') ?>',
+                method: 'GET',
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    console.log('Response data:',
+                        data); // Verifica que la respuesta sea la esperada
+                    try {
+                        var results = JSON.parse(data);
+                        var resultsContainer = $('#searchResults2');
+                        resultsContainer.empty();
+                        results.forEach(function(item) {
+                            resultsContainer.append(
+                                '<a href="#" class="list-group-item list-group-item-action" data-id="' +
+                                item.ID_Dependencia + '">' + item
+                                .Tipo_Dependencia + '</a>');
+                        });
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX error:', textStatus, errorThrown);
+                }
+            });
+        } else {
+            $('#searchResults2').empty();
+        }
+    });
+
+    // Handle click on search result for AutoridadesEmiten
+    $(document).on('click', '#searchResults .list-group-item', function() {
+        var id = $(this).data('id');
+        var text = $(this).text();
+        emitenArray.push({
+            ID_Dependencia: id,
+            Tipo_Dependencia: text
+        });
+        $('#AutoridadesEmiten').val('');
+        $('#searchResults').empty();
+        updateEmitenTable();
+    });
+
+    // Handle click on search result for AutoridadesAplican
+    $(document).on('click', '#searchResults2 .list-group-item', function() {
+        var id = $(this).data('id');
+        var text = $(this).text();
+        aplicanArray.push({
+            ID_Dependencia: id,
+            Tipo_Dependencia: text
+        });
+        $('#AutoridadesAplican').val('');
+        $('#searchResults2').empty();
+        updateAplicanTable();
+    });
+
+    function updateEmitenTable() {
+        var tableBody = $('#emitenTable tbody');
+        tableBody.empty();
+
+        emitenArray.forEach(function(item) {
+            var row = '<tr data-id="' + item.ID_Dependencia + '">' +
+                '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
+                '<td>' + item.Tipo_Dependencia + '</td>' +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>';
+            tableBody.append(row);
+        });
+    }
+
+    function updateAplicanTable() {
+        var tableBody = $('#aplicanTable tbody');
+        tableBody.empty();
+
+        aplicanArray.forEach(function(item) {
+            var row = '<tr data-id="' + item.ID_Dependencia + '">' +
+                '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
+                '<td>' + item.Tipo_Dependencia + '</td>' +
+                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<i class="fas fa-trash-alt"></i></button></td>' +
+                '</tr>';
+            tableBody.append(row);
+        });
+    }
+
+    // Manejar el evento de clic en el botón de eliminar
+    $('#emitenTable').on('click', '.delete-row', function() {
+        var row = $(this).closest('tr');
+        var id = row.data('id');
+
+        // Eliminar la fila de la tabla
+        row.remove();
+
+        // Eliminar el registro del array
+        emitenArray = emitenArray.filter(function(item) {
+            return item.ID_Dependencia !== id;
+        });
+
+        console.log('Registro eliminado. Array actualizado:', emitenArray);
+    });
+
+    $('#aplicanTable').on('click', '.delete-row', function() {
+        var row = $(this).closest('tr');
+        var id = row.data('id');
+
+        // Eliminar la fila de la tabla
+        row.remove();
+
+        // Eliminar el registro del array
+        aplicanArray = aplicanArray.filter(function(item) {
+            return item.ID_Dependencia !== id;
+        });
+
+        console.log('Registro eliminado. Array actualizado:', aplicanArray);
+    });
+});
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    var caracteristicasData = {}; // Declaración global
-    var reIndice = []; // Declaración global
+var caracteristicasData = {}; // Declaración global
+var reIndice = []; // Declaración global
 
-    $(document).ready(function () {
-        $('#botonGuardar').on('click', function () {
-            var formData = {
-                nombre: '',
-                campoExtra: '',
-                objetivoReg: '',
-                unidad: '',
-                sujeto: '',
-                fecha_expedicion: '',
-                fecha_publicacion: '',
-                fecha_vigor: '',
-                fecha_act: ''
-            };
+$(document).ready(function() {
+    $('#botonGuardar').on('click', function() {
 
-            $('input, input[type="date"], select, textarea').each(function () {
-                var id = $(this).attr('id');
-                if (id !== 'AutoridadesEmiten' && id !== 'AutoridadesAplican' && id !==
-                    'inputTexto' && id !== 'selectIndicePadre' && id !== 'selectAplican' &&
-                    id !== 'selectVigencia' && !id.includes('si') && !id.includes('no') && !id
-                        .includes('apsi') && !id.includes('apno')) {
-                    var name = $(this).attr('name');
-                    var value = $(this).val();
-                    formData[name] = value;
-                }
+        var formData = {
+            nombre: '',
+            campoExtra: '',
+            objetivoReg: '',
+            unidad: '',
+            sujeto: '',
+            fecha_expedicion: '',
+            fecha_publicacion: '',
+            fecha_vigor: '',
+            fecha_act: ''
+        };
+        var maxID = 0;
+
+        $('input, input[type="date"], select, textarea').each(function() {
+            var id = $(this).attr('id');
+            if (id !== 'AutoridadesEmiten' && id !== 'AutoridadesAplican' && id !==
+                'inputTexto' && id !== 'selectIndicePadre' && id !== 'selectAplican' &&
+                id !== 'selectVigencia' && !id.includes('si') && !id.includes('no') && !id
+                .includes('apsi') && !id.includes('apno')) {
+                var name = $(this).attr('name');
+                var value = $(this).val();
+                formData[name] = value;
+            }
+        });
+
+
+
+        // Imprimir formData en consola
+        console.log(formData);
+        if (formData.nombre === '' || formData.fecha_expedicion === '' || ($('#si').is(':checked') &&
+                formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || $('#fundamentoTable tbody tr').length ===0) {
+            if (formData.nombre === '') {
+                $('#inputNombre').css('color', 'red');
+                $('#inputNombre').after(
+                    '<span class="error-message" style="color: red;">El campo "Nombre" es obligatorio.</span>'
+                );
+            }
+            if (formData.fecha_expedicion === '') {
+                $('#inputFecha').css('color', 'red');
+                $('#inputFecha').after(
+                    '<span class="error-message" style="color: red;">El campo "Fecha de Expedición de la regulación" es obligatorio.</span>'
+                );
+            }
+            if ($('#si').is(':checked') && formData.campoExtra === '') {
+                $('#campoExtra').css('color', 'red');
+                $('#campoExtra').after(
+                    '<span class="error-message" style="color: red;">El campo "Vigencia de la regulación" es obligatorio cuando se selecciona "Sí".</span>'
+                );
+            }
+            if ($('#materiasTable tbody tr').length === 0) {
+                $('#matText').css('color', 'red');
+                $('#matText').after(
+                    '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Materias, Sectores y Sujetos Regulados".</span>'
+                );
+            }
+            if ($('#fundamentoTable tbody tr').length === 0) {
+                $('#funText').css('color', 'red');
+                $('#funText').after(
+                    '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Fundamentos Jurídicos".</span>'
+                );
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, complete los campos obligatorios.'
             });
-
-
-
-            // Imprimir formData en consola
-            console.log(formData);
-
+            return;
+        } else {
             $.ajax({
                 url: '<?php echo base_url('RegulacionController/insertarRegulacion'); ?>',
                 type: 'POST',
                 data: formData,
-                success: function (response) {
+                success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        alert('Datos insertados correctamente');
-                        console.log('result', result);
+                        // alert('Datos insertados correctamente');
+                        // console.log('result', result);
+                        // Swal.fire({
+                        //     icon: 'success',
+                        //     title: 'Éxito',
+                        //     text: 'Datos insertados correctamente.'
+                        // });
 
                         // Obtener el ID_Regulacion devuelto en la respuesta
                         var ID_Regulacion = result.ID_Regulacion;
@@ -585,13 +884,15 @@ Registro Estatal de Regulaciones
                         $.ajax({
                             url: '<?php echo base_url('RegulacionController/obtenerMaxIDCaract'); ?>',
                             type: 'GET',
-                            success: function (maxIDResponse) {
-                                var maxID = parseInt(maxIDResponse) + 1;
+                            success: function(maxIDResponse) {
+                                maxID = parseInt(maxIDResponse) + 1;
+                                console.log('maxID: ', maxID);
 
                                 $.ajax({
                                     url: '<?php echo base_url('RegulacionController/obtenerMaxIDRegulacion'); ?>',
                                     type: 'GET',
-                                    success: function (maxIDRegResponse) {
+                                    success: function(
+                                        maxIDRegResponse) {
                                         var maxIDReg = parseInt(
                                             maxIDRegResponse);
 
@@ -601,7 +902,8 @@ Registro Estatal de Regulaciones
                                             ID_Regulacion: maxIDReg,
                                             ID_tOrdJur: formData
                                                 .unidad,
-                                            Nombre: formData.nombre,
+                                            Nombre: formData
+                                                .nombre,
                                             Ambito_Aplicacion: formData
                                                 .sujeto,
                                             Fecha_Exp: formData
@@ -626,39 +928,42 @@ Registro Estatal de Regulaciones
                                             url: '<?php echo base_url('RegulacionController/insertarCaracteristicas'); ?>',
                                             type: 'POST',
                                             data: caracteristicasData,
-                                            success: function (
+                                            success: function(
                                                 caractResponse
                                             ) {
                                                 var caractResult =
                                                     JSON
-                                                        .parse(
-                                                            caractResponse
-                                                        );
+                                                    .parse(
+                                                        caractResponse
+                                                    );
                                                 if (caractResult
                                                     .status ===
                                                     'success'
                                                 ) {
-                                                    alert(
-                                                        'Características insertadas correctamente'
-                                                    );
+                                                    Swal
+                                                        .fire({
+                                                            icon: 'success',
+                                                            title: 'Éxito',
+                                                            text: 'Características insertadas correctamente.'
+                                                        });
 
                                                     // Obtener todos los ID_Dependencia de la tabla emitenTable
                                                     var
                                                         ID_DependenciasEmiten = [];
                                                     $('#emitenTable tbody tr')
                                                         .each(
-                                                            function () {
+                                                            function() {
                                                                 var ID_Dependencia =
                                                                     $(
                                                                         this
                                                                     )
-                                                                        .find(
-                                                                            'td'
-                                                                        )
-                                                                        .eq(
-                                                                            0
-                                                                        )
-                                                                        .text();
+                                                                    .find(
+                                                                        'td'
+                                                                    )
+                                                                    .eq(
+                                                                        0
+                                                                    )
+                                                                    .text();
                                                                 ID_DependenciasEmiten
                                                                     .push(
                                                                         ID_Dependencia
@@ -669,27 +974,26 @@ Registro Estatal de Regulaciones
                                                     // Insertar en la tabla rel_autoridades_emiten
                                                     ID_DependenciasEmiten
                                                         .forEach(
-                                                            function (
+                                                            function(
                                                                 ID_Dependencia
                                                             ) {
                                                                 var relDataEmiten = {
                                                                     ID_Emiten: ID_Dependencia,
-                                                                    ID_Caract: caracteristicasData
-                                                                        .ID_caract
+                                                                    ID_Caract: maxID
                                                                 };
 
                                                                 $.ajax({
                                                                     url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesEmiten'); ?>',
                                                                     type: 'POST',
                                                                     data: relDataEmiten,
-                                                                    success: function (
+                                                                    success: function(
                                                                         relResponse
                                                                     ) {
                                                                         var relResult =
                                                                             JSON
-                                                                                .parse(
-                                                                                    relResponse
-                                                                                );
+                                                                            .parse(
+                                                                                relResponse
+                                                                            );
                                                                         if (relResult
                                                                             .status ===
                                                                             'success'
@@ -714,18 +1018,18 @@ Registro Estatal de Regulaciones
                                                         ID_DependenciasAplican = [];
                                                     $('#aplicanTable tbody tr')
                                                         .each(
-                                                            function () {
+                                                            function() {
                                                                 var ID_Dependencia =
                                                                     $(
                                                                         this
                                                                     )
-                                                                        .find(
-                                                                            'td'
-                                                                        )
-                                                                        .eq(
-                                                                            0
-                                                                        )
-                                                                        .text();
+                                                                    .find(
+                                                                        'td'
+                                                                    )
+                                                                    .eq(
+                                                                        0
+                                                                    )
+                                                                    .text();
                                                                 ID_DependenciasAplican
                                                                     .push(
                                                                         ID_Dependencia
@@ -736,27 +1040,26 @@ Registro Estatal de Regulaciones
                                                     // Insertar en la tabla rel_autoridades_aplican
                                                     ID_DependenciasAplican
                                                         .forEach(
-                                                            function (
+                                                            function(
                                                                 ID_Dependencia
                                                             ) {
                                                                 var relDataAplican = {
                                                                     ID_Aplican: ID_Dependencia,
-                                                                    ID_Caract: caracteristicasData
-                                                                        .ID_caract
+                                                                    ID_Caract: maxID
                                                                 };
 
                                                                 $.ajax({
                                                                     url: '<?php echo base_url('RegulacionController/insertarRelAutoridadesAplican'); ?>',
                                                                     type: 'POST',
                                                                     data: relDataAplican,
-                                                                    success: function (
+                                                                    success: function(
                                                                         relResponse
                                                                     ) {
                                                                         var relResult =
                                                                             JSON
-                                                                                .parse(
-                                                                                    relResponse
-                                                                                );
+                                                                            .parse(
+                                                                                relResponse
+                                                                            );
                                                                         if (relResult
                                                                             .status ===
                                                                             'success'
@@ -781,45 +1084,44 @@ Registro Estatal de Regulaciones
                                                         datosTabla = [];
                                                     $('#resultTable tbody tr')
                                                         .each(
-                                                            function () {
+                                                            function() {
                                                                 var ID_Indice =
                                                                     $(
                                                                         this
                                                                     )
-                                                                        .find(
-                                                                            'td'
-                                                                        )
-                                                                        .eq(
-                                                                            0
-                                                                        )
-                                                                        .text();
+                                                                    .find(
+                                                                        'td'
+                                                                    )
+                                                                    .eq(
+                                                                        0
+                                                                    )
+                                                                    .text();
                                                                 var Texto =
                                                                     $(
                                                                         this
                                                                     )
-                                                                        .find(
-                                                                            'td'
-                                                                        )
-                                                                        .eq(
-                                                                            1
-                                                                        )
-                                                                        .text();
+                                                                    .find(
+                                                                        'td'
+                                                                    )
+                                                                    .eq(
+                                                                        1
+                                                                    )
+                                                                    .text();
                                                                 var Orden =
                                                                     $(
                                                                         this
                                                                     )
-                                                                        .find(
-                                                                            'td'
-                                                                        )
-                                                                        .eq(
-                                                                            2
-                                                                        )
-                                                                        .text();
+                                                                    .find(
+                                                                        'td'
+                                                                    )
+                                                                    .eq(
+                                                                        2
+                                                                    )
+                                                                    .text();
 
                                                                 var filaDatos = {
                                                                     ID_Indice: ID_Indice,
-                                                                    ID_caract: caracteristicasData
-                                                                        .ID_caract,
+                                                                    ID_caract: maxID,
                                                                     Texto: Texto,
                                                                     Orden: Orden
                                                                 };
@@ -837,6 +1139,64 @@ Registro Estatal de Regulaciones
                                                             datosTabla
                                                         );
 
+                                                        var registros = [];
+                                                        $('#materiasTable tbody tr').each(function() {
+                                                            var idMatSec = $(this).find('td').eq(0).text();
+                                                            var materias = $(this).find('td').eq(1).text();
+                                                            var sectores = $(this).find('td').eq(2).text();
+                                                            var sujetosRegulados = $(this).find('td').eq(3).text();
+
+                                                            registros.push({
+                                                                ID_MatSec: idMatSec,
+                                                                Materias: materias,
+                                                                Sectores: sectores,
+                                                                SujetosRegulados: sujetosRegulados
+                                                            });
+                                                        });
+                                                    
+                                                        $.ajax({
+                                                            url: '<?php echo base_url('RegulacionController/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                                            type: 'POST',
+                                                            data: {
+                                                                registros: registros
+                                                            },
+                                                            success: function(response) {
+                                                                console.log('Materias Registros guardados exitosamente.');
+                                                            },
+                                                            error: function() {
+                                                                console.log('Error al guardar los registros Materias.');
+                                                            }
+                                                        });
+
+                                                        var fundamentos = [];
+                                                        $('#fundamentoTable tbody tr').each(function() {
+                                                            var ID_Fun = $(this).find('td').eq(0).text();
+                                                            var Nombre = $(this).find('td').eq(1).text();
+                                                            var Articulo = $(this).find('td').eq(2).text();
+                                                            var Link = $(this).find('td').eq(3).text();
+
+                                                            fundamentos.push({
+                                                                ID_Fun: ID_Fun,
+                                                                Nombre: Nombre,
+                                                                Articulo: Articulo,
+                                                                Link: Link
+                                                            });
+                                                        });
+
+                                                        $.ajax({
+                                                            url: '<?php echo base_url('RegulacionController/InsertarFundamentos'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                                            type: 'POST',
+                                                            data: {
+                                                                fundamentos: fundamentos
+                                                            },
+                                                            success: function(response) {
+                                                                console.log('Fundamentoa Registros guardados exitosamente.');
+                                                            },
+                                                            error: function() {
+                                                                console.log('Error al guardar los registros fundamentos');
+                                                            }
+                                                        });
+
                                                     // Insertar los datos en la base de datos
                                                     $.ajax({
                                                         url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
@@ -844,25 +1204,26 @@ Registro Estatal de Regulaciones
                                                         data: {
                                                             datosTabla: datosTabla
                                                         },
-                                                        success: function (
+                                                        success: function(
                                                             response
                                                         ) {
                                                             var result =
                                                                 JSON
-                                                                    .parse(
-                                                                        response
-                                                                    );
+                                                                .parse(
+                                                                    response
+                                                                );
                                                             if (result
                                                                 .status ===
                                                                 'success'
                                                             ) {
-                                                                alert
-                                                                    (
+
+                                                                console
+                                                                    .log(
                                                                         'Datos de la tabla insertados correctamente'
                                                                     );
                                                             } else {
-                                                                alert
-                                                                    (
+                                                                console
+                                                                    .log(
                                                                         'Error al insertar los datos de la tabla'
                                                                     );
                                                             }
@@ -873,36 +1234,99 @@ Registro Estatal de Regulaciones
                                                     $.ajax({
                                                         url: '<?= base_url("RegulacionController/obtenerNuevoIdJerarquia") ?>',
                                                         type: 'GET',
-                                                        success: function (response) {
-                                                            var result = JSON.parse(response);
-                                                            if (result.status === 'success') {
-                                                                var nuevoIdJerarquia = result.nuevoIdJerarquia;
-                                                                console.log('Nuevo ID_Jerarquia:', nuevoIdJerarquia); // Verificar el nuevo ID_Jerarquia
+                                                        success: function(
+                                                            response
+                                                        ) {
+                                                            var result =
+                                                                JSON
+                                                                .parse(
+                                                                    response
+                                                                );
+                                                            if (result
+                                                                .status ===
+                                                                'success'
+                                                            ) {
+                                                                var nuevoIdJerarquia =
+                                                                    result
+                                                                    .nuevoIdJerarquia;
+                                                                console
+                                                                    .log(
+                                                                        'Nuevo ID_Jerarquia:',
+                                                                        nuevoIdJerarquia
+                                                                    ); // Verificar el nuevo ID_Jerarquia
 
                                                                 // Insertar datos en la tabla rel_indice
-                                                                var relIndiceData = [];
-                                                                $('#resultTable tbody tr').each(function (index) {
-                                                                    var ID_Indice = $(this).find('td').eq(0).text().trim();
-                                                                    console.log('ID_Indice:', ID_Indice); // Verificar que ID_Indice se obtenga correctamente
+                                                                var
+                                                                    relIndiceData = [];
+                                                                $('#resultTable tbody tr')
+                                                                    .each(
+                                                                        function(
+                                                                            index
+                                                                        ) {
+                                                                            var ID_Indice =
+                                                                                $(
+                                                                                    this
+                                                                                )
+                                                                                .find(
+                                                                                    'td'
+                                                                                )
+                                                                                .eq(
+                                                                                    0
+                                                                                )
+                                                                                .text()
+                                                                                .trim();
+                                                                            console
+                                                                                .log(
+                                                                                    'ID_Indice:',
+                                                                                    ID_Indice
+                                                                                ); // Verificar que ID_Indice se obtenga correctamente
 
-                                                                    var ID_Jerarquia = nuevoIdJerarquia + index; // Incrementar el ID_Jerarquia para cada fila
-                                                                    var ID_Padre = $('#selectIndicePadre').val();
+                                                                            var ID_Jerarquia =
+                                                                                nuevoIdJerarquia +
+                                                                                index; // Incrementar el ID_Jerarquia para cada fila
+                                                                            if ($('#selectIndicePadre').val()=='Seleccione un índice padre' || $('#selectIndicePadre').val()=='') {
+                                                                                var ID_Padre = null;
+                                                                            }else{
+                                                                                var ID_Padre =
+                                                                                $(
+                                                                                    '#selectIndicePadre'
+                                                                                )
+                                                                                .val();
+                                                                            }
 
-                                                                    console.log('ID_Jerarquia:', ID_Jerarquia); // Verificar que ID_Jerarquia se obtenga correctamente
-                                                                    console.log('ID_Padre:', ID_Padre); // Verificar que ID_Padre se obtenga correctamente
+                                                                            console
+                                                                                .log(
+                                                                                    'ID_Jerarquia:',
+                                                                                    ID_Jerarquia
+                                                                                ); // Verificar que ID_Jerarquia se obtenga correctamente
+                                                                            console
+                                                                                .log(
+                                                                                    'ID_Padre:',
+                                                                                    ID_Padre
+                                                                                ); // Verificar que ID_Padre se obtenga correctamente
 
-                                                                    if (ID_Padre) {
-                                                                        var filaRelIndice = {
-                                                                            ID_Jerarquia: ID_Jerarquia,
-                                                                            ID_Indice: ID_Indice,
-                                                                            ID_Padre: ID_Padre
-                                                                        };
+                                                                            if (
+                                                                                ID_Padre
+                                                                            ) {
+                                                                                var filaRelIndice = {
+                                                                                    ID_Jerarquia: ID_Jerarquia,
+                                                                                    ID_Indice: ID_Indice,
+                                                                                    ID_Padre: ID_Padre
+                                                                                };
 
-                                                                        relIndiceData.push(filaRelIndice);
-                                                                    }
-                                                                });
+                                                                                relIndiceData
+                                                                                    .push(
+                                                                                        filaRelIndice
+                                                                                    );
+                                                                            }
+                                                                        }
+                                                                    );
 
-                                                                console.log('relIndiceData:', relIndiceData); // Verificar el contenido final de relIndiceData
+                                                                console
+                                                                    .log(
+                                                                        'relIndiceData:',
+                                                                        relIndiceData
+                                                                    ); // Verificar el contenido final de relIndiceData
 
                                                                 // Insertar los datos en la base de datos
                                                                 $.ajax({
@@ -911,32 +1335,60 @@ Registro Estatal de Regulaciones
                                                                     data: {
                                                                         relIndiceData: relIndiceData
                                                                     },
-                                                                    success: function (response) {
-                                                                        var result = JSON.parse(response);
-                                                                        if (result.status === 'success') {
-                                                                            alert('Datos de rel_indice insertados correctamente');
-                                                                            // Redirigir a la página especificada
-                                                                            window.location.href = '<?php echo base_url('RegulacionController/mat_exentas'); ?>';
+                                                                    success: function(
+                                                                        response
+                                                                    ) {
+                                                                        var result =
+                                                                            JSON
+                                                                            .parse(
+                                                                                response
+                                                                            );
+                                                                        if (result
+                                                                            .status ===
+                                                                            'success'
+                                                                        ) {
+                                                                            console
+                                                                                .log(
+                                                                                    'Datos de rel_indice insertados correctamente'
+                                                                                );
+                                                                             //Redirigir a la página especificada
+                                                                             window
+                                                                                 .location
+                                                                                 .href =
+                                                                                 '<?php echo base_url('RegulacionController/mat_exentas'); ?>';
                                                                         } else {
-                                                                            alert('Error al insertar los datos de rel_indice');
-                                                                            // Redirigir a la página especificada
-                                                                            window.location.href = '<?php echo base_url('RegulacionController/mat_exentas'); ?>';
+                                                                            console
+                                                                                .log(
+                                                                                    'Error al insertar los datos de rel_indice'
+                                                                                );
+                                                                             //Redirigir a la página especificada
+                                                                             window
+                                                                                 .location
+                                                                                 .href =
+                                                                                 '<?php echo base_url('RegulacionController/mat_exentas'); ?>';
                                                                         }
                                                                     }
                                                                 });
                                                             } else {
-                                                                alert('Error al obtener el nuevo ID_Jerarquia: ' + result.message);
+                                                                console.log
+                                                                    ('Error al obtener el nuevo ID_Jerarquia: ' +
+                                                                        result
+                                                                        .message
+                                                                    );
                                                             }
                                                         },
-                                                        error: function () {
-                                                            alert('Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.');
+                                                        error: function() {
+                                                            console.log
+                                                                (
+                                                                    'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
+                                                                );
                                                         }
                                                     });
-
                                                 } else {
-                                                    alert(
-                                                        'Error al insertar las características'
-                                                    );
+                                                    console.log
+                                                        (
+                                                            'Error al insertar las características'
+                                                        );
                                                 }
                                             }
                                         });
@@ -945,130 +1397,149 @@ Registro Estatal de Regulaciones
                             }
                         });
                     } else {
-                        alert('Error al insertar los datos');
+                        console.log('Error al insertar los datos');
                     }
                 }
             });
-        });
+        }
     });
+});
 </script>
 <script>
-    function closeModal() {
-        $('.modal').modal('hide'); // Oculta el modal
-    }
+function closeModal() {
+    $('.modal').modal('hide'); // Oculta el modal
+}
 </script>
 <script>
-    $(document).ready(function () {
-        $('.btn-indice').click(function () {
-            $('#myModal').modal('show');
-        });
+$(document).ready(function() {
+    $('.btn-indice').click(function() {
+        $('#myModal').modal('show');
     });
+});
 </script>
 <script>
-    $(document).ready(function () {
-        var lastInsertedID_Indice =
-            null; // Variable para almacenar el último ID_Indice insertado
-        var lastInsertedOrden =
-            null; // Variable para almacenar el último Orden insertado
+$(document).ready(function() {
+    var lastInsertedID_Indice =
+        null; // Variable para almacenar el último ID_Indice insertado
+    var lastInsertedOrden =
+        null; // Variable para almacenar el último Orden insertado
 
-        $('#guardarIbtn').on('click', function () {
-            var inputTexto = $('#inputTexto').val();
+    $('#guardarIbtn').on('click', function() {
+        var inputTexto = $('#inputTexto').val();
 
-            if (lastInsertedID_Indice === null ||
-                lastInsertedOrden === null) {
-                // Si es la primera inserción, obtener los valores de la base de datos
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                    method: 'GET',
-                    success: function (data) {
-                        var maxValues = JSON.parse(
-                            data);
-                        lastInsertedID_Indice =
-                            parseInt(maxValues
-                                .ID_Indice) + 1;
-                        lastInsertedOrden =
-                            parseInt(maxValues
-                                .Orden) + 1;
-
-                        var newRow = '<tr><td>' +
-                            lastInsertedID_Indice +
-                            '</td><td>' +
-                            inputTexto +
-                            '</td><td>' +
-                            lastInsertedOrden +
-                            '</td></tr>';
-                        $('#resultTable tbody')
-                            .append(newRow);
-                    },
-                    error: function (jqXHR, textStatus,
-                        errorThrown) {
-                        console.error('AJAX error:',
-                            textStatus,
-                            errorThrown);
-                    }
-                });
-            } else {
-                // Si no es la primera inserción, incrementar los últimos valores insertados
-                lastInsertedID_Indice++;
-                lastInsertedOrden++;
-
-                var newRow = '<tr><td>' +
-                    lastInsertedID_Indice + '</td><td>' +
-                    inputTexto + '</td><td>' +
-                    lastInsertedOrden + '</td></tr>';
-                $('#resultTable tbody').append(newRow);
-            }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        var reIndice = [];
-        var currentIDJerarquia = 0;
-
-        // Obtener el valor máximo de ID_Jerarquia al cargar la página
         $.ajax({
-            url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
-            type: 'GET',
-            success: function (response) {
-                currentIDJerarquia = parseInt(response);
-            }
-        });
+            url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+            method: 'GET',
+            success: function(data) {
+                var maxValues = JSON.parse(data);
 
-        $('#guardarIbtn').on('click', function () {
-            var selectedIDIndice = $('#selectIndicePadre')
-                .val();
+                if (maxValues.ID_Indice == null || maxValues.Orden == null) {
+                    lastInsertedID_Indice = 1;
+                    lastInsertedOrden = 1;
+                    // Verificar si la tabla con id resultTable no está vacía
+                    if ($('#resultTable tbody tr').length > 0) {
+                        lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
+                        lastInsertedOrden = $('#resultTable tbody tr').length + 1;
+                    }
+                } else {
+                    lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
+                    lastInsertedOrden = parseInt(maxValues.Orden) + 1;
+                    // Verificar si la tabla con id resultTable no está vacía
+                    if ($('#resultTable tbody tr').length > 0) {
+                        lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
+                            '#resultTable tbody tr').length + 1;
+                        lastInsertedOrden = parseInt(maxValues.Orden) + $(
+                            '#resultTable tbody tr').length + 1;
+                    }
+                }
 
-            if (selectedIDIndice !==
-                'Seleccione un índice padre') {
-                currentIDJerarquia += 1;
-
-                var newEntry = {
-                    ID_Indice: selectedIDIndice,
-                    ID_Jerarquia: currentIDJerarquia
-                };
-
-                reIndice.push(newEntry);
-
-                // Imprimir reIndice en consola
-                console.log(reIndice);
-            } else {
-                alert('Por favor, seleccione un índice padre.');
+                var newRow = '<tr><td>' + lastInsertedID_Indice + '</td><td>' + inputTexto +
+                    '</td><td>' + lastInsertedOrden + '</td>' +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>';
+                $('#resultTable tbody').append(newRow);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('AJAX error:', textStatus, errorThrown);
             }
         });
     });
+});
+</script>
+<script>
+$(document).ready(function() {
+    // Manejar el evento de clic en el botón de eliminar
+    $('#resultTable').on('click', '.delete-row', function() {
+        var row = $(this).closest('tr');
+        var rowIndex = row.index();
+        var table = $('#resultTable tbody');
+
+        // Eliminar la fila seleccionada
+        row.remove();
+
+        // Reducir "ID_Indice" y "Orden" de las filas siguientes
+        table.find('tr').each(function(index) {
+            if (index >= rowIndex) {
+                var idIndiceCell = $(this).find('td').eq(0);
+                var ordenCell = $(this).find('td').eq(2);
+
+                var newIdIndice = parseInt(idIndiceCell.text()) - 1;
+                var newOrden = parseInt(ordenCell.text()) - 1;
+
+                idIndiceCell.text(newIdIndice);
+                ordenCell.text(newOrden);
+            }
+        });
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    var reIndice = [];
+    var currentIDJerarquia = 0;
+
+    // Obtener el valor máximo de ID_Jerarquia al cargar la página
+    $.ajax({
+        url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
+        type: 'GET',
+        success: function(response) {
+            currentIDJerarquia = parseInt(response);
+        }
+    });
+
+    $('#guardarIbtn').on('click', function() {
+        var selectedIDIndice = $('#selectIndicePadre')
+            .val();
+
+        if (selectedIDIndice !==
+            'Seleccione un índice padre') {
+            currentIDJerarquia += 1;
+
+            var newEntry = {
+                ID_Indice: selectedIDIndice,
+                ID_Jerarquia: currentIDJerarquia
+            };
+
+            reIndice.push(newEntry);
+
+            // Imprimir reIndice en consola
+            console.log(reIndice);
+        }
+    });
+});
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        // Obtener el valor seleccionado en el select con id "selectIndicePadre"
-        $('#selectIndicePadre').on('change', function () {
-            var selectedValue = $(this).val();
-            console.log('Valor seleccionado:',
-                selectedValue); // Imprimir el valor seleccionado en la consola
-        });
+$(document).ready(function() {
+    // Obtener el valor seleccionado en el select con id "selectIndicePadre"
+    $('#selectIndicePadre').on('change', function() {
+        var selectedValue = $(this).val();
+        console.log('Valor seleccionado:',
+            selectedValue); // Imprimir el valor seleccionado en la consola
     });
+});
 </script>
 @endsection

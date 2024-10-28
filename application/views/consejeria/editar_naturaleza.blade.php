@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarConsejeria')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuConsejeria')
+@include('templates/menuAdmin')
 @endsection
 
 @section('contenido')
@@ -42,7 +42,7 @@ Registro Estatal de Regulaciones
                     /* Adjust as needed */
                 }
                 </style>
-                <div class="card flex-grow-1 bordes">
+                <div class="card flex-grow-1">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
@@ -50,7 +50,9 @@ Registro Estatal de Regulaciones
                                     <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_1">Características de la Regulación</label>
+                                        <label class="menu-regulacion" for="image_1">Características de la
+                                           
+                                            Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
@@ -78,23 +80,27 @@ Registro Estatal de Regulaciones
             <div class="col-md-9 p-0">
                 <div class="card">
                     <div class="card-header text-white">Naturaleza de la regulación</div>
-                    <div class="card-body d-flex flex-column justify-content-center">
-                        <div class="row justify-content-center">
-                            <label for="radioGroup">¿La regulación está asociada a una actividad
-                                económica?</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="si" name="opcion" value="si">
-                                <label for="si">Sí</label>
-                                <input type="radio" id="no" name="opcion" value="no">
-                                <label for="no">No</label>
+                    <form id="formGnat" enctype="multipart/form-data">
+                        <input type="hidden" id="idRegulacion" name="idRegulacion"
+                            value="{{ $regulaciones->ID_Regulacion }}">
+                        <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat }}">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <label for="radioGroup">¿La regulación está asociada a una actividad
+                                    económica?</label>
+                                <div id="radioGroup">
+                                    <input type="radio" id="si" name="opcion" value="si">
+                                    <label for="si">Sí</label>
+                                    <input type="radio" id="no" name="opcion" value="no">
+                                    <label for="no">No</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group" id="inputs" style="display: none;">
-                            <!-- Generar 5 inputs -->
-                            <div class="form-group row justify-content-center">
-                                <label for="SectorInput">Sector<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SectorInput" name="SectorInput"
-                                    placeholder="Selecciona una opcion" required>
+                            <div class="form-group" id="inputs">
+                                <!-- Generar 5 inputs -->
+                                <div class="form-group row justify-content-center">
+                                    <label for="SectorInput">Sector<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="SectorInput" name="SectorInput"
+                                        placeholder="Selecciona una opcion" required>
 
                             </div>
                             <ul id="sectorResults"></ul>
@@ -197,22 +203,100 @@ Registro Estatal de Regulaciones
                                 placeholder="http://" value="<?= isset($enlace_oficial) ? $enlace_oficial : '' ?>"
                                 required>
                         </div>
-                        <div class="form-group">
-                            <label for="radioGroup">Tipo de documento:</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="documento" name="opcion2" value="documento">
-                                <label for="documento">Documento</label>
-                                <input type="radio" id="liga" name="opcion2" value="liga">
-                                <label for="liga">Liga de Documento</label>
+                        <div>
+                            <p></p>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <p id="tramitesText">Tramites y servicios</p>
+                            <button type="submit" id="botonTramites"
+                                class="btn btn-danger btn-tramites">Tramites</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="myModalLabel">Índice
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="inputTram">Nombre</label>
+                                                    <input type="text" class="form-control" id="inputTram"
+                                                        placeholder="Ingrese el Nombre" name="NombreTram">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputDir">Direccion</label>
+                                                    <input type="text" class="form-control" id="inputDir"
+                                                        placeholder="http://" name="NombreDir">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                onclick="closeModal()">Cerrar</button>
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
+                                                cambios</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div id="fileInput" class="form-group" style="display: none;">
-                            <label for="file">Subir Documento:</label>
-                            <input type="file" class="form-control-file" id="file">
-                        </div>
-                        <div id="urlInput" class="form-group" style="display: none;">
-                            <label for="url">URL del Documento:</label>
-                            <input type="text" class="form-control" id="url" placeholder="http://">
+                        <table id="tramitesTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-column">ID_Tramites</th>
+                                    <th>Nombre</th>
+                                    <th>Dirección</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($tramites)): ?>
+                                <?php foreach ($tramites as $tramite): ?>
+                                <tr>
+                                    <td class="hidden-column"><?php echo $tramite['ID_Tramites']; ?></td>
+                                    <td><?php echo $tramite['Nombre']; ?></td>
+                                    <td><?php echo $tramite['Direccion']; ?></td>
+                                    <td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td>
+                                    <!-- Agrega más celdas según sea necesario -->
+                                </tr>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                        <style>
+                        .hidden-column {
+                            display: none;
+                        }
+                        </style>
+                        <div class="form-group">
+                            <p><label for="file">
+                                    <h7>Subir Documento</h7>
+                                </label></p>
+                            <input type="file" class="form-control-file" id="userfile" name="userfile">
+                            <br>
+                            <!-- Mostrar el nombre del archivo actual -->
+                            <?php if (!empty($natreg2->file_path)): ?>
+                            <small id="current_file" class="form-text text-muted">
+                                Archivo actual: <?php    echo basename($natreg2->file_path); ?>
+                            </small>
+                            <br>
+                            <!-- Mostrar el archivo actual (puede ser una imagen o un PDF) -->
+                            <?php    if (preg_match('/\.(jpg|jpeg|png)$/i', $natreg2->file_path)): ?>
+                            <img src="<?php        echo base_url('assets/ftp/' . basename($natreg2->file_path)); ?>"
+                                alt="Imagen actual" class="img-fluid">
+                            <?php    elseif (preg_match('/\.(pdf)$/i', $natreg2->file_path)): ?>
+                            <a href="<?php        echo base_url('assets/ftp/' . basename($natreg2->file_path)); ?>"
+                                target="_blank">Ver documento PDF actual</a>
+                            <?php    endif; ?>
+                            <?php endif; ?>
+
+                            <br>
+                            <small id="msg_file" class="text-danger"></small>
                         </div>
 
 
@@ -230,17 +314,22 @@ Registro Estatal de Regulaciones
                         });
                         </script>
 
-                    </div>
+                        </div>
 
                     <script>
                     $(document).ready(function() {
                         $('input[type=radio][name=opcion]').change(function() {
                             if (this.value == 'si') {
-                                $('#inputs').show();
+                                $('#inputs input').prop('disabled', false); // Desbloquear los inputs
                             } else if (this.value == 'no') {
-                                $('#inputs').hide();
+                                $('#inputs input').prop('disabled', true); // Bloquear los inputs
                             }
                         });
+
+                        // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
+                        if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+                            $('#inputs input').prop('disabled', true); // Bloquear los inputs
+                        }
                     });
                     </script>
                     <div class="d-flex justify-content-end mb-3">
@@ -253,6 +342,18 @@ Registro Estatal de Regulaciones
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+    $('.btn-tramites').click(function() {
+        $('#myModal').modal('show');
+    });
+});
+</script>
+<script>
+function closeModal() {
+    $('.modal').modal('hide'); // Oculta el modal
+}
+</script>
 <script>
 $(document).ready(function() {
     // Obtener el id_regulacion de la vista
@@ -308,8 +409,8 @@ $(document).ready(function() {
             response.forEach(function(sector) {
                 $('#selectedSectorsTable tbody').append('<tr><td>' + sector.Nombre_Sector +
                     '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>');
             });
         },
         error: function() {
@@ -340,9 +441,10 @@ $(document).ready(function() {
             // Agregar los nombres de los subsectors a la tabla
             response.forEach(function(subsector) {
                 $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsector
-                    .Nombre_Subsector + '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
+                    .Nombre_Subsector +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>');
             });
 
             // Mostrar la tabla si tiene datos
@@ -379,8 +481,8 @@ $(document).ready(function() {
             response.forEach(function(rama) {
                 $('#selectedRamasTable tbody').append('<tr><td>' + rama.Nombre_Rama +
                     '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>');
             });
 
             // Mostrar la tabla si tiene datos
@@ -416,9 +518,10 @@ $(document).ready(function() {
             // Agregar los nombres de las subramas a la tabla
             response.forEach(function(subrama) {
                 $('#selectedSubramasTable tbody').append('<tr><td>' + subrama
-                    .Nombre_Subrama + '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
+                    .Nombre_Subrama +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>');
             });
 
             // Mostrar la tabla si tiene datos
@@ -455,8 +558,8 @@ $(document).ready(function() {
             response.forEach(function(clase) {
                 $('#selectedClasesTable tbody').append('<tr><td>' + clase.Nombre_Clase +
                     '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>');
             });
 
             // Mostrar la tabla si tiene datos
@@ -474,6 +577,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     // Obtener el id_regulacion de la vista
     var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+    var newIdTramites = 1;
 
     // Realizar la solicitud AJAX para obtener las regulaciones
     $.ajax({
@@ -492,9 +596,10 @@ $(document).ready(function() {
             // Agregar los nombres de las regulaciones a la tabla
             response.forEach(function(regulacion) {
                 $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacion
-                    .Nombre_Regulacion + '<td><button class="btn btn-danger btn-sm delete-row">' +
-            '<i class="fas fa-trash-alt"></i></button></td>' +
-            '</tr>');
+                    .Nombre_Regulacion +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>');
             });
 
             // Mostrar la tabla si tiene datos
@@ -512,11 +617,16 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('input[type=radio][name=opcion]').change(function() {
         if (this.value == 'si') {
-            $('#checkboxes').show();
+            $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
         } else if (this.value == 'no') {
-            $('#checkboxes').hide();
+            $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
         }
     });
+
+    // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
+    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+        $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+    }
 });
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -545,6 +655,7 @@ $(document).ready(function() {
 
     // Obtener el id_regulacion de la vista
     var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+    var id_nat = <?= json_encode($id_nat) ?>;
 
     // Realizar la solicitud AJAX para obtener los ID de los sectores
     $.ajax({
@@ -1066,185 +1177,241 @@ $(document).ready(function() {
         }
         console.log('iNormativo:', iNormativo);
     });
-
-    //verificamos que se de click en el boton guardar y validamos si es si o no
-    //aqui guardamos los datos
-    $('#btnGnat').on('click', function() {
-        //Filtrar los sectores seleccionados eliminando los que están en idSectores
-        var filteredSectors;
-        if (JSON.stringify(idSectores.sort()) === JSON.stringify(selectedSectorsIds.sort())) {
-            filteredSectors = selectedSectorsIds;
-        } else {
-            filteredSectors = selectedSectorsIds.filter(function(sectorId) {
-                return !idSectores.includes(sectorId);
+    // Obtener el último ID_Tramites de la tabla
+    var lastIdTramites = $('#tramitesTable tbody tr:last td:first').text();
+    var newIdTramites = lastIdTramites ? parseInt(lastIdTramites) + 1 : 1;
+    $.ajax({
+        url: '<?= base_url('RegulacionController/verificarTramites') ?>',
+        type: 'GET',
+        data: { ID_Nat : id_nat },
+        dataType: 'json',
+        success: function(response) {
+            if (response.existenRegistros) {
+                ID_Tramites = parseInt(response.ultimoID, 10) + 1; // Inicializa el contador con el último ID + 1
+                registrosExistentes = response.registrosExistentes;
+            }
+        },
+        error: function() {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Error al verificar los registros en la base de datos.'
             });
         }
-        // var filteredSectors = selectedSectorsIds.filter(function (sectorId) {
-        //     return !idSectores.includes(sectorId);
-        // });
-        console.log('sectores filtrados', filteredSectors);
+    });
 
-        // Filtrar los subsectores seleccionados eliminando los que están en idSubsectores
-        var filteredSubsectors;
-        if (JSON.stringify(idSubsectores.sort()) === JSON.stringify(selectedSubsectorsIds.sort())) {
-            filteredSubsectors = selectedSubsectorsIds;
-        } else {
-            filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
-                return !idSubsectores.includes(subsectorId);
-            });
-        }
-        // var filteredSubsectors = selectedSubsectorsIds.filter(function (subsectorId) {
-        //     return !idSubsectores.includes(subsectorId);
-        // });
-        console.log('subsectores filtrados', filteredSubsectors);
+    $('#guardarIbtn').on('click', function() {
+        var inputTram = $('#inputTram').val();
+        var inputDir = $('#inputDir').val();
 
-        //Filtrar las ramas seleccionadas eliminando las que están en idRamas
-        var filteredRamas;
-        if (JSON.stringify(idRamas.sort()) === JSON.stringify(selectedRamasIds.sort())) {
-            filteredRamas = selectedRamasIds;
-        } else {
-            filteredRamas = selectedRamasIds.filter(function(ramaId) {
-                return !idRamas.includes(ramaId);
+        // Verificar campos obligatorios
+        if (inputTram === '' || inputDir === '') {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Por favor, complete los campos obligatorios.'
             });
+            return;
         }
-        // var filteredRamas = selectedRamasIds.filter(function (ramaId) {
-        //     return !idRamas.includes(ramaId);
-        // });
-        console.log('ramas filtradas', filteredRamas);
 
-        //Filtrar las subramas seleccionadas eliminando las que están en idSubramas
-        var filteredSubramas;
-        if (JSON.stringify(idSubramas.sort()) === JSON.stringify(selectedSubramasIds.sort())) {
-            filteredSubramas = selectedSubramasIds;
-        } else {
-            filteredSubramas = selectedSubramasIds.filter(function(subramaId) {
-                return !idSubramas.includes(subramaId);
-            });
-        }
-        // var filteredSubramas = selectedSubramasIds.filter(function (subramaId) {
-        //     return !idSubramas.includes(subramaId);
-        // });
-        console.log('subramas filtradas', filteredSubramas);
+        // Insertar el nuevo registro en la tabla
+        var newRow = '<tr><td>' +
+            newIdTramites +
+            '</td><td>' +
+            inputTram +
+            '</td><td>' +
+            inputDir +
+            '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
+        $('#tramitesTable tbody').append(newRow);
 
-        //Filtrar las clases seleccionadas eliminando las que están en idSubramas
-        var filteredClases;
-        if (JSON.stringify(idClases.sort()) === JSON.stringify(selectedClasesIds.sort())) {
-            filteredClases = selectedClasesIds;
-        } else {
-            filteredClases = selectedClasesIds.filter(function(claseId) {
-                return !idClases.includes(claseId);
-            });
-        }
-        // var filteredClases = selectedClasesIds.filter(function (claseId) {
-        //     return !idClases.includes(claseId);
-        // });
-        console.log('clases filtradas', filteredClases);
+        // Incrementa el contador de ID_Fun
+        newIdTramites++;
 
-        var filteredRegulaciones;
-        if (JSON.stringify(idRegulaciones.sort()) === JSON.stringify(selectedRegulaciones.sort())) {
-            filteredRegulaciones = selectedRegulaciones;
-        } else if (selectedRegulaciones.length === 0) {
-            filteredRegulaciones = idRegulaciones
-        }else{
-            filteredRegulaciones = selectedRegulaciones.filter(function(regulacionId) {
-                return !idRegulaciones.includes(regulacionId);
-            });
-        }
-        // var filteredRegulaciones = selectedRegulaciones.filter(function (regulacionId) {
-        //     return !idRegulaciones.includes(regulacionId);
-        // });
-        console.log('clases filtradas', filteredRegulaciones);
-        if ($('#no').is(':checked')) {
-            let inputEnlace = $('#inputEnlace').val();
+        // Limpia los valores de los inputs
+        $('#inputTram').val('');
+        $('#inputDir').val('');
+    });
+    // Maneja el evento de clic para eliminar una fila
+    $('#tramitesTable').on('click', '.delete-row', function() {
+        var row = $(this).closest('tr');
+        var idTram = row.find('td').eq(0).text();
+
+        // Mostrar ventana de confirmación
+        if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+            // Realiza una solicitud AJAX para eliminar el registro de la base de datos
             $.ajax({
-                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
+                url: '<?= base_url('RegulacionController/eliminarTramite') ?>',
                 type: 'POST',
-                data: {
-                    id_regulacion: id_regulacion,
-                    btn_clicked: true,
-                    radio_no_selected: true,
-                    inputEnlace: inputEnlace,
-                    iNormativo: iNormativo,
-                    selectedRegulaciones: filteredRegulaciones
-                },
-                dataType: 'json',
+                data: { ID_Tramites: idTram },
                 success: function(response) {
                     if (response.status === 'success') {
-                        alert('Datos guardados exitosamente');
-                        //window.location.href ='http://localhost/code/RegulacionController';
+                        // Elimina la fila de la tabla
+                        row.remove();
+                        newIdTramites--;
                     } else {
-                        alert('Error al guardar los datos: ' + response.message);
-                        //window.location.href ='http://localhost/code/RegulacionController';
+                        //es un registro nuevo que no se ha guardado en la base de datos
+                        row.remove();
+                        newIdTramites--;
                     }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Error al eliminar el registro de la base de datos.'
+                    });
                 }
             });
+        }
+    });
+
+    //aqui guardamos los datos
+    $('#btnGnat').on('click', function() {
+        var formData = new FormData($('#formGnat')[0]);
+
+        var filteredSectors = selectedSectorsIds.filter(function(sectorId) {
+            return !idSectores.includes(sectorId);
+        });
+        console.log('sectores filtrados', filteredSectors);
+
+        var filteredSubsectors = selectedSubsectorsIds.filter(function(subsectorId) {
+            return !idSubsectores.includes(subsectorId);
+        });
+        console.log('subsectores filtrados', filteredSubsectors);
+
+        var filteredRamas = selectedRamasIds.filter(function(ramaId) {
+            return !idRamas.includes(ramaId);
+        });
+        console.log('ramas filtradas', filteredRamas);
+
+        var filteredSubramas = selectedSubramasIds.filter(function(subramaId) {
+            return !idSubramas.includes(subramaId);
+        });
+        console.log('subramas filtradas', filteredSubramas);
+
+        var filteredClases = selectedClasesIds.filter(function(claseId) {
+            return !idClases.includes(claseId);
+        });
+        console.log('clases filtradas', filteredClases);
+
+        var filteredRegulaciones = selectedRegulaciones.filter(function(regulacionId) {
+            return !idRegulaciones.includes(regulacionId);
+        });
+        console.log('clases filtradas', filteredRegulaciones);
+
+        // Agregar idRegulacion al formData
+       
+        formData.append('idRegulacion', id_regulacion);
+
+        formData.append('idNaturaleza', id_nat);
+
+        if ($('#no').is(':checked')) {
+            formData.append('btn_clicked', true);
+            formData.append('radio_no_selected', true);
+            formData.append('inputEnlace', $('#inputEnlace').val());
+            formData.append('iNormativo', iNormativo);
+            formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+            formData.append('url', $('#url').val());
         } else if ($('#si').is(':checked')) {
-            if (filteredSectors.length === 0 && filteredSubsectors.length === 0 && filteredRamas
-                .length === 0 && filteredSubramas.length === 0 && filteredClases.length === 0) {
-                alert('Debe seleccionar al menos un sector');
-                return;
-            } else if (filteredSectors.length === 0 || filteredSubsectors.length === 0) {
-                alert('Debe seleccionar al menos una regulación');
-                return;
-            } else if (!filteredSectors.length === 0 && !filteredSubsectors.length === 0) {
-                let inputEnlace = $('#inputEnlace').val();
-                $.ajax({
-                    url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
-                    type: 'POST',
-                    data: {
-                        id_regulacion: id_regulacion,
-                        btn_clicked: true,
-                        radio_si_selected: true,
-                        inputEnlace: inputEnlace,
-                        iNormativo: iNormativo,
-                        selectedRegulaciones: filteredRegulaciones,
-                        selectedSectors: filteredSectors,
-                        selectedSubsectors: filteredSubsectors
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            alert('Datos guardados exitosamente');
-                            //window.location.href ='http://localhost/code/RegulacionController';
-                        } else {
-                            alert('Error al guardar los datos: ' + response.message);
-                            //window.location.href ='http://localhost/code/RegulacionController';
-                        }
+            formData.append('btn_clicked', true);
+            formData.append('radio_si_selected', true);
+            formData.append('inputEnlace', $('#inputEnlace').val());
+            formData.append('iNormativo', iNormativo);
+            formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+            formData.append('selectedSectors', JSON.stringify(selectedSectorsIds));
+            formData.append('selectedSubsectors', JSON.stringify(selectedSubsectorsIds));
+            formData.append('selectedRamas', JSON.stringify(selectedRamasIds));
+            formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
+            formData.append('selectedClases', JSON.stringify(selectedClasesIds));
+            formData.append('url', $('#url').val());
+        }
+        var registrosExistentes = []; // Array para almacenar los registros existentes
+        // Realiza una solicitud AJAX para obtener los registros existentes en la base de datos
+        $.ajax({
+            url: '<?php echo base_url('RegulacionController/verificarTramites'); ?>', // Cambia esta URL a la ruta de tu controlador
+            type: 'GET',
+            data: { ID_Nat : id_nat }, // Asegúrate de que caracteristicasData esté definido
+            dataType: 'json',
+            success: function(response) {
+                if (response.existenRegistros) {
+                    registrosExistentes = response.registrosExistentes; // Almacena los registros existentes
+                }
+                // Extraer registros de la tabla tramitesTable
+                var tramites = [];
+                $('#tramitesTable tbody tr').each(function() {
+                    var idTramites = $(this).find('td').eq(0).text();
+                    var nombre = $(this).find('td').eq(1).text();
+                    var direccion = $(this).find('td').eq(2).text();
+
+                    // Verifica si el registro ya existe en la base de datos
+                    var existe = registrosExistentes.some(function(registro) {
+                        return registro.ID_Tramites === idTramites;
+                    });
+
+                    if (!existe) {
+                        tramites.push({
+                            Nombre: nombre,
+                            Direccion: direccion
+                        });
                     }
                 });
-            } else {
-                let inputEnlace = $('#inputEnlace').val();
+                // Agregar el array tramites al formData
+                formData.append('tramites', JSON.stringify(tramites));
+                console.log('formData:', formData.get('tramites'));
+                console.log('registrosExistentes:', registrosExistentes);
+
                 $.ajax({
                     url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
                     type: 'POST',
-                    data: {
-                        id_regulacion: id_regulacion,
-                        btn_clicked: true,
-                        radio_si_selected: true,
-                        inputEnlace: inputEnlace,
-                        iNormativo: iNormativo,
-                        selectedRegulaciones: filteredRegulaciones,
-                        selectedSectors: filteredSectors,
-                        selectedSubsectors: filteredSubsectors,
-                        selectedRamas: filteredRamas,
-                        selectedSubramas: filteredSubramas,
-                        selectedClases: filteredClases
-                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     dataType: 'json',
                     success: function(response) {
+                        console.log('Respuesta del servidor:', response);
                         if (response.status === 'success') {
-                            alert('Datos guardados exitosamente');
-                            //window.location.href ='http://localhost/code/RegulacionController';
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: 'Datos guardados exitosamente',
+                            }).then(() => {
+                                window.location.href =
+                                    '<?= base_url('RegulacionController') ?>';
+                            });
                         } else {
-                            alert('Error al guardar los datos: ' + response.message);
-                            //window.location.href ='http://localhost/code/RegulacionController';
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al guardar los datos: ' + response.message,
+                            }).then(() => {
+                                window.location.href =
+                                    '<?= base_url('RegulacionController') ?>';
+                            });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error en la solicitud AJAX:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error en la solicitud AJAX: ' + error,
+                        });
                     }
+                });
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al verificar los registros en la base de datos.',
                 });
             }
+        });
+        
+        
 
-        }
-        //window.location.href ='http://localhost/code/RegulacionController';
+        
+        
     });
 });
 </script>

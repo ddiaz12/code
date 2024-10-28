@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarConsejeria')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuConsejeria')
+@include('templates/menuAdmin')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -21,9 +21,10 @@ Registro Estatal de Regulaciones
     <div class="d-flex justify-content-end mb-3">
         <a href="<?php echo base_url("RegulacionController/caracteristicas_reg") ?>"
             class="btn btn-primary btn-agregarOficina">
-            <i class="fas fa-plus-circle me-1"></i> Agregar Regulacion
+            <i class="fas fa-plus-circle me-1"></i> Agregar Regulación
         </a>
     </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
@@ -40,10 +41,9 @@ Registro Estatal de Regulaciones
                 <tbody>
                     <?php if (!empty($regulaciones)): ?>
                     <?php    foreach ($regulaciones as $regulacion): ?>
-                    <?php        if ($regulacion->Estatus == 2): ?>
+                    <?php        if ($regulacion->Estatus == 1): ?>
                     <?php 
-
-            $background_color = 'gray';
+                    $background_color = 'gray';
             // Obtener la notificación relacionada con la regulación
             $notificacion = $this->NotificacionesModel->getNotificacionPorRegulacion($regulacion->ID_Regulacion);
 
@@ -52,7 +52,7 @@ Registro Estatal de Regulaciones
                 $fecha_actual = new DateTime(); // Fecha actual
                 $fecha_recepcion = new DateTime($notificacion->fecha_envio); // Fecha de recepción
                 $dias_transcurridos = $fecha_actual->diff($fecha_recepcion)->days; // Diferencia en días
-                $dias_restantes = max(0, 10 - $dias_transcurridos); // Días restantes
+                $dias_restantes = max(0, 5 - $dias_transcurridos); // Días restantes
 
                 // Cambiar color según los días restantes
                 if ($dias_restantes > 0) {
@@ -63,31 +63,38 @@ Registro Estatal de Regulaciones
             } else {
                 $dias_restantes = 'N/A'; // Si no hay notificación, no se puede calcular
             }
-                    ?>
+                ?>
                     <tr>
                         <td><?php            echo $regulacion->ID_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Nombre_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Homoclave; ?></td>
                         <td>
-                            <span class="status-circle"
-                                style="background-color: <?php            echo $background_color; ?>;">
+                            <span class="status-circle" style="background-color: <?php            echo $background_color; ?>;">
                                 <?php            echo is_numeric($dias_restantes) ? $dias_restantes : $dias_restantes; ?>
                             </span>
                         </td>
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
-                            <button class="btn btn-secondary btn-sm btn-devolver"
+                            <!-- Botones de acción en vertical -->
+                            <button class="btn btn-gris btn-sm edit-row" title="Editar"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <button class="btn btn-secondary btn-sm btn-devolver" title="Devolver"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-undo" title="Devolver"></i>
                             </button>
-                            <button class="btn btn-info btn-sm btn-trazabilidad" title="Trazabilidad"
+                            <button class="btn btn-dorado btn-sm enviar-regulacion" title="Enviar"
+                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
+                                <i class="fas fa-paper-plane" title="Enviar"></i>
+                            </button>
+                            <button class="btn btn-tinto btn-sm btn-trazabilidad" title="Trazabilidad"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>" data-toggle="modal"
                                 data-target="#trazabilidadModal">
-                                <i class="fas fa-clock"></i>
-                            </button>
-                            <button class="btn btn-success btn-sm btn-publicar"
-                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
-                                <i class="fa-solid fa-file-arrow-up" title="Publicar"></i>
+                                <i class="fas fa-history"></i>
                             </button>
                             <button class="btn btn-tinto2 btn-sm btn-comentarios" title="Comentarios"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
@@ -112,6 +119,7 @@ Registro Estatal de Regulaciones
     <!-- Modal de comentarios -->
     @include('modal/comentarios')
 </div>
+
 @endsection
 @section('footer')
 @include('templates/footer')
@@ -121,6 +129,94 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/buscarComentario.js'); ?>"></script>
 <script>
+    // Cargar la trazabilidad de una regulación
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.btn-trazabilidad').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                var id = this.getAttribute('data-id');
+                var url = '<?php echo base_url('RegulacionController/obtenerTrazabilidad'); ?>';
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'id=' + id
+                })
+                    .then(response => response.json()) // Asumimos que la respuesta será en formato JSON
+                    .then(data => {
+                        var timelineContent = '';
+
+                        // Generar el HTML del timeline
+                        data.forEach(function (registro, index) {
+                            timelineContent += `
+                        <li class="timeline-item">
+                            <span class="timeline-date">${new Date(registro.fecha_movimiento).toLocaleDateString()}</span>
+                            <div class="timeline-content">
+                                <h5>${registro.usuario_responsable}</h5>
+                                <p>Descripcion de movimiento: ${registro.descripcion_movimiento}</p>
+                                <p>Fecha envio: ${new Date(registro.fecha_movimiento).toLocaleString()}</p>
+                            </div>
+                        </li>
+                    `;
+                        });
+
+                        // Insertar el contenido en el modal
+                        document.querySelector('#trazabilidadContent .timeline').innerHTML = timelineContent;
+
+                        // Mostrar el modal
+                        var trazabilidadModal = new bootstrap.Modal(document.getElementById('trazabilidadModal'));
+                        trazabilidadModal.show();
+                    })
+                    .catch(error => {
+                        document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';
+                    });
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        // Evento para actualizar el estatus de las regulaciones
+        $('tbody').on('click', '.delete-row', function () {
+            // Obtener el ID de la regulación de la fila
+            let regulacionId = $(this).closest('tr').find('td:first').text();
+
+            // Confirmar la actualización
+            if (confirm('¿Estás seguro de que deseas actualizar el estatus de esta regulación?')) {
+                // Hacer una solicitud AJAX para actualizar el estatus en la base de datos
+                $.ajax({
+                    url: 'RegulacionController/actualizar_estatus', // Ruta en tu backend
+                    type: 'POST',
+                    data: {
+                        id: regulacionId,
+                        csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>' // Token CSRF para seguridad
+                    },
+                    success: function (response) {
+                        let res = JSON.parse(response);
+                        if (res.status === 'success') {
+                            alert('Estatus actualizado exitosamente.');
+                            window.location.href = 'http://localhost/code/RegulacionController';
+                        } else {
+                            alert('Hubo un error al actualizar el estatus.');
+                        }
+                    },
+                    error: function () {
+                        alert('Hubo un error al actualizar el estatus.');
+                    }
+                });
+            }
+        });
+        // Captura el evento de clic en el botón de editar
+        $('.edit-row').on('click', function () {
+            // Obtiene el ID de la regulación del atributo data-id
+            var idRegulacion = $(this).data('id');
+
+            // Redirecciona a la URL de edición con el ID_Regulacion
+            window.location.href = '<?= base_url("RegulacionController/edit_caract/"); ?>' + idRegulacion;
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.btn-devolver').forEach(function (element) {
             element.addEventListener('click', function (event) {
@@ -179,98 +275,12 @@ Registro Estatal de Regulaciones
                 var id = this.getAttribute('data-id');
                 var url = '<?php echo base_url('RegulacionController/enviar_regulacion/'); ?>' + id;
 
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire({
-                                title: '¡Éxito!',
-                                text: data.message,
-                                icon: 'success',
-                                confirmButtonText: 'Aceptar'
-                            }).then(() => {
-                                location.reload(); // Recargar la página
-                            });
-                        } else {
-                            Swal.fire({
-                                title: 'Error',
-                                text: data.message,
-                                icon: 'error',
-                                confirmButtonText: 'Aceptar'
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'Hubo un problema al enviar la regulación.',
-                            icon: 'error',
-                            confirmButtonText: 'Aceptar'
-                        });
-                    });
-            });
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.btn-trazabilidad').forEach(function (element) {
-            element.addEventListener('click', function (event) {
-                event.preventDefault();
-                var id = this.getAttribute('data-id');
-                var url = '<?php echo base_url('RegulacionController/obtenerTrazabilidad'); ?>';
-
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'id=' + id
-                })
-                    .then(response => response.json()) // Asumimos que la respuesta será en formato JSON
-                    .then(data => {
-                        var timelineContent = '';
-
-                        // Generar el HTML del timeline
-                        data.forEach(function (registro, index) {
-                            timelineContent += `
-                        <li class="timeline-item">
-                            <span class="timeline-date">${new Date(registro.fecha_movimiento).toLocaleDateString()}</span>
-                            <div class="timeline-content">
-                                <h5>${registro.usuario_responsable}</h5>
-                                <p>Descripcion de movimiento: ${registro.descripcion_movimiento}</p>
-                                <p>Fecha envio: ${new Date(registro.fecha_movimiento).toLocaleString()}</p>
-                            </div>
-                        </li>
-                    `;
-                        });
-
-                        // Insertar el contenido en el modal
-                        document.querySelector('#trazabilidadContent .timeline').innerHTML = timelineContent;
-
-                        // Mostrar el modal
-                        var trazabilidadModal = new bootstrap.Modal(document.getElementById('trazabilidadModal'));
-                        trazabilidadModal.show();
-                    })
-                    .catch(error => {
-                        document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';
-                    });
-            });
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.btn-publicar').forEach(function (element) {
-            element.addEventListener('click', function (event) {
-                event.preventDefault();
-                var id = this.getAttribute('data-id');
-                var url = '<?php echo base_url('RegulacionController/publicar_regulacion/'); ?>' + id;
-
                 Swal.fire({
-                    title: '¿Publicar regulación?',
-                    text: "Publicar regulacion en el portal",
+                    title: '¿Enviar regulación?',
+                    text: "Enviar regulación a consejería Jurídica",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Sí, publicar',
+                    confirmButtonText: 'Sí, Enviar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -298,7 +308,7 @@ Registro Estatal de Regulaciones
                             .catch(error => {
                                 Swal.fire({
                                     title: 'Error',
-                                    text: 'Hubo un problema al publicar la regulación.',
+                                    text: 'Hubo un problema al enviar la regulación.',
                                     icon: 'error',
                                     confirmButtonText: 'Aceptar'
                                 });

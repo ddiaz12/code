@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarConsejeria')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuConsejeria')
+@include('templates/menuAdmin')
 @endsection
 
 @section('contenido')
@@ -48,7 +48,8 @@ Registro Estatal de Regulaciones
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
                                     <i class="fa-solid fa-list-check fa-sm"></i>
-                                    <label class="menu-regulacion" for="image_1">Características de la Regulación</label>
+                                    <label class="menu-regulacion" for="image_1">Características de la
+                                            Regulación</label>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
@@ -69,234 +70,309 @@ Registro Estatal de Regulaciones
             <div class="col-md-9 p-0">
                 <div class="card">
                     <div class="card-header text-white">Naturaleza de la regulación</div>
-                    <div class="card-body d-flex flex-column justify-content-center">
-                        <div class="row justify-content-center">
-                            <label for="radioGroup">¿La regulación está asociada a una actividad
-                                económica?</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="si" name="opcion" value="si">
-                                <label for="si">Sí</label>
-                                <input type="radio" id="no" name="opcion" value="no">
-                                <label for="no">No</label>
+                    <form id="formGnat" enctype="multipart/form-data">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <div class="row justify-content-center">
+                                <label for="radioGroup">¿La regulación está asociada a una actividad
+                                    económica?</label>
+                                <div id="radioGroup">
+                                    <input type="radio" id="si" name="opcion" value="si">
+                                    <label for="si">Sí</label>
+                                    <input type="radio" id="no" name="opcion" value="no" checked>
+                                    <label for="no">No</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group" id="inputs">
-                            <!-- Generar 5 inputs -->
-                            <div class="form-group row justify-content-center">
-                                <label for="SectorInput">Sector<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SectorInput" name="SectorInput"
-                                    placeholder="Selecciona una opcion" required>
+                            <div class="form-group" id="inputs">
+                                <!-- Generar 5 inputs -->
+                                <div class="form-group row justify-content-center">
+                                    <label for="SectorInput">Sector<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="SectorInput" name="SectorInput"
+                                        placeholder="Selecciona una opcion" required>
 
+                                </div>
+                                <ul id="sectorResults"></ul>
+                                <table id="selectedSectorsTable" class="table table-striped mt-4">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Sector</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <label for="SubsectorInput">Subsector<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="SubsectorInput" name="SubsectorInput"
+                                        placeholder="Selecciona una opcion" required>
+                                </div>
+                                <ul id="subsectorResults" class="list-group mt-2"></ul>
+                                <table id="selectedSubsectorsTable" class="table table-striped mt-4"
+                                    style="display: none;">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Subsector</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <label for="RamaInput">Rama</label>
+                                    <input type="text" class="form-control" id="RamaInput" name="RamaInput"
+                                        placeholder="Selecciona una opcion" required>
+                                </div>
+                                <ul id="ramaResults" class="list-group mt-2"></ul>
+                                <table id="selectedRamasTable" class="table table-striped mt-4" style="display: none;">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Rama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <label for="SubramaInput">Subrama</label>
+                                    <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
+                                        placeholder="Selecciona una opcion" required>
+                                </div>
+                                <ul id="subramaResults" class="list-group mt-2"></ul>
+                                <table id="selectedSubramasTable" class="table table-striped mt-4"
+                                    style="display: none;">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Subrama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <label for="ClaseInput">Clase</label>
+                                    <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
+                                        placeholder="Selecciona una opcion" required>
+                                </div>
+                                <ul id="claseResults" class="list-group mt-2"></ul>
+                                <table id="selectedClasesTable" class="table table-striped mt-4" style="display: none;">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Nombre Clase</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Las filas se agregarán aquí -->
+                                    </tbody>
+                                </table>
                             </div>
-                            <ul id="sectorResults"></ul>
-                            <table id="selectedSectorsTable" class="table table-striped mt-4">
+                            <div class="form-group">
+                                <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta
+                                    regulación</label>
+                                <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
+                                    placeholder="Regulaciones Vinculadas" required>
+                            </div>
+                            <ul id="vinculadasResults" class="list-group mt-2"></ul>
+                            <table id="selectedRegulacionesTable" class="table table-striped mt-4"
+                                style="display: none;">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>Nombre Sector</th>
+                                        <th>Nombre Regulacion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- Las filas se agregarán aquí -->
                                 </tbody>
                             </table>
-                            <div class="row justify-content-center">
-                                <label for="SubsectorInput">Subsector<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SubsectorInput" name="SubsectorInput"
-                                    placeholder="Selecciona una opcion" required>
+                            <div class="form-group">
+                                <label for="inputEnlace">Enlace oficial de la regulación<span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
+                                    placeholder="http://" required>
                             </div>
-                            <ul id="subsectorResults" class="list-group mt-2"></ul>
-                            <table id="selectedSubsectorsTable" class="table table-striped mt-4" style="display: none;">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nombre Subsector</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Las filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-                            <div class="row justify-content-center">
-                                <label for="RamaInput">Rama<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="RamaInput" name="RamaInput"
-                                    placeholder="Selecciona una opcion" required>
+                            <div>
+                                <p></p>
                             </div>
-                            <ul id="ramaResults" class="list-group mt-2"></ul>
-                            <table id="selectedRamasTable" class="table table-striped mt-4" style="display: none;">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nombre Rama</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Las filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-                            <div class="row justify-content-center">
-                                <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
-                                    placeholder="Selecciona una opcion" required>
-                            </div>
-                            <ul id="subramaResults" class="list-group mt-2"></ul>
-                            <table id="selectedSubramasTable" class="table table-striped mt-4" style="display: none;">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nombre Subrama</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Las filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-                            <div class="row justify-content-center">
-                                <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
-                                    placeholder="Selecciona una opcion" required>
-                            </div>
-                            <ul id="claseResults" class="list-group mt-2"></ul>
-                            <table id="selectedClasesTable" class="table table-striped mt-4" style="display: none;">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Nombre Clase</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Las filas se agregarán aquí -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta
-                                regulación<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
-                                placeholder="Regulaciones Vinculadas" required>
-                        </div>
-                        <ul id="vinculadasResults" class="list-group mt-2"></ul>
-                        <table id="selectedRegulacionesTable" class="table table-striped mt-4" style="display: none;">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Nombre Regulacion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Las filas se agregarán aquí -->
-                            </tbody>
-                        </table>
-                        <div class="form-group">
-                            <label for="inputEnlace">Enlace oficial de la regulación<span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="inputEnlace" name="EnlaceOficial"
-                                placeholder="http://" required>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <p>Tramites y servicios</p>
-                            <button type="submit" id="botonIndice" class="btn btn-success btn-indice">Indice</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="myModalLabel">Índice
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="form-group">
-                                                    <label for="inputTexto">Texto</label>
-                                                    <input type="text" class="form-control" id="inputTexto"
-                                                        placeholder="Ingrese texto" name="texto">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="selectIndicePadre">Índice
-                                                        Padre</label>
-                                                    <select class="form-control" id="selectIndicePadre"
-                                                        name="indicePadre">
-                                                        <option>Seleccione un índice padre</option>
-                                                        <?php if (!empty($indices)): ?>
-                                                        <?php    foreach ($indices as $indice): ?>
-                                                        <option value="<?= $indice->ID_Indice ?>">
-                                                            <?= $indice->Texto ?>
-                                                        </option>
-                                                        <?php    endforeach; ?>
-                                                        <?php endif; ?>
-                                                    </select>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                onclick="closeModal()">Cerrar</button>
-                                            <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
-                                                cambios</button>
+                            <div class="d-flex justify-content-between mb-3">
+                                <p id="tramitesText">Tramites y servicios</p>
+                                <button type="submit" id="botonTramites"
+                                    class="btn btn-danger btn-tramites">Tramites</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="myModalLabel">Tramites y servicios
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="inputTram">Nombre</label>
+                                                        <input type="text" class="form-control" id="inputTram"
+                                                            placeholder="Ingrese el Nombre" name="NombreTram">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputDir">Direccion</label>
+                                                        <input type="text" class="form-control" id="inputDir"
+                                                            placeholder="http://" name="NombreDir">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                    onclick="closeModal()">Cerrar</button>
+                                                <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
+                                                    cambios</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="radioGroup">Tipo de documento:</label>
-                            <div id="radioGroup">
-                                <input type="radio" id="documento" name="opcion2" value="documento">
-                                <label for="documento">Documento</label>
-                                <input type="radio" id="liga" name="opcion2" value="liga">
-                                <label for="liga">Liga de Documento</label>
+                            <table id="tramitesTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID_Tramites</th>
+                                        <th>Nombre</th>
+                                        <th>Dirección</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Las filas se agregarán dinámicamente aquí -->
+                                </tbody>
+                            </table>
+                            <div id="fileInput" class="form-group">
+                                <p><label for="file">
+                                        <h7>Subir Documento</h7>
+                                    </label></p>
+                                <input type="file" class="form-control-file" id="file" name="userfile">
+                            </div>
+                            <div class="d-flex justify-content-end mb-3">
+
+                                <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                                    class="btn btn-secondary me-2">Cancelar</a>
+                                <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                             </div>
                         </div>
-                        <div id="fileInput" class="form-group" style="display: none;">
-                            <label for="file">Subir Documento:</label>
-                            <input type="file" class="form-control-file" id="file">
-                        </div>
-                        <div id="urlInput" class="form-group" style="display: none;">
-                            <label for="url">URL del Documento:</label>
-                            <input type="text" class="form-control" id="url" placeholder="http://">
-                        </div>
-
-
                         <script>
                         $(document).ready(function() {
-                            $('input[type=radio][name=opcion2]').change(function() {
-                                if (this.value == 'documento') {
-                                    $('#fileInput').show();
-                                    $('#urlInput').hide();
-                                } else if (this.value == 'liga') {
-                                    $('#urlInput').show();
-                                    $('#fileInput').hide();
-                                }
+                            $('.btn-tramites').click(function() {
+                                $('#myModal').modal('show');
                             });
                         });
                         </script>
+                        <script>
+                        function closeModal() {
+                            $('.modal').modal('hide'); // Oculta el modal
+                        }
+                        </script>
 
-                    </div>
 
-                    <script>
-                        $(document).ready(function() {
-                            $('input[type=radio][name=opcion]').change(function() {
-                                if (this.value == 'si') {
-                                    $('#inputs input').prop('disabled', false); // Desbloquear los inputs
-                                } else if (this.value == 'no') {
-                                    $('#inputs input').prop('disabled', true); // Bloquear los inputs
-                                }
-                            });
-
-                            // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
-                            if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
-                                $('#inputs input').prop('disabled', true); // Bloquear los inputs
-                            }
-                        });
-                    </script>
-                    <div class="d-flex justify-content-end mb-3">
-                        <button type="submit" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
-                        <a href="<?php echo base_url('oficinas/oficina'); ?>"
-                            class="btn btn-secondary me-2">Cancelar</a>
-                    </div>
                 </div>
+
+                </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+    $('input[type=radio][name=opcion]').change(function() {
+        if (this.value == 'si') {
+            $('#inputs input').prop('disabled', false); // Desbloquear los inputs
+        } else if (this.value == 'no') {
+            $('#inputs input').prop('disabled', true); // Bloquear los inputs
+        }
+    });
+
+    // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
+    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+        $('#inputs input').prop('disabled', true); // Bloquear los inputs
+    }
+});
+
+
+
+$(document).ready(function() {
+    $('input[type=radio][name=opcion]').change(function() {
+        if (this.value == 'si') {
+            $('#checkboxes').show();
+        } else if (this.value == 'no') {
+            $('#checkboxes').hide();
+        }
+    });
+});
+
+$('#guardarIbtn').on('click', function() {
+    var inputTram = $('#inputTram').val();
+    var inputDir = $('#inputDir').val();
+
+    // Verificar campos obligatorios
+    if (inputTram === '' || inputDir === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, complete los campos obligatorios',
+        });
+        return;
+    }
+
+    // Obtener el último ID_Tramites de la tabla
+    var lastIdTramites = $('#tramitesTable tbody tr:last td:first').text();
+    var newIdTramites = lastIdTramites ? parseInt(lastIdTramites) + 1 : 1;
+
+    // Insertar el nuevo registro en la tabla
+    var newRow = '<tr><td>' +
+        newIdTramites +
+        '</td><td>' +
+        inputTram +
+        '</td><td>' +
+        inputDir +
+        '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
+    $('#tramitesTable tbody').append(newRow);
+});
+
+// Manejar el evento de clic en el botón de eliminar
+$('#tramitesTable').on('click', '.delete-row', function() {
+    var row = $(this).closest('tr');
+    var rowIndex = row.index();
+    var table = $('#tramitesTable tbody');
+
+    // Eliminar la fila seleccionada
+    row.remove();
+
+    // Reducir "ID_Tramites" y "Orden" de las filas siguientes
+    table.find('tr').each(function(index) {
+        if (index >= rowIndex) {
+            var idTramitesCell = $(this).find('td').eq(0);
+            var newIdTramites = parseInt(idTramitesCell.text()) - 1;
+            idTramitesCell.text(newIdTramites);
+        }
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    $('.btn-tramites').click(function() {
+        $('#myModal').modal('show');
+    });
+});
+</script>
+<script>
+function closeModal() {
+    $('.modal').modal('hide'); // Oculta el modal
+}
+</script>
+
+
+
 <script>
 $(document).ready(function() {
     $('input[type=radio][name=opcion]').change(function() {
@@ -308,7 +384,7 @@ $(document).ready(function() {
     });
 });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
 let selectedSectors = []; // Declaración global
 let selectedSubsectors = []; // Declaración global
@@ -321,7 +397,6 @@ let selectedRamasIds = []; // Declaración global
 let selectedSubramasIds = []; // Declaración global
 let selectedClasesIds = []; // Declaración global
 let selectedRegulaciones = []; // Declaración global
-let iNormativo = null; // Declaración global
 // Aqui se hace la busqueda de los sectores y se muestran en una lista
 $(document).ready(function() {
 
@@ -691,73 +766,101 @@ $(document).ready(function() {
             '</tr>');
     });
 
-    //aqui validamos si es documento o liga
-    // 0 = documento, 1 = liga
-    $('input[name="opcion2"]').on('change', function() {
-        if ($('#documento').is(':checked')) {
-            iNormativo = 0;
-        } else if ($('#liga').is(':checked')) {
-            iNormativo = 1;
-        }
-        console.log('iNormativo:', iNormativo);
-    });
-
     //verificamos que se de click en el boton guardar y validamos si es si o no
     //aqui guardamos los datos
-    $('#btnGnat').on('click', function() {
-        if ($('#no').is(':checked')) {
-            let inputEnlace = $('#inputEnlace').val();
-            $.ajax({
-                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
-                type: 'POST',
-                data: {
-                    btn_clicked: true,
-                    radio_no_selected: true,
-                    inputEnlace: inputEnlace,
-                    iNormativo: iNormativo,
-                    selectedRegulaciones: selectedRegulaciones
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        alert('Datos guardados exitosamente');
-                        window.location.href = 'http://localhost/code/RegulacionController';
-                    } else {
-                        alert('Error al guardar los datos: ' + response.message);
-                        window.location.href = 'http://localhost/code/RegulacionController';
-                    }
+    $(document).ready(function() {
+        $('#btnGnat').on('click', function() {
+            if (!$('#si').is(':checked') && !$('#no').is(':checked') || $('#tramitesTable tbody tr').length === 0 || $('#inputEnlace').val() === '') {
+                if ($('#tramitesTable tbody tr').length === 0){
+                    $('#tramitesText').css('color', 'red');
+                    $('#tramitesText').after('<span class="error-message" style="color: red;">Por favor, agregue al menos un trámite.</span>');
                 }
-            });
-        } else if ($('#si').is(':checked')) {
-            let inputEnlace = $('#inputEnlace').val();
-            $.ajax({
-                url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
-                type: 'POST',
-                data: {
-                    btn_clicked: true,
-                    radio_si_selected: true,
-                    inputEnlace: inputEnlace,
-                    iNormativo: iNormativo,
-                    selectedRegulaciones: selectedRegulaciones,
-                    selectedSectors: selectedSectorsIds,
-                    selectedSubsectors: selectedSubsectorsIds,
-                    selectedRamas: selectedRamasIds,
-                    selectedSubramas: selectedSubramasIds,
-                    selectedClases: selectedClasesIds
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        alert('Datos guardados exitosamente');
-                        window.location.href = 'http://localhost/code/RegulacionController';
-                    } else {
-                        alert('Error al guardar los datos: ' + response.message);
-                        window.location.href = 'http://localhost/code/RegulacionController';
-                    }
+                if ($('#inputEnlace').val() === '') {
+                    $('#inputEnlace').css('border-color', 'red');
+                    $('#inputEnlace').after('<span class="error-message" style="color: red;">Por favor, complete este campo.</span>');
                 }
-            });
-        }
-        window.location.href = 'http://localhost/code/RegulacionController';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, seleccione una opción y agregue al menos un trámite',
+                });
+                return;
+            }else{
+                var formData = new FormData($('#formGnat')[0]);
+
+                if ($('#no').is(':checked')) {
+                    formData.append('btn_clicked', true);
+                    formData.append('radio_no_selected', true);
+                    formData.append('inputEnlace', $('#inputEnlace').val());
+                    formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+                } else if ($('#si').is(':checked')) {
+                    formData.append('btn_clicked', true);
+                    formData.append('radio_si_selected', true);
+                    formData.append('inputEnlace', $('#inputEnlace').val());
+                    formData.append('selectedRegulaciones', JSON.stringify(selectedRegulaciones));
+                    formData.append('selectedSectors', JSON.stringify(selectedSectorsIds));
+                    formData.append('selectedSubsectors', JSON.stringify(selectedSubsectorsIds));
+                    formData.append('selectedRamas', JSON.stringify(selectedRamasIds));
+                    formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
+                    formData.append('selectedClases', JSON.stringify(selectedClasesIds));
+                }
+                // Extraer registros de la tabla tramitesTable
+                var tramites = [];
+                $('#tramitesTable tbody tr').each(function() {
+                    var nombre = $(this).find('td').eq(1).text();
+                    var direccion = $(this).find('td').eq(2).text();
+                    tramites.push({
+                        Nombre: nombre,
+                        Direccion: direccion
+                    });
+                });
+
+                // Agregar el array tramites al formData
+                formData.append('tramites', JSON.stringify(tramites));
+                console.log('formData:', formData.get('tramites'));
+
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/save_naturaleza_regulacion') ?>',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log('Respuesta del servidor:', response);
+                        if (response.status === 'success') {
+                            // Agregar los registros a la tabla tramitesTable
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: 'Datos guardados exitosamente',
+                            }).then(() => {
+                                window.location.href =
+                                    '<?= base_url('RegulacionController') ?>';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al guardar los datos: ' + response
+                                    .message,
+                            }).then(() => {
+                                window.location.href =
+                                    '<?= base_url('RegulacionController') ?>';
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error en la solicitud AJAX:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error en la solicitud AJAX: ' + error,
+                        });
+                    }
+                });
+            }
+        });
     });
 });
 </script>

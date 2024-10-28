@@ -398,7 +398,12 @@ Registro Estatal de Regulaciones
                                                         } else {}
                                                     },
                                                     error: function() {
-                                                        alert('Error al obtener los índices.');
+                                                        Swal.fire({
+                                                            title: 'Error',
+                                                            text: 'Error al obtener los índices.',
+                                                            icon: 'error',
+                                                            confirmButtonText: 'Aceptar'
+                                                        });
                                                     }
                                                 });
                                             }
@@ -505,30 +510,40 @@ Registro Estatal de Regulaciones
                                                                             .status ===
                                                                             'success'
                                                                         ) {
-                                                                            alert
-                                                                                (
-                                                                                    'Registro eliminado exitosamente de la base de datos.'
-                                                                                );
+                                                                            Swal.fire({
+                                                                                title: 'Éxito',
+                                                                                text: 'Registro eliminado exitosamente de la base de datos.',
+                                                                                icon: 'success',
+                                                                                confirmButtonText: 'Aceptar'
+                                                                            });
                                                                         } else {
-                                                                            alert
-                                                                                ('Error al eliminar el registro de la base de datos: ' +
+                                                                            Swal.fire({
+                                                                                title: 'Error',
+                                                                                text: 'Error al eliminar el registro de la base de datos: ' +
                                                                                     result
-                                                                                    .message
-                                                                                );
+                                                                                    .message,
+                                                                                icon: 'error',
+                                                                                confirmButtonText: 'Aceptar'
+                                                                            });
                                                                         }
                                                                     },
                                                                     error: function() {
-                                                                        alert
-                                                                            (
-                                                                                'Error en la solicitud AJAX para eliminar el registro de la base de datos.'
-                                                                            );
+                                                                        Swal.fire({
+                                                                            title: 'Error',
+                                                                            text: 'Error en la solicitud AJAX para eliminar el registro de la base de datos.',
+                                                                            icon: 'error',
+                                                                            confirmButtonText: 'Aceptar'
+                                                                        });
                                                                     }
                                                                 });
                                                             },
                                                             error: function() {
-                                                                alert(
-                                                                    'Error en la solicitud AJAX para eliminar registros en rel_indice.'
-                                                                );
+                                                                Swal.fire({
+                                                                    title: 'Error',
+                                                                    text: 'Error en la solicitud AJAX para eliminar registros en rel_indice.',
+                                                                    icon: 'error',
+                                                                    confirmButtonText: 'Aceptar'
+                                                                });
                                                             }
                                                         });
                                                     } else {
@@ -564,28 +579,41 @@ Registro Estatal de Regulaciones
                                                                 if (result
                                                                     .status ===
                                                                     'success') {
-                                                                    alert(
-                                                                        'Registro eliminado exitosamente de la base de datos.'
-                                                                    );
+                                                                    Swal.fire({
+                                                                        title: 'Éxito',
+                                                                        text: 'Registro eliminado exitosamente de la base de datos.',
+                                                                        icon: 'success',
+                                                                        confirmButtonText: 'Aceptar'
+                                                                    });
                                                                 } else {
-                                                                    alert('Error al eliminar el registro de la base de datos: ' +
-                                                                        result
-                                                                        .message
-                                                                    );
+                                                                    Swal.fire({
+                                                                        title: 'Error',
+                                                                        text: 'Error al eliminar el registro de la base de datos: ' +
+                                                                            result
+                                                                            .message,
+                                                                        icon: 'error',
+                                                                        confirmButtonText: 'Aceptar'
+                                                                    });
                                                                 }
                                                             },
                                                             error: function() {
-                                                                alert(
-                                                                    'Error en la solicitud AJAX para eliminar el registro de la base de datos.'
-                                                                );
+                                                                Swal.fire({
+                                                                    title: 'Error',
+                                                                    text: 'Error en la solicitud AJAX para eliminar el registro de la base de datos.',
+                                                                    icon: 'error',
+                                                                    confirmButtonText: 'Aceptar'
+                                                                });
                                                             }
                                                         });
                                                     }
                                                 },
                                                 error: function() {
-                                                    alert(
-                                                        'Error en la solicitud AJAX para buscar el índice en rel_indice.'
-                                                    );
+                                                    Swal.fire({
+                                                        title: 'Error',
+                                                        text: 'Error en la solicitud AJAX para buscar el índice en rel_indice.',
+                                                        icon: 'error',
+                                                        confirmButtonText: 'Aceptar'
+                                                    });
                                                 }
                                             });
                                         }
@@ -854,7 +882,12 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                alert('Error al verificar los registros en la base de datos.');
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error al verificar los registros en la base de datos.',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
             }
         });
 
@@ -910,7 +943,12 @@ $(document).ready(function() {
                         }
                     },
                     error: function() {
-                        alert('Error al eliminar el registro de la base de datos.');
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al eliminar el registro de la base de datos.',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
                     }
                 });
             }
@@ -932,7 +970,12 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                alert('Error al verificar los registros en la base de datos.');
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error al verificar los registros en la base de datos.',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
             }
         });
 
@@ -987,7 +1030,12 @@ $(document).ready(function() {
                         }
                     },
                     error: function() {
-                        alert('Error al eliminar el registro de la base de datos.');
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al eliminar el registro de la base de datos.',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
                     }
                 });
             }
@@ -1169,16 +1217,29 @@ $(document).ready(function() {
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        alert('Registro eliminado exitosamente de la base de datos.');
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: 'Registro eliminado exitosamente de la base de datos.',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        });
                     } else {
-                        alert('Error al eliminar el registro de la base de datos: ' + result
-                            .message);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al eliminar el registro de la base de datos: ' + result
+                                .message,
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
                     }
                 },
                 error: function() {
-                    alert(
-                        'Error en la solicitud AJAX para eliminar el registro de la base de datos.'
-                    );
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Error en la solicitud AJAX para eliminar el registro de la base de datos.',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         }
@@ -1218,16 +1279,29 @@ $(document).ready(function() {
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        alert('Registro eliminado exitosamente de la base de datos.');
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: 'Registro eliminado exitosamente de la base de datos.',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        });
                     } else {
-                        alert('Error al eliminar el registro de la base de datos: ' + result
-                            .message);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al eliminar el registro de la base de datos: ' + result
+                                .message,
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
                     }
                 },
                 error: function() {
-                    alert(
-                        'Error en la solicitud AJAX para eliminar el registro de la base de datos.'
-                    );
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Error en la solicitud AJAX para eliminar el registro de la base de datos.',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
             });
         }
@@ -1337,19 +1411,19 @@ $(document).ready(function() {
                                                                 .status ===
                                                                 'success'
                                                             ) {
-                                                                alert
-                                                                    (
-                                                                        'Regulación, características y relación de autoridades modificadas exitosamente.'
-                                                                    );
+                                                                // alert
+                                                                //     (
+                                                                //         'Regulación, características y relación de autoridades modificadas exitosamente.'
+                                                                //     );
                                                                 // Opcional: Redirigir o actualizar la página
                                                                 location
                                                                     .reload();
                                                             } else {
-                                                                alert
-                                                                    ('Error al insertar la relación de autoridades: ' +
-                                                                        result
-                                                                        .message
-                                                                    );
+                                                                // alert
+                                                                //     ('Error al insertar la relación de autoridades: ' +
+                                                                //         result
+                                                                //         .message
+                                                                //     );
                                                             }
                                                         },
 
@@ -1524,9 +1598,9 @@ $(document).ready(function() {
                                         }
                                     },
                                     error: function() {
-                                        alert(
-                                            'Error en la solicitud AJAX para verificar la relación de autoridades.'
-                                        );
+                                        // alert(
+                                        //     'Error en la solicitud AJAX para verificar la relación de autoridades.'
+                                        // );
                                     }
                                 });
 
@@ -1586,26 +1660,26 @@ $(document).ready(function() {
                                                                 .status ===
                                                                 'success'
                                                             ) {
-                                                                alert
-                                                                    (
-                                                                        'Regulación, características y relación de autoridades modificadas exitosamente.'
-                                                                    );
+                                                                // alert
+                                                                //     (
+                                                                //         'Regulación, características y relación de autoridades modificadas exitosamente.'
+                                                                //     );
                                                                 // Opcional: Redirigir o actualizar la página
                                                                 location
                                                                     .reload();
                                                             } else {
-                                                                alert
-                                                                    ('Error al insertar la relación de autoridades: ' +
-                                                                        result
-                                                                        .message
-                                                                    );
+                                                                // alert
+                                                                //     ('Error al insertar la relación de autoridades: ' +
+                                                                //         result
+                                                                //         .message
+                                                                //     );
                                                             }
                                                         },
                                                         error: function() {
-                                                            alert
-                                                                (
-                                                                    'Error en la solicitud AJAX para insertar la relación de autoridades.'
-                                                                );
+                                                            // alert
+                                                            //     (
+                                                            //         'Error en la solicitud AJAX para insertar la relación de autoridades.'
+                                                            //     );
                                                         }
                                                     });
                                                 });
@@ -1772,9 +1846,9 @@ $(document).ready(function() {
                                         }
                                     },
                                     error: function() {
-                                        alert(
-                                            'Error en la solicitud AJAX para verificar la relación de autoridades.'
-                                        );
+                                        // alert(
+                                        //     'Error en la solicitud AJAX para verificar la relación de autoridades.'
+                                        // );
                                     }
                                 });
 
@@ -1813,12 +1887,6 @@ $(document).ready(function() {
                                         console.log('Registros a insertar:', registros);
                                         console.log('ID_caract: a insertar', formData.ID_caract);
 
-                                        // Verificar que los datos no estén vacíos
-                                        if (registros.length === 0 || !formData.ID_caract) {
-                                            alert('Datos incompletos. Por favor, verifica los datos antes de enviar.');
-                                            return;
-                                        }
-
                                         $.ajax({
                                             url: '<?php echo base_url('RegulacionController/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
                                             type: 'POST',
@@ -1828,15 +1896,41 @@ $(document).ready(function() {
                                             },
 
                                             success: function(response) {
-                                                alert('Materias Registros guardados exitosamente.');
+                                                Swal.fire({
+                                                    title: 'Éxito',
+                                                    text: 'Materias Registros guardados exitosamente.',
+                                                    icon: 'success',
+                                                    confirmButtonText: 'Aceptar'
+                                                });
                                             },
                                             error: function() {
-                                                alert('Error al guardar los registros Materias.');
+                                                Swal.fire({
+                                                    title: 'Error',
+                                                    text: 'Error al guardar los registros Materias.',
+                                                    icon: 'error',
+                                                    confirmButtonText: 'Aceptar'
+                                                });
                                             }
                                         });
                                     },
                                     error: function() {
-                                        alert('Error al verificar los registros en la base de datos.');
+                                        // Verificar que los datos no estén vacíos
+                                        if (registros.length === 0 || !formData.ID_caract) {
+                                            Swal.fire({
+                                                    title: 'Error',
+                                                    text: 'Datos incompletos. Por favor, verifica los datos antes de enviar.',
+                                                    icon: 'error',
+                                                    confirmButtonText: 'Aceptar'
+                                            });
+                                            return;
+                                        }else{
+                                            Swal.fire({
+                                                    title: 'Error',
+                                                    text: 'Error al verificar los registros en la base de datos.',
+                                                    icon: 'error',
+                                                    confirmButtonText: 'Aceptar'
+                                            });
+                                        }
                                     }
                                 });
                                 
@@ -1879,15 +1973,15 @@ $(document).ready(function() {
                                                 ID_caract: formData.ID_caract // Asegúrate de que caracteristicasData esté definido
                                             },
                                             success: function(response) {
-                                                alert('Fundamentos Registros guardados exitosamente.');
+                                                //alert('Fundamentos Registros guardados exitosamente.');
                                             },
                                             error: function() {
-                                                alert('Error al guardar los registros Fundamentos.');
+                                                //alert('Error al guardar los registros Fundamentos.');
                                             }
                                         });
                                     },
                                     error: function() {
-                                        alert('Error al verificar los registros en la base de datos.');
+                                        //alert('Error al verificar los registros en la base de datos.');
                                     }
                                 });
 
@@ -1980,15 +2074,15 @@ $(document).ready(function() {
                                                         .status ===
                                                         'success'
                                                     ) {
-                                                        alert
-                                                            (
-                                                                'Datos de la tabla insertados correctamente'
-                                                            );
+                                                        // alert
+                                                        //     (
+                                                        //         'Datos de la tabla insertados correctamente'
+                                                        //     );
                                                     } else {
-                                                        alert
-                                                            (
-                                                                'Error al insertar los datos de la tabla'
-                                                            );
+                                                        // alert
+                                                        //     (
+                                                        //         'Error al insertar los datos de la tabla'
+                                                        //     );
                                                     }
                                                 }
                                             });
@@ -2112,10 +2206,10 @@ $(document).ready(function() {
                                                                     .status ===
                                                                     'success'
                                                                 ) {
-                                                                    alert
-                                                                        (
-                                                                            'Datos de rel_indice insertados correctamente'
-                                                                        );
+                                                                    // alert
+                                                                    //     (
+                                                                    //         'Datos de rel_indice insertados correctamente'
+                                                                    //     );
                                                                     // Redirigir a la página especificada
                                                                     var idRegulacion =
                                                                         formData
@@ -2126,10 +2220,10 @@ $(document).ready(function() {
                                                                         '<?= base_url("RegulacionController/edit_mat/"); ?>' +
                                                                         idRegulacion;
                                                                 } else {
-                                                                    alert
-                                                                        (
-                                                                            'Error al insertar los datos de rel_indice'
-                                                                        );
+                                                                    // alert
+                                                                    //     (
+                                                                    //         'Error al insertar los datos de rel_indice'
+                                                                    //     );
                                                                     // Redirigir a la página especificada
                                                                     var idRegulacion =
                                                                         formData
@@ -2143,18 +2237,18 @@ $(document).ready(function() {
                                                             }
                                                         });
                                                     } else {
-                                                        alert
-                                                            ('Error al obtener el nuevo ID_Jerarquia: ' +
-                                                                result
-                                                                .message
-                                                            );
+                                                        // alert
+                                                        //     ('Error al obtener el nuevo ID_Jerarquia: ' +
+                                                        //         result
+                                                        //         .message
+                                                        //     );
                                                     }
                                                 },
                                                 error: function() {
-                                                    alert
-                                                        (
-                                                            'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
-                                                        );
+                                                    // alert
+                                                    //     (
+                                                    //         'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
+                                                    //     );
                                                 }
                                             });
                                         } else {
@@ -2238,15 +2332,15 @@ $(document).ready(function() {
                                                         .status ===
                                                         'success'
                                                     ) {
-                                                        alert
-                                                            (
-                                                                'Datos de la tabla insertados correctamente'
-                                                            );
+                                                        // alert
+                                                        //     (
+                                                        //         'Datos de la tabla insertados correctamente'
+                                                        //     );
                                                     } else {
-                                                        alert
-                                                            (
-                                                                'Error al insertar los datos de la tabla'
-                                                            );
+                                                        // alert
+                                                        //     (
+                                                        //         'Error al insertar los datos de la tabla'
+                                                        //     );
                                                     }
                                                 }
                                             });
@@ -2364,10 +2458,10 @@ $(document).ready(function() {
                                                                     .status ===
                                                                     'success'
                                                                 ) {
-                                                                    alert
-                                                                        (
-                                                                            'Datos de rel_indice insertados correctamente'
-                                                                        );
+                                                                    // alert
+                                                                    //     (
+                                                                    //         'Datos de rel_indice insertados correctamente'
+                                                                    //     );
                                                                     // Redirigir a la página especificada
                                                                     var idRegulacion =
                                                                         formData
@@ -2378,10 +2472,10 @@ $(document).ready(function() {
                                                                         '<?= base_url("RegulacionController/edit_mat/"); ?>' +
                                                                         idRegulacion;
                                                                 } else {
-                                                                    alert
-                                                                        (
-                                                                            'Error al insertar los datos de rel_indice'
-                                                                        );
+                                                                    // alert
+                                                                    //     (
+                                                                    //         'Error al insertar los datos de rel_indice'
+                                                                    //     );
                                                                     // Redirigir a la página especificada
                                                                     var idRegulacion =
                                                                         formData
@@ -2395,47 +2489,54 @@ $(document).ready(function() {
                                                             }
                                                         });
                                                     } else {
-                                                        alert
-                                                            ('Error al obtener el nuevo ID_Jerarquia: ' +
-                                                                result
-                                                                .message
-                                                            );
+                                                        // alert
+                                                        //     ('Error al obtener el nuevo ID_Jerarquia: ' +
+                                                        //         result
+                                                        //         .message
+                                                        //     );
                                                     }
                                                 },
                                                 error: function() {
-                                                    alert
-                                                        (
-                                                            'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
-                                                        );
+                                                    // alert
+                                                    //     (
+                                                    //         'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
+                                                    //     );
                                                 }
                                             });
                                         }
                                     },
                                     error: function() {
-                                        alert(
-                                            'Error en la solicitud AJAX para verificar registros en de_indice.'
-                                        );
+                                        // alert(
+                                        //     'Error en la solicitud AJAX para verificar registros en de_indice.'
+                                        // );
                                     }
                                 });
 
 
                             } else {
-                                alert('Error al modificar las características: ' +
-                                    result.message);
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Error al modificar las características: ' + result.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
                             }
                         },
                         error: function() {
-                            alert(
-                                'Error en la solicitud AJAX para modificar las características'
-                            );
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Error en la solicitud AJAX para modificar las características',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
                         }
                     });
                 } else {
-                    alert('Error al modificar la regulación: ' + result.message);
+                    // alert('Error al modificar la regulación: ' + result.message);
                 }
             },
             error: function() {
-                alert('Error en la solicitud AJAX para modificar la regulación');
+                // alert('Error en la solicitud AJAX para modificar la regulación');
             }
         });
     });
@@ -2546,7 +2647,7 @@ $(document).ready(function() {
             // Imprimir reIndice en consola
             console.log(reIndice);
         } else {
-            alert('Por favor, seleccione un índice padre.');
+            // alert('Por favor, seleccione un índice padre.');
         }
     });
 });

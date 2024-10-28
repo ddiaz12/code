@@ -839,6 +839,7 @@ $(document).ready(function() {
             fecha_vigor: '',
             fecha_act: ''
         };
+        var maxID = 0;
 
         $('input, input[type="date"], select, textarea').each(function() {
             var id = $(this).attr('id');
@@ -859,16 +860,19 @@ $(document).ready(function() {
         if (formData.nombre === '' || formData.fecha_expedicion === '' || ($('#si').is(':checked') &&
                 formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || $('#fundamentoTable tbody tr').length ===0) {
             if (formData.nombre === '') {
+                $('#inputNombre').css('color', 'red');
                 $('#inputNombre').after(
                     '<span class="error-message" style="color: red;">El campo "Nombre" es obligatorio.</span>'
                 );
             }
             if (formData.fecha_expedicion === '') {
+                $('#inputFecha').css('color', 'red');
                 $('#inputFecha').after(
                     '<span class="error-message" style="color: red;">El campo "Fecha de Expedición de la regulación" es obligatorio.</span>'
                 );
             }
             if ($('#si').is(':checked') && formData.campoExtra === '') {
+                $('#campoExtra').css('color', 'red');
                 $('#campoExtra').after(
                     '<span class="error-message" style="color: red;">El campo "Vigencia de la regulación" es obligatorio cuando se selecciona "Sí".</span>'
                 );
@@ -885,7 +889,11 @@ $(document).ready(function() {
                     '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Fundamentos Jurídicos".</span>'
                 );
             }
-            alert('Por favor, complete los campos obligatorios');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, complete los campos obligatorios.'
+            });
             return;
         } else {
             $.ajax({
@@ -895,8 +903,13 @@ $(document).ready(function() {
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
-                        alert('Datos insertados correctamente');
-                        console.log('result', result);
+                        // alert('Datos insertados correctamente');
+                        // console.log('result', result);
+                        // Swal.fire({
+                        //     icon: 'success',
+                        //     title: 'Éxito',
+                        //     text: 'Datos insertados correctamente.'
+                        // });
 
                         // Obtener el ID_Regulacion devuelto en la respuesta
                         var ID_Regulacion = result.ID_Regulacion;
@@ -906,7 +919,8 @@ $(document).ready(function() {
                             url: '<?php echo base_url('emergency/obtenerMaxIDCaract'); ?>',
                             type: 'GET',
                             success: function(maxIDResponse) {
-                                var maxID = parseInt(maxIDResponse) + 1;
+                                maxID = parseInt(maxIDResponse) + 1;
+                                console.log('maxID: ', maxID);
 
                                 $.ajax({
                                     url: '<?php echo base_url('emergency/obtenerMaxIDRegulacion'); ?>',
@@ -960,10 +974,12 @@ $(document).ready(function() {
                                                     .status ===
                                                     'success'
                                                 ) {
-                                                    alert
-                                                        (
-                                                            'Características insertadas correctamente'
-                                                        );
+                                                    Swal
+                                                        .fire({
+                                                            icon: 'success',
+                                                            title: 'Éxito',
+                                                            text: 'Características insertadas correctamente.'
+                                                        });
 
                                                     // Obtener todos los ID_Dependencia de la tabla emitenTable
                                                     var
@@ -997,8 +1013,7 @@ $(document).ready(function() {
                                                             ) {
                                                                 var relDataEmiten = {
                                                                     ID_Emiten: ID_Dependencia,
-                                                                    ID_Caract: caracteristicasData
-                                                                        .ID_caract
+                                                                    ID_Caract: maxID
                                                                 };
 
                                                                 $.ajax({
@@ -1064,8 +1079,7 @@ $(document).ready(function() {
                                                             ) {
                                                                 var relDataAplican = {
                                                                     ID_Aplican: ID_Dependencia,
-                                                                    ID_Caract: caracteristicasData
-                                                                        .ID_caract
+                                                                    ID_Caract: maxID
                                                                 };
 
                                                                 $.ajax({
@@ -1141,8 +1155,7 @@ $(document).ready(function() {
 
                                                                 var filaDatos = {
                                                                     ID_Indice: ID_Indice,
-                                                                    ID_caract: caracteristicasData
-                                                                        .ID_caract,
+                                                                    ID_caract: maxID,
                                                                     Texto: Texto,
                                                                     Orden: Orden
                                                                 };
@@ -1159,6 +1172,7 @@ $(document).ready(function() {
                                                         .log(
                                                             datosTabla
                                                         );
+
                                                         var registros = [];
                                                         $('#materiasTable tbody tr').each(function() {
                                                             var idMatSec = $(this).find('td').eq(0).text();
@@ -1181,10 +1195,10 @@ $(document).ready(function() {
                                                                 registros: registros
                                                             },
                                                             success: function(response) {
-                                                                alert('Materias Registros guardados exitosamente.');
+                                                                console.log('Materias Registros guardados exitosamente.');
                                                             },
                                                             error: function() {
-                                                                alert('Error al guardar los registros Materias.');
+                                                                console.log('Error al guardar los registros Materias.');
                                                             }
                                                         });
 
@@ -1210,10 +1224,10 @@ $(document).ready(function() {
                                                                 fundamentos: fundamentos
                                                             },
                                                             success: function(response) {
-                                                                alert('Fundamentoa Registros guardados exitosamente.');
+                                                                console.log('Fundamentoa Registros guardados exitosamente.');
                                                             },
                                                             error: function() {
-                                                                alert('Error al guardar los registros fundamentos');
+                                                                console.log('Error al guardar los registros fundamentos');
                                                             }
                                                         });
 
@@ -1304,11 +1318,15 @@ $(document).ready(function() {
                                                                             var ID_Jerarquia =
                                                                                 nuevoIdJerarquia +
                                                                                 index; // Incrementar el ID_Jerarquia para cada fila
-                                                                            var ID_Padre =
+                                                                            if ($('#selectIndicePadre').val()=='Seleccione un índice padre' || $('#selectIndicePadre').val()=='') {
+                                                                                var ID_Padre = null;
+                                                                            }else{
+                                                                                var ID_Padre =
                                                                                 $(
                                                                                     '#selectIndicePadre'
                                                                                 )
                                                                                 .val();
+                                                                            }
 
                                                                             console
                                                                                 .log(
@@ -1367,26 +1385,26 @@ $(document).ready(function() {
                                                                                 .log(
                                                                                     'Datos de rel_indice insertados correctamente'
                                                                                 );
-                                                                            // Redirigir a la página especificada
-                                                                            window
-                                                                                .location
-                                                                                .href =
-                                                                                '<?php echo base_url('emergency'); ?>';
+                                                                             //Redirigir a la página especificada
+                                                                             window
+                                                                                 .location
+                                                                                 .href =
+                                                                                 '<?php echo base_url('emergency/mat_exentas'); ?>';
                                                                         } else {
                                                                             console
                                                                                 .log(
                                                                                     'Error al insertar los datos de rel_indice'
                                                                                 );
-                                                                            // Redirigir a la página especificada
-                                                                            window
-                                                                                .location
-                                                                                .href =
-                                                                                '<?php echo base_url('emergency'); ?>';
+                                                                             //Redirigir a la página especificada
+                                                                             window
+                                                                                 .location
+                                                                                 .href =
+                                                                                 '<?php echo base_url('emergency/mat_exentas'); ?>';
                                                                         }
                                                                     }
                                                                 });
                                                             } else {
-                                                                alert
+                                                                console.log
                                                                     ('Error al obtener el nuevo ID_Jerarquia: ' +
                                                                         result
                                                                         .message
@@ -1394,15 +1412,14 @@ $(document).ready(function() {
                                                             }
                                                         },
                                                         error: function() {
-                                                            alert
+                                                            console.log
                                                                 (
                                                                     'Error en la solicitud AJAX para obtener el nuevo ID_Jerarquia.'
                                                                 );
                                                         }
                                                     });
-
                                                 } else {
-                                                    alert
+                                                    console.log
                                                         (
                                                             'Error al insertar las características'
                                                         );
@@ -1414,7 +1431,7 @@ $(document).ready(function() {
                             }
                         });
                     } else {
-                        alert('Error al insertar los datos');
+                        console.log('Error al insertar los datos');
                     }
                 }
             });

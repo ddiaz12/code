@@ -1982,6 +1982,18 @@ class PublicadasController extends CI_Controller
         // Obtiene los datos enviados por la solicitud AJAX
         $registros = $this->input->post('registros');
         $ID_caract = $this->input->post('ID_caract');
+        if ($ID_caract == null || $ID_caract == '' || $ID_caract == 'N/A' || !is_numeric($ID_caract)) {
+            $this->load->database();
+            $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+            $result = $query->row();
+            if ($result->maxID == null) {
+                $ID_Caract = 1;
+            }else{
+                $ID_Caract = $result->maxID;
+            }
+            $ID_caract = $ID_Caract;
+        }
+        
 
         // Verifica que los datos no estén vacíos
         if (!empty($registros) && !empty($ID_caract)) {
@@ -1997,7 +2009,6 @@ class PublicadasController extends CI_Controller
                 // Inserta los datos en la tabla de_mat_sec_suj
                 $this->RegulacionModel->insertarRegistro($data);
             }
-
             // Responde con éxito
             echo json_encode(array('status' => 'success'));
         } else {
@@ -2010,6 +2021,17 @@ class PublicadasController extends CI_Controller
         // Obtiene los datos enviados por la solicitud AJAX
         $fundamentos = $this->input->post('fundamentos');
         $ID_caract = $this->input->post('ID_caract');
+        if ($ID_caract == null || $ID_caract == '' || $ID_caract == 'N/A' || !is_numeric($ID_caract)) {
+            $this->load->database();
+            $query = $this->db->query("SELECT MAX(ID_caract) as maxID FROM de_regulacion_caracteristicas");
+            $result = $query->row();
+            if ($result->maxID == null) {
+                $ID_Caract = 1;
+            }else{
+                $ID_Caract = $result->maxID;
+            }
+            $ID_caract = $ID_Caract;
+        }
 
         // Verifica que los datos no estén vacíos
         if (!empty($fundamentos) && !empty($ID_caract)) {
