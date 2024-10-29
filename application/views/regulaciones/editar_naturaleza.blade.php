@@ -91,7 +91,7 @@ Registro Estatal de Regulaciones
                                 <div id="radioGroup">
                                     <input type="radio" id="si" name="opcion" value="si">
                                     <label for="si">Sí</label>
-                                    <input type="radio" id="no" name="opcion" value="no">
+                                    <input type="radio" id="no" name="opcion" value="no" checked>
                                     <label for="no">No</label>
                                 </div>
                             </div>

@@ -88,7 +88,6 @@ Registro Estatal de Regulaciones
                                     <label for="SectorInput">Sector<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="SectorInput" name="SectorInput"
                                         placeholder="Selecciona una opcion" required>
-
                                 </div>
                                 <ul id="sectorResults"></ul>
                                 <table id="selectedSectorsTable" class="table table-striped mt-4">
