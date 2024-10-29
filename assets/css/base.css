@@ -155,10 +155,15 @@ h3,
 .icon-balanced,
 .icon-user,
 .icon-gear,
-.icon-info,
-.icon-emergency {
+.icon-info {
 	color: rgb(8, 8, 8);
-	font-size: 20px; /* Ajusta el tamaño del icono aquí */
+	font-size: 20px;
+	margin: 15px 0 10px 0;
+}
+
+.icon-emergency {
+	color: #923244;
+	font-size: 20px; 
 	margin: 15px 0 10px 0;
 }
 

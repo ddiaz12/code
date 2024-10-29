@@ -18,6 +18,7 @@ class Auth extends CI_Controller
         $this->load->library(['ion_auth', 'form_validation', 'ftp']);
         $this->load->helper(['url', 'language', 'form', 'email_helper']);
         $this->load->model('UsuarioModel');
+        $this->load->model('NotificacionesModel');
         $this->load->config('ftp_config');
 
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
@@ -1237,6 +1238,18 @@ class Auth extends CI_Controller
                 $data['password'] = $this->input->post('password');
             }
 
+            //Notificar a administrador
+            $data = [
+                'titulo' => 'Usuario pendiente de aprobación',
+                'mensaje' => 'El usuario ' . $data['first_name'] . ' ' . $data['ap1'] . ' ' . ' ha completado su registro y está pendiente de aprobación.',
+                'usuario_destino' => 'sedeco,admin',
+                'id_regulacion' => null,
+                'leido' => 0,
+                'fecha_envio' => date('Y-m-d')
+            ];
+
+            $this->NotificacionesModel->crearNotificacion($data);
+
             if ($this->ion_auth->update($user->id, $data)) {
                 $response = [
                     'status' => 'success',
@@ -1664,6 +1677,18 @@ class Auth extends CI_Controller
             if (strpos($correo_response, 'cURL Error #:') !== false) {
                 log_message('error', 'Error al enviar el correo: ' . $correo_response);
             }
+
+            //notificar al administrador
+            $data = [
+                'titulo' => 'Solicitud de registro',
+                'mensaje' => 'Se ha recibido una solicitud de registro de ' . $this->input->post('first_name') . ' ' . $this->input->post('last_name') . '.',
+                'usuario_destino' => 'sedeco,admin',
+                'id_regulacion' => null,
+                'leido' => 0,
+                'fecha_envio' => date('Y-m-d')
+            ];
+            
+            $this->NotificacionesModel->crearNotificacion($data);
 
             $response = [
                 'status' => 'success',

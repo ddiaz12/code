@@ -40,7 +40,7 @@
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-landmark"></i>
                     </div>
-                    <span class="nav-text">(CNARTyS)</span>
+                    <span class="nav-text">CNARTyS</span>
                 </a>
             </div>
             <!--

@@ -125,9 +125,6 @@ Registro Estatal de Regulaciones
     @include('templates/footerCiudadania')   
 </div>
 @endsection
-@section('footer')
-
-@endsection
 @section('js')
 <script type="text/javascript" src="https://openapis.col.gob.mx/API_PU/js/b4/tether.min.js"></script>
 <script type="text/javascript" src="https://openapis.col.gob.mx/API_PU/js/b4/bootstrap.min.js"></script>

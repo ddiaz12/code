@@ -1,4 +1,4 @@
-<footer class="py-4 mt-auto footer">
+<footer class="mt-auto footer">
     <div class="container-fluid footer-backgroundcolor-pu" id="piePagina">
         <div class="container-fluid footer-back-dark">&nbsp;</div>
         <div class="container">
