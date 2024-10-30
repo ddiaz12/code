@@ -160,13 +160,13 @@
             </div>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <a href="<?php echo base_url('ciudadania'); ?>" class="btn btn-secondary btn-block">Regresar<i></i></a>
+        <div class="row mt-4 justify-content-center">
+            <div class="col-md-3">
+                <a href="<?php echo base_url('ciudadania'); ?>" class="btn btn-secondary btn-block btn-custom">Regresar<i></i></a>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"
-                    class="btn-download">Descargar regulación <i class="fas fa-download"></i></a>
+                    class="btn-download btn-custom">Descargar regulación <i class="fas fa-download"></i></a>
             </div>
         </div>
 

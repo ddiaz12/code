@@ -29,6 +29,15 @@ h7,
 	font-weight: 500 !important;
 }
 
+.titulo-ciudadania {
+	font-size: 30px;
+	padding-bottom: 6rem;
+}
+
+.subtitulo{
+	font-weight: bold;
+}
+
 div#navbarNavDropdown a {
 	color: white;
 	font-weight: 600;
@@ -88,11 +97,14 @@ a.cursor.denuncia-menu.nav-link {
 
 .div-card {
 	margin: 0 1rem 0 1rem;
+	border-radius: 16px;
 }
 
+/*
 .card {
 	--bs-card-border-color: rgb(0 0 0);
 }
+*/
 
 .fa-solid.fa-user-large {
 	font-size: 2em;
@@ -157,7 +169,7 @@ a.cursor.denuncia-menu.nav-link {
 .fa-circle-exclamation,
 .fa-landmark
 {
-	color: rgb(8, 8, 8);
+	color: rgb(255, 255, 255);
 	font-size: 30px; /* Ajusta el tamaño del icono aquí */
 	margin: 15px 0 10px 10px;
 }
@@ -201,8 +213,6 @@ a.cursor.denuncia-menu.nav-link {
 #buscadorContainer {
 	margin-top: 20px; /* Ajusta este valor según tus necesidades */
 }
-
-
 
 #tituloBuscador {
 	margin: 0px 0 30px 0; /* Ajusta este valor según tus necesidades */
@@ -278,7 +288,8 @@ footer {
 	bottom: 0;
 	width: 100%;
 	background-color: #ffffff;
-	padding-top: 8rem;
+	padding: 8rem 0 2rem 0;
+	margin-left: 6px;
 }
 
 footer .footer-backgroundcolor-pu {
@@ -293,12 +304,12 @@ footer .footer-backgroundcolor-pu {
 
 .footer-texto-pu {
 	padding-top: 5px;
-	font-size: small;
+	font-size: 10px;
 }
 
 .footer-link-left {
 	padding-bottom: 20px;
-	font-size: small;
+	font-size: 10px;
 }
 
 .footer-youtube {
@@ -306,7 +317,7 @@ footer .footer-backgroundcolor-pu {
 }
 
 footer .footer-icon-separador-pu {
-	padding-left: 60px;
+	padding-left: 30px;
 }
 
 .footer-facebook {
@@ -318,6 +329,7 @@ footer .footer-icon-separador-pu {
 	--bs-btn-active-bg: rgb(216, 177, 111);
 	--bs-btn-active-color: white;
 	color: white;
+	font-size: small;
 }
 
 .btn-dorado:hover {
@@ -361,8 +373,8 @@ footer .footer-icon-separador-pu {
 
 .sb-sidenav-menu .nav-text {
 	white-space: normal; /* Permite que el texto se divida en varias líneas */
-	font-size: 0.75rem; 
-	color: black;
+	font-size: 0.60rem; 
+	color: rgb(255, 255, 255);
 }
 
 .sb-sidenav-menu .nav-link i {
@@ -379,12 +391,30 @@ footer .footer-icon-separador-pu {
 	padding: 0.5rem;
 	margin-bottom: 1rem;
 	border: 1px solid #b69664;
-	border-radius: 5px;
+	border-radius: 16px;
 	color: #b69664;
 }
 
 .input-buscador{
 	border: 1px solid #666564;
+}
+
+.rounded-left {
+	border-top-left-radius: 25px;
+	border-bottom-left-radius: 25px;
+}
+
+.rounded-right {
+	border-top-right-radius: 25px;
+	border-bottom-right-radius: 25px;
+}
+
+.input-group .form-control {
+	border-right: 0;
+}
+
+.input-group .input-group-append .btn {
+	border-left: 0;
 }
 
 #buscarBtn {
@@ -393,11 +423,20 @@ footer .footer-icon-separador-pu {
 	padding: 0.5rem 1rem;
 	width: 32%;
 	margin: 30px 0 0 0;
+	border-radius: 16px;
 }
 
 #buscarBtn:hover {
 	background-color: #923244;
 	cursor: pointer;
+}
+
+.btn-mostrar{
+	border-radius: 16px;
+}
+
+.cargarMas{
+	border-radius: 16px;
 }
 
 .loginCiudadania {
@@ -435,11 +474,19 @@ footer .footer-icon-separador-pu {
 	border-color: #b69664;
 }
 
+.regulation-container{
+	padding: 0 8rem;
+}
+
 #btnRegresar {
 	background-color: #7f2841;
 	border-color: #b69664;
 	color: #ffffff;
 	margin:0 10rem;
+}
+
+.btn-custom{
+	padding: 10px;
 }
 
 

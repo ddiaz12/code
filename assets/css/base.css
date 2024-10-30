@@ -481,6 +481,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	margin-left: 3em;
 }
 
+/*--------------------------------------Indice-----------------------------------*/
 .active-view {
 	border: 2px solid #007bff;
 	background-color: #e6f2ff;
@@ -495,6 +496,90 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	border-color: #0056b3;
 }
 /*-----------------------------------------------------------------------------------*/
+
+/*--------------------------------------Estilos de las tablas de regulacion-----------------------------------*/
+
+/* Estilo general para las tablas */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.table thead {
+    background-color: #495057;
+    color: #fff;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    font-weight: bold;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.hidden-column {
+    display: none;
+}
+
+/* Modal y Títulos */
+.modal-title {
+    color: #343a40;
+    font-weight: bold;
+}
+
+.table-spacing th,
+.table-spacing td {
+    padding: 10px; /* Ajusta el valor según tus necesidades */
+    text-align: center; /* Centra el texto en las celdas */
+}
+
+.table-spacing th.hidden-column {
+    display: none; /* Oculta las columnas con la clase hidden-column */
+}
+
+.table-spacing th,
+.table-spacing td {
+    width: auto; /* Ajusta el ancho automáticamente */
+}
+
+.table-spacing {
+    width: 100%; /* Asegura que ambas tablas ocupen el 100% del contenedor */
+}
+
+/* Contenedor del título y botón */
+.header-container {
+    padding: 12px 20px;
+    background-color: #495057;
+    color: #ffffff;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Tabla de índices */
+.table-spacing {
+    border-top: 0;
+    margin-top: -5px; /* Conecta visualmente con el contenedor superior */
+}
+
+.table thead {
+    background-color: #30363bd9;
+    color: #ffffff;
+}
+
 
 @media screen and (max-width: 990px) {
 	.div-escudo {

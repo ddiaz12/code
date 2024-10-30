@@ -13,8 +13,8 @@ Registro Estatal de Regulaciones
 <div class="container mt-4 div-buscador">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="text-center">Registro Estatal de Regulaciones (RER)</h1>
-            <p class="text-center">Consulta las regulaciones vigentes en el Estado de Colima.</p>
+            <h1 class="text-center titulo-ciudadania">Registro Estatal de Regulaciones (RER)</h1>
+            <p class="text-center subtitulo">Consulta las regulaciones vigentes en el Estado de Colima.</p>
         </div>
     </div>
     <div class="row mt-4">
@@ -23,18 +23,19 @@ Registro Estatal de Regulaciones
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
-                            <div id="buscador" class="input-group mb-3 " data-mdb-input-init>
-                                <input type="search" id="nombreRegulacion" placeholder="Ingrese busqueda"
-                                    class="form-control input-buscador" required onkeydown="buscarConEnter(event)">
+                            <div id="buscador" class="input-group mb-2" data-mdb-input-init>
+                                <input type="search" id="nombreRegulacion" placeholder="Ingrese búsqueda"
+                                    class="form-control input-buscador rounded-left" required
+                                    onkeydown="buscarConEnter(event)">
                                 <div class="input-group-append">
-                                    <button type="button" id="btn-search" class="btn btn-primary">
+                                    <button type="button" id="btn-search" class="btn btn-primary rounded-right">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-3 txtBusqueda">
-                                <label id="regdisp">Regulaciones Disponibles:
-                                    <?php echo $numeroDeRegulaciones; ?></label>
+                                <label id="regdisp">Se encontraron
+                                    <?php echo $numeroDeRegulaciones; ?> resultados</label>
                                 <div>
                                     <label for="advancedSearch">Búsqueda avanzada</label>
                                     <button id="advancedSearch" class="btn btn-link" onclick="toggleAdvancedSearch()">
@@ -93,7 +94,7 @@ Registro Estatal de Regulaciones
     </div>
     <div id="cardsReg" class="mt-3">
         <!-- Aquí se mostrarán las regulaciones -->
-        <div class="container mt-4">
+        <div class="container mt-4 mt-5">
             <div class="row no-gutters">
                 <!-- Parte PHP para mostrar solo los primeros 9 elementos -->
                 <?php $mostrados = array_slice($regulaciones, 0, 9); ?>
@@ -110,16 +111,18 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="card-footer text-center">
                             <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $regulacion->ID_Regulacion); ?>"
-                                class="btn btn-secondary btn-sm">Ver Más</a>
+                                class="btn btn-secondary btn-sm btn-mostrar">Mostrar</a>
                         </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
             </div>
+            <?php if ($numeroDeRegulaciones > 0): ?>
             <div class="text-center mt-3">
-                <button type="button" id="loadMore" class="btn btn-secondary btn-dorado"
-                    onclick="cargarMasRegulaciones()">Cargar más</button>
+                <button type="button" id="loadMore" class="btn btn-secondary btn-dorado cargarMas"
+                    onclick="cargarMasRegulaciones()">Mostrar más</button>
             </div>
+            <?php endif; ?>
         </div>
     </div>
     @include('templates/footerCiudadania')   
@@ -177,7 +180,7 @@ Registro Estatal de Regulaciones
                             <p class="card-text flex-grow-1">${reg.Objetivo_Reg}</p>
                         </div>
                         <div class="card-footer text-center">
-                            <a href="<?php echo base_url('ciudadania/verRegulacion/'); ?>${reg.ID_Regulacion}" class="btn btn-secondary btn-sm">Ver Más</a>
+                            <a href="<?php echo base_url('ciudadania/verRegulacion/'); ?>${reg.ID_Regulacion}" class="btn btn-secondary btn-sm">Mostrar</a>
                         </div>
                     </div>
                 </div>
@@ -219,7 +222,7 @@ Registro Estatal de Regulaciones
                                         <p class="card-text flex-grow-1">${regulacion.Objetivo_Reg}</p>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-secondary btn-sm">Ver Más</a>
+                                        <a href="#" class="btn btn-secondary btn-sm">Mostrar</a>
                                     </div>
                                 </div>
                             </div>`;
@@ -288,7 +291,7 @@ Registro Estatal de Regulaciones
                                         <p class="card-text flex-grow-1">${regulacion.Objetivo_Reg}</p>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-secondary btn-sm">Ver Más</a>
+                                        <a href="#" class="btn btn-secondary btn-sm">Mostrar</a>
                                     </div>
                                 </div>
                             </div>`;

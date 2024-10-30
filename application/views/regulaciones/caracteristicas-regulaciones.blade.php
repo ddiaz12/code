@@ -149,7 +149,7 @@ Registro Estatal de Regulaciones
                                         </div>
                                     </div>
                                 </form>
-                                <div class="row col-md-12">
+                                <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputVialidad">Orden de gobierno que la emite:</label>
@@ -169,18 +169,20 @@ Registro Estatal de Regulaciones
                                             <div id="searchResults" class="list-group"></div>
                                         </div>
                                     </div>
-                                    <table id="emitenTable" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="hidden-column">ID_Dependencia</th>
-                                                <th>Tipo_Dependencia</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Las filas se agregarán dinámicamente aquí -->
-                                        </tbody>
-                                    </table>
+                                    <div id="apTContainer">
+                                        <table id="emitenTable" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="hidden-column">ID_Dependencia</th>
+                                                    <th>Tipo dependencia</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán dinámicamente aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <style>
                                     .hidden-column {
@@ -203,9 +205,8 @@ Registro Estatal de Regulaciones
                                                 </label>
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div class="row col-md-12" id="opcAplican">
+                                    <div class="row" id="opcAplican">
                                         <div class="col-md-6" id="selectUnidad2Container">
                                             <div class="form-group">
                                                 <label for="selectUnidad2">Orden de gobierno que la
@@ -233,7 +234,7 @@ Registro Estatal de Regulaciones
                                                 <thead>
                                                     <tr>
                                                         <th class="hidden-column">ID_Dependencia</th>
-                                                        <th>Tipo_Dependencia</th>
+                                                        <th>Tipo dependencia</th>
                                                         <th>Acción</th>
                                                     </tr>
                                                 </thead>
@@ -244,61 +245,21 @@ Registro Estatal de Regulaciones
                                         </div>
                                     </div>
                                 </form>
-
-                                <div class="d-flex justify-content-between mb-3">
-                                    <p>Índice de la regulación</p>
-                                    <button type="submit" id="botonIndice"
-                                        class="btn btn-success btn-indice">Agregar</button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="myModalLabel">Índice
-                                                    </h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form>
-                                                        <div class="form-group">
-                                                            <label for="inputTexto">Texto</label>
-                                                            <input type="text" class="form-control" id="inputTexto"
-                                                                placeholder="Ingrese texto" name="texto">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="selectIndicePadre">Índice
-                                                                Padre</label>
-                                                            <select class="form-control" id="selectIndicePadre"
-                                                                name="indicePadre">
-                                                                <option>Seleccione un índice padre</option>
-                                                                <?php if (!empty($indices)): ?>
-                                                                <?php    foreach ($indices as $indice): ?>
-                                                                <option value="<?= $indice->ID_Indice ?>">
-                                                                    <?= $indice->Texto ?>
-                                                                </option>
-                                                                <?php    endforeach; ?>
-                                                                <?php endif; ?>
-                                                            </select>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                        onclick="closeModal()">Cerrar</button>
-                                                    <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
-                                                        cambios</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="header-container mb-0">
+                                    <p class="mb-0">Índice de la regulación</p>
+                                    <button type="button" id="botonIndice" class="btn btn-indice" data-toggle="modal"
+                                        data-target="#myModal">Agregar</button>
                                 </div>
-                                <table id="resultTable" class="table">
+
+                                <!-- Tabla de Índices -->
+                                <table id="resultTable" class="table table-spacing">
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_Indice</th>
+                                            <th></th>
                                             <th>Texto</th>
                                             <th>Orden</th>
-                                            <th>Accion</th>
+                                            <th>Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -306,56 +267,64 @@ Registro Estatal de Regulaciones
                                     </tbody>
                                 </table>
 
+
+                                <!-- Modal para Agregar Índices -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="myModalLabel">Índice</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="inputTexto">Texto</label>
+                                                        <input type="text" class="form-control" id="inputTexto"
+                                                            placeholder="Ingrese texto" name="texto">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="selectIndicePadre">Índice Padre</label>
+                                                        <select class="form-control" id="selectIndicePadre"
+                                                            name="indicePadre">
+                                                            <option>Seleccione un índice padre</option>
+                                                            <?php if (!empty($indices)): ?>
+                                                            <?php    foreach ($indices as $indice): ?>
+                                                            <option value="<?= $indice->ID_Indice ?>">
+                                                                <?= $indice->Texto ?>
+                                                            </option>
+                                                            <?php    endforeach; ?>
+                                                            <?php endif; ?>
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                    onclick="closeModal()">Cerrar</button>
+                                                <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
+                                                    cambios</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <div class="form-group">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
                                     <textarea class="form-control" id="inputObjetivo" name="objetivoReg"></textarea>
                                 </div>
                                 <p></p>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <p id="matText">Materias, Sectores y Sujetos Regulados<span
+                                <div class="header-container mb-0">
+                                    <p id="matText" class="mb-0">Materias, Sectores y Sujetos Regulados<span
                                             class="text-danger">*</span></p>
-                                    <button type="submit" id="botonMaterias"
-                                        class="btn btn-success btn-tinto btn-materias">Agregar</button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="matModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="myModalLabel">Materias, Sectores y
-                                                        Sujetos Regulados
-                                                    </h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form>
-                                                        <div class="form-group">
-                                                            <label for="inputMat">Materias</label>
-                                                            <input type="text" class="form-control" id="inputMat"
-                                                                placeholder="Ingrese la(s) materia(s)" name="NombreTram">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputSec">Sectores</label>
-                                                            <input type="text" class="form-control" id="inputSec"
-                                                                placeholder="Ingrese el sector(es)" name="NombreSec">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputSuj">Sujetos Regulados</label>
-                                                            <input type="text" class="form-control" id="inputSuj"
-                                                                placeholder="Ingrese sujeto(s)" name="NombreSuj">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                        onclick="closeModal()">Cerrar</button>
-                                                    <button type="button" id="guardarMat" class="btn btn-tinto">Guardar
-                                                        cambios</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <button type="button" id="botonMaterias"
+                                        class="btn btn-tinto btn-materias" data-toggle="modal"
+                                        data-target="#matModal">Agregar</button>
                                 </div>
-                                <table id="materiasTable" class="table">
+
+                                <!-- Tabla con los datos -->
+                                <table id="materiasTable" class="table table-spacing">
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_MatSec</th>
@@ -369,51 +338,56 @@ Registro Estatal de Regulaciones
                                         <!-- Las filas se agregarán dinámicamente aquí -->
                                     </tbody>
                                 </table>
-                                <p></p>
-                                <p></p>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <p id="funText">Fundamentos Jurídicos<span class="text-danger">*</span></p>
-                                    <button type="submit" id="botofundamentos"
-                                        class="btn btn-success btn btn-tinto btn-fundamentos">Agregar</button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="funModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="myModalLabel">Fundamentos Jurídicos</h5>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form>
-                                                        <div class="form-group">
-                                                            <label for="inputNomReg">Nombre de la Regulacion</label>
-                                                            <input type="text" class="form-control" id="inputNomReg"
-                                                                placeholder="Ingrese el Nombre" name="NombreReg">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputArt">Articulo, párrafo, numeral,
-                                                                etc.</label>
-                                                            <input type="text" class="form-control" id="inputArt"
-                                                                placeholder="Ingrese el Articulo" name="NombreArt">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="inputLink">Link</label>
-                                                            <input type="text" class="form-control" id="inputLink"
-                                                                placeholder="http://" name="NombreLink">
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                        onclick="closeModal()">Cerrar</button>
-                                                    <button type="button" id="guardarFun" class="btn btn-tinto">Guardar
-                                                        cambios</button>
-                                                </div>
+
+                                <!-- Modal para Agregar Materias, Sectores y Sujetos Regulados -->
+                                <div class="modal fade" id="matModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="myModalLabel">Materias, Sectores y Sujetos
+                                                    Regulados</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="inputMat">Materias</label>
+                                                        <input type="text" class="form-control" id="inputMat"
+                                                            placeholder="Ingrese la(s) materia(s)" name="NombreTram">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputSec">Sectores</label>
+                                                        <input type="text" class="form-control" id="inputSec"
+                                                            placeholder="Ingrese el sector(es)" name="NombreSec">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputSuj">Sujetos Regulados</label>
+                                                        <input type="text" class="form-control" id="inputSuj"
+                                                            placeholder="Ingrese sujeto(s)" name="NombreSuj">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                    onclick="closeModal()">Cerrar</button>
+                                                <button type="button" id="guardarMat" class="btn btn-tinto">Guardar
+                                                    cambios</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <table id="fundamentoTable" class="table">
+                                <p></p>
+                                <p></p>
+                                <div class="header-container mb-0">
+                                    <p id="funText" class="mb-0">Fundamentos Jurídicos<span class="text-danger">*</span>
+                                    </p>
+                                    <button type="button" id="botofundamentos"
+                                        class="btn btn-tinto btn-fundamentos" data-toggle="modal"
+                                        data-target="#funModal">Agregar</button>
+                                </div>
+
+                                <!-- Tabla de Fundamentos Jurídicos -->
+                                <table id="fundamentoTable" class="table table-spacing">
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_Fun</th>
@@ -427,11 +401,49 @@ Registro Estatal de Regulaciones
                                         <!-- Las filas se agregarán dinámicamente aquí -->
                                     </tbody>
                                 </table>
+
+                                <!-- Modal para Agregar Fundamentos Jurídicos -->
+                                <div class="modal fade" id="funModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="myModalLabel">Fundamentos Jurídicos</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="inputNomReg">Nombre de la Regulacion</label>
+                                                        <input type="text" class="form-control" id="inputNomReg"
+                                                            placeholder="Ingrese el Nombre" name="NombreReg">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputArt">Articulo, párrafo, numeral, etc.</label>
+                                                        <input type="text" class="form-control" id="inputArt"
+                                                            placeholder="Ingrese el Articulo" name="NombreArt">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputLink">Link</label>
+                                                        <input type="text" class="form-control" id="inputLink"
+                                                            placeholder="http://" name="NombreLink">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                    onclick="closeModal()">Cerrar</button>
+                                                <button type="button" id="guardarFun" class="btn btn-tinto">Guardar
+                                                    cambios</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
                                     <a href="<?php echo base_url('RegulacionController'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
-                                    <button type="button" class="btn btn-success btn-guardar"
+                                    <button type="button" class="btn btn-success btn-tinto"
                                         id="botonGuardar">Guardar</button>
                                 </div>
                             </form>

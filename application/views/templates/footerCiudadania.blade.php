@@ -1,13 +1,13 @@
 <footer class="mt-auto footer">
     <div class="container-fluid footer-backgroundcolor-pu" id="piePagina">
-        <div class="container-fluid footer-back-dark">&nbsp;</div>
+ 
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-12 container-img-footer">
                     <div class="row">
                         <div class="col-md-12 col-12">
                             <img class="img-fluid" src="https://openapis.col.gob.mx/API_PU/img/logo-colima-2021.png"
-                                alt="Colima" style="max-width: 150px;">
+                                alt="Colima" style="max-width: 100px;">
                         </div>
                         <div class="col-md-12 col-12 hidden-sm-down">
                             <p class="footer-texto-pu ">Complejo Administrativo del Gobierno del Estado 3er. Anillo
@@ -30,17 +30,17 @@
                             <ul class="list-inline">
                                 <li class="list-inline-item"><span class="footer-icon-separador-pu"></span><a
                                         href="https://www.facebook.com/gobiernocolima/" target="_blank"
-                                        title="Facebook"><i class="fa-brands fa-facebook footer-facebook fa-lg"
+                                        title="Facebook"><i class="fa-brands fa-facebook footer-facebook fa-sm"
                                             aria-hidden="true"></a></i></li>
                                 <li class="list-inline-item">
                                     <span class="footer-icon-separador-pu"></span>
                                     <a href="https://twitter.com/gobiernocolima" target="_blank" title="Twitter">
-                                        <i class="fa-brands fa-x-twitter footer-twitter fa-lg" aria-hidden="true"></i>
+                                        <i class="fa-brands fa-x-twitter footer-twitter fa-sm" aria-hidden="true"></i>
                                     </a>
                                 </li>
                                 <li class="list-inline-item "><span class="footer-icon-separador-pu"></span><a
                                         href="https://www.youtube.com/user/GobiernoColima" target="_blank"
-                                        title="Youtube"><i class="fa-brands fa-youtube footer-youtube fa-lg"
+                                        title="Youtube"><i class="fa-brands fa-youtube footer-youtube fa-sm"
                                             aria-hidden="true"></a></i></li>
                                 <!--
                                 <li class="list-inline-item "><span class="footer-icon-separador-pu"></span><a
@@ -49,17 +49,17 @@
                                 -->
                                 <li class="list-inline-item "><span class="footer-icon-separador-pu"></span><a
                                         href="https://soundcloud.com/gobcolradio/" target="_blank" title="SoundCloud"><i
-                                            class="fa-brands fa-soundcloud footer-soundcloud fa-lg"
+                                            class="fa-brands fa-soundcloud footer-soundcloud fa-sm"
                                             aria-hidden="true"></a></i>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-12">
-                            <div class="row padding-left-30">
+                            <div class="row padding-left-10">
                                 <div class="col text-center">
                                     <i class="fa fa-download fa-1x"></i><br> <!-- Cambiado de fa-2x a fa-1x -->
                                     <a href="http://www.col.gob.mx/Portal/intranet" target="_blank" title="Intranet"
-                                        class="linksfooter" style="font-size: 0.8rem;">Intranet</a>
+                                        class="linksfooter" style="font-size: 0.5rem;">Intranet</a>
                                     <!-- Reducir tamaño del texto -->
                                 </div>
                                 <div class="col text-center">
@@ -67,7 +67,7 @@
                                     <!-- Cambiado de fa-2x a fa-1x -->
                                     <a href="http://www.firel.col.gob.mx/" target="_blank"
                                         title="Validación e.firma SAT" class="linksfooter"
-                                        style="font-size: 0.8rem;">Validaci&oacute;n <br>e.firma SAT</a>
+                                        style="font-size: 0.5rem;">Validaci&oacute;n <br>e.firma SAT</a>
                                     <!-- Reducir tamaño del texto -->
                                 </div>
 
@@ -75,7 +75,7 @@
                                     <i class="fa fa-user fa-1x" aria-hidden="true"></i><br>
                                     <a href="http://directoriointegral.col.gob.mx/" target="_blank"
                                         title="Directorio integral" class="linksfooter"
-                                        style="font-size: 0.8rem;">Directorio <br> integral</a>
+                                        style="font-size: 0.5rem;">Directorio <br> integral</a>
                                 </div>
 
                                 <div class="col text-center">
@@ -83,7 +83,7 @@
                                     <!-- Cambiado de fa-2x a fa-1x -->
                                     <a href="http://www.firel.col.gob.mx/" target="_blank"
                                         title="Validación de documentos con firma electrónica" class="linksfooter"
-                                        style="font-size: 0.8rem;">Validaci&oacute;n &nbsp; <br> de documentos</a>
+                                        style="font-size: 0.5rem;">Validaci&oacute;n &nbsp; <br> de documentos</a>
                                     <!-- Reducir tamaño del texto -->
                                 </div>
                             </div>
