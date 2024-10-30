@@ -52,7 +52,7 @@ Registro Estatal de Regulaciones
                                             Regulación</label>
                                 </li>
                                 <p></p>
-                                <li class="iconos-regulacion">
+                                <li class="iconos-regulacion active-view">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
                                         <label class="menu-regulacion" for="image_2">Materias Exentas</label>
                                 </li>

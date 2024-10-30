@@ -129,7 +129,7 @@ h3,
 }
 
 .menu-regulacion{
-	font-size:medium;
+	font-size:small;
 }
 
 .lista-regulacion
@@ -192,7 +192,7 @@ h3,
 }
 
 .bordes{
-	--bs-card-border-color:rgb(209, 209, 209);;
+	--bs-card-border-color:rgba(255, 255, 255, 0);;
 }
 
 .card-oficina {
@@ -479,6 +479,20 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 .breadcrumb
 {
 	margin-left: 3em;
+}
+
+.active-view {
+	border: 2px solid #007bff;
+	background-color: #e6f2ff;
+	border-radius: 8px;
+	padding: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.active-view:hover {
+	background-color: #cce0ff;
+	border-color: #0056b3;
 }
 /*-----------------------------------------------------------------------------------*/
 

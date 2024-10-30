@@ -42,7 +42,7 @@ Registro Estatal de Regulaciones
                         /* Adjust as needed */
                     }
                 </style>
-                <div class="card flex-grow-1">
+                <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
@@ -64,7 +64,7 @@ Registro Estatal de Regulaciones
                                     </a>
                                 </li>
                                 <p></p>
-                                <li class="iconos-regulacion">
+                                <li class="iconos-regulacion active-view">
                                     <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>

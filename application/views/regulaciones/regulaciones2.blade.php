@@ -21,7 +21,7 @@ Registro Estatal de Regulaciones
     <div class="d-flex justify-content-end mb-3">
         <a href="<?php echo base_url("RegulacionController/caracteristicas_reg") ?>"
             class="btn btn-primary btn-agregarOficina">
-            <i class="fas fa-plus-circle me-1"></i> Agregar Regulación
+            <i class="fas fa-plus-circle me-1"></i> Agregar regulación
         </a>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

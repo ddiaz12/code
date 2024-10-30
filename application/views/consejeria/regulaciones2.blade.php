@@ -41,7 +41,7 @@ Registro Estatal de Regulaciones
                 <tbody>
                     <?php if (!empty($regulaciones)): ?>
                     <?php    foreach ($regulaciones as $regulacion): ?>
-                    <?php        if ($regulacion->Estatus == 1): ?>
+                    <?php        if ($regulacion->Estatus == 2): ?>
                     <?php 
                     $background_color = 'gray';
             // Obtener la notificación relacionada con la regulación

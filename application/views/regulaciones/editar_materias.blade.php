@@ -54,7 +54,7 @@ Registro Estatal de Regulaciones
                                     </a>
                                 </li>
                                 <p></p>
-                                <li class="iconos-regulacion">
+                                <li class="iconos-regulacion active-view">
                                     <a href="<?php echo base_url('RegulacionController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
