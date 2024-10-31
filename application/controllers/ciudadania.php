@@ -104,6 +104,8 @@ class Ciudadania extends CI_Controller
         $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
         $data['sectores'] = $this->RegulacionModel->obtenerSectoresPorRegulacion($id);
         $data['tramites'] = $this->RegulacionModel->obtenerTramitesPorRegulacion($id);
+        $data['de_mat_sec_suj'] = $this->RegulacionModel->obtenerMateriasSectoresSujetos($id);
+        $data['fundamentos'] = $this->RegulacionModel->obtenerFundamentos($id);
 
 
         // Configurar opciones de Dompdf

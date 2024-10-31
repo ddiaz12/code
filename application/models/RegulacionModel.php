@@ -693,6 +693,24 @@ class RegulacionModel extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    public function obtenerMateriasSectoresSujetos($idRegulacion)
+    {
+        $this->db->select('mat_sec_suj.Materias, mat_sec_suj.Sectores, mat_sec_suj.SujetosRegulados');
+        $this->db->from('de_mat_sec_suj as mat_sec_suj');
+        $this->db->join('de_regulacion_caracteristicas as caract', 'mat_sec_suj.ID_caract = caract.ID_caract');
+        $this->db->where('caract.ID_Regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    } 
+
+    public function obtenerFundamentos($idRegulacion){
+        $this->db->select('fundamentos.Nombre, fundamentos.Articulo, fundamentos.Link');
+        $this->db->from('de_fundamento as fundamentos');
+        $this->db->join('de_regulacion_caracteristicas as caract', 'fundamentos.ID_caract = caract.ID_caract');
+        $this->db->where('caract.ID_Regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     public function insertar_rel_usuario_regulacion($idUsuario, $idRegulacion)
     {

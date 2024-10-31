@@ -17,9 +17,11 @@
         date_default_timezone_set('America/Mexico_City'); 
         ?>
         <p>Fecha de creación de la regulación:
-            <?php echo !empty($regulacion->Fecha_Cre_Sys) ? $regulacion->Fecha_Cre_Sys : 'No disponible'; ?></p>
+            <?php echo !empty($regulacion->Fecha_Cre_Sys) ? $regulacion->Fecha_Cre_Sys : 'No disponible'; ?>
+        </p>
         <p>Fecha de ultima actualización de la regulacion:
-            <?php echo !empty($regulacion->Fecha_Act_Sys) ? $regulacion->Fecha_Act_Sys : 'No disponible'; ?> </p>
+            <?php echo !empty($regulacion->Fecha_Act_Sys) ? $regulacion->Fecha_Act_Sys : 'No disponible'; ?>
+        </p>
     </div>
     <br>
     <div class="subheader">
@@ -55,35 +57,41 @@
         </div>
 
         <div class="section">
-            <h4>Sujetos Regulados:</h4>
+            <h4>Sujetos regulados:</h4>
             <ul>
+                <?php if (!empty($de_mat_sec_suj)): ?>
+                <?php    foreach ($de_mat_sec_suj as $sujeto): ?>
+                <li><?php        echo $sujeto->SujetosRegulados; ?></li>
+                <?php    endforeach; ?>
+                <?php else: ?>
                 <p>No hay sujetos regulados</p>
+                <?php endif; ?>
             </ul>
         </div>
 
         <div class="section">
-            <h4>Materias Reguladas:</h4>
+            <h4>Materias reguladas:</h4>
             <ul>
-                @if (count($materias) > 0)
-                    @foreach ($materias as $materia)
-                        <li>{{ $materia->Materia }}</li>
-                    @endforeach
-                @else
-                    <li>No hay materias disponibles.</li>
-                @endif
+                <?php if (!empty($de_mat_sec_suj)): ?>
+                <?php    foreach ($de_mat_sec_suj as $materia): ?>
+                <li><?php        echo $materia->Materias; ?></li>
+                <?php    endforeach; ?>
+                <?php else: ?>
+                <p>No hay materias reguladas</p>
+                <?php endif; ?>
             </ul>
         </div>
 
         <div class="section">
             <h4>Sectores regulados:</h4>
             <ul>
-                @if (!empty($sectores))
-                    @foreach ($sectores as $sector)
-                        <li>{{ $sector->Sector }}</li>
-                    @endforeach
-                @else
-                    <li>No hay sectores disponibles.</li>
-                @endif
+                <?php if (!empty($de_mat_sec_suj)): ?>
+                <?php    foreach ($de_mat_sec_suj as $sector): ?>
+                <li><?php        echo $sector->Sectores; ?></li>
+                <?php    endforeach; ?>
+                <?php else: ?>
+                <p>No hay sectores regulados</p>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
@@ -154,6 +162,28 @@
         </ul>
         <?php else: ?>
         <p>No hay información disponible sobre trámites y servicios vinculados.</p>
+        <?php endif; ?>
+    </div>
+
+    <div class="subheader">
+        <h3>Identificación de fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas
+            domiciliarias</h3>
+    </div>
+    <div class="content">
+        <?php if (!empty($fundamentos)): ?>
+        <ul>
+            <?php    foreach ($fundamentos as $fundamento): ?>
+            <li>
+                <strong>Nombre:</strong> <?php        echo $fundamento->Nombre; ?><br>
+                <strong>Artículo:</strong> <?php        echo $fundamento->Articulo; ?><br>
+                <strong>Link:</strong> <a href="<?php        echo $fundamento->Link; ?>"
+                    target="_blank"><?php        echo $fundamento->Link; ?></a>
+            </li>
+            <?php    endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p>No existen fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas domiciliarias
+            relacionados a esta regulación</p>
         <?php endif; ?>
     </div>
 
