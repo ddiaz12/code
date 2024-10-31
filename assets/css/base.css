@@ -580,6 +580,19 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
     color: #ffffff;
 }
 
+/* Selecciona el botón delete-row para eliminar los estilos heredados */
+.delete-row {
+    background-color: #923244 !important; 
+	border: none !important;
+    box-shadow: none !important;
+	padding: 8px;
+}
+
+/* Estilos adicionales para hover y foco */
+.delete-row:hover {
+    background-color: #ba2b3a !important; 
+}
+
 
 @media screen and (max-width: 990px) {
 	.div-escudo {

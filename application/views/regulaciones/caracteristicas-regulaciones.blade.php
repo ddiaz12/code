@@ -266,8 +266,6 @@ Registro Estatal de Regulaciones
                                         <!-- Las filas se agregarán dinámicamente aquí -->
                                     </tbody>
                                 </table>
-
-
                                 <!-- Modal para Agregar Índices -->
                                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
                                     aria-labelledby="myModalLabel" aria-hidden="true">

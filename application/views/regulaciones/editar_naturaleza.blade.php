@@ -104,10 +104,12 @@ Registro Estatal de Regulaciones
 
                                 </div>
                                 <ul id="sectorResults"></ul>
-                                <table id="selectedSectorsTable" class="table table-striped mt-4">
+                                <table id="selectedSectorsTable" class="table table-striped mt-4"
+                                    style="display: none;">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Sector</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -125,6 +127,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Subsector</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -141,6 +144,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Rama</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -158,6 +162,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Subrama</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -174,6 +179,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Clase</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -193,6 +199,7 @@ Registro Estatal de Regulaciones
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Nombre Regulacion</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -209,53 +216,19 @@ Registro Estatal de Regulaciones
                             <div>
                                 <p></p>
                             </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <p id="tramitesText">Tramites y servicios</p>
-                                <button type="submit" id="botonTramites"
-                                    class="btn btn-danger btn-tramites">Tramites</button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="myModalLabel">Índice
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="form-group">
-                                                        <label for="inputTram">Nombre</label>
-                                                        <input type="text" class="form-control" id="inputTram"
-                                                            placeholder="Ingrese el Nombre" name="NombreTram">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="inputDir">Direccion</label>
-                                                        <input type="text" class="form-control" id="inputDir"
-                                                            placeholder="http://" name="NombreDir">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                    onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
-                                                    cambios</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="header-container mb-0">
+                                <p id="tramitesText" class="mb-0">Tramites y servicios<span class="text-danger">*</span>
+                                </p>
+                                <button type="button" id="botonTramites"
+                                    class="btn btn-tinto btn-tramites">Tramites</button>
                             </div>
-                            <table id="tramitesTable" class="table">
+                            <table id="tramitesTable" class="table table-spacing">
                                 <thead>
                                     <tr>
                                         <th class="hidden-column">ID_Tramites</th>
                                         <th>Nombre</th>
                                         <th>Dirección</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -273,6 +246,38 @@ Registro Estatal de Regulaciones
                                     <?php endif; ?>
                                 </tbody>
                             </table>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="myModalLabel">Índice
+                                            </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="inputTram">Nombre</label>
+                                                    <input type="text" class="form-control" id="inputTram"
+                                                        placeholder="Ingrese el Nombre" name="NombreTram">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputDir">Direccion</label>
+                                                    <input type="text" class="form-control" id="inputDir"
+                                                        placeholder="http://" name="NombreDir">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                onclick="closeModal()">Cerrar</button>
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
+                                                cambios</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <style>
                                 .hidden-column {
                                     display: none;
@@ -1216,7 +1221,7 @@ Registro Estatal de Regulaciones
                 inputTram +
                 '</td><td>' +
                 inputDir +
-                '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
+                '</td><td><button class="btn btn-tinto btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
             $('#tramitesTable tbody').append(newRow);
 
             // Incrementa el contador de ID_Fun
