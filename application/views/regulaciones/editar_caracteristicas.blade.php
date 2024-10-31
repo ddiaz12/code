@@ -90,6 +90,7 @@ Registro Estatal de Regulaciones
                                     <input type="text" class="form-control" id="inputNombre" name="nombre"
                                         value="<?php echo $regulacion['Nombre_Regulacion']; ?>" required>
                                 </div>
+                                <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="selectSujeto">Ámbito de aplicación<span
                                             class="text-danger">*</span></label>
@@ -98,6 +99,7 @@ Registro Estatal de Regulaciones
                                         </option>
                                         <option value="Estatal">Estatal</option>
                                     </select>
+                                </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="selectUnidad">Tipo de ordenamiento jurídico<span

@@ -684,6 +684,16 @@ class RegulacionModel extends CI_Model
         return $query->result();
     }
 
+    public function obtenerTramitesPorRegulacion($idRegulacion)
+    {
+        $this->db->select('tramites.Nombre as Tramite, tramites.Direccion as url');
+        $this->db->from('de_tramitesyservicios as tramites');
+        $this->db->join('rel_nat_reg as rel', 'tramites.ID_Nat = rel.ID_Nat');
+        $this->db->where('rel.ID_Regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function insertar_rel_usuario_regulacion($idUsuario, $idRegulacion)
     {
         $data = array(

@@ -13,8 +13,7 @@ Registro Estatal de Regulaciones
 <div class="container mt-4 div-buscador">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="text-center titulo-ciudadania">Registro Estatal de Regulaciones (RER)</h1>
-            <p class="text-center subtitulo">Consulta las regulaciones vigentes en el Estado de Colima.</p>
+            <h4 class="text-center titulo-ciudadania">Registro Estatal de <strong>Regulaciones</strong> (RER)</h4>
         </div>
     </div>
     <div class="row mt-4">
@@ -23,6 +22,7 @@ Registro Estatal de Regulaciones
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
+                        <p class="text-center subtitulo">Consulta las regulaciones vigentes en el Estado de Colima.</p>
                             <div id="buscador" class="input-group mb-2" data-mdb-input-init>
                                 <input type="search" id="nombreRegulacion" placeholder="Ingrese búsqueda"
                                     class="form-control input-buscador rounded-left" required

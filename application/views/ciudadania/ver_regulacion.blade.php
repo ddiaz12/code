@@ -143,7 +143,18 @@
 
             <button class="btn-accordion"><i class="fas fa-tasks"></i> Trámites y servicios vinculados</button>
             <div class="content">
-                <p>Información sobre Trámites y servicios vinculados...</p>
+                <?php if (!empty($tramites)): ?>
+                <ul>
+                    <?php    foreach ($tramites as $tramite): ?>
+                    <li>
+                        <strong><?php        echo $tramite->Tramite; ?></strong><br>
+                        <a href="<?php        echo $tramite->url; ?>" target="_blank"><?php        echo $tramite->url; ?></a>
+                    </li>
+                    <?php    endforeach; ?>
+                </ul>
+                <?php else: ?>
+                <p>No hay información disponible sobre trámites y servicios vinculados.</p>
+                <?php endif; ?>
             </div>
 
             <button class="btn-accordion"><i class="fas fa-tasks"></i> Sector/actividad económica</button>
@@ -161,10 +172,11 @@
         </div>
 
         <div class="row mt-4 justify-content-center">
-            <div class="col-md-3">
-                <a href="<?php echo base_url('ciudadania'); ?>" class="btn btn-secondary btn-block btn-custom">Regresar<i></i></a>
+            <div class="col-md-3 btn-verRegulacion1">
+                <a href="<?php echo base_url('ciudadania'); ?>"
+                    class="btn btn-secondary btn-block btn-custom">Regresar<i></i></a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 btn-verRegulacion2">
                 <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"
                     class="btn-download btn-custom">Descargar regulación <i class="fas fa-download"></i></a>
             </div>

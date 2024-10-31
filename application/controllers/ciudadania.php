@@ -87,6 +87,7 @@ class Ciudadania extends CI_Controller
         $data['materias'] = $this->RegulacionModel->obtenerMateriasExentas($id);
         $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
         $data['sectores'] = $this->RegulacionModel->obtenerSectoresPorRegulacion($id);
+        $data['tramites'] = $this->RegulacionModel->obtenerTramitesPorRegulacion($id);
         $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'ver_regulacion', $data);
     }
 
@@ -102,6 +103,7 @@ class Ciudadania extends CI_Controller
         $data['materias'] = $this->RegulacionModel->obtenerMateriasExentas($id);
         $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
         $data['sectores'] = $this->RegulacionModel->obtenerSectoresPorRegulacion($id);
+        $data['tramites'] = $this->RegulacionModel->obtenerTramitesPorRegulacion($id);
 
 
         // Configurar opciones de Dompdf

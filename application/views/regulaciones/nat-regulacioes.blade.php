@@ -90,10 +90,11 @@ Registro Estatal de Regulaciones
                                         placeholder="Selecciona una opcion" required>
                                 </div>
                                 <ul id="sectorResults"></ul>
-                                <table id="selectedSectorsTable" class="table table-striped mt-4">
+                                <table id="selectedSectorsTable" class="table table-striped mt-4"  style="display: none;">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Sector</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -111,6 +112,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Subsector</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -127,6 +129,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Rama</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -144,6 +147,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Subrama</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -160,6 +164,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Clase</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -179,6 +184,7 @@ Registro Estatal de Regulaciones
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Nombre Regulacion</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -241,6 +247,7 @@ Registro Estatal de Regulaciones
                                         <th>ID_Tramites</th>
                                         <th>Nombre</th>
                                         <th>Dirección</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>

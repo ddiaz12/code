@@ -16,8 +16,10 @@
         <?php 
         date_default_timezone_set('America/Mexico_City'); 
         ?>
-        <p>Fecha de creación de la regulación: <?php echo !empty($regulacion->Fecha_Cre_Sys) ? $regulacion->Fecha_Cre_Sys : 'No disponible'; ?></p>
-        <p>Fecha de ultima actualización de la regulacion: <?php echo !empty($regulacion->Fecha_Act_Sys) ? $regulacion->Fecha_Act_Sys : 'No disponible'; ?> </p>
+        <p>Fecha de creación de la regulación:
+            <?php echo !empty($regulacion->Fecha_Cre_Sys) ? $regulacion->Fecha_Cre_Sys : 'No disponible'; ?></p>
+        <p>Fecha de ultima actualización de la regulacion:
+            <?php echo !empty($regulacion->Fecha_Act_Sys) ? $regulacion->Fecha_Act_Sys : 'No disponible'; ?> </p>
     </div>
     <br>
     <div class="subheader">
@@ -141,7 +143,18 @@
         <h3>Trámites y Servicios Relacionados</h3>
     </div>
     <div class="content">
-        <p>No existen trámites relacionados</p>
+        <?php if (!empty($tramites)): ?>
+        <ul>
+            <?php    foreach ($tramites as $tramite): ?>
+            <li>
+                <strong><?php        echo $tramite->Tramite; ?></strong><br>
+                <a href="<?php        echo $tramite->url; ?>" target="_blank"><?php        echo $tramite->url; ?></a>
+            </li>
+            <?php    endforeach; ?>
+        </ul>
+        <?php else: ?>
+        <p>No hay información disponible sobre trámites y servicios vinculados.</p>
+        <?php endif; ?>
     </div>
 
     <div class="subheader">
