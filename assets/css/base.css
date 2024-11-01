@@ -187,10 +187,6 @@ h3,
 	border: solid;
 }
 
-.card {
-	--bs-card-border-color: rgb(0 0 0);
-}
-
 .bordes{
 	--bs-card-border-color:rgba(255, 255, 255, 0);;
 }

@@ -6,13 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	);
 
 	var dias = [
-		"domingo",
-		"lunes",
-		"martes",
-		"miercoles",
-		"jueves",
-		"viernes",
-		"sabado",
+		"Domingo",
+		"Lunes",
+		"Martes",
+		"Miércoles",
+		"Jueves",
+		"Viernes",
+		"Sabado",
 	];
 
 	btnGuardarRangoHorario.addEventListener("click", function () {

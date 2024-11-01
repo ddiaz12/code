@@ -207,7 +207,7 @@ Registro Estatal de Regulaciones
                                                 <tr>
                                                     <th>ID_Dependencia</th>
                                                     <th>Tipo_Dependencia</th>
-                                                    <th>Acción</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -272,7 +272,7 @@ Registro Estatal de Regulaciones
                                                     <tr>
                                                         <th class="hidden-column">ID_Dependencia</th>
                                                         <th>Tipo_Dependencia</th>
-                                                        <th>Acción</th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -693,7 +693,7 @@ Registro Estatal de Regulaciones
                                             <th>Materias</th>
                                             <th>Sectores</th>
                                             <th>Sujetos Regulados</th>
-                                            <th>Acción</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -778,7 +778,7 @@ Registro Estatal de Regulaciones
                                             <th>Nombre Regulacion</th>
                                             <th>Articulo</th>
                                             <th>Link</th>
-                                            <th>Acción</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
