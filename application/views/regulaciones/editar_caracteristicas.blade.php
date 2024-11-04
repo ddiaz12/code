@@ -915,7 +915,7 @@ Registro Estatal de Regulaciones
 
             // Crea una nueva fila con los datos
             var newRow = '<tr>' +
-                '<td>' + idCounter + '</td>' +
+                '<td class="hidden-column">' + idCounter + '</td>' +
                 '<td>' + inputMat + '</td>' +
                 '<td>' + inputSec + '</td>' +
                 '<td>' + inputSuj + '</td>' +
@@ -1003,7 +1003,7 @@ Registro Estatal de Regulaciones
 
             // Crea una nueva fila con los datos
             var newRow = '<tr>' +
-                '<td>' + idCounter2 + '</td>' +
+                '<td class="hidden-column">' + idCounter2 + '</td>' +
                 '<td>' + inputNomReg + '</td>' +
                 '<td>' + inputArt + '</td>' +
                 '<td>' + inputLink + '</td>' +
