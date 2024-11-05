@@ -205,15 +205,14 @@ Registro Estatal de Regulaciones
                                         <table id="emitenTable" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID_Dependencia</th>
-                                                    <th>Tipo_Dependencia</th>
+                                                    <th>Tipo dependencia</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($dependencias as $dependencia): ?>
 
-                                                <td><?php    echo $dependencia['ID_Dependencia']; ?>
+                                                <td class="hidden-column"><?php    echo $dependencia['ID_Dependencia']; ?>
                                                 </td>
                                                 <td><?php    echo $dependencia['Tipo_Dependencia']; ?></td>
                                                 <td>
@@ -270,8 +269,7 @@ Registro Estatal de Regulaciones
                                             <table id="aplicanTable" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th class="hidden-column">ID_Dependencia</th>
-                                                        <th>Tipo_Dependencia</th>
+                                                        <th>Tipo dependencia</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -1171,7 +1169,7 @@ Registro Estatal de Regulaciones
                 // Verificar si la fila ya existe
                 if (tableBody.find('tr[data-id="' + item.ID_Dependencia + '"]').length === 0) {
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                        '<td>' + item.ID_Dependencia + '</td>' +
+                        '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
                         '<td><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
@@ -1189,7 +1187,7 @@ Registro Estatal de Regulaciones
                 // Verificar si la fila ya existe
                 if (tableBody.find('tr[data-id="' + item.ID_Dependencia + '"]').length === 0) {
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                        '<td>' + item.ID_Dependencia + '</td>' +
+                        '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
                         '<td><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +

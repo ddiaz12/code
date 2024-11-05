@@ -1,9 +1,11 @@
 .regulation-container {
     padding: 20px;
-    background-color: #f9f9f9;
+    /*background-color: #f9f9f9;*/
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+    /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+    margin-top: 20px !important;
+    margin-left: auto;
+    margin-right: 0; 
 }
 
 .regulation-title {
@@ -40,6 +42,14 @@
     background-color: #7f2841;
     color: white;
     cursor: pointer;
+}
+
+.btn-verRegulacion1{
+	padding-inline: 13px 6px !important;
+}
+
+.btn-verRegulacion2{
+	padding-inline: 5px 12px !important;
 }
 
 .related-sections {
