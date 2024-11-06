@@ -256,9 +256,11 @@ Registro Estatal de Regulaciones
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_Indice</th>
-                                            <th></th>
                                             <th>Texto</th>
                                             <th>Orden</th>
+                                            <th class="hidden-column">Indice_Padre</th>
+                                            <th class="hidden-column">ID_IndicePadre</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -1295,11 +1297,7 @@ Registro Estatal de Regulaciones
                                                                                 if ($('#selectIndicePadre').val() == 'Seleccione un índice padre' || $('#selectIndicePadre').val() == '') {
                                                                                     var ID_Padre = null;
                                                                                 } else {
-                                                                                    var ID_Padre =
-                                                                                        $(
-                                                                                            '#selectIndicePadre'
-                                                                                        )
-                                                                                            .val();
+                                                                                    var ID_Padre = $(this).find('td').eq(4).text();
                                                                                 }
 
                                                                                 console
@@ -1431,9 +1429,15 @@ Registro Estatal de Regulaciones
             null; // Variable para almacenar el último ID_Indice insertado
         var lastInsertedOrden =
             null; // Variable para almacenar el último Orden insertado
+        var lastInsertedIDIndicePadre =
+            null; // Variable para almacenar el último ID_IndicePadre insertado
+        var lastInsertedIndicePadre =
+            null; // Variable para almacenar el último ID_IndicePadre insertado
 
         $('#guardarIbtn').on('click', function () {
             var inputTexto = $('#inputTexto').val();
+            lastInsertedIndicePadre =  $('#selectIndicePadre option:selected').text();
+            lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
 
             $.ajax({
                 url: '<?= base_url('RegulacionController/getMaxValues') ?>',
@@ -1460,9 +1464,17 @@ Registro Estatal de Regulaciones
                                 '#resultTable tbody tr').length + 1;
                         }
                     }
+                    if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
+                        lastInsertedIndicePadre = null;
+                    }
+                    
 
-                    var newRow = '<tr><td>' + lastInsertedID_Indice + '</td><td>' + inputTexto +
+                    var newRow = '<tr><td class="hidden-column">' + lastInsertedID_Indice + '</td><td>' + inputTexto +
                         '</td><td>' + lastInsertedOrden + '</td>' +
+                        '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
+                        '<td class="hidden-column">' + lastInsertedIDIndicePadre + '</td>' +
+                        '<td><button class="btn btn-danger btn-sm edit-row">' +
+                        '<i class="fas fa-edit"></i></button></td>' +
                         '<td><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';

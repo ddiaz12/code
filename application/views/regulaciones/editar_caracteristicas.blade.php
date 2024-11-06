@@ -365,7 +365,10 @@ Registro Estatal de Regulaciones
                                             <th class="hidden-column">ID_Indice</th>
                                             <th>Texto</th>
                                             <th>Orden</th>
-                                            <th>Accion</th>
+                                            <th class="hidden-column">Indice_Padre</th>
+                                            <th class="hidden-column">ID_IndicePadre</th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1371,6 +1374,12 @@ Registro Estatal de Regulaciones
                                 var result = JSON.parse(response);
                                 if (result.status === 'success') {
                                     // Verificar si hay registros en rel_autoridades_emiten con el ID_caract
+                                    Swal.fire({
+                                        title: 'Éxito',
+                                        text: 'Regulación, características y relación de autoridades modificadas exitosamente.',
+                                        icon: 'success',
+                                        confirmButtonText: 'Aceptar'
+                                    });
 
                                     $.ajax({
                                         url: '<?= base_url("RegulacionController/verificarRelAutoridadesEmiten") ?>',
@@ -2415,11 +2424,11 @@ Registro Estatal de Regulaciones
                                                                         var ID_Jerarquia =
                                                                             nuevoIdJerarquia +
                                                                             index; // Incrementar el ID_Jerarquia para cada fila
-                                                                        var ID_Padre =
-                                                                            $(
-                                                                                '#selectIndicePadre'
-                                                                            )
-                                                                                .val();
+                                                                        if ($('#selectIndicePadre').val() == 'Seleccione un índice padre' || $('#selectIndicePadre').val() == '') {
+                                                                            var ID_Padre = null;
+                                                                        } else {
+                                                                            var ID_Padre = $(this).find('td').eq(4).text();
+                                                                        }
 
                                                                         console
                                                                             .log(
@@ -2576,6 +2585,10 @@ Registro Estatal de Regulaciones
             null; // Variable para almacenar el último ID_Indice insertado
         var lastInsertedOrden =
             null; // Variable para almacenar el último Orden insertado
+        var lastInsertedIDIndicePadre =
+            null; // Variable para almacenar el último ID_IndicePadre insertado
+        var lastInsertedIndicePadre =
+            null; // Variable para almacenar el último ID_IndicePadre insertado
 
         $('#guardarIbtn').on('click', function () {
             var inputTexto = $('#inputTexto').val();
@@ -2601,7 +2614,11 @@ Registro Estatal de Regulaciones
                             '</td><td>' +
                             inputTexto +
                             '</td><td>' +
-                            lastInsertedOrden +
+                            lastInsertedOrden +'</td>'+
+                            '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
+                            '<td class="hidden-column">' + lastInsertedIDIndicePadre + '</td>' +
+                            '<td><button class="btn btn-danger btn-sm edit-row">' +
+                            '<i class="fas fa-edit"></i></button></td>' +
                             '<td><button class="btn btn-danger btn-sm delete-row">' +
                             '<i class="fas fa-trash-alt"></i></button></td>' +
                             '</tr>';
@@ -2623,9 +2640,13 @@ Registro Estatal de Regulaciones
                 var newRow = '<tr><td>' +
                     lastInsertedID_Indice + '</td><td>' +
                     inputTexto + '</td><td>' +
-                    lastInsertedOrden + '<td><button class="btn btn-danger btn-sm delete-row">' +
-                    '<i class="fas fa-trash-alt"></i></button></td>' +
-                    '</tr>';
+                    lastInsertedOrden +'</td>'+
+                    '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
+                    '<td class="hidden-column">' + lastInsertedIDIndicePadre + '</td>' +
+                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<i class="fas fa-edit"></i></button></td>' +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +'</tr>';
                 $('#resultTable tbody').append(newRow);
             }
         });
