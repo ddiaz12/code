@@ -377,7 +377,8 @@ Registro Estatal de Regulaciones
                                 <p></p>
                                 <p></p>
                                 <div class="header-container mb-0">
-                                    <p id="funText" class="mb-0">Fundamentos Jurídicos<span class="text-danger">*</span>
+                                    <p id="funText" class="mb-0">Identificación de fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas 
+                                    domiciliarias<span class="text-danger">*</span>
                                     </p>
                                     <button type="button" id="botofundamentos"
                                         class="btn btn-tinto btn-fundamentos" data-toggle="modal"

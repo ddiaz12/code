@@ -23,7 +23,11 @@ class Ciudadania extends CI_Controller
         if (!is_array($regulaciones)) {
             $regulaciones = [];
         }
-        $numeroDeRegulaciones = $this->RegulacionModel->contarRegulaciones(); // Contar regulaciones
+        $numeroDeRegulaciones = $this->RegulacionModel->contarRegulaciones();
+        // Obtener autoridades para cada regulación
+        foreach ($regulaciones as $regulacion) {
+            $regulacion->autoridades = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($regulacion->ID_Regulacion);
+        }
         $data['regulaciones'] = $regulaciones;
         $data['numeroDeRegulaciones'] = $numeroDeRegulaciones;
         $data['tiposOrdenamiento'] = $this->desplegarTipos();
@@ -88,6 +92,7 @@ class Ciudadania extends CI_Controller
         $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
         $data['sectores'] = $this->RegulacionModel->obtenerSectoresPorRegulacion($id);
         $data['tramites'] = $this->RegulacionModel->obtenerTramitesPorRegulacion($id);
+        $data['fundamentos'] = $this->RegulacionModel->obtenerFundamentos($id);
         $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'ver_regulacion', $data);
     }
 

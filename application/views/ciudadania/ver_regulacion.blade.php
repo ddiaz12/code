@@ -54,86 +54,109 @@ Registro Estatal de Regulaciones
             <p><?php echo !empty($regulacion->Objetivo_Reg) ? $regulacion->Objetivo_Reg : 'No disponible'; ?></p>
 
             <div class="related-sections">
-                <button class="btn-accordion"><i class="fas fa-list"></i> Índice</button>
-                <div class="content">
+                <button class="btn-accordion" data-target="#indiceContent"><i class="fas fa-list"></i> Índice</button>
+                <button class="btn-accordion" data-target="#autoridadesContent"><i class="fas fa-user-tie"></i> Autoridades</button>
+                <button class="btn-accordion" data-target="#materiasContent"><i class="fas fa-book"></i> Materias Exentas</button>
+                <button class="btn-accordion" data-target="#regulacionesVinculadasContent"><i class="fas fa-link"></i> Regulaciones vinculadas</button>
+                <button class="btn-accordion" data-target="#tramitesContent"><i class="fas fa-tasks"></i> Trámites y servicios vinculados</button>
+                <button class="btn-accordion" data-target="#sectoresContent"><i class="fas fa-tasks"></i> Sector/actividad económica</button>
+                <button class="btn-accordion" data-target="#fundamentosContent"><i class="fas fa-tasks"></i> Inspecciones, Verificaciones y Visitas Domiciliarias</button>
+            </div>
+            
+            <div class="content-sections">
+                <div id="indiceContent" class="content">
                     <?php if (!empty($indice)): ?>
                     <ul>
-                        <?php    foreach ($indice as $item): ?>
-                        <li><?php        echo $item->Orden . '. ' . $item->Texto; ?></li>
-                        <?php    endforeach; ?>
+                        <?php foreach ($indice as $item): ?>
+                        <li><?php echo $item->Orden . '. ' . $item->Texto; ?></li>
+                        <?php endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre el Índice.</p>
                     <?php endif; ?>
                 </div>
-
-                <button class="btn-accordion"><i class="fas fa-user-tie"></i> Autoridades</button>
-                <div class="content">
+            
+                <div id="autoridadesContent" class="content">
                     <?php if (!empty($autoridades)): ?>
                     <ul>
-                        <?php    foreach ($autoridades as $autoridad): ?>
-                        <li>Aplican: <?php        echo $autoridad->Autoridad_Aplican; ?></li>
-                        <li>Emiten: <?php        echo $autoridad->Autoridad_Emiten; ?></li>
-                        <?php    endforeach; ?>
+                        <?php foreach ($autoridades as $autoridad): ?>
+                        <li><strong>Aplican: </strong><?php echo $autoridad->Autoridad_Aplican; ?></li>
+                        <li><strong>Emiten: </strong><?php echo $autoridad->Autoridad_Emiten; ?></li>
+                        <?php endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre las autoridades.</p>
                     <?php endif; ?>
                 </div>
-
-                <button class="btn-accordion"><i class="fas fa-book"></i> Materias Exentas</button>
-                <div class="content">
+            
+                <div id="materiasContent" class="content">
                     <?php if (!empty($materias)): ?>
                     <ul>
-                        <?php    foreach ($materias as $materia): ?>
-                        <li><?php        echo $materia->Materia; ?></li>
-                        <?php    endforeach; ?>
+                        <?php foreach ($materias as $materia): ?>
+                        <li><?php echo $materia->Materia; ?></li>
+                        <?php endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre materias exentas.</p>
                     <?php endif; ?>
                 </div>
-
-                <button class="btn-accordion"><i class="fas fa-link"></i> Regulaciones vinculadas</button>
-                <div class="content">
+            
+                <div id="regulacionesVinculadasContent" class="content">
                     <?php if (!empty($regulacionesVinculadas)): ?>
                     <ul>
-                        <?php    foreach ($regulacionesVinculadas as $vinculada): ?>
-                        <li><?php        echo $vinculada->Nombre_Regulacion; ?></li>
-                        <?php    endforeach; ?>
+                        <?php foreach ($regulacionesVinculadas as $vinculada): ?>
+                        <li>
+                            <a href="<?php echo base_url('ciudadania/verRegulacion/' . $vinculada->ID_Regulacion); ?>">
+                                <?php echo $vinculada->Nombre_Regulacion; ?>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay regulaciones vinculadas.</p>
                     <?php endif; ?>
                 </div>
-
-                <button class="btn-accordion"><i class="fas fa-tasks"></i> Trámites y servicios vinculados</button>
-                <div class="content">
+            
+                <div id="tramitesContent" class="content">
                     <?php if (!empty($tramites)): ?>
                     <ul>
-                        <?php    foreach ($tramites as $tramite): ?>
+                        <?php foreach ($tramites as $tramite): ?>
                         <li>
-                            <strong><?php        echo $tramite->Tramite; ?></strong><br>
-                            <a href="<?php        echo $tramite->url; ?>"
-                                target="_blank"><?php        echo $tramite->url; ?></a>
+                            <strong><?php echo $tramite->Tramite; ?></strong><br>
+                            <a href="<?php echo $tramite->url; ?>" target="_blank"><?php echo $tramite->url; ?></a>
                         </li>
-                        <?php    endforeach; ?>
+                        <?php endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre trámites y servicios vinculados.</p>
                     <?php endif; ?>
                 </div>
-
-                <button class="btn-accordion"><i class="fas fa-tasks"></i> Sector/actividad económica</button>
-                <div class="content">
+            
+                <div id="sectoresContent" class="content">
                     <?php if (!empty($sectores)): ?>
                     <ul>
-                        <?php    foreach ($sectores as $sector): ?>
-                        <li><?php        echo $sector->Sector; ?></li>
-                        <?php    endforeach; ?>
+                        <?php foreach ($sectores as $sector): ?>
+                        <li><?php echo $sector->Sector; ?></li>
+                        <?php endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre el sector/actividad económica.</p>
+                    <?php endif; ?>
+                </div>
+            
+                <div id="fundamentosContent" class="content">
+                    <?php if (!empty($fundamentos)): ?>
+                    <ul>
+                        <?php foreach ($fundamentos as $fundamento): ?>
+                        <li>
+                            <strong>Nombre:</strong> <?php echo $fundamento->Nombre; ?><br>
+                            <strong>Artículo:</strong> <?php echo $fundamento->Articulo; ?><br>
+                            <strong>Link:</strong> <a href="<?php echo $fundamento->Link; ?>" target="_blank"><?php echo $fundamento->Link; ?></a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php else: ?>
+                    <p>No hay información disponible sobre los fundamentos jurídicos.</p>
                     <?php endif; ?>
                 </div>
             </div>
@@ -157,28 +180,22 @@ Registro Estatal de Regulaciones
 
 @section('js')
 <script>
-    const accordions = document.querySelectorAll('.btn-accordion');
+    document.addEventListener('DOMContentLoaded', function () {
+        const buttons = document.querySelectorAll('.btn-accordion');
+        const contents = document.querySelectorAll('.content');
 
-    accordions.forEach(accordion => {
-        accordion.addEventListener('click', function () {
-            const content = this.nextElementSibling;
-            const isActive = content.classList.contains('active');
-            // Cierra todos los contenidos
-            const allContents = document.querySelectorAll('.content');
-            allContents.forEach(content => {
-                content.classList.remove('active');
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                const target = document.querySelector(this.getAttribute('data-target'));
+
+                contents.forEach(content => {
+                    if (content !== target) {
+                        content.classList.remove('active');
+                    }
+                });
+
+                target.classList.toggle('active');
             });
-
-            // Elimina la clase activa de todos los botones
-            accordions.forEach(acc => {
-                acc.classList.remove('active');
-            });
-
-            // Si no estaba activo, ábrelo. Si estaba activo, se cerrará
-            if (!isActive) {
-                content.classList.add('active');
-                this.classList.add('active');
-            }
         });
     });
 </script>

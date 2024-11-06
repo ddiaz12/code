@@ -666,7 +666,7 @@ class RegulacionModel extends CI_Model
 
     public function obtenerRegulacionesVinculadas($idRegulacion)
     {
-        $this->db->select('regulacion.Nombre_Regulacion');
+        $this->db->select('regulacion.Nombre_Regulacion, regulacion.ID_Regulacion');
         $this->db->from('derivada_reg');
         $this->db->join('ma_regulacion as regulacion', 'derivada_reg.ID_Regulacion = regulacion.ID_Regulacion');
         $this->db->where('derivada_reg.ID_Regulacion', $idRegulacion);

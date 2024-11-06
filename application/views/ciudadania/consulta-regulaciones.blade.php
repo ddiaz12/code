@@ -22,7 +22,8 @@ Registro Estatal de Regulaciones
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-md-8">
-                        <p class="text-center subtitulo">Consulta las regulaciones vigentes en el Estado de Colima.</p>
+                            <p class="text-center subtitulo">Consulta las regulaciones vigentes en el Estado de Colima.
+                            </p>
                             <div id="buscador" class="input-group mb-2" data-mdb-input-init>
                                 <input type="search" id="nombreRegulacion" placeholder="Ingrese búsqueda"
                                     class="form-control input-buscador rounded-left" required
@@ -102,12 +103,27 @@ Registro Estatal de Regulaciones
                 <div class="col-md-4 mb-3">
                     <div class="card shadow-sm div-card h-100">
                         <div class="card-header py-2">
-                            <h7 class="m-0 font-weight-bold text-cards card-title">
-                                <?php    echo $regulacion->Nombre_Regulacion; ?>
-                            </h7>
+                            <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $regulacion->ID_Regulacion); ?>"
+                                class="no-underline">
+                                <h7 class="m-0 font-weight-bold text-cards card-title">
+                                    <?php    echo $regulacion->Nombre_Regulacion; ?>
+                                </h7>
+                            </a>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <p class="card-text flex-grow-1"><?php    echo $regulacion->Objetivo_Reg; ?></p>
+                            <!-- Información de las autoridades -->
+                            <?php    if (!empty($regulacion->autoridades)): ?>
+                            <p><strong>Autoridades que la emiten:</strong></p>
+                            <ul>
+                                <?php        foreach ($regulacion->autoridades as $autoridad): ?>
+                                <li> <?php            echo $autoridad->Autoridad_Emiten; ?></li>
+                                <?php        endforeach; ?>
+                            </ul>
+                            <?php    else: ?>
+                            <p>No hay información disponible sobre las autoridades.</p>
+                            <?php    endif; ?>
+                            <!-- Fecha de ultima modificacion en el sistema -->
+                            <p class="p-fecha"><strong>Última modificación:</strong> <?php    echo $regulacion->Fecha_Act_Sys; ?></p>
                         </div>
                         <div class="card-footer text-center">
                             <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $regulacion->ID_Regulacion); ?>"
