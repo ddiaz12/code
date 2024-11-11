@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar Registro Estatal de Regulaciones (RER)
     </li>
 </ol>
 <div class="container mt-5">
@@ -193,26 +193,30 @@ Registro Estatal de Regulaciones
                                 <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
                                     placeholder="Regulaciones Vinculadas" required>
                             </div>
-                            
+
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="manualEntryCheckbox">
-                                <label class="form-check-label" for="manualEntryCheckbox">Agregar manualmente una regulación vinculada o derivada</label>
+                                <label class="form-check-label" for="manualEntryCheckbox">Agregar manualmente una
+                                    regulación vinculada o derivada</label>
                             </div>
-                            
-                            <div id="manualEntryFields" class="border p-3 rounded" style="display: none; background-color: #f8f9fa;">
+
+                            <div id="manualEntryFields" class="border p-3 rounded"
+                                style="display: none; background-color: #f8f9fa;">
                                 <div class="form-group">
                                     <label for="manualRegulacionNombre">Nombre de la regulación</label>
-                                    <input type="text" class="form-control" id="manualRegulacionNombre" name="manualRegulacionNombre" placeholder="Nombre de la regulación derivada">
+                                    <input type="text" class="form-control" id="manualRegulacionNombre"
+                                        name="manualRegulacionNombre" placeholder="Nombre de la regulación derivada">
                                 </div>
                                 <div class="form-group">
                                     <label for="manualRegulacionLink">Enlace de la regulación</label>
-                                    <input type="text" class="form-control" id="manualRegulacionLink" name="manualRegulacionLink" placeholder="Enlace de la regulación derivada">
+                                    <input type="text" class="form-control" id="manualRegulacionLink"
+                                        name="manualRegulacionLink" placeholder="Enlace de la regulación derivada">
                                 </div>
-                                <button type="button" id="addRegulacionButton" class="btn btn-tinto mt-2">Agregar Regulación</button>
+                                <button type="button" id="addRegulacionButton" class="btn btn-tinto mt-2">Agregar
+                                    Regulación</button>
                             </div>
                             <ul id="vinculadasResults" class="list-group mt-2"></ul>
-                            <table id="selectedRegulacionesTable" class="table table-striped mt-4"
-                                style="display: none;">
+                            <table id="selectedRegulacionesTable" class="table table-striped mt-4">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Nombre Regulacion</th>
@@ -222,6 +226,24 @@ Registro Estatal de Regulaciones
                                 </thead>
                                 <tbody>
                                     <!-- Las filas se agregarán aquí -->
+                                    <?php if (!empty($regulaciones_combinadas)): ?>
+                                    <?php    foreach ($regulaciones_combinadas as $regulacion): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($regulacion['Nombre_Regulacion'] ?? $regulacion['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                                        </td>
+                                        <td>
+                                            <?php        if (isset($regulacion['enlace'])): ?>
+                                            <a href="<?= htmlspecialchars($regulacion['enlace'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                target="_blank">
+                                                <?= htmlspecialchars($regulacion['enlace'], ENT_QUOTES, 'UTF-8'); ?>
+                                            </a>
+                                            <?php        endif; ?>
+                                        </td>
+                                        <td><button class="btn btn-danger btn-sm delete-row"><i
+                                                    class="fas fa-trash-alt"></i></button></td>
+                                    </tr>
+                                    <?php    endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                             <div class="form-group">
@@ -328,7 +350,7 @@ Registro Estatal de Regulaciones
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mb-3">
-                            <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                            <a href="<?php echo base_url('RegulacionController'); ?>"
                                 class="btn btn-secondary me-2">Cancelar</a>
                             <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                         </div>
@@ -599,6 +621,8 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+
+<!--
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
@@ -639,6 +663,8 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+-->
+
 <script>
     $(document).ready(function () {
         $('input[type=radio][name=opcion]').change(function () {
@@ -655,7 +681,6 @@ Registro Estatal de Regulaciones
         }
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     let selectedSectors = []; // Declaración global
     let selectedSubsectors = []; // Declaración global
@@ -1188,11 +1213,12 @@ Registro Estatal de Regulaciones
             // Mostrar la tabla y agregar una fila
             $('#selectedRegulacionesTable').show();
             $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '</td>+<td> </td>+<td><button class="btn btn-danger btn-sm delete-row">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });
 
+        let manualRegulaciones = []; // Declaración global
         $(document).ready(function () {
             $('#manualEntryCheckbox').on('change', function () {
                 if (this.checked) {
@@ -1204,13 +1230,23 @@ Registro Estatal de Regulaciones
                 }
             });
 
+            // Detecta el clic en el botón de agregar regulaciones manuales
             $('#addRegulacionButton').on('click', function () {
                 let regulacionName = $('#manualRegulacionNombre').val();
                 let regulacionLink = $('#manualRegulacionLink').val();
 
                 if (regulacionName && regulacionLink) {
+                    // Agrega la regulación manual a la tabla y a la variable manualRegulaciones
                     $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '</td><td>' + regulacionLink + '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>');
                     $('#selectedRegulacionesTable').show();
+
+                    // Agrega la regulación manual al array para enviarla a la base de datos
+                    manualRegulaciones.push({
+                        nombre: regulacionName,
+                        enlace: regulacionLink
+                    });
+
+                    // Limpia los campos del formulario
                     $('#manualRegulacionNombre').val('');
                     $('#manualRegulacionLink').val('');
                 } else {
@@ -1266,7 +1302,7 @@ Registro Estatal de Regulaciones
             }
 
             // Insertar el nuevo registro en la tabla
-            var newRow = '<tr><td>' +
+            var newRow = '<tr><td class="hidden-column">' +
                 newIdTramites +
                 '</td><td>' +
                 inputTram +
@@ -1370,6 +1406,10 @@ Registro Estatal de Regulaciones
                 formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
                 formData.append('selectedClases', JSON.stringify(selectedClasesIds));
             }
+
+            // Agrega regulaciones manuales al formData
+            formData.append('manualRegulaciones', JSON.stringify(manualRegulaciones));
+
             var registrosExistentes = []; // Array para almacenar los registros existentes
             // Realiza una solicitud AJAX para obtener los registros existentes en la base de datos
             $.ajax({

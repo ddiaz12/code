@@ -47,19 +47,19 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
-                                        <i class="fa-solid fa-list-check fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_1">Características de la
-                                            Regulación</label>
+                                    <i class="fa-solid fa-list-check fa-sm"></i>
+                                    <label class="menu-regulacion" for="image_1">Características de la
+                                        Regulación</label>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion active-view">
-                                        <i class="fa-solid fa-table-list fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
+                                    <i class="fa-solid fa-table-list fa-sm"></i>
+                                    <label class="menu-regulacion" for="image_2">Materias Exentas</label>
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                        <i class="fa-solid fa-book fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
+                                    <i class="fa-solid fa-book fa-sm"></i>
+                                    <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
                                 </li>
                             </ul>
                         </div>
@@ -78,8 +78,8 @@ Registro Estatal de Regulaciones
                             <div id="radioGroup"
                                 class="d-flex align-content-center  justify-content-center align-items-center">
                                 <label for="si"><input type="radio" id="si" name="opcion" value="si">Sí</label>
-                                <label class="ms-2" for="no"> <input type="radio" id="no" name="opcion"
-                                        value="no" checked>No</label>
+                                <label class="ms-2" for="no"> <input type="radio" id="no" name="opcion" value="no"
+                                        checked>No</label>
                             </div>
                         </div>
 
@@ -206,9 +206,9 @@ Registro Estatal de Regulaciones
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
-                        <button type="submit" id="btnCheck" class="btn btn-success btn-guardar">Guardar</button>
-                        <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                        <a href="<?php echo base_url('RegulaccionController'); ?>"
                             class="btn btn-secondary me-2">Cancelar</a>
+                        <button type="submit" id="btnCheck" class="btn btn-success btn-guardar">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -219,20 +219,20 @@ Registro Estatal de Regulaciones
 @endsection
 @section('js')
 <script>
-$(document).ready(function() {
-    $('input[type=radio][name=opcion]').change(function() {
-        if (this.value == 'si') {
-            $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
-        } else if (this.value == 'no') {
+    $(document).ready(function () {
+        $('input[type=radio][name=opcion]').change(function () {
+            if (this.value == 'si') {
+                $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
+            } else if (this.value == 'no') {
+                $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+            }
+        });
+
+        // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
+        if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
             $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
         }
     });
-
-    // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
-    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
-        $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
-    }
-});
 </script>
 <script>
     $(document).ready(function () {
@@ -304,7 +304,7 @@ $(document).ready(function() {
                         console.error('Error en la solicitud AJAX:', error);
                     }
                 });
-            }else{
+            } else {
                 // Redirigir al usuario al enlace especificado
                 window.location.href = '<?php echo base_url('RegulacionController/nat_regulaciones'); ?>';
             }

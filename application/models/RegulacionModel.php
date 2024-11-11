@@ -263,6 +263,11 @@ class RegulacionModel extends CI_Model
         $this->db->insert('derivada_reg', $data);
     }
 
+    public function insertarRegulacionDerivada($data)
+    {
+        $this->db->insert('cat_regulacion_derivada_manual', $data);
+    }
+
     public function get_max_id_rel_nat()
     {
         $this->db->select_max('ID_relNaturaleza');
@@ -904,6 +909,34 @@ class RegulacionModel extends CI_Model
         $this->db->select('ID_Regulacion');
         $this->db->from('derivada_reg');
         $this->db->where_in('ID_Nat', $id_nats);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_idRegulacion_by_idNat($id_nat)
+    {
+        $this->db->select('ID_Regulacion');
+        $this->db->from('rel_nat_reg');
+        $this->db->where('ID_Nat', $id_nat);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function get_regulaciones_derivadas($id_nat)
+    {
+        $this->db->select('ma.ID_Regulacion, ma.Nombre_Regulacion');
+        $this->db->from('derivada_reg');
+        $this->db->join('ma_regulacion as ma', 'derivada_reg.ID_Regulacion = ma.ID_Regulacion');
+        $this->db->where('derivada_reg.ID_Nat', $id_nat); // Filtrando por ID_Nat
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_regulaciones_derivadas_manuales($id_regulaciones)
+    {
+        $this->db->select('id_regulacion as ID_Regulacion, nombre, enlace');
+        $this->db->from('cat_regulacion_derivada_manual');
+        $this->db->where_in('id_regulacion', $id_regulaciones);
         $query = $this->db->get();
         return $query->result_array();
     }

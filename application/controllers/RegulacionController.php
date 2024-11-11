@@ -227,7 +227,7 @@ class RegulacionController extends CI_Controller
         // Obtener los datos de la naturaleza de natreg
         $data['natreg'] = $this->RegulacionModel->get_rel_nat_reg_by_id($id_regulacion);
         if ($data['natreg'] == null) {
-            $data['id_nat'] = $this->RegulacionModel->get_max_id_nat()+1;
+            $data['id_nat'] = $this->RegulacionModel->get_max_id_nat() + 1;
         } else {
             $data['id_nat'] = $data['natreg']['ID_Nat'];
             $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
@@ -239,6 +239,15 @@ class RegulacionController extends CI_Controller
         //Obtener de_naturaleza_regulacion por ID_Nat
         $data['natural'] = $this->RegulacionModel->getNaturalezaRegulacionByRegulacion($id_regulacion);
         $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_by_id($id_regulacion);
+        // Obtener resultados de cada consulta
+        $regulaciones_derivadas = $this->RegulacionModel->get_regulaciones_derivadas($data['id_nat']);
+        $regulaciones_derivadas_manuales = $this->RegulacionModel->get_regulaciones_derivadas_manuales($id_regulacion);
+
+        // Combinar los resultados
+        $regulaciones_combinadas = array_merge($regulaciones_derivadas, $regulaciones_derivadas_manuales);
+
+        // Enviar los datos combinados a la vista
+        $data['regulaciones_combinadas'] = $regulaciones_combinadas;
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/editar_naturaleza', $data);
@@ -320,7 +329,7 @@ class RegulacionController extends CI_Controller
 
         // Responder a la solicitud AJAX
         echo json_encode(array('status' => 'success'));
-    
+
     }
 
     public function obtenerMaxIDRegulacion()
@@ -337,7 +346,7 @@ class RegulacionController extends CI_Controller
         $result = $query->row();
         if ($result->maxID == null) {
             $result->maxID = 1;
-        }else{
+        } else {
             $result->maxID = $result->maxID;
         }
     }
@@ -370,7 +379,7 @@ class RegulacionController extends CI_Controller
     {
         // Cargar el modelo
         $this->load->model('RegulacionModel');
-        
+
 
         // Obtener los datos de la solicitud POST
         $ID_Emiten = $this->input->post('ID_Emiten');
@@ -381,7 +390,7 @@ class RegulacionController extends CI_Controller
             $result = $query->row();
             if ($result->maxID == null) {
                 $ID_Caract = 1;
-            }else{
+            } else {
                 $ID_Caract = $result->maxID;
             }
         }
@@ -424,7 +433,7 @@ class RegulacionController extends CI_Controller
             $result = $query->row();
             if ($result->maxID == null) {
                 $ID_Caract = 1;
-            }else{
+            } else {
                 $ID_Caract = $result->maxID;
             }
         }
@@ -466,7 +475,7 @@ class RegulacionController extends CI_Controller
                 $result = $query->row();
                 if ($result->maxID == null) {
                     $ID_Caract = 1;
-                }else{
+                } else {
                     $ID_Caract = $result->maxID;
                 }
                 foreach ($datosTabla as $fila) {
@@ -476,11 +485,11 @@ class RegulacionController extends CI_Controller
                         'Texto' => $fila['Texto'],
                         'Orden' => $fila['Orden']
                     );
-    
+
                     // Llamar al modelo para insertar los datos
                     $this->RegulacionModel->insertarDatosTabla($data);
                 }
-            }else{
+            } else {
                 foreach ($datosTabla as $fila) {
                     $data = array(
                         'ID_Indice' => $fila['ID_Indice'],
@@ -488,12 +497,12 @@ class RegulacionController extends CI_Controller
                         'Texto' => $fila['Texto'],
                         'Orden' => $fila['Orden']
                     );
-    
+
                     // Llamar al modelo para insertar los datos
                     $this->RegulacionModel->insertarDatosTabla($data);
                 }
             }
-            
+
 
             // Responder con éxito
             echo json_encode(array('status' => 'success'));
@@ -670,6 +679,7 @@ class RegulacionController extends CI_Controller
 
     public function save_naturaleza_regulacion()
     {
+        $manualRegulaciones = json_decode($_POST['manualRegulaciones'], true);
         $file_path = null;
         if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
             $file = $_FILES['userfile'];
@@ -736,23 +746,39 @@ class RegulacionController extends CI_Controller
             );
             $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
 
-            // Extraer registros de la tabla tramitesTable y guardarlos en la base de datos
-        $tramites = json_decode($this->input->post('tramites'), true);
 
-        if (is_array($tramites)) {
-            foreach ($tramites as $tramite) {
-                $data_tramite = array(
-                    'ID_Nat' => $id_naturaleza,
-                    'Nombre' => $tramite['Nombre'],
-                    'Direccion' => $tramite['Direccion']
-                );
-                $this->RegulacionModel->insert_tramite($data_tramite);
+            $idRegulacion = $this->RegulacionModel->get_idRegulacion_by_idNat($id_naturaleza);
+
+            // Procesar y guardar las regulaciones manuales
+            if (!empty($manualRegulaciones)) {
+                foreach ($manualRegulaciones as $regulacion) {
+                    $data_manual = array(
+                        'nombre' => $regulacion['nombre'],
+                        'enlace' => $regulacion['enlace'],
+                        'id_regulacion' => $idRegulacion['ID_Regulacion'],
+                        'id_naturaleza' => $id_naturaleza
+                    );
+                    $this->RegulacionModel->insertarRegulacionDerivada($data_manual);
+                }
             }
-            echo json_encode(array('status' => 'success'));
-            exit();
-        } else {
-            log_message('error', 'Invalid tramites data: ' . print_r($tramites, true));
-        }
+
+            // Extraer registros de la tabla tramitesTable y guardarlos en la base de datos
+            $tramites = json_decode($this->input->post('tramites'), true);
+
+            if (is_array($tramites)) {
+                foreach ($tramites as $tramite) {
+                    $data_tramite = array(
+                        'ID_Nat' => $id_naturaleza,
+                        'Nombre' => $tramite['Nombre'],
+                        'Direccion' => $tramite['Direccion']
+                    );
+                    $this->RegulacionModel->insert_tramite($data_tramite);
+                }
+                echo json_encode(array('status' => 'success'));
+                exit();
+            } else {
+                log_message('error', 'Invalid tramites data: ' . print_r($tramites, true));
+            }
 
         } else if ($this->input->post('btn_clicked') && $this->input->post('radio_si_selected')) {
             // Verificación si el radio "sí" está seleccionado
@@ -820,10 +846,12 @@ class RegulacionController extends CI_Controller
                 }
             } else if (!empty($selectedSectors) && !empty($selectedSubsectors)) {
                 // Verifica que los campos se ingresen en orden
-                if ((empty($selectedRamas) && empty($selectedSubramas) && empty($selectedClases)) ||
+                if (
+                    (empty($selectedRamas) && empty($selectedSubramas) && empty($selectedClases)) ||
                     (!empty($selectedRamas) && empty($selectedSubramas) && empty($selectedClases)) ||
-                    (!empty($selectedRamas) && !empty($selectedSubramas) && empty($selectedClases))) {
-                    
+                    (!empty($selectedRamas) && !empty($selectedSubramas) && empty($selectedClases))
+                ) {
+
                     foreach ($selectedSectors as $sector) {
                         foreach ($selectedSubsectors as $subsector) {
                             foreach ($selectedRamas as $rama) {
@@ -851,22 +879,37 @@ class RegulacionController extends CI_Controller
                 }
             }
 
-            // Extraer registros de la tabla tramitesTable y guardarlos en la base de datos
-        $tramites = json_decode($this->input->post('tramites'), true);
+            $idRegulacion = $this->RegulacionModel->get_idRegulacion_by_idNat($id_naturaleza);
 
-        if (is_array($tramites)) {
-            foreach ($tramites as $tramite) {
-                $data_tramite = array(
-                    'ID_Nat' => $id_naturaleza,
-                    'Nombre' => $tramite['Nombre'],
-                    'Direccion' => $tramite['Direccion']
-                );
-                $this->RegulacionModel->insert_tramite($data_tramite);
+            // Procesar y guardar las regulaciones manuales
+            if (!empty($manualRegulaciones)) {
+                foreach ($manualRegulaciones as $regulacion) {
+                    $data_manual = array(
+                        'nombre' => $regulacion['nombre'],
+                        'enlace' => $regulacion['enlace'],
+                        'id_regulacion' => $idRegulacion['ID_Regulacion'],
+                        'id_naturaleza' => $id_naturaleza
+                    );
+                    $this->RegulacionModel->insertarRegulacionDerivada($data_manual);
+                }
             }
-            
-        } else {
-            log_message('error', 'Invalid tramites data: ' . print_r($tramites, true));
-        }
+
+            // Extraer registros de la tabla tramitesTable y guardarlos en la base de datos
+            $tramites = json_decode($this->input->post('tramites'), true);
+
+            if (is_array($tramites)) {
+                foreach ($tramites as $tramite) {
+                    $data_tramite = array(
+                        'ID_Nat' => $id_naturaleza,
+                        'Nombre' => $tramite['Nombre'],
+                        'Direccion' => $tramite['Direccion']
+                    );
+                    $this->RegulacionModel->insert_tramite($data_tramite);
+                }
+
+            } else {
+                log_message('error', 'Invalid tramites data: ' . print_r($tramites, true));
+            }
 
             echo json_encode(array('status' => 'success'));
         } else {
@@ -942,6 +985,8 @@ class RegulacionController extends CI_Controller
     {
         $id_regulacion = $this->input->post('idRegulacion');
         $idNaturaleza = $this->input->post('idNaturaleza');
+        $manualRegulaciones = json_decode($_POST['manualRegulaciones'], true);
+
 
         // Obtener el registro existente de la base de datos
         $existing_record = $this->RegulacionModel->get_naturaleza_regulacion($idNaturaleza);
@@ -1009,13 +1054,26 @@ class RegulacionController extends CI_Controller
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
                                 'ID_Nat' => $idNaturaleza,
-                                'ID_Regulacion' => $regulacionItem
+                                'ID_Regulacion' => $id_regulacion
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
                         }
                     }
                 }
             }
+            // Procesar y guardar las regulaciones manuales
+            if (!empty($manualRegulaciones)) {
+                foreach ($manualRegulaciones as $regulacion) {
+                    $data_manual = array(
+                        'nombre' => $regulacion['nombre'],
+                        'enlace' => $regulacion['enlace'],
+                        'id_regulacion' => $id_regulacion,
+                        'id_naturaleza' => $idNaturaleza
+                    );
+                    $this->RegulacionModel->insertarRegulacionDerivada($data_manual);
+                }
+            }
+
             // Obtener el ID_relNaturaleza más grande y agregar uno más grande
             $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
             $new_id_rel_nat = $max_id_rel_nat + 1;
@@ -1096,13 +1154,27 @@ class RegulacionController extends CI_Controller
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
                                 'ID_Nat' => $idNaturaleza,
-                                'ID_Regulacion' => $regulacionItem
+                                'ID_Regulacion' => $id_regulacion
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
                         }
                     }
                 }
             }
+
+            // Procesar y guardar las regulaciones manuales
+            if (!empty($manualRegulaciones)) {
+                foreach ($manualRegulaciones as $regulacion) {
+                    $data_manual = array(
+                        'nombre' => $regulacion['nombre'],
+                        'enlace' => $regulacion['enlace'],
+                        'id_regulacion' => $id_regulacion,
+                        'id_naturaleza' => $idNaturaleza
+                    );
+                    $this->RegulacionModel->insertarRegulacionDerivada($data_manual);
+                }
+            }
+
 
             // Obtener el ID_relNaturaleza más grande y agregar uno más grande
             $max_id_rel_nat = $this->RegulacionModel->get_max_id_rel_nat();
@@ -1905,9 +1977,6 @@ class RegulacionController extends CI_Controller
     {
         $id_regulacion = $this->input->post('id_regulacion');
 
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
-
         // Obtener los ID_Nat de la tabla derivada_reg
         $nats = $this->RegulacionModel->get_nats_by_regulacion($id_regulacion);
 
@@ -2056,7 +2125,8 @@ class RegulacionController extends CI_Controller
         $maxValues = $this->RegulacionModel->getMaxValuesTram();
         echo json_encode($maxValues);
     }
-    public function insertTramite($id_naturaleza) {
+    public function insertTramite($id_naturaleza)
+    {
         // Obtener datos del POST
         $tram = $this->input->post('tram');
         $dir = $this->input->post('dir');
@@ -2082,7 +2152,8 @@ class RegulacionController extends CI_Controller
         // Retornar el registro insertado como JSON
         echo json_encode($new_tramite);
     }
-    public function guardarRegistros() {
+    public function guardarRegistros()
+    {
         // Obtiene los datos enviados por la solicitud AJAX
         $registros = $this->input->post('registros');
         $ID_caract = $this->input->post('ID_caract');
@@ -2092,12 +2163,12 @@ class RegulacionController extends CI_Controller
             $result = $query->row();
             if ($result->maxID == null) {
                 $ID_Caract = 1;
-            }else{
+            } else {
                 $ID_Caract = $result->maxID;
             }
             $ID_caract = $ID_Caract;
         }
-        
+
 
         // Verifica que los datos no estén vacíos
         if (!empty($registros) && !empty($ID_caract)) {
@@ -2121,7 +2192,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function InsertarFundamentos() {
+    public function InsertarFundamentos()
+    {
         // Obtiene los datos enviados por la solicitud AJAX
         $fundamentos = $this->input->post('fundamentos');
         $ID_caract = $this->input->post('ID_caract');
@@ -2131,7 +2203,7 @@ class RegulacionController extends CI_Controller
             $result = $query->row();
             if ($result->maxID == null) {
                 $ID_Caract = 1;
-            }else{
+            } else {
                 $ID_Caract = $result->maxID;
             }
             $ID_caract = $ID_Caract;
@@ -2159,7 +2231,8 @@ class RegulacionController extends CI_Controller
             echo json_encode(array('status' => 'error', 'message' => 'Datos incompletos'));
         }
     }
-    public function verificarRegistros() {
+    public function verificarRegistros()
+    {
         $ultimoID = $this->RegulacionModel->obtenerUltimoIDMatSec();
         $existenRegistros = $ultimoID !== null;
 
@@ -2168,7 +2241,8 @@ class RegulacionController extends CI_Controller
             'ultimoID' => $ultimoID
         ));
     }
-    public function verificarRegistros2() {
+    public function verificarRegistros2()
+    {
         $ID_caract = $this->input->get('ID_caract');
         $ultimoID = $this->RegulacionModel->obtenerUltimoIDMatSec();
         $registrosExistentes = $this->RegulacionModel->get_registros_by_id_caract($ID_caract);
@@ -2181,7 +2255,8 @@ class RegulacionController extends CI_Controller
             'registrosExistentes' => $registrosExistentes
         ));
     }
-    public function verificarFundamentos() {
+    public function verificarFundamentos()
+    {
         $ultimoID = $this->RegulacionModel->obtenerUltimoIDFun();
         $existenRegistros = $ultimoID !== null;
 
@@ -2190,7 +2265,8 @@ class RegulacionController extends CI_Controller
             'ultimoID' => $ultimoID
         ));
     }
-    public function verificarFundamentos2() {
+    public function verificarFundamentos2()
+    {
         $ID_caract = $this->input->get('ID_caract');
         $ultimoID = $this->RegulacionModel->obtenerUltimoIDFun();
         $registrosExistentes = $this->RegulacionModel->get_fundamentos_by_id_caract($ID_caract);
@@ -2203,7 +2279,8 @@ class RegulacionController extends CI_Controller
             'registrosExistentes' => $registrosExistentes
         ));
     }
-    public function verificarTramites() {
+    public function verificarTramites()
+    {
         $ID_Nat = $this->input->get('ID_Nat');
         $ultimoID = $this->RegulacionModel->obtenerUltimoIDTram();
         $registrosExistentes = $this->RegulacionModel->get_tramites_by_id_nat($ID_Nat);
@@ -2216,7 +2293,8 @@ class RegulacionController extends CI_Controller
             'registrosExistentes' => $registrosExistentes
         ));
     }
-    public function eliminarRegistro() {
+    public function eliminarRegistro()
+    {
         $ID_MatSec = $this->input->post('ID_MatSec');
 
         if ($this->RegulacionModel->eliminarRegistro($ID_MatSec)) {
@@ -2225,7 +2303,8 @@ class RegulacionController extends CI_Controller
             echo json_encode(array('status' => 'error'));
         }
     }
-    public function eliminarFundamento() {
+    public function eliminarFundamento()
+    {
         $ID_Fun = $this->input->post('ID_Fun');
 
         if ($this->RegulacionModel->eliminarFun($ID_Fun)) {
@@ -2234,7 +2313,8 @@ class RegulacionController extends CI_Controller
             echo json_encode(array('status' => 'error'));
         }
     }
-    public function eliminarTramite() {
+    public function eliminarTramite()
+    {
         $ID_Tram = $this->input->post('ID_Tram');
 
         if ($this->RegulacionModel->eliminarTram($ID_Tram)) {

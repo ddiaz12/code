@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar Registro Estatal de Regulaciones (RER)
     </li>
 </ol>
 <div class="container mt-5">
@@ -80,13 +80,14 @@ Registro Estatal de Regulaciones
                 <!-- Existing card -->
                 <div class="card flex-grow-1">
                     <div class="card">
-                        <div class="card-header text-white">Editar Regulación</div>
+                        <div class="card-header text-white">Editar Registro Estatal de Regulaciones (RER)</div>
                         <div class="card-body">
 
                             <!-- Formulario de agregar regulaciones -->
                             <form class="row g-3" id="form-regulacion">
                                 <div class="form-group">
-                                    <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
+                                    <label for="inputNombre">Nombre<span style="color: gray;">(usar mayúsculas y
+                                    minúsculas en la escritura)</span><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="inputNombre" name="nombre"
                                         value="<?php echo $regulacion['Nombre_Regulacion']; ?>" required>
                                 </div>

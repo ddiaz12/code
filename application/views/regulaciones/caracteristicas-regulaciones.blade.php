@@ -390,7 +390,7 @@ Registro Estatal de Regulaciones
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_Fun</th>
-                                            <th>Nombre Regulacion</th>
+                                            <th>Nombre regulacion</th>
                                             <th>Articulo</th>
                                             <th>Link</th>
                                             <th></th>
@@ -412,14 +412,14 @@ Registro Estatal de Regulaciones
                                             <div class="modal-body">
                                                 <form>
                                                     <div class="form-group">
-                                                        <label for="inputNomReg">Nombre de la Regulacion</label>
+                                                        <label for="inputNomReg">Nombre de la regulacion</label>
                                                         <input type="text" class="form-control" id="inputNomReg"
-                                                            placeholder="Ingrese el Nombre" name="NombreReg">
+                                                            placeholder="Ingrese el nombre" name="NombreReg">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputArt">Articulo, párrafo, numeral, etc.</label>
                                                         <input type="text" class="form-control" id="inputArt"
-                                                            placeholder="Ingrese el Articulo" name="NombreArt">
+                                                            placeholder="Ingrese el articulo" name="NombreArt">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputLink">Link</label>

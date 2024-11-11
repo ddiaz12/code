@@ -297,6 +297,10 @@ footer {
 	margin-left: 6px;
 }
 
+.div-iconos{
+	margin-left: 5rem;
+}
+
 footer .footer-backgroundcolor-pu {
 	padding-right: 0px;
 	padding-left: 0px;
@@ -304,7 +308,7 @@ footer .footer-backgroundcolor-pu {
 }
 
 .footer-social-separador-pu {
-	margin-top: 5%;
+	margin-top: 1%;
 }
 
 .footer-texto-pu {
@@ -559,4 +563,26 @@ footer .footer-icon-separador-pu {
     .div-buscador {
         padding: 4rem 2rem 0 2rem;
     }
+}
+
+/*Pantallas grnades de mas de 1600  */
+@media screen and (min-width: 1500px) and (max-width: 1920px) {
+    .div-buscador {
+        padding: 4rem 1rem 0 13rem;
+    }
+
+	.iconos-footer{
+		padding-inline: 0px;
+	}
+}
+
+/*Pantallas grnades de mas de 1920  */
+@media screen and (min-width: 1920px) {
+	.div-buscador {
+		padding: 4rem 1rem 0 13rem;
+	}
+
+	.iconos-footer{
+		padding-inline: 0px;
+	}
 }
