@@ -18,75 +18,74 @@ Registro Estatal de Regulaciones
     </div>
     <div class="row mt-4">
         <div class="col-md-12 ">
-            <div class="shadow-sm">
-                <div class="card-body">
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
-                        <p class="text-center subtitulo">Consulta las regulaciones vigentes en el Estado de Colima.</p>
-                            <div id="buscador" class="input-group mb-2" data-mdb-input-init>
-                                <input type="search" id="nombreRegulacion" placeholder="Ingrese búsqueda"
-                                    class="form-control input-buscador rounded-left" required
-                                    onkeydown="buscarConEnter(event)">
-                                <div class="input-group-append">
-                                    <button type="button" id="btn-search" class="btn btn-primary rounded-right">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <p class="text-center subtitulo">Consulta las regulaciones vigentes en el Estado de Colima.
+                        </p>
+                        <div id="buscador" class="input-group mb-2" data-mdb-input-init>
+                            <input type="search" id="nombreRegulacion" placeholder="Ingrese búsqueda"
+                                class="form-control input-buscador rounded-left" required
+                                onkeydown="buscarConEnter(event)">
+                            <div class="input-group-append">
+                                <button type="button" id="btn-search" class="btn btn-primary rounded-right">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center mt-3 txtBusqueda">
-                                <label id="regdisp">Se encontraron
-                                    <?php echo $numeroDeRegulaciones; ?> resultados</label>
-                                <div>
-                                    <label for="advancedSearch">Búsqueda avanzada</label>
-                                    <button id="advancedSearch" class="btn btn-link" onclick="toggleAdvancedSearch()">
-                                        <i class="fas fa-arrow-down flecha"></i>
-                                    </button>
-                                </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3 txtBusqueda">
+                            <label id="regdisp">Se encontraron
+                                <?php echo $numeroDeRegulaciones; ?> resultados</label>
+                            <div>
+                                <label for="advancedSearch">Búsqueda avanzada</label>
+                                <button id="advancedSearch" class="btn btn-link" onclick="toggleAdvancedSearch()">
+                                    <i class="fas fa-arrow-down flecha"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-3" id="mostrarFiltros" style="display: none;">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="option1">Desde</label>
-                                <input type="date" class="form-control" id="option1">
-                            </div>
+                </div>
+                <div class="row mt-3" id="mostrarFiltros" style="display: none;">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="option1">Desde</label>
+                            <input type="date" class="form-control" id="option1">
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="option2">Hasta</label>
-                                <input type="date" class="form-control" id="option2">
-                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="option2">Hasta</label>
+                            <input type="date" class="form-control" id="option2">
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="option3">Dependencia</label>
-                                <select class="form-control" id="option3">
-                                    <option value="">Seleccione una dependencia</option>
-                                    <?php foreach ($dependencias as $dependencia): ?>
-                                    <option value="<?= htmlspecialchars($dependencia['Tipo_Dependencia']); ?>">
-                                        <?= htmlspecialchars($dependencia['Tipo_Dependencia']); ?>
-                                    </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="option3">Dependencia</label>
+                            <select class="form-control" id="option3">
+                                <option value="">Seleccione una dependencia</option>
+                                <?php foreach ($dependencias as $dependencia): ?>
+                                <option value="<?= htmlspecialchars($dependencia['Tipo_Dependencia']); ?>">
+                                    <?= htmlspecialchars($dependencia['Tipo_Dependencia']); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
-                        <div class="col-md-4 offset-md-4"> <!-- Añadimos "offset-md-4" para centrar la columna -->
-                            <div class="form-group">
-                                <label for="option4">Tipo de ordenamiento</label>
-                                <select class="form-control" id="option4">
-                                    <option value="">Seleccione un tipo de ordenamiento</option>
-                                    <?php foreach ($tiposOrdenamiento as $tipo): ?>
-                                    <option value="<?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>">
-                                        <?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>
-                                    </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-md-4 offset-md-4"> <!-- Añadimos "offset-md-4" para centrar la columna -->
+                        <div class="form-group">
+                            <label for="option4">Tipo de ordenamiento</label>
+                            <select class="form-control" id="option4">
+                                <option value="">Seleccione un tipo de ordenamiento</option>
+                                <?php foreach ($tiposOrdenamiento as $tipo): ?>
+                                <option value="<?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>">
+                                    <?= htmlspecialchars($tipo['Tipo_Ordenamiento']); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
-                        <div class="col-md-12 text-center">
-                            <button type="button" class="btn" id="buscarBtn">Buscar</button>
-                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn" id="buscarBtn">Buscar</button>
                     </div>
                 </div>
             </div>
@@ -102,12 +101,28 @@ Registro Estatal de Regulaciones
                 <div class="col-md-4 mb-3">
                     <div class="card shadow-sm div-card h-100">
                         <div class="card-header py-2">
-                            <h7 class="m-0 font-weight-bold text-cards card-title">
-                                <?php    echo $regulacion->Nombre_Regulacion; ?>
-                            </h7>
+                            <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $regulacion->ID_Regulacion); ?>"
+                                class="no-underline">
+                                <h7 class="m-0 font-weight-bold text-cards card-title">
+                                    <?php    echo $regulacion->Nombre_Regulacion; ?>
+                                </h7>
+                            </a>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <p class="card-text flex-grow-1"><?php    echo $regulacion->Objetivo_Reg; ?></p>
+                            <!-- Información de las autoridades -->
+                            <?php    if (!empty($regulacion->autoridades)): ?>
+                            <p><strong>Autoridades que la emiten:</strong></p>
+                            <ul>
+                                <?php        foreach ($regulacion->autoridades as $autoridad): ?>
+                                <li> <?php            echo $autoridad->Autoridad_Emiten; ?></li>
+                                <?php        endforeach; ?>
+                            </ul>
+                            <?php    else: ?>
+                            <p>No hay información disponible sobre las autoridades.</p>
+                            <?php    endif; ?>
+                            <!-- Fecha de ultima modificacion en el sistema -->
+                            <p class="p-fecha"><strong>Última modificación:</strong>
+                                <?php    echo $regulacion->Fecha_Act_Sys; ?></p>
                         </div>
                         <div class="card-footer text-center">
                             <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $regulacion->ID_Regulacion); ?>"

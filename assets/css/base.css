@@ -568,7 +568,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 /* Tabla de índices */
 .table-spacing {
     border-top: 0;
-    margin-top: -5px; /* Conecta visualmente con el contenedor superior */
+    margin-top: -5px;
 }
 
 .table thead {
@@ -587,6 +587,12 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
     background-color: #ba2b3a !important; 
 }
 
+#manualEntryFields {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem; 
+    padding: 1rem; 
+    margin-top: 1rem;
+}
 
 @media screen and (max-width: 990px) {
 	.div-escudo {

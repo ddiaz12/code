@@ -52,6 +52,11 @@ a.cursor.denuncia-menu.nav-link {
 	margin-left: 10px;
 }
 
+.p-fecha{
+	font-size: 12px;
+	margin-block-start: auto;
+}
+
 .navbarGob {
 	background-color: #612233;
 }
@@ -292,6 +297,10 @@ footer {
 	margin-left: 6px;
 }
 
+.div-iconos{
+	margin-left: 5rem;
+}
+
 footer .footer-backgroundcolor-pu {
 	padding-right: 0px;
 	padding-left: 0px;
@@ -299,7 +308,7 @@ footer .footer-backgroundcolor-pu {
 }
 
 .footer-social-separador-pu {
-	margin-top: 5%;
+	margin-top: 1%;
 }
 
 .footer-texto-pu {
@@ -345,6 +354,11 @@ footer .footer-icon-separador-pu {
 	height: 350px;
 }
 
+.card-header:first-child {
+	border-top-left-radius: 16px;
+	border-top-right-radius: 16px;
+}
+
 .card-body {
 	display: flex;
 	flex-direction: column;
@@ -354,6 +368,16 @@ footer .footer-icon-separador-pu {
 	flex-grow: 1; /* Permite que el texto crezca para ocupar el espacio disponible */
 	overflow: hidden; /* Evita que el contenido exceda los límites del card */
 	text-overflow: ellipsis; /* Agrega puntos suspensivos si el contenido es muy largo */
+}
+
+.no-underline {
+    text-decoration: none;
+    color: inherit; 
+}
+
+.no-underline:hover {
+	text-decoration: none;
+	color: inherit; 
 }
 
 /* Estilos para el menú de accesibilidad */
@@ -433,6 +457,7 @@ footer .footer-icon-separador-pu {
 
 .btn-mostrar{
 	border-radius: 16px;
+	padding-inline: 23px;
 }
 
 .cargarMas{
@@ -467,23 +492,9 @@ footer .footer-icon-separador-pu {
 	margin-bottom: 0rem;
 }
 
-
-
 #btn-search {
 	background-color: #7f2841;
 	border-color: #b69664;
-}
-
-.regulation-container{
-	padding: 3rem 8rem 0 8rem;
-}
-
-.btn-verRegulacion1{
-	padding-inline: 13px 4px;
-}
-
-.btn-verRegulacion2{
-	padding-inline: 7px 12px;
 }
 
 #btnRegresar {
@@ -552,4 +563,26 @@ footer .footer-icon-separador-pu {
     .div-buscador {
         padding: 4rem 2rem 0 2rem;
     }
+}
+
+/*Pantallas grnades de mas de 1600  */
+@media screen and (min-width: 1500px) and (max-width: 1920px) {
+    .div-buscador {
+        padding: 4rem 1rem 0 13rem;
+    }
+
+	.iconos-footer{
+		padding-inline: 0px;
+	}
+}
+
+/*Pantallas grnades de mas de 1920  */
+@media screen and (min-width: 1920px) {
+	.div-buscador {
+		padding: 4rem 1rem 0 13rem;
+	}
+
+	.iconos-footer{
+		padding-inline: 0px;
+	}
 }
