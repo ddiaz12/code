@@ -256,9 +256,11 @@ Registro Estatal de Regulaciones
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_Indice</th>
-                                            <th></th>
                                             <th>Texto</th>
                                             <th>Orden</th>
+                                            <th class="hidden-column">Indice_Padre</th>
+                                            <th class="hidden-column">ID_IndicePadre</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -300,7 +302,7 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
+                                                <button type="button" id="guardarIbtn" class="btn btn-tinto btn_gIndice">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -329,6 +331,7 @@ Registro Estatal de Regulaciones
                                             <th>Materias</th>
                                             <th>Sectores</th>
                                             <th>Sujetos Regulados</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -393,6 +396,7 @@ Registro Estatal de Regulaciones
                                             <th>Nombre regulacion</th>
                                             <th>Articulo</th>
                                             <th>Link</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -514,26 +518,50 @@ Registro Estatal de Regulaciones
             var inputSec = $('#inputSec').val();
             var inputSuj = $('#inputSuj').val();
 
-            // Crea una nueva fila con los datos
-            var newRow = '<tr>' +
-                '<td class="hidden-column">' + idCounter + '</td>' +
-                '<td>' + inputMat + '</td>' +
-                '<td>' + inputSec + '</td>' +
-                '<td>' + inputSuj + '</td>' +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>';
+            if (inputMat.trim() === '' || inputSec.trim() === '' || inputSuj.trim() === '') {
+                if (inputMat.trim() === '') {
+                    $('#inputMat').css('color', 'red');
+                    $('#inputMat').after(
+                        '<span class="error-message" style="color: red;">El campo "Materias" es obligatorio.</span>'
+                    );
+                }
+                if (inputSec.trim() === '') {
+                    $('#inputSec').css('color', 'red');
+                    $('#inputSec').after(
+                        '<span class="error-message" style="color: red;">El campo "Sectores" es obligatorio.</span>'
+                    );
+                }
+                if (inputSuj.trim() === '') {
+                    $('#inputSuj').css('color', 'red');
+                    $('#inputSuj').after(
+                        '<span class="error-message" style="color: red;">El campo "Sujetos Regulados" es obligatorio.</span>'
+                    );
+                }
+                return;
+            }else{
+                // Crea una nueva fila con los datos
+                var newRow = '<tr>' +
+                    '<td class="hidden-column">' + idCounter + '</td>' +
+                    '<td>' + inputMat + '</td>' +
+                    '<td>' + inputSec + '</td>' +
+                    '<td>' + inputSuj + '</td>' +
+                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<i class="fas fa-edit"></i></button></td>' +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>';
 
-            // Agrega la nueva fila a la tabla
-            $('#materiasTable tbody').append(newRow);
+                // Agrega la nueva fila a la tabla
+                $('#materiasTable tbody').append(newRow);
 
-            // Incrementa el contador de ID_MatSec
-            idCounter++;
+                // Incrementa el contador de ID_MatSec
+                idCounter++;
 
-            // Limpia los valores de los inputs
-            $('#inputMat').val('');
-            $('#inputSec').val('');
-            $('#inputSuj').val('');
+                // Limpia los valores de los inputs
+                $('#inputMat').val('');
+                $('#inputSec').val('');
+                $('#inputSuj').val('');
+            }
         });
 
         // Maneja el evento de clic para eliminar una fila
@@ -572,26 +600,50 @@ Registro Estatal de Regulaciones
             var inputArt = $('#inputArt').val();
             var inputLink = $('#inputLink').val();
 
-            // Crea una nueva fila con los datos
-            var newRow = '<tr>' +
-                '<td class="hidden-column">' + idCounter2 + '</td>' +
-                '<td>' + inputNomReg + '</td>' +
-                '<td>' + inputArt + '</td>' +
-                '<td>' + inputLink + '</td>' +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>';
+            if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
+                if (inputNomReg.trim() === '') {
+                    $('#inputNomReg').css('color', 'red');
+                    $('#inputNomReg').after(
+                        '<span class="error-message" style="color: red;">El campo "Nombre de la Regulación" es obligatorio.</span>'
+                    );
+                }
+                if (inputArt.trim() === '') {
+                    $('#inputArt').css('color', 'red');
+                    $('#inputArt').after(
+                        '<span class="error-message" style="color: red;">El campo "Artículo" es obligatorio.</span>'
+                    );
+                }
+                if (inputLink.trim() === '') {
+                    $('#inputLink').css('color', 'red');
+                    $('#inputLink').after(
+                        '<span class="error-message" style="color: red;">El campo "Link" es obligatorio.</span>'
+                    );
+                }
+                return;
+            }else{
+                // Crea una nueva fila con los datos
+                var newRow = '<tr>' +
+                    '<td class="hidden-column">' + idCounter2 + '</td>' +
+                    '<td>' + inputNomReg + '</td>' +
+                    '<td>' + inputArt + '</td>' +
+                    '<td>' + inputLink + '</td>' +
+                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<i class="fas fa-edit"></i></button></td>' +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>';
 
-            // Agrega la nueva fila a la tabla
-            $('#fundamentoTable tbody').append(newRow);
+                // Agrega la nueva fila a la tabla
+                $('#fundamentoTable tbody').append(newRow);
 
-            // Incrementa el contador de ID_Fun
-            idCounter2++;
+                // Incrementa el contador de ID_Fun
+                idCounter2++;
 
-            // Limpia los valores de los inputs
-            $('#inputNomReg').val('');
-            $('#inputArt').val('');
-            $('#inputLink').val('');
+                // Limpia los valores de los inputs
+                $('#inputNomReg').val('');
+                $('#inputArt').val('');
+                $('#inputLink').val('');
+            }
         });
         // Maneja el evento de clic para eliminar una fila
         $('#fundamentoTable').on('click', '.delete-row', function () {
@@ -1296,11 +1348,7 @@ Registro Estatal de Regulaciones
                                                                                 if ($('#selectIndicePadre').val() == 'Seleccione un índice padre' || $('#selectIndicePadre').val() == '') {
                                                                                     var ID_Padre = null;
                                                                                 } else {
-                                                                                    var ID_Padre =
-                                                                                        $(
-                                                                                            '#selectIndicePadre'
-                                                                                        )
-                                                                                            .val();
+                                                                                    var ID_Padre = $(this).find('td').eq(4).text();
                                                                                 }
 
                                                                                 console
@@ -1432,47 +1480,71 @@ Registro Estatal de Regulaciones
             null; // Variable para almacenar el último ID_Indice insertado
         var lastInsertedOrden =
             null; // Variable para almacenar el último Orden insertado
+        var lastInsertedIDIndicePadre =
+            null; // Variable para almacenar el último ID_IndicePadre insertado
+        var lastInsertedIndicePadre =
+            null; // Variable para almacenar el último ID_IndicePadre insertado
 
         $('#guardarIbtn').on('click', function () {
             var inputTexto = $('#inputTexto').val();
+            lastInsertedIndicePadre =  $('#selectIndicePadre option:selected').text();
+            lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+            if (inputTexto.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, complete el campo de texto.'
+                });
+                return;
+            }else{
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                    method: 'GET',
+                    success: function (data) {
+                        var maxValues = JSON.parse(data);
 
-            $.ajax({
-                url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                method: 'GET',
-                success: function (data) {
-                    var maxValues = JSON.parse(data);
+                        if (maxValues.ID_Indice == null || maxValues.Orden == null) {
+                            lastInsertedID_Indice = 1;
+                            lastInsertedOrden = 1;
+                            // Verificar si la tabla con id resultTable no está vacía
+                            if ($('#resultTable tbody tr').length > 0) {
+                                lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
+                                lastInsertedOrden = $('#resultTable tbody tr').length + 1;
+                            }
+                        } else {
+                            lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
+                            lastInsertedOrden = parseInt(maxValues.Orden) + 1;
+                            // Verificar si la tabla con id resultTable no está vacía
+                            if ($('#resultTable tbody tr').length > 0) {
+                                lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
+                                    '#resultTable tbody tr').length + 1;
+                                lastInsertedOrden = parseInt(maxValues.Orden) + $(
+                                    '#resultTable tbody tr').length + 1;
+                            }
+                        }
+                        if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
+                            lastInsertedIndicePadre = null;
+                        }
+                        
 
-                    if (maxValues.ID_Indice == null || maxValues.Orden == null) {
-                        lastInsertedID_Indice = 1;
-                        lastInsertedOrden = 1;
-                        // Verificar si la tabla con id resultTable no está vacía
-                        if ($('#resultTable tbody tr').length > 0) {
-                            lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
-                            lastInsertedOrden = $('#resultTable tbody tr').length + 1;
-                        }
-                    } else {
-                        lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
-                        lastInsertedOrden = parseInt(maxValues.Orden) + 1;
-                        // Verificar si la tabla con id resultTable no está vacía
-                        if ($('#resultTable tbody tr').length > 0) {
-                            lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
-                                '#resultTable tbody tr').length + 1;
-                            lastInsertedOrden = parseInt(maxValues.Orden) + $(
-                                '#resultTable tbody tr').length + 1;
-                        }
+                        var newRow = '<tr><td class="hidden-column">' + lastInsertedID_Indice + '</td><td class="texto">' + inputTexto +
+                            '</td><td>' + lastInsertedOrden + '</td>' +
+                            '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
+                            '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
+                            '<td><button class="btn btn-danger btn-sm edit-row">' +
+                            '<i class="fas fa-edit"></i></button></td>' +
+                            '<td><button class="btn btn-danger btn-sm delete-row">' +
+                            '<i class="fas fa-trash-alt"></i></button></td>' +
+                            '</tr>';
+                        $('#resultTable tbody').append(newRow);
+                        // Cerrar el modal
+                        $('#myModal').modal('hide');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
                     }
-
-                    var newRow = '<tr><td>' + lastInsertedID_Indice + '</td><td>' + inputTexto +
-                        '</td><td>' + lastInsertedOrden + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
-                        '</tr>';
-                    $('#resultTable tbody').append(newRow);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error('AJAX error:', textStatus, errorThrown);
-                }
-            });
+                });
+            }
         });
     });
 </script>
@@ -1540,6 +1612,328 @@ Registro Estatal de Regulaciones
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    var isEditing = false;
+    var editingRow = null;
+
+    $('#resultTable').on('click', '.edit-row', function() {
+        // Establecer el modo de edición
+        isEditing = true;
+        editingRow = $(this).closest('tr');
+        
+        // Obtener los datos de la fila
+        var texto = editingRow.find('.texto').text();
+        var indicePadre = editingRow.find('.indice-padre').text();
+        
+        // Asignar los datos al modal
+        $('#inputTexto').val(texto);
+        $('#selectIndicePadre').val(indicePadre);
+        
+        // Abrir el modal
+        $('#myModal').modal('show');
+    });
+
+    $('#guardarIbtn').off('click').on('click', function() {
+        if (isEditing) {
+            // Actualizar los datos de la fila en modo de edición
+            editingRow.find('.texto').text($('#inputTexto').val());
+            editingRow.find('.indice-padre').text($('#selectIndicePadre').val());
+            
+            // Resetear el modo de edición
+            isEditing = false;
+            editingRow = null;
+        } else {
+            var inputTexto = $('#inputTexto').val();
+            var lastInsertedIndicePadre =  $('#selectIndicePadre option:selected').text();
+            var lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+            // Agregar un nuevo índice en modo de creación
+            var inputTexto = $('#inputTexto').val();
+            lastInsertedIndicePadre =  $('#selectIndicePadre option:selected').text();
+            lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+            if (inputTexto.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, complete el campo de texto.'
+                });
+                return;
+            }else{
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                    method: 'GET',
+                    success: function (data) {
+                        var maxValues = JSON.parse(data);
+
+                        if (maxValues.ID_Indice == null || maxValues.Orden == null) {
+                            lastInsertedID_Indice = 1;
+                            lastInsertedOrden = 1;
+                            // Verificar si la tabla con id resultTable no está vacía
+                            if ($('#resultTable tbody tr').length > 0) {
+                                lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
+                                lastInsertedOrden = $('#resultTable tbody tr').length + 1;
+                            }
+                        } else {
+                            lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
+                            lastInsertedOrden = parseInt(maxValues.Orden) + 1;
+                            // Verificar si la tabla con id resultTable no está vacía
+                            if ($('#resultTable tbody tr').length > 0) {
+                                lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
+                                    '#resultTable tbody tr').length + 1;
+                                lastInsertedOrden = parseInt(maxValues.Orden) + $(
+                                    '#resultTable tbody tr').length + 1;
+                            }
+                        }
+                        if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
+                            lastInsertedIndicePadre = null;
+                        }
+                        
+
+                        var newRow = '<tr><td class="hidden-column">' + lastInsertedID_Indice + '</td><td class="texto">' + inputTexto +
+                            '</td><td>' + lastInsertedOrden + '</td>' +
+                            '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
+                            '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
+                            '<td><button class="btn btn-danger btn-sm edit-row">' +
+                            '<i class="fas fa-edit"></i></button></td>' +
+                            '<td><button class="btn btn-danger btn-sm delete-row">' +
+                            '<i class="fas fa-trash-alt"></i></button></td>' +
+                            '</tr>';
+                        $('#resultTable tbody').append(newRow);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                    }
+                });
+            }
+        }
+        
+        // Cerrar el modal
+        $('#myModal').modal('hide');
+    });
+});
+</script>
+<script>
+    $(document).ready(function () {
+        var isEditing = false;
+        var editingRow = null;
+
+        $('#materiasTable').on('click', '.edit-row', function () {
+            // Establecer el modo de edición
+            isEditing = true;
+            // Obtener la fila del botón clicado
+            editingRow = $(this).closest('tr');
+
+            // Obtener los datos de la fila
+            var materias = editingRow.find('td').eq(1).text();
+            var sectores = editingRow.find('td').eq(2).text();
+            var sujetosRegulados = editingRow.find('td').eq(3).text();
+
+            // Asignar los datos al modal
+            $('#inputMat').val(materias);
+            $('#inputSec').val(sectores);
+            $('#inputSuj').val(sujetosRegulados);
+
+            // Abrir el modal
+            $('#matModal').modal('show');
+        });
+        // Agregar el nuevo evento click para guardar los cambios
+        $('#guardarMat').off('click').on('click', function() {
+            if (isEditing) {
+                // Actualizar los datos de la fila
+                editingRow.find('td').eq(1).text($('#inputMat').val());
+                editingRow.find('td').eq(2).text($('#inputSec').val());
+                editingRow.find('td').eq(3).text($('#inputSuj').val());
+
+                // Resetear el modo de edición
+                isEditing = false;
+                editingRow = null;
+            }else{
+                // Agregar un nuevo registro en modo de creación
+                var idCounter = 1; // Inicializa el contador de ID_MatSec
+
+                // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/verificarRegistros') ?>',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.existenRegistros) {
+                            idCounter = parseInt(response.ultimoID, 10) + 1; // Inicializa el contador con el último ID + 1
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al verificar los registros en la base de datos.'
+                        });
+                    }
+                });
+                // Obtiene los valores de los inputs
+                var inputMat = $('#inputMat').val();
+                var inputSec = $('#inputSec').val();
+                var inputSuj = $('#inputSuj').val();
+
+                if (inputMat.trim() === '' || inputSec.trim() === '' || inputSuj.trim() === '') {
+                    if (inputMat.trim() === '') {
+                        $('#inputMat').css('color', 'red');
+                        $('#inputMat').after(
+                            '<span class="error-message" style="color: red;">El campo "Materias" es obligatorio.</span>'
+                        );
+                    }
+                    if (inputSec.trim() === '') {
+                        $('#inputSec').css('color', 'red');
+                        $('#inputSec').after(
+                            '<span class="error-message" style="color: red;">El campo "Sectores" es obligatorio.</span>'
+                        );
+                    }
+                    if (inputSuj.trim() === '') {
+                        $('#inputSuj').css('color', 'red');
+                        $('#inputSuj').after(
+                            '<span class="error-message" style="color: red;">El campo "Sujetos Regulados" es obligatorio.</span>'
+                        );
+                    }
+                    return;
+                }else{
+                    // Crea una nueva fila con los datos
+                    var newRow = '<tr>' +
+                        '<td class="hidden-column">' + idCounter + '</td>' +
+                        '<td>' + inputMat + '</td>' +
+                        '<td>' + inputSec + '</td>' +
+                        '<td>' + inputSuj + '</td>' +
+                        '<td><button class="btn btn-danger btn-sm edit-row">' +
+                        '<i class="fas fa-edit"></i></button></td>' +
+                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<i class="fas fa-trash-alt"></i></button></td>' +
+                        '</tr>';
+
+                    // Agrega la nueva fila a la tabla
+                    $('#materiasTable tbody').append(newRow);
+
+                    // Incrementa el contador de ID_MatSec
+                    idCounter++;
+
+                    // Limpia los valores de los inputs
+                    $('#inputMat').val('');
+                    $('#inputSec').val('');
+                    $('#inputSuj').val('');
+                }
+            }
+            // Cerrar el modal
+            $('#matModal').modal('hide');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        var isEditing = false;
+        var editingRow = null;
+
+        $('#fundamentoTable').on('click', '.edit-row', function () {
+            // Establecer el modo de edición
+            isEditing = true;
+            // Obtener la fila del botón clicado
+            editingRow = $(this).closest('tr');
+
+            // Obtener los datos de la fila
+            var nombre = editingRow.find('td').eq(1).text();
+            var articulo = editingRow.find('td').eq(2).text();
+            var link = editingRow.find('td').eq(3).text();
+
+            // Asignar los datos al modal
+            $('#inputNomReg').val(nombre);
+            $('#inputArt').val(articulo);
+            $('#inputLink').val(link);
+
+            // Abrir el modal
+            $('#funModal').modal('show');
+        });
+        // Agregar el nuevo evento click para guardar los cambios
+        $('#guardarFun').off('click').on('click', function() {
+            if (isEditing) {
+                // Actualizar los datos de la fila
+                editingRow.find('td').eq(1).text($('#inputNomReg').val());
+                editingRow.find('td').eq(2).text($('#inputArt').val());
+                editingRow.find('td').eq(3).text($('#inputLink').val());
+
+                // Resetear el modo de edición
+                isEditing = false;
+                editingRow = null;
+            }else{
+                var idCounter2 = 1; // Inicializa el contador de ID_MatSec
+                // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/verificarFundamentos') ?>',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.existenRegistros) {
+                            idCounter2 = parseInt(response.ultimoID, 10) + 1; // Inicializa el contador con el último ID + 1
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al verificar los registros en la base de datos.'
+                        });
+                    }
+                });
+                // Obtiene los valores de los inputs
+                var inputNomReg = $('#inputNomReg').val();
+                var inputArt = $('#inputArt').val();
+                var inputLink = $('#inputLink').val();
+
+                if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
+                    if (inputNomReg.trim() === '') {
+                        $('#inputNomReg').css('color', 'red');
+                        $('#inputNomReg').after(
+                            '<span class="error-message" style="color: red;">El campo "Nombre de la Regulación" es obligatorio.</span>'
+                        );
+                    }
+                    if (inputArt.trim() === '') {
+                        $('#inputArt').css('color', 'red');
+                        $('#inputArt').after(
+                            '<span class="error-message" style="color: red;">El campo "Artículo" es obligatorio.</span>'
+                        );
+                    }
+                    if (inputLink.trim() === '') {
+                        $('#inputLink').css('color', 'red');
+                        $('#inputLink').after(
+                            '<span class="error-message" style="color: red;">El campo "Link" es obligatorio.</span>'
+                        );
+                    }
+                    return;
+                }else{
+                    // Crea una nueva fila con los datos
+                    var newRow = '<tr>' +
+                        '<td class="hidden-column">' + idCounter2 + '</td>' +
+                        '<td>' + inputNomReg + '</td>' +
+                        '<td>' + inputArt + '</td>' +
+                        '<td>' + inputLink + '</td>' +
+                        '<td><button class="btn btn-danger btn-sm edit-row">' +
+                        '<i class="fas fa-edit"></i></button></td>' +
+                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<i class="fas fa-trash-alt"></i></button></td>' +
+                        '</tr>';
+
+                    // Agrega la nueva fila a la tabla
+                    $('#fundamentoTable tbody').append(newRow);
+
+                    // Incrementa el contador de ID_Fun
+                    idCounter2++;
+
+                    // Limpia los valores de los inputs
+                    $('#inputNomReg').val('');
+                    $('#inputArt').val('');
+                    $('#inputLink').val('');
+                }
+            }
+            // Cerrar el modal
+            $('#funModal').modal('hide');
+        });
+    });
+</script>
 
 <script>
     $(document).ready(function () {
