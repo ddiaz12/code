@@ -1610,8 +1610,6 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
     var isEditing = false;
@@ -1688,16 +1686,20 @@ $(document).ready(function() {
                             lastInsertedIndicePadre = null;
                         }
                         
-
                         var newRow = '<tr><td class="hidden-column">' + lastInsertedID_Indice + '</td><td class="texto">' + inputTexto +
                             '</td><td>' + lastInsertedOrden + '</td>' +
                             '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
                             '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                            '<td><button class="btn btn-danger btn-sm edit-row">' +
-                            '<i class="fas fa-edit"></i></button></td>' +
-                            '<td><button class="btn btn-danger btn-sm delete-row">' +
-                            '<i class="fas fa-trash-alt"></i></button></td>' +
-                            '</tr>';
+                            '<td>' +
+                                '<button class="btn btn-gris btn-sm edit-row">' +
+                                    '<i class="fas fa-edit"></i>' +
+                                '</button>' +
+                                ' ' + // Espacio entre los botones
+                                '<button class="btn btn-danger btn-sm delete-row">' +
+                                    '<i class="fas fa-trash-alt"></i>' +
+                                '</button>' +
+                            '</td>' +
+                        '</tr>';
                         $('#resultTable tbody').append(newRow);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
