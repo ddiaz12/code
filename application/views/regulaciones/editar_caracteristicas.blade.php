@@ -213,9 +213,9 @@ Registro Estatal de Regulaciones
                                             <tbody>
                                                 <?php foreach ($dependencias as $dependencia): ?>
 
-                                                <td><?php    echo $dependencia['ID_Dependencia']; ?>
+                                                <td><?php    echo $dependencia['ID_sujeto']; ?>
                                                 </td>
-                                                <td><?php    echo $dependencia['Tipo_Dependencia']; ?></td>
+                                                <td><?php    echo $dependencia['nombre_sujeto']; ?></td>
                                                 <td>
                                                     <button class="btn btn-danger btn-sm delete-row">
                                                         <i class="fas fa-trash-alt"></i></button>
@@ -278,12 +278,12 @@ Registro Estatal de Regulaciones
                                                 <tbody>
                                                     <?php if (is_array($dependenciasAp)): ?>
                                                     <?php    foreach ($dependenciasAp as $dependenciaAp): ?>
-                                                    <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_Dependencia']) && isset($dependenciaAp['Tipo_Dependencia'])): ?>
+                                                    <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_sujeto']) && isset($dependenciaAp['nombre_sujeto'])): ?>
                                                     <tr>
                                                         <td class="hidden-column">
-                                                            <?php            echo $dependenciaAp['ID_Dependencia']; ?>
+                                                            <?php            echo $dependenciaAp['ID_sujeto']; ?>
                                                         </td>
-                                                        <td><?php            echo $dependenciaAp['Tipo_Dependencia']; ?>
+                                                        <td><?php            echo $dependenciaAp['nombre_sujeto']; ?>
                                                         </td>
                                                         <td>
                                                             <button class="btn btn-danger btn-sm delete-row">
@@ -828,6 +828,23 @@ Registro Estatal de Regulaciones
 
 @section('js')
 <script>
+$(document).ready(function() {
+    $('#myModal').on('show.bs.modal', function() {
+        // Limpiar las opciones del select y agregar la opción por defecto
+        $('#selectIndicePadre').empty().append('<option>Seleccione un índice padre</option>');
+        
+        
+        
+        // Agregar las opciones de la tabla
+        $('#resultTable tbody tr').each(function() {
+            var idIndice = $(this).find('.hidden-column').first().text();
+            var textoIndice = $(this).find('.texto').text();
+            $('#selectIndicePadre').append('<option value="' + idIndice + '">' + textoIndice + '</option>');
+        });
+    });
+});
+</script>
+<script>
     function mostrarCampo() {
         var siSeleccionado = document.getElementById("si").checked;
         var otroCampo = document.getElementById("otroCampo");
@@ -1091,8 +1108,8 @@ Registro Estatal de Regulaciones
                             results.forEach(function (item) {
                                 resultsContainer.append(
                                     '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                    item.ID_Dependencia + '">' + item
-                                        .Tipo_Dependencia + '</a>');
+                                    item.ID_sujeto + '">' + item
+                                        .nombre_sujeto + '</a>');
                             });
                         } catch (e) {
                             console.error('Error parsing JSON:', e);
@@ -1128,8 +1145,8 @@ Registro Estatal de Regulaciones
                             results.forEach(function (item) {
                                 resultsContainer.append(
                                     '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                    item.ID_Dependencia + '">' + item
-                                        .Tipo_Dependencia + '</a>');
+                                    item.ID_sujeto + '">' + item
+                                        .nombre_sujeto + '</a>');
                             });
                         } catch (e) {
                             console.error('Error parsing JSON:', e);

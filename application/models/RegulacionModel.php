@@ -98,9 +98,9 @@ class RegulacionModel extends CI_Model
     }
     public function search_tipo_dependencia($query)
     {
-        $this->db->like('Tipo_Dependencia', $query);
+        $this->db->like('nombre_sujeto', $query);
         $this->db->limit(5);
-        $query = $this->db->get('cat_tipo_dependencia');
+        $query = $this->db->get('cat_sujeto_obligado');
         return $query->result_array();
     }
     public function getIndices()
@@ -420,14 +420,14 @@ class RegulacionModel extends CI_Model
     {
         if (!empty($emiten_ids)) {  // Aquí cambiamos de empty a !empty
             if (is_array($emiten_ids)) {
-                $this->db->where_in('ID_Dependencia', $emiten_ids);
+                $this->db->where_in('ID_sujeto', $emiten_ids);
             } else {
-                $this->db->where('ID_Dependencia', $emiten_ids);
+                $this->db->where('ID_sujeto', $emiten_ids);
             }
         } else {
             return [];
         }
-        $query = $this->db->get('cat_tipo_dependencia');
+        $query = $this->db->get('cat_sujeto_obligado');
         return $query->result_array();
     }
 
@@ -435,14 +435,14 @@ class RegulacionModel extends CI_Model
     {
         if (!empty($aplican_ids)) {  // Aquí cambiamos de empty a !empty
             if (is_array($aplican_ids)) {
-                $this->db->where_in('ID_Dependencia', $aplican_ids);
+                $this->db->where_in('ID_sujeto', $aplican_ids);
             } else {
-                $this->db->where('ID_Dependencia', $aplican_ids);
+                $this->db->where('ID_sujeto', $aplican_ids);
             }
         } else {
             return [];
         }
-        $query = $this->db->get('cat_tipo_dependencia');
+        $query = $this->db->get('cat_sujeto_obligado');
         return $query->result_array();
     }
 

@@ -308,6 +308,28 @@ Registro Estatal de Regulaciones
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                $(document).ready(function() {
+                                    $('#myModal').on('show.bs.modal', function() {
+                                        // Limpiar las opciones del select y agregar la opción por defecto
+                                        $('#selectIndicePadre').empty().append('<option>Seleccione un índice padre</option>');
+                                        
+                                        // Agregar las opciones del servidor
+                                        <?php if (!empty($indices)): ?>
+                                            <?php foreach ($indices as $indice): ?>
+                                                $('#selectIndicePadre').append('<option value="<?= $indice->ID_Indice ?>"><?= $indice->Texto ?></option>');
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        
+                                        // Agregar las opciones de la tabla
+                                        $('#resultTable tbody tr').each(function() {
+                                            var idIndice = $(this).find('.hidden-column').first().text();
+                                            var textoIndice = $(this).find('.texto').text();
+                                            $('#selectIndicePadre').append('<option value="' + idIndice + '">' + textoIndice + '</option>');
+                                        });
+                                    });
+                                });
+                                </script>
 
 
                                 <div class="form-group">
@@ -704,8 +726,8 @@ Registro Estatal de Regulaciones
                             results.forEach(function (item) {
                                 resultsContainer.append(
                                     '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                    item.ID_Dependencia + '">' + item
-                                        .Tipo_Dependencia + '</a>');
+                                    item.ID_sujeto + '">' + item
+                                        .nombre_sujeto + '</a>');
                             });
                         } catch (e) {
                             console.error('Error parsing JSON:', e);
@@ -741,8 +763,8 @@ Registro Estatal de Regulaciones
                             results.forEach(function (item) {
                                 resultsContainer.append(
                                     '<a href="#" class="list-group-item list-group-item-action" data-id="' +
-                                    item.ID_Dependencia + '">' + item
-                                        .Tipo_Dependencia + '</a>');
+                                    item.ID_sujeto + '">' + item
+                                        .nombre_sujeto + '</a>');
                             });
                         } catch (e) {
                             console.error('Error parsing JSON:', e);
