@@ -402,7 +402,8 @@ Registro Estatal de Regulaciones
                                 <p></p>
                                 <p></p>
                                 <div class="header-container mb-0">
-                                    <p id="funText" class="mb-0">Fundamentos Jurídicos<span class="text-danger">*</span>
+                                    <p id="funText" class="mb-0">Identificación de fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas 
+                                    domiciliarias<span class="text-danger">*</span>
                                     </p>
                                     <button type="button" id="botofundamentos"
                                         class="btn btn-tinto btn-fundamentos" data-toggle="modal"
@@ -414,7 +415,7 @@ Registro Estatal de Regulaciones
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_Fun</th>
-                                            <th>Nombre Regulacion</th>
+                                            <th>Nombre regulacion</th>
                                             <th>Articulo</th>
                                             <th>Link</th>
                                             <th></th>
@@ -437,14 +438,14 @@ Registro Estatal de Regulaciones
                                             <div class="modal-body">
                                                 <form>
                                                     <div class="form-group">
-                                                        <label for="inputNomReg">Nombre de la Regulacion</label>
+                                                        <label for="inputNomReg">Nombre de la regulacion</label>
                                                         <input type="text" class="form-control" id="inputNomReg"
-                                                            placeholder="Ingrese el Nombre" name="NombreReg">
+                                                            placeholder="Ingrese el nombre" name="NombreReg">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputArt">Articulo, párrafo, numeral, etc.</label>
                                                         <input type="text" class="form-control" id="inputArt"
-                                                            placeholder="Ingrese el Articulo" name="NombreArt">
+                                                            placeholder="Ingrese el articulo" name="NombreArt">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputLink">Link</label>

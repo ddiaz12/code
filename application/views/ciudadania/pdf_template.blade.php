@@ -13,7 +13,9 @@
         <h1>FICHA DE LA REGULACIÓN</h1>
         <p>Decreto que crea el Organismo Público Descentralizado de la Administración Pública Estatal denominado
             Secretaría de Desarrollo Económico (SEDECO)</p>
-        <?php 
+
+    </div>        
+    <?php 
         date_default_timezone_set('America/Mexico_City'); 
         ?>
         <p>Fecha de creación de la regulación:
@@ -22,8 +24,6 @@
         <p>Fecha de ultima actualización de la regulacion:
             <?php echo !empty($regulacion->Fecha_Act_Sys) ? $regulacion->Fecha_Act_Sys : 'No disponible'; ?>
         </p>
-    </div>
-    <br>
     <div class="subheader">
         <h3>Acerca de la resolución</h3>
     </div>
@@ -39,21 +39,14 @@
         </p>
 
         <div class="section">
-            <h4>Fecha en que ha sido actualizada:</h4>
             <p><strong>Fecha de actualización:</strong>
                 <?php echo !empty($regulacionCaracteristicas->Fecha_Act) ? $regulacionCaracteristicas->Fecha_Act : 'No disponible'; ?>
             </p>
         </div>
 
         <div class="section">
-            <h4>Ámbito de Aplicación:</h4>
-            <p><?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?>
+        <p>Ámbito de Aplicación: <?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?>
             </p>
-        </div>
-
-        <div class="section">
-            <h4>Objeto de la Regulación:</h4>
-            <p><?php echo !empty($regulacion->Objetivo_Reg) ? $regulacion->Objetivo_Reg : 'No disponible'; ?></p>
         </div>
 
         <div class="section">

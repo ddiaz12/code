@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar Registro Estatal de Regulaciones (RER)
     </li>
 </ol>
 <div class="container mt-5">
@@ -80,13 +80,14 @@ Registro Estatal de Regulaciones
                 <!-- Existing card -->
                 <div class="card flex-grow-1">
                     <div class="card">
-                        <div class="card-header text-white">Editar Regulación</div>
+                        <div class="card-header text-white">Editar Registro Estatal de Regulaciones (RER)</div>
                         <div class="card-body">
 
                             <!-- Formulario de agregar regulaciones -->
                             <form class="row g-3" id="form-regulacion">
                                 <div class="form-group">
-                                    <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
+                                    <label for="inputNombre">Nombre<span style="color: gray;">(usar mayúsculas y
+                                    minúsculas en la escritura)</span><span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="inputNombre" name="nombre"
                                         value="<?php echo $regulacion['Nombre_Regulacion']; ?>" required>
                                 </div>
@@ -205,15 +206,14 @@ Registro Estatal de Regulaciones
                                         <table id="emitenTable" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>ID_Dependencia</th>
-                                                    <th>Tipo_Dependencia</th>
+                                                    <th>Tipo dependencia</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($dependencias as $dependencia): ?>
 
-                                                <td><?php    echo $dependencia['ID_sujeto']; ?>
+                                                <td class="hidden-column"><?php    echo $dependencia['ID_Dependencia']; ?>
                                                 </td>
                                                 <td><?php    echo $dependencia['nombre_sujeto']; ?></td>
                                                 <td>
@@ -270,8 +270,7 @@ Registro Estatal de Regulaciones
                                             <table id="aplicanTable" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th class="hidden-column">ID_Dependencia</th>
-                                                        <th>Tipo_Dependencia</th>
+                                                        <th>Tipo dependencia</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -732,7 +731,8 @@ Registro Estatal de Regulaciones
                                 <p></p>
                                 <p></p>
                                 <div class="header-container mb-0">
-                                    <p id="funText" class="mb-0">Fundamentos Jurídicos<span class="text-danger">*</span>
+                                    <p id="funText" class="mb-0"> Identificación de fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas 
+                                    domiciliarias<span class="text-danger">*</span>
                                     </p>
                                     <button type="button" id="botofundamentos" class="btn btn-tinto btn-fundamentos"
                                         data-toggle="modal" data-target="#funModal">Agregar</button>
@@ -743,11 +743,8 @@ Registro Estatal de Regulaciones
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="myModalLabel">Fundamentos Jurídicos</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                                <h5 class="modal-title" id="myModalLabel"> Identificación de fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas 
+                                                domiciliarias</h5>
                                             </div>
                                             <div class="modal-body">
                                                 <form>
@@ -1195,7 +1192,7 @@ $(document).ready(function() {
                 // Verificar si la fila ya existe
                 if (tableBody.find('tr[data-id="' + item.ID_Dependencia + '"]').length === 0) {
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                        '<td>' + item.ID_Dependencia + '</td>' +
+                        '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
                         '<td><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
@@ -1213,7 +1210,7 @@ $(document).ready(function() {
                 // Verificar si la fila ya existe
                 if (tableBody.find('tr[data-id="' + item.ID_Dependencia + '"]').length === 0) {
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
-                        '<td>' + item.ID_Dependencia + '</td>' +
+                        '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
                         '<td><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +

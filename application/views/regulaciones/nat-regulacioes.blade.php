@@ -179,12 +179,34 @@ Registro Estatal de Regulaciones
                                 <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
                                     placeholder="Regulaciones Vinculadas" required>
                             </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="manualEntryCheckbox">
+                                <label class="form-check-label" for="manualEntryCheckbox">Agregar manualmente una
+                                    regulación vinculada o derivada</label>
+                            </div>
+
+                            <div id="manualEntryFields" class="border p-3 rounded"
+                                style="display: none; background-color: #f8f9fa;">
+                                <div class="form-group">
+                                    <label for="manualRegulacionNombre">Nombre de la regulación</label>
+                                    <input type="text" class="form-control" id="manualRegulacionNombre"
+                                        name="manualRegulacionNombre" placeholder="Nombre de la regulación derivada">
+                                </div>
+                                <div class="form-group">
+                                    <label for="manualRegulacionLink">Enlace de la regulación</label>
+                                    <input type="text" class="form-control" id="manualRegulacionLink"
+                                        name="manualRegulacionLink" placeholder="Enlace de la regulación derivada">
+                                </div>
+                                <button type="button" id="addRegulacionButton" class="btn btn-tinto mt-2">Agregar
+                                    Regulación</button>
+                            </div>
                             <ul id="vinculadasResults" class="list-group mt-2"></ul>
                             <table id="selectedRegulacionesTable" class="table table-striped mt-4"
                                 style="display: none;">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Nombre Regulacion</th>
+                                        <th></th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -210,7 +232,7 @@ Registro Estatal de Regulaciones
                             <table id="tramitesTable" class="table table-spacing">
                                 <thead>
                                     <tr>
-                                        <th>ID_Tramites</th>
+                                        <th class="hidden-column">ID_Tramites</th>
                                         <th>Nombre</th>
                                         <th>Dirección</th>
                                         <th></th>
@@ -333,7 +355,7 @@ Registro Estatal de Regulaciones
         var newIdTramites = lastIdTramites ? parseInt(lastIdTramites) + 1 : 1;
 
         // Insertar el nuevo registro en la tabla
-        var newRow = '<tr><td>' +
+        var newRow = '<tr><td class="hidden-column">' +
             newIdTramites +
             '</td><td>' +
             inputTram +
@@ -764,12 +786,55 @@ Registro Estatal de Regulaciones
 
             // Mostrar la tabla y agregar una fila
             $('#selectedRegulacionesTable').show();
-            $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName +
+            $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '</td>' + '<td> </td>' +
                 '<td><button class="btn btn-danger btn-sm delete-row">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });
 
+        let manualRegulaciones = []; // Declaración global
+        $(document).ready(function () {
+            $('#manualEntryCheckbox').on('change', function () {
+                if (this.checked) {
+                    $('#manualEntryFields').show();
+                    $('#inputVinculadas').prop('disabled', true);
+                } else {
+                    $('#manualEntryFields').hide();
+                    $('#inputVinculadas').prop('disabled', false);
+                }
+            });
+
+            // Detecta el clic en el botón de agregar regulaciones manuales
+            $('#addRegulacionButton').on('click', function () {
+                let regulacionName = $('#manualRegulacionNombre').val();
+                let regulacionLink = $('#manualRegulacionLink').val();
+
+                if (regulacionName && regulacionLink) {
+                    // Agrega la regulación manual a la tabla y a la variable manualRegulaciones
+                    $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '</td><td>' + regulacionLink + '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>');
+                    $('#selectedRegulacionesTable').show();
+
+                    // Agrega la regulación manual al array para enviarla a la base de datos
+                    manualRegulaciones.push({
+                        nombre: regulacionName,
+                        enlace: regulacionLink
+                    });
+
+                    // Limpia los campos del formulario
+                    $('#manualRegulacionNombre').val('');
+                    $('#manualRegulacionLink').val('');
+                } else {
+                    alert('Por favor, complete ambos campos antes de agregar.');
+                }
+            });
+
+            $('#selectedRegulacionesTable').on('click', '.delete-row', function () {
+                $(this).closest('tr').remove();
+                if ($('#selectedRegulacionesTable tbody tr').length === 0) {
+                    $('#selectedRegulacionesTable').hide();
+                }
+            });
+        });
         //verificamos que se de click en el boton guardar y validamos si es si o no
         //aqui guardamos los datos
         $(document).ready(function () {
@@ -819,7 +884,7 @@ Registro Estatal de Regulaciones
                         });
                     });
 
-                    // Agregar el array tramites al formData
+                    formData.append('manualRegulaciones', JSON.stringify(manualRegulaciones));
                     formData.append('tramites', JSON.stringify(tramites));
                     console.log('formData:', formData.get('tramites'));
 
@@ -868,5 +933,21 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox = document.getElementById('manualEntryCheckbox');
+        const inputVinculadas = document.getElementById('inputVinculadas');
+        const manualEntryFields = document.getElementById('manualEntryFields');
+
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                inputVinculadas.disabled = true;
+                manualEntryFields.style.display = 'block';
+            } else {
+                inputVinculadas.disabled = false;
+                manualEntryFields.style.display = 'none';
+            }
+        });
+    });
+</script>
 @endsection
-</body>

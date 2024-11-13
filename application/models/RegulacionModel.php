@@ -263,6 +263,11 @@ class RegulacionModel extends CI_Model
         $this->db->insert('derivada_reg', $data);
     }
 
+    public function insertarRegulacionDerivada($data)
+    {
+        $this->db->insert('cat_regulacion_derivada_manual', $data);
+    }
+
     public function get_max_id_rel_nat()
     {
         $this->db->select_max('ID_relNaturaleza');
@@ -666,7 +671,7 @@ class RegulacionModel extends CI_Model
 
     public function obtenerRegulacionesVinculadas($idRegulacion)
     {
-        $this->db->select('regulacion.Nombre_Regulacion');
+        $this->db->select('regulacion.Nombre_Regulacion, regulacion.ID_Regulacion');
         $this->db->from('derivada_reg');
         $this->db->join('ma_regulacion as regulacion', 'derivada_reg.ID_Regulacion = regulacion.ID_Regulacion');
         $this->db->where('derivada_reg.ID_Regulacion', $idRegulacion);
@@ -908,6 +913,34 @@ class RegulacionModel extends CI_Model
         return $query->result_array();
     }
 
+    public function get_idRegulacion_by_idNat($id_nat)
+    {
+        $this->db->select('ID_Regulacion');
+        $this->db->from('rel_nat_reg');
+        $this->db->where('ID_Nat', $id_nat);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function get_regulaciones_derivadas($id_nat)
+    {
+        $this->db->select('ma.ID_Regulacion, ma.Nombre_Regulacion');
+        $this->db->from('derivada_reg');
+        $this->db->join('ma_regulacion as ma', 'derivada_reg.ID_Regulacion = ma.ID_Regulacion');
+        $this->db->where('derivada_reg.ID_Nat', $id_nat); // Filtrando por ID_Nat
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_regulaciones_derivadas_manuales($id_regulaciones)
+    {
+        $this->db->select('id_regulacion as ID_Regulacion, nombre, enlace');
+        $this->db->from('cat_regulacion_derivada_manual');
+        $this->db->where_in('id_regulacion', $id_regulaciones);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function get_nombres_regulaciones($id_regulaciones)
     {
         $this->db->select('Nombre_Regulacion');
@@ -993,5 +1026,48 @@ class RegulacionModel extends CI_Model
     public function get_tramites_by_id_tramites($id_nat) {
         $query = $this->db->get_where('de_tramitesyservicios', ['ID_Nat' => $id_nat]);
         return $query->result_array(); // Retorna los registros como un array
+    }
+    public function get_indice_by_texto($texto) {
+        $this->db->select('ID_Indice');
+        $this->db->from('de_indice');
+        $this->db->where('Texto', $texto);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function get_id_padre_by_indice($id_indice) {
+        $this->db->select('ID_Padre');
+        $this->db->from('rel_indice');
+        $this->db->where('ID_Indice', $id_indice);
+        $query = $this->db->get();
+        return $query->row()->ID_Padre;
+    }
+    public function update_indice($id, $data) {
+        // Iniciar una transacción
+        $this->db->trans_start();
+
+        if ($data['Indice_Padre'] == 0 || $data['Indice_Padre'] == 'Seleccione un índice padre' || $data['Indice_Padre'] == null) {
+            // Actualizar el registro en la tabla 'de_indice'
+            $this->db->where('ID_Indice', $id);
+            $this->db->update('de_indice', array('Texto' => $data['Texto']));
+        }else{
+            // Actualizar el registro en la tabla 'de_indice'
+            $this->db->where('ID_Indice', $id);
+            $this->db->update('de_indice', array('Texto' => $data['Texto']));
+
+            // Actualizar el registro en la tabla 'rel_indice'
+            $this->db->where('ID_Indice', $id);
+            $this->db->update('rel_indice', array('ID_Padre' => $data['Indice_Padre']));
+        }
+    
+        // Completar la transacción
+        $this->db->trans_complete();
+    
+        // Verificar si la transacción fue exitosa
+        if ($this->db->trans_status() === FALSE) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
     }
 }

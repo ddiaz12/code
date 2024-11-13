@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar Registro Estatal de Regulaciones (RER)
     </li>
 </ol>
 <div class="container mt-5">
@@ -50,7 +50,8 @@ Registro Estatal de Regulaciones
                                     <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_1">Características de la Regulación</label>
+                                        <label class="menu-regulacion" for="image_1">Características de la
+                                            Regulación</label>
                                     </a>
                                 </li>
                                 <p></p>
@@ -242,9 +243,9 @@ Registro Estatal de Regulaciones
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
-                        <button type="submit" id="btnCheck" class="btn btn-success btn-guardar">Guardar</button>
-                        <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                        <a href="<?php echo base_url('RegulacionController'); ?>"
                             class="btn btn-secondary me-2">Cancelar</a>
+                        <button type="submit" id="btnCheck" class="btn btn-success btn-guardar">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -256,24 +257,24 @@ Registro Estatal de Regulaciones
 @section('js')
 <script>
     $(document).ready(function () {
-        
+
     });
 </script>
 <script>
-$(document).ready(function() {
-    $('input[type=radio][name=opcion]').change(function() {
-        if (this.value == 'si') {
-            $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
-        } else if (this.value == 'no') {
+    $(document).ready(function () {
+        $('input[type=radio][name=opcion]').change(function () {
+            if (this.value == 'si') {
+                $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
+            } else if (this.value == 'no') {
+                $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
+            }
+        });
+
+        // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
+        if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
             $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
         }
     });
-
-    // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
-    if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
-        $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
-    }
-});
 </script>
 <script>
     // Obtener el id_regulacion de la vista
@@ -359,131 +360,131 @@ $(document).ready(function() {
                 if (selectedLabels.length === 0) {
                     alert('Por favor, seleccione al menos una materia.');
                     return;
-                }else{
+                } else {
                     if (idMaterias.length === 0) {
                         // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
                         $.ajax({
-                                url: '<?= base_url("RegulacionController/obtenerMaterias") ?>',
-                                type: 'POST',
-                                data: {
-                                    id_regulacion: id_regulacion,
-                                    labels: selectedLabels
-                                },
-                                success: function (response) {
-                                    var result = JSON.parse(response);
-                                    if (result.status === 'success') {
-                                        var idMaterias = result.idMaterias;
-                                        var id_regulacion = result.id_regulacion;
+                            url: '<?= base_url("RegulacionController/obtenerMaterias") ?>',
+                            type: 'POST',
+                            data: {
+                                id_regulacion: id_regulacion,
+                                labels: selectedLabels
+                            },
+                            success: function (response) {
+                                var result = JSON.parse(response);
+                                if (result.status === 'success') {
+                                    var idMaterias = result.idMaterias;
+                                    var id_regulacion = result.id_regulacion;
 
-                                        // Imprimir los ID_materia y el último ID_Regulacion en la consola
-                                        console.log('ID_materias:', idMaterias);
-                                        console.log('id_regulacion:', id_regulacion);
+                                    // Imprimir los ID_materia y el último ID_Regulacion en la consola
+                                    console.log('ID_materias:', idMaterias);
+                                    console.log('id_regulacion:', id_regulacion);
 
-                                        // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
-                                        $.ajax({
-                                            url: '<?= base_url("RegulacionController/insertarRelRegulacionesMaterias") ?>',
-                                            type: 'POST',
-                                            data: {
-                                                idMaterias: idMaterias,
-                                                ultimoIDRegulacion: id_regulacion
-                                            },
-                                            success: function (insertResponse) {
-                                                var insertResult = JSON.parse(insertResponse);
-                                                if (insertResult.status === 'success') {
-                                                    console.log('Datos insertados correctamente en rel_regulaciones_materias');
-                                                    // Redirigir al usuario al enlace especificado
-                                                    window.location.href = '<?= base_url("RegulacionController/edit_nat/"); ?>' + id_regulacion;
-                                                } else {
-                                                    console.error('Error al insertar datos:', insertResult.message);
-                                                }
-                                            },
-                                            error: function (error) {
-                                                console.error('Error en la solicitud AJAX:', error);
+                                    // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
+                                    $.ajax({
+                                        url: '<?= base_url("RegulacionController/insertarRelRegulacionesMaterias") ?>',
+                                        type: 'POST',
+                                        data: {
+                                            idMaterias: idMaterias,
+                                            ultimoIDRegulacion: id_regulacion
+                                        },
+                                        success: function (insertResponse) {
+                                            var insertResult = JSON.parse(insertResponse);
+                                            if (insertResult.status === 'success') {
+                                                console.log('Datos insertados correctamente en rel_regulaciones_materias');
+                                                // Redirigir al usuario al enlace especificado
+                                                window.location.href = '<?= base_url("RegulacionController/edit_nat/"); ?>' + id_regulacion;
+                                            } else {
+                                                console.error('Error al insertar datos:', insertResult.message);
                                             }
-                                        });
-                                    } else {
-                                        console.error('Error:', result.message);
-                                    }
-                                },
-                                error: function (error) {
-                                    console.error('Error en la solicitud AJAX:', error);
+                                        },
+                                        error: function (error) {
+                                            console.error('Error en la solicitud AJAX:', error);
+                                        }
+                                    });
+                                } else {
+                                    console.error('Error:', result.message);
                                 }
-                            });
-                    }else{
+                            },
+                            error: function (error) {
+                                console.error('Error en la solicitud AJAX:', error);
+                            }
+                        });
+                    } else {
                         $.ajax({
-                    url: '<?= base_url("RegulacionController/eliminarMateriasExentas") ?>',
-                    type: 'POST',
-                    data: {
-                        id_regulacion: id_regulacion
-                    },
-                    success: function (deleteResponse) {
-                        var deleteResult = JSON.parse(deleteResponse);
-                        if (deleteResult.status === 'success') {
-                            console.log('Registros eliminados correctamente.');
+                            url: '<?= base_url("RegulacionController/eliminarMateriasExentas") ?>',
+                            type: 'POST',
+                            data: {
+                                id_regulacion: id_regulacion
+                            },
+                            success: function (deleteResponse) {
+                                var deleteResult = JSON.parse(deleteResponse);
+                                if (deleteResult.status === 'success') {
+                                    console.log('Registros eliminados correctamente.');
 
-                            // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
-                            $.ajax({
-                                url: '<?= base_url("RegulacionController/obtenerMaterias") ?>',
-                                type: 'POST',
-                                data: {
-                                    id_regulacion: id_regulacion,
-                                    labels: selectedLabels
-                                },
-                                success: function (response) {
-                                    var result = JSON.parse(response);
-                                    if (result.status === 'success') {
-                                        var idMaterias = result.idMaterias;
-                                        var id_regulacion = result.id_regulacion;
+                                    // Hacer una solicitud AJAX para obtener los ID_materia y el último ID_Regulacion
+                                    $.ajax({
+                                        url: '<?= base_url("RegulacionController/obtenerMaterias") ?>',
+                                        type: 'POST',
+                                        data: {
+                                            id_regulacion: id_regulacion,
+                                            labels: selectedLabels
+                                        },
+                                        success: function (response) {
+                                            var result = JSON.parse(response);
+                                            if (result.status === 'success') {
+                                                var idMaterias = result.idMaterias;
+                                                var id_regulacion = result.id_regulacion;
 
-                                        // Imprimir los ID_materia y el último ID_Regulacion en la consola
-                                        console.log('ID_materias:', idMaterias);
-                                        console.log('id_regulacion:', id_regulacion);
+                                                // Imprimir los ID_materia y el último ID_Regulacion en la consola
+                                                console.log('ID_materias:', idMaterias);
+                                                console.log('id_regulacion:', id_regulacion);
 
-                                        // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
-                                        $.ajax({
-                                            url: '<?= base_url("RegulacionController/insertarRelRegulacionesMaterias") ?>',
-                                            type: 'POST',
-                                            data: {
-                                                idMaterias: idMaterias,
-                                                ultimoIDRegulacion: id_regulacion
-                                            },
-                                            success: function (insertResponse) {
-                                                var insertResult = JSON.parse(insertResponse);
-                                                if (insertResult.status === 'success') {
-                                                    console.log('Datos insertados correctamente en rel_regulaciones_materias');
-                                                    // Redirigir al usuario al enlace especificado
-                                                    window.location.href = '<?= base_url("RegulacionController/edit_nat/"); ?>' + id_regulacion;
-                                                } else {
-                                                    console.error('Error al insertar datos:', insertResult.message);
-                                                }
-                                            },
-                                            error: function (error) {
-                                                console.error('Error en la solicitud AJAX:', error);
+                                                // Hacer una solicitud AJAX para insertar los datos en la tabla rel_regulaciones_materias
+                                                $.ajax({
+                                                    url: '<?= base_url("RegulacionController/insertarRelRegulacionesMaterias") ?>',
+                                                    type: 'POST',
+                                                    data: {
+                                                        idMaterias: idMaterias,
+                                                        ultimoIDRegulacion: id_regulacion
+                                                    },
+                                                    success: function (insertResponse) {
+                                                        var insertResult = JSON.parse(insertResponse);
+                                                        if (insertResult.status === 'success') {
+                                                            console.log('Datos insertados correctamente en rel_regulaciones_materias');
+                                                            // Redirigir al usuario al enlace especificado
+                                                            window.location.href = '<?= base_url("RegulacionController/edit_nat/"); ?>' + id_regulacion;
+                                                        } else {
+                                                            console.error('Error al insertar datos:', insertResult.message);
+                                                        }
+                                                    },
+                                                    error: function (error) {
+                                                        console.error('Error en la solicitud AJAX:', error);
+                                                    }
+                                                });
+                                            } else {
+                                                console.error('Error:', result.message);
                                             }
-                                        });
-                                    } else {
-                                        console.error('Error:', result.message);
-                                    }
-                                },
-                                error: function (error) {
-                                    console.error('Error en la solicitud AJAX:', error);
+                                        },
+                                        error: function (error) {
+                                            console.error('Error en la solicitud AJAX:', error);
+                                        }
+                                    });
+                                } else {
+                                    console.error('Error al eliminar registros:', deleteResult.message);
                                 }
-                            });
-                        } else {
-                            console.error('Error al eliminar registros:', deleteResult.message);
-                        }
-                    },
-                    error: function (error) {
-                        console.error('Error en la solicitud AJAX para eliminar registros:', error);
+                            },
+                            error: function (error) {
+                                console.error('Error en la solicitud AJAX para eliminar registros:', error);
+                            }
+                        });
                     }
-                });
-                    }
-                     // Hacer una solicitud AJAX para eliminar los registros existentes con el id_regulacion
-                
+                    // Hacer una solicitud AJAX para eliminar los registros existentes con el id_regulacion
+
                 }
 
-               
-            }else{
+
+            } else {
                 window.location.href = '<?= base_url("RegulacionController/edit_nat/"); ?>' + id_regulacion;
             }
         });
