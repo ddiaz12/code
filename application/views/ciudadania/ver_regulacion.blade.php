@@ -55,105 +55,123 @@ Registro Estatal de Regulaciones
 
             <div class="related-sections">
                 <button class="btn-accordion" data-target="#indiceContent"><i class="fas fa-list"></i> Índice</button>
-                <button class="btn-accordion" data-target="#autoridadesContent"><i class="fas fa-user-tie"></i> Autoridades</button>
-                <button class="btn-accordion" data-target="#materiasContent"><i class="fas fa-book"></i> Materias Exentas</button>
-                <button class="btn-accordion" data-target="#regulacionesVinculadasContent"><i class="fas fa-link"></i> Regulaciones vinculadas</button>
-                <button class="btn-accordion" data-target="#tramitesContent"><i class="fas fa-tasks"></i> Trámites y servicios vinculados</button>
-                <button class="btn-accordion" data-target="#sectoresContent"><i class="fas fa-tasks"></i> Sector/actividad económica</button>
-                <button class="btn-accordion" data-target="#fundamentosContent"><i class="fas fa-tasks"></i> Inspecciones, Verificaciones y Visitas Domiciliarias</button>
+                <button class="btn-accordion" data-target="#autoridadesContent"><i class="fas fa-user-tie"></i>
+                    Autoridades</button>
+                <button class="btn-accordion" data-target="#materiasContent"><i class="fas fa-book"></i> Materias
+                    Exentas</button>
+                <button class="btn-accordion" data-target="#regulacionesVinculadasContent"><i class="fas fa-link"></i>
+                    Regulaciones vinculadas</button>
+                <button class="btn-accordion" data-target="#tramitesContent"><i class="fas fa-tasks"></i> Trámites y
+                    servicios vinculados</button>
+                <button class="btn-accordion" data-target="#sectoresContent"><i class="fas fa-tasks"></i>
+                    Sector/actividad económica</button>
+                <button class="btn-accordion" data-target="#fundamentosContent"><i class="fas fa-tasks"></i>
+                    Inspecciones, Verificaciones y Visitas Domiciliarias</button>
             </div>
-            
+
             <div class="content-sections">
                 <div id="indiceContent" class="content">
                     <?php if (!empty($indice)): ?>
                     <ul>
-                        <?php foreach ($indice as $item): ?>
-                        <li><?php echo $item->Orden . '. ' . $item->Texto; ?></li>
-                        <?php endforeach; ?>
+                        <?php    foreach ($indice as $item): ?>
+                        <li><?php        echo $item->Orden . '. ' . $item->Texto; ?></li>
+                        <?php    endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre el Índice.</p>
                     <?php endif; ?>
                 </div>
-            
+
                 <div id="autoridadesContent" class="content">
                     <?php if (!empty($autoridades)): ?>
                     <ul>
-                        <?php foreach ($autoridades as $autoridad): ?>
-                        <li><strong>Aplican: </strong><?php echo $autoridad->Autoridad_Aplican; ?></li>
-                        <li><strong>Emiten: </strong><?php echo $autoridad->Autoridad_Emiten; ?></li>
-                        <?php endforeach; ?>
+                        <?php    foreach ($autoridades as $autoridad): ?>
+                        <li><strong>Aplican: </strong><?php        echo $autoridad->Autoridad_Aplican; ?></li>
+                        <li><strong>Emiten: </strong><?php        echo $autoridad->Autoridad_Emiten; ?></li>
+                        <?php    endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre las autoridades.</p>
                     <?php endif; ?>
                 </div>
-            
+
                 <div id="materiasContent" class="content">
                     <?php if (!empty($materias)): ?>
                     <ul>
-                        <?php foreach ($materias as $materia): ?>
-                        <li><?php echo $materia->Materia; ?></li>
-                        <?php endforeach; ?>
+                        <?php    foreach ($materias as $materia): ?>
+                        <li><?php        echo $materia->Materia; ?></li>
+                        <?php    endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre materias exentas.</p>
                     <?php endif; ?>
                 </div>
-            
+
                 <div id="regulacionesVinculadasContent" class="content">
-                    <?php if (!empty($regulacionesVinculadas)): ?>
-                    <ul>
-                        <?php foreach ($regulacionesVinculadas as $vinculada): ?>
-                        <li>
-                            <a href="<?php echo base_url('ciudadania/verRegulacion/' . $vinculada->ID_Regulacion); ?>">
-                                <?php echo $vinculada->Nombre_Regulacion; ?>
-                            </a>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <?php else: ?>
-                    <p>No hay regulaciones vinculadas.</p>
-                    <?php endif; ?>
+                    @if (!empty($regulacionesCombinadas))
+                        <ul>
+                            @foreach ($regulacionesCombinadas as $regulacion)
+                                <li>
+                                    @if (isset($regulacion->Nombre_Regulacion))
+                                        <a href="{{ base_url('ciudadania/verRegulacion/' . $regulacion->ID_Regulacion) }}">
+                                            {{ $regulacion->Nombre_Regulacion }}
+                                        </a>
+                                    @else
+                                        @if (isset($regulacion->Enlace) && !empty($regulacion->Enlace))
+                                            <a href="{{ $regulacion->Enlace }}" target="_blank">
+                                                {{ $regulacion->Nombre_Manual }}
+                                            </a>
+                                        @else
+                                            {{ $regulacion->Nombre_Manual }}
+                                        @endif
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>No existen regulaciones vinculadas</p>
+                    @endif
                 </div>
-            
+
                 <div id="tramitesContent" class="content">
                     <?php if (!empty($tramites)): ?>
                     <ul>
-                        <?php foreach ($tramites as $tramite): ?>
+                        <?php    foreach ($tramites as $tramite): ?>
                         <li>
-                            <strong><?php echo $tramite->Tramite; ?></strong><br>
-                            <a href="<?php echo $tramite->url; ?>" target="_blank"><?php echo $tramite->url; ?></a>
+                            <strong><?php        echo $tramite->Tramite; ?></strong><br>
+                            <a href="<?php        echo $tramite->url; ?>"
+                                target="_blank"><?php        echo $tramite->url; ?></a>
                         </li>
-                        <?php endforeach; ?>
+                        <?php    endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre trámites y servicios vinculados.</p>
                     <?php endif; ?>
                 </div>
-            
+
                 <div id="sectoresContent" class="content">
                     <?php if (!empty($sectores)): ?>
                     <ul>
-                        <?php foreach ($sectores as $sector): ?>
-                        <li><?php echo $sector->Sector; ?></li>
-                        <?php endforeach; ?>
+                        <?php    foreach ($sectores as $sector): ?>
+                        <li><?php        echo $sector->Sector; ?></li>
+                        <?php    endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre el sector/actividad económica.</p>
                     <?php endif; ?>
                 </div>
-            
+
                 <div id="fundamentosContent" class="content">
                     <?php if (!empty($fundamentos)): ?>
                     <ul>
-                        <?php foreach ($fundamentos as $fundamento): ?>
+                        <?php    foreach ($fundamentos as $fundamento): ?>
                         <li>
-                            <strong>Nombre:</strong> <?php echo $fundamento->Nombre; ?><br>
-                            <strong>Artículo:</strong> <?php echo $fundamento->Articulo; ?><br>
-                            <strong>Link:</strong> <a href="<?php echo $fundamento->Link; ?>" target="_blank"><?php echo $fundamento->Link; ?></a>
+                            <strong>Nombre:</strong> <?php        echo $fundamento->Nombre; ?><br>
+                            <strong>Artículo:</strong> <?php        echo $fundamento->Articulo; ?><br>
+                            <strong>Link:</strong> <a href="<?php        echo $fundamento->Link; ?>"
+                                target="_blank"><?php        echo $fundamento->Link; ?></a>
                         </li>
-                        <?php endforeach; ?>
+                        <?php    endforeach; ?>
                     </ul>
                     <?php else: ?>
                     <p>No hay información disponible sobre los fundamentos jurídicos.</p>

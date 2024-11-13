@@ -13,7 +13,7 @@ class MenuModel extends CI_Model
     {
         $this->db->select('cat_sujeto_obligado.*, cat_materia_sujeto.nombre_materia');
         $this->db->from('cat_sujeto_obligado');
-        $this->db->join('cat_materia_sujeto', 'cat_sujeto_obligado.id_materia = cat_materia_sujeto.id_materia');
+        $this->db->join('cat_materia_sujeto', 'cat_sujeto_obligado.id_materia = cat_materia_sujeto.id_materia', 'left');
         $this->db->where('cat_sujeto_obligado.nombre_sujeto !=', 'No especificado');
         $this->db->where('cat_sujeto_obligado.status !=', 0);
         $query = $this->db->get();
@@ -24,7 +24,7 @@ class MenuModel extends CI_Model
     {
         $this->db->select('cat_sujeto_obligado.*, cat_materia_sujeto.nombre_materia');
         $this->db->from('cat_sujeto_obligado');
-        $this->db->join('cat_materia_sujeto', 'cat_sujeto_obligado.id_materia = cat_materia_sujeto.id_materia');
+        $this->db->join('cat_materia_sujeto', 'cat_sujeto_obligado.id_materia = cat_materia_sujeto.id_materia', 'left');
         $this->db->where('cat_sujeto_obligado.ID_sujeto', $id);
         $query = $this->db->get();
         return $query->row();

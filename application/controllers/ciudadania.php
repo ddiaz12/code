@@ -90,9 +90,14 @@ class Ciudadania extends CI_Controller
         $data['autoridades'] = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($id);
         $data['materias'] = $this->RegulacionModel->obtenerMateriasExentas($id);
         $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
+        $data['regulacionesManuales'] = $this->RegulacionModel->obtenerRegulacionesManuales($id);
         $data['sectores'] = $this->RegulacionModel->obtenerSectoresPorRegulacion($id);
         $data['tramites'] = $this->RegulacionModel->obtenerTramitesPorRegulacion($id);
         $data['fundamentos'] = $this->RegulacionModel->obtenerFundamentos($id);
+
+        // Combinar regulaciones vinculadas y manuales
+        $data['regulacionesCombinadas'] = array_merge($data['regulacionesVinculadas'], $data['regulacionesManuales']);
+
         $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'ver_regulacion', $data);
     }
 
@@ -107,11 +112,11 @@ class Ciudadania extends CI_Controller
         $data['autoridades'] = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($id);
         $data['materias'] = $this->RegulacionModel->obtenerMateriasExentas($id);
         $data['regulacionesVinculadas'] = $this->RegulacionModel->obtenerRegulacionesVinculadas($id);
+        $data['regulacionesManuales'] = $this->RegulacionModel->obtenerRegulacionesManuales($id);
         $data['sectores'] = $this->RegulacionModel->obtenerSectoresPorRegulacion($id);
         $data['tramites'] = $this->RegulacionModel->obtenerTramitesPorRegulacion($id);
         $data['de_mat_sec_suj'] = $this->RegulacionModel->obtenerMateriasSectoresSujetos($id);
         $data['fundamentos'] = $this->RegulacionModel->obtenerFundamentos($id);
-
 
         // Configurar opciones de Dompdf
         $options = new Options();
