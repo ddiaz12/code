@@ -353,7 +353,6 @@ class RegulacionController extends CI_Controller
 
     public function insertarCaracteristicas()
     {
-        $this->load->database();
         $data = array(
             'ID_Regulacion' => $this->input->post('ID_Regulacion'),
             'ID_tOrdJur' => $this->input->post('ID_tOrdJur') !== '' ? $this->input->post('ID_tOrdJur') : NULL,
@@ -822,61 +821,75 @@ class RegulacionController extends CI_Controller
             $last_id_regulacion = $this->RegulacionModel->get_last_id_regulacion();
 
             // Guardar en la base de datos rel_nat_reg
-            if (!empty($selectedSectors) && !empty($selectedSubsectors) && !empty($selectedRamas) && !empty($selectedSubramas) && !empty($selectedClases)) {
+            if (!empty($selectedSectors) && !empty($selectedSubsectors)) {
                 foreach ($selectedSectors as $sector) {
                     foreach ($selectedSubsectors as $subsector) {
-                        foreach ($selectedRamas as $rama) {
-                            foreach ($selectedSubramas as $subrama) {
-                                foreach ($selectedClases as $clase) {
+                        // Verifica si hay ramas seleccionadas
+                        if (!empty($selectedRamas)) {
+                            foreach ($selectedRamas as $rama) {
+                                // Verifica si hay subramas seleccionadas
+                                if (!empty($selectedSubramas)) {
+                                    foreach ($selectedSubramas as $subrama) {
+                                        // Verifica si hay clases seleccionadas
+                                        if (!empty($selectedClases)) {
+                                            foreach ($selectedClases as $clase) {
+                                                $data_rel_nat = array(
+                                                    'ID_Regulacion' => $last_id_regulacion,
+                                                    'ID_Nat' => $id_naturaleza,
+                                                    'ID_sector' => $sector,
+                                                    'ID_subsector' => $subsector,
+                                                    'ID_rama' => $rama,
+                                                    'ID_subrama' => $subrama,
+                                                    'ID_clase' => $clase
+                                                );
+                                                $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                                            }
+                                        } else {
+                                            // Solo sector, subsector, rama y subrama
+                                            $data_rel_nat = array(
+                                                'ID_Regulacion' => $last_id_regulacion,
+                                                'ID_Nat' => $id_naturaleza,
+                                                'ID_sector' => $sector,
+                                                'ID_subsector' => $subsector,
+                                                'ID_rama' => $rama,
+                                                'ID_subrama' => $subrama,
+                                                'ID_clase' => null
+                                            );
+                                            $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
+                                        }
+                                    }
+                                } else {
+                                    // Solo sector, subsector y rama
                                     $data_rel_nat = array(
                                         'ID_Regulacion' => $last_id_regulacion,
                                         'ID_Nat' => $id_naturaleza,
                                         'ID_sector' => $sector,
                                         'ID_subsector' => $subsector,
                                         'ID_rama' => $rama,
-                                        'ID_subrama' => $subrama,
-                                        'ID_clase' => $clase
+                                        'ID_subrama' => null,
+                                        'ID_clase' => null
                                     );
                                     $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-                                    $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
                                 }
                             }
+                        } else {
+                            // Solo sector y subsector
+                            $data_rel_nat = array(
+                                'ID_Regulacion' => $last_id_regulacion,
+                                'ID_Nat' => $id_naturaleza,
+                                'ID_sector' => $sector,
+                                'ID_subsector' => $subsector,
+                                'ID_rama' => null,
+                                'ID_subrama' => null,
+                                'ID_clase' => null
+                            );
+                            $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
                         }
                     }
                 }
-            } else if (!empty($selectedSectors) && !empty($selectedSubsectors)) {
-                // Verifica que los campos se ingresen en orden
-                if (
-                    (empty($selectedRamas) && empty($selectedSubramas) && empty($selectedClases)) ||
-                    (!empty($selectedRamas) && empty($selectedSubramas) && empty($selectedClases)) ||
-                    (!empty($selectedRamas) && !empty($selectedSubramas) && empty($selectedClases))
-                ) {
-
-                    foreach ($selectedSectors as $sector) {
-                        foreach ($selectedSubsectors as $subsector) {
-                            foreach ($selectedRamas as $rama) {
-                                foreach ($selectedSubramas as $subrama) {
-                                    foreach ($selectedClases as $clase) {
-                                        $data_rel_nat = array(
-                                            'ID_Regulacion' => $last_id_regulacion,
-                                            'ID_Nat' => $id_naturaleza,
-                                            'ID_sector' => $sector,
-                                            'ID_subsector' => $subsector,
-                                            'ID_rama' => !empty($rama) ? $rama : null,
-                                            'ID_subrama' => !empty($subrama) ? $subrama : null,
-                                            'ID_clase' => null
-                                        );
-                                        $this->RegulacionModel->insert_rel_nat_reg($data_rel_nat);
-                                        $new_id_rel_nat++; // Incrementar el ID_relNaturaleza para la próxima inserción
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    // Manejo de error: los campos no están en el orden correcto
-                    echo "Error: Los campos deben ser ingresados en orden.";
-                }
+            } else {
+                // Manejo de error: los campos no están en el orden correcto
+                echo "Error: Los campos deben ser ingresados en orden.";
             }
 
             $idRegulacion = $this->RegulacionModel->get_idRegulacion_by_idNat($id_naturaleza);
@@ -2323,7 +2336,8 @@ class RegulacionController extends CI_Controller
             echo json_encode(array('status' => 'error'));
         }
     }
-    public function updateIndice() {
+    public function updateIndice()
+    {
         // Obtener los datos enviados por POST
         $id = $this->input->post('id');
         $texto = $this->input->post('texto');
@@ -2348,13 +2362,14 @@ class RegulacionController extends CI_Controller
             echo json_encode(array('status' => 'error'));
         }
     }
-    
-    public function get_id_padre() {
+
+    public function get_id_padre()
+    {
         $texto = $this->input->post('texto');
-        
+
         // Obtener el ID_Indice basado en el texto
         $indice = $this->RegulacionModel->get_indice_by_texto($texto);
-        
+
         if ($indice) {
             // Obtener el ID_Padre basado en el ID_Indice
             $id_padre = $this->RegulacionModel->get_id_padre_by_indice($indice->ID_Indice);
