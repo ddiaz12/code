@@ -668,9 +668,8 @@ class RegulacionModel extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
-
-    public function obtenerRegulacionesVinculadas($idRegulacion)
-    {
+    // Método para obtener las regulaciones vinculadas
+    public function obtenerRegulacionesVinculadas($idRegulacion) {
         $this->db->select('regulacion.Nombre_Regulacion, regulacion.ID_Regulacion');
         $this->db->from('derivada_reg');
         $this->db->join('ma_regulacion as regulacion', 'derivada_reg.ID_Regulacion = regulacion.ID_Regulacion');
@@ -678,6 +677,16 @@ class RegulacionModel extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+    // Método para obtener las regulaciones derivadas manualmente
+    public function obtenerRegulacionesManuales($idRegulacion) {
+        $this->db->select('manual.nombre as Nombre_Manual, manual.enlace as Enlace, manual.id_regulacion as ID_Regulacion');
+        $this->db->from('cat_regulacion_derivada_manual as manual');
+        $this->db->where('manual.id_regulacion', $idRegulacion);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
 
     public function obtenerSectoresPorRegulacion($idRegulacion)
     {
@@ -695,6 +704,7 @@ class RegulacionModel extends CI_Model
         $this->db->from('de_tramitesyservicios as tramites');
         $this->db->join('rel_nat_reg as rel', 'tramites.ID_Nat = rel.ID_Nat');
         $this->db->where('rel.ID_Regulacion', $idRegulacion);
+        $this->db->group_by('tramites.Nombre, tramites.Direccion');
         $query = $this->db->get();
         return $query->result();
     }

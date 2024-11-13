@@ -10,82 +10,112 @@
 <body>
     <div class="header">
         <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" alt="Logo" height="50">
-        <h1>FICHA DE LA REGULACIÓN</h1>
-        <p>Decreto que crea el Organismo Público Descentralizado de la Administración Pública Estatal denominado
-            Secretaría de Desarrollo Económico (SEDECO)</p>
+        <h1>Decreto que crea el Organismo Público Descentralizado de la Administración Pública Estatal denominado
+            Secretaría de Desarrollo Económico (SEDECO)</h1>
 
-    </div>        
+    </div>
     <?php 
         date_default_timezone_set('America/Mexico_City'); 
         ?>
-        <p>Fecha de creación de la regulación:
+    <div class="section">
+        <h4 class="inline-title">Fecha de creación de la regulación:</h4>
+        <p class="inline-content">
             <?php echo !empty($regulacion->Fecha_Cre_Sys) ? $regulacion->Fecha_Cre_Sys : 'No disponible'; ?>
         </p>
-        <p>Fecha de ultima actualización de la regulacion:
+    </div>
+    <div class="section">
+        <h4 class="inline-title">Fecha de ultima actualización de la regulacion:</h4>
+        <p class="inline-content">
             <?php echo !empty($regulacion->Fecha_Act_Sys) ? $regulacion->Fecha_Act_Sys : 'No disponible'; ?>
         </p>
+    </div>
+
     <div class="subheader">
         <h3>Acerca de la resolución</h3>
     </div>
     <div class="content">
-        <p><strong>Tipo de Ordenamiento jurídico:</strong>
-            <?php echo !empty($regulacionCaracteristicas->Tipo_Ordenamiento) ? $regulacionCaracteristicas->Tipo_Ordenamiento : 'No disponible'; ?>
-        </p>
-        <p><strong>Fecha de publicación:</strong>
-            <?php echo !empty($regulacionCaracteristicas->Fecha_Publi) ? $regulacionCaracteristicas->Fecha_Publi : 'No disponible'; ?>
-        </p>
-        <p><strong>Vigencia:</strong>
-            <?php echo !empty($regulacionCaracteristicas->Vigencia) ? $regulacionCaracteristicas->Vigencia : 'No disponible'; ?>
-        </p>
 
         <div class="section">
-            <p><strong>Fecha de actualización:</strong>
+            <h4 class="inline-title">Tipo de Ordenamiento jurídico:</h4>
+            <p class="inline-content">
+                <?php echo !empty($regulacionCaracteristicas->Tipo_Ordenamiento) ? $regulacionCaracteristicas->Tipo_Ordenamiento : 'No disponible'; ?>
+            </p>
+        </div>
+
+        <div class="section">
+            <h4 class="inline-title">Fecha de publicación:</h4>
+            <p class="inline-content">
+                <?php echo !empty($regulacionCaracteristicas->Fecha_Publi) ? $regulacionCaracteristicas->Fecha_Publi : 'No disponible'; ?>
+            </p>
+        </div>
+
+        <div class="section">
+            <h4 class="inline-title">Vigencia:</h4>
+            <p class="inline-content">
+                <?php echo !empty($regulacionCaracteristicas->Vigencia) ? $regulacionCaracteristicas->Vigencia : 'No disponible'; ?>
+            </p>
+        </div>
+
+        <div class="section">
+            <h4 class="inline-title">Fecha de actualización:</h4>
+            <p class="inline-content">
                 <?php echo !empty($regulacionCaracteristicas->Fecha_Act) ? $regulacionCaracteristicas->Fecha_Act : 'No disponible'; ?>
             </p>
         </div>
 
         <div class="section">
-        <p>Ámbito de Aplicación: <?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?>
+            <h4 class="inline-title">Ámbito de Aplicación:</h4>
+            <p class="inline-content">
+                <?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?>
+            </p>
+        </div>
+        <br>
+        <div class="section">
+            <h4 class="inline-title">Sujetos regulados:</h4>
+            <p class="inline-content">
+                <?php if (!empty($de_mat_sec_suj)): ?>
+                <?php 
+                        $sujetosRegulados = array_map(function ($sujeto) {
+        return $sujeto->SujetosRegulados;
+    }, $de_mat_sec_suj);
+    echo implode(', ', $sujetosRegulados);
+                    ?>
+                <?php else: ?>
+                No hay sujetos regulados
+                <?php endif; ?>
             </p>
         </div>
 
         <div class="section">
-            <h4>Sujetos regulados:</h4>
-            <ul>
+            <h4 class="inline-title">Materias reguladas:</h4>
+            <p class="inline-content">
                 <?php if (!empty($de_mat_sec_suj)): ?>
-                <?php    foreach ($de_mat_sec_suj as $sujeto): ?>
-                <li><?php        echo $sujeto->SujetosRegulados; ?></li>
-                <?php    endforeach; ?>
+                <?php 
+                        $materiasReguladas = array_map(function ($materia) {
+        return $materia->Materias;
+    }, $de_mat_sec_suj);
+    echo implode(', ', $materiasReguladas);
+                    ?>
                 <?php else: ?>
-                <p>No hay sujetos regulados</p>
+                No hay materias reguladas
                 <?php endif; ?>
-            </ul>
+            </p>
         </div>
 
         <div class="section">
-            <h4>Materias reguladas:</h4>
-            <ul>
+            <h4 class="inline-title">Sectores regulados:</h4>
+            <p class="inline-content">
                 <?php if (!empty($de_mat_sec_suj)): ?>
-                <?php    foreach ($de_mat_sec_suj as $materia): ?>
-                <li><?php        echo $materia->Materias; ?></li>
-                <?php    endforeach; ?>
+                <?php 
+                        $sectoresRegulados = array_map(function ($sector) {
+        return $sector->Sectores;
+    }, $de_mat_sec_suj);
+    echo implode(', ', $sectoresRegulados);
+                    ?>
                 <?php else: ?>
-                <p>No hay materias reguladas</p>
+                No hay sectores regulados
                 <?php endif; ?>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h4>Sectores regulados:</h4>
-            <ul>
-                <?php if (!empty($de_mat_sec_suj)): ?>
-                <?php    foreach ($de_mat_sec_suj as $sector): ?>
-                <li><?php        echo $sector->Sectores; ?></li>
-                <?php    endforeach; ?>
-                <?php else: ?>
-                <p>No hay sectores regulados</p>
-                <?php endif; ?>
-            </ul>
+            </p>
         </div>
     </div>
 
@@ -136,9 +166,24 @@
                 @endforeach
             </ul>
         @else
-            <p>No existen relaciones</p>
+            <p>No existen regulaciones vinculadas</p>
         @endif
     </div>
+
+    <div class="content">
+        @if (!empty($regulacionesManuales))
+            <ul>
+                @foreach ($regulacionesManuales as $manual)
+                    <li>{{ $manual->Nombre_Manual }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>No existen regulaciones manuales</p>
+        @endif
+    </div>
+
+
+
 
     <div class="subheader">
         <h3>Trámites y Servicios Relacionados</h3>

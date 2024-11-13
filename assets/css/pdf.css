@@ -1,9 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Geomanist:wght@400;700&display=swap');
+
+
+body {
+    font-family: 'Geomanist', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
 
 h1,
 .h1 {
 	font-weight: 600 !important;
-    font-size: 28px !important;
+    font-size: 20px !important;
 }
 
 .h2, h2 {
@@ -13,12 +20,10 @@ h1,
 h3,
 .h3 {
 	font-weight: 500;
-	font-size: 20px;
+	font-size: 18px;
+    padding: 0.5rem 0 .5rem 1rem;
 }
 
-h1, h2 {
-    margin-top: 20px !important; 
-}
 
 h4 {
     font-weight: bold;
@@ -28,7 +33,7 @@ h4 {
     text-align: center;
     background-color: #612233;
     color: white;
-    padding: 20px;
+    padding: 1px;
     position: relative;
 }
 
@@ -39,61 +44,21 @@ h4 {
 .subheader {
     background-color: #B69664;
     color: white;
-    padding: 1px;
-    
-    text-align: center;
-}
-
-.content {
-    padding: 10px;
 }
 
 .content p {
-    margin: 5px 0;
+    line-height: 0.5;
+    padding: 0;
 }
 
-.content .section {
-    margin-top: 10px;
+.inline-title {
+    display: inline;
+    font-weight: bold;
 }
 
-.card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 20px;
-    padding: 20px;
-    margin: auto;
+.inline-content {
+    display: inline;
 }
 
-.card-header {
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
-}
-
-.card-body {
-    padding: 20px;
-}
-
-.card-footer {
-    text-align: center;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    background-color: #f8f9fa;
-}
-
-.footer {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.footer a {
-    text-decoration: none;
-    color: #007bff;
-}
-
-.footer a:hover {
-    text-decoration: underline;
-}
 
 

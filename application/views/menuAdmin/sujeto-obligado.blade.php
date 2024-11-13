@@ -42,7 +42,7 @@ Registro Estatal de Regulaciones
                         <td><?php    echo $sujeto->ID_sujeto; ?></td>
                         <td><?php    echo $sujeto->nombre_sujeto; ?></td>
                         <td><?php    echo $sujeto->siglas; ?></td>
-                        <td><?php    echo $sujeto->nombre_materia; ?></td>
+                        <td><?php echo $sujeto->nombre_materia ?? 'N/A'; ?></td>
                         <td>
                             <a href="<?php    echo base_url('menu/editar_sujeto/' . base64_encode($sujeto->ID_sujeto)); ?>"
                                 class="btn btn-dorado btn-sm">
