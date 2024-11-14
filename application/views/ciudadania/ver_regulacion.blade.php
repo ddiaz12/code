@@ -20,35 +20,45 @@ Registro Estatal de Regulaciones
             <?php if (!empty($regulacion->Estatus) && $regulacion->Estatus == 5): ?>
             <p clase="msg-emergencia"><strong class="text-danger">Esta es una regulación de emergencia</strong></p>
             <?php endif; ?>
-            <div class="regulation-info">
-                <p><strong>Tipo de ordenamiento jurídico:</strong>
-                    <?php echo !empty($regulacionCaracteristicas->Tipo_Ordenamiento) ? $regulacionCaracteristicas->Tipo_Ordenamiento : 'No disponible'; ?>
-                </p>
-                <p><strong>Fecha de expedición de la regulación:</strong>
-                    <?php echo !empty($regulacionCaracteristicas->Fecha_Exp) ? $regulacionCaracteristicas->Fecha_Exp : 'No disponible'; ?>
-                </p>
-                <p><strong>Fecha de publicación de la regulación:</strong>
-                    <?php echo !empty($regulacionCaracteristicas->Fecha_Publi) ? $regulacionCaracteristicas->Fecha_Publi : 'No disponible'; ?>
-                </p>
-                <p><strong>Fecha de vigor:</strong>
-                    <?php echo !empty($regulacionCaracteristicas->Fecha_Vigor) ? $regulacionCaracteristicas->Fecha_Vigor : 'No disponible'; ?>
-                </p>
-                <p><strong>Fecha de última actualización:</strong>
-                    <?php echo !empty($regulacionCaracteristicas->Fecha_Act) ? $regulacionCaracteristicas->Fecha_Act : 'No disponible'; ?>
-                </p>
-                <p><strong>Vigencia de la regulación:</strong>
-                    <?php echo !empty($regulacionCaracteristicas->Vigencia) ? $regulacionCaracteristicas->Vigencia : 'No disponible'; ?>
-                </p>
-                <p><strong>Orden de gobierno que la emite:</strong>
-                    <?php echo !empty($regulacionCaracteristicas->Orden_Gob) ? $regulacionCaracteristicas->Orden_Gob : 'No disponible'; ?>
-                </p>
-                <p><strong>Ámbito de la aplicación:</strong> <span
-                        class="application-badge"><?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?></span>
-                    <span class="application-badge"><i class="fas fa-map-marker-alt"></i> Colima</span>
-                </p>
-                <p><a
-                        href="<?php echo !empty($enlace_oficial->Enlace_Oficial) ? $enlace_oficial->Enlace_Oficial : '#'; ?>">Enlace
-                        de la regulación</a></p>
+            <div class="regulation-info d-flex justify-content-between align-items-start" style="position: relative;">
+                <div>
+                    <p><strong>Tipo de ordenamiento jurídico:</strong>
+                        <?php echo !empty($regulacionCaracteristicas->Tipo_Ordenamiento) ? $regulacionCaracteristicas->Tipo_Ordenamiento : 'No disponible'; ?>
+                    </p>
+                    <p><strong>Fecha de expedición de la regulación:</strong>
+                        <?php echo !empty($regulacionCaracteristicas->Fecha_Exp) ? $regulacionCaracteristicas->Fecha_Exp : 'No disponible'; ?>
+                    </p>
+                    <p><strong>Fecha de publicación de la regulación:</strong>
+                        <?php echo !empty($regulacionCaracteristicas->Fecha_Publi) ? $regulacionCaracteristicas->Fecha_Publi : 'No disponible'; ?>
+                    </p>
+                    <p><strong>Fecha de vigor:</strong>
+                        <?php echo !empty($regulacionCaracteristicas->Fecha_Vigor) ? $regulacionCaracteristicas->Fecha_Vigor : 'No disponible'; ?>
+                    </p>
+                    <p><strong>Fecha de última actualización:</strong>
+                        <?php echo !empty($regulacionCaracteristicas->Fecha_Act) ? $regulacionCaracteristicas->Fecha_Act : 'No disponible'; ?>
+                    </p>
+                    <p><strong>Vigencia de la regulación:</strong>
+                        <?php echo !empty($regulacionCaracteristicas->Vigencia) ? $regulacionCaracteristicas->Vigencia : 'No disponible'; ?>
+                    </p>
+                    <p><strong>Orden de gobierno que la emite:</strong>
+                        <?php echo !empty($regulacionCaracteristicas->Orden_Gob) ? $regulacionCaracteristicas->Orden_Gob : 'No disponible'; ?>
+                    </p>
+                    <p><strong>Ámbito de la aplicación:</strong> <span
+                            class="application-badge"><?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?></span>
+                        <span class="application-badge"><i class="fas fa-map-marker-alt"></i> Colima</span>
+                    </p>
+                    <p><a
+                            href="<?php echo !empty($enlace_oficial->Enlace_Oficial) ? $enlace_oficial->Enlace_Oficial : '#'; ?>">Enlace
+                            de la regulación</a></p>
+                </div>
+                <div class="div-protesta">
+                    <a class="nav-link" href="https://protestaciudadana.col.gob.mx/" data-toggle="tooltip"
+                        data-placement="right" title="Protesta Ciudadana">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-solid fa-person-circle-exclamation icon-protesta"></i>
+                        </div>
+                    </a>
+                </div>
             </div>
 
             <p><?php echo !empty($regulacion->Objetivo_Reg) ? $regulacion->Objetivo_Reg : 'No disponible'; ?></p>

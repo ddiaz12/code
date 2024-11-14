@@ -7,6 +7,12 @@
 	font-family: "Geomanist", sans-serif;
 }
 
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
 
 h1,
 .h1 {
@@ -179,6 +185,12 @@ a.cursor.denuncia-menu.nav-link {
 	margin: 15px 0 10px 10px;
 }
 
+.icon-protesta {
+	color: #b39362;
+	font-size: 45px;
+	padding-right: 6px;
+}
+
 .fa-universal-access {
 	color: rgba(6, 172, 222, 0.887);
 	font-size: 30px; /* Ajusta el tamaño del icono aquí */
@@ -281,11 +293,14 @@ a.cursor.denuncia-menu.nav-link {
 	z-index: 2;
 }
 
-html,
-body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
+.div-protesta{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.div-iconos{
+	margin-left: 5rem;
 }
 
 footer {
@@ -295,10 +310,6 @@ footer {
 	background-color: #ffffff;
 	padding: 8rem 0 2rem 0;
 	margin-left: 6px;
-}
-
-.div-iconos{
-	margin-left: 5rem;
 }
 
 footer .footer-backgroundcolor-pu {

@@ -44,7 +44,7 @@ Registro Estatal de Regulaciones
                 </style>
                 <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
-                        <div class="card-body" style="border: none;">
+                        <div class="card-body div-card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"

@@ -82,7 +82,7 @@ Registro Estatal de Regulaciones
                 <div class="card flex-grow-1">
                     <div class="card">
                         <div class="card-header text-white">Edición al RER</div>
-                        <div class="card-body">
+                        <div class="card-body div-card-body">
                             <!-- Mensaje de atención -->
                             <div class="alert alert-warning" role="alert">
                                 Atención: se le solicita que el llenado de esta ficha de inscripción sea requisitado con
