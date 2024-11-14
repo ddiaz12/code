@@ -71,7 +71,7 @@ Registro Estatal de Regulaciones
                 <div class="card flex-grow-1">
                     <div class="card">
                         <div class="card-header text-white">Inscripción al Registro Estatal de Regulaciones (RER)</div>
-                        <div class="card-body">
+                        <div class="card-body div-card-body">
                             <!-- Mensaje de atención -->
                             <div class="alert alert-warning" role="alert">
                                 Atención: se le solicita que el llenado de esta ficha de inscripción sea requisitado
@@ -403,7 +403,7 @@ Registro Estatal de Regulaciones
                                             <th>Articulo</th>
                                             <th>Link</th>
                                             <th></th>
-                                            
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -793,7 +793,7 @@ Registro Estatal de Regulaciones
                 var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                     '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                     '<td>' + item.Tipo_Dependencia + '</td>' +
-                    '<td class="text-end">' +  
+                    '<td class="text-end">' +
                     '<button class="btn btn-danger btn-sm delete-row">' +
                     '<i class="fas fa-trash-alt"></i></button>' +
                     '</td>' +
@@ -1701,19 +1701,28 @@ Registro Estatal de Regulaciones
                                 lastInsertedIndicePadre = null;
                             }
 
+                            var rowClass = lastInsertedIndicePadre ? 'child-row' : 'parent-row';
 
-                            var newRow = '<tr><td class="hidden-column">' + lastInsertedID_Indice + '</td><td class="texto">' + inputTexto +
-                                '</td><td>' + lastInsertedOrden + '</td>' +
-                                '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
-                                '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + 
-                                '<td class="text-end">' +
-                                '<button class="btn btn-gris btn-sm edit-row me-2">' + 
-                                '<i class="fas fa-edit"></i></button>' +
-                                '<button class="btn btn-danger btn-sm delete-row">' +
-                                '<i class="fas fa-trash-alt"></i></button>' +
-                                '</td>' +
-                                '</tr>';
-                            $('#resultTable tbody').append(newRow);
+                            var newRow = `<tr class="${rowClass}">
+                            <td class="hidden-column">${lastInsertedID_Indice}</td>
+                            <td class="texto">${inputTexto}</td>
+                            <td>${lastInsertedOrden}</td>
+                            <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
+                            <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
+                            <td class="text-end">
+                                <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                            </tr>`;
+
+                            if (lastInsertedIndicePadre) {
+                                var parentRow = $('#resultTable tbody tr').filter(function () {
+                                    return $(this).find('td').eq(0).text() == lastInsertedIDIndicePadre;
+                                });
+                                parentRow.after(newRow);
+                            } else {
+                                $('#resultTable tbody').append(newRow);
+                            }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.error('AJAX error:', textStatus, errorThrown);
