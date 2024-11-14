@@ -2187,7 +2187,6 @@ class RegulacionController extends CI_Controller
         if (!empty($registros) && !empty($ID_caract)) {
             foreach ($registros as $registro) {
                 $data = array(
-                    'ID_MatSec' => $registro['ID_MatSec'],
                     'ID_caract' => $ID_caract,
                     'Materias' => $registro['Materias'],
                     'Sectores' => $registro['Sectores'],
@@ -2226,7 +2225,6 @@ class RegulacionController extends CI_Controller
         if (!empty($fundamentos) && !empty($ID_caract)) {
             foreach ($fundamentos as $fundamento) {
                 $data = array(
-                    'ID_Fun' => $fundamento['ID_Fun'],
                     'ID_caract' => $ID_caract,
                     'Nombre' => $fundamento['Nombre'],
                     'Articulo' => $fundamento['Articulo'],
