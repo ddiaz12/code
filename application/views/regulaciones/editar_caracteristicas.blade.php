@@ -100,9 +100,9 @@ Registro Estatal de Regulaciones
                                         <label for="selectSujeto">Ámbito de aplicación<span
                                                 class="text-danger">*</span></label>
                                         <select class="form-control" id="selectSujeto" name="sujeto" required>
-                                            <option disabled selected>
+                                            <!-- <option disabled selected>
                                                 <?php echo $caracteristicas['Ambito_Aplicacion']; ?>
-                                            </option>
+                                            </option> -->
                                             <option value="Estatal">Estatal</option>
                                         </select>
                                     </div>
@@ -175,7 +175,7 @@ Registro Estatal de Regulaciones
                                         </div>
                                     </div>
                                     <div class="col-md-6" id="otroCampo"
-                                        style="display: <?php echo ($regulacion['Vigencia'] != '0000-00-00') ? 'block' : 'none'; ?>;">
+                                        style="display: <?php echo ($regulacion['Vigencia'] != '0000-00-00'); ?>;">
                                         <label for="campoExtra">Vigencia de la regulación</label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                             value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
@@ -719,9 +719,6 @@ Registro Estatal de Regulaciones
                                         </tr>
                                         <?php    endforeach; ?>
                                         <?php else: ?>
-                                        <tr>
-                                            <td colspan="3">No se encontraron registros.</td>
-                                        </tr>
                                         <?php endif; ?>
                                     </tbody>
                                 </table>
@@ -2615,6 +2612,8 @@ Registro Estatal de Regulaciones
 
         $('#guardarIbtn').on('click', function () {
             var inputTexto = $('#inputTexto').val();
+            lastInsertedIndicePadre = $('#selectIndicePadre').val();
+            lastInsertedIDIndicePadre = $('#selectIndicePadre option:selected').text();
 
             if (inputTexto.trim() === '') {
                 Swal.fire({
@@ -2673,7 +2672,7 @@ Registro Estatal de Regulaciones
                         inputTexto + '</td><td>' +
                         lastInsertedOrden + '</td>' +
                         '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
-                        '<td class="hidden-column">' + lastInsertedIDIndicePadre + '</td>' +
+                        '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
                         '<td><button class="btn btn-danger btn-sm edit-row">' +
                         '<i class="fas fa-edit"></i></button></td>' +
                         '<td><button class="btn btn-danger btn-sm delete-row">' +
@@ -2727,19 +2726,53 @@ Registro Estatal de Regulaciones
     $(document).ready(function () {
         var isEditing = false;
         var editingRow = null;
+        var other = null;
+        var idPadre = null;
 
         $('#resultTable').on('click', '.edit-row', function () {
             // Establecer el modo de edición
             isEditing = true;
             editingRow = $(this).closest('tr');
+            console.log(editingRow);
 
             // Obtener los datos de la fila
             var texto = editingRow.find('.texto').text();
             var indicePadre = editingRow.find('.indice-padre').text();
+            other = editingRow.find('td').eq(4).text().trim();
+            console.log('other:', other);
 
             // Asignar los datos al modal
             $('#inputTexto').val(texto);
             $('#selectIndicePadre').val(indicePadre);
+
+            if (indicePadre === '' || indicePadre === 'null') {
+                $('#selectIndicePadre').val(other);
+                if (other === 'null' || other === '' || other === 'Seleccione un índice padre') {
+                    $.ajax({
+                        url: '<?= base_url('RegulacionController/get_id_padre') ?>',
+                        method: 'POST',
+                        data: { texto: texto },
+                        success: function(response) {
+                            if (response === 'null') {
+                                idPadre = null;
+                            } else {
+                                var data = JSON.parse(response);
+                                idPadre = data.ID_Padre;
+                                // Seleccionar la opción correspondiente en el select
+                                if (idPadre !== null) {
+                                    $('#selectIndicePadre').val(idPadre);
+                                }
+                            }
+                            
+                            // Abrir el modal
+                            $('#myModal').modal('show');
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.error('AJAX error:', textStatus, errorThrown);
+                        }
+                    });
+                }
+            }
 
             // Abrir el modal
             $('#myModal').modal('show');
@@ -2782,12 +2815,9 @@ Registro Estatal de Regulaciones
                 });
             } else {
                 var inputTexto = $('#inputTexto').val();
-                var lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
-                var lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-                // Agregar un nuevo índice en modo de creación
-                var inputTexto = $('#inputTexto').val();
-                lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
-                lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+                var lastInsertedIndicePadre = $('#selectIndicePadre').val();
+                var lastInsertedIDIndicePadre = $('#selectIndicePadre option:selected').text();
+
                 if (inputTexto.trim() === '') {
                     Swal.fire({
                         icon: 'error',
@@ -2796,51 +2826,70 @@ Registro Estatal de Regulaciones
                     });
                     return;
                 } else {
-                    $.ajax({
-                        url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                        method: 'GET',
-                        success: function (data) {
-                            var maxValues = JSON.parse(data);
+                    var lastInsertedID_Indice =
+                        null; // Variable para almacenar el último ID_Indice insertado
+                    var lastInsertedOrden =
+                        null; // Variable para almacenar el último Orden insertado
+                    var lastInsertedIDIndicePadre =
+                        null; // Variable para almacenar el último ID_IndicePadre insertado
+                    var lastInsertedIndicePadre =
+                        null; // Variable para almacenar el último ID_IndicePadre insertado
+                    if (lastInsertedID_Indice === null ||
+                        lastInsertedOrden === null) {
+                        // Si es la primera inserción, obtener los valores de la base de datos
+                        $.ajax({
+                            url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                            method: 'GET',
+                            success: function (data) {
+                                var maxValues = JSON.parse(
+                                    data);
+                                lastInsertedID_Indice =
+                                    parseInt(maxValues
+                                        .ID_Indice) + 1;
+                                lastInsertedOrden =
+                                    parseInt(maxValues
+                                        .Orden) + 1;
 
-                            if (maxValues.ID_Indice == null || maxValues.Orden == null) {
-                                lastInsertedID_Indice = 1;
-                                lastInsertedOrden = 1;
-                                // Verificar si la tabla con id resultTable no está vacía
-                                if ($('#resultTable tbody tr').length > 0) {
-                                    lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
-                                    lastInsertedOrden = $('#resultTable tbody tr').length + 1;
-                                }
-                            } else {
-                                lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
-                                lastInsertedOrden = parseInt(maxValues.Orden) + 1;
-                                // Verificar si la tabla con id resultTable no está vacía
-                                if ($('#resultTable tbody tr').length > 0) {
-                                    lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
-                                        '#resultTable tbody tr').length + 1;
-                                    lastInsertedOrden = parseInt(maxValues.Orden) + $(
-                                        '#resultTable tbody tr').length + 1;
-                                }
+                                var newRow = '<tr><td class="hidden-column">' +
+                                    lastInsertedID_Indice +
+                                    '</td><td class="texto">' +
+                                    inputTexto +
+                                    '</td><td>' +
+                                    lastInsertedOrden + '</td>' +
+                                    '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
+                                    '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
+                                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                                    '<i class="fas fa-edit"></i></button></td>' +
+                                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                                    '</tr>';
+                                $('#resultTable tbody')
+                                    .append(newRow);
+                            },
+                            error: function (jqXHR, textStatus,
+                                errorThrown) {
+                                console.error('AJAX error:',
+                                    textStatus,
+                                    errorThrown);
                             }
-                            if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
-                                lastInsertedIndicePadre = null;
-                            }
+                        });
+                    } else {
+                        // Si no es la primera inserción, incrementar los últimos valores insertados
+                        lastInsertedID_Indice++;
+                        lastInsertedOrden++;
 
-
-                            var newRow = '<tr><td class="hidden-column">' + lastInsertedID_Indice + '</td><td class="texto">' + inputTexto +
-                                '</td><td>' + lastInsertedOrden + '</td>' +
-                                '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
-                                '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                                '<td><button class="btn btn-danger btn-sm edit-row">' +
-                                '<i class="fas fa-edit"></i></button></td>' +
-                                '<td><button class="btn btn-danger btn-sm delete-row">' +
-                                '<i class="fas fa-trash-alt"></i></button></td>' +
-                                '</tr>';
-                            $('#resultTable tbody').append(newRow);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.error('AJAX error:', textStatus, errorThrown);
-                        }
-                    });
+                        var newRow = '<tr><td>' +
+                            lastInsertedID_Indice + '</td><td>' +
+                            inputTexto + '</td><td>' +
+                            lastInsertedOrden + '</td>' +
+                            '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
+                            '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
+                            '<td><button class="btn btn-danger btn-sm edit-row">' +
+                            '<i class="fas fa-edit"></i></button></td>' +
+                            '<td><button class="btn btn-danger btn-sm delete-row">' +
+                            '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>';
+                        $('#resultTable tbody').append(newRow);
+                    }
                 }
             }
 
