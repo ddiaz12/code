@@ -62,7 +62,6 @@ Registro Estatal de Regulaciones
                                     <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                 </div>
