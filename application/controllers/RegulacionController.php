@@ -1889,7 +1889,7 @@ class RegulacionController extends CI_Controller
         }
 
         // Obtener los nombres de los sectores de la tabla cat_sector
-        $id_sectores = array_column($sectores, 'ID_Sector');
+        $id_sectores = array_column($sectores, 'ID_sector');
         $nombres_sectores = $this->RegulacionModel->get_nombres_sectores($id_sectores);
 
         // Devolver los nombres de los sectores como JSON
