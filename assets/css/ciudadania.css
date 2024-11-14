@@ -548,6 +548,14 @@ footer .footer-icon-separador-pu {
     .div-buscador {
         padding: 4rem 2rem 0 9rem;
     }
+
+	.div-iconos{
+		margin-left: 4rem;
+	}
+
+	footer .footer-icon-separador-pu {
+		padding-left: 10px;
+	}
 }
 
 /* Pantallas pequeñas (768px a 1023px) */
@@ -556,6 +564,14 @@ footer .footer-icon-separador-pu {
         margin: 0 3rem;
         padding: 4rem 2rem 0 9rem;
     }
+
+	.div-iconos{
+		margin-left: 2rem;
+	}
+
+	footer .footer-icon-separador-pu {
+		padding-left: 0px;
+	}
 }
 
 /* Pantallas muy pequeñas (menos de 768px) */
@@ -563,6 +579,16 @@ footer .footer-icon-separador-pu {
     .div-buscador {
         padding: 4rem 2rem 0 2rem;
     }
+
+	.div-iconos{
+		margin-left: 0rem;
+		display: none;
+	}
+
+
+	footer .footer-icon-separador-pu {
+		padding-left: 0px;
+	}
 }
 
 /*Pantallas grnades de mas de 1600  */

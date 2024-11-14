@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Agregar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle me-1"></i>Inscripción al RER
     </li>
 </ol>
 <div class="container mt-5">
@@ -71,136 +71,135 @@ Registro Estatal de Regulaciones
                     <div class="card-header text-white">Materias Exentas</div>
                     <div class="card-body align-content-center justify-content-center align-items-center">
                         <div class="align-content-center justify-content-center align-items-center">
-                            <div class="d-flex align-content-center  justify-content-center align-items-center">
+                            <div>
                                 <label for=" radioGroup">¿Existen materias que se exceptúan de la
                                     regulación?</label>
                             </div>
-                            <div id="radioGroup"
-                                class="d-flex align-content-center  justify-content-center align-items-center">
+                            <div id="radioGroup">
                                 <label for="si"><input type="radio" id="si" name="opcion" value="si">Sí</label>
                                 <label class="ms-2" for="no"> <input type="radio" id="no" name="opcion" value="no"
                                         checked>No</label>
                             </div>
                         </div>
-
+                        <br>
                         <div class="align-content-center d-flex justify-content-center align-items-center">
                             <div id="checkboxes" style="flex-wrap: wrap; column-count: 3;">
                                 <!-- Generar 29 checkboxes -->
                                 <div>
                                     <input type="checkbox" id="checkbox1" name="checkbox1" value="checkbox1">
-                                    <label for="checkbox1">Fiscal</label>
+                                    <label for="checkbox1" class="small text-mat">Fiscal</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox2" name="checkbox2" value="checkbox2">
-                                    <label for="checkbox2">Aduanera</label>
+                                    <label for="checkbox2" class="small text-mat">Aduanera</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox3" name="checkbox3" value="checkbox3">
-                                    <label for="checkbox3">Armas de fuego y explosivos</label>
+                                    <label for="checkbox3" class="small text-mat">Armas de fuego y explosivos</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox4" name="checkbox4" value="checkbox4">
-                                    <label for="checkbox4">Comercio exterior</label>
+                                    <label for="checkbox4" class="small text-mat">Comercio exterior</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox5" name="checkbox5" value="checkbox5">
-                                    <label for="checkbox5">Constatar medidas de protección civil</label>
+                                    <label for="checkbox5" class="small text-mat">Constatar medidas de protección civil</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox6" name="checkbox6" value="checkbox6">
-                                    <label for="checkbox6">Derechos e intereses del consumidor</label>
+                                    <label for="checkbox6" class="small text-mat">Derechos e intereses del consumidor</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox7" name="checkbox7" value="checkbox7">
-                                    <label for="checkbox7">Infraestructura y/o construcción</label>
+                                    <label for="checkbox7" class="small text-mat">Infraestructura y/o construcción</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox8" name="checkbox8" value="checkbox8">
-                                    <label for="checkbox8">Medio ambiente</label>
+                                    <label for="checkbox8" class="small text-mat">Medio ambiente</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox9" name="checkbox9" value="checkbox9">
-                                    <label for="checkbox9">Operaciones con recursos de procedencia ilícita</label>
+                                    <label for="checkbox9" class="small text-mat">Operaciones con recursos de procedencia ilícita</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox10" name="checkbox10" value="checkbox10">
-                                    <label for="checkbox10">Otra</label>
+                                    <label for="checkbox10" class="small text-mat">Otra</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox11" name="checkbox11" value="checkbox11">
-                                    <label for="checkbox11">Programas sociales</label>
+                                    <label for="checkbox11" class="small text-mat">Programas sociales</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox12" name="checkbox12" value="checkbox12">
-                                    <label for="checkbox12">Protección contra riesgos sanitarios</label>
+                                    <label for="checkbox12" class="small text-mat">Protección contra riesgos sanitarios</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox13" name="checkbox13" value="checkbox13">
-                                    <label for="checkbox13">Proteger la sanidad y la inocuidad agroalimentaria, animal y
+                                    <label for="checkbox13" class="small text-mat">Proteger la sanidad y la inocuidad agroalimentaria, animal y
                                         vegetal</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox14" name="checkbox14" value="checkbox14">
-                                    <label for="checkbox14">Recursos naturales</label>
+                                    <label for="checkbox14" class="small text-mat">Recursos naturales</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox15" name="checkbox15" value="checkbox15">
-                                    <label for="checkbox15">Resguardar la seguridad Nacional</label>
+                                    <label for="checkbox15" class="small text-mat">Resguardar la seguridad Nacional</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox16" name="checkbox16" value="checkbox16">
-                                    <label for="checkbox16">Revisión de contratos petroleros (art. 37-B-VII y 63
+                                    <label for="checkbox16" class="small text-mat">Revisión de contratos petroleros (art. 37-B-VII y 63
                                         LISH)</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox17" name="checkbox17" value="checkbox17">
-                                    <label for="checkbox17">Salud humana</label>
+                                    <label for="checkbox17" class="small text-mat">Salud humana</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox18" name="checkbox18" value="checkbox18">
-                                    <label for="checkbox18">Salud pública, medicamentos, asistencia sanitaria y/o
+                                    <label for="checkbox18" class="small text-mat">Salud pública, medicamentos, asistencia sanitaria y/o
                                         sanidad</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox19" name="checkbox19" value="checkbox19">
-                                    <label for="checkbox19">Sector financiero</label>
+                                    <label for="checkbox19" class="small text-mat">Sector financiero</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox20" name="checkbox20" value="checkbox20">
-                                    <label for="checkbox20">Seguridad alimentaria</label>
+                                    <label for="checkbox20" class="small text-mat">Seguridad alimentaria</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox21" name="checkbox21" value="checkbox21">
-                                    <label for="checkbox21">Seguridad de la población</label>
+                                    <label for="checkbox21" class="small text-mat">Seguridad de la población</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox22" name="checkbox22" value="checkbox22">
-                                    <label for="checkbox22">Seguridad de los productos no alimentarios y protección del
+                                    <label for="checkbox22" class="small text-mat">Seguridad de los productos no alimentarios y protección del
                                         consumidor</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox23" name="checkbox23" value="checkbox23">
-                                    <label for="checkbox23">Seguridad nuclear</label>
+                                    <label for="checkbox23" class="small text-mat">Seguridad nuclear</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox24" name="checkbox24" value="checkbox24">
-                                    <label for="checkbox24">Seguridad social</label>
+                                    <label for="checkbox24"class="small text-mat">Seguridad social</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox25" name="checkbox25" value="checkbox25">
-                                    <label for="checkbox25">Seguridad, protección y/ salud laboral</label>
+                                    <label for="checkbox25" class="small text-mat">Seguridad, protección y/ salud laboral</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox26" name="checkbox26" value="checkbox26">
-                                    <label for="checkbox26">Trabajo</label>
+                                    <label for="checkbox26" class="small text-mat">Trabajo</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox27" name="checkbox27" value="checkbox27">
-                                    <label for="checkbox27">Transporte</label>
+                                    <label for="checkbox27" class="small text-mat">Transporte</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox28" name="checkbox28" value="checkbox28">
-                                    <label for="checkbox28">Turismo</label>
+                                    <label for="checkbox28" class="small text-mat">Turismo</label>
                                 </div>
                             </div>
                         </div>

@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar Registro Estatal de Regulaciones (RER)
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle me-1"></i>Edición al RER
     </li>
 </ol>
 <div class="container mt-5">

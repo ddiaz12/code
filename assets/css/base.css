@@ -156,7 +156,7 @@ h3,
 .icon-user,
 .icon-gear,
 .icon-info {
-	color: rgb(8, 8, 8);
+	color: rgb(231, 218, 218);
 	font-size: 20px;
 	margin: 15px 0 10px 0;
 }
@@ -176,6 +176,10 @@ h3,
 
 .text-cards {
 	color: #ffffff;
+}
+
+.text-mat{
+	display: inline;
 }
 
 .row.no-padding > * {
@@ -278,8 +282,10 @@ h3,
 }
 
 .btn-agregarGrupo {
+	background-color: #923244;
 	--bs-btn-hover-bg: #7f2841;
 	margin-right: 20px;
+	color: white;
 }
 
 .btn-agregar {
@@ -297,10 +303,12 @@ h3,
 .btn-oficina:hover,
 .btn-agregarUsuario:hover .btn-agregarOficina:hover,
 .btn-guardar:hover,
-.btn-danger:hover {
+.btn-danger:hover,
+.btn-agregarGrupo:hover {
 	background-color: #7f2841;
 	color: white;
 }
+
 
 /*
 .btn-comentarios{
