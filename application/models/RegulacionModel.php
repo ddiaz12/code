@@ -819,7 +819,7 @@ class RegulacionModel extends CI_Model
 
     public function get_sectores_by_regulacion($id_regulacion)
     {
-        $this->db->select('ID_Sector');
+        $this->db->select('ID_sector');
         $this->db->from('rel_nat_reg');
         $this->db->where('ID_Regulacion', $id_regulacion);
         $query = $this->db->get();

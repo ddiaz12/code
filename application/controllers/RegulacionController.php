@@ -213,7 +213,7 @@ class RegulacionController extends CI_Controller
             redirect('auth/login', 'refresh');
         }
     }
-
+ 
     public function edit_nat($id_regulacion)
     {
         $user = $this->ion_auth->user()->row();

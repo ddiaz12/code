@@ -114,7 +114,7 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputFecha">Fecha de publicación de la regulación</label>
-                                    <input type="date" class="form-control" id="inputFecha" name="fecha_publicacion"
+                                    <input type="date" class="form-control" id="inputFechaPub" name="fecha_publicacion"
                                         required>
                                 </div>
                                 <div class="col-md-6">
@@ -152,7 +152,7 @@ Registro Estatal de Regulaciones
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputVialidad">Orden de gobierno que la emite:</label>
-                                            <select class="form-control" id="selectUnidad" name="orden" required>
+                                            <select class="form-control" id="selectUnidad2" name="orden" required>
                                                 <option disabled selected>Selecciona una opción</option>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
                                                 <option value="Poder Legistativo">Poder Legistativo</option>
@@ -168,7 +168,7 @@ Registro Estatal de Regulaciones
                                             <div id="searchResults" class="list-group"></div>
                                         </div>
                                     </div>
-                                    <div id="apTContainer">
+                                    <div id="emTContainer">
                                         <table id="emitenTable" class="table">
                                             <thead>
                                                 <tr>
@@ -196,7 +196,7 @@ Registro Estatal de Regulaciones
                                             <div class="d-flex justify-content-start mb-3">
                                                 <label>
                                                     <input type="radio" name="opcion" id="apsi"
-                                                        onclick="mostrarCampo2()"> Sí
+                                                        onclick="mostrarCampo2()" checked> Sí
                                                 </label>
                                                 <label class="ms-2">
                                                     <input type="radio" name="opcion" id="apno"
@@ -206,19 +206,6 @@ Registro Estatal de Regulaciones
                                         </div>
                                     </div>
                                     <div class="row" id="opcAplican">
-                                        <div class="col-md-6" id="selectUnidad2Container">
-                                            <div class="form-group">
-                                                <label for="selectUnidad2">Orden de gobierno que la
-                                                    emite:<span class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectUnidad2" name="selectUnidad2"
-                                                    required>
-                                                    <option disabled selected>Selecciona una opción
-                                                    </option>
-                                                    <option value="Poder Ejecutivo">Poder Ejecutivo</option>
-                                                    <option value="Poder Legistativo">Poder Legistativo</option>
-                                                </select>
-                                            </div>
-                                        </div>
                                         <div class="col-md-6" id="AutoridadesAplicanContainer">
                                             <div class="form-group">
                                                 <label for="AutoridadesAplican">Autoridades que aplican
@@ -675,20 +662,15 @@ Registro Estatal de Regulaciones
     function mostrarCampo2() {
         var si = document.getElementById('apsi');
         var no = document.getElementById('apno');
-        var selectUnidad2Container = document.getElementById('selectUnidad2Container');
         var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
         var apTContainer = document.getElementById('apTContainer');
-        var selectUnidad2 = document.getElementById('selectUnidad2');
         var AutoridadesAplican = document.getElementById('AutoridadesAplican');
 
         if (no.checked) {
-            selectUnidad2.disabled = false;
             AutoridadesAplican.disabled = false;
         } else if (si.checked) {
-            selectUnidad2.disabled = true;
             AutoridadesAplican.disabled = true;
         } else {
-            selectUnidad2.disabled = true;
             AutoridadesAplican.disabled = true;
         }
     }
@@ -905,8 +887,8 @@ Registro Estatal de Regulaciones
 
             // Imprimir formData en consola
             console.log(formData);
-            if (formData.nombre === '' || formData.fecha_expedicion === '' || ($('#si').is(':checked') &&
-                formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || $('#fundamentoTable tbody tr').length === 0) {
+            if (formData.nombre === '' || formData.fecha_expedicion === '' || formData.fecha_publicacion === '' || ($('#si').is(':checked') &&
+                formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || $('#fundamentoTable tbody tr').length === 0 || formData.unidad === null) {
                 if (formData.nombre === '') {
                     $('#inputNombre').css('color', 'red');
                     $('#inputNombre').after(
@@ -917,6 +899,12 @@ Registro Estatal de Regulaciones
                     $('#inputFecha').css('color', 'red');
                     $('#inputFecha').after(
                         '<span class="error-message" style="color: red;">El campo "Fecha de Expedición de la regulación" es obligatorio.</span>'
+                    );
+                }
+                if (formData.fecha_publicacion === '') {
+                    $('#inputFechaPub').css('color', 'red');
+                    $('#inputFechaPub').after(
+                        '<span class="error-message" style="color: red;">El campo "Fecha de Publicación de la regulación" es obligatorio.</span>'
                     );
                 }
                 if ($('#si').is(':checked') && formData.campoExtra === '') {
@@ -935,6 +923,12 @@ Registro Estatal de Regulaciones
                     $('#funText').css('color', 'red');
                     $('#funText').after(
                         '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Fundamentos Jurídicos".</span>'
+                    );
+                }
+                if (formData.unidad === 'Selecciona una opción' || formData.unidad === '' || formData.unidad === null) {
+                    $('#selectUnidad').css('color', 'red');
+                    $('#selectUnidad').after(
+                        '<span class="error-message" style="color: red;">El campo "Tipo de ordenamiento jurídico" es obligatorio.</span>'
                     );
                 }
                 Swal.fire({

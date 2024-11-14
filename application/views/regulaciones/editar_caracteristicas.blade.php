@@ -187,7 +187,7 @@ Registro Estatal de Regulaciones
                                         <div class="form-group">
                                             <label for="inputVialidad">Orden de gobierno que la emite:<span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-control" id="selectUnidad" name="orden" required>
+                                            <select class="form-control" id="selectUnidad2" name="orden" required>
                                                 <option disabled selected><?php echo $caracteristicas['Orden_Gob']; ?>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
                                                 <option value="Poder Legistativo">Poder Legistativo</option>
@@ -203,7 +203,7 @@ Registro Estatal de Regulaciones
                                             <div id="searchResults" class="list-group"></div>
                                         </div>
                                     </div>
-                                    <div id="apTContainer">
+                                    <div id="emTContainer">
                                         <table id="emitenTable" class="table">
                                             <thead>
                                                 <tr>
@@ -236,7 +236,7 @@ Registro Estatal de Regulaciones
                                             <div class="d-flex justify-content-start mb-3">
                                                 <label>
                                                     <input type="radio" name="opcion" id="apsi"
-                                                        onclick="mostrarCampo2()"> Sí
+                                                        onclick="mostrarCampo2()" checked> Sí
                                                 </label>
                                                 <label class="ms-2">
                                                     <input type="radio" name="opcion" id="apno"
@@ -247,19 +247,7 @@ Registro Estatal de Regulaciones
 
                                     </div>
                                     <div class="row" id="opcAplican">
-                                        <div class="col-md-6" id="selectUnidad2Container">
-                                            <div class="form-group">
-                                                <label for="selectUnidad2">Orden de gobierno que la
-                                                    emite:<span class="text-danger">*</span></label>
-                                                <select class="form-control" id="selectUnidad2" name="selectUnidad2"
-                                                    required>
-                                                    <option disabled selected>Selecciona una opción
-                                                    </option>
-                                                    <option value="Estatal">Colima</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6" id="AutoridadesAplicanContainer">
+                                        <div class="col-md-12" id="AutoridadesAplicanContainer">
                                             <div class="form-group">
                                                 <label for="AutoridadesAplican">Autoridades que aplican
                                                     la regulación<span class="text-danger">*</span></label>
@@ -862,7 +850,6 @@ Registro Estatal de Regulaciones
     function mostrarCampo2() {
         var si = document.getElementById('apsi');
         var no = document.getElementById('apno');
-        var selectUnidad2Container = document.getElementById('selectUnidad2Container');
         var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
         var apTContainer = document.getElementById('apTContainer');
         var aplicanTable = document.getElementById('aplicanTable');
@@ -873,15 +860,12 @@ Registro Estatal de Regulaciones
         }
 
         if (no.checked) {
-            selectUnidad2Container.style.display = 'block';
             autoridadesAplicanContainer.style.display = 'block';
             apTContainer.style.display = 'block';
         } else if (si.checked) {
-            selectUnidad2Container.style.display = 'none';
             autoridadesAplicanContainer.style.display = 'none';
             apTContainer.style.display = 'none';
         } else {
-            selectUnidad2Container.style.display = 'none';
             autoridadesAplicanContainer.style.display = 'none';
             apTContainer.style.display = 'none';
         }
