@@ -99,6 +99,7 @@ class RegulacionModel extends CI_Model
     public function search_tipo_dependencia($query)
     {
         $this->db->like('nombre_sujeto', $query);
+        $this->db->where('cat_sujeto_obligado.nombre_sujeto !=', 'No especificado');
         $this->db->limit(5);
         $query = $this->db->get('cat_sujeto_obligado');
         return $query->result_array();

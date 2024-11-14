@@ -721,7 +721,7 @@ Registro Estatal de Regulaciones
 
                 // Guardar los ID de los sectores en un array
                 idSectores = response.map(function (sector) {
-                    return sector.ID_Sector;
+                    return sector.ID_sector;
                 });
 
                 // Imprimir los ID de los sectores en la consola
