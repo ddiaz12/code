@@ -127,7 +127,7 @@ class emergency extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/editar_caracteristicas', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
-            $this->blade->render('regulaciones/editar_caracteristicas', $data);
+            $this->blade->render('emergencia/editar_caracteristicas', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/editar_caracteristicas', $data);
         } else {
@@ -177,10 +177,11 @@ class emergency extends CI_Controller
             'id_usuario_creador' => $id,
             'Nombre_Regulacion' => $formData['nombre'],
             'Homoclave' => 'R-IPR-CHH-0-IPR-001',
-            'Estatus' => $Estatus,
+            'Estatus' => 5,
             'Vigencia' => $formData['campoExtra'],
             'Objetivo_Reg' => $formData['objetivoReg'],
-            'Fecha_Cre_Sys' => date('Y-m-d'),// Agregar solo la fecha del sistema
+            'publicada' => 1,
+            'Fecha_Cre_Sys' => date('Y-m-d'),
             'Fecha_Act_Sys' => date('Y-m-d')
         );
 

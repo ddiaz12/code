@@ -452,12 +452,14 @@ class RegulacionModel extends CI_Model
         return $query->result_array();
     }
 
-
     public function get_indices_by_caract($ID_caract)
     {
-        $this->db->select('ID_Indice, Texto, Orden');
-        $this->db->where('ID_caract', $ID_caract);
-        $query = $this->db->get('de_indice');
+        $this->db->select('de_indice.ID_Indice, de_indice.Texto, de_indice.Orden, rel_indice.ID_Padre');
+        $this->db->from('de_indice');
+        $this->db->join('rel_indice', 'de_indice.ID_Indice = rel_indice.ID_Indice', 'left');
+        $this->db->where('de_indice.ID_caract', $ID_caract);
+        $query = $this->db->get();
+    
         if ($query->num_rows() > 0) {
             return $query->result_array(); // Devuelve un array de registros
         } else {
@@ -649,12 +651,12 @@ class RegulacionModel extends CI_Model
 
     public function obtenerAutoridadesPorRegulacion($idRegulacion)
     {
-        $this->db->select('aplican_dep.Tipo_Dependencia as Autoridad_Aplican, emiten_dep.Tipo_Dependencia as Autoridad_Emiten');
+        $this->db->select('aplican_dep.nombre_sujeto as Autoridad_Aplican, emiten_dep.nombre_sujeto as Autoridad_Emiten');
         $this->db->from('de_regulacion_caracteristicas as caract');
         $this->db->join('rel_autoridades_aplican as aplican', 'caract.ID_caract = aplican.ID_caract');
-        $this->db->join('cat_tipo_dependencia as aplican_dep', 'aplican.ID_Aplican = aplican_dep.ID_Dependencia');
+        $this->db->join('cat_sujeto_obligado as aplican_dep', 'aplican.ID_Aplican = aplican_dep.ID_sujeto');
         $this->db->join('rel_autoridades_emiten as emiten', 'caract.ID_caract = emiten.ID_caract');
-        $this->db->join('cat_tipo_dependencia as emiten_dep', 'emiten.ID_Emiten = emiten_dep.ID_Dependencia');
+        $this->db->join('cat_sujeto_obligado as emiten_dep', 'emiten.ID_Emiten = emiten_dep.ID_sujeto');
         $this->db->where('caract.ID_Regulacion', $idRegulacion);
         $query = $this->db->get();
         return $query->result();
