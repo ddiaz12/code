@@ -84,7 +84,7 @@ Registro Estatal de Regulaciones
                         <input type="hidden" id="idRegulacion" name="idRegulacion"
                             value="{{ $regulaciones->ID_Regulacion }}">
                         <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat }}">
-                        <div class="card-body d-flex flex-column justify-content-center">
+                        <div class="card-body d-flex flex-column justify-content-center div-card-body">
                             <div class="row justify-content-center">
                                 <label for="radioGroup">¿La regulación está asociada a una actividad
                                     económica?</label>
@@ -95,97 +95,113 @@ Registro Estatal de Regulaciones
                                     <label for="no">No</label>
                                 </div>
                             </div>
+                            <br>
                             <div class="form-group" id="inputs">
-                                <!-- Generar 5 inputs -->
-                                <div class="form-group row justify-content-center">
-                                    <label for="SectorInput">Sector<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="SectorInput" name="SectorInput"
-                                        placeholder="Selecciona una opcion" required>
+                                <div class="row">
+                                    <!-- Generar 5 inputs -->
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="SectorInput">Sector<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SectorInput" name="SectorInput"
+                                                placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="sectorResults"></ul>
+                                        <table id="selectedSectorsTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Sector</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="SubsectorInput">Subsector<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SubsectorInput"
+                                                name="SubsectorInput" placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="subsectorResults" class="list-group mt-2"></ul>
+                                        <table id="selectedSubsectorsTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Subsector</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
 
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="RamaInput">Rama<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="RamaInput" name="RamaInput"
+                                                placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="ramaResults" class="list-group mt-2"></ul>
+                                        <table id="selectedRamasTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Rama</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SubramaInput"
+                                                name="SubramaInput" placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="subramaResults" class="list-group mt-2"></ul>
+                                        <table id="selectedSubramasTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Subrama</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
+                                                placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="claseResults" class="list-group mt-2"></ul>
+                                        <table id="selectedClasesTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Clase</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <ul id="sectorResults"></ul>
-                                <table id="selectedSectorsTable" class="table table-striped mt-4"
-                                    style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Sector</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
-                                <div class="row justify-content-center">
-                                    <label for="SubsectorInput">Subsector<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="SubsectorInput" name="SubsectorInput"
-                                        placeholder="Selecciona una opcion" required>
-                                </div>
-                                <ul id="subsectorResults" class="list-group mt-2"></ul>
-                                <table id="selectedSubsectorsTable" class="table table-striped mt-4"
-                                    style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Subsector</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
-                                <div class="row justify-content-center">
-                                    <label for="RamaInput">Rama<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="RamaInput" name="RamaInput"
-                                        placeholder="Selecciona una opcion" required>
-                                </div>
-                                <ul id="ramaResults" class="list-group mt-2"></ul>
-                                <table id="selectedRamasTable" class="table table-striped mt-4" style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Rama</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
-                                <div class="row justify-content-center">
-                                    <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
-                                        placeholder="Selecciona una opcion" required>
-                                </div>
-                                <ul id="subramaResults" class="list-group mt-2"></ul>
-                                <table id="selectedSubramasTable" class="table table-striped mt-4"
-                                    style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Subrama</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
-                                <div class="row justify-content-center">
-                                    <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
-                                        placeholder="Selecciona una opcion" required>
-                                </div>
-                                <ul id="claseResults" class="list-group mt-2"></ul>
-                                <table id="selectedClasesTable" class="table table-striped mt-4" style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Clase</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
                             </div>
                             <div class="form-group">
                                 <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta regulación<span

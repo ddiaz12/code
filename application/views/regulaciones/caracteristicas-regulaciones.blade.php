@@ -189,46 +189,49 @@ Registro Estatal de Regulaciones
                                     }
                                 </style>
                                 <form>
-                                    <div class="d-flex justify-content-align-items mb-3 ">
-                                        <div id="selectAplican">
-                                            <p>¿Están obligadas todas las autoridades a cumplir con la
-                                                regulación?</p>
-                                            <div class="d-flex justify-content-start mb-3">
-                                                <label>
-                                                    <input type="radio" name="opcion" id="apsi"
-                                                        onclick="mostrarCampo2()" checked> Sí
-                                                </label>
-                                                <label class="ms-2">
-                                                    <input type="radio" name="opcion" id="apno"
-                                                        onclick="mostrarCampo2()"> No
-                                                </label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="selectAplican">
+                                                <p>¿Están obligadas todas las autoridades a cumplir con la
+                                                    regulación?</p>
+                                                <div class="d-flex justify-content-start mb-3">
+                                                    <label>
+                                                        <input type="radio" name="opcion" id="apsi"
+                                                            onclick="mostrarCampo2()" checked> Sí
+                                                    </label>
+                                                    <label class="ms-2">
+                                                        <input type="radio" name="opcion" id="apno"
+                                                            onclick="mostrarCampo2()"> No
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row" id="opcAplican">
-                                        <div class="col-md-6" id="AutoridadesAplicanContainer">
-                                            <div class="form-group">
-                                                <label for="AutoridadesAplican">Autoridades que aplican
-                                                    la regulación<span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" id="AutoridadesAplican"
-                                                    name="AutoridadesAplican" required>
-                                                <div id="searchResults2" class="list-group"></div>
+                                        <div class="col-md-6" id="opcAplican">
+                                            <div  id="AutoridadesAplicanContainer">
+                                                <div class="form-group">
+                                                    <label for="AutoridadesAplican">Autoridades que aplican
+                                                        la regulación<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="AutoridadesAplican"
+                                                        name="AutoridadesAplican" required>
+                                                    <div id="searchResults2" class="list-group"></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div id="apTContainer">
-                                            <table id="aplicanTable" class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="hidden-column">ID_Dependencia</th>
-                                                        <th>Tipo dependencia</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- Las filas se agregarán dinámicamente aquí -->
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            </div>
+                                            <div id="apTContainer">
+                                                <table id="aplicanTable" class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden-column">ID_Dependencia</th>
+                                                            <th>Tipo dependencia</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- Las filas se agregarán dinámicamente aquí -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        
                                     </div>
                                 </form>
                                 <div class="header-container mb-0">
