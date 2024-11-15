@@ -185,8 +185,7 @@ Registro Estatal de Regulaciones
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputVialidad">Orden de gobierno que la emite:<span
-                                                    class="text-danger">*</span></label>
+                                            <label for="inputVialidad">Orden de gobierno que la emite:</label>
                                             <select class="form-control" id="selectUnidad2" name="orden" required>
                                                 <option disabled selected><?php echo $caracteristicas['Orden_Gob']; ?>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
@@ -197,7 +196,7 @@ Registro Estatal de Regulaciones
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="AutoridadesEmiten">Autoridades que emiten la
-                                                regulación<span class="text-danger">*</span></label>
+                                                regulación</label>
                                             <input type="text" class="form-control" id="AutoridadesEmiten"
                                                 name="aut_emiten" required>
                                             <div id="searchResults" class="list-group"></div>
@@ -250,7 +249,7 @@ Registro Estatal de Regulaciones
                                         <div class="col-md-12" id="AutoridadesAplicanContainer">
                                             <div class="form-group">
                                                 <label for="AutoridadesAplican">Autoridades que aplican
-                                                    la regulación<span class="text-danger">*</span></label>
+                                                    la regulación</label>
                                                 <input type="text" class="form-control" id="AutoridadesAplican"
                                                     name="AutoridadesAplican" required>
                                                 <div id="searchResults2" class="list-group"></div>
@@ -690,6 +689,7 @@ Registro Estatal de Regulaciones
                                             <th>Sectores</th>
                                             <th>Sujetos Regulados</th>
                                             <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -701,6 +701,8 @@ Registro Estatal de Regulaciones
                                             <td><?php        echo $mater['Materias']; ?></td>
                                             <td><?php        echo $mater['Sectores']; ?></td>
                                             <td><?php        echo $mater['SujetosRegulados']; ?></td>
+                                            <td><button class="btn btn-danger btn-sm edit-row">
+                                            <i class="fas fa-edit"></i></button></td>
                                             <td><button class="btn btn-danger btn-sm delete-row"><i
                                                         class="fas fa-trash-alt"></i></button></td>
                                             <!-- Agrega más celdas según sea necesario -->
@@ -773,6 +775,7 @@ Registro Estatal de Regulaciones
                                             <th>Articulo</th>
                                             <th>Link</th>
                                             <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -784,6 +787,8 @@ Registro Estatal de Regulaciones
                                             <td><?php        echo $fundamento['Nombre']; ?></td>
                                             <td><?php        echo $fundamento['Articulo']; ?></td>
                                             <td><?php        echo $fundamento['Link']; ?></td>
+                                            <td><button class="btn btn-danger btn-sm edit-row">
+                                            <i class="fas fa-edit"></i></button></td>
                                             <td><button class="btn btn-danger btn-sm delete-row"><i
                                                         class="fas fa-trash-alt"></i></button></td>
                                             <!-- Agrega más celdas según sea necesario -->
@@ -2908,15 +2913,46 @@ Registro Estatal de Regulaciones
         });
         // Agregar el nuevo evento click para guardar los cambios
         $('#guardarMat').off('click').on('click', function () {
-            if (isEditing) {
-                // Actualizar los datos de la fila
-                editingRow.find('td').eq(1).text($('#inputMat').val());
-                editingRow.find('td').eq(2).text($('#inputSec').val());
-                editingRow.find('td').eq(3).text($('#inputSuj').val());
+            var inputMat = $('#inputMat').val();
+            var inputSec = $('#inputSec').val();
+            var inputSuj = $('#inputSuj').val();
 
-                // Resetear el modo de edición
-                isEditing = false;
-                editingRow = null;
+            if (inputMat.trim() === '' || inputSec.trim() === '' || inputSuj.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, complete todos los campos.'
+                });
+                return;
+            }
+
+            if (isEditing) {
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/updateMatSecSuj') ?>',
+                    method: 'POST',
+                    data: {
+                        id: editingRow.find('.hidden-column').first().text(),
+                        mat: inputMat,
+                        sec: inputSec,
+                        suj: inputSuj
+                    },
+                    success: function(response) {
+                        // Actualizar los datos de la fila en modo de edición
+                        editingRow.find('td').eq(1).text(inputMat);
+                        editingRow.find('td').eq(2).text(inputSec);
+                        editingRow.find('td').eq(3).text(inputSuj);
+                        
+                        // Resetear el modo de edición
+                        isEditing = false;
+                        editingRow = null;
+                        
+                        // Cerrar el modal
+                        $('#myModal').modal('hide');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                    }
+                });
             } else {
                 // Agregar un nuevo registro en modo de creación
                 var idCounter = 1; // Inicializa el contador de ID_MatSec
@@ -3020,15 +3056,45 @@ Registro Estatal de Regulaciones
         });
         // Agregar el nuevo evento click para guardar los cambios
         $('#guardarFun').off('click').on('click', function () {
-            if (isEditing) {
-                // Actualizar los datos de la fila
-                editingRow.find('td').eq(1).text($('#inputNomReg').val());
-                editingRow.find('td').eq(2).text($('#inputArt').val());
-                editingRow.find('td').eq(3).text($('#inputLink').val());
+            var inputNomReg = $('#inputNomReg').val();
+            var inputArt = $('#inputArt').val();
+            var inputLink = $('#inputLink').val();
 
-                // Resetear el modo de edición
-                isEditing = false;
-                editingRow = null;
+            if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, complete todos los campos.'
+                });
+                return;
+            }
+            if (isEditing) {
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/updateNomRegArtLink') ?>',
+                    method: 'POST',
+                    data: {
+                        id: editingRow.find('.hidden-column').first().text(),
+                        nomReg: inputNomReg,
+                        art: inputArt,
+                        link: inputLink
+                    },
+                    success: function(response) {
+                        // Actualizar los datos de la fila en modo de edición
+                        editingRow.find('td').eq(1).text(inputNomReg);
+                        editingRow.find('td').eq(2).text(inputArt);
+                        editingRow.find('td').eq(3).text(inputLink);
+                        
+                        // Resetear el modo de edición
+                        isEditing = false;
+                        editingRow = null;
+                        
+                        // Cerrar el modal
+                        $('#myModal').modal('hide');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                    }
+                });
             } else {
                 var idCounter2 = 1; // Inicializa el contador de ID_MatSec
                 // Realiza una solicitud AJAX para verificar si existen registros en la base de datos

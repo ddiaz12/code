@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarSujeto')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuSujeto')
+@include('templates/menuAdmin')
 @endsection
 
 @section('contenido')
@@ -16,7 +16,7 @@ Registro Estatal de Regulaciones
     <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
                 class="fas fa-file-alt me-1"></i>Regulaciones</a>
     </li>
-    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle"></i>Editar regulacion
+    <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle me-1"></i>Edición al RER
     </li>
 </ol>
 <div class="container mt-5">
@@ -42,9 +42,9 @@ Registro Estatal de Regulaciones
                         /* Adjust as needed */
                     }
                 </style>
-                <div class="card flex-grow-1">
+                <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
-                        <div class="card-body" style="border: none;">
+                        <div class="card-body div-card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion">
                                     <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
@@ -64,7 +64,7 @@ Registro Estatal de Regulaciones
                                     </a>
                                 </li>
                                 <p></p>
-                                <li class="iconos-regulacion">
+                                <li class="iconos-regulacion active-view">
                                     <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
@@ -91,7 +91,7 @@ Registro Estatal de Regulaciones
                                 <div id="radioGroup">
                                     <input type="radio" id="si" name="opcion" value="si">
                                     <label for="si">Sí</label>
-                                    <input type="radio" id="no" name="opcion" value="no">
+                                    <input type="radio" id="no" name="opcion" value="no" checked>
                                     <label for="no">No</label>
                                 </div>
                             </div>
@@ -104,10 +104,12 @@ Registro Estatal de Regulaciones
 
                                 </div>
                                 <ul id="sectorResults"></ul>
-                                <table id="selectedSectorsTable" class="table table-striped mt-4">
+                                <table id="selectedSectorsTable" class="table table-striped mt-4"
+                                    style="display: none;">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Sector</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -125,6 +127,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Subsector</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -141,6 +144,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Rama</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -158,6 +162,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Subrama</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -174,6 +179,7 @@ Registro Estatal de Regulaciones
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Nombre Clase</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -182,21 +188,62 @@ Registro Estatal de Regulaciones
                                 </table>
                             </div>
                             <div class="form-group">
-                                <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta
-                                    regulación<span class="text-danger">*</span></label>
+                                <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta regulación<span
+                                        class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
                                     placeholder="Regulaciones Vinculadas" required>
                             </div>
+
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="manualEntryCheckbox">
+                                <label class="form-check-label" for="manualEntryCheckbox">Agregar manualmente una
+                                    regulación vinculada o derivada</label>
+                            </div>
+
+                            <div id="manualEntryFields" class="border p-3 rounded"
+                                style="display: none; background-color: #f8f9fa;">
+                                <div class="form-group">
+                                    <label for="manualRegulacionNombre">Nombre de la regulación</label>
+                                    <input type="text" class="form-control" id="manualRegulacionNombre"
+                                        name="manualRegulacionNombre" placeholder="Nombre de la regulación derivada">
+                                </div>
+                                <div class="form-group">
+                                    <label for="manualRegulacionLink">Enlace de la regulación</label>
+                                    <input type="text" class="form-control" id="manualRegulacionLink"
+                                        name="manualRegulacionLink" placeholder="Enlace de la regulación derivada">
+                                </div>
+                                <button type="button" id="addRegulacionButton" class="btn btn-tinto mt-2">Agregar
+                                    Regulación</button>
+                            </div>
                             <ul id="vinculadasResults" class="list-group mt-2"></ul>
-                            <table id="selectedRegulacionesTable" class="table table-striped mt-4"
-                                style="display: none;">
+                            <table id="selectedRegulacionesTable" class="table table-striped mt-4">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Nombre Regulacion</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- Las filas se agregarán aquí -->
+                                    <?php if (!empty($regulaciones_combinadas)): ?>
+                                    <?php    foreach ($regulaciones_combinadas as $regulacion): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($regulacion['Nombre_Regulacion'] ?? $regulacion['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                                        </td>
+                                        <td>
+                                            <?php        if (isset($regulacion['enlace'])): ?>
+                                            <a href="<?= htmlspecialchars($regulacion['enlace'], ENT_QUOTES, 'UTF-8'); ?>"
+                                                target="_blank">
+                                                <?= htmlspecialchars($regulacion['enlace'], ENT_QUOTES, 'UTF-8'); ?>
+                                            </a>
+                                            <?php        endif; ?>
+                                        </td>
+                                        <td><button class="btn btn-danger btn-sm delete-row"><i
+                                                    class="fas fa-trash-alt"></i></button></td>
+                                    </tr>
+                                    <?php    endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                             <div class="form-group">
@@ -209,53 +256,19 @@ Registro Estatal de Regulaciones
                             <div>
                                 <p></p>
                             </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <p id="tramitesText">Tramites y servicios</p>
-                                <button type="submit" id="botonTramites"
-                                    class="btn btn-danger btn-tramites">Tramites</button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="myModalLabel">Índice
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="form-group">
-                                                        <label for="inputTram">Nombre</label>
-                                                        <input type="text" class="form-control" id="inputTram"
-                                                            placeholder="Ingrese el Nombre" name="NombreTram">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="inputDir">Direccion</label>
-                                                        <input type="text" class="form-control" id="inputDir"
-                                                            placeholder="http://" name="NombreDir">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                    onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
-                                                    cambios</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="header-container mb-0">
+                                <p id="tramitesText" class="mb-0">Tramites y servicios<span class="text-danger">*</span>
+                                </p>
+                                <button type="button" id="botonTramites"
+                                    class="btn btn-tinto btn-tramites">Tramites</button>
                             </div>
-                            <table id="tramitesTable" class="table">
+                            <table id="tramitesTable" class="table table-spacing">
                                 <thead>
                                     <tr>
                                         <th class="hidden-column">ID_Tramites</th>
                                         <th>Nombre</th>
                                         <th>Dirección</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -273,6 +286,38 @@ Registro Estatal de Regulaciones
                                     <?php endif; ?>
                                 </tbody>
                             </table>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="myModalLabel">Tramites y servicios
+                                            </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="inputTram">Nombre</label>
+                                                    <input type="text" class="form-control" id="inputTram"
+                                                        placeholder="Ingrese el Nombre" name="NombreTram">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputDir">Direccion</label>
+                                                    <input type="text" class="form-control" id="inputDir"
+                                                        placeholder="http://" name="NombreDir">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                onclick="closeModal()">Cerrar</button>
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
+                                                cambios</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <style>
                                 .hidden-column {
                                     display: none;
@@ -305,7 +350,7 @@ Registro Estatal de Regulaciones
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mb-3">
-                            <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                            <a href="<?php echo base_url('RegulacionController'); ?>"
                                 class="btn btn-secondary me-2">Cancelar</a>
                             <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                         </div>
@@ -393,6 +438,7 @@ Registro Estatal de Regulaciones
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_nat = <?= json_encode($id_nat) ?>;
 
         // Realizar la solicitud AJAX para obtener los sectores
         $.ajax({
@@ -576,6 +622,8 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+
+<!--
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
@@ -616,6 +664,8 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+-->
+
 <script>
     $(document).ready(function () {
         $('input[type=radio][name=opcion]').change(function () {
@@ -632,7 +682,6 @@ Registro Estatal de Regulaciones
         }
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     let selectedSectors = []; // Declaración global
     let selectedSubsectors = []; // Declaración global
@@ -865,6 +914,23 @@ Registro Estatal de Regulaciones
             if ($('#selectedSectorsTable tbody tr').length === 0) {
                 $('#selectedSectorsTable').hide();
             }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_sector') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Sector actualizado en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar el sector en la base de datos:', textStatus, errorThrown);
+                    }
+                });
+            }
         });
 
         // Aqui se hace la busqueda de los subsectores y se muestran en una lista
@@ -931,6 +997,23 @@ Registro Estatal de Regulaciones
             if ($('#selectedSubsectorsTable tbody tr').length === 0) {
                 $('#selectedSubsectorsTable').hide();
             }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_subsector') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Subsector actualizado en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar el subsector en la base de datos:', textStatus, errorThrown);
+                    }
+                });
+            }
         });
 
         // Aqui se hace la busqueda de las ramas y se muestran en una lista
@@ -994,6 +1077,23 @@ Registro Estatal de Regulaciones
             // Ocultar la tabla si no hay más filas
             if ($('#selectedRamasTable tbody tr').length === 0) {
                 $('#selectedRamasTable').hide();
+            }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_rama') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Rama actualizada en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar la rama en la base de datos:', textStatus, errorThrown);
+                    }
+                });
             }
         });
 
@@ -1060,6 +1160,23 @@ Registro Estatal de Regulaciones
             if ($('#selectedSubramasTable tbody tr').length === 0) {
                 $('#selectedSubramasTable').hide();
             }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_subrama') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Subrama actualizada en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar la subrama en la base de datos:', textStatus, errorThrown);
+                    }
+                });
+            }
         });
 
         // Aqui se hace la busqueda de las clases y se muestran en una lista
@@ -1125,6 +1242,23 @@ Registro Estatal de Regulaciones
             if ($('#selectedClasesTable tbody tr').length === 0) {
                 $('#selectedClasesTable').hide();
             }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_clase') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Clase actualizada en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar la clase en la base de datos:', textStatus, errorThrown);
+                    }
+                });
+            }
         });
 
         //aqui busca las regulaciones y las muesta en una lista
@@ -1165,9 +1299,53 @@ Registro Estatal de Regulaciones
             // Mostrar la tabla y agregar una fila
             $('#selectedRegulacionesTable').show();
             $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '</td>+<td> </td>+<td><button class="btn btn-danger btn-sm delete-row">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
+        });
+
+        let manualRegulaciones = []; // Declaración global
+        $(document).ready(function () {
+            $('#manualEntryCheckbox').on('change', function () {
+                if (this.checked) {
+                    $('#manualEntryFields').show();
+                    $('#inputVinculadas').prop('disabled', true);
+                } else {
+                    $('#manualEntryFields').hide();
+                    $('#inputVinculadas').prop('disabled', false);
+                }
+            });
+
+            // Detecta el clic en el botón de agregar regulaciones manuales
+            $('#addRegulacionButton').on('click', function () {
+                let regulacionName = $('#manualRegulacionNombre').val();
+                let regulacionLink = $('#manualRegulacionLink').val();
+
+                if (regulacionName && regulacionLink) {
+                    // Agrega la regulación manual a la tabla y a la variable manualRegulaciones
+                    $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '</td><td>' + regulacionLink + '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>');
+                    $('#selectedRegulacionesTable').show();
+
+                    // Agrega la regulación manual al array para enviarla a la base de datos
+                    manualRegulaciones.push({
+                        nombre: regulacionName,
+                        enlace: regulacionLink
+                    });
+
+                    // Limpia los campos del formulario
+                    $('#manualRegulacionNombre').val('');
+                    $('#manualRegulacionLink').val('');
+                } else {
+                    alert('Por favor, complete ambos campos antes de agregar.');
+                }
+            });
+
+            $('#selectedRegulacionesTable').on('click', '.delete-row', function () {
+                $(this).closest('tr').remove();
+                if ($('#selectedRegulacionesTable tbody tr').length === 0) {
+                    $('#selectedRegulacionesTable').hide();
+                }
+            });
         });
 
         //aqui validamos si es documento o liga
@@ -1210,13 +1388,13 @@ Registro Estatal de Regulaciones
             }
 
             // Insertar el nuevo registro en la tabla
-            var newRow = '<tr><td>' +
+            var newRow = '<tr><td class="hidden-column">' +
                 newIdTramites +
                 '</td><td>' +
                 inputTram +
                 '</td><td>' +
                 inputDir +
-                '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
+                '</td><td><button class="btn btn-tinto btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
             $('#tramitesTable tbody').append(newRow);
 
             // Incrementa el contador de ID_Fun
@@ -1314,6 +1492,10 @@ Registro Estatal de Regulaciones
                 formData.append('selectedSubramas', JSON.stringify(selectedSubramasIds));
                 formData.append('selectedClases', JSON.stringify(selectedClasesIds));
             }
+
+            // Agrega regulaciones manuales al formData
+            formData.append('manualRegulaciones', JSON.stringify(manualRegulaciones));
+
             var registrosExistentes = []; // Array para almacenar los registros existentes
             // Realiza una solicitud AJAX para obtener los registros existentes en la base de datos
             $.ajax({
@@ -1395,5 +1577,21 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox = document.getElementById('manualEntryCheckbox');
+        const inputVinculadas = document.getElementById('inputVinculadas');
+        const manualEntryFields = document.getElementById('manualEntryFields');
+
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                inputVinculadas.disabled = true;
+                manualEntryFields.style.display = 'block';
+            } else {
+                inputVinculadas.disabled = false;
+                manualEntryFields.style.display = 'none';
+            }
+        });
+    });
+</script>
 @endsection
-</body>

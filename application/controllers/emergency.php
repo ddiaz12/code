@@ -2127,4 +2127,164 @@ class emergency extends CI_Controller
             echo json_encode(array('status' => 'error'));
         }
     }
+    public function updateIndice()
+    {
+        // Obtener los datos enviados por POST
+        $id = $this->input->post('id');
+        $texto = $this->input->post('texto');
+        $indicePadre = $this->input->post('indicePadre');
+
+        // Preparar los datos para la actualización
+        $data = array(
+            'Texto' => $texto,
+            'Indice_Padre' => $indicePadre
+        );
+
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Actualizar el registro en la base de datos
+        $result = $this->RegulacionModel->update_indice($id, $data);
+
+        // Verificar si la actualización fue exitosa
+        if ($result) {
+            echo json_encode(array('status' => 'success'));
+        } else {
+            echo json_encode(array('status' => 'error'));
+        }
+    }
+
+    public function get_id_padre()
+    {
+        $texto = $this->input->post('texto');
+
+        // Obtener el ID_Indice basado en el texto
+        $indice = $this->RegulacionModel->get_indice_by_texto($texto);
+
+        if ($indice) {
+            // Obtener el ID_Padre basado en el ID_Indice
+            $id_padre = $this->RegulacionModel->get_id_padre_by_indice($indice->ID_Indice);
+            echo json_encode(['ID_Padre' => $id_padre]);
+        } else {
+            echo json_encode(['ID_Padre' => null]);
+        }
+    }
+
+    public function updateMatSecSuj() {
+        $id = $this->input->post('id');
+        $mat = $this->input->post('mat');
+        $sec = $this->input->post('sec');
+        $suj = $this->input->post('suj');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Actualizar el registro en la tabla de_mat_sec_suj
+        $result = $this->RegulacionModel->update_mat_sec_suj($id, $mat, $sec, $suj);
+    
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function updateNomRegArtLink() {
+        $id = $this->input->post('id');
+        $nomReg = $this->input->post('nomReg');
+        $art = $this->input->post('art');
+        $link = $this->input->post('link');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Actualizar el registro en la tabla correspondiente
+        $result = $this->RegulacionModel->update_nom_reg_art_link($id, $nomReg, $art, $link);
+    
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function update_sector() {
+        $id_regulacion = $this->input->post('id_regulacion');
+
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Actualizar el campo ID_sector en la tabla rel_nat_reg
+        $result = $this->RegulacionModel->update_sector($id_regulacion);
+
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function update_subsector() {
+        $id_regulacion = $this->input->post('id_regulacion');
+
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Actualizar el campo ID_sector en la tabla rel_nat_reg
+        $result = $this->RegulacionModel->update_subsector($id_regulacion);
+
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function update_rama() {
+        $id_regulacion = $this->input->post('id_regulacion');
+
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Actualizar el campo ID_sector en la tabla rel_nat_reg
+        $result = $this->RegulacionModel->update_rama($id_regulacion);
+
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function update_subrama() {
+        $id_regulacion = $this->input->post('id_regulacion');
+
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Actualizar el campo ID_sector en la tabla rel_nat_reg
+        $result = $this->RegulacionModel->update_subrama($id_regulacion);
+
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function update_clase() {
+        $id_regulacion = $this->input->post('id_regulacion');
+
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+
+        // Actualizar el campo ID_sector en la tabla rel_nat_reg
+        $result = $this->RegulacionModel->update_clase($id_regulacion);
+
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
 }

@@ -438,6 +438,7 @@ Registro Estatal de Regulaciones
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
         var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_nat = <?= json_encode($id_nat) ?>;
 
         // Realizar la solicitud AJAX para obtener los sectores
         $.ajax({
@@ -913,6 +914,23 @@ Registro Estatal de Regulaciones
             if ($('#selectedSectorsTable tbody tr').length === 0) {
                 $('#selectedSectorsTable').hide();
             }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_sector') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Sector actualizado en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar el sector en la base de datos:', textStatus, errorThrown);
+                    }
+                });
+            }
         });
 
         // Aqui se hace la busqueda de los subsectores y se muestran en una lista
@@ -979,6 +997,23 @@ Registro Estatal de Regulaciones
             if ($('#selectedSubsectorsTable tbody tr').length === 0) {
                 $('#selectedSubsectorsTable').hide();
             }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_subsector') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Subsector actualizado en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar el subsector en la base de datos:', textStatus, errorThrown);
+                    }
+                });
+            }
         });
 
         // Aqui se hace la busqueda de las ramas y se muestran en una lista
@@ -1042,6 +1077,23 @@ Registro Estatal de Regulaciones
             // Ocultar la tabla si no hay más filas
             if ($('#selectedRamasTable tbody tr').length === 0) {
                 $('#selectedRamasTable').hide();
+            }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_rama') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Rama actualizada en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar la rama en la base de datos:', textStatus, errorThrown);
+                    }
+                });
             }
         });
 
@@ -1108,6 +1160,23 @@ Registro Estatal de Regulaciones
             if ($('#selectedSubramasTable tbody tr').length === 0) {
                 $('#selectedSubramasTable').hide();
             }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_subrama') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Subrama actualizada en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar la subrama en la base de datos:', textStatus, errorThrown);
+                    }
+                });
+            }
         });
 
         // Aqui se hace la busqueda de las clases y se muestran en una lista
@@ -1172,6 +1241,23 @@ Registro Estatal de Regulaciones
             // Ocultar la tabla si no hay más filas
             if ($('#selectedClasesTable tbody tr').length === 0) {
                 $('#selectedClasesTable').hide();
+            }
+
+            if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                // Hacer una llamada AJAX para actualizar la base de datos
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/update_clase') ?>',
+                    method: 'POST',
+                    data: {
+                        id_regulacion: id_regulacion,
+                    },
+                    success: function(response) {
+                        console.log('Clase actualizada en la base de datos');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar la clase en la base de datos:', textStatus, errorThrown);
+                    }
+                });
             }
         });
 

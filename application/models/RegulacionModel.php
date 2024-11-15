@@ -1080,4 +1080,47 @@ class RegulacionModel extends CI_Model
             return TRUE;
         }
     }
+
+    public function update_mat_sec_suj($id, $mat, $sec, $suj) {
+        $this->db->where('ID_MatSec', $id);
+        return $this->db->update('de_mat_sec_suj', [
+            'Materias' => $mat,
+            'Sectores' => $sec,
+            'SujetosRegulados' => $suj
+        ]);
+    }
+
+    public function update_nom_reg_art_link($id, $nomReg, $art, $link) {
+        $this->db->where('ID_Fun', $id);
+        return $this->db->update('de_fundamento', [
+            'Nombre' => $nomReg,
+            'Articulo' => $art,
+            'Link' => $link
+        ]);
+    }
+
+    public function update_sector($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('rel_nat_reg', ['ID_sector' => null]);
+    }
+
+    public function update_subsector($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('rel_nat_reg', ['ID_subsector' => null]);
+    }
+
+    public function update_rama($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('rel_nat_reg', ['ID_rama' => null]);
+    }
+
+    public function update_subrama($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('rel_nat_reg', ['ID_subrama' => null]);
+    }
+
+    public function update_clase($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->update('rel_nat_reg', ['ID_clase' => null]);
+    }
 }
