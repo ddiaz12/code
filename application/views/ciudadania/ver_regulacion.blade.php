@@ -83,8 +83,17 @@ Registro Estatal de Regulaciones
                 <div id="indiceContent" class="content">
                     <?php if (!empty($indice)): ?>
                     <ul>
-                        <?php    foreach ($indice as $item): ?>
-                        <li><?php        echo $item->Orden . '. ' . $item->Texto; ?></li>
+                        <?php    foreach ($indice as $padre): ?>
+                        <li>
+                            <?php        echo $padre['Orden'] . '. ' . $padre['Texto']; ?>
+                            <?php        if (!empty($padre['Hijos'])): ?>
+                            <ul>
+                                <?php            foreach ($padre['Hijos'] as $hijo): ?>
+                                <li><?php                echo $hijo['Orden'] . '. ' . $hijo['Texto']; ?></li>
+                                <?php            endforeach; ?>
+                            </ul>
+                            <?php        endif; ?>
+                        </li>
                         <?php    endforeach; ?>
                     </ul>
                     <?php else: ?>
