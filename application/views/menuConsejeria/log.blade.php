@@ -3,10 +3,10 @@
     Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-    @include('templates/navbarRevisor')
+    @include('templates/navbarConsejeria')
 @endsection
 @section('menu')
-    @include('templates/menuSujeto')
+    @include('templates/menuConsejeria')
 @endsection
 @section('contenido')
     <!-- Contenido -->

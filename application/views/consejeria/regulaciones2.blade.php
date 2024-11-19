@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarConsejeria')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuConsejeria')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -18,12 +18,6 @@ Registro Estatal de Regulaciones
     </ol>
     <!-- Botón para abrir otra vista -->
     <h1 class="mt-4 titulo-menu">Registro Estatal de Regulaciones (RER)</h1>
-    <div class="d-flex justify-content-end mb-3">
-        <a href="<?php echo base_url("RegulacionController/caracteristicas_reg") ?>"
-            class="btn btn-primary btn-agregarOficina">
-            <i class="fas fa-plus-circle me-1"></i> Agregar Regulación
-        </a>
-    </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <div class="card mb-4 div-datatables">
         <div class="card-body">
