@@ -21,14 +21,6 @@ Registro Estatal de Regulaciones
     <!-- Formulario para subir archivos PDF -->
     <div class="card mb-4 div-datatables">
         <div class="card-body">
-            <div class="row justify-content-start">
-                <form id="uploadForm" class="col-md-12 mb-4" enctype="multipart/form-data">
-                    <div class="input-group">
-                        <input type="file" name="userfile" class="form-control" accept="application/pdf" required>
-                        <button type="submit" class="btn btn-tinto">Subir</button>
-                    </div>
-                </form>
-            </div>
 
             <!-- Tabla para mostrar PDFs -->
             <table id="datatablesSimple" class="table-striped">
@@ -126,7 +118,6 @@ Registro Estatal de Regulaciones
                 `<div class="text-end">
                 <button class="btn btn-tinto btn-sm ver-pdf" data-url="${data.url}"><i class="fas fa-eye"></i> Ver</button>
                 <a href="${data.url}" class="btn btn-gris btn-sm" target="_blank"><i class="fas fa-download"></i> Descargar</a>
-                <button class="btn btn-danger btn-sm eliminar-pdf" data-nombre="${data.nombre}"><i class="fas fa-trash-alt"></i> Eliminar</button>
                 </div>`
             ]).draw(false);
         }
@@ -137,46 +128,6 @@ Registro Estatal de Regulaciones
             $('#pdfViewer').attr('src', pdfUrl);
             $('#pdfModal').modal('show');
         });
-
-         // Manejar el evento para eliminar PDFs
-         $('#datatablesSimple').on('click', '.eliminar-pdf', function () {
-            var fileName = $(this).data('nombre');
-            var row = $(this).closest('tr');
-
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "No podrás revertir esto.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarlo'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '<?= base_url("Guia/delete") ?>', // Cambia por tu ruta
-                        type: 'POST',
-                        data: { nombre: fileName },
-                        success: function (response) {
-                            if (typeof response === 'string') {
-                                response = JSON.parse(response);
-                            }
-
-                            if (response.success) {
-                                Swal.fire('Eliminado', response.message, 'success');
-                                table.row(row).remove().draw();
-                            } else {
-                                Swal.fire('Error', response.message || 'Ocurrió un error.', 'error');
-                            }
-                        },
-                        error: function () {
-                            Swal.fire('Error', 'No se pudo eliminar el archivo.', 'error');
-                        }
-                    });
-                }
-            });
-        });
     });
-
 </script>
 @endsection
