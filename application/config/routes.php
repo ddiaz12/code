@@ -54,5 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['ciudadania/buscarRegulacion'] = 'Ciudadania/buscarRegulacion';
 $route['actualizar-estatus'] = 'RegulacionController/actualizar_estatus';
+$route['guias/list'] = 'Guia/list';
+$route['guias/delete'] = 'Guia/delete';
 
 //$route['ciudadania/buscarRegulaciones'] = 'Ciudadania/buscarRegulaciones';

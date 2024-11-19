@@ -3,18 +3,18 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuSujeto')
 @endsection
 
 @section('contenido')
 <ol class="breadcrumb mb-4 mt-5">
     <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
     </li>
-    <li class="breadcrumb-item"><a href="<?php echo base_url('RegulacionController'); ?>"><i
-                class="fas fa-file-alt me-1"></i>Regulaciones</a>
+    <li class="breadcrumb-item"><a href="<?php echo base_url('emergency'); ?>"><i
+                class="fas fa-file-alt me-1"></i>Emergencia</a>
     </li>
     <li class="breadcrumb-item active"><i class="fa-solid fa-plus-circle me-1"></i>Edición al Registro Estatal de
         Regulaciones (RER)
@@ -48,7 +48,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion active-view">
-                                    <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('emergency/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
@@ -57,7 +57,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('emergency/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
                                         <label class="menu-regulacion" for="image_2">Materias Exentas</label>
@@ -65,7 +65,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('emergency/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
@@ -803,7 +803,7 @@ Registro Estatal de Regulaciones
                                 <div class="d-flex justify-content-end mb-3">
                                     <a href="<?php echo base_url('RegulacionController'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
-                                    <button type="button" class="btn btn-success btn-tinto"
+                                    <button type="button" class="btn btn-tinto"
                                         id="botonGuardar">Guardar</button>
                                 </div>
                             </form>
@@ -2249,7 +2249,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("emergency/edit_mat/"); ?>' +
                                                                             idRegulacion;
                                                                     } else {
                                                                         // alert
@@ -2263,7 +2263,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("emergency/edit_mat/"); ?>' +
                                                                             idRegulacion;
                                                                     }
                                                                 }

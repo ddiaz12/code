@@ -63,9 +63,6 @@
                                 versiones</a></li>
                     </ul>
                 </div>
-                <a class="nav-link" href="<?php echo base_url('emergency'); ?>" title="Emergencia">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-exclamation-triangle icon-emergency"></i></div>
-                </a>
             </div>
         </div>
     </nav>

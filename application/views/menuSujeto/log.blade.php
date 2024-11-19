@@ -1,9 +1,12 @@
 @layout('templates/master')
 @section('titulo')
-    Registro Estatal de Regulaciones
+Registro Estatal de Regulaciones
+@endsection
+@section('navbar')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-    @include('templates/menuSujeto')
+@include('templates/menuSujeto')
 @endsection
 @section('contenido')
     <!-- Contenido -->

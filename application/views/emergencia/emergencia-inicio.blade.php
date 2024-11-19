@@ -171,7 +171,7 @@ Registro Estatal de Regulaciones
                         let res = JSON.parse(response);
                         if (res.status === 'success') {
                             alert('Estatus actualizado exitosamente.');
-                            window.location.href = 'http://localhost/code/emergency';
+                            window.location.href = '<?php echo base_url("emergency"); ?>';
                         } else {
                             alert('Hubo un error al actualizar el estatus.');
                         }

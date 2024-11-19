@@ -86,7 +86,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="selectSujeto">Ámbito de aplicación<span class="text-danger">*</span></label>
+                                        <label for="selectSujeto">Ámbito de aplicación<span
+                                                class="text-danger">*</span></label>
                                         <select class="form-control" id="selectSujeto" name="sujeto" required>
                                             <option disabled>Selecciona una opción</option>
                                             <option value="Estatal" selected>Estatal</option>
@@ -95,7 +96,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="selectUnidad">Tipo de ordenamiento jurídico<span class="text-danger">*</span></label>
+                                        <label for="selectUnidad">Tipo de ordenamiento jurídico<span
+                                                class="text-danger">*</span></label>
                                         <select class="form-control" id="selectUnidad" name="unidad" required>
                                             <option disabled selected>Selecciona una opción</option>
                                             <?php foreach ($tipos_ordenamiento as $tipo): ?>
@@ -107,17 +109,20 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de expedición de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de expedición de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_expedicion"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de publicación de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de publicación de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFechaPub" name="fecha_publicacion"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de entrada en vigor de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de entrada en vigor de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_vigor" required>
                                 </div>
                                 <div class="col-md-6">
@@ -206,7 +211,7 @@ Registro Estatal de Regulaciones
                                             </div>
                                         </div>
                                         <div class="col-md-6" id="opcAplican">
-                                            <div  id="AutoridadesAplicanContainer">
+                                            <div id="AutoridadesAplicanContainer">
                                                 <div class="form-group">
                                                     <label for="AutoridadesAplican">Autoridades que aplican
                                                         la regulación<span class="text-danger">*</span></label>
@@ -215,22 +220,21 @@ Registro Estatal de Regulaciones
                                                     <div id="searchResults2" class="list-group"></div>
                                                 </div>
                                             </div>
-                                            </div>
-                                            <div id="apTContainer">
-                                                <table id="aplicanTable" class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="hidden-column">ID_Dependencia</th>
-                                                            <th>Tipo dependencia</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <!-- Las filas se agregarán dinámicamente aquí -->
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        
+                                        </div>
+                                        <div id="apTContainer">
+                                            <table id="aplicanTable" class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="hidden-column">ID_Dependencia</th>
+                                                        <th>Tipo dependencia</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Las filas se agregarán dinámicamente aquí -->
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </form>
                                 <div class="header-container mb-0">

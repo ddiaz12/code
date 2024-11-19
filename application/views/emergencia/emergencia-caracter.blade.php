@@ -20,38 +20,38 @@ Registro Estatal de Regulaciones
     </li>
 </ol>
 <style>
-.center-text-tinto {
-    text-align: center;
-    color: red;
-    /* Código de color hexadecimal para tinto */
-    font-weight: bold;
-    font-size: 23px;
-    margin-top: 60px;
-}
+    .center-text-tinto {
+        text-align: center;
+        color: red;
+        /* Código de color hexadecimal para tinto */
+        font-weight: bold;
+        font-size: 23px;
+        margin-top: 60px;
+    }
 
-.center-right-text {
-    text-align: right;
-    /* font-weight: bold; */
-    padding-right: 52px;
-    font-size: 20px;
-    margin-top: 60px;
-}
+    .center-right-text {
+        text-align: right;
+        /* font-weight: bold; */
+        padding-right: 52px;
+        font-size: 20px;
+        margin-top: 60px;
+    }
 
-.right-text {
-    text-align: right;
-    /* font-weight: bold; */
-    padding-right: 54px;
-    font-size: 18px;
-    margin-top: 20px;
-}
+    .right-text {
+        text-align: right;
+        /* font-weight: bold; */
+        padding-right: 54px;
+        font-size: 18px;
+        margin-top: 20px;
+    }
 
-.emergency-icon {
-    text-align: center;
-    color: red;
-    font-size: 78px;
-    /* Tamaño grande */
-    margin-top: 20px;
-}
+    .emergency-icon {
+        text-align: center;
+        color: red;
+        font-size: 78px;
+        /* Tamaño grande */
+        margin-top: 20px;
+    }
 </style>
 <!-- Icono de emergencia centrado y en grande -->
 <div class="emergency-icon">
@@ -71,22 +71,22 @@ Registro Estatal de Regulaciones
             <div class="col-md-3 p-0 d-flex flex-column">
                 <!-- New card -->
                 <style>
-                .custom-link {
-                    color: black;
-                    cursor: pointer !important;
-                    font-size: 19px;
-                    /* Adjust as needed */
-                }
+                    .custom-link {
+                        color: black;
+                        cursor: pointer !important;
+                        font-size: 19px;
+                        /* Adjust as needed */
+                    }
 
-                .custom-link:hover {
-                    color: gray;
-                    text-decoration: none;
-                }
+                    .custom-link:hover {
+                        color: gray;
+                        text-decoration: none;
+                    }
 
-                .custom-link i {
-                    font-size: 24px;
-                    /* Adjust as needed */
-                }
+                    .custom-link i {
+                        font-size: 24px;
+                        /* Adjust as needed */
+                    }
                 </style>
                 <div class="card flex-grow-1 bordes">
                     <div class="card" style="border: none;">
@@ -126,7 +126,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="selectSujeto">Ámbito de aplicación<span class="text-danger">*</span></label>
+                                        <label for="selectSujeto">Ámbito de aplicación<span
+                                                class="text-danger">*</span></label>
                                         <select class="form-control" id="selectSujeto" name="sujeto" required>
                                             <option disabled>Selecciona una opción</option>
                                             <option value="Estatal" selected>Estatal</option>
@@ -135,7 +136,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="selectUnidad">Tipo de ordenamiento jurídico<span class="text-danger">*</span></label>
+                                        <label for="selectUnidad">Tipo de ordenamiento jurídico<span
+                                                class="text-danger">*</span></label>
                                         <select class="form-control" id="selectUnidad" name="unidad" required>
                                             <option disabled selected>Selecciona una opción</option>
                                             <?php foreach ($tipos_ordenamiento as $tipo): ?>
@@ -147,17 +149,20 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de expedición de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de expedición de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_expedicion"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de publicación de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de publicación de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFechaPub" name="fecha_publicacion"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de entrada en vigor de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de entrada en vigor de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_vigor" required>
                                 </div>
                                 <div class="col-md-6">
@@ -228,33 +233,32 @@ Registro Estatal de Regulaciones
                                     }
                                 </style>
                                 <form>
-                                    <div class="d-flex justify-content-align-items mb-3 ">
-                                        <div id="selectAplican">
-                                            <p>¿Están obligadas todas las autoridades a cumplir con la
-                                                regulación?</p>
-                                            <div class="d-flex justify-content-start mb-3">
-                                                <label>
+                                    <div class="row">
+                                        <div class="col-md-6" id="selectAplican">
+                                            <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
+                                            <div class="d-flex justify-content-start">
+                                                <label class="me-2">
                                                     <input type="radio" name="opcion" id="apsi"
                                                         onclick="mostrarCampo2()" checked> Sí
                                                 </label>
-                                                <label class="ms-2">
+                                                <label>
                                                     <input type="radio" name="opcion" id="apno"
                                                         onclick="mostrarCampo2()"> No
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row" id="opcAplican">
                                         <div class="col-md-6" id="AutoridadesAplicanContainer">
                                             <div class="form-group">
-                                                <label for="AutoridadesAplican">Autoridades que aplican
-                                                    la regulación<span class="text-danger">*</span></label>
+                                                <label for="AutoridadesAplican">Autoridades que aplican la
+                                                    regulación<span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="AutoridadesAplican"
                                                     name="AutoridadesAplican" required>
                                                 <div id="searchResults2" class="list-group"></div>
                                             </div>
                                         </div>
-                                        <div id="apTContainer">
+                                    </div>
+                                    <div class="row" id="opcAplican">
+                                        <div class="col-md-12" id="apTContainer">
                                             <table id="aplicanTable" class="table">
                                                 <thead>
                                                     <tr>
