@@ -82,8 +82,8 @@ Registro Estatal de Regulaciones
                     <div class="card-header text-white">Naturaleza de la regulación</div>
                     <form id="formGnat" enctype="multipart/form-data">
                         <input type="hidden" id="idRegulacion" name="idRegulacion"
-                            value="{{ $regulaciones->ID_Regulacion }}">
-                        <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat }}">
+                        value="{{ $regulaciones->ID_Regulacion ?? '' }}">
+                        <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat ?? '' }}">
                         <div class="card-body d-flex flex-column justify-content-center div-card-body">
                             <div class="row justify-content-center">
                                 <label for="radioGroup">¿La regulación está asociada a una actividad
@@ -421,7 +421,7 @@ Registro Estatal de Regulaciones
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
-        var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_regulacion = '{{ $id_regulacion }}';
         console.log('ID_Regulacion:', id_regulacion);
 
         // Realizar la solicitud AJAX para verificar el sector
@@ -453,7 +453,7 @@ Registro Estatal de Regulaciones
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
-        var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_regulacion = '{{ $id_regulacion }}';
         var id_nat = <?= json_encode($id_nat) ?>;
 
         // Realizar la solicitud AJAX para obtener los sectores
@@ -487,7 +487,7 @@ Registro Estatal de Regulaciones
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
-        var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_regulacion = '{{ $id_regulacion }}';
 
         // Realizar la solicitud AJAX para obtener los subsectors
         $.ajax({
@@ -526,7 +526,7 @@ Registro Estatal de Regulaciones
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
-        var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_regulacion = '{{ $id_regulacion }}';
 
         // Realizar la solicitud AJAX para obtener las ramas
         $.ajax({
@@ -564,7 +564,7 @@ Registro Estatal de Regulaciones
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
-        var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_regulacion = '{{ $id_regulacion }}';
 
         // Realizar la solicitud AJAX para obtener las subramas
         $.ajax({
@@ -603,7 +603,7 @@ Registro Estatal de Regulaciones
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
-        var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_regulacion = '{{ $id_regulacion }}';
 
         // Realizar la solicitud AJAX para obtener las clases
         $.ajax({
@@ -643,7 +643,7 @@ Registro Estatal de Regulaciones
 <script>
     $(document).ready(function () {
         // Obtener el id_regulacion de la vista
-        var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_regulacion = '{{ $id_regulacion }}';
         var newIdTramites = 1;
 
         // Realizar la solicitud AJAX para obtener las regulaciones
@@ -722,7 +722,7 @@ Registro Estatal de Regulaciones
     $(document).ready(function () {
 
         // Obtener el id_regulacion de la vista
-        var id_regulacion = <?= json_encode($regulacion['ID_Regulacion']) ?>;
+        var id_regulacion = '{{ $id_regulacion }}';
         var id_nat = <?= json_encode($id_nat) ?>;
 
         // Realizar la solicitud AJAX para obtener los ID de los sectores

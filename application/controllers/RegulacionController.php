@@ -224,30 +224,43 @@ class RegulacionController extends CI_Controller
 
         // Obtener los datos de la regulación
         $data['regulacion'] = $this->RegulacionModel->get_regulacion_by_id($id_regulacion);
+        // Pasar el id_regulacion a la vista
+        $data['id_regulacion'] = $id_regulacion;
         // Obtener los datos de la naturaleza de natreg
         $data['natreg'] = $this->RegulacionModel->get_rel_nat_reg_by_id($id_regulacion);
         if ($data['natreg'] == null) {
-            $data['id_nat'] = $this->RegulacionModel->get_max_id_nat() + 1;
+            //$data['id_nat'] = $this->RegulacionModel->get_max_id_nat() + 1;
+            $data['id_nat'] = null; // o valor predeterminado
+            $data['naturaleza'] = null;
+            $data['vinculadas'] = null;
+            $data['tramites'] = null;
+            $data['enlace_oficial'] = null;
+            $data['natreg2'] = null;
+            $data['natural'] = null;
+            $data['regulaciones'] = null;
+            $data['regulaciones_combinadas'] = null;
         } else {
             $data['id_nat'] = $data['natreg']['ID_Nat'];
             $data['naturaleza'] = $this->RegulacionModel->get_de_naturaleza_regulacion_by_id($data['natreg']['ID_Nat']);
             $data['vinculadas'] = $this->RegulacionModel->get_derivada_reg_by_id($data['natreg']['ID_Nat']);
             $data['tramites'] = $this->RegulacionModel->get_tramites_by_id_nat($data['natreg']['ID_Nat']);
             $data['enlace_oficial'] = $data['naturaleza']['Enlace_Oficial'];
+            $data['natreg2'] = $this->RegulacionModel->get_naturaleza_regulacion_by_regulacion($id_regulacion);
+            //Obtener de_naturaleza_regulacion por ID_Nat
+            $data['natural'] = $this->RegulacionModel->getNaturalezaRegulacionByRegulacion($id_regulacion);
+            $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_by_id($id_regulacion);
+            // Obtener resultados de cada consulta
+            $regulaciones_derivadas = $this->RegulacionModel->get_regulaciones_derivadas($data['id_nat']);
+            $regulaciones_derivadas_manuales = $this->RegulacionModel->get_regulaciones_derivadas_manuales($id_regulacion);
+            // Combinar los resultados
+            $regulaciones_combinadas = array_merge($regulaciones_derivadas, $regulaciones_derivadas_manuales);
+
+            // Enviar los datos combinados a la vista
+            $data['regulaciones_combinadas'] = $regulaciones_combinadas;
         }
-        $data['natreg2'] = $this->RegulacionModel->get_naturaleza_regulacion_by_regulacion($id_regulacion);
-        //Obtener de_naturaleza_regulacion por ID_Nat
-        $data['natural'] = $this->RegulacionModel->getNaturalezaRegulacionByRegulacion($id_regulacion);
-        $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_by_id($id_regulacion);
-        // Obtener resultados de cada consulta
-        $regulaciones_derivadas = $this->RegulacionModel->get_regulaciones_derivadas($data['id_nat']);
-        $regulaciones_derivadas_manuales = $this->RegulacionModel->get_regulaciones_derivadas_manuales($id_regulacion);
+        
 
-        // Combinar los resultados
-        $regulaciones_combinadas = array_merge($regulaciones_derivadas, $regulaciones_derivadas_manuales);
-
-        // Enviar los datos combinados a la vista
-        $data['regulaciones_combinadas'] = $regulaciones_combinadas;
+        
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/editar_naturaleza', $data);

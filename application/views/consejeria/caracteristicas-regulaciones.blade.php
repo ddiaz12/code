@@ -1503,7 +1503,8 @@ Registro Estatal de Regulaciones
             var inputTexto = $('#inputTexto').val();
             lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
             lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-            if (inputTexto.trim() === '') {
+            lastInsertedOrden =  $('#inputOrden').val();
+            if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '') {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
