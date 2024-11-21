@@ -22,10 +22,23 @@ class RegulacionModel extends CI_Model
         $this->db->where('publicada', 1);
         return $this->db->count_all_results('ma_regulacion');
     }
+
     public function buscarPorNombre($nombre)
     {
-        $this->db->like('Nombre_Regulacion', $nombre);
-        $query = $this->db->get('ma_regulacion');
+        // Construir la consulta SQL según el nombre
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Fecha_Act_Sys, GROUP_CONCAT(DISTINCT cat_sujeto_obligado.nombre_sujeto SEPARATOR ", ") as autoridades');
+        $this->db->from('ma_regulacion');
+        $this->db->join('de_regulacion_caracteristicas', 'ma_regulacion.ID_Regulacion = de_regulacion_caracteristicas.ID_Regulacion', 'left');
+        $this->db->join('rel_autoridades_emiten', 'de_regulacion_caracteristicas.ID_caract = rel_autoridades_emiten.ID_caract', 'left');
+        $this->db->join('cat_sujeto_obligado', 'rel_autoridades_emiten.ID_Emiten = cat_sujeto_obligado.ID_sujeto', 'left');
+        $this->db->where('ma_regulacion.publicada', 1);
+        $this->db->like('ma_regulacion.Nombre_Regulacion', $nombre);
+        
+        // Agrupar por ID_Regulacion para concatenar las autoridades
+        $this->db->group_by('ma_regulacion.ID_Regulacion');
+        
+        // Ejecutar la consulta
+        $query = $this->db->get();
         return $query->result();
     }
 
@@ -46,7 +59,7 @@ class RegulacionModel extends CI_Model
 
     public function getDependencias()
     {
-        $query = $this->db->get('cat_tipo_dependencia');
+        $query = $this->db->get('cat_sujeto_obligado');
         return $query->result_array();
     }
 
@@ -59,12 +72,12 @@ class RegulacionModel extends CI_Model
     public function buscarRegulaciones($desdeFecha, $hastaFecha, $dependencia, $tipoOrdenamiento)
     {
         // Construir la consulta SQL según los filtros
-        $this->db->select('ma_regulacion.Nombre_Regulacion, ma_regulacion.Objetivo_Reg');
+        $this->db->select('ma_regulacion.ID_Regulacion, ma_regulacion.Nombre_Regulacion, ma_regulacion.Fecha_Act_Sys, de_regulacion_caracteristicas.Fecha_Exp, cat_sujeto_obligado.nombre_sujeto as autoridad_emiten, GROUP_CONCAT(DISTINCT cat_sujeto_obligado.nombre_sujeto SEPARATOR ", ") as autoridades');
         $this->db->from('ma_regulacion');
         $this->db->join('de_regulacion_caracteristicas', 'ma_regulacion.ID_Regulacion = de_regulacion_caracteristicas.ID_Regulacion', 'inner');
+        $this->db->join('rel_autoridades_emiten', 'de_regulacion_caracteristicas.ID_caract = rel_autoridades_emiten.ID_caract', 'inner');
+        $this->db->join('cat_sujeto_obligado', 'rel_autoridades_emiten.ID_Emiten = cat_sujeto_obligado.ID_sujeto', 'inner');
         $this->db->join('cat_tipo_ord_jur', 'de_regulacion_caracteristicas.ID_tOrdJur = cat_tipo_ord_jur.ID_tOrdJur', 'inner');
-        $this->db->join('rel_autoridades_aplican', 'de_regulacion_caracteristicas.ID_caract = rel_autoridades_aplican.ID_caract', 'inner');
-        $this->db->join('cat_tipo_dependencia', 'rel_autoridades_aplican.ID_Aplican = cat_tipo_dependencia.ID_Dependencia', 'inner');
         $this->db->where('ma_regulacion.publicada', 1);
         
         // Filtrar por fecha de expedición si se proporcionan las fechas
@@ -74,22 +87,24 @@ class RegulacionModel extends CI_Model
         if (!empty($hastaFecha)) {
             $this->db->where('de_regulacion_caracteristicas.Fecha_Exp <=', $hastaFecha);
         }
-
+    
         // Filtrar por dependencia si se proporciona
         if (!empty($dependencia)) {
-            $this->db->where('cat_tipo_dependencia.Tipo_Dependencia', $dependencia);
+            $this->db->where('cat_sujeto_obligado.nombre_sujeto', $dependencia);
         }
-
+    
         // Filtrar por tipo de ordenamiento si se proporciona
         if (!empty($tipoOrdenamiento)) {
             $this->db->where('cat_tipo_ord_jur.Tipo_Ordenamiento', $tipoOrdenamiento);
         }
-
+    
+        // Agrupar por ID_Regulacion para concatenar las autoridades
+        $this->db->group_by('ma_regulacion.ID_Regulacion');
+    
         // Ejecutar la consulta
         $query = $this->db->get();
         return $query->result_array();
     }
-
 
     public function insertar_caractRegulacion($data)
     {

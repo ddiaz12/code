@@ -64,8 +64,8 @@ Registro Estatal de Regulaciones
                             <select class="form-control" id="option3">
                                 <option value="">Seleccione una dependencia</option>
                                 <?php foreach ($dependencias as $dependencia): ?>
-                                <option value="<?= htmlspecialchars($dependencia['Tipo_Dependencia']); ?>">
-                                    <?= htmlspecialchars($dependencia['Tipo_Dependencia']); ?>
+                                <option value="<?= htmlspecialchars($dependencia['nombre_sujeto']); ?>">
+                                    <?= htmlspecialchars($dependencia['nombre_sujeto']); ?>
                                 </option>
                                 <?php endforeach; ?>
                             </select>
@@ -176,23 +176,37 @@ Registro Estatal de Regulaciones
         const regulaciones = <?php echo json_encode(array_values($regulaciones)); ?>; // Asegúrate de que esto se ejecute en el lado del servidor
         const container = document.querySelector("#cardsReg .row");
 
-        for (let i = 0; i < 6; i++) { // Cargar 3 regulaciones más cada vez
+        for (let i = 0; i < 6; i++) { // Cargar 6 regulaciones más cada vez
             if (currentIndex >= regulaciones.length) {
                 // Oculta el botón si no hay más elementos para mostrar
                 document.getElementById("loadMore").style.display = 'none';
                 break;
             }
             const reg = regulaciones[currentIndex];
+            let autoridadesHtml = '';
+            if (reg.autoridades && reg.autoridades.length > 0) {
+                autoridadesHtml += '<p><strong>Autoridades que la emiten:</strong></p><ul>';
+                reg.autoridades.split(', ').forEach(function (autoridad) {
+                    autoridadesHtml += '<li>' + autoridad + '</li>';
+                });
+                autoridadesHtml += '</ul>';
+            } else {
+                autoridadesHtml += '<p>No hay información disponible sobre las autoridades.</p>';
+            }
+
             const cardHtml = `
                 <div class="col-md-4 mb-3">
                     <div class="card shadow-sm div-card h-100">
                         <div class="card-header py-2">
-                            <h7 class="m-0 font-weight-bold text-cards card-title">
-                                ${reg.Nombre_Regulacion}
-                            </h7>
+                            <a href="<?php echo base_url('ciudadania/verRegulacion/'); ?>${reg.ID_Regulacion}" class="no-underline">
+                                <h7 class="m-0 font-weight-bold text-cards card-title">
+                                    ${reg.Nombre_Regulacion}
+                                </h7>
+                            </a>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <p class="card-text flex-grow-1">${reg.Objetivo_Reg}</p>
+                            ${autoridadesHtml}
+                            <p class="p-fecha"><strong>Última modificación:</strong> ${reg.Fecha_Act_Sys}</p>
                         </div>
                         <div class="card-footer text-center">
                             <a href="<?php echo base_url('ciudadania/verRegulacion/'); ?>${reg.ID_Regulacion}" class="btn btn-secondary btn-sm">Mostrar</a>
@@ -222,22 +236,40 @@ Registro Estatal de Regulaciones
                 var data = JSON.parse(xhr.responseText);
                 document.getElementById('cardsReg').innerHTML = '';
 
+                // Actualizar el número de resultados
+                document.getElementById('regdisp').textContent = 'Se encontraron ' + data.length + ' resultados';
+
+
                 if (data.length > 0) {
                     var rowHtml = '<div class="row">';
                     data.forEach(function (regulacion) {
+                        var autoridadesHtml = '';
+                        if (regulacion.autoridades && regulacion.autoridades.length > 0) {
+                            autoridadesHtml += '<p><strong>Autoridades que la emiten:</strong></p><ul>';
+                            regulacion.autoridades.split(', ').forEach(function (autoridad) {
+                                autoridadesHtml += '<li>' + autoridad + '</li>';
+                            });
+                            autoridadesHtml += '</ul>';
+                        } else {
+                            autoridadesHtml += '<p>No hay información disponible sobre las autoridades.</p>';
+                        }
+
                         var cardHtml = `
                             <div class="col-md-4 mb-3">
                                 <div class="card shadow-sm div-card h-100">
                                     <div class="card-header py-2">
-                                        <h7 class="m-0 font-weight-bold text-cards card-title">
-                                            ${regulacion.Nombre_Regulacion}
-                                        </h7>
+                                        <a href="<?php echo base_url('ciudadania/verRegulacion/'); ?>${regulacion.ID_Regulacion}" class="no-underline">
+                                            <h7 class="m-0 font-weight-bold text-cards card-title">
+                                                ${regulacion.Nombre_Regulacion}
+                                            </h7>
+                                        </a>
                                     </div>
                                     <div class="card-body d-flex flex-column">
-                                        <p class="card-text flex-grow-1">${regulacion.Objetivo_Reg}</p>
+                                        ${autoridadesHtml}
+                                        <p class="p-fecha"><strong>Última modificación:</strong> ${regulacion.Fecha_Act_Sys}</p>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-secondary btn-sm">Mostrar</a>
+                                        <a href="<?php echo base_url('ciudadania/verRegulacion/'); ?>${regulacion.ID_Regulacion}" class="btn btn-secondary btn-sm">Mostrar</a>
                                     </div>
                                 </div>
                             </div>`;
@@ -290,29 +322,51 @@ Registro Estatal de Regulaciones
                     // Parsear la respuesta JSON
                     var resultados = JSON.parse(data);
 
+                    // Actualizar el número de resultados
+                    $('#regdisp').text('Se encontraron ' + resultados.length + ' resultados');
+
                     // Verifica si resultados es un array
                     if (Array.isArray(resultados)) {
+                        var rowHtml = '<div class="row">';
                         // Procesa y muestra los datos en cards
                         resultados.forEach(function (regulacion) {
+                            var autoridadesHtml = '';
+                            if (regulacion.autoridades && regulacion.autoridades.length > 0) {
+                                autoridadesHtml += '<p><strong>Autoridades que la emiten:</strong></p><ul>';
+                                regulacion.autoridades.split(', ').forEach(function (autoridad) {
+                                    autoridadesHtml += '<li>' + autoridad + '</li>';
+                                });
+                                autoridadesHtml += '</ul>';
+                            } else {
+                                autoridadesHtml += '<p>No hay información disponible sobre las autoridades.</p>';
+                            }
+
                             var cardHtml = `
                             <div class="col-md-4 mb-3">
                                 <div class="card shadow-sm div-card h-100">
                                     <div class="card-header py-2">
-                                        <h7 class="m-0 font-weight-bold text-cards card-title">
-                                            ${regulacion.Nombre_Regulacion}
-                                        </h7>
+                                        <a href="ciudadania/verRegulacion/${regulacion.ID_Regulacion}" class="no-underline">
+                                            <h7 class="m-0 font-weight-bold text-cards card-title">
+                                                ${regulacion.Nombre_Regulacion}
+                                            </h7>
+                                        </a>
                                     </div>
                                     <div class="card-body d-flex flex-column">
-                                        <p class="card-text flex-grow-1">${regulacion.Objetivo_Reg}</p>
+                                        ${autoridadesHtml}
+                                        <p class="p-fecha"><strong>Última modificación:</strong> ${regulacion.Fecha_Act_Sys}</p>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <a href="#" class="btn btn-secondary btn-sm">Mostrar</a>
+                                        <a href="ciudadania/verRegulacion/${regulacion.ID_Regulacion}" class="btn btn-secondary btn-sm">Mostrar</a>
                                     </div>
                                 </div>
-                            </div>`;
+                            </div>
+                            `;
 
-                            $('#cardsReg').append(cardHtml);
+                            rowHtml += cardHtml;
                         });
+                        rowHtml += '</div>'; // Cierra el contenedor row
+
+                        $('#cardsReg').html(rowHtml);
 
                         // Agrega el botón Regresar
                         var regresarHtml = `<div class="mt-3 text-center"><button id="btnRegresar" class="btn btn-primary">Regresar</button></div>`;

@@ -228,7 +228,6 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </div>
                                 <form>
-                                    <div class="row">
                                         <div class="col-md-6" id="selectAplican">
                                             <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
                                             <div class="d-flex justify-content-start">
@@ -242,7 +241,7 @@ Registro Estatal de Regulaciones
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" id="AutoridadesAplicanContainer">
+                                        <div id="AutoridadesAplicanContainer">
                                             <div class="form-group">
                                                 <label for="AutoridadesAplican">Autoridades que aplican la
                                                     regulación</label>
@@ -251,7 +250,6 @@ Registro Estatal de Regulaciones
                                                 <div id="searchResults2" class="list-group"></div>
                                             </div>
                                         </div>
-                                    </div>
                                     <div id="opcAplican">
                                         <div id="apTContainer">
                                             <table id="aplicanTable" class="table">

@@ -46,7 +46,7 @@ Registro Estatal de Regulaciones
                 $fecha_actual = new DateTime(); // Fecha actual
                 $fecha_recepcion = new DateTime($notificacion->fecha_envio); // Fecha de recepción
                 $dias_transcurridos = $fecha_actual->diff($fecha_recepcion)->days; // Diferencia en días
-                $dias_restantes = max(0, 5 - $dias_transcurridos); // Días restantes
+                $dias_restantes = max(0, 10 - $dias_transcurridos); // Días restantes
 
                 // Cambiar color según los días restantes
                 if ($dias_restantes > 0) {
@@ -63,7 +63,8 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Nombre_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Homoclave; ?></td>
                         <td>
-                            <span class="status-circle" style="background-color: <?php            echo $background_color; ?>;">
+                            <span class="status-circle"
+                                style="background-color: <?php            echo $background_color; ?>;">
                                 <?php            echo is_numeric($dias_restantes) ? $dias_restantes : $dias_restantes; ?>
                             </span>
                         </td>
@@ -74,16 +75,13 @@ Registro Estatal de Regulaciones
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
                             <button class="btn btn-secondary btn-sm btn-devolver" title="Devolver"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-undo" title="Devolver"></i>
                             </button>
-                            <button class="btn btn-dorado btn-sm enviar-regulacion" title="Enviar"
+                            <button class="btn btn-dorado btn-sm publicar-regulacion" title="Publicar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
-                                <i class="fas fa-paper-plane" title="Enviar"></i>
+                                <i class="fas fa-bullhorn" title="Publicar"></i>
                             </button>
                             <button class="btn btn-tinto btn-sm btn-trazabilidad" title="Trazabilidad"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>" data-toggle="modal"
@@ -123,6 +121,46 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/buscarComentario.js'); ?>"></script>
 <script>
+    $(document).ready(function () {
+        $('.publicar-regulacion').click(function () {
+            var idRegulacion = $(this).data('id');
+
+            // Mostrar cuadro de diálogo de confirmación
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Deseas publicar esta regulación?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, publicarla',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Realizar la solicitud AJAX para publicar la regulación
+                    $.ajax({
+                        url: '<?= base_url("RegulacionController/publicar_regulacion") ?>/' + idRegulacion,
+                        type: 'POST',
+                        success: function (response) {
+                            if (typeof response === 'string') {
+                                response = JSON.parse(response);
+                            }
+
+                            if (response.success) {
+                                Swal.fire('Éxito', response.message, 'success').then(() => {
+                                    location.reload(); // Recargar la página
+                                });
+                            } else {
+                                Swal.fire('Error', response.message || 'Ocurrió un error.', 'error');
+                            }
+                        },
+                        error: function () {
+                            Swal.fire('Error', 'No se pudo publicar la regulación.', 'error');
+                        }
+                    });
+                }
+            });
+        });
+    });
+
     // Cargar la trazabilidad de una regulación
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.btn-trazabilidad').forEach(function (element) {
@@ -171,36 +209,6 @@ Registro Estatal de Regulaciones
     });
 
     $(document).ready(function () {
-        // Evento para actualizar el estatus de las regulaciones
-        $('tbody').on('click', '.delete-row', function () {
-            // Obtener el ID de la regulación de la fila
-            let regulacionId = $(this).closest('tr').find('td:first').text();
-
-            // Confirmar la actualización
-            if (confirm('¿Estás seguro de que deseas actualizar el estatus de esta regulación?')) {
-                // Hacer una solicitud AJAX para actualizar el estatus en la base de datos
-                $.ajax({
-                    url: 'RegulacionController/actualizar_estatus', // Ruta en tu backend
-                    type: 'POST',
-                    data: {
-                        id: regulacionId,
-                        csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>' // Token CSRF para seguridad
-                    },
-                    success: function (response) {
-                        let res = JSON.parse(response);
-                        if (res.status === 'success') {
-                            alert('Estatus actualizado exitosamente.');
-                            window.location.href = 'http://localhost/code/RegulacionController';
-                        } else {
-                            alert('Hubo un error al actualizar el estatus.');
-                        }
-                    },
-                    error: function () {
-                        alert('Hubo un error al actualizar el estatus.');
-                    }
-                });
-            }
-        });
         // Captura el evento de clic en el botón de editar
         $('.edit-row').on('click', function () {
             // Obtiene el ID de la regulación del atributo data-id
@@ -252,57 +260,6 @@ Registro Estatal de Regulaciones
                                 Swal.fire({
                                     title: 'Error',
                                     text: 'Hubo un problema al devolver la regulación.',
-                                    icon: 'error',
-                                    confirmButtonText: 'Aceptar'
-                                });
-                            });
-                    }
-                });
-            });
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.enviar-regulacion').forEach(function (element) {
-            element.addEventListener('click', function (event) {
-                event.preventDefault();
-                var id = this.getAttribute('data-id');
-                var url = '<?php echo base_url('RegulacionController/enviar_regulacion/'); ?>' + id;
-
-                Swal.fire({
-                    title: '¿Enviar regulación?',
-                    text: "Enviar regulación a consejería Jurídica",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, Enviar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        fetch(url)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    Swal.fire({
-                                        title: '¡Éxito!',
-                                        text: data.message,
-                                        icon: 'success',
-                                        confirmButtonText: 'Aceptar'
-                                    }).then(() => {
-                                        location.reload(); // Recargar la página
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        title: 'Error',
-                                        text: data.message,
-                                        icon: 'error',
-                                        confirmButtonText: 'Aceptar'
-                                    });
-                                }
-                            })
-                            .catch(error => {
-                                Swal.fire({
-                                    title: 'Error',
-                                    text: 'Hubo un problema al enviar la regulación.',
                                     icon: 'error',
                                     confirmButtonText: 'Aceptar'
                                 });
