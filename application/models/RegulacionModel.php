@@ -1062,11 +1062,11 @@ class RegulacionModel extends CI_Model
         if ($data['Indice_Padre'] == 0 || $data['Indice_Padre'] == 'Seleccione un índice padre' || $data['Indice_Padre'] == null) {
             // Actualizar el registro en la tabla 'de_indice'
             $this->db->where('ID_Indice', $id);
-            $this->db->update('de_indice', array('Texto' => $data['Texto']));
+            $this->db->update('de_indice', array('Texto' => $data['Texto'], 'Orden' => $data['Orden']));
         }else{
             // Actualizar el registro en la tabla 'de_indice'
             $this->db->where('ID_Indice', $id);
-            $this->db->update('de_indice', array('Texto' => $data['Texto']));
+            $this->db->update('de_indice', array('Texto' => $data['Texto'], 'Orden' => $data['Orden']));
 
             // Actualizar el registro en la tabla 'rel_indice'
             $this->db->where('ID_Indice', $id);

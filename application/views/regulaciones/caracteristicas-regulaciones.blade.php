@@ -156,7 +156,7 @@ Registro Estatal de Regulaciones
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputVialidad">Orden de gobierno que la emite:</label>
-                                            <select class="form-control" id="selectUnidad2" name="orden" required>
+                                            <select class="form-control" id="selectUnidad2" name="ordenGob" required>
                                                 <option disabled selected>Selecciona una opción</option>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
                                                 <option value="Poder Legistativo">Poder Legistativo</option>
@@ -1005,7 +1005,7 @@ Registro Estatal de Regulaciones
                                                 Vigencia: formData
                                                     .campoExtra,
                                                 Orden_Gob: formData
-                                                    .orden
+                                                    .ordenGob
                                             };
 
                                             // Imprimir caracteristicasData en consola
@@ -1650,6 +1650,7 @@ Registro Estatal de Regulaciones
 
             // Asignar los datos al modal
             $('#inputTexto').val(texto);
+            $('#inputOrden').val(orden);
             $('#selectIndicePadre').val(indicePadre);
 
             // Abrir el modal

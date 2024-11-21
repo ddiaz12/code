@@ -2352,11 +2352,13 @@ class RegulacionController extends CI_Controller
         // Obtener los datos enviados por POST
         $id = $this->input->post('id');
         $texto = $this->input->post('texto');
+        $orden = $this->input->post('orden');
         $indicePadre = $this->input->post('indicePadre');
 
         // Preparar los datos para la actualización
         $data = array(
             'Texto' => $texto,
+            'Orden' => $orden,
             'Indice_Padre' => $indicePadre
         );
 
