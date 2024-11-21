@@ -46,7 +46,7 @@ Registro Estatal de Regulaciones
                 $fecha_actual = new DateTime(); // Fecha actual
                 $fecha_recepcion = new DateTime($notificacion->fecha_envio); // Fecha de recepción
                 $dias_transcurridos = $fecha_actual->diff($fecha_recepcion)->days; // Diferencia en días
-                $dias_restantes = max(0, 5 - $dias_transcurridos); // Días restantes
+                $dias_restantes = max(0, 10 - $dias_transcurridos); // Días restantes
 
                 // Cambiar color según los días restantes
                 if ($dias_restantes > 0) {
