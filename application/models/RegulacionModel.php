@@ -640,15 +640,36 @@ class RegulacionModel extends CI_Model
 
     public function obtenerIndicePorRegulacion($idRegulacion)
     {
-        $this->db->select('Texto, Orden');
+        $this->db->select('de_indice.ID_Indice, de_indice.Texto, de_indice.Orden, rel_indice.ID_Padre');
         $this->db->from('de_indice');
         $this->db->join('de_regulacion_caracteristicas', 'de_indice.ID_caract = de_regulacion_caracteristicas.ID_caract');
+        $this->db->join('rel_indice', 'de_indice.ID_Indice = rel_indice.ID_Indice', 'left');
         $this->db->where('de_regulacion_caracteristicas.ID_Regulacion', $idRegulacion);
-        $this->db->order_by('Orden', 'ASC');
+        $this->db->order_by('de_indice.Orden', 'ASC');
         $query = $this->db->get();
-        return $query->result();
+        $result = $query->result();
+    
+        // Organizar los datos en una estructura jerárquica
+        $indices = [];
+        foreach ($result as $row) {
+            if (empty($row->ID_Padre)) {
+                // Es un índice padre
+                $indices[$row->ID_Indice] = [
+                    'Texto' => $row->Texto,
+                    'Orden' => $row->Orden,
+                    'Hijos' => []
+                ];
+            } else {
+                // Es un índice hijo
+                $indices[$row->ID_Padre]['Hijos'][] = [
+                    'Texto' => $row->Texto,
+                    'Orden' => $row->Orden
+                ];
+            }
+        }
+    
+        return $indices;
     }
-
     public function obtenerAutoridadesPorRegulacion($idRegulacion)
     {
         $this->db->select('aplican_dep.nombre_sujeto as Autoridad_Aplican, emiten_dep.nombre_sujeto as Autoridad_Emiten');
