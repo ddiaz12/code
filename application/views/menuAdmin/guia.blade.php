@@ -106,8 +106,9 @@ Registro Estatal de Regulaciones
                 contentType: false,
                 success: function (response) {
                     if (response.success) {
-                        Swal.fire('Éxito', 'Archivo subido correctamente.', 'success');
-                        agregarFila(response.data);
+                        Swal.fire('Éxito', 'Archivo subido correctamente.', 'success').then(() => {
+                            location.reload(); // Recargar la página
+                        });
                     } else {
                         Swal.fire('Error', response.message || 'Ocurrió un error.', 'error');
                     }
@@ -117,19 +118,6 @@ Registro Estatal de Regulaciones
                 }
             });
         });
-
-
-        // Función para agregar una fila en la tabla
-        function agregarFila(data) {
-            table.row.add([
-                data.nombre,
-                `<div class="text-end">
-                <button class="btn btn-tinto btn-sm ver-pdf" data-url="${data.url}"><i class="fas fa-eye"></i> Ver</button>
-                <a href="${data.url}" class="btn btn-gris btn-sm" target="_blank"><i class="fas fa-download"></i> Descargar</a>
-                <button class="btn btn-danger btn-sm eliminar-pdf" data-nombre="${data.nombre}"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                </div>`
-            ]).draw(false);
-        }
 
         // Manejar el evento para visualizar PDFs
         $('#datatablesSimple').on('click', '.ver-pdf', function () {

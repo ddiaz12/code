@@ -17,8 +17,12 @@ Registro Estatal de Regulaciones
             <h1 class="regulation-title">
                 <?php echo !empty($regulacion->Nombre_Regulacion) ? $regulacion->Nombre_Regulacion : 'No disponible'; ?>
             </h1>
-            <?php if (!empty($regulacion->Estatus) && $regulacion->Estatus == 5): ?>
-            <p clase="msg-emergencia"><strong class="text-danger">Esta es una regulación de emergencia</strong></p>
+            <?php if (!empty($regulacion->Estatus)): ?>
+            <?php    if ($regulacion->Estatus == 5): ?>
+            <p class="msg-emergencia"><strong class="text-danger">Esta es una regulación de emergencia</strong></p>
+            <?php    elseif ($regulacion->Estatus == 4): ?>
+            <p class="msg-abrogada"><strong class="text-danger">Esta es una regulación abrogada</strong></p>
+            <?php    endif; ?>
             <?php endif; ?>
             <div class="regulation-info d-flex justify-content-between align-items-start" style="position: relative;">
                 <div>
