@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuSujeto')
 @endsection
 
 @section('contenido')
@@ -217,7 +217,7 @@ Registro Estatal de Regulaciones
                                                     <?php    echo $dependencia['ID_Dependencia']; ?>
                                                 </td>
                                                 <td><?php    echo $dependencia['nombre_sujeto']; ?></td>
-                                                <td>
+                                                <td class="text-end">
                                                     <button class="btn btn-danger btn-sm delete-row">
                                                         <i class="fas fa-trash-alt"></i></button>
                                                 </td>
@@ -228,33 +228,29 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </div>
                                 <form>
-                                    <div class="d-flex justify-content-align-items mb-3 ">
-                                        <div id="selectAplican">
-                                            <p>¿Están obligadas todas las autoridades a cumplir con la
-                                                regulación?</p>
-                                            <div class="d-flex justify-content-start mb-3">
-                                                <label>
+                                        <div class="col-md-6" id="selectAplican">
+                                            <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
+                                            <div class="d-flex justify-content-start">
+                                                <label class="me-2">
                                                     <input type="radio" name="opcion" id="apsi"
                                                         onclick="mostrarCampo2()" checked> Sí
                                                 </label>
-                                                <label class="ms-2">
+                                                <label>
                                                     <input type="radio" name="opcion" id="apno"
                                                         onclick="mostrarCampo2()"> No
                                                 </label>
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="row" id="opcAplican">
-                                        <div class="col-md-12" id="AutoridadesAplicanContainer">
+                                        <div id="AutoridadesAplicanContainer">
                                             <div class="form-group">
-                                                <label for="AutoridadesAplican">Autoridades que aplican
-                                                    la regulación</label>
+                                                <label for="AutoridadesAplican">Autoridades que aplican la
+                                                    regulación</label>
                                                 <input type="text" class="form-control" id="AutoridadesAplican"
                                                     name="AutoridadesAplican" required>
                                                 <div id="searchResults2" class="list-group"></div>
                                             </div>
                                         </div>
+                                    <div id="opcAplican">
                                         <div id="apTContainer">
                                             <table id="aplicanTable" class="table">
                                                 <thead>
@@ -269,11 +265,9 @@ Registro Estatal de Regulaciones
                                                     <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_sujeto']) && isset($dependenciaAp['nombre_sujeto'])): ?>
                                                     <tr>
                                                         <td class="hidden-column">
-                                                            <?php            echo $dependenciaAp['ID_sujeto']; ?>
-                                                        </td>
-                                                        <td><?php            echo $dependenciaAp['nombre_sujeto']; ?>
-                                                        </td>
-                                                        <td>
+                                                            <?php            echo $dependenciaAp['ID_sujeto']; ?></td>
+                                                        <td><?php            echo $dependenciaAp['nombre_sujeto']; ?></td>
+                                                        <td class="text-end">
                                                             <button class="btn btn-danger btn-sm delete-row">
                                                                 <i class="fas fa-trash-alt"></i>
                                                             </button>
@@ -293,7 +287,6 @@ Registro Estatal de Regulaciones
                                                 </tbody>
                                             </table>
                                         </div>
-
                                     </div>
                                 </form>
                                 <div class="header-container mb-0">
@@ -320,6 +313,11 @@ Registro Estatal de Regulaciones
                                                         <label for="inputTexto">Texto</label>
                                                         <input type="text" class="form-control" id="inputTexto"
                                                             placeholder="Ingrese texto" name="texto">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputOrden">Orden</label>
+                                                        <input type="number" class="form-control" id="inputOrden"
+                                                            placeholder="Ingrese orden" name="orden">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="selectIndicePadre">Índice
@@ -356,7 +354,6 @@ Registro Estatal de Regulaciones
                                             <th class="hidden-column">Indice_Padre</th>
                                             <th class="hidden-column">ID_IndicePadre</th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -377,31 +374,37 @@ Registro Estatal de Regulaciones
                                                         },
                                                         dataType: 'json',
                                                         success: function (response) {
+                                                            console.log(response); // Verificar la respuesta en la consola
                                                             var tbody = $('#resultTable tbody');
-                                                            tbody
-                                                                .empty(); // Limpiar el contenido existente
+                                                            tbody.empty(); // Limpiar el contenido existente
 
                                                             if (response.length > 0) {
                                                                 response.forEach(function (row) {
-                                                                    var tr = $('<tr>');
-                                                                    tr.append($('<td class="hidden-column">').text(row
-                                                                        .ID_Indice));
-                                                                    tr.append($('<td class="texto">').text(row
-                                                                        .Texto));
-                                                                    tr.append($('<td>').text(row
-                                                                        .Orden));
-                                                                    tr.append($('<td><button class="btn btn-danger btn-sm edit-row">' +
-                                                                        '<i class="fas fa-edit"></i></button>'
-                                                                    ).text(row
-                                                                        .Accion));
-                                                                    tr.append($('<td><button class="btn btn-danger btn-sm delete-row">' +
-                                                                        '<i class="fas fa-trash-alt"></i></button>'
-                                                                    ).text(row
-                                                                        .Accion));
+                                                                    var rowClass = row.ID_Padre && row.ID_Padre != '0' ? 'child-row' : 'parent-row';
+                                                                    var newRow = `<tr class="${rowClass}">
+                                                                    <td class="hidden-column">${row.ID_Indice}</td>
+                                                                    <td class="texto">${row.Texto}</td>
+                                                                    <td>${row.Orden}</td>
+                                                                    <td class="hidden-column">${row.ID_Padre || ''}</td>
+                                                                    <td class="hidden-column indice-padre">${row.ID_Padre || ''}</td>
+                                                                    <td class="text-end">
+                                                                        <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
+                                                                        <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                                                                    </td>
+                                                                </tr>`;
 
-                                                                    tbody.append(tr);
+                                                                    if (row.ID_Padre && row.ID_Padre != '0') {
+                                                                        var parentRow = tbody.find('tr').filter(function () {
+                                                                            return $(this).find('td').eq(0).text() == row.ID_Padre;
+                                                                        });
+                                                                        parentRow.after(newRow);
+                                                                    } else {
+                                                                        tbody.append(newRow);
+                                                                    }
                                                                 });
-                                                            } else { }
+                                                            } else {
+                                                                // Manejar el caso en que no haya datos
+                                                            }
                                                         },
                                                         error: function () {
                                                             Swal.fire({
@@ -689,7 +692,6 @@ Registro Estatal de Regulaciones
                                             <th>Sectores</th>
                                             <th>Sujetos Regulados</th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -701,9 +703,9 @@ Registro Estatal de Regulaciones
                                             <td><?php        echo $mater['Materias']; ?></td>
                                             <td><?php        echo $mater['Sectores']; ?></td>
                                             <td><?php        echo $mater['SujetosRegulados']; ?></td>
-                                            <td><button class="btn btn-danger btn-sm edit-row">
-                                            <i class="fas fa-edit"></i></button></td>
-                                            <td><button class="btn btn-danger btn-sm delete-row"><i
+                                            <td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">
+                                                    <i class="fas fa-edit"></i></button><button
+                                                    class="btn btn-danger btn-sm delete-row"><i
                                                         class="fas fa-trash-alt"></i></button></td>
                                             <!-- Agrega más celdas según sea necesario -->
                                         </tr>
@@ -775,7 +777,6 @@ Registro Estatal de Regulaciones
                                             <th>Articulo</th>
                                             <th>Link</th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -787,9 +788,9 @@ Registro Estatal de Regulaciones
                                             <td><?php        echo $fundamento['Nombre']; ?></td>
                                             <td><?php        echo $fundamento['Articulo']; ?></td>
                                             <td><?php        echo $fundamento['Link']; ?></td>
-                                            <td><button class="btn btn-danger btn-sm edit-row">
-                                            <i class="fas fa-edit"></i></button></td>
-                                            <td><button class="btn btn-danger btn-sm delete-row"><i
+                                            <td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">
+                                                    <i class="fas fa-edit"></i></button><button
+                                                    class="btn btn-danger btn-sm delete-row"><i
                                                         class="fas fa-trash-alt"></i></button></td>
                                             <!-- Agrega más celdas según sea necesario -->
                                         </tr>
@@ -931,7 +932,7 @@ Registro Estatal de Regulaciones
                 '<td>' + inputMat + '</td>' +
                 '<td>' + inputSec + '</td>' +
                 '<td>' + inputSuj + '</td>' +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<td text-end><button class="btn btn-danger btn-sm delete-row">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>';
 
@@ -1185,7 +1186,7 @@ Registro Estatal de Regulaciones
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                         '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td class="text-end"><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
                     tableBody.append(row);
@@ -1203,7 +1204,7 @@ Registro Estatal de Regulaciones
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                         '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td class="text-end"><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
                     tableBody.append(row);
@@ -2599,12 +2600,12 @@ Registro Estatal de Regulaciones
         var lastInsertedIndicePadre =
             null; // Variable para almacenar el último ID_IndicePadre insertado
 
-        $('#guardarIbtn').on('click', function () {
+            $('#guardarIbtn').on('click', function () {
             var inputTexto = $('#inputTexto').val();
-            lastInsertedIndicePadre = $('#selectIndicePadre').val();
-            lastInsertedIDIndicePadre = $('#selectIndicePadre option:selected').text();
-
-            if (inputTexto.trim() === '') {
+            lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
+            lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+            lastInsertedOrden = $('#inputOrden').val();
+            if (inputTexto.trim() === ''  || lastInsertedOrden.trim() === '' || lastInsertedOrden == null || !Number.isInteger(lastInsertedOrdenInt)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -2612,64 +2613,49 @@ Registro Estatal de Regulaciones
                 });
                 return;
             } else {
-                if (lastInsertedID_Indice === null ||
-                    lastInsertedOrden === null) {
-                    // Si es la primera inserción, obtener los valores de la base de datos
-                    $.ajax({
-                        url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                        method: 'GET',
-                        success: function (data) {
-                            var maxValues = JSON.parse(
-                                data);
-                            lastInsertedID_Indice =
-                                parseInt(maxValues
-                                    .ID_Indice) + 1;
-                            lastInsertedOrden =
-                                parseInt(maxValues
-                                    .Orden) + 1;
+                $.ajax({
+                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                    method: 'GET',
+                    success: function (data) {
+                        var maxValues = JSON.parse(data);
 
-                            var newRow = '<tr><td>' +
-                                lastInsertedID_Indice +
-                                '</td><td class="texto">' +
-                                inputTexto +
-                                '</td><td>' +
-                                lastInsertedOrden + '</td>' +
-                                '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
-                                '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                                '<td><button class="btn btn-danger btn-sm edit-row">' +
-                                '<i class="fas fa-edit"></i></button></td>' +
-                                '<td><button class="btn btn-danger btn-sm delete-row">' +
-                                '<i class="fas fa-trash-alt"></i></button></td>' +
-                                '</tr>';
-                            $('#resultTable tbody')
-                                .append(newRow);
-                        },
-                        error: function (jqXHR, textStatus,
-                            errorThrown) {
-                            console.error('AJAX error:',
-                                textStatus,
-                                errorThrown);
+                        if (maxValues.ID_Indice == null || maxValues.Orden == null) {
+                            lastInsertedID_Indice = 1;
+                            // Verificar si la tabla con id resultTable no está vacía
+                            if ($('#resultTable tbody tr').length > 0) {
+                                lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
+                            }
+                        } else {
+                            lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
+                            // Verificar si la tabla con id resultTable no está vacía
+                            if ($('#resultTable tbody tr').length > 0) {
+                                lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
+                                    '#resultTable tbody tr').length + 1;
+                            }
                         }
-                    });
-                } else {
-                    // Si no es la primera inserción, incrementar los últimos valores insertados
-                    lastInsertedID_Indice++;
-                    lastInsertedOrden++;
+                        if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
+                            lastInsertedIndicePadre = null;
+                        }
 
-                    var newRow = '<tr><td>' +
-                        lastInsertedID_Indice + '</td><td>' +
-                        inputTexto + '</td><td>' +
-                        lastInsertedOrden + '</td>' +
-                        '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
-                        '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm edit-row">' +
-                        '<i class="fas fa-edit"></i></button></td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>';
-                    $('#resultTable tbody').append(newRow);
-                }
+
+                        var newRow = '<tr><td class="hidden-column">' + lastInsertedID_Indice + '</td><td class="texto">' + inputTexto +
+                            '</td><td>' + lastInsertedOrden + '</td>' +
+                            '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
+                            '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
+                            '<td><button class="btn btn-gris btn-sm edit-row">' +
+                            '<i class="fas fa-edit"></i></button></td>' +
+                            '<td><button class="btn btn-danger btn-sm delete-row">' +
+                            '<i class="fas fa-trash-alt"></i></button></td>' +
+                            '</tr>';
+                        $('#resultTable tbody').append(newRow);
+                        // Cerrar el modal
+                        $('#myModal').modal('hide');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('AJAX error:', textStatus, errorThrown);
+                    }
+                });
             }
-
         });
     });
 </script>
@@ -2710,7 +2696,6 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         var isEditing = false;
@@ -2726,12 +2711,14 @@ Registro Estatal de Regulaciones
 
             // Obtener los datos de la fila
             var texto = editingRow.find('.texto').text();
+            var orden = editingRow.find('.orden').text();
             var indicePadre = editingRow.find('.indice-padre').text();
             other = editingRow.find('td').eq(4).text().trim();
             console.log('other:', other);
 
             // Asignar los datos al modal
             $('#inputTexto').val(texto);
+            $('#inputOrden').val(orden);
             $('#selectIndicePadre').val(indicePadre);
 
             if (indicePadre === '' || indicePadre === 'null') {
@@ -2741,7 +2728,7 @@ Registro Estatal de Regulaciones
                         url: '<?= base_url('RegulacionController/get_id_padre') ?>',
                         method: 'POST',
                         data: { texto: texto },
-                        success: function(response) {
+                        success: function (response) {
                             if (response === 'null') {
                                 idPadre = null;
                             } else {
@@ -2752,11 +2739,11 @@ Registro Estatal de Regulaciones
                                     $('#selectIndicePadre').val(idPadre);
                                 }
                             }
-                            
+
                             // Abrir el modal
                             $('#myModal').modal('show');
                         },
-                        error: function(jqXHR, textStatus, errorThrown) {
+                        error: function (jqXHR, textStatus, errorThrown) {
                             console.error('AJAX error:', textStatus, errorThrown);
                         }
                     });
@@ -2769,6 +2756,7 @@ Registro Estatal de Regulaciones
 
         $('#guardarIbtn').off('click').on('click', function () {
             var inputTexto = $('#inputTexto').val();
+            var inputOrden = $('#inputOrden').val();
             var selectedIndicePadre = $('#selectIndicePadre').val();
 
             if (inputTexto.trim() === '') {
@@ -2787,11 +2775,13 @@ Registro Estatal de Regulaciones
                     data: {
                         id: editingRow.find('.hidden-column').first().text(),
                         texto: inputTexto,
+                        orden: inputOrden,
                         indicePadre: selectedIndicePadre
                     },
                     success: function (response) {
                         // Actualizar los datos de la fila en modo de edición
                         editingRow.find('.texto').text(inputTexto);
+                        editingRow.find('.orden').text(inputOrden);
                         editingRow.find('.indice-padre').text(selectedIndicePadre);
 
                         // Resetear el modo de edición
@@ -2802,83 +2792,74 @@ Registro Estatal de Regulaciones
                         console.error('AJAX error:', textStatus, errorThrown);
                     }
                 });
-            } else {
+            }  else {
                 var inputTexto = $('#inputTexto').val();
-                var lastInsertedIndicePadre = $('#selectIndicePadre').val();
-                var lastInsertedIDIndicePadre = $('#selectIndicePadre option:selected').text();
-
-                if (inputTexto.trim() === '') {
+                var lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
+                var lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+                var lastInsertedOrden = $('#inputOrden').val();
+                // Agregar un nuevo índice en modo de creación
+                var inputTexto = $('#inputTexto').val();
+                lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
+                lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+                if (inputTexto.trim() === ''  || lastInsertedOrden.trim() === '' || lastInsertedOrden == null) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Por favor, complete el campo de texto.'
+                        text: 'Por favor, complete el campo de texto. y/o el campo de orden.'
                     });
                     return;
                 } else {
-                    var lastInsertedID_Indice =
-                        null; // Variable para almacenar el último ID_Indice insertado
-                    var lastInsertedOrden =
-                        null; // Variable para almacenar el último Orden insertado
-                    var lastInsertedIDIndicePadre =
-                        null; // Variable para almacenar el último ID_IndicePadre insertado
-                    var lastInsertedIndicePadre =
-                        null; // Variable para almacenar el último ID_IndicePadre insertado
-                    if (lastInsertedID_Indice === null ||
-                        lastInsertedOrden === null) {
-                        // Si es la primera inserción, obtener los valores de la base de datos
-                        $.ajax({
-                            url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                            method: 'GET',
-                            success: function (data) {
-                                var maxValues = JSON.parse(
-                                    data);
-                                lastInsertedID_Indice =
-                                    parseInt(maxValues
-                                        .ID_Indice) + 1;
-                                lastInsertedOrden =
-                                    parseInt(maxValues
-                                        .Orden) + 1;
+                    $.ajax({
+                        url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                        method: 'GET',
+                        success: function (data) {
+                            var maxValues = JSON.parse(data);
 
-                                var newRow = '<tr><td class="hidden-column">' +
-                                    lastInsertedID_Indice +
-                                    '</td><td class="texto">' +
-                                    inputTexto +
-                                    '</td><td>' +
-                                    lastInsertedOrden + '</td>' +
-                                    '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
-                                    '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                                    '<td><button class="btn btn-danger btn-sm edit-row">' +
-                                    '<i class="fas fa-edit"></i></button></td>' +
-                                    '<td><button class="btn btn-danger btn-sm delete-row">' +
-                                    '<i class="fas fa-trash-alt"></i></button></td>' +
-                                    '</tr>';
-                                $('#resultTable tbody')
-                                    .append(newRow);
-                            },
-                            error: function (jqXHR, textStatus,
-                                errorThrown) {
-                                console.error('AJAX error:',
-                                    textStatus,
-                                    errorThrown);
+                            if (maxValues.ID_Indice == null || maxValues.Orden == null) {
+                                lastInsertedID_Indice = 1;
+                                // Verificar si la tabla con id resultTable no está vacía
+                                if ($('#resultTable tbody tr').length > 0) {
+                                    lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
+                                }
+                            } else {
+                                lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
+                                // Verificar si la tabla con id resultTable no está vacía
+                                if ($('#resultTable tbody tr').length > 0) {
+                                    lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
+                                        '#resultTable tbody tr').length + 1;
+                                }
                             }
-                        });
-                    } else {
-                        // Si no es la primera inserción, incrementar los últimos valores insertados
-                        lastInsertedID_Indice++;
-                        lastInsertedOrden++;
+                            if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
+                                lastInsertedIndicePadre = null;
+                            }
 
-                        var newRow = '<tr><td>' +
-                            lastInsertedID_Indice + '</td><td>' +
-                            inputTexto + '</td><td>' +
-                            lastInsertedOrden + '</td>' +
-                            '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
-                            '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                            '<td><button class="btn btn-danger btn-sm edit-row">' +
-                            '<i class="fas fa-edit"></i></button></td>' +
-                            '<td><button class="btn btn-danger btn-sm delete-row">' +
-                            '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>';
-                        $('#resultTable tbody').append(newRow);
-                    }
+                            var rowClass = lastInsertedIndicePadre ? 'child-row' : 'parent-row';
+
+                            var newRow = `<tr class="${rowClass}">
+                            <td class="hidden-column">${lastInsertedID_Indice}</td>
+                            <td class="texto">${inputTexto}</td>
+                            <td class="orden">${lastInsertedOrden}</td>
+                            <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
+                            <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
+                            <td class="text-end">
+                                <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                            </tr>`;
+
+                            if (lastInsertedIndicePadre) {
+                                var parentRow = $('#resultTable tbody tr').filter(function () {
+                                    return $(this).find('td').eq(0).text() == lastInsertedIDIndicePadre;
+                                });
+                                parentRow.after(newRow);
+                            } else {
+                                $('#resultTable tbody').append(newRow);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('AJAX error:', textStatus, errorThrown);
+                        }
+                    });
                 }
             }
 
@@ -2936,20 +2917,20 @@ Registro Estatal de Regulaciones
                         sec: inputSec,
                         suj: inputSuj
                     },
-                    success: function(response) {
+                    success: function (response) {
                         // Actualizar los datos de la fila en modo de edición
                         editingRow.find('td').eq(1).text(inputMat);
                         editingRow.find('td').eq(2).text(inputSec);
                         editingRow.find('td').eq(3).text(inputSuj);
-                        
+
                         // Resetear el modo de edición
                         isEditing = false;
                         editingRow = null;
-                        
+
                         // Cerrar el modal
                         $('#myModal').modal('hide');
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.error('AJAX error:', textStatus, errorThrown);
                     }
                 });
@@ -3007,9 +2988,8 @@ Registro Estatal de Regulaciones
                         '<td>' + inputMat + '</td>' +
                         '<td>' + inputSec + '</td>' +
                         '<td>' + inputSuj + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm edit-row">' +
-                        '<i class="fas fa-edit"></i></button></td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">' +
+                        '<i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
 
@@ -3078,20 +3058,20 @@ Registro Estatal de Regulaciones
                         art: inputArt,
                         link: inputLink
                     },
-                    success: function(response) {
+                    success: function (response) {
                         // Actualizar los datos de la fila en modo de edición
                         editingRow.find('td').eq(1).text(inputNomReg);
                         editingRow.find('td').eq(2).text(inputArt);
                         editingRow.find('td').eq(3).text(inputLink);
-                        
+
                         // Resetear el modo de edición
                         isEditing = false;
                         editingRow = null;
-                        
+
                         // Cerrar el modal
                         $('#myModal').modal('hide');
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.error('AJAX error:', textStatus, errorThrown);
                     }
                 });
@@ -3147,9 +3127,8 @@ Registro Estatal de Regulaciones
                         '<td>' + inputNomReg + '</td>' +
                         '<td>' + inputArt + '</td>' +
                         '<td>' + inputLink + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm edit-row">' +
-                        '<i class="fas fa-edit"></i></button></td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">' +
+                        '<i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm delete-row">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
 

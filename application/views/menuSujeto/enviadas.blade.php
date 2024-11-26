@@ -65,20 +65,5 @@ Registro Estatal de Regulaciones
             }
         });
     });
-
-    $(document).ready(function () {
-        $('.btn-danger').click(function () {
-            var id = $(this).data('id_oficina');
-
-            $.ajax({
-                url: '<?php echo base_url('oficinas/eliminar_oficina/'); ?>' + id,
-                type: 'POST',
-                success: function (result) {
-                    // Recargar la página o hacer algo con el resultado
-                    location.reload();
-                }
-            });
-        });
-    });
 </script>
 @endsection

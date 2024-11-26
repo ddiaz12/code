@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuSujeto')
 @endsection
 
 @section('contenido')
@@ -86,7 +86,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="selectSujeto">Ámbito de aplicación<span class="text-danger">*</span></label>
+                                        <label for="selectSujeto">Ámbito de aplicación<span
+                                                class="text-danger">*</span></label>
                                         <select class="form-control" id="selectSujeto" name="sujeto" required>
                                             <option disabled>Selecciona una opción</option>
                                             <option value="Estatal" selected>Estatal</option>
@@ -95,7 +96,8 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="selectUnidad">Tipo de ordenamiento jurídico<span class="text-danger">*</span></label>
+                                        <label for="selectUnidad">Tipo de ordenamiento jurídico<span
+                                                class="text-danger">*</span></label>
                                         <select class="form-control" id="selectUnidad" name="unidad" required>
                                             <option disabled selected>Selecciona una opción</option>
                                             <?php foreach ($tipos_ordenamiento as $tipo): ?>
@@ -107,17 +109,20 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de expedición de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de expedición de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_expedicion"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de publicación de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de publicación de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFechaPub" name="fecha_publicacion"
                                         required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputFecha">Fecha de entrada en vigor de la regulación<span class="text-danger">*</span></label>
+                                    <label for="inputFecha">Fecha de entrada en vigor de la regulación<span
+                                            class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="inputFecha" name="fecha_vigor" required>
                                 </div>
                                 <div class="col-md-6">
@@ -151,7 +156,7 @@ Registro Estatal de Regulaciones
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputVialidad">Orden de gobierno que la emite:</label>
-                                            <select class="form-control" id="selectUnidad2" name="orden" required>
+                                            <select class="form-control" id="selectUnidad2" name="ordenGob" required>
                                                 <option disabled selected>Selecciona una opción</option>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
                                                 <option value="Poder Legistativo">Poder Legistativo</option>
@@ -188,7 +193,7 @@ Registro Estatal de Regulaciones
                                     }
                                 </style>
                                 <form>
-                                    <div class="d-flex justify-content-align-items mb-3 ">
+                                    <div class="col-md-6">
                                         <div id="selectAplican">
                                             <p>¿Están obligadas todas las autoridades a cumplir con la
                                                 regulación?</p>
@@ -204,8 +209,8 @@ Registro Estatal de Regulaciones
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" id="opcAplican">
-                                        <div class="col-md-6" id="AutoridadesAplicanContainer">
+                                    <div id="opcAplican">
+                                        <div id="AutoridadesAplicanContainer">
                                             <div class="form-group">
                                                 <label for="AutoridadesAplican">Autoridades que aplican
                                                     la regulación<span class="text-danger">*</span></label>
@@ -214,20 +219,20 @@ Registro Estatal de Regulaciones
                                                 <div id="searchResults2" class="list-group"></div>
                                             </div>
                                         </div>
-                                        <div id="apTContainer">
-                                            <table id="aplicanTable" class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="hidden-column">ID_Dependencia</th>
-                                                        <th>Tipo dependencia</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- Las filas se agregarán dinámicamente aquí -->
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    </div>
+                                    <div id="apTContainer">
+                                        <table id="aplicanTable" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="hidden-column">ID_Dependencia</th>
+                                                    <th>Tipo dependencia</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán dinámicamente aquí -->
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </form>
                                 <div class="header-container mb-0">
@@ -268,6 +273,11 @@ Registro Estatal de Regulaciones
                                                             placeholder="Ingrese texto" name="texto">
                                                     </div>
                                                     <div class="form-group">
+                                                        <label for="inputOrden">Orden</label>
+                                                        <input type="number" class="form-control" id="inputOrden"
+                                                            placeholder="Ingrese orden" name="orden">
+                                                    </div>
+                                                    <div class="form-group">
                                                         <label for="selectIndicePadre">Índice Padre</label>
                                                         <select class="form-control" id="selectIndicePadre"
                                                             name="indicePadre">
@@ -296,9 +306,6 @@ Registro Estatal de Regulaciones
                                 <script>
                                     $(document).ready(function () {
                                         $('#myModal').on('show.bs.modal', function () {
-                                            // Limpiar las opciones del select y agregar la opción por defecto
-                                            $('#selectIndicePadre').empty().append('<option>Seleccione un índice padre</option>');
-
                                             // Agregar las opciones del servidor
                                             <?php if (!empty($indices)): ?>
                                             <?php    foreach ($indices as $indice): ?>
@@ -306,9 +313,13 @@ Registro Estatal de Regulaciones
                                             <?php    endforeach; ?>
                                             <?php endif; ?>
 
+                                            // Limpiar las opciones del select y agregar la opción por defecto
+                                            $('#selectIndicePadre').empty().append('<option>Seleccione un índice padre</option>');
+
                                             // Agregar las opciones de la tabla
                                             $('#resultTable tbody tr').each(function () {
                                                 var idIndice = $(this).find('.hidden-column').first().text();
+                                                var orden = $(this).find('.orden').text();
                                                 var textoIndice = $(this).find('.texto').text();
                                                 $('#selectIndicePadre').append('<option value="' + idIndice + '">' + textoIndice + '</option>');
                                             });
@@ -992,7 +1003,7 @@ Registro Estatal de Regulaciones
                                                 Vigencia: formData
                                                     .campoExtra,
                                                 Orden_Gob: formData
-                                                    .orden
+                                                    .ordenGob
                                             };
 
                                             // Imprimir caracteristicasData en consola
@@ -1503,7 +1514,8 @@ Registro Estatal de Regulaciones
             var inputTexto = $('#inputTexto').val();
             lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
             lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-            if (inputTexto.trim() === '') {
+            lastInsertedOrden = $('#inputOrden').val();
+            if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null || !Number.isInteger(lastInsertedOrdenInt)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -1519,20 +1531,15 @@ Registro Estatal de Regulaciones
 
                         if (maxValues.ID_Indice == null || maxValues.Orden == null) {
                             lastInsertedID_Indice = 1;
-                            lastInsertedOrden = 1;
                             // Verificar si la tabla con id resultTable no está vacía
                             if ($('#resultTable tbody tr').length > 0) {
                                 lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
-                                lastInsertedOrden = $('#resultTable tbody tr').length + 1;
                             }
                         } else {
                             lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
-                            lastInsertedOrden = parseInt(maxValues.Orden) + 1;
                             // Verificar si la tabla con id resultTable no está vacía
                             if ($('#resultTable tbody tr').length > 0) {
                                 lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
-                                    '#resultTable tbody tr').length + 1;
-                                lastInsertedOrden = parseInt(maxValues.Orden) + $(
                                     '#resultTable tbody tr').length + 1;
                             }
                         }
@@ -1636,10 +1643,12 @@ Registro Estatal de Regulaciones
 
             // Obtener los datos de la fila
             var texto = editingRow.find('.texto').text();
+            var orden = editingRow.find('.orden').text();
             var indicePadre = editingRow.find('.indice-padre').text();
 
             // Asignar los datos al modal
             $('#inputTexto').val(texto);
+            $('#inputOrden').val(orden);
             $('#selectIndicePadre').val(indicePadre);
 
             // Abrir el modal
@@ -1650,6 +1659,7 @@ Registro Estatal de Regulaciones
             if (isEditing) {
                 // Actualizar los datos de la fila en modo de edición
                 editingRow.find('.texto').text($('#inputTexto').val());
+                editingRow.find('.orden').number($('#inputOrden').val());
                 editingRow.find('.indice-padre').text($('#selectIndicePadre').val());
 
                 // Resetear el modo de edición
@@ -1659,15 +1669,16 @@ Registro Estatal de Regulaciones
                 var inputTexto = $('#inputTexto').val();
                 var lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
                 var lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+                var lastInsertedOrden = $('#inputOrden').val();
                 // Agregar un nuevo índice en modo de creación
                 var inputTexto = $('#inputTexto').val();
                 lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
                 lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-                if (inputTexto.trim() === '') {
+                if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Por favor, complete el campo de texto.'
+                        text: 'Por favor, complete el campo de texto. y/o el campo de orden.'
                     });
                     return;
                 } else {
@@ -1679,20 +1690,15 @@ Registro Estatal de Regulaciones
 
                             if (maxValues.ID_Indice == null || maxValues.Orden == null) {
                                 lastInsertedID_Indice = 1;
-                                lastInsertedOrden = 1;
                                 // Verificar si la tabla con id resultTable no está vacía
                                 if ($('#resultTable tbody tr').length > 0) {
                                     lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
-                                    lastInsertedOrden = $('#resultTable tbody tr').length + 1;
                                 }
                             } else {
                                 lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
-                                lastInsertedOrden = parseInt(maxValues.Orden) + 1;
                                 // Verificar si la tabla con id resultTable no está vacía
                                 if ($('#resultTable tbody tr').length > 0) {
                                     lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
-                                        '#resultTable tbody tr').length + 1;
-                                    lastInsertedOrden = parseInt(maxValues.Orden) + $(
                                         '#resultTable tbody tr').length + 1;
                                 }
                             }
@@ -1705,7 +1711,7 @@ Registro Estatal de Regulaciones
                             var newRow = `<tr class="${rowClass}">
                             <td class="hidden-column">${lastInsertedID_Indice}</td>
                             <td class="texto">${inputTexto}</td>
-                            <td>${lastInsertedOrden}</td>
+                            <td class="orden">${lastInsertedOrden}</td>
                             <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
                             <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
                             <td class="text-end">

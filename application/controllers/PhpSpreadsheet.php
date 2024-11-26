@@ -55,7 +55,9 @@ class PhpSpreadsheet extends CI_Controller
                 ->setCellValue('I' . $row, $regulacion->Orden_Gob)
                 ->setCellValue('J' . $row, $regulacion->Autoridades_Aplican)
                 ->setCellValue('K' . $row, $regulacion->Regulaciones_Vinculadas)
-                ->setCellValue('L' . $row, $regulacion->Enlace_Oficial);
+                ->setCellValue('L' . $row, $regulacion->Enlace_Oficial)
+                ->setCellValue('M' . $row, $regulacion->Fecha_Act_Sys)
+                ->setCellValue('N' . $row, $regulacion->Fecha_Cre_Sys);
             $row++;
         }
 
@@ -72,10 +74,10 @@ class PhpSpreadsheet extends CI_Controller
         ];
 
         // Aplicar estilos solo a la fila de encabezados (A1:J1)
-        $sheet->getStyle('A1:L1')->applyFromArray($styleArray);
+        $sheet->getStyle('A1:N1')->applyFromArray($styleArray);
 
         // Ajustar ancho automático para las columnas
-        foreach (range('A', 'L') as $columnID) {
+        foreach (range('A', 'N') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
 
@@ -139,7 +141,7 @@ class PhpSpreadsheet extends CI_Controller
 
         // Recorrer los datos de los tipos de ordenamiento jurídico y agregarlos al array
         foreach ($ordenamientos as $ordenamiento) {
-            $dependencia = $ordenamiento->Tipo_Dependencia;
+            $dependencia = $ordenamiento->nombre_sujeto;
             $tipoOrdenamiento = $ordenamiento->Tipo_Ordenamiento;
             $count = $ordenamiento->count;
 
