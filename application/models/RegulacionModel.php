@@ -1162,4 +1162,27 @@ class RegulacionModel extends CI_Model
         $this->db->where('ID_Regulacion', $id_regulacion);
         return $this->db->update('rel_nat_reg', ['ID_clase' => null]);
     }
+
+    public function get_id_regulacion_by_name($name_regulacion) {
+        $this->db->select('ID_Regulacion');
+        $this->db->from('ma_regulacion');
+        $this->db->where('Nombre_Regulacion', $name_regulacion);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->ID_Regulacion;
+        } else {
+            return false;
+        }
+    }
+    public function delete_regulacion_derivada_manual($name_regulacion) {
+        $this->db->where('nombre', $name_regulacion);
+        return $this->db->delete('cat_regulacion_derivada_manual');
+    }
+    
+    public function delete_derivada_reg($id_regulacion) {
+        $this->db->where('ID_Regulacion', $id_regulacion);
+        return $this->db->delete('derivada_reg');
+    }
+    
 }
