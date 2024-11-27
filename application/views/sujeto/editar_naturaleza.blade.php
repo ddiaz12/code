@@ -1357,10 +1357,82 @@ Registro Estatal de Regulaciones
             });
 
             $('#selectedRegulacionesTable').on('click', '.delete-row', function () {
-                $(this).closest('tr').remove();
-                if ($('#selectedRegulacionesTable tbody tr').length === 0) {
-                    $('#selectedRegulacionesTable').hide();
-                }
+                // Mostrar ventana de confirmación
+                if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                    // Obtener el ID de la regulación de la fila
+                    let nameRegulacion = $(this).closest('tr').find('td').eq(0).text();
+                    let row = $(this).closest('tr'); // Guardar la fila para eliminarla después
+                    console.log('Nombre de la Regulación:', nameRegulacion);
+                        // Hacer una llamada AJAX para obtener el ID_Regulacion basado en nameRegulacion
+                        $.ajax({
+                            url: '<?= base_url('RegulacionController/get_id_regulacion') ?>',
+                            method: 'POST',
+                            data: {
+                                name_regulacion: nameRegulacion
+                            },
+                            success: function(response) {
+                                var data = JSON.parse(response);
+                                if (data.status === 'success') {
+                                    let idRegulacion = data.id_regulacion;
+                                    console.log('ID_Regulacion:', idRegulacion);
+
+                                    // Eliminar la fila de la tabla
+                                    $(this).closest('tr').remove();
+
+                                    // Eliminar la regulación manual del array
+                                    let rowIndex = $(this).closest('tr').index();
+                                    manualRegulaciones.splice(rowIndex, 1);
+
+                                    // Hacer una llamada AJAX para eliminar el registro en la base de datos
+                                    $.ajax({
+                                        url: '<?= base_url('RegulacionController/delete_derivada_reg') ?>',
+                                        method: 'POST',
+                                        data: {
+                                            id_regulacion: idRegulacion
+                                        },
+                                        success: function(response) {
+                                            var data = JSON.parse(response);
+                                            if (data.status === 'success') {
+                                                alert('Registro eliminado correctamente de la base de datos');
+                                            } else {
+                                                alert('Error al eliminar el registro de la base de datos');
+                                            }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            console.error('Error al eliminar el registro de la base de datos:', textStatus, errorThrown);
+                                            alert('Error al eliminar el registro de la base de datos');
+                                        }
+                                    });
+                                } else {
+                                     // Hacer una llamada AJAX para eliminar el registro en la tabla cat_regulacion_derivada_manual
+                                    $.ajax({
+                                        url: '<?= base_url('RegulacionController/delete_regulacion_derivada_manual') ?>',
+                                        method: 'POST',
+                                        data: {
+                                            name_regulacion: nameRegulacion
+                                        },
+                                        success: function(response) {
+                                            var data = JSON.parse(response);
+                                            if (data.status === 'success') {
+                                                console.log('Registro eliminado de cat_regulacion_derivada_manual');
+                                                // Eliminar la fila de la tabla
+                                                row.remove();
+                                            } else {
+                                                console.error('Error al eliminar el registro de cat_regulacion_derivada_manual');
+                                            }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            console.error('Error al eliminar el registro de cat_regulacion_derivada_manual:', textStatus, errorThrown);
+                                        }
+                                    });
+                                }
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error('Error al obtener el ID de la regulación:', textStatus, errorThrown);
+                                alert('Error al obtener el ID de la regulación');
+                            }
+                        });
+                } 
             });
         });
 
@@ -1424,6 +1496,7 @@ Registro Estatal de Regulaciones
         $('#tramitesTable').on('click', '.delete-row', function () {
             var row = $(this).closest('tr');
             var idTram = row.find('td').eq(0).text();
+            console.log('ID_Tramites:', idTram);
 
             // Mostrar ventana de confirmación
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
@@ -1431,7 +1504,7 @@ Registro Estatal de Regulaciones
                 $.ajax({
                     url: '<?= base_url('RegulacionController/eliminarTramite') ?>',
                     type: 'POST',
-                    data: { ID_Tramites: idTram },
+                    data: { ID_Tram: idTram },
                     success: function (response) {
                         if (response.status === 'success') {
                             // Elimina la fila de la tabla

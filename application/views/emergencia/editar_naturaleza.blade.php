@@ -367,7 +367,7 @@ Registro Estatal de Regulaciones
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mb-3">
-                            <a href="<?php echo base_url('RegulacionController'); ?>"
+                            <a href="<?php echo base_url('emergency'); ?>"
                                 class="btn btn-secondary me-2">Cancelar</a>
                             <button type="button" id="btnGnat" class="btn btn-guardar">Guardar</button>
                         </div>
@@ -427,7 +427,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para verificar el sector
         $.ajax({
-            url: '<?= base_url("RegulacionController/verificarSector") ?>',
+            url: '<?= base_url("emergency/verificarSector") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -459,7 +459,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener los sectores
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerSectoresPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerSectoresPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -492,7 +492,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener los subsectors
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerSubsectoresPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerSubsectoresPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -531,7 +531,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener las ramas
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerRamasPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerRamasPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -569,7 +569,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener las subramas
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerSubramasPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerSubramasPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -608,7 +608,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener las clases
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerClasesPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerClasesPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -649,7 +649,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener las regulaciones
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerRegulacionesPorNat") ?>',
+            url: '<?= base_url("emergency/obtenerRegulacionesPorNat") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -728,7 +728,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener los ID de los sectores
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerIdSectoresPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerIdSectoresPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -752,7 +752,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener los ID de los subsectores
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerIdSubsectoresPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerIdSubsectoresPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -776,7 +776,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener los ID de las ramas
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerIdRamasPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerIdRamasPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -800,7 +800,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener los ID de las subramas
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerIdSubramasPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerIdSubramasPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -824,7 +824,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener los ID de las clases
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerIdClasesPorRegulacion") ?>',
+            url: '<?= base_url("emergency/obtenerIdClasesPorRegulacion") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -848,7 +848,7 @@ Registro Estatal de Regulaciones
 
         // Realizar la solicitud AJAX para obtener los ID de las regulaciones
         $.ajax({
-            url: '<?= base_url("RegulacionController/obtenerIdRegulacionesPorNat") ?>',
+            url: '<?= base_url("emergency/obtenerIdRegulacionesPorNat") ?>',
             type: 'POST',
             data: {
                 id_regulacion: id_regulacion
@@ -873,7 +873,7 @@ Registro Estatal de Regulaciones
         $('#SectorInput').on('keyup', function () {
             let searchTerm = $(this).val();
             $.ajax({
-                url: '<?= base_url('RegulacionController/search_sector') ?>',
+                url: '<?= base_url('emergency/search_sector') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -935,7 +935,7 @@ Registro Estatal de Regulaciones
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Hacer una llamada AJAX para actualizar la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/update_sector') ?>',
+                    url: '<?= base_url('emergency/update_sector') ?>',
                     method: 'POST',
                     data: {
                         id_regulacion: id_regulacion,
@@ -954,7 +954,7 @@ Registro Estatal de Regulaciones
         $('#SubsectorInput').on('keyup', function () {
             let searchTerm = $(this).val();
             $.ajax({
-                url: '<?= base_url('RegulacionController/search_subsector') ?>',
+                url: '<?= base_url('emergency/search_subsector') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -1018,7 +1018,7 @@ Registro Estatal de Regulaciones
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Hacer una llamada AJAX para actualizar la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/update_subsector') ?>',
+                    url: '<?= base_url('emergency/update_subsector') ?>',
                     method: 'POST',
                     data: {
                         id_regulacion: id_regulacion,
@@ -1037,7 +1037,7 @@ Registro Estatal de Regulaciones
         $('#RamaInput').on('keyup', function () {
             let searchTerm = $(this).val();
             $.ajax({
-                url: '<?= base_url('RegulacionController/search_rama') ?>',
+                url: '<?= base_url('emergency/search_rama') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -1099,7 +1099,7 @@ Registro Estatal de Regulaciones
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Hacer una llamada AJAX para actualizar la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/update_rama') ?>',
+                    url: '<?= base_url('emergency/update_rama') ?>',
                     method: 'POST',
                     data: {
                         id_regulacion: id_regulacion,
@@ -1118,7 +1118,7 @@ Registro Estatal de Regulaciones
         $('#SubramaInput').on('keyup', function () {
             let searchTerm = $(this).val();
             $.ajax({
-                url: '<?= base_url('RegulacionController/search_subrama') ?>',
+                url: '<?= base_url('emergency/search_subrama') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -1181,7 +1181,7 @@ Registro Estatal de Regulaciones
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Hacer una llamada AJAX para actualizar la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/update_subrama') ?>',
+                    url: '<?= base_url('emergency/update_subrama') ?>',
                     method: 'POST',
                     data: {
                         id_regulacion: id_regulacion,
@@ -1200,7 +1200,7 @@ Registro Estatal de Regulaciones
         $('#ClaseInput').on('keyup', function () {
             let searchTerm = $(this).val();
             $.ajax({
-                url: '<?= base_url('RegulacionController/search_clase') ?>',
+                url: '<?= base_url('emergency/search_clase') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -1263,7 +1263,7 @@ Registro Estatal de Regulaciones
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Hacer una llamada AJAX para actualizar la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/update_clase') ?>',
+                    url: '<?= base_url('emergency/update_clase') ?>',
                     method: 'POST',
                     data: {
                         id_regulacion: id_regulacion,
@@ -1282,7 +1282,7 @@ Registro Estatal de Regulaciones
         $('#inputVinculadas').on('keyup', function () {
             let searchTerm = $(this).val();
             $.ajax({
-                url: '<?= base_url('RegulacionController/search_regulacion') ?>',
+                url: '<?= base_url('emergency/search_regulacion') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -1358,10 +1358,82 @@ Registro Estatal de Regulaciones
             });
 
             $('#selectedRegulacionesTable').on('click', '.delete-row', function () {
-                $(this).closest('tr').remove();
-                if ($('#selectedRegulacionesTable tbody tr').length === 0) {
-                    $('#selectedRegulacionesTable').hide();
-                }
+                // Mostrar ventana de confirmación
+                if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                    // Obtener el ID de la regulación de la fila
+                    let nameRegulacion = $(this).closest('tr').find('td').eq(0).text();
+                    let row = $(this).closest('tr'); // Guardar la fila para eliminarla después
+                    console.log('Nombre de la Regulación:', nameRegulacion);
+                        // Hacer una llamada AJAX para obtener el ID_Regulacion basado en nameRegulacion
+                        $.ajax({
+                            url: '<?= base_url('emergency/get_id_regulacion') ?>',
+                            method: 'POST',
+                            data: {
+                                name_regulacion: nameRegulacion
+                            },
+                            success: function(response) {
+                                var data = JSON.parse(response);
+                                if (data.status === 'success') {
+                                    let idRegulacion = data.id_regulacion;
+                                    console.log('ID_Regulacion:', idRegulacion);
+
+                                    // Eliminar la fila de la tabla
+                                    $(this).closest('tr').remove();
+
+                                    // Eliminar la regulación manual del array
+                                    let rowIndex = $(this).closest('tr').index();
+                                    manualRegulaciones.splice(rowIndex, 1);
+
+                                    // Hacer una llamada AJAX para eliminar el registro en la base de datos
+                                    $.ajax({
+                                        url: '<?= base_url('emergency/delete_derivada_reg') ?>',
+                                        method: 'POST',
+                                        data: {
+                                            id_regulacion: idRegulacion
+                                        },
+                                        success: function(response) {
+                                            var data = JSON.parse(response);
+                                            if (data.status === 'success') {
+                                                alert('Registro eliminado correctamente de la base de datos');
+                                            } else {
+                                                alert('Error al eliminar el registro de la base de datos');
+                                            }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            console.error('Error al eliminar el registro de la base de datos:', textStatus, errorThrown);
+                                            alert('Error al eliminar el registro de la base de datos');
+                                        }
+                                    });
+                                } else {
+                                     // Hacer una llamada AJAX para eliminar el registro en la tabla cat_regulacion_derivada_manual
+                                    $.ajax({
+                                        url: '<?= base_url('emergency/delete_regulacion_derivada_manual') ?>',
+                                        method: 'POST',
+                                        data: {
+                                            name_regulacion: nameRegulacion
+                                        },
+                                        success: function(response) {
+                                            var data = JSON.parse(response);
+                                            if (data.status === 'success') {
+                                                console.log('Registro eliminado de cat_regulacion_derivada_manual');
+                                                // Eliminar la fila de la tabla
+                                                row.remove();
+                                            } else {
+                                                console.error('Error al eliminar el registro de cat_regulacion_derivada_manual');
+                                            }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            console.error('Error al eliminar el registro de cat_regulacion_derivada_manual:', textStatus, errorThrown);
+                                        }
+                                    });
+                                }
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error('Error al obtener el ID de la regulación:', textStatus, errorThrown);
+                                alert('Error al obtener el ID de la regulación');
+                            }
+                        });
+                } 
             });
         });
 
@@ -1379,7 +1451,7 @@ Registro Estatal de Regulaciones
         var lastIdTramites = $('#tramitesTable tbody tr:last td:first').text();
         var newIdTramites = lastIdTramites ? parseInt(lastIdTramites) + 1 : 1;
         $.ajax({
-            url: '<?= base_url('RegulacionController/verificarTramites') ?>',
+            url: '<?= base_url('emergency/verificarTramites') ?>',
             type: 'GET',
             data: { ID_Nat: id_nat },
             dataType: 'json',
@@ -1425,14 +1497,15 @@ Registro Estatal de Regulaciones
         $('#tramitesTable').on('click', '.delete-row', function () {
             var row = $(this).closest('tr');
             var idTram = row.find('td').eq(0).text();
+            console.log('ID_Tramites:', idTram);
 
             // Mostrar ventana de confirmación
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Realiza una solicitud AJAX para eliminar el registro de la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/eliminarTramite') ?>',
+                    url: '<?= base_url('emergency/eliminarTramite') ?>',
                     type: 'POST',
-                    data: { ID_Tramites: idTram },
+                    data: { ID_Tram: idTram },
                     success: function (response) {
                         if (response.status === 'success') {
                             // Elimina la fila de la tabla
@@ -1516,7 +1589,7 @@ Registro Estatal de Regulaciones
             var registrosExistentes = []; // Array para almacenar los registros existentes
             // Realiza una solicitud AJAX para obtener los registros existentes en la base de datos
             $.ajax({
-                url: '<?php echo base_url('RegulacionController/verificarTramites'); ?>', // Cambia esta URL a la ruta de tu controlador
+                url: '<?php echo base_url('emergency/verificarTramites'); ?>', // Cambia esta URL a la ruta de tu controlador
                 type: 'GET',
                 data: { ID_Nat: id_nat }, // Asegúrate de que caracteristicasData esté definido
                 dataType: 'json',
@@ -1549,7 +1622,7 @@ Registro Estatal de Regulaciones
                     console.log('registrosExistentes:', registrosExistentes);
 
                     $.ajax({
-                        url: '<?= base_url('RegulacionController/save_naturaleza_regulacion2') ?>',
+                        url: '<?= base_url('emergency/save_naturaleza_regulacion2') ?>',
                         type: 'POST',
                         data: formData,
                         processData: false,
@@ -1564,7 +1637,7 @@ Registro Estatal de Regulaciones
                                     text: 'Datos guardados exitosamente',
                                 }).then(() => {
                                     window.location.href =
-                                        '<?= base_url('RegulacionController') ?>';
+                                        '<?= base_url('emergency') ?>';
                                 });
                             } else {
                                 Swal.fire({
@@ -1573,7 +1646,7 @@ Registro Estatal de Regulaciones
                                     text: 'Error al guardar los datos: ' + response.message,
                                 }).then(() => {
                                     window.location.href =
-                                        '<?= base_url('RegulacionController') ?>';
+                                        '<?= base_url('emergency') ?>';
                                 });
                             }
                         },

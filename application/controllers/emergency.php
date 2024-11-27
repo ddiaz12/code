@@ -2368,4 +2368,52 @@ class emergency extends CI_Controller
             echo json_encode(['status' => 'error']);
         }
     }
+    
+    public function get_id_regulacion() {
+        $name_regulacion = $this->input->post('name_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Obtener el ID_Regulacion basado en name_regulacion
+        $id_regulacion = $this->RegulacionModel->get_id_regulacion_by_name($name_regulacion);
+    
+        if ($id_regulacion) {
+            echo json_encode(['status' => 'success', 'id_regulacion' => $id_regulacion]);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function delete_derivada_reg() {
+        $id_regulacion = $this->input->post('id_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Eliminar el registro en la tabla derivada_reg
+        $result = $this->RegulacionModel->delete_derivada_reg($id_regulacion);
+    
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function delete_regulacion_derivada_manual() {
+        $name_regulacion = $this->input->post('name_regulacion');
+    
+        // Cargar el modelo
+        $this->load->model('RegulacionModel');
+    
+        // Eliminar el registro en la tabla cat_regulacion_derivada_manual
+        $result = $this->RegulacionModel->delete_regulacion_derivada_manual($name_regulacion);
+    
+        if ($result) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
 }
