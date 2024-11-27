@@ -328,11 +328,11 @@ class RegulacionModel extends CI_Model
     {
         // Seleccionar los campos necesarios de las diferentes tablas
         $this->db->distinct();
-        $this->db->select('ma_regulacion.Nombre_Regulacion, de_regulacion_caracteristicas.Ambito_Aplicacion, cat_tipo_ord_jur.Tipo_Ordenamiento,
+        $this->db->select('ma_regulacion.Nombre_Regulacion, ma_regulacion.Fecha_Cre_Sys, ma_regulacion.Fecha_Act_Sys, de_regulacion_caracteristicas.Ambito_Aplicacion, cat_tipo_ord_jur.Tipo_Ordenamiento,
                            de_regulacion_caracteristicas.Fecha_Exp, ma_regulacion.Vigencia, de_regulacion_caracteristicas.Fecha_Publi,
                            de_regulacion_caracteristicas.Fecha_vigor, de_regulacion_caracteristicas.Fecha_Act, de_regulacion_caracteristicas.Orden_Gob,
                            GROUP_CONCAT(DISTINCT ma_regulacion_vinculada.Nombre_Regulacion) as Regulaciones_Vinculadas, de_naturaleza_regulacion.Enlace_Oficial,
-                           GROUP_CONCAT(DISTINCT cat_tipo_dependencia.Tipo_Dependencia) as Autoridades_Aplican');
+                           GROUP_CONCAT(DISTINCT cat_sujeto_obligado.nombre_sujeto) as Autoridades_Aplican');
 
         // Unir las tablas relacionadas
         $this->db->from('ma_regulacion');
@@ -343,8 +343,8 @@ class RegulacionModel extends CI_Model
         $this->db->join('derivada_reg', 'derivada_reg.ID_Nat = de_naturaleza_regulacion.ID_Nat', 'left');
         $this->db->join('ma_regulacion as ma_regulacion_vinculada', 'derivada_reg.ID_Regulacion = ma_regulacion_vinculada.ID_Regulacion', 'left');
         $this->db->join('rel_autoridades_aplican', 'rel_autoridades_aplican.ID_caract = de_regulacion_caracteristicas.ID_caract', 'left');
-        $this->db->join('cat_tipo_dependencia', 'rel_autoridades_aplican.ID_Aplican = cat_tipo_dependencia.ID_Dependencia', 'left');
-
+        $this->db->join('cat_sujeto_obligado', 'rel_autoridades_aplican.ID_Aplican = cat_sujeto_obligado.ID_sujeto', 'left');
+        $this->db->where('ma_regulacion.publicada', 1);
         // Agrupar por los campos seleccionados
         $this->db->group_by('ma_regulacion.ID_Regulacion, de_regulacion_caracteristicas.Ambito_Aplicacion, cat_tipo_ord_jur.Tipo_Ordenamiento,
                              de_regulacion_caracteristicas.Fecha_Exp, ma_regulacion.Vigencia, de_regulacion_caracteristicas.Fecha_Publi,
@@ -359,14 +359,14 @@ class RegulacionModel extends CI_Model
     public function countTipoOrdenamiento()
     {
         // Seleccionar los campos necesarios y contar los tipos de ordenamiento jurídico por dependencia
-        $this->db->select('cat_tipo_dependencia.Tipo_Dependencia, cat_tipo_ord_jur.Tipo_Ordenamiento, COUNT(*) as count');
+        $this->db->select('cat_sujeto_obligado.nombre_sujeto, cat_tipo_ord_jur.Tipo_Ordenamiento, COUNT(*) as count');
         $this->db->from('ma_regulacion');
         $this->db->join('de_regulacion_caracteristicas', 'de_regulacion_caracteristicas.ID_Regulacion = ma_regulacion.ID_Regulacion', 'left');
         $this->db->join('rel_autoridades_aplican', 'rel_autoridades_aplican.ID_caract = de_regulacion_caracteristicas.ID_caract', 'left');
-        $this->db->join('cat_tipo_dependencia', 'rel_autoridades_aplican.ID_Aplican = cat_tipo_dependencia.ID_Dependencia', 'left');
+        $this->db->join('cat_sujeto_obligado', 'rel_autoridades_aplican.ID_Aplican = cat_sujeto_obligado.ID_sujeto', 'left');
         $this->db->join('cat_tipo_ord_jur', 'de_regulacion_caracteristicas.ID_tOrdJur = cat_tipo_ord_jur.ID_tOrdJur', 'left');
         $this->db->where('ma_regulacion.publicada', 1);
-        $this->db->group_by(['cat_tipo_dependencia.Tipo_Dependencia', 'cat_tipo_ord_jur.Tipo_Ordenamiento']);
+        $this->db->group_by(['cat_sujeto_obligado.nombre_sujeto', 'cat_tipo_ord_jur.Tipo_Ordenamiento']);
         $query = $this->db->get();
         return $query->result();
     }
@@ -687,6 +687,7 @@ class RegulacionModel extends CI_Model
     }
     public function obtenerAutoridadesPorRegulacion($idRegulacion)
     {
+        $this->db->distinct();
         $this->db->select('aplican_dep.nombre_sujeto as Autoridad_Aplican, emiten_dep.nombre_sujeto as Autoridad_Emiten');
         $this->db->from('de_regulacion_caracteristicas as caract');
         $this->db->join('rel_autoridades_aplican as aplican', 'caract.ID_caract = aplican.ID_caract');

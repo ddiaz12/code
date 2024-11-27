@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuSujeto')
 @endsection
 @section('contenido')
 <!-- Contenido -->
@@ -41,7 +41,7 @@ Registro Estatal de Regulaciones
                 <tbody>
                     <?php if (!empty($regulaciones)): ?>
                     <?php    foreach ($regulaciones as $regulacion): ?>
-                    <?php        if ($regulacion->Estatus == 1): ?>
+                    <?php        if ($regulacion->Estatus == 0): ?>
                     <?php 
                     $background_color = 'gray';
             // Obtener la notificación relacionada con la regulación
@@ -82,10 +82,6 @@ Registro Estatal de Regulaciones
                             </button>
                             <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
                                 <i class="fas fa-trash-alt"></i>
-                            </button>
-                            <button class="btn btn-secondary btn-sm btn-devolver" title="Devolver"
-                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
-                                <i class="fas fa-undo" title="Devolver"></i>
                             </button>
                             <button class="btn btn-dorado btn-sm enviar-regulacion" title="Enviar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">

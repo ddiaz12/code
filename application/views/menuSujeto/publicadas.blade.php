@@ -49,7 +49,7 @@ Registro Estatal de Regulaciones
                                                 <i class="fas fa-eye" title="Ver regulacion"></i>
                                             </a>
                                             <button class="btn btn-gris btn-sm edit-row" title="Editar"
-                                                data-id="<?php                echo $regulacion->ID_Regulacion; ?>">
+                                                data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                             <button class="btn btn-tinto btn-sm btn-trazabilidad" title="Trazabilidad"
@@ -84,20 +84,22 @@ Registro Estatal de Regulaciones
 @endsection
 @section('js')
 <script>
-    // Captura el evento de clic en el botón de editar
-    $('.edit-row').on('click', function () {
-        // Obtiene el ID de la regulación del atributo data-id
-        var idRegulacion = $(this).data('id');
-
-        // Redirecciona a la URL de edición con el ID_Regulacion
-        window.location.href = '<?= base_url("RegulacionController/edit_caract/"); ?>' + idRegulacion;
-    });
-
     $(document).ready(function () {
         $('#datatablesSimple').DataTable({
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
             }
+        });
+    });
+
+    $(document).ready(function () {
+        // Captura el evento de clic en el botón de editar
+        $('.edit-row').on('click', function () {
+            // Obtiene el ID de la regulación del atributo data-id
+            var idRegulacion = $(this).data('id');
+
+            // Redirecciona a la URL de edición con el ID_Regulacion
+            window.location.href = '<?= base_url("PublicadasController/edit_public_caract/"); ?>' + idRegulacion;
         });
     });
 

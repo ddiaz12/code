@@ -120,8 +120,6 @@ class RegulacionController extends CI_Controller
         $groupName = $group->name;
         $iduser = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
 
         $data['tipos_ordenamiento'] = $this->RegulacionModel->getTiposOrdenamiento2();
         $data['indices'] = $this->RegulacionModel->getIndices();
@@ -1291,7 +1289,7 @@ class RegulacionController extends CI_Controller
             // Determinar el usuario destino en función del grupo del usuario actual y si fue devuelta por consejería
             if ($group->name === 'sujeto_obligado') {
                 if ($movimiento_consejeria) {
-                    // Si la regulación fue devuelta por consejería, enviarla directamente a consejería
+                    // Si la regulación fue devuelta por consejería, enviarla notificacion directamente a consejería
                     $usuario_destino = 'consejeria';
                     $Estatus = 2;
                 } else {
@@ -1530,7 +1528,6 @@ class RegulacionController extends CI_Controller
         );
 
         // Actualizar los datos
-        $this->load->model('RegulacionModel');
         $result = $this->RegulacionModel->updateRegulacion($formData['ID_Regulacion'], $data);
 
         // Verificar el resultado de la actualización
@@ -1566,7 +1563,6 @@ class RegulacionController extends CI_Controller
         );
 
         // Actualizar los datos
-        $this->load->model('RegulacionModel');
         $result = $this->RegulacionModel->updateCaracteristicas($formData['ID_Regulacion'], $data);
 
         // Verificar el resultado de la actualización
