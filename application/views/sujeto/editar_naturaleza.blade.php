@@ -82,9 +82,9 @@ Registro Estatal de Regulaciones
                     <div class="card-header text-white">Naturaleza de la regulación</div>
                     <form id="formGnat" enctype="multipart/form-data">
                         <input type="hidden" id="idRegulacion" name="idRegulacion"
-                            value="{{ $regulaciones->ID_Regulacion }}">
-                        <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat }}">
-                        <div class="card-body d-flex flex-column justify-content-center">
+                        value="{{ $regulaciones->ID_Regulacion ?? '' }}">
+                        <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat ?? '' }}">
+                        <div class="card-body d-flex flex-column justify-content-center div-card-body">
                             <div class="row justify-content-center">
                                 <label for="radioGroup">¿La regulación está asociada a una actividad
                                     económica?</label>
@@ -95,97 +95,113 @@ Registro Estatal de Regulaciones
                                     <label for="no">No</label>
                                 </div>
                             </div>
+                            <br>
                             <div class="form-group" id="inputs">
-                                <!-- Generar 5 inputs -->
-                                <div class="form-group row justify-content-center">
-                                    <label for="SectorInput">Sector<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="SectorInput" name="SectorInput"
-                                        placeholder="Selecciona una opcion" required>
+                                <div class="row">
+                                    <!-- Generar 5 inputs -->
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="SectorInput">Sector<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SectorInput" name="SectorInput"
+                                                placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="sectorResults"></ul>
+                                        <table id="selectedSectorsTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Sector</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="SubsectorInput">Subsector<span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SubsectorInput"
+                                                name="SubsectorInput" placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="subsectorResults" class="list-group mt-2"></ul>
+                                        <table id="selectedSubsectorsTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Subsector</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
 
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="RamaInput">Rama<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="RamaInput" name="RamaInput"
+                                                placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="ramaResults" class="list-group mt-2"></ul>
+                                        <table id="selectedRamasTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Rama</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="SubramaInput"
+                                                name="SubramaInput" placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="subramaResults" class="list-group mt-2"></ul>
+                                        <table id="selectedSubramasTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Subrama</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
+                                                placeholder="Selecciona una opcion" required>
+                                        </div>
+                                        <ul id="claseResults" class="list-group mt-2"></ul>
+                                        <table id="selectedClasesTable" class="table table-striped mt-4"
+                                            style="display: none;">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Nombre Clase</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán aquí -->
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <ul id="sectorResults"></ul>
-                                <table id="selectedSectorsTable" class="table table-striped mt-4"
-                                    style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Sector</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
-                                <div class="row justify-content-center">
-                                    <label for="SubsectorInput">Subsector<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="SubsectorInput" name="SubsectorInput"
-                                        placeholder="Selecciona una opcion" required>
-                                </div>
-                                <ul id="subsectorResults" class="list-group mt-2"></ul>
-                                <table id="selectedSubsectorsTable" class="table table-striped mt-4"
-                                    style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Subsector</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
-                                <div class="row justify-content-center">
-                                    <label for="RamaInput">Rama<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="RamaInput" name="RamaInput"
-                                        placeholder="Selecciona una opcion" required>
-                                </div>
-                                <ul id="ramaResults" class="list-group mt-2"></ul>
-                                <table id="selectedRamasTable" class="table table-striped mt-4" style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Rama</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
-                                <div class="row justify-content-center">
-                                    <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
-                                        placeholder="Selecciona una opcion" required>
-                                </div>
-                                <ul id="subramaResults" class="list-group mt-2"></ul>
-                                <table id="selectedSubramasTable" class="table table-striped mt-4"
-                                    style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Subrama</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
-                                <div class="row justify-content-center">
-                                    <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
-                                        placeholder="Selecciona una opcion" required>
-                                </div>
-                                <ul id="claseResults" class="list-group mt-2"></ul>
-                                <table id="selectedClasesTable" class="table table-striped mt-4" style="display: none;">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Nombre Clase</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Las filas se agregarán aquí -->
-                                    </tbody>
-                                </table>
                             </div>
                             <div class="form-group">
                                 <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta regulación<span
@@ -722,7 +738,7 @@ Registro Estatal de Regulaciones
 
                 // Guardar los ID de los sectores en un array
                 idSectores = response.map(function (sector) {
-                    return sector.ID_Sector;
+                    return sector.ID_sector;
                 });
 
                 // Imprimir los ID de los sectores en la consola
@@ -1341,10 +1357,82 @@ Registro Estatal de Regulaciones
             });
 
             $('#selectedRegulacionesTable').on('click', '.delete-row', function () {
-                $(this).closest('tr').remove();
-                if ($('#selectedRegulacionesTable tbody tr').length === 0) {
-                    $('#selectedRegulacionesTable').hide();
-                }
+                // Mostrar ventana de confirmación
+                if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
+                    // Obtener el ID de la regulación de la fila
+                    let nameRegulacion = $(this).closest('tr').find('td').eq(0).text();
+                    let row = $(this).closest('tr'); // Guardar la fila para eliminarla después
+                    console.log('Nombre de la Regulación:', nameRegulacion);
+                        // Hacer una llamada AJAX para obtener el ID_Regulacion basado en nameRegulacion
+                        $.ajax({
+                            url: '<?= base_url('RegulacionController/get_id_regulacion') ?>',
+                            method: 'POST',
+                            data: {
+                                name_regulacion: nameRegulacion
+                            },
+                            success: function(response) {
+                                var data = JSON.parse(response);
+                                if (data.status === 'success') {
+                                    let idRegulacion = data.id_regulacion;
+                                    console.log('ID_Regulacion:', idRegulacion);
+
+                                    // Eliminar la fila de la tabla
+                                    $(this).closest('tr').remove();
+
+                                    // Eliminar la regulación manual del array
+                                    let rowIndex = $(this).closest('tr').index();
+                                    manualRegulaciones.splice(rowIndex, 1);
+
+                                    // Hacer una llamada AJAX para eliminar el registro en la base de datos
+                                    $.ajax({
+                                        url: '<?= base_url('RegulacionController/delete_derivada_reg') ?>',
+                                        method: 'POST',
+                                        data: {
+                                            id_regulacion: idRegulacion
+                                        },
+                                        success: function(response) {
+                                            var data = JSON.parse(response);
+                                            if (data.status === 'success') {
+                                                alert('Registro eliminado correctamente de la base de datos');
+                                            } else {
+                                                alert('Error al eliminar el registro de la base de datos');
+                                            }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            console.error('Error al eliminar el registro de la base de datos:', textStatus, errorThrown);
+                                            alert('Error al eliminar el registro de la base de datos');
+                                        }
+                                    });
+                                } else {
+                                     // Hacer una llamada AJAX para eliminar el registro en la tabla cat_regulacion_derivada_manual
+                                    $.ajax({
+                                        url: '<?= base_url('RegulacionController/delete_regulacion_derivada_manual') ?>',
+                                        method: 'POST',
+                                        data: {
+                                            name_regulacion: nameRegulacion
+                                        },
+                                        success: function(response) {
+                                            var data = JSON.parse(response);
+                                            if (data.status === 'success') {
+                                                console.log('Registro eliminado de cat_regulacion_derivada_manual');
+                                                // Eliminar la fila de la tabla
+                                                row.remove();
+                                            } else {
+                                                console.error('Error al eliminar el registro de cat_regulacion_derivada_manual');
+                                            }
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            console.error('Error al eliminar el registro de cat_regulacion_derivada_manual:', textStatus, errorThrown);
+                                        }
+                                    });
+                                }
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error('Error al obtener el ID de la regulación:', textStatus, errorThrown);
+                                alert('Error al obtener el ID de la regulación');
+                            }
+                        });
+                } 
             });
         });
 
@@ -1408,6 +1496,7 @@ Registro Estatal de Regulaciones
         $('#tramitesTable').on('click', '.delete-row', function () {
             var row = $(this).closest('tr');
             var idTram = row.find('td').eq(0).text();
+            console.log('ID_Tramites:', idTram);
 
             // Mostrar ventana de confirmación
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
@@ -1415,7 +1504,7 @@ Registro Estatal de Regulaciones
                 $.ajax({
                     url: '<?= base_url('RegulacionController/eliminarTramite') ?>',
                     type: 'POST',
-                    data: { ID_Tramites: idTram },
+                    data: { ID_Tram: idTram },
                     success: function (response) {
                         if (response.status === 'success') {
                             // Elimina la fila de la tabla
