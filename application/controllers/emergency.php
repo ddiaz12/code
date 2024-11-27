@@ -42,7 +42,7 @@ class emergency extends CI_Controller
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($iduser);
             $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_por_usuario($iduser);
-            $this->blade->render('emergencia/emergencia-inicio', $data);
+            $this->blade->render('menuSujeto/emergencia-inicio', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
             $this->blade->render('emergencia/emergencia-inicio', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
@@ -64,7 +64,7 @@ class emergency extends CI_Controller
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
-            $this->blade->render('emergencia/emergencia-caracter', $data);
+            $this->blade->render('menuSujeto/emergencia-caracter', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
             $this->blade->render('emergencia/emergencia-caracter', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {

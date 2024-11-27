@@ -26,7 +26,15 @@ class Ciudadania extends CI_Controller
         $numeroDeRegulaciones = $this->RegulacionModel->contarRegulaciones();
         // Obtener autoridades para cada regulación
         foreach ($regulaciones as $regulacion) {
-            $regulacion->autoridades = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($regulacion->ID_Regulacion);
+            $autoridades = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($regulacion->ID_Regulacion);
+            // Eliminar duplicados
+            $autoridadesUnicas = array_unique(array_map(function($autoridad) {
+                return $autoridad->Autoridad_Emiten;
+            }, $autoridades));
+            // Convertir de nuevo a objetos
+            $regulacion->autoridades = array_map(function($autoridad) {
+                return (object) ['Autoridad_Emiten' => $autoridad];
+            }, $autoridadesUnicas);
         }
         $data['regulaciones'] = $regulaciones;
         $data['numeroDeRegulaciones'] = $numeroDeRegulaciones;

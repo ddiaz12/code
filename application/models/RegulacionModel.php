@@ -687,6 +687,7 @@ class RegulacionModel extends CI_Model
     }
     public function obtenerAutoridadesPorRegulacion($idRegulacion)
     {
+        $this->db->distinct();
         $this->db->select('aplican_dep.nombre_sujeto as Autoridad_Aplican, emiten_dep.nombre_sujeto as Autoridad_Emiten');
         $this->db->from('de_regulacion_caracteristicas as caract');
         $this->db->join('rel_autoridades_aplican as aplican', 'caract.ID_caract = aplican.ID_caract');
