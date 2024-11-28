@@ -1006,7 +1006,17 @@ class RegulacionController extends CI_Controller
     {
         $id_regulacion = $this->input->post('idRegulacion');
         $idNaturaleza = $this->input->post('idNaturaleza');
-        $manualRegulaciones = json_decode($_POST['manualRegulaciones'], true);
+        if (!isset($idNaturaleza) || $idNaturaleza == null || $idNaturaleza == '' || $idNaturaleza == 'N/A' || !is_numeric($idNaturaleza)) {
+            $this->load->database();
+            $query = $this->db->query("SELECT MAX(ID_Nat) as maxID FROM de_naturaleza_regulacion");
+            $result = $query->row();
+            if ($result->maxID == null) {
+                $idNaturaleza = 1;
+            } else {
+                $idNaturaleza = $result->maxID+1;
+            }
+        }
+        $manualRegulaciones = isset($_POST['manualRegulaciones']) ? json_decode($_POST['manualRegulaciones'], true) : [];
 
 
         // Obtener el registro existente de la base de datos
@@ -1064,6 +1074,7 @@ class RegulacionController extends CI_Controller
             } else {
                 // Insertar un nuevo registro
                 $this->RegulacionModel->insert_naturaleza_regulacion($data);
+
             }
 
             // Guardar en la base de datos derivada_reg
