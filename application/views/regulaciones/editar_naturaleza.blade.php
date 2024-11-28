@@ -207,7 +207,7 @@ Registro Estatal de Regulaciones
                                 <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta regulación<span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
-                                    placeholder="Regulaciones Vinculadas" required>
+                                    placeholder="Regulaciones Vinculadas">
                             </div>
 
                             <div class="form-group form-check">
