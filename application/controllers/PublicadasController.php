@@ -170,7 +170,7 @@ class PublicadasController extends CI_Controller
 
         // Pasar los datos a la vista
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('sujeto/editar_publi_caract', $data);
+            $this->blade->render('publicadas/editar_publi_caract', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
             $this->blade->render('publicadas/editar_publi_caract', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
@@ -207,7 +207,7 @@ class PublicadasController extends CI_Controller
         $data['regulaciones'] = $this->RegulacionModel->get_regulaciones_by_id($id_regulacion);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
-            $this->blade->render('sujeto/editar_publi_naturaleza', $data);
+            $this->blade->render('publicadas/editar_publi_naturaleza', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
             $this->blade->render('publicadas/editar_publi_naturaleza', $data);
         } elseif ($this->ion_auth->in_group('consejeria')) {
