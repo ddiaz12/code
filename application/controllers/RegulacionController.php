@@ -1894,9 +1894,6 @@ class RegulacionController extends CI_Controller
     {
         $id_regulacion = $this->input->post('id_regulacion');
 
-        // Cargar el modelo
-        $this->load->model('RegulacionModel');
-
         // Obtener los ID_Sector de la tabla rel_nat_reg
         $sectores = $this->RegulacionModel->get_sectores_by_regulacion($id_regulacion);
 

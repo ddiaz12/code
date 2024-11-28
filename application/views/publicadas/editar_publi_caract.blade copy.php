@@ -643,7 +643,7 @@ Registro Estatal de Regulaciones
                                 <div class="d-flex justify-content-end mb-3">
                                     <a href="<?php echo base_url('PublicadasController'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
-                                    <button type="button" class="btn btn-success btn-guardar"
+                                    <button type="button" class="btn btn-guardar"
                                         id="botonGuardar">Guardar</button>
                                 </div>
                             </form>

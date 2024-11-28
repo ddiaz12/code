@@ -71,9 +71,9 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>
                             <!-- Botones de acción en vertical -->
-                            <button class="btn btn-gris btn-sm edit-row" title="Editar"
+                            <button class="btn btn-gris btn-sm edit-row" title="Ver"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-eye"></i>
                             </button>
                             <button class="btn btn-secondary btn-sm btn-devolver" title="Devolver"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
