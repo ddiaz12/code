@@ -47,7 +47,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
                                 <li class="iconos-regulacion active-view">
-                                    <a href="<?php echo base_url('RegulacionController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('PublicadasController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
@@ -56,7 +56,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('PublicadasController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-table-list fa-sm"></i>
                                         <label class="menu-regulacion" for="image_2">Materias Exentas</label>
@@ -64,7 +64,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('RegulacionController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('PublicadasController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
@@ -98,7 +98,7 @@ Registro Estatal de Regulaciones
                                     <div class="form-group">
                                         <label for="selectSujeto">Ámbito de aplicación<span
                                                 class="text-danger">*</span></label>
-                                        <select class="form-control" id="selectSujeto" name="sujeto" required>
+                                        <select class="form-control" id="selectSujeto" name="sujeto" required disabled>
                                             <!-- <option disabled selected>
                                                 <?php echo $caracteristicas['Ambito_Aplicacion']; ?>
                                             </option> -->
@@ -110,7 +110,7 @@ Registro Estatal de Regulaciones
                                     <div class="form-group">
                                         <label for="selectUnidad">Tipo de ordenamiento jurídico<span
                                                 class="text-danger">*</span></label>
-                                        <select class="form-control" id="selectUnidad" name="unidad" required>
+                                        <select class="form-control" id="selectUnidad" name="unidad" required disabled>
                                             <option
                                                 value="<?php echo isset($tipo_ordenamiento_guardado['ID_tOrdJur']) ? $tipo_ordenamiento_guardado['ID_tOrdJur'] : ''; ?>"
                                                 disabled selected>
@@ -129,26 +129,25 @@ Registro Estatal de Regulaciones
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Exp" name="fecha_expedicion"
                                         value="<?php echo isset($caracteristicas['Fecha_Exp']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Exp'])) : ''; ?>"
-                                        required>
+                                        required readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Publi">Fecha de publicación de la regulación<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Publi" name="fecha_publicacion"
                                         value="<?php echo isset($caracteristicas['Fecha_Publi']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Publi'])) : ''; ?>"
-                                        required>
+                                        required readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Vigor">Fecha de entrada en vigor de la regulación<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Vigor" name="fecha_vigor"
                                         value="<?php echo isset($caracteristicas['Fecha_Vigor']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Vigor'])) : ''; ?>"
-                                        required>
+                                        required readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Act">Fecha de última actualización de la regulación</label>
-                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required
-                                        readonly>
+                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required>
                                 </div>
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function () {
@@ -178,7 +177,7 @@ Registro Estatal de Regulaciones
                                         <label for="campoExtra">Vigencia de la regulación</label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                             value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
-                                            required disabled>
+                                            required disabled readonly>
                                     </div>
                                 </form>
                                 <div class="col-md-6">
@@ -189,7 +188,7 @@ Registro Estatal de Regulaciones
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputVialidad">Orden de gobierno que la emite:</label>
-                                            <select class="form-control" id="selectUnidad2" name="orden" required>
+                                            <select class="form-control" id="selectUnidad2" name="orden" required disabled>
                                                 <option disabled selected><?php echo $caracteristicas['Orden_Gob']; ?>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
                                                 <option value="Poder Legistativo">Poder Legistativo</option>
@@ -220,10 +219,6 @@ Registro Estatal de Regulaciones
                                                     <?php    echo $dependencia['ID_Dependencia']; ?>
                                                 </td>
                                                 <td><?php    echo $dependencia['nombre_sujeto']; ?></td>
-                                                <td class="text-end">
-                                                    <button class="btn btn-danger btn-sm delete-row">
-                                                        <i class="fas fa-trash-alt"></i></button>
-                                                </td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                             </tbody>
@@ -270,11 +265,6 @@ Registro Estatal de Regulaciones
                                                         <td class="hidden-column">
                                                             <?php            echo $dependenciaAp['ID_sujeto']; ?></td>
                                                         <td><?php            echo $dependenciaAp['nombre_sujeto']; ?></td>
-                                                        <td class="text-end">
-                                                            <button class="btn btn-danger btn-sm delete-row">
-                                                                <i class="fas fa-trash-alt"></i>
-                                                            </button>
-                                                        </td>
                                                     </tr>
                                                     <?php        else: ?>
                                                     <tr>
@@ -370,7 +360,7 @@ Registro Estatal de Regulaciones
                                                 // Función para obtener los índices y actualizar la tabla
                                                 function obtenerIndicesYActualizarTabla() {
                                                     $.ajax({
-                                                        url: '<?= base_url("RegulacionController/get_indices_by_caract_ajax") ?>',
+                                                        url: '<?= base_url("PublicadasController/get_indices_by_caract_ajax") ?>',
                                                         type: 'POST',
                                                         data: {
                                                             ID_caract: formData.ID_caract
@@ -455,7 +445,7 @@ Registro Estatal de Regulaciones
                                             )) {
                                                 // Buscar el valor de ID_Indice en la tabla rel_indice
                                                 $.ajax({
-                                                    url: '<?= base_url("RegulacionController/buscarIndiceEnRelIndice") ?>',
+                                                    url: '<?= base_url("PublicadasController/buscarIndiceEnRelIndice") ?>',
                                                     type: 'POST',
                                                     data: {
                                                         ID_Indice: ID_Indice
@@ -469,7 +459,7 @@ Registro Estatal de Regulaciones
                                                         // Si hay resultados, eliminar los registros en rel_indice
                                                         if (response.length > 0) {
                                                             $.ajax({
-                                                                url: '<?= base_url("RegulacionController/eliminarEnRelIndice") ?>',
+                                                                url: '<?= base_url("PublicadasController/eliminarEnRelIndice") ?>',
                                                                 type: 'POST',
                                                                 data: {
                                                                     ID_Indice: ID_Indice
@@ -504,7 +494,7 @@ Registro Estatal de Regulaciones
 
                                                                     // Enviar la solicitud AJAX para eliminar el registro de la base de datos
                                                                     $.ajax({
-                                                                        url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
+                                                                        url: '<?= base_url("PublicadasController/eliminarIndice") ?>',
                                                                         type: 'POST',
                                                                         data: {
                                                                             ID_caract: ID_caract,
@@ -576,7 +566,7 @@ Registro Estatal de Regulaciones
 
                                                             // Enviar la solicitud AJAX para eliminar el registro de la base de datos
                                                             $.ajax({
-                                                                url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
+                                                                url: '<?= base_url("PublicadasController/eliminarIndice") ?>',
                                                                 type: 'POST',
                                                                 data: {
                                                                     ID_caract: ID_caract,
@@ -642,8 +632,6 @@ Registro Estatal de Regulaciones
                                 <div class="header-container mb-0">
                                     <p id="matText" class="mb-0">Materias, Sectores y Sujetos Regulados<span
                                             class="text-danger">*</span></p>
-                                    <button type="button" id="botonMaterias" class="btn btn-tinto btn-materias"
-                                        data-toggle="modal" data-target="#matModal">Agregar</button>
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="matModal" tabindex="-1" role="dialog"
@@ -706,11 +694,6 @@ Registro Estatal de Regulaciones
                                             <td><?php        echo $mater['Materias']; ?></td>
                                             <td><?php        echo $mater['Sectores']; ?></td>
                                             <td><?php        echo $mater['SujetosRegulados']; ?></td>
-                                            <td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">
-                                                    <i class="fas fa-edit"></i></button><button
-                                                    class="btn btn-danger btn-sm delete-row"><i
-                                                        class="fas fa-trash-alt"></i></button></td>
-                                            <!-- Agrega más celdas según sea necesario -->
                                         </tr>
                                         <?php    endforeach; ?>
                                         <?php else: ?>
@@ -729,8 +712,6 @@ Registro Estatal de Regulaciones
                                         realización de inspecciones, verificaciones y visitas
                                         domiciliarias<span class="text-danger">*</span>
                                     </p>
-                                    <button type="button" id="botofundamentos" class="btn btn-tinto btn-fundamentos"
-                                        data-toggle="modal" data-target="#funModal">Agregar</button>
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="funModal" tabindex="-1" role="dialog"
@@ -791,11 +772,6 @@ Registro Estatal de Regulaciones
                                             <td><?php        echo $fundamento['Nombre']; ?></td>
                                             <td><?php        echo $fundamento['Articulo']; ?></td>
                                             <td><?php        echo $fundamento['Link']; ?></td>
-                                            <td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">
-                                                    <i class="fas fa-edit"></i></button><button
-                                                    class="btn btn-danger btn-sm delete-row"><i
-                                                        class="fas fa-trash-alt"></i></button></td>
-                                            <!-- Agrega más celdas según sea necesario -->
                                         </tr>
                                         <?php    endforeach; ?>
                                         <?php else: ?>
@@ -807,7 +783,7 @@ Registro Estatal de Regulaciones
                                 </table>
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
-                                    <a href="<?php echo base_url('RegulacionController'); ?>"
+                                    <a href="<?php echo base_url('PublicadasController'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
                                     <button type="button" class="btn btn-success btn-tinto"
                                         id="botonGuardar">Guardar</button>
@@ -905,7 +881,7 @@ Registro Estatal de Regulaciones
 
         // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
         $.ajax({
-            url: '<?= base_url('RegulacionController/verificarRegistros') ?>',
+            url: '<?= base_url('PublicadasController/verificarRegistros') ?>',
             type: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -935,8 +911,6 @@ Registro Estatal de Regulaciones
                 '<td>' + inputMat + '</td>' +
                 '<td>' + inputSec + '</td>' +
                 '<td>' + inputSuj + '</td>' +
-                '<td text-end><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>';
 
             // Agrega la nueva fila a la tabla
@@ -960,7 +934,7 @@ Registro Estatal de Regulaciones
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Realiza una solicitud AJAX para eliminar el registro de la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/eliminarRegistro') ?>',
+                    url: '<?= base_url('PublicadasController/eliminarRegistro') ?>',
                     type: 'POST',
                     data: { ID_MatSec: idMatSec },
                     success: function (response) {
@@ -993,7 +967,7 @@ Registro Estatal de Regulaciones
 
         // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
         $.ajax({
-            url: '<?= base_url('RegulacionController/verificarFundamentos') ?>',
+            url: '<?= base_url('PublicadasController/verificarFundamentos') ?>',
             type: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -1023,8 +997,6 @@ Registro Estatal de Regulaciones
                 '<td>' + inputNomReg + '</td>' +
                 '<td>' + inputArt + '</td>' +
                 '<td>' + inputLink + '</td>' +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>';
 
             // Agrega la nueva fila a la tabla
@@ -1047,7 +1019,7 @@ Registro Estatal de Regulaciones
             if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
                 // Realiza una solicitud AJAX para eliminar el registro de la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/eliminarFundamento') ?>',
+                    url: '<?= base_url('PublicadasController/eliminarFundamento') ?>',
                     type: 'POST',
                     data: { ID_Fun: idFun },
                     success: function (response) {
@@ -1085,7 +1057,7 @@ Registro Estatal de Regulaciones
             console.log('Query:', query); // Verifica que la consulta esté bien
             if (query.length > 0) {
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/search') ?>',
+                    url: '<?= base_url('PublicadasController/search') ?>',
                     method: 'GET',
                     data: {
                         query: query
@@ -1122,7 +1094,7 @@ Registro Estatal de Regulaciones
             console.log('Query:', query); // Verifica que la consulta esté bien
             if (query.length > 0) {
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/search') ?>',
+                    url: '<?= base_url('PublicadasController/search') ?>',
                     method: 'GET',
                     data: {
                         query: query
@@ -1189,8 +1161,6 @@ Registro Estatal de Regulaciones
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                         '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
-                        '<td class="text-end"><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
                     tableBody.append(row);
                 }
@@ -1207,8 +1177,6 @@ Registro Estatal de Regulaciones
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                         '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
-                        '<td class="text-end"><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
                     tableBody.append(row);
                 }
@@ -1240,7 +1208,7 @@ Registro Estatal de Regulaciones
 
                 // Enviar la solicitud AJAX para eliminar el registro de la base de datos
                 $.ajax({
-                    url: '<?= base_url("RegulacionController/eliminarEmiten") ?>',
+                    url: '<?= base_url("PublicadasController/eliminarEmiten") ?>',
                     type: 'POST',
                     data: {
                         ID_caract: ID_caract,
@@ -1302,7 +1270,7 @@ Registro Estatal de Regulaciones
 
                 // Enviar la solicitud AJAX para eliminar el registro de la base de datos
                 $.ajax({
-                    url: '<?= base_url("RegulacionController/eliminarAplican") ?>',
+                    url: '<?= base_url("PublicadasController/eliminarAplican") ?>',
                     type: 'POST',
                     data: {
                         ID_caract: ID_caract,
@@ -1366,13 +1334,14 @@ Registro Estatal de Regulaciones
                 Fecha_Vigor: $('#Fecha_Vigor').val(),
                 Fecha_Act: $('#Fecha_Act').val(),
                 Vigencia: $('#campoExtra').val(),
+                Act_Reforma: $('#Act_Reforma').val(),
                 Orden_Gob: $('#selectUnidad2').val()
             };
             console.log('Datos del formulario:', formData);
 
             // Enviar la solicitud AJAX para modificar la regulación
             $.ajax({
-                url: '<?= base_url("RegulacionController/modificarRegulacion") ?>',
+                url: '<?= base_url("PublicadasController/modificarRegulacion") ?>',
                 type: 'POST',
                 data: formData,
                 success: function (response) {
@@ -1380,7 +1349,7 @@ Registro Estatal de Regulaciones
                     if (result.status === 'success') {
                         // Enviar la solicitud AJAX para modificar las características
                         $.ajax({
-                            url: '<?= base_url("RegulacionController/modificarCaracteristicas") ?>',
+                            url: '<?= base_url("PublicadasController/modificarCaracteristicas") ?>',
                             type: 'POST',
                             data: formData,
                             success: function (response) {
@@ -1395,7 +1364,7 @@ Registro Estatal de Regulaciones
                                     });
 
                                     $.ajax({
-                                        url: '<?= base_url("RegulacionController/verificarRelAutoridadesEmiten") ?>',
+                                        url: '<?= base_url("PublicadasController/verificarRelAutoridadesEmiten") ?>',
                                         type: 'POST',
                                         data: {
                                             ID_caract: formData.ID_caract
@@ -1434,7 +1403,7 @@ Registro Estatal de Regulaciones
                                                                 .ID_caract
                                                         };
                                                         $.ajax({
-                                                            url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>',
+                                                            url: '<?= base_url("PublicadasController/insertarRelAutoridadesEmiten") ?>',
                                                             type: 'POST',
                                                             data: relDataEmiten,
                                                             success: function (
@@ -1499,7 +1468,7 @@ Registro Estatal de Regulaciones
                                                             );
                                                     });
                                                 $.ajax({
-                                                    url: '<?= base_url("RegulacionController/obtenerExistentesPorCaract") ?>', // Cambia esto a la ruta correcta de tu controlador
+                                                    url: '<?= base_url("PublicadasController/obtenerExistentesPorCaract") ?>', // Cambia esto a la ruta correcta de tu controlador
                                                     type: 'POST',
                                                     data: {
                                                         ID_caract: formData
@@ -1565,7 +1534,7 @@ Registro Estatal de Regulaciones
                                                                                         .ID_caract
                                                                                 ); // Verificar los datos antes de enviarlos
                                                                             $.ajax({
-                                                                                url: '<?= base_url("RegulacionController/insertarRelAutoridadesEmiten") ?>', // Cambia esto a la ruta correcta de tu controlador
+                                                                                url: '<?= base_url("PublicadasController/insertarRelAutoridadesEmiten") ?>', // Cambia esto a la ruta correcta de tu controlador
                                                                                 type: 'POST',
                                                                                 data: {
                                                                                     ID_Emiten: id,
@@ -1644,7 +1613,7 @@ Registro Estatal de Regulaciones
 
                                     // Repetir el mismo proceso para insertarRelAutoridadesAplican
                                     $.ajax({
-                                        url: '<?= base_url("RegulacionController/verificarRelAutoridadesAplican") ?>',
+                                        url: '<?= base_url("PublicadasController/verificarRelAutoridadesAplican") ?>',
                                         type: 'POST',
                                         data: {
                                             ID_caract: formData.ID_caract
@@ -1683,7 +1652,7 @@ Registro Estatal de Regulaciones
                                                                 .ID_caract
                                                         };
                                                         $.ajax({
-                                                            url: '<?= base_url("RegulacionController/insertarRelAutoridadesAplican") ?>',
+                                                            url: '<?= base_url("PublicadasController/insertarRelAutoridadesAplican") ?>',
                                                             type: 'POST',
                                                             data: relDataAplican,
                                                             success: function (
@@ -1747,7 +1716,7 @@ Registro Estatal de Regulaciones
                                                             );
                                                     });
                                                 $.ajax({
-                                                    url: '<?= base_url("RegulacionController/obtenerExistentesPorCaractAplican") ?>', // Cambia esto a la ruta correcta de tu controlador
+                                                    url: '<?= base_url("PublicadasController/obtenerExistentesPorCaractAplican") ?>', // Cambia esto a la ruta correcta de tu controlador
                                                     type: 'POST',
                                                     data: {
                                                         ID_caract: formData
@@ -1813,7 +1782,7 @@ Registro Estatal de Regulaciones
                                                                                         .ID_caract
                                                                                 ); // Verificar los datos antes de enviarlos
                                                                             $.ajax({
-                                                                                url: '<?= base_url("RegulacionController/insertarRelAutoridadesAplican") ?>', // Cambia esto a la ruta correcta de tu controlador
+                                                                                url: '<?= base_url("PublicadasController/insertarRelAutoridadesAplican") ?>', // Cambia esto a la ruta correcta de tu controlador
                                                                                 type: 'POST',
                                                                                 data: {
                                                                                     ID_Aplican: id,
@@ -1893,7 +1862,7 @@ Registro Estatal de Regulaciones
                                     var registrosExistentes3 = []; // Array para almacenar los registros existentes
                                     // Realiza una solicitud AJAX para obtener los registros existentes en la base de datos
                                     $.ajax({
-                                        url: '<?php echo base_url('RegulacionController/verificarRegistros2'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                        url: '<?php echo base_url('PublicadasController/verificarRegistros2'); ?>', // Cambia esta URL a la ruta de tu controlador
                                         type: 'GET',
                                         data: { ID_caract: formData.ID_caract }, // Asegúrate de que caracteristicasData esté definido
                                         dataType: 'json',
@@ -1926,7 +1895,7 @@ Registro Estatal de Regulaciones
                                             console.log('ID_caract: a insertar', formData.ID_caract);
 
                                             $.ajax({
-                                                url: '<?php echo base_url('RegulacionController/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                                url: '<?php echo base_url('PublicadasController/guardarRegistros'); ?>', // Cambia esta URL a la ruta de tu controlador
                                                 type: 'POST',
                                                 data: {
                                                     registros: registros,
@@ -1974,7 +1943,7 @@ Registro Estatal de Regulaciones
 
                                     var registrosExistentes2 = []; // Array para almacenar los registros existentes
                                     $.ajax({
-                                        url: '<?php echo base_url('RegulacionController/verificarFundamentos2'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                        url: '<?php echo base_url('PublicadasController/verificarFundamentos2'); ?>', // Cambia esta URL a la ruta de tu controlador
                                         type: 'GET',
                                         data: { ID_caract: formData.ID_caract }, // Asegúrate de que caracteristicasData esté definido
                                         dataType: 'json',
@@ -2004,7 +1973,7 @@ Registro Estatal de Regulaciones
                                                 }
                                             });
                                             $.ajax({
-                                                url: '<?php echo base_url('RegulacionController/InsertarFundamentos'); ?>', // Cambia esta URL a la ruta de tu controlador
+                                                url: '<?php echo base_url('PublicadasController/InsertarFundamentos'); ?>', // Cambia esta URL a la ruta de tu controlador
                                                 type: 'POST',
                                                 data: {
                                                     fundamentos: fundamentos,
@@ -2024,7 +1993,7 @@ Registro Estatal de Regulaciones
                                     });
 
                                     $.ajax({
-                                        url: '<?= base_url("RegulacionController/verificarRegistrosEnDeIndice") ?>',
+                                        url: '<?= base_url("PublicadasController/verificarRegistrosEnDeIndice") ?>',
                                         type: 'POST',
                                         data: {
                                             ID_caract: formData.ID_caract
@@ -2095,7 +2064,7 @@ Registro Estatal de Regulaciones
 
                                                 // Insertar los datos en la base de datos
                                                 $.ajax({
-                                                    url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
+                                                    url: '<?php echo base_url('PublicadasController/insertarDatosTabla'); ?>',
                                                     type: 'POST',
                                                     data: {
                                                         datosTabla: datosTabla
@@ -2127,7 +2096,7 @@ Registro Estatal de Regulaciones
 
                                                 // Obtener el nuevo ID_Jerarquia
                                                 $.ajax({
-                                                    url: '<?= base_url("RegulacionController/obtenerNuevoIdJerarquia") ?>',
+                                                    url: '<?= base_url("PublicadasController/obtenerNuevoIdJerarquia") ?>',
                                                     type: 'GET',
                                                     success: function (
                                                         response
@@ -2227,7 +2196,7 @@ Registro Estatal de Regulaciones
 
                                                             // Insertar los datos en la base de datos
                                                             $.ajax({
-                                                                url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
+                                                                url: '<?php echo base_url('PublicadasController/insertarRelIndice'); ?>',
                                                                 type: 'POST',
                                                                 data: {
                                                                     relIndiceData: relIndiceData
@@ -2255,7 +2224,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("PublicadasController/edit_mat/"); ?>' +
                                                                             idRegulacion;
                                                                     } else {
                                                                         // alert
@@ -2269,7 +2238,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("PublicadasController/edit_mat/"); ?>' +
                                                                             idRegulacion;
                                                                     }
                                                                 }
@@ -2353,7 +2322,7 @@ Registro Estatal de Regulaciones
 
                                                 // Insertar los datos en la base de datos
                                                 $.ajax({
-                                                    url: '<?php echo base_url('RegulacionController/insertarDatosTabla'); ?>',
+                                                    url: '<?php echo base_url('PublicadasController/insertarDatosTabla'); ?>',
                                                     type: 'POST',
                                                     data: {
                                                         datosTabla: datosTabla
@@ -2385,7 +2354,7 @@ Registro Estatal de Regulaciones
 
                                                 // Obtener el nuevo ID_Jerarquia
                                                 $.ajax({
-                                                    url: '<?= base_url("RegulacionController/obtenerNuevoIdJerarquia") ?>',
+                                                    url: '<?= base_url("PublicadasController/obtenerNuevoIdJerarquia") ?>',
                                                     type: 'GET',
                                                     success: function (
                                                         response
@@ -2479,7 +2448,7 @@ Registro Estatal de Regulaciones
 
                                                             // Insertar los datos en la base de datos
                                                             $.ajax({
-                                                                url: '<?php echo base_url('RegulacionController/insertarRelIndice'); ?>',
+                                                                url: '<?php echo base_url('PublicadasController/insertarRelIndice'); ?>',
                                                                 type: 'POST',
                                                                 data: {
                                                                     relIndiceData: relIndiceData
@@ -2507,7 +2476,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("PublicadasController/edit_mat/"); ?>' +
                                                                             idRegulacion;
                                                                     } else {
                                                                         // alert
@@ -2521,7 +2490,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("RegulacionController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("PublicadasController/edit_mat/"); ?>' +
                                                                             idRegulacion;
                                                                     }
                                                                 }
@@ -2617,7 +2586,7 @@ Registro Estatal de Regulaciones
                 return;
             } else {
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                    url: '<?= base_url('PublicadasController/getMaxValues') ?>',
                     method: 'GET',
                     success: function (data) {
                         var maxValues = JSON.parse(data);
@@ -2669,7 +2638,7 @@ Registro Estatal de Regulaciones
 
         // Obtener el valor máximo de ID_Jerarquia al cargar la página
         $.ajax({
-            url: '<?php echo base_url('RegulacionController/obtenerMaxIDJerarquia'); ?>',
+            url: '<?php echo base_url('PublicadasController/obtenerMaxIDJerarquia'); ?>',
             type: 'GET',
             success: function (response) {
                 currentIDJerarquia = parseInt(response);
@@ -2728,7 +2697,7 @@ Registro Estatal de Regulaciones
                 $('#selectIndicePadre').val(other);
                 if (other === 'null' || other === '' || other === 'Seleccione un índice padre') {
                     $.ajax({
-                        url: '<?= base_url('RegulacionController/get_id_padre') ?>',
+                        url: '<?= base_url('PublicadasController/get_id_padre') ?>',
                         method: 'POST',
                         data: { texto: texto },
                         success: function (response) {
@@ -2773,7 +2742,7 @@ Registro Estatal de Regulaciones
             if (isEditing) {
                 // Actualizar los datos en la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/updateIndice') ?>',
+                    url: '<?= base_url('PublicadasController/updateIndice') ?>',
                     method: 'POST',
                     data: {
                         id: editingRow.find('.hidden-column').first().text(),
@@ -2813,7 +2782,7 @@ Registro Estatal de Regulaciones
                     return;
                 } else {
                     $.ajax({
-                        url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                        url: '<?= base_url('PublicadasController/getMaxValues') ?>',
                         method: 'GET',
                         success: function (data) {
                             var maxValues = JSON.parse(data);
@@ -2912,7 +2881,7 @@ Registro Estatal de Regulaciones
 
             if (isEditing) {
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/updateMatSecSuj') ?>',
+                    url: '<?= base_url('PublicadasController/updateMatSecSuj') ?>',
                     method: 'POST',
                     data: {
                         id: editingRow.find('.hidden-column').first().text(),
@@ -2943,7 +2912,7 @@ Registro Estatal de Regulaciones
 
                 // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/verificarRegistros') ?>',
+                    url: '<?= base_url('PublicadasController/verificarRegistros') ?>',
                     type: 'GET',
                     dataType: 'json',
                     success: function (response) {
@@ -2991,9 +2960,6 @@ Registro Estatal de Regulaciones
                         '<td>' + inputMat + '</td>' +
                         '<td>' + inputSec + '</td>' +
                         '<td>' + inputSuj + '</td>' +
-                        '<td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">' +
-                        '<i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
 
                     // Agrega la nueva fila a la tabla
@@ -3053,7 +3019,7 @@ Registro Estatal de Regulaciones
             }
             if (isEditing) {
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/updateNomRegArtLink') ?>',
+                    url: '<?= base_url('PublicadasController/updateNomRegArtLink') ?>',
                     method: 'POST',
                     data: {
                         id: editingRow.find('.hidden-column').first().text(),
@@ -3082,7 +3048,7 @@ Registro Estatal de Regulaciones
                 var idCounter2 = 1; // Inicializa el contador de ID_MatSec
                 // Realiza una solicitud AJAX para verificar si existen registros en la base de datos
                 $.ajax({
-                    url: '<?= base_url('RegulacionController/verificarFundamentos') ?>',
+                    url: '<?= base_url('PublicadasController/verificarFundamentos') ?>',
                     type: 'GET',
                     dataType: 'json',
                     success: function (response) {
@@ -3130,9 +3096,6 @@ Registro Estatal de Regulaciones
                         '<td>' + inputNomReg + '</td>' +
                         '<td>' + inputArt + '</td>' +
                         '<td>' + inputLink + '</td>' +
-                        '<td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">' +
-                        '<i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
 
                     // Agrega la nueva fila a la tabla
