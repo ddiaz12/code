@@ -257,9 +257,6 @@ class RegulacionController extends CI_Controller
             $data['regulaciones_combinadas'] = $regulaciones_combinadas;
         }
         
-
-        
-
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/editar_naturaleza', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {

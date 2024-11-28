@@ -182,27 +182,26 @@ Registro Estatal de Regulaciones
                                         <div id="searchResults" class="list-group"></div>
                                     </div>
                                 </div>
-                                <table id="emitenTable" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID_Dependencia</th>
-                                            <th>Tipo_Dependencia</th>
-                                            <th>Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($dependencias as $dependencia): ?>
+                                <div id="emTContainer">
+                                        <table id="emitenTable" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo dependencia</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($dependencias as $dependencia): ?>
 
-                                        <td><?php    echo $dependencia['ID_Dependencia']; ?></td>
-                                        <td><?php    echo $dependencia['Tipo_Dependencia']; ?></td>
-                                        <td>
-                                            <button class="btn btn-danger btn-sm delete-row">
-                                                <i class="fas fa-trash-alt"></i></button>
-                                        </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
+                                                <td class="hidden-column">
+                                                    <?php    echo $dependencia['ID_Dependencia']; ?>
+                                                </td>
+                                                <td><?php    echo $dependencia['nombre_sujeto']; ?></td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                </div>
 
                                 <form>
                                     <div class="d-flex justify-content-align-items mb-3 ">
@@ -248,25 +247,18 @@ Registro Estatal de Regulaciones
                                             <table id="aplicanTable" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID_Dependencia</th>
-                                                        <th>Tipo_Dependencia</th>
-                                                        <th>Acción</th>
+                                                        <th>Tipo dependencia</th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php if (is_array($dependenciasAp)): ?>
                                                     <?php    foreach ($dependenciasAp as $dependenciaAp): ?>
-                                                    <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_Dependencia']) && isset($dependenciaAp['Tipo_Dependencia'])): ?>
+                                                    <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_sujeto']) && isset($dependenciaAp['nombre_sujeto'])): ?>
                                                     <tr>
-                                                        <td><?php            echo $dependenciaAp['ID_Dependencia']; ?>
-                                                        </td>
-                                                        <td><?php            echo $dependenciaAp['Tipo_Dependencia']; ?>
-                                                        </td>
-                                                        <td>
-                                                            <button class="btn btn-danger btn-sm delete-row">
-                                                                <i class="fas fa-trash-alt"></i>
-                                                            </button>
-                                                        </td>
+                                                        <td class="hidden-column">
+                                                            <?php            echo $dependenciaAp['ID_sujeto']; ?></td>
+                                                        <td><?php            echo $dependenciaAp['nombre_sujeto']; ?></td>
                                                     </tr>
                                                     <?php        else: ?>
                                                     <tr>
