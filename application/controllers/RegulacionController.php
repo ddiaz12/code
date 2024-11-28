@@ -1086,7 +1086,7 @@ class RegulacionController extends CI_Controller
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
                                 'ID_Nat' => $idNaturaleza,
-                                'ID_Regulacion' => $id_regulacion
+                                'ID_Regulacion' => $regulacionItem
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
                         }
@@ -1186,7 +1186,7 @@ class RegulacionController extends CI_Controller
                         foreach ($regulacion as $regulacionItem) {
                             $data_derivada = array(
                                 'ID_Nat' => $idNaturaleza,
-                                'ID_Regulacion' => $id_regulacion
+                                'ID_Regulacion' => $regulacionItem
                             );
                             $this->RegulacionModel->insert_derivada_reg($data_derivada);
                         }

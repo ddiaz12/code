@@ -278,6 +278,7 @@ class RegulacionModel extends CI_Model
     {
         $this->db->insert('derivada_reg', $data);
     }
+    
 
     public function insertarRegulacionDerivada($data)
     {
