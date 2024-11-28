@@ -163,7 +163,7 @@ class RegulacionController extends CI_Controller
         // obtener los datos de la tabla de mat_sec_suj
         $data['mat_sec'] = $this->RegulacionModel->get_mat_sec_by_id_caract($data['caracteristicas']['ID_caract']);
 
-        // obtener los datos de la tabla de mat_sec_suj
+        // obtener los datos de la tabla de fundamento
         $data['fundamentos'] = $this->RegulacionModel->get_fun_by_id_caract($data['caracteristicas']['ID_caract']);
 
         // Pasar los datos a la vista

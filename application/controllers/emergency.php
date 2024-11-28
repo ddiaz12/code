@@ -123,6 +123,12 @@ class emergency extends CI_Controller
         // Obtener los indices basados en los ID_Indice
         $data['relindice'] = $this->RegulacionModel->get_rel_by_indice($indice_ids);
 
+        // obtener los datos de la tabla de mat_sec_suj
+        $data['mat_sec'] = $this->RegulacionModel->get_mat_sec_by_id_caract($data['caracteristicas']['ID_caract']);
+
+        // obtener los datos de la tabla de fundamento
+        $data['fundamentos'] = $this->RegulacionModel->get_fun_by_id_caract($data['caracteristicas']['ID_caract']);
+
         // Pasar los datos a la vista
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('emergencia/editar_caracteristicas_sujeto', $data);
@@ -2078,7 +2084,6 @@ class emergency extends CI_Controller
         if (!empty($registros) && !empty($ID_caract)) {
             foreach ($registros as $registro) {
                 $data = array(
-                    'ID_MatSec' => $registro['ID_MatSec'],
                     'ID_caract' => $ID_caract,
                     'Materias' => $registro['Materias'],
                     'Sectores' => $registro['Sectores'],
@@ -2116,7 +2121,6 @@ class emergency extends CI_Controller
         if (!empty($fundamentos) && !empty($ID_caract)) {
             foreach ($fundamentos as $fundamento) {
                 $data = array(
-                    'ID_Fun' => $fundamento['ID_Fun'],
                     'ID_caract' => $ID_caract,
                     'Nombre' => $fundamento['Nombre'],
                     'Articulo' => $fundamento['Articulo'],
