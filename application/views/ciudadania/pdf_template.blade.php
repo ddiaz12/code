@@ -125,18 +125,18 @@
     <div class="content">
         <?php if (!empty($indice)): ?>
         <ul>
-            <?php foreach ($indice as $padre): ?>
+            <?php    foreach ($indice as $padre): ?>
             <li>
-                <?php echo $padre['Orden'] . '. ' . $padre['Texto']; ?>
-                <?php if (!empty($padre['Hijos'])): ?>
+                <?php        echo $padre['Orden'] . '. ' . $padre['Texto']; ?>
+                <?php        if (!empty($padre['Hijos'])): ?>
                 <ul>
-                    <?php foreach ($padre['Hijos'] as $hijo): ?>
-                    <li><?php echo $hijo['Orden'] . '. ' . $hijo['Texto']; ?></li>
-                    <?php endforeach; ?>
+                    <?php            foreach ($padre['Hijos'] as $hijo): ?>
+                    <li><?php                echo $hijo['Orden'] . '. ' . $hijo['Texto']; ?></li>
+                    <?php            endforeach; ?>
                 </ul>
-                <?php endif; ?>
+                <?php        endif; ?>
             </li>
-            <?php endforeach; ?>
+            <?php    endforeach; ?>
         </ul>
         <?php else: ?>
         <p>No hay información disponible sobre el Índice.</p>
@@ -232,20 +232,6 @@
         <p>No existen fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas domiciliarias
             relacionados a esta regulación</p>
         <?php endif; ?>
-    </div>
-
-    <div class="subheader">
-        <h3>Inspecciones Relacionadas</h3>
-    </div>
-    <div class="content">
-        <p>No existen inspecciones relacionadas a esta regulación</p>
-    </div>
-
-    <div class="subheader">
-        <h3>Inspectores Relacionados</h3>
-    </div>
-    <div class="content">
-        <p>No existen inspectores relacionados a esta regulación</p>
     </div>
 </body>
 
