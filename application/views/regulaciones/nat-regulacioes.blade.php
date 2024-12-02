@@ -242,7 +242,7 @@ Registro Estatal de Regulaciones
                                 <p id="tramitesText" class="mb-0">Tramites y servicios<span class="text-danger">*</span>
                                 </p>
                                 <button type="button" id="botonTramites"
-                                    class="btn btn-tinto btn-tramites">Tramites</button>
+                                    class="btn btn-tinto btn-tramites">Agregar</button>
                             </div>
                             <table id="tramitesTable" class="table table-spacing">
                                 <thead>
@@ -263,7 +263,7 @@ Registro Estatal de Regulaciones
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="myModalLabel">Trámites y servicios
+                                            <h5 class="modal-title" id="myModalLabel">Trámites y Servicios
                                             </h5>
                                         </div>
                                         <div class="modal-body">
@@ -274,7 +274,7 @@ Registro Estatal de Regulaciones
                                                         placeholder="Ingrese el Nombre" name="NombreTram">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="inputDir">Direccion</label>
+                                                    <label for="inputDir">Direccion web</label>
                                                     <input type="text" class="form-control" id="inputDir"
                                                         placeholder="http://" name="NombreDir">
                                                 </div>
@@ -291,12 +291,14 @@ Registro Estatal de Regulaciones
                             </div>
                             <div id="fileInput" class="form-group">
                                 <p><label for="file">
-                                        <h7>Subir Documento</h7>
+                                        <h7>Subir documento</h7>
                                     </label></p>
-                                <input type="file" class="form-control-file" id="file" name="userfile">
+                                <label>
+                                    <input type="file" id="file" name="userfile">
+                                </label>
                             </div>
                             <div class="d-flex justify-content-end mb-3">
-                                <a href="<?php echo base_url('oficinas/oficina'); ?>"
+                                <a href="<?php echo base_url('RegulacionController'); ?>"
                                     class="btn btn-secondary me-2">Cancelar</a>
                                 <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                             </div>

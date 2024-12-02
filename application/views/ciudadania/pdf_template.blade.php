@@ -8,11 +8,10 @@
 </head>
 
 <body>
+    <img src="<?php echo base_url('assets/img/0.png'); ?>" alt="Logo" width="120" height="65" class="logo-centrado">
     <div class="header">
-        <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" alt="Logo" height="50">
         <h1>Decreto que crea el Organismo Público Descentralizado de la Administración Pública Estatal denominado
             Secretaría de Desarrollo Económico (SEDECO)</h1>
-
     </div>
     <?php 
         date_default_timezone_set('America/Mexico_City'); 
@@ -213,8 +212,8 @@
     </div>
 
     <div class="subheader">
-        <h3>Identificación de fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas
-            domiciliarias</h3>
+        <h3>Identificación de fundamentos jurídicos para la realización de Inspecciones, Verificaciones y Visitas
+            Domiciliarias (REVID)</h3>
     </div>
     <div class="content">
         <?php if (!empty($fundamentos)): ?>
@@ -223,7 +222,7 @@
             <li>
                 <strong>Nombre:</strong> <?php        echo $fundamento->Nombre; ?><br>
                 <strong>Artículo:</strong> <?php        echo $fundamento->Articulo; ?><br>
-                <strong>Link:</strong> <a href="<?php        echo $fundamento->Link; ?>"
+                <strong>Direccion web:</strong> <a href="<?php        echo $fundamento->Link; ?>"
                     target="_blank"><?php        echo $fundamento->Link; ?></a>
             </li>
             <?php    endforeach; ?>
