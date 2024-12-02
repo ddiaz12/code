@@ -328,8 +328,8 @@ Registro Estatal de Regulaciones
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                 onclick="closeModal()">Cerrar</button>
-                                            <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
-                                                cambios</button>
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto"  onclick="closeModal()">
+                                                Guardar cambios</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1377,11 +1377,9 @@ Registro Estatal de Regulaciones
                                     console.log('ID_Regulacion:', idRegulacion);
 
                                     // Eliminar la fila de la tabla
-                                    $(this).closest('tr').remove();
+                                    row.remove();
 
-                                    // Eliminar la regulación manual del array
-                                    let rowIndex = $(this).closest('tr').index();
-                                    manualRegulaciones.splice(rowIndex, 1);
+                                    
 
                                     // Hacer una llamada AJAX para eliminar el registro en la base de datos
                                     $.ajax({

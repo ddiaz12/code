@@ -923,6 +923,16 @@ class emergency extends CI_Controller
     {
         $id_regulacion = $this->input->post('idRegulacion');
         $idNaturaleza = $this->input->post('idNaturaleza');
+        if (!isset($idNaturaleza) || $idNaturaleza == null || $idNaturaleza == '' || $idNaturaleza == 'N/A' || !is_numeric($idNaturaleza)) {
+            $this->load->database();
+            $query = $this->db->query("SELECT MAX(ID_Nat) as maxID FROM de_naturaleza_regulacion");
+            $result = $query->row();
+            if ($result->maxID == null) {
+                $idNaturaleza = 1;
+            } else {
+                $idNaturaleza = $result->maxID+1;
+            }
+        }
 
         // Obtener el registro existente de la base de datos
         $existing_record = $this->RegulacionModel->get_naturaleza_regulacion($idNaturaleza);
