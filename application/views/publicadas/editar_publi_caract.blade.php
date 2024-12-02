@@ -224,11 +224,11 @@ Registro Estatal de Regulaciones
                                         <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
                                         <div class="d-flex justify-content-start">
                                             <label class="me-2">
-                                                <input type="radio" name="opcion" id="apsi" onclick="mostrarCampo2()"
+                                                <input type="radio" name="opcion" id="apsi" 
                                                     checked> Sí
                                             </label>
                                             <label>
-                                                <input type="radio" name="opcion" id="apno" onclick="mostrarCampo2()">
+                                                <input type="radio" name="opcion" id="apno" >
                                                 No
                                             </label>
                                         </div>
@@ -665,7 +665,7 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarMat" class="btn btn-tinto">Guardar
+                                                <button type="button" id="guardarMat" class="btn btn-tinto" onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -743,7 +743,7 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarFun" class="btn btn-tinto">Guardar
+                                                <button type="button" id="guardarFun" class="btn btn-tinto" onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -827,36 +827,7 @@ Registro Estatal de Regulaciones
         }
     }
 </script>
-<script>
-    function mostrarCampo2() {
-        var si = document.getElementById('apsi');
-        var no = document.getElementById('apno');
-        var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
-        var apTContainer = document.getElementById('apTContainer');
-        var aplicanTable = document.getElementById('aplicanTable');
 
-        // Verificar si la tabla no está vacía
-        if (aplicanTable && aplicanTable.rows.length > 1) { // Asumiendo que la primera fila es el encabezado
-            no.checked = true;
-        }
-
-        if (no.checked) {
-            autoridadesAplicanContainer.style.display = 'block';
-            apTContainer.style.display = 'block';
-        } else if (si.checked) {
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        } else {
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        }
-    }
-
-    // Inicializar la visibilidad de los campos al cargar la página
-    document.addEventListener('DOMContentLoaded', function () {
-        mostrarCampo2();
-    });
-</script>
 <script>
     $(document).ready(function () {
         $('.btn-materias').click(function () {
@@ -1122,7 +1093,8 @@ Registro Estatal de Regulaciones
         });
 
         // Handle click on search result for AutoridadesEmiten
-        $(document).on('click', '#searchResults .list-group-item', function () {
+        $(document).on('click', '#searchResults .list-group-item', function (event) {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
             var id = $(this).data('id');
             var text = $(this).text();
             emitenArray.push({
@@ -1135,7 +1107,8 @@ Registro Estatal de Regulaciones
         });
 
         // Handle click on search result for AutoridadesAplican
-        $(document).on('click', '#searchResults2 .list-group-item', function () {
+        $(document).on('click', '#searchResults2 .list-group-item', function (event) {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
             var id = $(this).data('id');
             var text = $(this).text();
             aplicanArray.push({

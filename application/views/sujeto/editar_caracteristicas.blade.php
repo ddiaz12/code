@@ -174,7 +174,7 @@ Registro Estatal de Regulaciones
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6" id="otroCampo"
+                                    <div class="col-md-6 hidden-column" id="otroCampo"
                                         style="display: <?php echo ($regulacion['Vigencia'] != '0000-00-00'); ?>;">
                                         <label for="campoExtra">Vigencia de la regulación</label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
@@ -233,11 +233,11 @@ Registro Estatal de Regulaciones
                                             <div class="d-flex justify-content-start">
                                                 <label class="me-2">
                                                     <input type="radio" name="opcion" id="apsi"
-                                                        onclick="mostrarCampo2()" checked> Sí
+                                                         checked> Sí
                                                 </label>
                                                 <label>
                                                     <input type="radio" name="opcion" id="apno"
-                                                        onclick="mostrarCampo2()"> No
+                                                        > No
                                                 </label>
                                             </div>
                                         </div>
@@ -678,7 +678,7 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarMat" class="btn btn-tinto">Guardar
+                                                <button type="button" id="guardarMat" class="btn btn-tinto" onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -763,7 +763,7 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarFun" class="btn btn-tinto">Guardar
+                                                <button type="button" id="guardarFun" class="btn btn-tinto" onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -844,44 +844,15 @@ Registro Estatal de Regulaciones
         var campoExtra = document.getElementById("campoExtra");
 
         if (siSeleccionado) {
-            otroCampo.disabled = false; // Habilitar el campo
-            campoExtra.disabled = false; // Habilitar el campo de fecha
+            otroCampo.style.display = "block"; // Mostrar el campo
+            campoExtra.style.display = "block"; // Mostrar el campo de fecha
         } else {
-            otroCampo.disabled = true; // Bloquear el campo
-            campoExtra.disabled = true; // Bloquear el campo de fecha
+            otroCampo.style.display = "none"; // Ocultar el campo
+            campoExtra.style.display = "none"; // Ocultar el campo de fecha
         }
     }
 </script>
-<script>
-    function mostrarCampo2() {
-        var si = document.getElementById('apsi');
-        var no = document.getElementById('apno');
-        var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
-        var apTContainer = document.getElementById('apTContainer');
-        var aplicanTable = document.getElementById('aplicanTable');
 
-        // Verificar si la tabla no está vacía
-        if (aplicanTable && aplicanTable.rows.length > 1) { // Asumiendo que la primera fila es el encabezado
-            no.checked = true;
-        }
-
-        if (no.checked) {
-            autoridadesAplicanContainer.style.display = 'block';
-            apTContainer.style.display = 'block';
-        } else if (si.checked) {
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        } else {
-            autoridadesAplicanContainer.style.display = 'none';
-            apTContainer.style.display = 'none';
-        }
-    }
-
-    // Inicializar la visibilidad de los campos al cargar la página
-    document.addEventListener('DOMContentLoaded', function () {
-        mostrarCampo2();
-    });
-</script>
 <script>
     $(document).ready(function () {
         $('.btn-materias').click(function () {
@@ -1151,7 +1122,8 @@ Registro Estatal de Regulaciones
         });
 
         // Handle click on search result for AutoridadesEmiten
-        $(document).on('click', '#searchResults .list-group-item', function () {
+        $(document).on('click', '#searchResults .list-group-item', function (event) {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
             var id = $(this).data('id');
             var text = $(this).text();
             emitenArray.push({
@@ -1164,7 +1136,8 @@ Registro Estatal de Regulaciones
         });
 
         // Handle click on search result for AutoridadesAplican
-        $(document).on('click', '#searchResults2 .list-group-item', function () {
+        $(document).on('click', '#searchResults2 .list-group-item', function (event) {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
             var id = $(this).data('id');
             var text = $(this).text();
             aplicanArray.push({

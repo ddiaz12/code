@@ -283,7 +283,7 @@ Registro Estatal de Regulaciones
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                 onclick="closeModal()">Cerrar</button>
-                                            <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto" onclick="closeModal()">Guardar
                                                 cambios</button>
                                         </div>
                                     </div>

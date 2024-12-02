@@ -185,7 +185,7 @@ Registro Estatal de Regulaciones
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6" id="otroCampo">
+                                    <div class="col-md-6 hidden-column" id="otroCampo">
                                         <label for="campoExtra">Vigencia de la regulación<span
                                                 class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
@@ -239,11 +239,11 @@ Registro Estatal de Regulaciones
                                             <div class="d-flex justify-content-start">
                                                 <label class="me-2">
                                                     <input type="radio" name="opcion" id="apsi"
-                                                        onclick="mostrarCampo2()" checked> Sí
+                                                         checked> Sí
                                                 </label>
                                                 <label>
                                                     <input type="radio" name="opcion" id="apno"
-                                                        onclick="mostrarCampo2()"> No
+                                                        > No
                                                 </label>
                                             </div>
                                         </div>
@@ -420,7 +420,7 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarMat" class="btn btn-tinto">Guardar
+                                                <button type="button" id="guardarMat" class="btn btn-tinto" onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -484,7 +484,7 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarFun" class="btn btn-tinto">Guardar
+                                                <button type="button" id="guardarFun" class="btn btn-tinto" onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -702,28 +702,6 @@ Registro Estatal de Regulaciones
     });
 </script>
 <script>
-    function mostrarCampo2() {
-        var si = document.getElementById('apsi');
-        var no = document.getElementById('apno');
-        var autoridadesAplicanContainer = document.getElementById('AutoridadesAplicanContainer');
-        var apTContainer = document.getElementById('apTContainer');
-        var AutoridadesAplican = document.getElementById('AutoridadesAplican');
-
-        if (no.checked) {
-            AutoridadesAplican.disabled = false;
-        } else if (si.checked) {
-            AutoridadesAplican.disabled = true;
-        } else {
-            AutoridadesAplican.disabled = true;
-        }
-    }
-
-    // Inicializar la visibilidad de los campos al cargar la página
-    document.addEventListener('DOMContentLoaded', function () {
-        mostrarCampo2();
-    });
-</script>
-<script>
     $(document).ready(function () {
         var emitenArray = [];
         var aplicanArray = [];
@@ -803,7 +781,8 @@ Registro Estatal de Regulaciones
         });
 
         // Handle click on search result for AutoridadesEmiten
-        $(document).on('click', '#searchResults .list-group-item', function () {
+        $(document).on('click', '#searchResults .list-group-item', function (event) {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
             var id = $(this).data('id');
             var text = $(this).text();
             emitenArray.push({
@@ -816,7 +795,8 @@ Registro Estatal de Regulaciones
         });
 
         // Handle click on search result for AutoridadesAplican
-        $(document).on('click', '#searchResults2 .list-group-item', function () {
+        $(document).on('click', '#searchResults2 .list-group-item', function (event) {
+            event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
             var id = $(this).data('id');
             var text = $(this).text();
             aplicanArray.push({

@@ -390,22 +390,24 @@ Registro Estatal de Regulaciones
     });
 </script>
 
-<script>
-    $(document).ready(function () {
-        $('input[type=radio][name=opcion]').change(function () {
-            if (this.value == 'si') {
-                $('#inputs input').prop('disabled', false); // Desbloquear los inputs
-            } else if (this.value == 'no') {
-                $('#inputs input').prop('disabled', true); // Bloquear los inputs
+    <script>
+        $(document).ready(function () {
+            $('input[type=radio][name=opcion]').change(function () {
+                if (this.value == 'si') {
+                    $('#inputs').show(); // Mostrar los inputs
+                } else if (this.value == 'no') {
+                    $('#inputs').hide(); // Ocultar los inputs
+                }
+            });
+
+            // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
+            if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+                $('#inputs').hide(); // Ocultar los inputs
+            } else {
+                $('#inputs').show(); // Mostrar los inputs
             }
         });
-
-        // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
-        if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
-            $('#inputs input').prop('disabled', true); // Bloquear los inputs
-        }
-    });
-</script>
+    </script>
 <script>
     $(document).ready(function () {
         $('.btn-tramites').click(function () {
