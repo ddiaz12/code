@@ -207,7 +207,7 @@ Registro Estatal de Regulaciones
                                 <label for="inputVinculadas">Regulaciones vinculadas o derivadas de esta regulación<span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="inputVinculadas" name="vinculadas"
-                                    placeholder="Regulaciones Vinculadas" required>
+                                    placeholder="Regulaciones Vinculadas">
                             </div>
 
                             <div class="form-group form-check">
@@ -276,7 +276,7 @@ Registro Estatal de Regulaciones
                                 <p id="tramitesText" class="mb-0">Tramites y servicios<span class="text-danger">*</span>
                                 </p>
                                 <button type="button" id="botonTramites"
-                                    class="btn btn-tinto btn-tramites">Tramites</button>
+                                    class="btn btn-tinto btn-tramites">Agregar</button>
                             </div>
                             <table id="tramitesTable" class="table table-spacing">
                                 <thead>
@@ -308,7 +308,7 @@ Registro Estatal de Regulaciones
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="myModalLabel">Tramites y servicios
+                                            <h5 class="modal-title" id="myModalLabel">Tramites y Servicios
                                             </h5>
                                         </div>
                                         <div class="modal-body">
@@ -319,7 +319,7 @@ Registro Estatal de Regulaciones
                                                         placeholder="Ingrese el Nombre" name="NombreTram">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="inputDir">Direccion</label>
+                                                    <label for="inputDir">Direccion web</label>
                                                     <input type="text" class="form-control" id="inputDir"
                                                         placeholder="http://" name="NombreDir">
                                                 </div>
@@ -328,8 +328,8 @@ Registro Estatal de Regulaciones
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                 onclick="closeModal()">Cerrar</button>
-                                            <button type="button" id="guardarIbtn" class="btn btn-tinto" onclick="closeModal()">Guardar
-                                                cambios</button>
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto"  onclick="closeModal()">
+                                                Guardar cambios</button>
                                         </div>
                                     </div>
                                 </div>
@@ -341,7 +341,7 @@ Registro Estatal de Regulaciones
                             </style>
                             <div class="form-group">
                                 <p><label for="file">
-                                        <h7>Subir Documento</h7>
+                                        <h7>Subir documento</h7>
                                     </label></p>
                                 <input type="file" class="form-control-file" id="file" name="userfile">
                                 <br>
@@ -1379,11 +1379,9 @@ Registro Estatal de Regulaciones
                                     console.log('ID_Regulacion:', idRegulacion);
 
                                     // Eliminar la fila de la tabla
-                                    $(this).closest('tr').remove();
+                                    row.remove();
 
-                                    // Eliminar la regulación manual del array
-                                    let rowIndex = $(this).closest('tr').index();
-                                    manualRegulaciones.splice(rowIndex, 1);
+                                    
 
                                     // Hacer una llamada AJAX para eliminar el registro en la base de datos
                                     $.ajax({

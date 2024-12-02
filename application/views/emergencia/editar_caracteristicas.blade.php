@@ -229,12 +229,12 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <form>
                                     <div class="row">
-                                        <div class="col-md-6" id="selectAplican">
+                                        <div class="col-md-12" id="selectAplican">
                                             <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
                                             <div class="d-flex justify-content-start">
                                                 <label class="me-2">
                                                     <input type="radio" name="opcion" id="apsi"
-                                                         checked> Sí
+                                                        checked> Sí
                                                 </label>
                                                 <label>
                                                     <input type="radio" name="opcion" id="apno"
@@ -627,10 +627,10 @@ Registro Estatal de Regulaciones
                                     });
                                 </script>
 
-                                <div class="form-group">
+                                <div class="form-group my-5">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
                                     <textarea class="form-control" id="inputObjetivo"
-                                        name="objetivoReg"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+                                        name="objetivoReg" rows="5"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
                                 </div>
                                 <p></p>
                                 <div class="header-container mb-0">
@@ -720,8 +720,8 @@ Registro Estatal de Regulaciones
                                 <p></p>
                                 <div class="header-container mb-0">
                                     <p id="funText" class="mb-0"> Identificación de fundamentos jurídicos para la
-                                        realización de inspecciones, verificaciones y visitas
-                                        domiciliarias<span class="text-danger">*</span>
+                                        realización de Inspecciones, Verificaciones y Visitas
+                                        Domiciliarias (REVID)<span class="text-danger">*</span>
                                     </p>
                                     <button type="button" id="botofundamentos" class="btn btn-tinto btn-fundamentos"
                                         data-toggle="modal" data-target="#funModal">Agregar</button>
@@ -733,9 +733,9 @@ Registro Estatal de Regulaciones
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="myModalLabel"> Identificación de fundamentos
-                                                    jurídicos para la realización de inspecciones, verificaciones y
-                                                    visitas
-                                                    domiciliarias</h5>
+                                                    jurídicos para la realización de Inspecciones, Verificaciones y
+                                                    Visitas
+                                                    Domiciliarias</h5>
                                             </div>
                                             <div class="modal-body">
                                                 <form>

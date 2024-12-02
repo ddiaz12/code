@@ -74,7 +74,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body div-card-body">
                             <!-- Mensaje de atención -->
                             <div class="alert alert-warning" role="alert">
-                                Atención: se le solicita que el llenado de esta ficha de inscripción sea requisitado
+                                Atención: Esta ficha debe ser requisitada
                                 con el uso de mayúsculas y minúsculas.
                             </div>
                             <!-- Formulario de agregar regulaciones -->
@@ -149,13 +149,13 @@ Registro Estatal de Regulaciones
                                         <label for="campoExtra">Vigencia de la regulación<span
                                                 class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
-                                            required disabled>
+                                            required>
                                     </div>
                                 </form>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputVialidad">Orden de gobierno que la emite:</label>
+                                            <label for="inputVialidad">Orden de gobierno que la emite</label>
                                             <select class="form-control" id="selectUnidad2" name="ordenGob" required>
                                                 <option disabled selected>Selecciona una opción</option>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
@@ -193,7 +193,7 @@ Registro Estatal de Regulaciones
                                     }
                                 </style>
                                 <form>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div id="selectAplican">
                                             <p>¿Están obligadas todas las autoridades a cumplir con la
                                                 regulación?</p>
@@ -209,7 +209,7 @@ Registro Estatal de Regulaciones
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="opcAplican">
+                                    <div id="opcAplican" class="col-md-6">
                                         <div id="AutoridadesAplicanContainer">
                                             <div class="form-group">
                                                 <label for="AutoridadesAplican">Autoridades que aplican
@@ -326,13 +326,10 @@ Registro Estatal de Regulaciones
                                         });
                                     });
                                 </script>
-
-
-                                <div class="form-group">
+                                <div class="form-group my-5">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
-                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg"></textarea>
+                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg" rows="5"></textarea>
                                 </div>
-                                <p></p>
                                 <div class="header-container mb-0">
                                     <p id="matText" class="mb-0">Materias, Sectores y Sujetos Regulados<span
                                             class="text-danger">*</span></p>
@@ -397,8 +394,8 @@ Registro Estatal de Regulaciones
                                 <p></p>
                                 <div class="header-container mb-0">
                                     <p id="funText" class="mb-0">Identificación de fundamentos jurídicos para la
-                                        realización de inspecciones, verificaciones y visitas
-                                        domiciliarias<span class="text-danger">*</span>
+                                        realización de Inspecciones, Verificaciones y Visitas
+                                        Domiciliarias (REVID)<span class="text-danger">*</span>
                                     </p>
                                     <button type="button" id="botofundamentos" class="btn btn-tinto btn-fundamentos"
                                         data-toggle="modal" data-target="#funModal">Agregar</button>
@@ -409,9 +406,9 @@ Registro Estatal de Regulaciones
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_Fun</th>
-                                            <th>Nombre regulacion</th>
-                                            <th>Articulo</th>
-                                            <th>Link</th>
+                                            <th>Nombre regulación</th>
+                                            <th>Artículo</th>
+                                            <th>Dirección web</th>
                                             <th></th>
 
                                         </tr>
