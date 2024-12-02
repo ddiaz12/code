@@ -28,11 +28,11 @@ class Ciudadania extends CI_Controller
         foreach ($regulaciones as $regulacion) {
             $autoridades = $this->RegulacionModel->obtenerAutoridadesPorRegulacion($regulacion->ID_Regulacion);
             // Eliminar duplicados
-            $autoridadesUnicas = array_unique(array_map(function($autoridad) {
+            $autoridadesUnicas = array_unique(array_map(function ($autoridad) {
                 return $autoridad->Autoridad_Emiten;
             }, $autoridades));
             // Convertir de nuevo a objetos
-            $regulacion->autoridades = array_map(function($autoridad) {
+            $regulacion->autoridades = array_map(function ($autoridad) {
                 return (object) ['Autoridad_Emiten' => $autoridad];
             }, $autoridadesUnicas);
         }
@@ -144,6 +144,27 @@ class Ciudadania extends CI_Controller
 
         // Renderizar el PDF
         $dompdf->render();
+
+        // Agregar numeración en el pie de página
+        $canvas = $dompdf->getCanvas();
+        $footer = $canvas->open_object();
+        $w = $canvas->get_width();
+        $h = $canvas->get_height();
+        $margen_derecho = 20; // Ajusta este valor para cambiar el margen derecho
+        $canvas->page_text($w - $margen_derecho - 60, $h - 30, "Página {PAGE_NUM} de {PAGE_COUNT}", 'geomanist', 10, array(0, 0, 0));
+        $canvas->close_object();
+        $canvas->add_object($footer, "all");
+
+        // Agregar pie de página personalizado desde la segunda página
+        $footer_text = "Continuacion del Decreto que crea el Organismo Público Descentralizado de la Administración Pública Estatal denominado Secretaría de Desarrollo Económico (SEDECO)";
+        $text_width = $canvas->get_text_width($footer_text, 'geomanist', 8);
+
+        // Usar page_script para agregar el pie de página solo desde la segunda página
+        $canvas->page_script(function ($pageNumber, $pageCount, $canvas, $fontMetrics) use ($footer_text, $text_width, $w, $h) {
+            if ($pageNumber > 1) {
+                $canvas->text(($w - $text_width) / 2, $h - 15, $footer_text, $fontMetrics->getFont('geomanist'), 8);
+            }
+        });
 
         // Descargar el PDF generado
         $dompdf->stream('Regulacion_' . $data['regulacion']->ID_Regulacion . '.pdf', ['Attachment' => 0]);

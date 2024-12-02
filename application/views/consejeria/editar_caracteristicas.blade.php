@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarConsejeria')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuConsejeria')
 @endsection
 
 @section('contenido')
@@ -72,7 +72,6 @@ Registro Estatal de Regulaciones
                                     </a>
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                 </div>
@@ -80,7 +79,7 @@ Registro Estatal de Regulaciones
             <div class="col-md-9 p-0">
                 <!-- Existing card -->
                 <div class="card flex-grow-1">
-                    <div class="card">
+                <div class="card">
                         <div class="card-header text-white">Edición al RER</div>
                         <div class="card-body div-card-body">
                             <!-- Mensaje de atención -->
@@ -93,13 +92,13 @@ Registro Estatal de Regulaciones
                                 <div class="form-group">
                                     <label for="inputNombre">Nombre<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="inputNombre" name="nombre"
-                                        value="<?php echo $regulacion['Nombre_Regulacion']; ?>" required>
+                                        value="<?php echo $regulacion['Nombre_Regulacion']; ?>" required disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="selectSujeto">Ámbito de aplicación<span
                                                 class="text-danger">*</span></label>
-                                        <select class="form-control" id="selectSujeto" name="sujeto" required>
+                                        <select class="form-control" id="selectSujeto" name="sujeto" required disabled>
                                             <!-- <option disabled selected>
                                                 <?php echo $caracteristicas['Ambito_Aplicacion']; ?>
                                             </option> -->
@@ -111,7 +110,7 @@ Registro Estatal de Regulaciones
                                     <div class="form-group">
                                         <label for="selectUnidad">Tipo de ordenamiento jurídico<span
                                                 class="text-danger">*</span></label>
-                                        <select class="form-control" id="selectUnidad" name="unidad" required>
+                                        <select class="form-control" id="selectUnidad" name="unidad" required disabled>
                                             <option
                                                 value="<?php echo isset($tipo_ordenamiento_guardado['ID_tOrdJur']) ? $tipo_ordenamiento_guardado['ID_tOrdJur'] : ''; ?>"
                                                 disabled selected>
@@ -130,26 +129,25 @@ Registro Estatal de Regulaciones
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Exp" name="fecha_expedicion"
                                         value="<?php echo isset($caracteristicas['Fecha_Exp']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Exp'])) : ''; ?>"
-                                        required>
+                                        required readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Publi">Fecha de publicación de la regulación<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Publi" name="fecha_publicacion"
                                         value="<?php echo isset($caracteristicas['Fecha_Publi']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Publi'])) : ''; ?>"
-                                        required>
+                                        required readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Vigor">Fecha de entrada en vigor de la regulación<span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control" id="Fecha_Vigor" name="fecha_vigor"
                                         value="<?php echo isset($caracteristicas['Fecha_Vigor']) ? date('Y-m-d', strtotime($caracteristicas['Fecha_Vigor'])) : ''; ?>"
-                                        required>
+                                        required readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Act">Fecha de última actualización de la regulación</label>
-                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required
-                                        readonly>
+                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required>
                                 </div>
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function () {
@@ -179,14 +177,20 @@ Registro Estatal de Regulaciones
                                         <label for="campoExtra">Vigencia de la regulación</label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                             value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
-                                            required disabled>
+                                            required disabled readonly>
                                     </div>
                                 </form>
+                                <div class="col-md-6">
+                                    <label for="Act_Reforma">Fecha de última Reforma</label>
+                                    <input type="date" class="form-control" id="Act_Reforma" name="Act_Reforma"
+                                        required>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputVialidad">Orden de gobierno que la emite: </label>
-                                            <select class="form-control" id="selectUnidad2" name="orden" required>
+                                            <label for="inputVialidad">Orden de gobierno que la emite:</label>
+                                            <select class="form-control" id="selectUnidad2" name="orden" required
+                                                disabled>
                                                 <option disabled selected><?php echo $caracteristicas['Orden_Gob']; ?>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
                                                 <option value="Poder Legistativo">Poder Legistativo</option>
@@ -217,10 +221,6 @@ Registro Estatal de Regulaciones
                                                     <?php    echo $dependencia['ID_Dependencia']; ?>
                                                 </td>
                                                 <td><?php    echo $dependencia['nombre_sujeto']; ?></td>
-                                                <td>
-                                                    <button class="btn btn-danger btn-sm delete-row">
-                                                        <i class="fas fa-trash-alt"></i></button>
-                                                </td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                             </tbody>
@@ -228,33 +228,30 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </div>
                                 <form>
-                                    <div class="d-flex justify-content-align-items mb-3 ">
-                                        <div id="selectAplican">
-                                            <p>¿Están obligadas todas las autoridades a cumplir con la
-                                                regulación?</p>
-                                            <div class="d-flex justify-content-start mb-3">
-                                                <label>
-                                                    <input type="radio" name="opcion" id="apsi"
-                                                        onclick="mostrarCampo2()" checked> Sí
-                                                </label>
-                                                <label class="ms-2">
-                                                    <input type="radio" name="opcion" id="apno"
-                                                        onclick="mostrarCampo2()"> No
-                                                </label>
-                                            </div>
+                                    <div class="col-md-6" id="selectAplican">
+                                        <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
+                                        <div class="d-flex justify-content-start">
+                                            <label class="me-2">
+                                                <input type="radio" name="opcion" id="apsi" onclick="mostrarCampo2()"
+                                                    checked> Sí
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="opcion" id="apno" onclick="mostrarCampo2()">
+                                                No
+                                            </label>
                                         </div>
-
                                     </div>
-                                    <div class="row" id="opcAplican">
-                                        <div class="col-md-12" id="AutoridadesAplicanContainer">
-                                            <div class="form-group">
-                                                <label for="AutoridadesAplican">Autoridades que aplican
-                                                    la regulación</label>
-                                                <input type="text" class="form-control" id="AutoridadesAplican"
-                                                    name="AutoridadesAplican" required>
-                                                <div id="searchResults2" class="list-group"></div>
-                                            </div>
+                                    <br>
+                                    <div id="AutoridadesAplicanContainer">
+                                        <div class="form-group">
+                                            <label for="AutoridadesAplican">Autoridades que aplican la
+                                                regulación</label>
+                                            <input type="text" class="form-control" id="AutoridadesAplican"
+                                                name="AutoridadesAplican" required>
+                                            <div id="searchResults2" class="list-group"></div>
                                         </div>
+                                    </div>
+                                    <div id="opcAplican">
                                         <div id="apTContainer">
                                             <table id="aplicanTable" class="table">
                                                 <thead>
@@ -273,11 +270,6 @@ Registro Estatal de Regulaciones
                                                         </td>
                                                         <td><?php            echo $dependenciaAp['nombre_sujeto']; ?>
                                                         </td>
-                                                        <td>
-                                                            <button class="btn btn-danger btn-sm delete-row">
-                                                                <i class="fas fa-trash-alt"></i>
-                                                            </button>
-                                                        </td>
                                                     </tr>
                                                     <?php        else: ?>
                                                     <tr>
@@ -293,13 +285,10 @@ Registro Estatal de Regulaciones
                                                 </tbody>
                                             </table>
                                         </div>
-
                                     </div>
                                 </form>
                                 <div class="header-container mb-0">
                                     <p class="mb-0">Índice de la regulación</p>
-                                    <button type="button" id="botonIndice" class="btn btn-indice" data-toggle="modal"
-                                        data-target="#myModal">Agregar</button>
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -320,6 +309,11 @@ Registro Estatal de Regulaciones
                                                         <label for="inputTexto">Texto</label>
                                                         <input type="text" class="form-control" id="inputTexto"
                                                             placeholder="Ingrese texto" name="texto">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputOrden">Orden</label>
+                                                        <input type="number" class="form-control" id="inputOrden"
+                                                            placeholder="Ingrese orden" name="orden">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="selectIndicePadre">Índice
@@ -356,7 +350,6 @@ Registro Estatal de Regulaciones
                                             <th class="hidden-column">Indice_Padre</th>
                                             <th class="hidden-column">ID_IndicePadre</th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -370,38 +363,44 @@ Registro Estatal de Regulaciones
                                                 // Función para obtener los índices y actualizar la tabla
                                                 function obtenerIndicesYActualizarTabla() {
                                                     $.ajax({
-                                                        url: '<?= base_url("RegulacionController/get_indices_by_caract_ajax") ?>',
+                                                        url: '<?= base_url("PublicadasController/get_indices_by_caract_ajax") ?>',
                                                         type: 'POST',
                                                         data: {
                                                             ID_caract: formData.ID_caract
                                                         },
                                                         dataType: 'json',
                                                         success: function (response) {
+                                                            console.log(response); // Verificar la respuesta en la consola
                                                             var tbody = $('#resultTable tbody');
-                                                            tbody
-                                                                .empty(); // Limpiar el contenido existente
+                                                            tbody.empty(); // Limpiar el contenido existente
 
                                                             if (response.length > 0) {
                                                                 response.forEach(function (row) {
-                                                                    var tr = $('<tr>');
-                                                                    tr.append($('<td class="hidden-column">').text(row
-                                                                        .ID_Indice));
-                                                                    tr.append($('<td class="texto">').text(row
-                                                                        .Texto));
-                                                                    tr.append($('<td>').text(row
-                                                                        .Orden));
-                                                                    tr.append($('<td><button class="btn btn-danger btn-sm edit-row">' +
-                                                                        '<i class="fas fa-edit"></i></button>'
-                                                                    ).text(row
-                                                                        .Accion));
-                                                                    tr.append($('<td><button class="btn btn-danger btn-sm delete-row">' +
-                                                                        '<i class="fas fa-trash-alt"></i></button>'
-                                                                    ).text(row
-                                                                        .Accion));
+                                                                    var rowClass = row.ID_Padre && row.ID_Padre != '0' ? 'child-row' : 'parent-row';
+                                                                    var newRow = `<tr class="${rowClass}">
+                                                                    <td class="hidden-column">${row.ID_Indice}</td>
+                                                                    <td class="texto">${row.Texto}</td>
+                                                                    <td>${row.Orden}</td>
+                                                                    <td class="hidden-column">${row.ID_Padre || ''}</td>
+                                                                    <td class="hidden-column indice-padre">${row.ID_Padre || ''}</td>
+                                                                    <td class="text-end">
+                                                                        <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
+                                                                        <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                                                                    </td>
+                                                                </tr>`;
 
-                                                                    tbody.append(tr);
+                                                                    if (row.ID_Padre && row.ID_Padre != '0') {
+                                                                        var parentRow = tbody.find('tr').filter(function () {
+                                                                            return $(this).find('td').eq(0).text() == row.ID_Padre;
+                                                                        });
+                                                                        parentRow.after(newRow);
+                                                                    } else {
+                                                                        tbody.append(newRow);
+                                                                    }
                                                                 });
-                                                            } else { }
+                                                            } else {
+                                                                // Manejar el caso en que no haya datos
+                                                            }
                                                         },
                                                         error: function () {
                                                             Swal.fire({
@@ -449,7 +448,7 @@ Registro Estatal de Regulaciones
                                             )) {
                                                 // Buscar el valor de ID_Indice en la tabla rel_indice
                                                 $.ajax({
-                                                    url: '<?= base_url("RegulacionController/buscarIndiceEnRelIndice") ?>',
+                                                    url: '<?= base_url("PublicadasController/buscarIndiceEnRelIndice") ?>',
                                                     type: 'POST',
                                                     data: {
                                                         ID_Indice: ID_Indice
@@ -463,7 +462,7 @@ Registro Estatal de Regulaciones
                                                         // Si hay resultados, eliminar los registros en rel_indice
                                                         if (response.length > 0) {
                                                             $.ajax({
-                                                                url: '<?= base_url("RegulacionController/eliminarEnRelIndice") ?>',
+                                                                url: '<?= base_url("PublicadasController/eliminarEnRelIndice") ?>',
                                                                 type: 'POST',
                                                                 data: {
                                                                     ID_Indice: ID_Indice
@@ -498,7 +497,7 @@ Registro Estatal de Regulaciones
 
                                                                     // Enviar la solicitud AJAX para eliminar el registro de la base de datos
                                                                     $.ajax({
-                                                                        url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
+                                                                        url: '<?= base_url("PublicadasController/eliminarIndice") ?>',
                                                                         type: 'POST',
                                                                         data: {
                                                                             ID_caract: ID_caract,
@@ -570,7 +569,7 @@ Registro Estatal de Regulaciones
 
                                                             // Enviar la solicitud AJAX para eliminar el registro de la base de datos
                                                             $.ajax({
-                                                                url: '<?= base_url("RegulacionController/eliminarIndice") ?>',
+                                                                url: '<?= base_url("PublicadasController/eliminarIndice") ?>',
                                                                 type: 'POST',
                                                                 data: {
                                                                     ID_caract: ID_caract,
@@ -636,8 +635,6 @@ Registro Estatal de Regulaciones
                                 <div class="header-container mb-0">
                                     <p id="matText" class="mb-0">Materias, Sectores y Sujetos Regulados<span
                                             class="text-danger">*</span></p>
-                                    <button type="button" id="botonMaterias" class="btn btn-tinto btn-materias"
-                                        data-toggle="modal" data-target="#matModal">Agregar</button>
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="matModal" tabindex="-1" role="dialog"
@@ -689,7 +686,6 @@ Registro Estatal de Regulaciones
                                             <th>Sectores</th>
                                             <th>Sujetos Regulados</th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -701,11 +697,6 @@ Registro Estatal de Regulaciones
                                             <td><?php        echo $mater['Materias']; ?></td>
                                             <td><?php        echo $mater['Sectores']; ?></td>
                                             <td><?php        echo $mater['SujetosRegulados']; ?></td>
-                                            <td><button class="btn btn-danger btn-sm edit-row">
-                                            <i class="fas fa-edit"></i></button></td>
-                                            <td><button class="btn btn-danger btn-sm delete-row"><i
-                                                        class="fas fa-trash-alt"></i></button></td>
-                                            <!-- Agrega más celdas según sea necesario -->
                                         </tr>
                                         <?php    endforeach; ?>
                                         <?php else: ?>
@@ -724,8 +715,6 @@ Registro Estatal de Regulaciones
                                         realización de inspecciones, verificaciones y visitas
                                         domiciliarias<span class="text-danger">*</span>
                                     </p>
-                                    <button type="button" id="botofundamentos" class="btn btn-tinto btn-fundamentos"
-                                        data-toggle="modal" data-target="#funModal">Agregar</button>
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="funModal" tabindex="-1" role="dialog"
@@ -775,7 +764,6 @@ Registro Estatal de Regulaciones
                                             <th>Articulo</th>
                                             <th>Link</th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -787,11 +775,6 @@ Registro Estatal de Regulaciones
                                             <td><?php        echo $fundamento['Nombre']; ?></td>
                                             <td><?php        echo $fundamento['Articulo']; ?></td>
                                             <td><?php        echo $fundamento['Link']; ?></td>
-                                            <td><button class="btn btn-danger btn-sm edit-row">
-                                            <i class="fas fa-edit"></i></button></td>
-                                            <td><button class="btn btn-danger btn-sm delete-row"><i
-                                                        class="fas fa-trash-alt"></i></button></td>
-                                            <!-- Agrega más celdas según sea necesario -->
                                         </tr>
                                         <?php    endforeach; ?>
                                         <?php else: ?>
@@ -803,9 +786,9 @@ Registro Estatal de Regulaciones
                                 </table>
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
-                                    <a href="<?php echo base_url('RegulacionController'); ?>"
+                                    <a href="<?php echo base_url('PublicadasController'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
-                                    <button type="button" class="btn btn-success btn-tinto"
+                                    <button type="button" class="btn btn-tinto"
                                         id="botonGuardar">Guardar</button>
                                 </div>
                             </form>

@@ -76,11 +76,7 @@ Registro Estatal de Regulaciones
                         <td><?php            echo $regulacion->Nombre_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Homoclave; ?></td>
                         <td>
-                            <div class="circle-container">
-                                <span class="circle <?php            echo ($regulacion->dias_restantes <= 0) ? 'red' : ''; ?>">
-                                    <?php            echo $regulacion->dias_restantes; ?>
-                                </span>
-                            </div>
+                            <span class="badge bg-danger">Emergencia</span>
                         </td>
                         <td><?php            echo $regulacion->Vigencia; ?></td>
                         <td>

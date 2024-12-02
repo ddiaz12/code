@@ -85,8 +85,8 @@ Registro Estatal de Regulaciones
                         <div class="card-body div-card-body">
                             <!-- Mensaje de atención -->
                             <div class="alert alert-warning" role="alert">
-                                Atención: se le solicita que el llenado de esta ficha de inscripción sea requisitado con
-                                el uso de mayúsculas y minúsculas.
+                            Atención: Esta ficha debe ser requisitada
+                            con el uso de mayúsculas y minúsculas.
                             </div>
                             <!-- Formulario de agregar regulaciones -->
                             <form class="row g-3" id="form-regulacion">
@@ -185,7 +185,7 @@ Registro Estatal de Regulaciones
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputVialidad">Orden de gobierno que la emite:</label>
+                                            <label for="inputVialidad">Orden de gobierno que la emite</label>
                                             <select class="form-control" id="selectUnidad2" name="orden" required>
                                                 <option disabled selected><?php echo $caracteristicas['Orden_Gob']; ?>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
@@ -228,28 +228,28 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </div>
                                 <form>
-                                        <div class="col-md-6" id="selectAplican">
-                                            <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
-                                            <div class="d-flex justify-content-start">
-                                                <label class="me-2">
-                                                    <input type="radio" name="opcion" id="apsi"
-                                                        onclick="mostrarCampo2()" checked> Sí
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="opcion" id="apno"
-                                                        onclick="mostrarCampo2()"> No
-                                                </label>
-                                            </div>
+                                    <div class="col-md-12" id="selectAplican">
+                                        <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
+                                        <div>
+                                            <label >
+                                                <input type="radio" name="opcion" id="apsi" onclick="mostrarCampo2()"
+                                                    checked> Sí
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="opcion" id="apno" onclick="mostrarCampo2()">
+                                                No
+                                            </label>
                                         </div>
-                                        <div id="AutoridadesAplicanContainer">
-                                            <div class="form-group">
-                                                <label for="AutoridadesAplican">Autoridades que aplican la
-                                                    regulación</label>
-                                                <input type="text" class="form-control" id="AutoridadesAplican"
-                                                    name="AutoridadesAplican" required>
-                                                <div id="searchResults2" class="list-group"></div>
-                                            </div>
+                                    </div>
+                                    <div id="AutoridadesAplicanContainer" class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="AutoridadesAplican">Autoridades que aplican la
+                                                regulación</label>
+                                            <input type="text" class="form-control" id="AutoridadesAplican"
+                                                name="AutoridadesAplican" required>
+                                            <div id="searchResults2" class="list-group"></div>
                                         </div>
+                                    </div>
                                     <div id="opcAplican">
                                         <div id="apTContainer">
                                             <table id="aplicanTable" class="table">
@@ -265,8 +265,10 @@ Registro Estatal de Regulaciones
                                                     <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_sujeto']) && isset($dependenciaAp['nombre_sujeto'])): ?>
                                                     <tr>
                                                         <td class="hidden-column">
-                                                            <?php            echo $dependenciaAp['ID_sujeto']; ?></td>
-                                                        <td><?php            echo $dependenciaAp['nombre_sujeto']; ?></td>
+                                                            <?php            echo $dependenciaAp['ID_sujeto']; ?>
+                                                        </td>
+                                                        <td><?php            echo $dependenciaAp['nombre_sujeto']; ?>
+                                                        </td>
                                                         <td class="text-end">
                                                             <button class="btn btn-danger btn-sm delete-row">
                                                                 <i class="fas fa-trash-alt"></i>
@@ -630,10 +632,10 @@ Registro Estatal de Regulaciones
                                     });
                                 </script>
 
-                                <div class="form-group">
+                                <div class="form-group my-5">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
                                     <textarea class="form-control" id="inputObjetivo"
-                                        name="objetivoReg"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+                                        name="objetivoReg" rows="5"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
                                 </div>
                                 <p></p>
                                 <div class="header-container mb-0">
@@ -723,8 +725,8 @@ Registro Estatal de Regulaciones
                                 <p></p>
                                 <div class="header-container mb-0">
                                     <p id="funText" class="mb-0"> Identificación de fundamentos jurídicos para la
-                                        realización de inspecciones, verificaciones y visitas
-                                        domiciliarias<span class="text-danger">*</span>
+                                        realización de Inspecciones, Verificaciones y Visitas
+                                        Domiciliarias (REVID)<span class="text-danger">*</span>
                                     </p>
                                     <button type="button" id="botofundamentos" class="btn btn-tinto btn-fundamentos"
                                         data-toggle="modal" data-target="#funModal">Agregar</button>
@@ -736,14 +738,14 @@ Registro Estatal de Regulaciones
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="myModalLabel"> Identificación de fundamentos
-                                                    jurídicos para la realización de inspecciones, verificaciones y
-                                                    visitas
-                                                    domiciliarias</h5>
+                                                    jurídicos para la realización de Inspecciones, Verificaciones y
+                                                    Visitas
+                                                    Domiciliarias</h5>
                                             </div>
                                             <div class="modal-body">
                                                 <form>
                                                     <div class="form-group">
-                                                        <label for="inputNomReg">Nombre de la Regulacion</label>
+                                                        <label for="inputNomReg">Nombre de la regulación</label>
                                                         <input type="text" class="form-control" id="inputNomReg"
                                                             placeholder="Ingrese el Nombre" name="NombreReg">
                                                     </div>
@@ -754,7 +756,7 @@ Registro Estatal de Regulaciones
                                                             placeholder="Ingrese el Articulo" name="NombreArt">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputLink">Link</label>
+                                                        <label for="inputLink">Dirección web</label>
                                                         <input type="text" class="form-control" id="inputLink"
                                                             placeholder="http://" name="NombreLink">
                                                     </div>
@@ -775,7 +777,7 @@ Registro Estatal de Regulaciones
                                             <th class="hidden-column">ID_Fun</th>
                                             <th>Nombre Regulacion</th>
                                             <th>Articulo</th>
-                                            <th>Link</th>
+                                            <th>Dirección web</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -2600,12 +2602,12 @@ Registro Estatal de Regulaciones
         var lastInsertedIndicePadre =
             null; // Variable para almacenar el último ID_IndicePadre insertado
 
-            $('#guardarIbtn').on('click', function () {
+        $('#guardarIbtn').on('click', function () {
             var inputTexto = $('#inputTexto').val();
             lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
             lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
             lastInsertedOrden = $('#inputOrden').val();
-            if (inputTexto.trim() === ''  || lastInsertedOrden.trim() === '' || lastInsertedOrden == null || !Number.isInteger(lastInsertedOrdenInt)) {
+            if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null || !Number.isInteger(lastInsertedOrdenInt)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -2792,7 +2794,7 @@ Registro Estatal de Regulaciones
                         console.error('AJAX error:', textStatus, errorThrown);
                     }
                 });
-            }  else {
+            } else {
                 var inputTexto = $('#inputTexto').val();
                 var lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
                 var lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
@@ -2801,7 +2803,7 @@ Registro Estatal de Regulaciones
                 var inputTexto = $('#inputTexto').val();
                 lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
                 lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-                if (inputTexto.trim() === ''  || lastInsertedOrden.trim() === '' || lastInsertedOrden == null) {
+                if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',

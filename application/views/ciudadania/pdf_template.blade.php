@@ -8,11 +8,10 @@
 </head>
 
 <body>
+    <img src="<?php echo base_url('assets/img/0.png'); ?>" alt="Logo" width="120" height="65" class="logo-centrado">
     <div class="header">
-        <img src="<?php echo base_url('assets/img/logo_transparente.png'); ?>" alt="Logo" height="50">
         <h1>Decreto que crea el Organismo Público Descentralizado de la Administración Pública Estatal denominado
             Secretaría de Desarrollo Económico (SEDECO)</h1>
-
     </div>
     <?php 
         date_default_timezone_set('America/Mexico_City'); 
@@ -125,18 +124,18 @@
     <div class="content">
         <?php if (!empty($indice)): ?>
         <ul>
-            <?php foreach ($indice as $padre): ?>
+            <?php    foreach ($indice as $padre): ?>
             <li>
-                <?php echo $padre['Orden'] . '. ' . $padre['Texto']; ?>
-                <?php if (!empty($padre['Hijos'])): ?>
+                <?php        echo $padre['Orden'] . '. ' . $padre['Texto']; ?>
+                <?php        if (!empty($padre['Hijos'])): ?>
                 <ul>
-                    <?php foreach ($padre['Hijos'] as $hijo): ?>
-                    <li><?php echo $hijo['Orden'] . '. ' . $hijo['Texto']; ?></li>
-                    <?php endforeach; ?>
+                    <?php            foreach ($padre['Hijos'] as $hijo): ?>
+                    <li><?php                echo $hijo['Orden'] . '. ' . $hijo['Texto']; ?></li>
+                    <?php            endforeach; ?>
                 </ul>
-                <?php endif; ?>
+                <?php        endif; ?>
             </li>
-            <?php endforeach; ?>
+            <?php    endforeach; ?>
         </ul>
         <?php else: ?>
         <p>No hay información disponible sobre el Índice.</p>
@@ -213,8 +212,8 @@
     </div>
 
     <div class="subheader">
-        <h3>Identificación de fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas
-            domiciliarias</h3>
+        <h3>Identificación de fundamentos jurídicos para la realización de Inspecciones, Verificaciones y Visitas
+            Domiciliarias (REVID)</h3>
     </div>
     <div class="content">
         <?php if (!empty($fundamentos)): ?>
@@ -223,7 +222,7 @@
             <li>
                 <strong>Nombre:</strong> <?php        echo $fundamento->Nombre; ?><br>
                 <strong>Artículo:</strong> <?php        echo $fundamento->Articulo; ?><br>
-                <strong>Link:</strong> <a href="<?php        echo $fundamento->Link; ?>"
+                <strong>Direccion web:</strong> <a href="<?php        echo $fundamento->Link; ?>"
                     target="_blank"><?php        echo $fundamento->Link; ?></a>
             </li>
             <?php    endforeach; ?>
@@ -232,20 +231,6 @@
         <p>No existen fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas domiciliarias
             relacionados a esta regulación</p>
         <?php endif; ?>
-    </div>
-
-    <div class="subheader">
-        <h3>Inspecciones Relacionadas</h3>
-    </div>
-    <div class="content">
-        <p>No existen inspecciones relacionadas a esta regulación</p>
-    </div>
-
-    <div class="subheader">
-        <h3>Inspectores Relacionados</h3>
-    </div>
-    <div class="content">
-        <p>No existen inspectores relacionados a esta regulación</p>
     </div>
 </body>
 

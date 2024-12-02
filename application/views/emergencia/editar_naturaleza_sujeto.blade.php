@@ -83,8 +83,8 @@ Registro Estatal de Regulaciones
                     <div class="card-header text-white">Naturaleza de la regulación</div>
                     <form id="formGnat" enctype="multipart/form-data">
                         <input type="hidden" id="idRegulacion" name="idRegulacion"
-                            value="{{ $regulaciones->ID_Regulacion }}">
-                        <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat }}">
+                        value="{{ $regulaciones->ID_Regulacion ?? '' }}">
+                        <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat ?? '' }}">
                         <div class="card-body d-flex flex-column justify-content-center div-card-body">
                             <div class="row justify-content-center">
                                 <label for="radioGroup">¿La regulación está asociada a una actividad

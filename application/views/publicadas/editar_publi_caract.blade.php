@@ -46,8 +46,8 @@ Registro Estatal de Regulaciones
                     <div class="card" style="border: none;">
                         <div class="card-body" style="border: none;">
                             <ul class="list-unstyled lista-regulacion">
-                                <li class="iconos-regulacion active-view">
-                                    <a href="<?php echo base_url('PublicadasController/edit_caract/' . $regulacion['ID_Regulacion']); ?>"
+                                <li class="iconos-regulacion">
+                                    <a href="<?php echo base_url('PublicadasController/edit_public_caract/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-list-check fa-sm"></i>
                                         <label class="menu-regulacion" for="image_1">Características de la
@@ -56,15 +56,7 @@ Registro Estatal de Regulaciones
                                 </li>
                                 <p></p>
                                 <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('PublicadasController/edit_mat/' . $regulacion['ID_Regulacion']); ?>"
-                                        class="custom-link">
-                                        <i class="fa-solid fa-table-list fa-sm"></i>
-                                        <label class="menu-regulacion" for="image_2">Materias Exentas</label>
-                                    </a>
-                                </li>
-                                <p></p>
-                                <li class="iconos-regulacion">
-                                    <a href="<?php echo base_url('PublicadasController/edit_nat/' . $regulacion['ID_Regulacion']); ?>"
+                                    <a href="<?php echo base_url('PublicadasController/edit_public_nat/' . $regulacion['ID_Regulacion']); ?>"
                                         class="custom-link">
                                         <i class="fa-solid fa-book fa-sm"></i>
                                         <label class="menu-regulacion" for="image_3">Naturaleza de la Regulación</label>
@@ -182,13 +174,15 @@ Registro Estatal de Regulaciones
                                 </form>
                                 <div class="col-md-6">
                                     <label for="Act_Reforma">Fecha de última Reforma</label>
-                                    <input type="date" class="form-control" id="Act_Reforma" name="Act_Reforma" required>
+                                    <input type="date" class="form-control" id="Act_Reforma" name="Act_Reforma"
+                                        required>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputVialidad">Orden de gobierno que la emite:</label>
-                                            <select class="form-control" id="selectUnidad2" name="orden" required disabled>
+                                            <select class="form-control" id="selectUnidad2" name="orden" required
+                                                disabled>
                                                 <option disabled selected><?php echo $caracteristicas['Orden_Gob']; ?>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
                                                 <option value="Poder Legistativo">Poder Legistativo</option>
@@ -226,28 +220,28 @@ Registro Estatal de Regulaciones
                                     </div>
                                 </div>
                                 <form>
-                                        <div class="col-md-6" id="selectAplican">
-                                            <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
-                                            <div class="d-flex justify-content-start">
-                                                <label class="me-2">
-                                                    <input type="radio" name="opcion" id="apsi"
-                                                        onclick="mostrarCampo2()" checked> Sí
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="opcion" id="apno"
-                                                        onclick="mostrarCampo2()"> No
-                                                </label>
-                                            </div>
+                                    <div class="col-md-6" id="selectAplican">
+                                        <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
+                                        <div class="d-flex justify-content-start">
+                                            <label class="me-2">
+                                                <input type="radio" name="opcion" id="apsi" onclick="mostrarCampo2()"
+                                                    checked> Sí
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="opcion" id="apno" onclick="mostrarCampo2()">
+                                                No
+                                            </label>
                                         </div>
-                                        <div id="AutoridadesAplicanContainer">
-                                            <div class="form-group">
-                                                <label for="AutoridadesAplican">Autoridades que aplican la
-                                                    regulación</label>
-                                                <input type="text" class="form-control" id="AutoridadesAplican"
-                                                    name="AutoridadesAplican" required>
-                                                <div id="searchResults2" class="list-group"></div>
-                                            </div>
+                                    </div>
+                                    <div id="AutoridadesAplicanContainer">
+                                        <div class="form-group">
+                                            <label for="AutoridadesAplican">Autoridades que aplican la
+                                                regulación</label>
+                                            <input type="text" class="form-control" id="AutoridadesAplican"
+                                                name="AutoridadesAplican" required>
+                                            <div id="searchResults2" class="list-group"></div>
                                         </div>
+                                    </div>
                                     <div id="opcAplican">
                                         <div id="apTContainer">
                                             <table id="aplicanTable" class="table">
@@ -263,8 +257,10 @@ Registro Estatal de Regulaciones
                                                     <?php        if (is_array($dependenciaAp) && isset($dependenciaAp['ID_sujeto']) && isset($dependenciaAp['nombre_sujeto'])): ?>
                                                     <tr>
                                                         <td class="hidden-column">
-                                                            <?php            echo $dependenciaAp['ID_sujeto']; ?></td>
-                                                        <td><?php            echo $dependenciaAp['nombre_sujeto']; ?></td>
+                                                            <?php            echo $dependenciaAp['ID_sujeto']; ?>
+                                                        </td>
+                                                        <td><?php            echo $dependenciaAp['nombre_sujeto']; ?>
+                                                        </td>
                                                     </tr>
                                                     <?php        else: ?>
                                                     <tr>
@@ -785,7 +781,7 @@ Registro Estatal de Regulaciones
                                 <div class="d-flex justify-content-end mb-3">
                                     <a href="<?php echo base_url('PublicadasController'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
-                                    <button type="button" class="btn btn-success btn-tinto"
+                                    <button type="button" class="btn btn-tinto"
                                         id="botonGuardar">Guardar</button>
                                 </div>
                             </form>
@@ -2224,7 +2220,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("PublicadasController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("PublicadasController/edit_public_nat/"); ?>' +
                                                                             idRegulacion;
                                                                     } else {
                                                                         // alert
@@ -2238,7 +2234,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("PublicadasController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("PublicadasController/edit_public_nat/"); ?>' +
                                                                             idRegulacion;
                                                                     }
                                                                 }
@@ -2476,7 +2472,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("PublicadasController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("PublicadasController/edit_public_nat/"); ?>' +
                                                                             idRegulacion;
                                                                     } else {
                                                                         // alert
@@ -2490,7 +2486,7 @@ Registro Estatal de Regulaciones
                                                                         window
                                                                             .location
                                                                             .href =
-                                                                            '<?= base_url("PublicadasController/edit_mat/"); ?>' +
+                                                                            '<?= base_url("PublicadasController/edit_public_nat/"); ?>' +
                                                                             idRegulacion;
                                                                     }
                                                                 }
@@ -2572,12 +2568,12 @@ Registro Estatal de Regulaciones
         var lastInsertedIndicePadre =
             null; // Variable para almacenar el último ID_IndicePadre insertado
 
-            $('#guardarIbtn').on('click', function () {
+        $('#guardarIbtn').on('click', function () {
             var inputTexto = $('#inputTexto').val();
             lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
             lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
             lastInsertedOrden = $('#inputOrden').val();
-            if (inputTexto.trim() === ''  || lastInsertedOrden.trim() === '' || lastInsertedOrden == null || !Number.isInteger(lastInsertedOrdenInt)) {
+            if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null || !Number.isInteger(lastInsertedOrdenInt)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -2764,7 +2760,7 @@ Registro Estatal de Regulaciones
                         console.error('AJAX error:', textStatus, errorThrown);
                     }
                 });
-            }  else {
+            } else {
                 var inputTexto = $('#inputTexto').val();
                 var lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
                 var lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
@@ -2773,7 +2769,7 @@ Registro Estatal de Regulaciones
                 var inputTexto = $('#inputTexto').val();
                 lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
                 lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-                if (inputTexto.trim() === ''  || lastInsertedOrden.trim() === '' || lastInsertedOrden == null) {
+                if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
