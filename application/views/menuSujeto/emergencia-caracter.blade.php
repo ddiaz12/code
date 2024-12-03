@@ -23,34 +23,29 @@ Registro Estatal de Regulaciones
     .center-text-tinto {
         text-align: center;
         color: red;
-        /* Código de color hexadecimal para tinto */
         font-weight: bold;
-        font-size: 23px;
-        margin-top: 60px;
+        font-size: 16px;
     }
 
     .center-right-text {
         text-align: right;
-        /* font-weight: bold; */
         padding-right: 52px;
-        font-size: 20px;
-        margin-top: 60px;
+        font-size: 16px;
     }
 
     .right-text {
         text-align: right;
-        /* font-weight: bold; */
         padding-right: 54px;
-        font-size: 18px;
-        margin-top: 20px;
+        font-size: 12px;
+        color: gray;
     }
 
     .emergency-icon {
         text-align: center;
         color: red;
-        font-size: 78px;
+        font-size: 55px;
         /* Tamaño grande */
-        margin-top: 20px;
+        margin: 1rem;
     }
 </style>
 <!-- Icono de emergencia centrado y en grande -->
@@ -110,6 +105,19 @@ Registro Estatal de Regulaciones
                 <!-- Existing card -->
                 <div class="card flex-grow-1">
                     <div class="card">
+                        <div class="emergency-message">
+                            <div class="emergency-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <h4 class="center-text-tinto">En caso de EMERGENCIA llene los campos obligatorios* y en
+                                un plazo no mayor a 10 días, complete la totalidad del registro.</h4>
+                            <p>
+                            <h6 class="center-right-text">Artículo 34. 1. Los Sujetos Obligados serán responsables del
+                                registro y actualización permanente del Registro Estatal de Regulaciones.</h6>
+                            </p>
+                            <h5 class="right-text">Ley de Mejora Regulatoria para el Estado de Colima y sus Municipios
+                            </h5>
+                        </div>
                         <div class="card-header text-white">Inscripción al Registro Estatal de Regulaciones (RER)</div>
                         <div class="card-body div-card-body">
                             <!-- Mensaje de atención -->
@@ -238,12 +246,10 @@ Registro Estatal de Regulaciones
                                             <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
                                             <div>
                                                 <label>
-                                                    <input type="radio" name="opcion" id="apsi"
-                                                        checked> Sí
+                                                    <input type="radio" name="opcion" id="apsi" checked> Sí
                                                 </label>
                                                 <label>
-                                                    <input type="radio" name="opcion" id="apno"
-                                                        > No
+                                                    <input type="radio" name="opcion" id="apno"> No
                                                 </label>
                                             </div>
                                         </div>
@@ -361,7 +367,8 @@ Registro Estatal de Regulaciones
                                 </script>
                                 <div class="form-group my-5">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
-                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg" rows="5"></textarea>
+                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg"
+                                        rows="5"></textarea>
                                 </div>
                                 <p></p>
                                 <div class="header-container mb-0">
@@ -418,7 +425,8 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarMat" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                                <button type="button" id="guardarMat" class="btn btn-tinto"
+                                                    onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -482,7 +490,8 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarFun" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                                <button type="button" id="guardarFun" class="btn btn-tinto"
+                                                    onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -1928,6 +1937,9 @@ Registro Estatal de Regulaciones
                 var inputArt = $('#inputArt').val();
                 var inputLink = $('#inputLink').val();
 
+                // Expresión regular para validar URLs
+                var urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/;
+
                 if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
                     if (inputNomReg.trim() === '') {
                         $('#inputNomReg').css('color', 'red');
@@ -1944,9 +1956,16 @@ Registro Estatal de Regulaciones
                     if (inputLink.trim() === '') {
                         $('#inputLink').css('color', 'red');
                         $('#inputLink').after(
-                            '<span class="error-message" style="color: red;">El campo "Link" es obligatorio.</span>'
+                            '<span class="error-message" style="color: red;">El campo "Dirección web" es obligatorio.</span>'
                         );
                     }
+                    return;
+                } else if (!urlRegex.test(inputLink.trim())) {
+                    // Validar que el link sea una URL válida
+                    $('#inputLink').css('color', 'red');
+                    $('#inputLink').after(
+                        '<span class="error-message" style="color: red;">El campo "Dirección web" debe ser una dirección web válida.</span>'
+                    );
                     return;
                 } else {
                     // Crea una nueva fila con los datos

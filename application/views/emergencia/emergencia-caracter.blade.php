@@ -1928,6 +1928,9 @@ Registro Estatal de Regulaciones
                 var inputArt = $('#inputArt').val();
                 var inputLink = $('#inputLink').val();
 
+                // Expresión regular para validar URLs
+                var urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/;
+
                 if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
                     if (inputNomReg.trim() === '') {
                         $('#inputNomReg').css('color', 'red');
@@ -1944,9 +1947,16 @@ Registro Estatal de Regulaciones
                     if (inputLink.trim() === '') {
                         $('#inputLink').css('color', 'red');
                         $('#inputLink').after(
-                            '<span class="error-message" style="color: red;">El campo "Link" es obligatorio.</span>'
+                            '<span class="error-message" style="color: red;">El campo "Dirección web" es obligatorio.</span>'
                         );
                     }
+                    return;
+                } else if (!urlRegex.test(inputLink.trim())) {
+                    // Validar que el link sea una URL válida
+                    $('#inputLink').css('color', 'red');
+                    $('#inputLink').after(
+                        '<span class="error-message" style="color: red;">El campo "Dirección web" debe ser una dirección web válida.</span>'
+                    );
                     return;
                 } else {
                     // Crea una nueva fila con los datos
