@@ -229,7 +229,7 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <form>
                                     <div class="row">
-                                        <div class="col-md-12" id="selectAplican">
+                                        <div class="col-md-12 mb-3" id="selectAplican">
                                             <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
                                             <div class="d-flex justify-content-start">
                                                 <label class="me-2">

@@ -108,21 +108,28 @@ Registro Estatal de Regulaciones
                                 </h7>
                             </a>
                         </div>
-                        <div class="card-body d-flex flex-column">
+                                <div class="card-body d-flex flex-column">
                             <!-- Información de las autoridades -->
-                            <?php    if (!empty($regulacion->autoridades)): ?>
-                            <p><strong>Autoridades que la emiten:</strong></p>
-                            <ul>
-                                <?php        foreach ($regulacion->autoridades as $autoridad): ?>
-                                <li> <?php            echo $autoridad->Autoridad_Emiten; ?></li>
-                                <?php        endforeach; ?>
-                            </ul>
-                            <?php    else: ?>
-                            <p>No hay información disponible sobre las autoridades.</p>
-                            <?php    endif; ?>
-                            <!-- Fecha de ultima modificacion en el sistema -->
-                            <p class="p-fecha"><strong>Última modificación:</strong>
-                                <?php    echo $regulacion->Fecha_Act_Sys; ?></p>
+                            <?php if (!empty($regulacion->autoridades)): ?>
+                                <p><strong>Autoridades que la emiten:</strong></p>
+                                <ul>
+                                    <?php 
+                                    $autoridadesEmiten = array_filter($regulacion->autoridades, function($autoridad) {
+                                        return !empty($autoridad->Autoridad_Emiten);
+                                    });
+                                    if (!empty($autoridadesEmiten)): 
+                                        foreach ($autoridadesEmiten as $autoridad): ?>
+                                            <li><?php echo $autoridad->Autoridad_Emiten; ?></li>
+                                        <?php endforeach; 
+                                    else: ?>
+                                        <li>No hay información disponible sobre las autoridades que emiten.</li>
+                                    <?php endif; ?>
+                                </ul>
+                            <?php else: ?>
+                                <p>No hay información disponible sobre las autoridades.</p>
+                            <?php endif; ?>
+                            <!-- Fecha de última modificación en el sistema -->
+                            <p class="p-fecha"><strong>Última modificación:</strong> <?php echo $regulacion->Fecha_Act_Sys; ?></p>
                         </div>
                         <div class="card-footer text-center">
                             <a href="<?php    echo base_url('ciudadania/verRegulacion/' . $regulacion->ID_Regulacion); ?>"

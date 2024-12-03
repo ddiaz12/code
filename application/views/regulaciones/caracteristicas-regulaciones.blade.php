@@ -199,12 +199,10 @@ Registro Estatal de Regulaciones
                                                 regulación?</p>
                                             <div class="d-flex justify-content-start mb-3">
                                                 <label>
-                                                    <input type="radio" name="opcion" id="apsi"
-                                                         checked> Sí
+                                                    <input type="radio" name="opcion" id="apsi" checked> Sí
                                                 </label>
                                                 <label class="ms-2">
-                                                    <input type="radio" name="opcion" id="apno"
-                                                        > No
+                                                    <input type="radio" name="opcion" id="apno"> No
                                                 </label>
                                             </div>
                                         </div>
@@ -328,7 +326,8 @@ Registro Estatal de Regulaciones
                                 </script>
                                 <div class="form-group my-5">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
-                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg" rows="5"></textarea>
+                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg"
+                                        rows="5"></textarea>
                                 </div>
                                 <div class="header-container mb-0">
                                     <p id="matText" class="mb-0">Materias, Sectores y Sujetos Regulados<span
@@ -384,7 +383,8 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarMat" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                                <button type="button" id="guardarMat" class="btn btn-tinto"
+                                                    onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -439,7 +439,7 @@ Registro Estatal de Regulaciones
                                                             placeholder="Ingrese el articulo" name="NombreArt">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputLink">Link</label>
+                                                        <label for="inputLink">Dirección web</label>
                                                         <input type="text" class="form-control" id="inputLink"
                                                             placeholder="http://" name="NombreLink">
                                                     </div>
@@ -448,7 +448,8 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarFun" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                                <button type="button" id="guardarFun" class="btn btn-tinto"
+                                                    onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -1885,10 +1886,14 @@ Registro Estatal de Regulaciones
                         });
                     }
                 });
+
                 // Obtiene los valores de los inputs
                 var inputNomReg = $('#inputNomReg').val();
                 var inputArt = $('#inputArt').val();
                 var inputLink = $('#inputLink').val();
+
+                // Expresión regular para validar URLs
+                var urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/;
 
                 if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
                     if (inputNomReg.trim() === '') {
@@ -1906,9 +1911,16 @@ Registro Estatal de Regulaciones
                     if (inputLink.trim() === '') {
                         $('#inputLink').css('color', 'red');
                         $('#inputLink').after(
-                            '<span class="error-message" style="color: red;">El campo "Link" es obligatorio.</span>'
+                            '<span class="error-message" style="color: red;">El campo "Dirección web" es obligatorio.</span>'
                         );
                     }
+                    return;
+                } else if (!urlRegex.test(inputLink.trim())) {
+                    // Validar que el link sea una URL válida
+                    $('#inputLink').css('color', 'red');
+                    $('#inputLink').after(
+                        '<span class="error-message" style="color: red;">El campo "Dirección web" debe ser una dirección web válida.</span>'
+                    );
                     return;
                 } else {
                     // Crea una nueva fila con los datos

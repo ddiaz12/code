@@ -283,7 +283,8 @@ Registro Estatal de Regulaciones
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                 onclick="closeModal()">Cerrar</button>
-                                            <button type="button" id="guardarIbtn" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto"
+                                                onclick="closeModal()">Guardar
                                                 cambios</button>
                                         </div>
                                     </div>
@@ -354,12 +355,25 @@ Registro Estatal de Regulaciones
         var inputTram = $('#inputTram').val();
         var inputDir = $('#inputDir').val();
 
+        // Expresión regular para validar URLs
+        var urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/;
+
         // Verificar campos obligatorios
         if (inputTram === '' || inputDir === '') {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
                 text: 'Por favor, complete los campos obligatorios',
+            });
+            return;
+        }
+
+        // Validar que el link sea una URL válida
+        if (!urlRegex.test(inputDir.trim())) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'El campo "Dirección" debe contener una dirección web válida',
             });
             return;
         }
@@ -377,6 +391,10 @@ Registro Estatal de Regulaciones
             inputDir +
             '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
         $('#tramitesTable tbody').append(newRow);
+
+        // Limpia los valores de los inputs
+        $('#inputTram').val('');
+        $('#inputDir').val('');
     });
 
     // Manejar el evento de clic en el botón de eliminar

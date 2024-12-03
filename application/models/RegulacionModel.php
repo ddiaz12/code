@@ -689,12 +689,12 @@ class RegulacionModel extends CI_Model
     public function obtenerAutoridadesPorRegulacion($idRegulacion)
     {
         $this->db->distinct();
-        $this->db->select('aplican_dep.nombre_sujeto as Autoridad_Aplican, emiten_dep.nombre_sujeto as Autoridad_Emiten');
+        $this->db->select('emiten_dep.nombre_sujeto as Autoridad_Emiten, aplican_dep.nombre_sujeto as Autoridad_Aplican');
         $this->db->from('de_regulacion_caracteristicas as caract');
-        $this->db->join('rel_autoridades_aplican as aplican', 'caract.ID_caract = aplican.ID_caract');
-        $this->db->join('cat_sujeto_obligado as aplican_dep', 'aplican.ID_Aplican = aplican_dep.ID_sujeto');
-        $this->db->join('rel_autoridades_emiten as emiten', 'caract.ID_caract = emiten.ID_caract');
-        $this->db->join('cat_sujeto_obligado as emiten_dep', 'emiten.ID_Emiten = emiten_dep.ID_sujeto');
+        $this->db->join('rel_autoridades_emiten as emiten', 'caract.ID_caract = emiten.ID_caract', 'left');
+        $this->db->join('cat_sujeto_obligado as emiten_dep', 'emiten.ID_Emiten = emiten_dep.ID_sujeto', 'left');
+        $this->db->join('rel_autoridades_aplican as aplican', 'caract.ID_caract = aplican.ID_caract', 'left');
+        $this->db->join('cat_sujeto_obligado as aplican_dep', 'aplican.ID_Aplican = aplican_dep.ID_sujeto', 'left');
         $this->db->where('caract.ID_Regulacion', $idRegulacion);
         $query = $this->db->get();
         return $query->result();

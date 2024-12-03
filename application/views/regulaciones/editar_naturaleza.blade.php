@@ -82,7 +82,7 @@ Registro Estatal de Regulaciones
                     <div class="card-header text-white">Naturaleza de la regulación</div>
                     <form id="formGnat" enctype="multipart/form-data">
                         <input type="hidden" id="idRegulacion" name="idRegulacion"
-                        value="{{ $regulaciones->ID_Regulacion ?? '' }}">
+                            value="{{ $regulaciones->ID_Regulacion ?? '' }}">
                         <input type="hidden" id="idNaturaleza" name="idNaturaleza" value="{{ $natreg2->ID_Nat ?? '' }}">
                         <div class="card-body d-flex flex-column justify-content-center div-card-body">
                             <div class="row justify-content-center">
@@ -328,7 +328,8 @@ Registro Estatal de Regulaciones
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                 onclick="closeModal()">Cerrar</button>
-                                            <button type="button" id="guardarIbtn" class="btn btn-tinto"  onclick="closeModal()">
+                                            <button type="button" id="guardarIbtn" class="btn btn-tinto"
+                                                onclick="closeModal()">
                                                 Guardar cambios</button>
                                         </div>
                                     </div>
@@ -390,24 +391,24 @@ Registro Estatal de Regulaciones
     });
 </script>
 
-    <script>
-        $(document).ready(function () {
-            $('input[type=radio][name=opcion]').change(function () {
-                if (this.value == 'si') {
-                    $('#inputs').show(); // Mostrar los inputs
-                } else if (this.value == 'no') {
-                    $('#inputs').hide(); // Ocultar los inputs
-                }
-            });
-
-            // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
-            if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
-                $('#inputs').hide(); // Ocultar los inputs
-            } else {
+<script>
+    $(document).ready(function () {
+        $('input[type=radio][name=opcion]').change(function () {
+            if (this.value == 'si') {
                 $('#inputs').show(); // Mostrar los inputs
+            } else if (this.value == 'no') {
+                $('#inputs').hide(); // Ocultar los inputs
             }
         });
-    </script>
+
+        // Inicializar el estado de los inputs basado en el radio button seleccionado por defecto
+        if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
+            $('#inputs').hide(); // Ocultar los inputs
+        } else {
+            $('#inputs').show(); // Mostrar los inputs
+        }
+    });
+</script>
 <script>
     $(document).ready(function () {
         $('.btn-tramites').click(function () {
@@ -941,10 +942,10 @@ Registro Estatal de Regulaciones
                     data: {
                         id_regulacion: id_regulacion,
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log('Sector actualizado en la base de datos');
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.error('Error al actualizar el sector en la base de datos:', textStatus, errorThrown);
                     }
                 });
@@ -1024,10 +1025,10 @@ Registro Estatal de Regulaciones
                     data: {
                         id_regulacion: id_regulacion,
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log('Subsector actualizado en la base de datos');
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.error('Error al actualizar el subsector en la base de datos:', textStatus, errorThrown);
                     }
                 });
@@ -1105,10 +1106,10 @@ Registro Estatal de Regulaciones
                     data: {
                         id_regulacion: id_regulacion,
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log('Rama actualizada en la base de datos');
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.error('Error al actualizar la rama en la base de datos:', textStatus, errorThrown);
                     }
                 });
@@ -1187,10 +1188,10 @@ Registro Estatal de Regulaciones
                     data: {
                         id_regulacion: id_regulacion,
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log('Subrama actualizada en la base de datos');
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.error('Error al actualizar la subrama en la base de datos:', textStatus, errorThrown);
                     }
                 });
@@ -1269,10 +1270,10 @@ Registro Estatal de Regulaciones
                     data: {
                         id_regulacion: id_regulacion,
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log('Clase actualizada en la base de datos');
                     },
-                    error: function(jqXHR, textStatus, errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         console.error('Error al actualizar la clase en la base de datos:', textStatus, errorThrown);
                     }
                 });
@@ -1365,74 +1366,74 @@ Registro Estatal de Regulaciones
                     let nameRegulacion = $(this).closest('tr').find('td').eq(0).text();
                     let row = $(this).closest('tr'); // Guardar la fila para eliminarla después
                     console.log('Nombre de la Regulación:', nameRegulacion);
-                        // Hacer una llamada AJAX para obtener el ID_Regulacion basado en nameRegulacion
-                        $.ajax({
-                            url: '<?= base_url('RegulacionController/get_id_regulacion') ?>',
-                            method: 'POST',
-                            data: {
-                                name_regulacion: nameRegulacion
-                            },
-                            success: function(response) {
-                                var data = JSON.parse(response);
-                                if (data.status === 'success') {
-                                    let idRegulacion = data.id_regulacion;
-                                    console.log('ID_Regulacion:', idRegulacion);
+                    // Hacer una llamada AJAX para obtener el ID_Regulacion basado en nameRegulacion
+                    $.ajax({
+                        url: '<?= base_url('RegulacionController/get_id_regulacion') ?>',
+                        method: 'POST',
+                        data: {
+                            name_regulacion: nameRegulacion
+                        },
+                        success: function (response) {
+                            var data = JSON.parse(response);
+                            if (data.status === 'success') {
+                                let idRegulacion = data.id_regulacion;
+                                console.log('ID_Regulacion:', idRegulacion);
 
-                                    // Eliminar la fila de la tabla
-                                    row.remove();
+                                // Eliminar la fila de la tabla
+                                row.remove();
 
-                                    
 
-                                    // Hacer una llamada AJAX para eliminar el registro en la base de datos
-                                    $.ajax({
-                                        url: '<?= base_url('RegulacionController/delete_derivada_reg') ?>',
-                                        method: 'POST',
-                                        data: {
-                                            id_regulacion: idRegulacion
-                                        },
-                                        success: function(response) {
-                                            var data = JSON.parse(response);
-                                            if (data.status === 'success') {
-                                                alert('Registro eliminado correctamente de la base de datos');
-                                            } else {
-                                                alert('Error al eliminar el registro de la base de datos');
-                                            }
-                                        },
-                                        error: function(jqXHR, textStatus, errorThrown) {
-                                            console.error('Error al eliminar el registro de la base de datos:', textStatus, errorThrown);
+
+                                // Hacer una llamada AJAX para eliminar el registro en la base de datos
+                                $.ajax({
+                                    url: '<?= base_url('RegulacionController/delete_derivada_reg') ?>',
+                                    method: 'POST',
+                                    data: {
+                                        id_regulacion: idRegulacion
+                                    },
+                                    success: function (response) {
+                                        var data = JSON.parse(response);
+                                        if (data.status === 'success') {
+                                            alert('Registro eliminado correctamente de la base de datos');
+                                        } else {
                                             alert('Error al eliminar el registro de la base de datos');
                                         }
-                                    });
-                                } else {
-                                     // Hacer una llamada AJAX para eliminar el registro en la tabla cat_regulacion_derivada_manual
-                                    $.ajax({
-                                        url: '<?= base_url('RegulacionController/delete_regulacion_derivada_manual') ?>',
-                                        method: 'POST',
-                                        data: {
-                                            name_regulacion: nameRegulacion
-                                        },
-                                        success: function(response) {
-                                            var data = JSON.parse(response);
-                                            if (data.status === 'success') {
-                                                console.log('Registro eliminado de cat_regulacion_derivada_manual');
-                                                // Eliminar la fila de la tabla
-                                                row.remove();
-                                            } else {
-                                                console.error('Error al eliminar el registro de cat_regulacion_derivada_manual');
-                                            }
-                                        },
-                                        error: function(jqXHR, textStatus, errorThrown) {
-                                            console.error('Error al eliminar el registro de cat_regulacion_derivada_manual:', textStatus, errorThrown);
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        console.error('Error al eliminar el registro de la base de datos:', textStatus, errorThrown);
+                                        alert('Error al eliminar el registro de la base de datos');
+                                    }
+                                });
+                            } else {
+                                // Hacer una llamada AJAX para eliminar el registro en la tabla cat_regulacion_derivada_manual
+                                $.ajax({
+                                    url: '<?= base_url('RegulacionController/delete_regulacion_derivada_manual') ?>',
+                                    method: 'POST',
+                                    data: {
+                                        name_regulacion: nameRegulacion
+                                    },
+                                    success: function (response) {
+                                        var data = JSON.parse(response);
+                                        if (data.status === 'success') {
+                                            console.log('Registro eliminado de cat_regulacion_derivada_manual');
+                                            // Eliminar la fila de la tabla
+                                            row.remove();
+                                        } else {
+                                            console.error('Error al eliminar el registro de cat_regulacion_derivada_manual');
                                         }
-                                    });
-                                }
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                console.error('Error al obtener el ID de la regulación:', textStatus, errorThrown);
-                                alert('Error al obtener el ID de la regulación');
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        console.error('Error al eliminar el registro de cat_regulacion_derivada_manual:', textStatus, errorThrown);
+                                    }
+                                });
                             }
-                        });
-                } 
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error('Error al obtener el ID de la regulación:', textStatus, errorThrown);
+                            alert('Error al obtener el ID de la regulación');
+                        }
+                    });
+                }
             });
         });
 
@@ -1469,9 +1470,18 @@ Registro Estatal de Regulaciones
             var inputTram = $('#inputTram').val();
             var inputDir = $('#inputDir').val();
 
+            // Expresión regular para validar URLs
+            var urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/;
+
             // Verificar campos obligatorios
             if (inputTram === '' || inputDir === '') {
                 alert('Por favor, complete los campos obligatorios');
+                return;
+            }
+
+            // Validar que el link sea una URL válida
+            if (!urlRegex.test(inputDir.trim())) {
+                alert('El campo "Dirección" debe contener una dirección web válida');
                 return;
             }
 
