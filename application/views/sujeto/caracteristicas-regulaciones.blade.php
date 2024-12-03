@@ -199,12 +199,10 @@ Registro Estatal de Regulaciones
                                                 regulación?</p>
                                             <div class="d-flex justify-content-start mb-3">
                                                 <label>
-                                                    <input type="radio" name="opcion" id="apsi"
-                                                         checked> Sí
+                                                    <input type="radio" name="opcion" id="apsi" checked> Sí
                                                 </label>
                                                 <label class="ms-2">
-                                                    <input type="radio" name="opcion" id="apno"
-                                                        > No
+                                                    <input type="radio" name="opcion" id="apno"> No
                                                 </label>
                                             </div>
                                         </div>
@@ -297,7 +295,7 @@ Registro Estatal de Regulaciones
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
                                                 <button type="button" id="guardarIbtn"
-                                                    class="btn btn-tinto btn_gIndice">Guardar
+                                                    class="btn btn-tinto btn_gIndice" onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -328,7 +326,8 @@ Registro Estatal de Regulaciones
                                 </script>
                                 <div class="form-group my-5">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
-                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg" rows="5"></textarea>
+                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg"
+                                        rows="5"></textarea>
                                 </div>
                                 <div class="header-container mb-0">
                                     <p id="matText" class="mb-0">Materias, Sectores y Sujetos Regulados<span
@@ -384,7 +383,8 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarMat" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                                <button type="button" id="guardarMat" class="btn btn-tinto"
+                                                    onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -439,7 +439,7 @@ Registro Estatal de Regulaciones
                                                             placeholder="Ingrese el articulo" name="NombreArt">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputLink">Link</label>
+                                                        <label for="inputLink">Dirección web</label>
                                                         <input type="text" class="form-control" id="inputLink"
                                                             placeholder="http://" name="NombreLink">
                                                     </div>
@@ -448,7 +448,8 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarFun" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                                <button type="button" id="guardarFun" class="btn btn-tinto"
+                                                    onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -1493,7 +1494,8 @@ Registro Estatal de Regulaciones
             lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
             lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
             lastInsertedOrden = $('#inputOrden').val();
-            if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null || !Number.isInteger(lastInsertedOrdenInt)) {
+            console.log('lastInsetedOrden:', lastInsertedOrden);
+            if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null ) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -1524,17 +1526,20 @@ Registro Estatal de Regulaciones
                         if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
                             lastInsertedIndicePadre = null;
                         }
+                        
+                        var rowClass = lastInsertedIndicePadre ? 'child-row' : 'parent-row';
 
-
-                        var newRow = '<tr><td class="hidden-column">' + lastInsertedID_Indice + '</td><td class="texto">' + inputTexto +
-                            '</td><td>' + lastInsertedOrden + '</td>' +
-                            '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
-                            '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                            '<td><button class="btn btn-gris btn-sm edit-row">' +
-                            '<i class="fas fa-edit"></i></button></td>' +
-                            '<td><button class="btn btn-danger btn-sm delete-row">' +
-                            '<i class="fas fa-trash-alt"></i></button></td>' +
-                            '</tr>';
+                        var newRow = `<tr class="${rowClass}">
+                        <td class="hidden-column">${lastInsertedID_Indice}</td>
+                        <td class="texto">${inputTexto}</td>
+                        <td class="orden">${lastInsertedOrden}</td>
+                        <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
+                        <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
+                        <td class="text-end">
+                            <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                        </tr>`;
                         $('#resultTable tbody').append(newRow);
                         // Cerrar el modal
                         $('#myModal').modal('hide');
@@ -1631,91 +1636,90 @@ Registro Estatal de Regulaciones
 
             // Abrir el modal
             $('#myModal').modal('show');
-        });
+            $('#guardarIbtn').off('click').on('click', function () {
+                if (isEditing) {
+                    // Actualizar los datos de la fila en modo de edición
+                    editingRow.find('.texto').text($('#inputTexto').val());
+                    editingRow.find('.orden').text($('#inputOrden').val());
+                    editingRow.find('.indice-padre').text($('#selectIndicePadre').val());
 
-        $('#guardarIbtn').off('click').on('click', function () {
-            if (isEditing) {
-                // Actualizar los datos de la fila en modo de edición
-                editingRow.find('.texto').text($('#inputTexto').val());
-                editingRow.find('.orden').number($('#inputOrden').val());
-                editingRow.find('.indice-padre').text($('#selectIndicePadre').val());
-
-                // Resetear el modo de edición
-                isEditing = false;
-                editingRow = null;
-            } else {
-                var inputTexto = $('#inputTexto').val();
-                var lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
-                var lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-                var lastInsertedOrden = $('#inputOrden').val();
-                // Agregar un nuevo índice en modo de creación
-                var inputTexto = $('#inputTexto').val();
-                lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
-                lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-                if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Por favor, complete el campo de texto. y/o el campo de orden.'
-                    });
-                    return;
+                    // Resetear el modo de edición
+                    isEditing = false;
+                    editingRow = null;
                 } else {
-                    $.ajax({
-                        url: '<?= base_url('RegulacionController/getMaxValues') ?>',
-                        method: 'GET',
-                        success: function (data) {
-                            var maxValues = JSON.parse(data);
+                    var inputTexto = $('#inputTexto').val();
+                    var lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
+                    var lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+                    var lastInsertedOrden = $('#inputOrden').val();
+                    // Agregar un nuevo índice en modo de creación
+                    var inputTexto = $('#inputTexto').val();
+                    lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
+                    lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
+                    if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Por favor, complete el campo de texto. y/o el campo de orden.'
+                        });
+                        return;
+                    } else {
+                        $.ajax({
+                            url: '<?= base_url('RegulacionController/getMaxValues') ?>',
+                            method: 'GET',
+                            success: function (data) {
+                                var maxValues = JSON.parse(data);
 
-                            if (maxValues.ID_Indice == null || maxValues.Orden == null) {
-                                lastInsertedID_Indice = 1;
-                                // Verificar si la tabla con id resultTable no está vacía
-                                if ($('#resultTable tbody tr').length > 0) {
-                                    lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
+                                if (maxValues.ID_Indice == null || maxValues.Orden == null) {
+                                    lastInsertedID_Indice = 1;
+                                    // Verificar si la tabla con id resultTable no está vacía
+                                    if ($('#resultTable tbody tr').length > 0) {
+                                        lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
+                                    }
+                                } else {
+                                    lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
+                                    // Verificar si la tabla con id resultTable no está vacía
+                                    if ($('#resultTable tbody tr').length > 0) {
+                                        lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
+                                            '#resultTable tbody tr').length + 1;
+                                    }
                                 }
-                            } else {
-                                lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
-                                // Verificar si la tabla con id resultTable no está vacía
-                                if ($('#resultTable tbody tr').length > 0) {
-                                    lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
-                                        '#resultTable tbody tr').length + 1;
+                                if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
+                                    lastInsertedIndicePadre = null;
                                 }
-                            }
-                            if (lastInsertedIndicePadre == 'Seleccione un índice padre') {
-                                lastInsertedIndicePadre = null;
-                            }
 
-                            var rowClass = lastInsertedIndicePadre ? 'child-row' : 'parent-row';
+                                var rowClass = lastInsertedIndicePadre ? 'child-row' : 'parent-row';
 
-                            var newRow = `<tr class="${rowClass}">
-                            <td class="hidden-column">${lastInsertedID_Indice}</td>
-                            <td class="texto">${inputTexto}</td>
-                            <td class="orden">${lastInsertedOrden}</td>
-                            <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
-                            <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
-                            <td class="text-end">
-                                <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
-                            </td>
-                            </tr>`;
+                                var newRow = `<tr class="${rowClass}">
+                                <td class="hidden-column">${lastInsertedID_Indice}</td>
+                                <td class="texto">${inputTexto}</td>
+                                <td class="orden">${lastInsertedOrden}</td>
+                                <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
+                                <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
+                                <td class="text-end">
+                                    <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                                </tr>`;
 
-                            if (lastInsertedIndicePadre) {
-                                var parentRow = $('#resultTable tbody tr').filter(function () {
-                                    return $(this).find('td').eq(0).text() == lastInsertedIDIndicePadre;
-                                });
-                                parentRow.after(newRow);
-                            } else {
-                                $('#resultTable tbody').append(newRow);
+                                if (lastInsertedIndicePadre) {
+                                    var parentRow = $('#resultTable tbody tr').filter(function () {
+                                        return $(this).find('td').eq(0).text() == lastInsertedIDIndicePadre;
+                                    });
+                                    parentRow.after(newRow);
+                                } else {
+                                    $('#resultTable tbody').append(newRow);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.error('AJAX error:', textStatus, errorThrown);
                             }
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.error('AJAX error:', textStatus, errorThrown);
-                        }
-                    });
+                        });
+                    }
                 }
-            }
 
-            // Cerrar el modal
-            $('#myModal').modal('hide');
+                // Cerrar el modal
+                $('#myModal').modal('hide');
+            });
         });
     });
 </script>
@@ -1885,10 +1889,14 @@ Registro Estatal de Regulaciones
                         });
                     }
                 });
+
                 // Obtiene los valores de los inputs
                 var inputNomReg = $('#inputNomReg').val();
                 var inputArt = $('#inputArt').val();
                 var inputLink = $('#inputLink').val();
+
+                // Expresión regular para validar URLs
+                var urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/;
 
                 if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
                     if (inputNomReg.trim() === '') {
@@ -1906,9 +1914,16 @@ Registro Estatal de Regulaciones
                     if (inputLink.trim() === '') {
                         $('#inputLink').css('color', 'red');
                         $('#inputLink').after(
-                            '<span class="error-message" style="color: red;">El campo "Link" es obligatorio.</span>'
+                            '<span class="error-message" style="color: red;">El campo "Dirección web" es obligatorio.</span>'
                         );
                     }
+                    return;
+                } else if (!urlRegex.test(inputLink.trim())) {
+                    // Validar que el link sea una URL válida
+                    $('#inputLink').css('color', 'red');
+                    $('#inputLink').after(
+                        '<span class="error-message" style="color: red;">El campo "Dirección web" debe ser una dirección web válida.</span>'
+                    );
                     return;
                 } else {
                     // Crea una nueva fila con los datos
