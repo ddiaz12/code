@@ -308,6 +308,11 @@ Registro Estatal de Regulaciones
                                                             placeholder="Ingrese texto" name="texto">
                                                     </div>
                                                     <div class="form-group">
+                                                        <label for="inputOrden">Orden</label>
+                                                        <input type="number" class="form-control" id="inputOrden"
+                                                            placeholder="Ingrese orden" name="orden">
+                                                    </div>
+                                                    <div class="form-group">
                                                         <label for="selectIndicePadre">Índice Padre</label>
                                                         <select class="form-control" id="selectIndicePadre"
                                                             name="indicePadre">
@@ -327,7 +332,7 @@ Registro Estatal de Regulaciones
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
                                                 <button type="button" id="guardarIbtn"
-                                                    class="btn btn-tinto btn_gIndice">Guardar
+                                                    class="btn btn-tinto btn_gIndice" onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -1524,7 +1529,8 @@ Registro Estatal de Regulaciones
             var inputTexto = $('#inputTexto').val();
             lastInsertedIndicePadre = $('#selectIndicePadre option:selected').text();
             lastInsertedIDIndicePadre = $('#selectIndicePadre').val();
-            if (inputTexto.trim() === '') {
+            lastInsertedOrden = $('#inputOrden').val();
+            if (inputTexto.trim() === '' || lastInsertedOrden.trim() === '' || lastInsertedOrden == null || !Number.isInteger(lastInsertedOrdenInt)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
@@ -1533,27 +1539,22 @@ Registro Estatal de Regulaciones
                 return;
             } else {
                 $.ajax({
-                    url: '<?= base_url('emergency/getMaxValues') ?>',
+                    url: '<?= base_url('RegulacionController/getMaxValues') ?>',
                     method: 'GET',
                     success: function (data) {
                         var maxValues = JSON.parse(data);
 
                         if (maxValues.ID_Indice == null || maxValues.Orden == null) {
                             lastInsertedID_Indice = 1;
-                            lastInsertedOrden = 1;
                             // Verificar si la tabla con id resultTable no está vacía
                             if ($('#resultTable tbody tr').length > 0) {
                                 lastInsertedID_Indice = $('#resultTable tbody tr').length + 1;
-                                lastInsertedOrden = $('#resultTable tbody tr').length + 1;
                             }
                         } else {
                             lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + 1;
-                            lastInsertedOrden = parseInt(maxValues.Orden) + 1;
                             // Verificar si la tabla con id resultTable no está vacía
                             if ($('#resultTable tbody tr').length > 0) {
                                 lastInsertedID_Indice = parseInt(maxValues.ID_Indice) + $(
-                                    '#resultTable tbody tr').length + 1;
-                                lastInsertedOrden = parseInt(maxValues.Orden) + $(
                                     '#resultTable tbody tr').length + 1;
                             }
                         }

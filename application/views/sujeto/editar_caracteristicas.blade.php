@@ -3,10 +3,10 @@
 Registro Estatal de Regulaciones
 @endsection
 @section('navbar')
-@include('templates/navbarSujeto')
+@include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuSujeto')
+@include('templates/menuAdmin')
 @endsection
 
 @section('contenido')
@@ -85,8 +85,8 @@ Registro Estatal de Regulaciones
                         <div class="card-body div-card-body">
                             <!-- Mensaje de atención -->
                             <div class="alert alert-warning" role="alert">
-                            Atención: Esta ficha debe ser requisitada
-                            con el uso de mayúsculas y minúsculas.
+                                Atención: Esta ficha debe ser requisitada
+                                con el uso de mayúsculas y minúsculas.
                             </div>
                             <!-- Formulario de agregar regulaciones -->
                             <form class="row g-3" id="form-regulacion">
@@ -231,12 +231,11 @@ Registro Estatal de Regulaciones
                                     <div class="col-md-12" id="selectAplican">
                                         <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
                                         <div>
-                                            <label >
-                                                <input type="radio" name="opcion" id="apsi" 
-                                                    checked> Sí
+                                            <label>
+                                                <input type="radio" name="opcion" id="apsi" checked> Sí
                                             </label>
                                             <label>
-                                                <input type="radio" name="opcion" id="apno" >
+                                                <input type="radio" name="opcion" id="apno">
                                                 No
                                             </label>
                                         </div>
@@ -634,8 +633,8 @@ Registro Estatal de Regulaciones
 
                                 <div class="form-group my-5">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
-                                    <textarea class="form-control" id="inputObjetivo"
-                                        name="objetivoReg" rows="5"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+                                    <textarea class="form-control" id="inputObjetivo" name="objetivoReg"
+                                        rows="5"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
                                 </div>
                                 <p></p>
                                 <div class="header-container mb-0">
@@ -680,7 +679,8 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarMat" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                                <button type="button" id="guardarMat" class="btn btn-tinto"
+                                                    onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -765,7 +765,8 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarFun" class="btn btn-tinto" onclick="closeModal()">Guardar
+                                                <button type="button" id="guardarFun" class="btn btn-tinto"
+                                                    onclick="closeModal()">Guardar
                                                     cambios</button>
                                             </div>
                                         </div>
@@ -3075,6 +3076,9 @@ Registro Estatal de Regulaciones
                 var inputArt = $('#inputArt').val();
                 var inputLink = $('#inputLink').val();
 
+                // Expresión regular para validar URLs
+                var urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/;
+
                 if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
                     if (inputNomReg.trim() === '') {
                         $('#inputNomReg').css('color', 'red');
@@ -3091,9 +3095,16 @@ Registro Estatal de Regulaciones
                     if (inputLink.trim() === '') {
                         $('#inputLink').css('color', 'red');
                         $('#inputLink').after(
-                            '<span class="error-message" style="color: red;">El campo "Link" es obligatorio.</span>'
+                            '<span class="error-message" style="color: red;">El campo "Dirección web" es obligatorio.</span>'
                         );
                     }
+                    return;
+                } else if (!urlRegex.test(inputLink.trim())) {
+                    // Validar que el link sea una URL válida
+                    $('#inputLink').css('color', 'red');
+                    $('#inputLink').after(
+                        '<span class="error-message" style="color: red;">El campo "Dirección web" debe ser una dirección web válida.</span>'
+                    );
                     return;
                 } else {
                     // Crea una nueva fila con los datos
