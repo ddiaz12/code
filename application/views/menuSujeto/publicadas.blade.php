@@ -48,6 +48,10 @@ Registro Estatal de Regulaciones
                                                 class="btn btn-danger btn-sm">
                                                 <i class="fas fa-eye" title="Ver regulacion"></i>
                                             </a>
+                                            <button class="btn btn-dorado btn-sm modificar-regulacion"
+                                                data-id="<?php                echo $publicada->ID_Regulacion; ?>">
+                                                <i class="fas fa-sync-alt" title="Cambiar estatus"></i>
+                                            </button>
                                             <button class="btn btn-gris btn-sm edit-row" title="Editar"
                                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                                 <i class="fas fa-edit"></i>

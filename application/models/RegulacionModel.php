@@ -646,7 +646,7 @@ class RegulacionModel extends CI_Model
 
     public function obtenerEnlaceOficial($id)
     {
-        $this->db->select('Enlace_Oficial');
+        $this->db->select('Enlace_Oficial, file_path');
         $this->db->from('de_naturaleza_regulacion');
         $this->db->join('rel_nat_reg', 'de_naturaleza_regulacion.ID_Nat = rel_nat_reg.ID_Nat');
         $this->db->where('rel_nat_reg.ID_Regulacion', $id);

@@ -49,18 +49,20 @@ Registro Estatal de Regulaciones
                     </p>
                     <p><strong>Ámbito de la aplicación:</strong> <span
                             class="application-badge"><?php echo !empty($regulacionCaracteristicas->Ambito_Aplicacion) ? $regulacionCaracteristicas->Ambito_Aplicacion : 'No disponible'; ?></span>
-                        <span class="application-badge"><i class="fas fa-map-marker-alt"></i> Colima</span>
+                        <span class="application-badge">Colima</span>
                     </p>
                     <p><a
                             href="<?php echo !empty($enlace_oficial->Enlace_Oficial) ? $enlace_oficial->Enlace_Oficial : '#'; ?>">Enlace
                             de la regulación</a></p>
                 </div>
-                <div class="div-protesta">
-                    <a class="nav-link" href="https://protestaciudadana.col.gob.mx/" data-toggle="tooltip"
-                        data-placement="right" title="Protesta Ciudadana">
+                <div class="div-protesta text-center">
+                    <a class="nav-link d-flex flex-column align-items-center"
+                        href="https://protestaciudadana.col.gob.mx/" data-toggle="tooltip" data-placement="right"
+                        title="Protesta Ciudadana">
                         <div class="sb-nav-link-icon">
                             <i class="fa-solid fa-person-circle-exclamation icon-protesta"></i>
                         </div>
+                        <span class="small">Protesta <br> Ciudadana</span>
                     </a>
                 </div>
             </div>
@@ -191,7 +193,7 @@ Registro Estatal de Regulaciones
                         <li>
                             <strong>Nombre:</strong> <?php        echo $fundamento->Nombre; ?><br>
                             <strong>Artículo:</strong> <?php        echo $fundamento->Articulo; ?><br>
-                            <strong>Link:</strong> <a href="<?php        echo $fundamento->Link; ?>"
+                            <strong>Dirección web:</strong> <a href="<?php        echo $fundamento->Link; ?>"
                                 target="_blank"><?php        echo $fundamento->Link; ?></a>
                         </li>
                         <?php    endforeach; ?>
@@ -203,13 +205,19 @@ Registro Estatal de Regulaciones
             </div>
 
             <div class="row mt-4 justify-content-center">
-                <div class="col-md-3 btn-verRegulacion1">
-                    <a href="<?php echo base_url('ciudadania'); ?>"
-                        class="btn btn-secondary btn-block btn-custom">Regresar<i></i></a>
+                <div class="col-md-3 btn-verRegulacion3">
+                    <a href="<?php echo !empty($enlace_oficial->file_path) ? base_url($enlace_oficial->file_path) : '#'; ?>"
+                        class="btn-download btn-custom">Descargar documento<i class="fas fa-download"></i></a>
                 </div>
                 <div class="col-md-3 btn-verRegulacion2">
                     <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"
-                        class="btn-download btn-custom">Descargar regulación <i class="fas fa-download"></i></a>
+                        class="btn-download btn-custom">Descargar ficha<br><i class="fas fa-download"></i></a>
+                </div>
+            </div>
+            <div class="row mt-4 justify-content-center">
+                <div class="col-md-3 btn-verRegulacion1">
+                    <a href="<?php echo base_url('ciudadania'); ?>"
+                        class="btn-block btn-custom-regresar">Regresar<i></i></a>
                 </div>
             </div>
             @include('templates/footerCiudadania')  

@@ -217,10 +217,28 @@ class Menu extends CI_Controller
         $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
         // Obtener el usuario actual
         $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
 
 
         if ($regulacion && $regulacion->Estatus == 3) {
+
             $result = $this->MenuModel->modificarRegulacion($id_regulacion);
+
+            // Determinar el usuario destino en función del grupo del usuario actual
+            if ($group->name === 'sujeto_obligado') {
+
+                $usuario_destino = 'consejeria';
+
+                $data = [
+                    'titulo' => 'Regulacion abrogada',
+                    'mensaje' => 'El sujeto obligado ha abrogado la regulación: ' . $regulacion->Nombre_Regulacion,
+                    'usuario_destino' => $usuario_destino, // Identificador del usuario o grupo
+                    'id_regulacion' => $id_regulacion,
+                    'leido' => 0, // Indica que la notificación no ha sido leída
+                    'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
+                ];
+                $this->NotificacionesModel->crearNotificacion($data);
+            }
 
             // Registrar el movimiento en la trazabilidad
             $dataTrazabilidad = [
@@ -234,6 +252,22 @@ class Menu extends CI_Controller
         } else if ($regulacion && $regulacion->Estatus == 4) {
             $result = $this->MenuModel->modificarRegulacionAbrogada($id_regulacion);
 
+            // Determinar el usuario destino en función del grupo del usuario actual
+            if ($group->name === 'sujeto_obligado') {
+
+                $usuario_destino = 'consejeria';
+
+                $data = [
+                    'titulo' => 'Regulacion abrogada',
+                    'mensaje' => 'El sujeto obligado ha quitado el estatus abrogado a la regulación: ' . $regulacion->Nombre_Regulacion,
+                    'usuario_destino' => $usuario_destino, // Identificador del usuario o grupo
+                    'id_regulacion' => $id_regulacion,
+                    'leido' => 0, // Indica que la notificación no ha sido leída
+                    'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
+                ];
+                $this->NotificacionesModel->crearNotificacion($data);
+            }
+
             // Registrar el movimiento en la trazabilidad
             $dataTrazabilidad = [
                 'ID_Regulacion' => $id_regulacion,
@@ -242,6 +276,34 @@ class Menu extends CI_Controller
                 'usuario_responsable' => $user->email,
                 'estatus_anterior' => 'Abrogada',
                 'estatus_nuevo' => 'Publicado'
+            ];
+        } else if ($regulacion && $regulacion->Estatus == 5) {
+            $result = $this->MenuModel->modificarRegulacion($id_regulacion);
+
+            // Determinar el usuario destino en función del grupo del usuario actual
+            if ($group->name === 'sujeto_obligado') {
+
+                $usuario_destino = 'consejeria';
+
+                $data = [
+                    'titulo' => 'Regulacion abrogada',
+                    'mensaje' => 'El sujeto obligado ha abrogado la regulación: ' . $regulacion->Nombre_Regulacion,
+                    'usuario_destino' => $usuario_destino, // Identificador del usuario o grupo
+                    'id_regulacion' => $id_regulacion,
+                    'leido' => 0, // Indica que la notificación no ha sido leída
+                    'fecha_envio' => date('Y-m-d') // Fecha y hora de envío
+                ];
+                $this->NotificacionesModel->crearNotificacion($data);
+            }
+
+            // Registrar el movimiento en la trazabilidad
+            $dataTrazabilidad = [
+                'ID_Regulacion' => $id_regulacion,
+                'fecha_movimiento' => date('Y-m-d H:i:s'),
+                'descripcion_movimiento' => 'Regulación abrogada',
+                'usuario_responsable' => $user->email,
+                'estatus_anterior' => 'Emergencia',
+                'estatus_nuevo' => 'Abrogada'
             ];
         }
 
@@ -296,8 +358,8 @@ class Menu extends CI_Controller
             'Nombre',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
             )
         );
         $this->form_validation->set_rules(
@@ -357,8 +419,8 @@ class Menu extends CI_Controller
             'Nombre de vialidad',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
             )
         );
 
@@ -490,8 +552,8 @@ class Menu extends CI_Controller
             'Nombre',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
             )
         );
         $this->form_validation->set_rules(
@@ -551,8 +613,8 @@ class Menu extends CI_Controller
             'Nombre de vialidad',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
             )
         );
 
@@ -660,8 +722,8 @@ class Menu extends CI_Controller
             'Sujeto obligado',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
             )
         );
         //$this->form_validation->set_rules('TipoSujeto', 'Tipo sujeto', 'required');
@@ -745,8 +807,8 @@ class Menu extends CI_Controller
             'Sujeto obligado',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
             )
         );
         //$this->form_validation->set_rules('TipoSujeto', 'Tipo sujeto', 'required');

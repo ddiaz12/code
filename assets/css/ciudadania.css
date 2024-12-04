@@ -187,8 +187,7 @@ a.cursor.denuncia-menu.nav-link {
 
 .icon-protesta {
 	color: #b39362;
-	font-size: 45px;
-	padding-right: 6px;
+	font-size: 30px;
 }
 
 .fa-universal-access {
@@ -295,8 +294,8 @@ a.cursor.denuncia-menu.nav-link {
 
 .div-protesta{
 	position: absolute;
-	bottom: 0;
-	right: 0;
+	bottom: 4px;
+	right: 6px;
 }
 
 .div-iconos{
@@ -521,6 +520,19 @@ footer .footer-icon-separador-pu {
 	border-radius: 16px;
 }
 
+.btn-custom-regresar{
+	padding: 10px;
+	border-radius: 16px;
+	background-color: #b39362;
+	color: #ffffff;
+	text-align: center;
+}
+
+.btn-custom-regresar:hover{
+	background-color: #b89867;
+	color: #ffffff;
+}
+
 
 /*
 #nombreRegulacion {
@@ -584,6 +596,8 @@ footer .footer-icon-separador-pu {
 	footer .footer-icon-separador-pu {
 		padding-left: 0px;
 	}
+
+	
 }
 
 /* Pantallas muy pequeñas (menos de 768px) */
@@ -600,6 +614,10 @@ footer .footer-icon-separador-pu {
 
 	footer .footer-icon-separador-pu {
 		padding-left: 0px;
+	}
+
+	.btn-custom{
+		margin: 5px;
 	}
 }
 
