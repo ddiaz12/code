@@ -325,7 +325,8 @@ Registro Estatal de Regulaciones
                                     });
                                 </script>
                                 <div class="form-group my-5">
-                                    <label for="inputObjetivo">Objeto de la regulación</label>
+                                    <label for="inputObjetivo">Objeto de la regulación</label><span
+                                    class="text-danger">*</span>
                                     <textarea class="form-control" id="inputObjetivo" name="objetivoReg"
                                         rows="5"></textarea>
                                 </div>
