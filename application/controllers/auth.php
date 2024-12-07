@@ -1187,11 +1187,10 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
         $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
 
-        if ($this->input->post('password')) {
-            $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
-                $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
-            $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
-        }
+        $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
+            $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
+        $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
+
 
         if ($this->form_validation->run() === TRUE) {
             $upload_result = $this->uploadFile($_FILES['userfile'], $id);
@@ -1239,7 +1238,7 @@ class Auth extends CI_Controller
             }
 
             //Notificar a administrador
-            $data = [
+            $notificacion = [
                 'titulo' => 'Usuario pendiente de aprobación',
                 'mensaje' => 'El usuario ' . $data['first_name'] . ' ' . $data['ap1'] . ' ' . ' ha completado su registro y está pendiente de aprobación.',
                 'usuario_destino' => 'sedeco,admin',
@@ -1248,7 +1247,7 @@ class Auth extends CI_Controller
                 'fecha_envio' => date('Y-m-d')
             ];
 
-            $this->NotificacionesModel->crearNotificacion($data);
+            $this->NotificacionesModel->crearNotificacion($notificacion);
 
             if ($this->ion_auth->update($user->id, $data)) {
                 $response = [
@@ -1368,7 +1367,7 @@ class Auth extends CI_Controller
         $groupName = $group->name;
         $notifications = $this->NotificacionesModel->getNotifications($groupName);
         $this->data['notificaciones'] = $notifications;
-        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotifications($groupName);
+        $this->data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
 
         $group = $this->ion_auth->group($id)->row();
 
@@ -1687,7 +1686,7 @@ class Auth extends CI_Controller
                 'leido' => 0,
                 'fecha_envio' => date('Y-m-d')
             ];
-            
+
             $this->NotificacionesModel->crearNotificacion($data);
 
             $response = [

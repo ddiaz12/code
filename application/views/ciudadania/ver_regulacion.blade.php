@@ -207,7 +207,7 @@ Registro Estatal de Regulaciones
             <div class="row mt-4 justify-content-center">
                 <div class="col-md-3 btn-verRegulacion3">
                     <a href="<?php echo !empty($enlace_oficial->file_path) ? base_url($enlace_oficial->file_path) : '#'; ?>"
-                        class="btn-download btn-custom">Descargar documento<i class="fas fa-download"></i></a>
+                        class="btn-download btn-custom">Descargar documento <br><i class="fas fa-download"></i></a>
                 </div>
                 <div class="col-md-3 btn-verRegulacion2">
                     <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"

@@ -105,7 +105,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="password">Contraseña</label>
+                            <label for="password">Contraseña</label><span class="text-danger">*</span>
                             <?php echo form_input($password, '', [
                                 'class' => 'form-control', 'id' => 'password',
                                 'placeholder' => 'Contraseña'
@@ -115,7 +115,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="password_confirm">Confirmar Contraseña</label>
+                            <label for="password_confirm">Confirmar contraseña</label><span class="text-danger">*</span>
                             <?php echo form_input($password_confirm, '', [
                                 'class' => 'form-control',
                                 'id' => 'password_confirm',

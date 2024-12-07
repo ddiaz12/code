@@ -9,6 +9,7 @@ class RegulacionController extends CI_Controller
         parent::__construct();
         $this->load->model('RegulacionModel');
         $this->load->model('NotificacionesModel');
+        $this->load->model('ComentariosModel');
         $this->load->config('ftp_config');
         date_default_timezone_set('America/Mexico_City');
     }
@@ -211,7 +212,7 @@ class RegulacionController extends CI_Controller
             redirect('auth/login', 'refresh');
         }
     }
- 
+
     public function edit_nat($id_regulacion)
     {
         $user = $this->ion_auth->user()->row();
@@ -256,7 +257,7 @@ class RegulacionController extends CI_Controller
             // Enviar los datos combinados a la vista
             $data['regulaciones_combinadas'] = $regulaciones_combinadas;
         }
-        
+
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $this->blade->render('sujeto/editar_naturaleza', $data);
         } elseif ($this->ion_auth->in_group('admin') || $this->ion_auth->in_group('sedeco')) {
@@ -1013,7 +1014,7 @@ class RegulacionController extends CI_Controller
             if ($result->maxID == null) {
                 $idNaturaleza = 1;
             } else {
-                $idNaturaleza = $result->maxID+1;
+                $idNaturaleza = $result->maxID + 1;
             }
         }
         $manualRegulaciones = isset($_POST['manualRegulaciones']) ? json_decode($_POST['manualRegulaciones'], true) : [];
@@ -1348,6 +1349,15 @@ class RegulacionController extends CI_Controller
         $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
         $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
         $idUser = $user->id;
+
+        // Verificar si hay comentarios asociados a la regulación
+        $comentarios = $this->ComentariosModel->obtenerComentariosPorRegulacion($id_regulacion);
+
+        if (empty($comentarios)) {
+            echo json_encode(['success' => false, 'message' => 'No se puede devolver la regulación sin comentarios.']);
+            return;
+        }
+
         if ($regulacion) {
             $this->RegulacionModel->devolver_regulacion($id_regulacion);
 
@@ -2393,18 +2403,19 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function updateMatSecSuj() {
+    public function updateMatSecSuj()
+    {
         $id = $this->input->post('id');
         $mat = $this->input->post('mat');
         $sec = $this->input->post('sec');
         $suj = $this->input->post('suj');
-    
+
         // Cargar el modelo
         $this->load->model('RegulacionModel');
-    
+
         // Actualizar el registro en la tabla de_mat_sec_suj
         $result = $this->RegulacionModel->update_mat_sec_suj($id, $mat, $sec, $suj);
-    
+
         if ($result) {
             echo json_encode(['status' => 'success']);
         } else {
@@ -2412,18 +2423,19 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function updateNomRegArtLink() {
+    public function updateNomRegArtLink()
+    {
         $id = $this->input->post('id');
         $nomReg = $this->input->post('nomReg');
         $art = $this->input->post('art');
         $link = $this->input->post('link');
-    
+
         // Cargar el modelo
         $this->load->model('RegulacionModel');
-    
+
         // Actualizar el registro en la tabla correspondiente
         $result = $this->RegulacionModel->update_nom_reg_art_link($id, $nomReg, $art, $link);
-    
+
         if ($result) {
             echo json_encode(['status' => 'success']);
         } else {
@@ -2431,7 +2443,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function update_sector() {
+    public function update_sector()
+    {
         $id_regulacion = $this->input->post('id_regulacion');
 
         // Cargar el modelo
@@ -2447,7 +2460,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function update_subsector() {
+    public function update_subsector()
+    {
         $id_regulacion = $this->input->post('id_regulacion');
 
         // Cargar el modelo
@@ -2463,7 +2477,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function update_rama() {
+    public function update_rama()
+    {
         $id_regulacion = $this->input->post('id_regulacion');
 
         // Cargar el modelo
@@ -2479,7 +2494,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function update_subrama() {
+    public function update_subrama()
+    {
         $id_regulacion = $this->input->post('id_regulacion');
 
         // Cargar el modelo
@@ -2495,7 +2511,8 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function update_clase() {
+    public function update_clase()
+    {
         $id_regulacion = $this->input->post('id_regulacion');
 
         // Cargar el modelo
@@ -2511,15 +2528,16 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function get_id_regulacion() {
+    public function get_id_regulacion()
+    {
         $name_regulacion = $this->input->post('name_regulacion');
-    
+
         // Cargar el modelo
         $this->load->model('RegulacionModel');
-    
+
         // Obtener el ID_Regulacion basado en name_regulacion
         $id_regulacion = $this->RegulacionModel->get_id_regulacion_by_name($name_regulacion);
-    
+
         if ($id_regulacion) {
             echo json_encode(['status' => 'success', 'id_regulacion' => $id_regulacion]);
         } else {
@@ -2527,15 +2545,16 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function delete_derivada_reg() {
+    public function delete_derivada_reg()
+    {
         $id_regulacion = $this->input->post('id_regulacion');
-    
+
         // Cargar el modelo
         $this->load->model('RegulacionModel');
-    
+
         // Eliminar el registro en la tabla derivada_reg
         $result = $this->RegulacionModel->delete_derivada_reg($id_regulacion);
-    
+
         if ($result) {
             echo json_encode(['status' => 'success']);
         } else {
@@ -2543,15 +2562,16 @@ class RegulacionController extends CI_Controller
         }
     }
 
-    public function delete_regulacion_derivada_manual() {
+    public function delete_regulacion_derivada_manual()
+    {
         $name_regulacion = $this->input->post('name_regulacion');
-    
+
         // Cargar el modelo
         $this->load->model('RegulacionModel');
-    
+
         // Eliminar el registro en la tabla cat_regulacion_derivada_manual
         $result = $this->RegulacionModel->delete_regulacion_derivada_manual($name_regulacion);
-    
+
         if ($result) {
             echo json_encode(['status' => 'success']);
         } else {
