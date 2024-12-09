@@ -396,7 +396,7 @@ Registro Estatal de Regulaciones
                                 <div class="header-container mb-0">
                                     <p id="funText" class="mb-0">Identificación de fundamentos jurídicos para la
                                         realización de Inspecciones, Verificaciones y Visitas
-                                        Domiciliarias (REVID)<span class="text-danger">*</span>
+                                        Domiciliarias (REVID)
                                     </p>
                                     <button type="button" id="botofundamentos" class="btn btn-tinto btn-fundamentos"
                                         data-toggle="modal" data-target="#funModal">Agregar</button>
@@ -878,7 +878,7 @@ Registro Estatal de Regulaciones
             // Imprimir formData en consola
             console.log(formData);
             if (formData.nombre === '' || formData.fecha_expedicion === '' || formData.fecha_publicacion === '' || ($('#si').is(':checked') &&
-                formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || $('#fundamentoTable tbody tr').length === 0 || formData.unidad === null) {
+                formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || formData.unidad === null) {
                 if (formData.nombre === '') {
                     $('#inputNombre').css('color', 'red');
                     $('#inputNombre').after(

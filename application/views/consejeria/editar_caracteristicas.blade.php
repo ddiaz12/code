@@ -713,7 +713,7 @@ Registro Estatal de Regulaciones
                                 <div class="header-container mb-0">
                                     <p id="funText" class="mb-0"> Identificación de fundamentos jurídicos para la
                                         realización de inspecciones, verificaciones y visitas
-                                        domiciliarias<span class="text-danger">*</span>
+                                        domiciliarias
                                     </p>
                                 </div>
                                 <!-- Modal -->
