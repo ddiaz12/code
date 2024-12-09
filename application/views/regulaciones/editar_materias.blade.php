@@ -156,8 +156,7 @@ Registro Estatal de Regulaciones
                                     <input type="checkbox" id="checkbox13"
                                         name="Proteger la sanidad y la inocuidad agroalimentaria, animal y vegetal"
                                         value="Proteger la sanidad y la inocuidad agroalimentaria, animal y vegetal">
-                                    <label for="checkbox13" class="text-mat">Proteger la sanidad y la inocuidad agroalimentaria, animal y
-                                        vegetal</label>
+                                    <label for="checkbox13" class="text-mat">Proteger la sanidad y la inocuidad agroalimentaria, animal y vegetal</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox14" name="Recursos naturales"
@@ -173,8 +172,7 @@ Registro Estatal de Regulaciones
                                     <input type="checkbox" id="checkbox16"
                                         name="Revisión de contratos petroleros (art. 37-B-VII y 63 LISH)"
                                         value="Revisión de contratos petroleros (art. 37-B-VII y 63 LISH)">
-                                    <label for="checkbox16" class="text-mat">Revisión de contratos petroleros (art. 37-B-VII y 63
-                                        LISH)</label>
+                                    <label for="checkbox16" class="text-mat">Revisión de contratos petroleros (art. 37-B-VII y 63 LISH)</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox17" name="Salud humana" value="Salud humana">
@@ -184,8 +182,7 @@ Registro Estatal de Regulaciones
                                     <input type="checkbox" id="checkbox18"
                                         name="Salud pública, medicamentos, asistencia sanitaria y/o sanidad"
                                         value="Salud pública, medicamentos, asistencia sanitaria y/o sanidad">
-                                    <label for="checkbox18" class="text-mat">Salud pública, medicamentos, asistencia sanitaria y/o
-                                        sanidad</label>
+                                    <label for="checkbox18" class="text-mat">Salud pública, medicamentos, asistencia sanitaria y/o sanidad</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox19" name="Sector financiero"
@@ -206,8 +203,7 @@ Registro Estatal de Regulaciones
                                     <input type="checkbox" id="checkbox22"
                                         name="Seguridad de los productos no alimentarios y protección del consumidor"
                                         value="Seguridad de los productos no alimentarios y protección del consumidor">
-                                    <label for="checkbox22" class="text-mat">Seguridad de los productos no alimentarios y protección del
-                                        consumidor</label>
+                                    <label for="checkbox22" class="text-mat">Seguridad de los productos no alimentarios y protección del consumidor</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox23" name="Seguridad nuclear"
@@ -222,7 +218,7 @@ Registro Estatal de Regulaciones
                                 <div>
                                     <input type="checkbox" id="checkbox25" name="Seguridad, protección y salud laboral"
                                         value="Seguridad, protección y salud laboral">
-                                    <label for="checkbox25"class="text-mat">Seguridad, protección y salud laboral</label>
+                                    <label for="checkbox25" class="text-mat">Seguridad, protección y salud laboral</label>
                                 </div>
                                 <div>
                                     <input type="checkbox" id="checkbox26" name="Trabajo" value="Trabajo">
@@ -236,6 +232,41 @@ Registro Estatal de Regulaciones
                                     <input type="checkbox" id="checkbox28" name="Turismo" value="Turismo">
                                     <label for="checkbox28" class="text-mat">Turismo</label>
                                 </div>
+                                <div>
+                                    <input type="checkbox" id="checkbox29" name="checkbox29" value="checkbox29">
+                                    <label for="checkbox29" class="text-mat">Todas las anteriores</label>
+                                </div>
+                                <script>
+                                $(document).ready(function() {
+                                    $('#checkbox29').change(function() {
+                                        var isChecked = $(this).is(':checked');
+                                        // Seleccionar todos los checkboxes anteriores a checkbox29
+                                        $('#checkbox29').parent().prevAll().find('input[type="checkbox"]').prop('checked', isChecked);
+                                    });
+
+                                    // Manejar el evento de cambio en todos los checkboxes anteriores a checkbox29
+                                    $('input[type="checkbox"]').not('#checkbox29').change(function() {
+                                        if (!$(this).is(':checked')) {
+                                            $('#checkbox29').prop('checked', false);
+                                        }
+                                    });
+                                });
+                                </script>
+                                <div>
+                                    <input type="checkbox" id="checkbox30" name="No Aplican" value="checkbox30">
+                                    <label for="checkbox30" class="text-mat">No Aplican</label>
+                                </div>
+                                <script>
+                                $(document).ready(function() {
+                                    $('#checkbox30').change(function() {
+                                        var isChecked = $(this).is(':checked');
+                                        if (isChecked) {
+                                            // Deseleccionar todos los checkboxes anteriores a checkbox30
+                                            $('#checkbox30').parent().prevAll().find('input[type="checkbox"]').prop('checked', false);
+                                        }
+                                    });
+                                });
+                                </script>
                             </div>
 
                         </div>

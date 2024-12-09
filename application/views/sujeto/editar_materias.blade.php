@@ -236,6 +236,41 @@ Registro Estatal de Regulaciones
                                     <input type="checkbox" id="checkbox28" name="Turismo" value="Turismo">
                                     <label for="checkbox28" class="text-mat">Turismo</label>
                                 </div>
+                                <div>
+                                    <input type="checkbox" id="checkbox29" name="checkbox29" value="checkbox29">
+                                    <label for="checkbox29" class="text-mat">Todas las anteriores</label>
+                                </div>
+                                <script>
+                                $(document).ready(function() {
+                                    $('#checkbox29').change(function() {
+                                        var isChecked = $(this).is(':checked');
+                                        // Seleccionar todos los checkboxes anteriores a checkbox29
+                                        $('#checkbox29').parent().prevAll().find('input[type="checkbox"]').prop('checked', isChecked);
+                                    });
+
+                                    // Manejar el evento de cambio en todos los checkboxes anteriores a checkbox29
+                                    $('input[type="checkbox"]').not('#checkbox29').change(function() {
+                                        if (!$(this).is(':checked')) {
+                                            $('#checkbox29').prop('checked', false);
+                                        }
+                                    });
+                                });
+                                </script>
+                                <div>
+                                    <input type="checkbox" id="checkbox30" name="No Aplican" value="checkbox30">
+                                    <label for="checkbox30" class="text-mat">No Aplican</label>
+                                </div>
+                                <script>
+                                $(document).ready(function() {
+                                    $('#checkbox30').change(function() {
+                                        var isChecked = $(this).is(':checked');
+                                        if (isChecked) {
+                                            // Deseleccionar todos los checkboxes anteriores a checkbox30
+                                            $('#checkbox30').parent().prevAll().find('input[type="checkbox"]').prop('checked', false);
+                                        }
+                                    });
+                                });
+                                </script>
                             </div>
 
                         </div>
