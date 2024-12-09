@@ -112,8 +112,7 @@ Registro Estatal de Regulaciones
                         <div class="card-body div-card-body">
                             <!-- Mensaje de atención -->
                             <div class="alert alert-warning" role="alert">
-                                Atención: se le solicita que el llenado de esta ficha de inscripción sea requisitado
-                                con el uso de mayúsculas y minúsculas.
+                            Atención: se le solicita que el llenado de esta ficha de inscripción sea requisitado con el uso de mayúsculas y minúsculas.
                             </div>
                             <!-- Formulario de agregar regulaciones -->
                             <form class="row g-3" id="form-regulacion">
@@ -183,18 +182,18 @@ Registro Estatal de Regulaciones
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6" id="otroCampo">
+                                    <div class="col-md-6 hidden-column" id="otroCampo">
                                         <label for="campoExtra">Vigencia de la regulación<span
                                                 class="text-danger">*</span></label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
-                                            required disabled>
+                                            required>
                                     </div>
                                 </form>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputVialidad">Orden de gobierno que la emite:</label>
-                                            <select class="form-control" id="selectUnidad2" name="orden" required>
+                                            <label for="inputVialidad">Orden de gobierno que la emite</label>
+                                            <select class="form-control" id="selectUnidad2" name="ordenGob" required>
                                                 <option disabled selected>Selecciona una opción</option>
                                                 <option value="Poder Ejecutivo">Poder Ejecutivo</option>
                                                 <option value="Poder Legistativo">Poder Legistativo</option>
@@ -231,43 +230,44 @@ Registro Estatal de Regulaciones
                                     }
                                 </style>
                                 <form>
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3" id="selectAplican">
-                                            <p>¿Están obligadas todas las autoridades a cumplir con la regulación?</p>
-                                            <div>
+                                    <div class="col-md-12">
+                                        <div id="selectAplican">
+                                            <p>¿Están obligadas todas las autoridades a cumplir con la
+                                                regulación?</p>
+                                            <div class="d-flex justify-content-start mb-3">
                                                 <label>
                                                     <input type="radio" name="opcion" id="apsi" checked> Sí
                                                 </label>
-                                                <label>
+                                                <label class="ms-2">
                                                     <input type="radio" name="opcion" id="apno"> No
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" id="AutoridadesAplicanContainer">
+                                    </div>
+                                    <div id="opcAplican" class="col-md-6">
+                                        <div id="AutoridadesAplicanContainer">
                                             <div class="form-group">
-                                                <label for="AutoridadesAplican">Autoridades que aplican la
-                                                    regulación<span class="text-danger">*</span></label>
+                                                <label for="AutoridadesAplican">Autoridades que aplican
+                                                    la regulación<span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="AutoridadesAplican"
                                                     name="AutoridadesAplican" required>
                                                 <div id="searchResults2" class="list-group"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" id="opcAplican">
-                                        <div class="col-md-12" id="apTContainer">
-                                            <table id="aplicanTable" class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="hidden-column">ID_Dependencia</th>
-                                                        <th>Tipo dependencia</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- Las filas se agregarán dinámicamente aquí -->
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div id="apTContainer">
+                                        <table id="aplicanTable" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="hidden-column">ID_Dependencia</th>
+                                                    <th>Tipo dependencia</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Las filas se agregarán dinámicamente aquí -->
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </form>
                                 <div class="header-container mb-0">
@@ -341,9 +341,6 @@ Registro Estatal de Regulaciones
                                 <script>
                                     $(document).ready(function () {
                                         $('#myModal').on('show.bs.modal', function () {
-                                            // Limpiar las opciones del select y agregar la opción por defecto
-                                            $('#selectIndicePadre').empty().append('<option>Seleccione un índice padre</option>');
-
                                             // Agregar las opciones del servidor
                                             <?php if (!empty($indices)): ?>
                                             <?php    foreach ($indices as $indice): ?>
@@ -351,9 +348,13 @@ Registro Estatal de Regulaciones
                                             <?php    endforeach; ?>
                                             <?php endif; ?>
 
+                                            // Limpiar las opciones del select y agregar la opción por defecto
+                                            $('#selectIndicePadre').empty().append('<option>Seleccione un índice padre</option>');
+
                                             // Agregar las opciones de la tabla
                                             $('#resultTable tbody tr').each(function () {
                                                 var idIndice = $(this).find('.hidden-column').first().text();
+                                                var orden = $(this).find('.orden').text();
                                                 var textoIndice = $(this).find('.texto').text();
                                                 $('#selectIndicePadre').append('<option value="' + idIndice + '">' + textoIndice + '</option>');
                                             });
@@ -361,11 +362,11 @@ Registro Estatal de Regulaciones
                                     });
                                 </script>
                                 <div class="form-group my-5">
-                                    <label for="inputObjetivo">Objeto de la regulación</label>
+                                    <label for="inputObjetivo">Objeto de la regulación</label><span
+                                    class="text-danger">*</span>
                                     <textarea class="form-control" id="inputObjetivo" name="objetivoReg"
                                         rows="5"></textarea>
                                 </div>
-                                <p></p>
                                 <div class="header-container mb-0">
                                     <p id="matText" class="mb-0">Materias, Sectores y Sujetos Regulados<span
                                             class="text-danger">*</span></p>
@@ -443,9 +444,9 @@ Registro Estatal de Regulaciones
                                     <thead>
                                         <tr>
                                             <th class="hidden-column">ID_Fun</th>
-                                            <th>Nombre regulacion</th>
-                                            <th>Articulo</th>
-                                            <th>Link</th>
+                                            <th>Nombre regulación</th>
+                                            <th>Artículo</th>
+                                            <th>Dirección web</th>
                                             <th></th>
 
                                         </tr>
@@ -476,7 +477,7 @@ Registro Estatal de Regulaciones
                                                             placeholder="Ingrese el articulo" name="NombreArt">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputLink">Link</label>
+                                                        <label for="inputLink">Dirección web</label>
                                                         <input type="text" class="form-control" id="inputLink"
                                                             placeholder="http://" name="NombreLink">
                                                     </div>
@@ -703,6 +704,7 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
+
 <script>
     $(document).ready(function () {
         var emitenArray = [];
@@ -944,12 +946,7 @@ Registro Estatal de Regulaciones
                         '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Materias, Sectores y Sujetos Regulados".</span>'
                     );
                 }
-                if ($('#fundamentoTable tbody tr').length === 0) {
-                    $('#funText').css('color', 'red');
-                    $('#funText').after(
-                        '<span class="error-message" style="color: red;">Debe agregar al menos un registro en la tabla "Fundamentos Jurídicos".</span>'
-                    );
-                }
+                
                 if (formData.unidad === 'Selecciona una opción' || formData.unidad === '' || formData.unidad === null) {
                     $('#selectUnidad').css('color', 'red');
                     $('#selectUnidad').after(
@@ -1018,7 +1015,7 @@ Registro Estatal de Regulaciones
                                                 Vigencia: formData
                                                     .campoExtra,
                                                 Orden_Gob: formData
-                                                    .orden
+                                                    .ordenGob
                                             };
 
                                             // Imprimir caracteristicasData en consola
@@ -1452,7 +1449,7 @@ Registro Estatal de Regulaciones
                                                                                 window
                                                                                     .location
                                                                                     .href =
-                                                                                    '<?php echo base_url('emergency'); ?>';
+                                                                                    '<?php echo base_url('emergency/mat_exentas'); ?>';
                                                                             } else {
                                                                                 console
                                                                                     .log(
@@ -1462,7 +1459,7 @@ Registro Estatal de Regulaciones
                                                                                 window
                                                                                     .location
                                                                                     .href =
-                                                                                    '<?php echo base_url('emergency'); ?>';
+                                                                                    '<?php echo base_url('emergency/mat_exentas'); ?>';
                                                                             }
                                                                         }
                                                                     });
@@ -1925,6 +1922,7 @@ Registro Estatal de Regulaciones
                         });
                     }
                 });
+
                 // Obtiene los valores de los inputs
                 var inputNomReg = $('#inputNomReg').val();
                 var inputArt = $('#inputArt').val();
