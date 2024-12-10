@@ -277,7 +277,7 @@ Registro Estatal de Regulaciones
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
-                        <a href="<?php echo base_url('RegulacionController'); ?>"
+                        <a href="<?php echo base_url('emergency'); ?>"
                             class="btn btn-secondary me-2">Cancelar</a>
                         <button type="submit" id="btnCheck" class="btn btn-guardar">Guardar</button>
                     </div>

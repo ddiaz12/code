@@ -807,7 +807,7 @@ Registro Estatal de Regulaciones
                                 </table>
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
-                                    <a href="<?php echo base_url('RegulacionController'); ?>"
+                                    <a href="<?php echo base_url('emergency'); ?>"
                                         class="btn btn-secondary me-2">Cancelar</a>
                                     <button type="button" class="btn btn-tinto"
                                         id="botonGuardar">Guardar</button>
