@@ -16,7 +16,7 @@
         <li class="breadcrumb-item"><a href="<?php echo base_url('menu/menu_sujeto'); ?>"><i class="fas fa-users me-1"></i>Sujeto
                 Obligado</a>
         </li>
-        <li class="breadcrumb-item active"><i class="fas fa-user-plus me-1"></i>Agregar Sujeto Obligado</li>
+        <li class="breadcrumb-item active"><i class="fas fa-user-plus me-1"></i>Editar Sujeto Obligado</li>
     </ol>
     <div class="container mt-5">
         <div class="row justify-content-center div-formUsuario">
@@ -24,7 +24,7 @@
             <div class="col-md-9">
 
                 <div class="card">
-                    <div class="card-header header-usuario text-white">Agregar Sujeto Obligado</div>
+                    <div class="card-header header-usuario text-white">Editar Sujeto Obligado</div>
                     <div class="card-body">
 
                         <!-- Formulario de agregar usuario -->
