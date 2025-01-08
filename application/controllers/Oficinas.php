@@ -76,8 +76,8 @@ class Oficinas extends CI_Controller
             'Nombre',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
             )
         );
         $this->form_validation->set_rules(
@@ -92,12 +92,12 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'num_exterior',
             'Número exterior',
-            'required|numeric|greater_than_equal_to[0]'
-            ,
+            'required|numeric|greater_than_equal_to[0]|max_length[5]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'numeric' => 'El campo %s solo puede contener números.',
-                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.',
+                'max_length' => 'El campo %s no debe exceder los 5 caracteres.'
             )
         );
         /*
@@ -141,17 +141,20 @@ class Oficinas extends CI_Controller
             'Nombre de vialidad',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
             )
         );
+        $this->form_validation->set_rules('localidad', 'Localidad', 'required');
+        $this->form_validation->set_rules('tipo_asentamiento', 'Tipo asentamiento', 'required');
+        $this->form_validation->set_rules('nombre_asentamiento', 'Nombre asentamiento', 'required');
 
         if ($this->form_validation->run() != FALSE) {
             $sujeto = $this->input->post('sujeto');
             $unidad = $this->input->post('unidad');
             $localidad = $this->input->post('localidad');
             $tipo_asentamiento = $this->input->post('tipo_asentamiento');
-            $nombre_asentamiento = $this->input->post('nombre_asentamiento',true);
+            $nombre_asentamiento = $this->input->post('nombre_asentamiento', true);
             $tipo_vialidad = $this->input->post('tipo_vialidad');
             $municipio = $this->input->post('municipio');
             $nombre = $this->input->post('inputNombre', true);
@@ -191,16 +194,29 @@ class Oficinas extends CI_Controller
             // Verificar que los horarios estén completos antes de insertar la oficina
             if (!empty($horarios_)) {
                 $horarios = json_decode($horarios_);
+                $dias_ingresados = array(); // Array para llevar un registro de los días ingresados
+
                 foreach ($horarios as $horario) {
+                    $dias = $horario->dia;
                     $aperturas = $horario->apertura;
                     $cierres = $horario->cierre;
 
                     // Si falta algún dato de apertura o cierre, mostrar mensaje de error
                     if (empty($aperturas) || empty($cierres)) {
-                        $response = array('status' => 'error', 'message' => 'Falta información en los campos de apertura o cierre.');
+                        $response = array('status' => 'error', 'message' => 'Falta información en horarios de atención en los campos de apertura o cierre.');
                         echo json_encode($response);
                         return;
                     }
+
+                    // Verificar si el día ya ha sido ingresado
+                    if (in_array($dias, $dias_ingresados)) {
+                        $response = array('status' => 'error', 'message' => 'El día ' . $dias . ' ya ha sido ingresado.');
+                        echo json_encode($response);
+                        return;
+                    }
+
+                    // Agregar el día al array de días ingresados
+                    $dias_ingresados[] = $dias;
                 }
             }
 
@@ -277,8 +293,8 @@ class Oficinas extends CI_Controller
             'Nombre',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
             )
         );
         $this->form_validation->set_rules(
@@ -293,15 +309,15 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'num_exterior',
             'Número exterior',
-            'required|numeric|greater_than_equal_to[0]'
-            ,
+            'required|numeric|greater_than_equal_to[0]|max_length[5]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'numeric' => 'El campo %s solo puede contener números.',
-                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.',
+                'max_length' => 'El campo %s no debe exceder los 5 caracteres.'
             )
         );
-       /* $this->form_validation->set_rules(
+        /* $this->form_validation->set_rules(
             'codigo_postal',
             'Código postal',
             'required|exact_length[5]|numeric|greater_than_equal_to[0]',
@@ -340,8 +356,8 @@ class Oficinas extends CI_Controller
             'Nombre de vialidad',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
-            'required' => 'El campo %s es obligatorio.',
-            'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
+                'required' => 'El campo %s es obligatorio.',
+                'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
             )
         );
 
@@ -359,7 +375,7 @@ class Oficinas extends CI_Controller
             $nombre_vialidad = $this->input->post('inputVialidad', true);
             $num_interior = $this->input->post('num_interior');
             $num_exterior = $this->input->post('num_exterior');
-           /* $codigo_postal = $this->input->post('codigo_postal');*/
+            /* $codigo_postal = $this->input->post('codigo_postal');*/
             $inputNumTel = $this->input->post('phone');
             $extension = $this->input->post('ext');
             $email = $this->input->post('email', true);
@@ -381,7 +397,7 @@ class Oficinas extends CI_Controller
                 'Nombre_Vialidad' => $nombre_vialidad,
                 'Num_interior' => $num_interior,
                 'Num_Exterior' => $num_exterior,
-               /* 'c_p' => $codigo_postal,*/
+                /* 'c_p' => $codigo_postal,*/
                 'NumTel_Oficial' => $inputNumTel,
                 'Extension' => $extension,
                 'Correo_Elec' => $email,
@@ -397,6 +413,35 @@ class Oficinas extends CI_Controller
                     foreach ($horariosEliminados as $idhorario) {
                         $this->OficinaModel->eliminarHorarios($idhorario);
                     }
+                }
+            }
+
+            // Verificar que los horarios estén completos antes de insertar la oficina
+            if (!empty($horarios_)) {
+                $horarios = json_decode($horarios_);
+                $dias_ingresados = array(); // Array para llevar un registro de los días ingresados
+
+                foreach ($horarios as $horario) {
+                    $dias = $horario->dia;
+                    $aperturas = $horario->apertura;
+                    $cierres = $horario->cierre;
+
+                    // Si falta algún dato de apertura o cierre, mostrar mensaje de error
+                    if (empty($aperturas) || empty($cierres)) {
+                        $response = array('status' => 'error', 'message' => 'Falta información en horarios de atención en los campos de apertura o cierre.');
+                        echo json_encode($response);
+                        return;
+                    }
+
+                    // Verificar si el día ya ha sido ingresado
+                    if (in_array($dias, $dias_ingresados)) {
+                        $response = array('status' => 'error', 'message' => 'El día ' . $dias . ' ya ha sido ingresado.');
+                        echo json_encode($response);
+                        return;
+                    }
+
+                    // Agregar el día al array de días ingresados
+                    $dias_ingresados[] = $dias;
                 }
             }
 

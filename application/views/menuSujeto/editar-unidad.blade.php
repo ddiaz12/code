@@ -106,7 +106,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectLocalidad">Nombre localidad</label>
+                                <label for="selectLocalidad">Nombre localidad<span class="text-danger">*</span></label>
                                 <select class="form-control" id="selectLocalidad" name="localidad" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($localidades as $localidad)
@@ -121,7 +121,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="claveLocalidad">Clave localidad</label>
+                                <label for="claveLocalidad">Clave localidad<span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="claveLocalidad" name="clave_localidad"
                                     value="{{ $unidades->clave }}" readonly>
                                     <small id="msg_clave_localidad" class="text-danger"></small>
@@ -129,7 +129,7 @@
                         </div>
                             <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectTipoAsentamiento">Tipo asentamiento</label>
+                                <label for="selectTipoAsentamiento">Tipo asentamiento<span class="text-danger">*</span></label>
                                 <select class="form-control" id="selectTipoAsentamiento" name="tipo_asentamiento">
                                     <option value="{{ $unidades->tipo_asentamiento }}" selected>
                                         {{ $unidades->tipo_asentamiento }}
@@ -140,7 +140,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectAsentamiento">Nombre asentamiento</label>
+                                <label for="selectAsentamiento">Nombre asentamiento<span class="text-danger">*</span></label>
                                 <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
                                     <option disabled>Selecciona una opción</option>
                                     @foreach ($asentamientos as $asentamiento)
@@ -178,6 +178,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                            <label for="email">Correo electrónico<span class="text-danger">*</span></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-envelope fa-2x"></i></span>

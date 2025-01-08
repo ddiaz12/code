@@ -228,8 +228,7 @@
             <?php    endforeach; ?>
         </ul>
         <?php else: ?>
-        <p>No existen fundamentos jurídicos para la realización de inspecciones, verificaciones y visitas domiciliarias
-            relacionados a esta regulación</p>
+        <p>No hay información disponible</p>
         <?php endif; ?>
     </div>
 </body>

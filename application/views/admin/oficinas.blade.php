@@ -93,7 +93,7 @@
                             success: function(result) {
                                 Swal.fire(
                                     '¡Eliminado!',
-                                    'La oficina ha sido eliminado correctamente.',
+                                    'La oficina ha sido eliminada correctamente.',
                                     'success'
                                 ).then((result) => {
                                     if (result.isConfirmed) {

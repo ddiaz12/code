@@ -81,11 +81,12 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="phone">Número de teléfono oficial<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="phone" name="phone"
-                                placeholder="Número de teléfono" required>
+                                placeholder="Número de teléfono oficial" required>
                             <small id="msg_phone" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="form-group">
+                    <label for="email">Correo electrónico oficial<span class="text-danger">*</span></label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-envelope fa-2x"></i></span>

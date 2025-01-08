@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
     <link href="<?php echo site_url('assets/css/styles.css'); ?>" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo site_url('assets/css/base.css'); ?>">
-    
+
 
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -64,16 +64,22 @@
     <script>
         var timeout;
         var timerElement = document.getElementById('timer');
-        var timeLeft = 30 * 60; // 10 minutes in seconds
+        var timeLeft = 30 * 60; // 30 minutes in seconds
 
         function logout() {
-            alert('Tu sesión ha expirado. Serás redirigido a la página de inicio de sesión.');
-            window.location.href = '<?= base_url('auth/logout') ?>';
+            Swal.fire({
+                title: 'Tu sesión ha expirado',
+                text: 'Serás redirigido a la página de inicio de sesión.',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
+                window.location.href = '<?= base_url('auth/logout') ?>';
+            });
         }
 
         function resetTimer() {
             clearTimeout(timeout);
-            timeLeft = 30 * 60; // Reset the time left to 10 minutes
+            timeLeft = 30 * 60; // Reset the time left to 30 minutes
             timeout = setTimeout(logout, timeLeft * 1000);
         }
 

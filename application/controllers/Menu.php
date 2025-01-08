@@ -374,24 +374,25 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'num_exterior',
             'Número exterior',
-            'required|numeric|greater_than_equal_to[0]',
+            'required|numeric|greater_than_equal_to[0]|max_length[5]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'numeric' => 'El campo %s solo puede contener números.',
-                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.',
+                'max_length' => 'El campo %s no debe exceder los 5 caracteres.'
             )
         );
         /* $this->form_validation->set_rules(
-             'codigo_postal',
-             'Código postal',
-             'required|exact_length[5]|numeric|greater_than_equal_to[0]',
-             array(
-                 'required' => 'El campo %s es obligatorio.',
-                 'exact_length' => 'El campo %s debe tener 5 dígitos.',
-                 'numeric' => 'El campo %s solo puede contener números.',
-                 'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
-             )
-         );*/
+            'codigo_postal',
+            'Código postal',
+            'required|exact_length[5]|numeric|greater_than_equal_to[0]',
+            array(
+                'required' => 'El campo %s es obligatorio.',
+                'exact_length' => 'El campo %s debe tener 5 dígitos.',
+                'numeric' => 'El campo %s solo puede contener números.',
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+            )
+        );*/
         $this->form_validation->set_rules(
             'phone',
             'número de teléfono',
@@ -423,6 +424,9 @@ class Menu extends CI_Controller
                 'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
             )
         );
+        $this->form_validation->set_rules('localidad', 'Localidad', 'required');
+        $this->form_validation->set_rules('tipo_asentamiento', 'Tipo asentamiento', 'required');
+        $this->form_validation->set_rules('nombre_asentamiento', 'Nombre asentamiento', 'required');
 
         if ($this->form_validation->run() != FALSE) {
 
@@ -568,11 +572,12 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'num_exterior',
             'Número exterior',
-            'required|numeric|greater_than_equal_to[0]',
+            'required|numeric|greater_than_equal_to[0]|max_length[5]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'numeric' => 'El campo %s solo puede contener números.',
-                'greater_than_equal_to' => 'El campo %s no puede ser negativo.'
+                'greater_than_equal_to' => 'El campo %s no puede ser negativo.',
+                'max_length' => 'El campo %s no debe exceder los 5 caracteres.'
             )
         );
         /*$this->form_validation->set_rules(

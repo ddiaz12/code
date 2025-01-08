@@ -127,7 +127,7 @@ Registro Estatal de Regulaciones
                             <label for="titulo">Título</label>
                             <?php echo form_input($titulo, '', [
                                 'class' => 'form-control', 'id' => 'titulo',
-                                'placeholder' => 'Titulo'
+                                'placeholder' => 'Título'
                             ]); ?>
                             <small id="msg_titulo" class="text-danger"></small>
                         </div>

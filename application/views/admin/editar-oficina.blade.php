@@ -113,7 +113,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectLocalidad">Nombre localidad</label>
+                                <label for="selectLocalidad">Nombre localidad<span class="text-danger">*</span></label>
                                 <select class="form-control" id="selectLocalidad" name="localidad" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($localidades as $localidad)
@@ -127,14 +127,14 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="claveLocalidad">Clave localidad</label>
+                                <label for="claveLocalidad">Clave localidad<span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" id="claveLocalidad" name="clave_localidad"
                                     value="{{ $oficinas->clave }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectTipoAsentamiento">Tipo asentamiento</label>
+                                <label for="selectTipoAsentamiento">Tipo asentamiento<span class="text-danger">*</span></label>
                                 <select class="form-control" id="selectTipoAsentamiento" name="tipo_asentamiento">
                                     <option value="{{ $oficinas->tipo_asentamiento }}" selected>
                                         {{ $oficinas->tipo_asentamiento }}
@@ -144,7 +144,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectAsentamiento">Nombre asentamiento</label>
+                                <label for="selectAsentamiento">Nombre asentamiento<span class="text-danger">*</span></label>
                                 <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
                                     <option disabled>Selecciona una opción</option>
                                     @foreach ($asentamientos as $asentamiento)
@@ -156,6 +156,7 @@ Registro Estatal de Regulaciones
                                     @endforeach;
                                 </select>
                             </div>
+                            <small id="msg_nombre_asentamiento" class="text-danger"></small>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -182,6 +183,7 @@ Registro Estatal de Regulaciones
                             </div>
                         </div>
                         <div class="form-group">
+                        <label for="email">Correo electrónico<span class="text-danger">*</span></label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-envelope fa-2x"></i></span>
@@ -231,10 +233,21 @@ Registro Estatal de Regulaciones
                                 data-bs-target="#modalAgregarHorario">
                                 Agregar Horario
                             </button>
+                            <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
+                                data-bs-target="#modalAgregarRangoHorario">
+                                Agregar rango de horarios
+                            </button>
+
+                            <!-- Modal para Agregar Rango de Horarios -->
+                            @include('modal/oficinaRangoHorarios')
+
+                            <!-- Modal para Agregar Horarios -->
+                            @include('modal/oficinaHorarios')
                         </div>
 
-                        <!-- Modal para Agregar Horarios -->
-                        @include('modal/oficinaHorarios')
+                        <!-- Mensaje de error -->
+                        <div class="alert alert-danger" role="alert" id="msg_error_horarios" style="display: none;">
+                        </div>
 
                         <div class="d-flex justify-content-end mb-3">
                             <button type="button" class="btn btn-secondary me-2"
@@ -252,6 +265,7 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/apiAsentamientosEditar.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
 <script>
     function enviarFormulario() {
         var sendData = $('#formOficina').serializeArray();
@@ -282,6 +296,18 @@ Registro Estatal de Regulaciones
                         }
                     })
                 } else if (response.status == 'error') {
+                    $('#msg_error').hide();
+                    // Mostrar el mensaje de error específico para los horarios
+                    if (response.message) {
+                        $('#msg_error_horarios').text(response.message);
+                    } else {
+                        $('#msg_error_horarios').text(
+                            'Ha ocurrido un error al intentar guardar. Por favor, verifica los campos e inténtalo de nuevo.'
+                        );
+                    }
+                    $('#msg_error_horarios').show();
+                    // Limpia los mensajes de error anteriores
+                    $('.text-danger').empty();
                     if (response.errores) {
                         $.each(response.errores, function (index, value) {
                             if ($("small#msg_" + index).length) {

@@ -270,7 +270,7 @@ class Auth extends CI_Controller
                 $correo = $identity->email;
                 $titulo = 'Recuperación de contraseña';
                 $contenido = 'Has clik en el link para recuperar tu contraseña: ';
-                $contenido .= '<a href="' . base_url() . 'auth/reset_password/' . $forgotten['forgotten_password_code'] . '">Reset Password</a>';
+                $contenido .= '<a href="' . base_url() . 'auth/reset_password/' . $forgotten['forgotten_password_code'] . '">Restablecer Contraseña</a>';
 
                 // Send email
                 $response = enviaCorreo($correo, $titulo, $contenido);

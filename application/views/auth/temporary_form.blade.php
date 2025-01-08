@@ -92,7 +92,7 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="titulo">Titulo</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Titulo">
+                            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título">
                             <small id="msg_titulo" class="text-danger"></small>
                         </div>
                     </div>
