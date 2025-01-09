@@ -138,7 +138,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
         $this->form_validation->set_rules(
             'inputVialidad',
-            'Nombre de vialidad',
+            'Nombre vialidad',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
