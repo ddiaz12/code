@@ -83,7 +83,7 @@ Registro Estatal de Regulaciones
                             <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
-                            <button class="btn btn-secondary btn-sm btn-devolver" title="Devolver"
+                            <button class="btn btn-secondary btn-sm btn-devolver" title="Regresar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-undo" title="Devolver"></i>
                             </button>
@@ -196,7 +196,7 @@ Registro Estatal de Regulaciones
                         let res = JSON.parse(response);
                         if (res.status === 'success') {
                             alert('Estatus actualizado exitosamente.');
-                            window.location.href = 'http://localhost/code/RegulacionController';
+                            window.location.href = '<?php echo base_url("RegulacionController"); ?>';
                         } else {
                             alert('Hubo un error al actualizar el estatus.');
                         }

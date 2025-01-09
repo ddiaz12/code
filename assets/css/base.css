@@ -374,8 +374,9 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 }
 
 .dataTables_wrapper .dataTables_filter input {
-	border: 1px solid #612233;
-	padding: 0%;
+    padding-inline: -1%;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 .dataTables_wrapper .dataTables_length select {
@@ -432,6 +433,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
 	width: 45px;
 	height: 45px;
 	line-height: 25px;
+	font-size: smaller;
 }
 
 .notificacion-no-leida {
