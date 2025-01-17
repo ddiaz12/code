@@ -22,7 +22,6 @@ Registro Estatal de Regulaciones
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th class="tTabla-color">Id</th>
                         <th class="tTabla-color">Nombre</th>
                         <th class="tTabla-color">Homoclave</th>
                         <th class="tTabla-color">Estatus</th>
@@ -35,7 +34,6 @@ Registro Estatal de Regulaciones
                             @foreach ($publicadas as $publicada)
                                 @if ($regulacion->ID_Regulacion == $publicada->ID_Regulacion)
                                     <tr>
-                                        <td>{{ $publicada->ID_Regulacion }}</td>
                                         <td>{{ $publicada->Nombre_Regulacion }}</td>
                                         <td>{{ $publicada->Homoclave }}</td>
                                         <td>

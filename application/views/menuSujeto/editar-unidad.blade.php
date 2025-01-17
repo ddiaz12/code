@@ -173,7 +173,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="inputExtension">Extensión</label>
-                                    <input type="number" class="form-control" id="inputExtension" name="extension"
+                                    <input type="number" class="form-control" id="inputExtension" name="extension" maxlength="4"
                                         value="{{ $unidades->extension }}">
                                 </div>
                             </div>

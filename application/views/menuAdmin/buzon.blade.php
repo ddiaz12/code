@@ -50,7 +50,8 @@ Registro Estatal de Regulaciones
                                 data-id="<?php        echo $notificacion->id_notificacion; ?>">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm eliminar-notificacion" data-id="<?php echo $notificacion->id_notificacion; ?>">
+                            <button class="btn btn-danger btn-sm eliminar-notificacion"
+                                data-id="<?php        echo $notificacion->id_notificacion; ?>">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -99,7 +100,7 @@ Registro Estatal de Regulaciones
     });
 
     $(document).ready(function () {
-        $('.eliminar-notificacion').click(function () {
+        $('#datatablesSimple').on('click', '.eliminar-notificacion', function () {
             var id = $(this).data('id');
 
             Swal.fire({
@@ -140,7 +141,7 @@ Registro Estatal de Regulaciones
                 }
             });
         });
-    }); 
+    });
 
 </script>
 @endsection

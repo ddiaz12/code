@@ -29,7 +29,6 @@ Registro Estatal de Regulaciones
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th class="tTabla-color">Id</th>
                         <th class="tTabla-color">Nombre Sujeto Obligado</th>
                         <th class="tTabla-color">Siglas</th>
                         <th class="tTabla-color">Materia</th>
@@ -39,7 +38,6 @@ Registro Estatal de Regulaciones
                 <tbody>
                     <?php foreach ($sujetos as $sujeto): ?>
                     <tr>
-                        <td><?php    echo $sujeto->ID_sujeto; ?></td>
                         <td><?php    echo $sujeto->nombre_sujeto; ?></td>
                         <td><?php    echo $sujeto->siglas; ?></td>
                         <td><?php echo $sujeto->nombre_materia ?? 'N/A'; ?></td>
@@ -68,7 +66,7 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script>
     $(document).ready(function () {
-        $('.btn-danger').click(function () {
+        $('#datatablesSimple').on('click', '.btn-danger', function () {
             var id = $(this).data('id_sujeto');
 
             Swal.fire({

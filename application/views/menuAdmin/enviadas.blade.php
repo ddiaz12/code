@@ -29,7 +29,6 @@
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th class="tTabla-color">Id</th>
                             <th class="tTabla-color">Nombre</th>
                             <th class="tTabla-color">Homoclave</th>
                             <th class="tTabla-color">Estatus</th>
@@ -39,7 +38,6 @@
                     <tbody>
                         @foreach ($enviadas as $enviada)
                             <tr>
-                                <td>{{ $enviada->ID_Regulacion }}</td>
                                 <td>{{ $enviada->Nombre_Regulacion }}</td>
                                 <td>{{ $enviada->Homoclave }}</td>
                                 <td>

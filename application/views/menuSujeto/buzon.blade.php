@@ -22,7 +22,7 @@ Registro Estatal de Regulaciones
     <div class="card mb-4 div-datatables">
         <div class="card-body">
             <table id="datatablesSimple">
-            <thead>
+                <thead>
                     <tr>
                         <th class="tTabla-color">Titulo</th>
                         <th class="tTabla-color">Mensaje</th>
@@ -33,7 +33,7 @@ Registro Estatal de Regulaciones
                     <?php if (!empty($notificaciones)): ?>
                     <?php    foreach ($notificaciones as $notificacion): ?>
                     <tr>
-                    <td
+                        <td
                             class="<?php        echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
                             <?php        echo $notificacion->titulo; ?>
                         </td>
@@ -50,7 +50,8 @@ Registro Estatal de Regulaciones
                                 data-id="<?php        echo $notificacion->id_notificacion; ?>">
                                 <i class="fas fa-check"></i>
                             </button>
-                            <button class="btn btn-danger btn-sm eliminar-notificacion" data-id="<?php echo $notificacion->id_notificacion; ?>">
+                            <button class="btn btn-danger btn-sm eliminar-notificacion"
+                                data-id="<?php        echo $notificacion->id_notificacion; ?>">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -74,7 +75,7 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script>
-        $(document).ready(function () {
+    $(document).ready(function () {
         $('.marcar-leido').click(function () {
             var id = $(this).data('id');
 
@@ -99,7 +100,7 @@ Registro Estatal de Regulaciones
     });
 
     $(document).ready(function () {
-        $('.eliminar-notificacion').click(function () {
+        $('#datatablesSimple').on('click', '.eliminar-notificacion', function () {
             var id = $(this).data('id');
 
             Swal.fire({

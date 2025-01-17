@@ -698,14 +698,14 @@ class Auth extends CI_Controller
         );
 
         if ($identity_column !== 'email') {
-            $this->form_validation->set_rules('identity', 'correo', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
-            $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email');
+            $this->form_validation->set_rules('identity', 'Correo electrónico oficial', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
+            $this->form_validation->set_rules('email', 'Correo electrónico oficial', 'trim|required|valid_email');
         } else {
-            $this->form_validation->set_rules('email', 'correo', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
+            $this->form_validation->set_rules('email', 'Correo electrónico oficial', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
         }
         $this->form_validation->set_rules(
             'phone',
-            'número de teléfono',
+            'Teléfono',
             'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
@@ -715,7 +715,7 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[7]|min_length[2]',
+            'trim|numeric|max_length[4]|min_length[2]',
             array(
                 'numeric' => 'El campo %s debe ser numérico.',
                 'max_length' => 'El campo %s no debe exceder los 4 caracteres.',

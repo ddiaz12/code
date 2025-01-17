@@ -177,7 +177,7 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="ext">Extensión</label>
-                                <input type="text" class="form-control" id="ext" name="ext"
+                                <input type="text" class="form-control" id="ext" name="ext" maxlength="4"
                                     value="{{ $oficinas->Extension }}">
                                     <small id="msg_ext" class="text-danger"></small>
                             </div>

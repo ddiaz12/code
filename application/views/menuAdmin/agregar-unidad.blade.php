@@ -167,7 +167,7 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="ext">Extensión</label>
-                                <input type="text" class="form-control" id="ext" name="ext" placeholder="Extension"
+                                <input type="text" class="form-control" id="ext" name="ext" placeholder="Extension" maxlength="4"
                                     required>
                                 <small id="msg_ext" class="text-danger"></small>
                             </div>

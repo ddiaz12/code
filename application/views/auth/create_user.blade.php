@@ -113,16 +113,17 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="ext">Extensión</label>
                             <input type="text" class="form-control" id="ext" name="ext" placeholder="Extension"
-                                required>
+                                maxlength="4" required>
                             <small id="msg_ext" class="text-danger"></small>
                         </div>
                     </div>
                     <div class="form-group">
+                    <label for="email">Correo electrónico oficial<span class="text-danger">*</span></label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-envelope fa-2x"></i></span>
                             </div>
-                            <input type="email" class="form-control" placeholder="Email" id="email" name="email">
+                            <input type="email" class="form-control" placeholder="Correo electrónico oficial" id="email" name="email">
                         </div>
                         <small id="msg_email" class="text-danger"></small>
                     </div>

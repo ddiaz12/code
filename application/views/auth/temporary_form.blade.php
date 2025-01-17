@@ -64,7 +64,7 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="ext">Extensión</label>
-                            <?php echo form_input($ext, '', ['class' => 'form-control', 'id' => 'ext']); ?>
+                            <?php echo form_input($ext, '', ['class' => 'form-control', 'id' => 'ext', 'maxlength' => '4']); ?>
                             <small id="msg_ext" class="text-danger"></small>
                         </div>
                     </div>

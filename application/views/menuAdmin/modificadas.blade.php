@@ -22,7 +22,6 @@ Registro Estatal de Regulaciones
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th class="tTabla-color">Id</th>
                         <th class="tTabla-color">Nombre</th>
                         <th class="tTabla-color">Homoclave</th>
                         <th class="tTabla-color">Estatus</th>
@@ -32,7 +31,6 @@ Registro Estatal de Regulaciones
                 <tbody>
                     @foreach ($modificadas as $modificada)
                         <tr>
-                            <td>{{ $modificada->ID_Regulacion }}</td>
                             <td>{{ $modificada->Nombre_Regulacion }}</td>
                             <td>{{ $modificada->Homoclave }}</td>
                             <td>

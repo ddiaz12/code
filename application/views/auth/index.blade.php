@@ -45,57 +45,58 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                 </thead>
 
                 <tbody>
-                    <?php foreach ($users as $user):?>
-                    <?php    if ($user->status != 2): ?>
-                    <tr>
-                        <td><?php        echo htmlspecialchars($user->first_name . ' ' . $user->ap1 . ' ' . $user->ap2, ENT_QUOTES, 'UTF-8'); ?>
-                        </td>
-                        <td><?php        echo htmlspecialchars($user->sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
-                        <td><?php        echo htmlspecialchars($user->unidad, ENT_QUOTES, 'UTF-8'); ?></td>
-                        <td>
-                            <?php        foreach ($user->groups as $group): ?>
-                            <a href="<?php            echo base_url('auth/edit_group/' . base64_encode($group->id)); ?>"
-                                class="btn btn-dorado btn-sm" title="Editar grupo">
-                                <?php            echo htmlspecialchars($group->name, ENT_QUOTES, 'UTF-8'); ?>
-                            </a>
-                            <?php        endforeach; ?>
-                        </td>
-                        <td>
-                            <?php        if ($user->active): ?>
-                            <button class="btn btn-danger btn-sm"
-                                onclick="confirmDeactivate(<?php            echo $user->id; ?>)">
-                                <i class="fas fa-times-circle" title="Desactivar usuario"></i>Desactivar
-                            </button>
-                            <?php        elseif ($user->status && $user->active == 0): ?>
-                            <button class="btn btn-secondary btn-sm"
-                                onclick="confirmActivatePending('<?php            echo base64_encode($user->id); ?>')">
-                                <i class="fas fa-clock" title="Usuario pendiente"></i> Pendiente
-                            </button>
-                            <?php        else: ?>
-                            <button class="btn btn-success btn-sm"
-                                onclick="confirmActivate('<?php            echo base64_encode($user->id); ?>')">
-                                <i class="fas fa-check-circle" title="Activar usuario"></i>Activar
-                            </button>
-                            </a>
-                            <?php        endif; ?>
-                        </td>
-                        <td>
-                            <a href="<?php        echo base_url('auth/edit_user/' . base64_encode($user->id)); ?>"
-                                class="btn btn btn-dorado btn-sm">
-                                <i class="fas fa-edit" title="Editar usuario"></i>
-                            </a>
-                            <button class="btn btn btn-secondary btn-sm"
-                                onclick="confirmPending(<?php        echo $user->id; ?>)">
-                                <i class="fas fa-clock" title="Usuario pendiente"></i>
-                            </button>
-                            <button class="btn btn btn-danger btn-sm btn-ocultar"
-                                onclick="confirmDelete(<?php        echo $user->id; ?>)">
-                                <i class="fas fa-trash-alt" title="Eliminar usuario"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <?php    endif; ?>
-                    <?php endforeach;?>
+                    <?php foreach ($users as $user): ?>
+                        <?php if ($user->status != 2): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($user->first_name . ' ' . $user->ap1 . ' ' . $user->ap2, ENT_QUOTES, 'UTF-8'); ?>
+                                </td>
+                                <td><?php echo htmlspecialchars($user->sujeto, ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo htmlspecialchars($user->unidad, ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td>
+                                    <?php foreach ($user->groups as $group): ?>
+                                        <a href="<?php echo base_url('auth/edit_group/' . base64_encode($group->id)); ?>"
+                                            class="btn btn-dorado btn-sm" title="Editar grupo">
+                                            <?php echo htmlspecialchars($group->name, ENT_QUOTES, 'UTF-8'); ?>
+                                        </a>
+                                    <?php endforeach; ?>
+                                </td>
+                                <td>
+                                    <?php if ($user->active): ?>
+                                        <button class="btn btn-danger btn-sm"
+                                            onclick="confirmDeactivate(<?php echo $user->id; ?>)">
+                                            <i class="fas fa-times-circle" title="Desactivar usuario"></i>Desactivar
+                                        </button>
+                                    <?php elseif ($user->status && $user->active == 0): ?>
+                                        <button class="btn btn-secondary btn-sm"
+                                            onclick="confirmActivatePending('<?php echo base64_encode($user->id); ?>')">
+                                            <i class="fas fa-clock" title="Usuario pendiente"></i> Pendiente
+                                        </button>
+                                    <?php else: ?>
+                                        <button class="btn btn-success btn-sm"
+                                            onclick="confirmActivate('<?php echo base64_encode($user->id); ?>')">
+                                            <i class="fas fa-check-circle" title="Activar usuario"></i>Activar
+                                        </button>
+                                        </a>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <a href="<?php echo base_url('auth/edit_user/' . base64_encode($user->id)); ?>"
+                                        class="btn btn btn-dorado btn-sm">
+                                        <i class="fas fa-edit" title="Editar usuario"></i>
+                                    </a>
+                                    <button class="btn btn btn-secondary btn-sm"
+                                        onclick="confirmPending(<?php echo $user->id; ?>)" <?php if ($user->active == 1 || $user->status == 1)
+                                                                                                        echo 'disabled'; ?>>
+                                        <i class="fas fa-clock" title="Usuario pendiente"></i>
+                                    </button>
+                                    <button class="btn btn btn-danger btn-sm btn-ocultar"
+                                        onclick="confirmDelete(<?php echo $user->id; ?>)">
+                                        <i class="fas fa-trash-alt" title="Eliminar usuario"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -122,8 +123,10 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                 $.ajax({
                     url: '<?php echo base_url('auth/activate'); ?>/' + userId,
                     type: 'POST',
-                    data: { 'confirm': 'yes' },
-                    success: function (response) {
+                    data: {
+                        'confirm': 'yes'
+                    },
+                    success: function(response) {
                         Swal.fire(
                             'Activado',
                             'El usuario ha sido activado correctamente.',
@@ -132,7 +135,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                             location.reload();
                         });
                     },
-                    error: function () {
+                    error: function() {
                         Swal.fire(
                             'Error',
                             'No se pudo activar al usuario.',
@@ -157,8 +160,10 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                 $.ajax({
                     url: '<?php echo base_url('auth/deactivate'); ?>/' + userId,
                     type: 'POST',
-                    data: { 'confirm': 'yes' },
-                    success: function (response) {
+                    data: {
+                        'confirm': 'yes'
+                    },
+                    success: function(response) {
                         Swal.fire(
                             'Desactivado',
                             'El usuario ha sido desactivado correctamente.',
@@ -167,7 +172,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                             location.reload();
                         });
                     },
-                    error: function () {
+                    error: function() {
                         Swal.fire(
                             'Error',
                             'No se pudo desactivar al usuario.',
@@ -192,9 +197,11 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                 $.ajax({
                     url: '<?php echo base_url('auth/pending_user'); ?>/' + userId,
                     type: 'POST',
-                    data: { 'confirm': 'yes' },
+                    data: {
+                        'confirm': 'yes'
+                    },
                     dataType: 'json',
-                    success: function (result) {
+                    success: function(result) {
                         ocultarPantallaDeCarga();
                         console.log(result);
                         if (result.status == 'success') {
@@ -213,7 +220,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                             );
                         }
                     },
-                    error: function (e) {
+                    error: function(e) {
                         ocultarPantallaDeCarga();
                         Swal.fire(
                             'Error',
@@ -240,7 +247,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                     url: '<?php echo base_url('auth/activate_from_pending'); ?>/' + userId,
                     type: 'POST',
                     dataType: 'json',
-                    success: function (result) {
+                    success: function(result) {
                         ocultarPantallaDeCarga();
                         if (result.status == 'success') {
                             Swal.fire(
@@ -260,7 +267,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                             });
                         }
                     },
-                    error: function (e) {
+                    error: function(e) {
                         ocultarPantallaDeCarga();
                         Swal.fire(
                             'Error',
@@ -287,8 +294,10 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                 $.ajax({
                     url: '<?php echo base_url('auth/ocultar'); ?>/' + userId,
                     type: 'POST',
-                    data: { 'confirm': 'yes' },
-                    success: function (response) {
+                    data: {
+                        'confirm': 'yes'
+                    },
+                    success: function(response) {
                         Swal.fire(
                             'Eliminado',
                             'El usuario ha sido eliminado correctamente.',
@@ -297,7 +306,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                             location.reload();
                         });
                     },
-                    error: function () {
+                    error: function() {
                         Swal.fire(
                             'Error',
                             'No se pudo eliminar al usuario.',
