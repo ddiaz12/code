@@ -127,7 +127,8 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="file">Archivo</label>
-                            <input type="file" class="form-control" id="userfile" name="userfile">
+                            <input type="file" class="form-control" id="userfile" name="userfile" accept="image/png, image/jpeg, application/pdf">
+                            <button type="button" class="btn btn-secondary mt-2" onclick="document.getElementById('userfile').value = '';">Deseleccionar archivo</button>
                             <!-- Mostrar el nombre del archivo actual -->
                             <?php if (!empty($archivo)) : ?>
                                 <small id="current_file" class="form-text text-muted">

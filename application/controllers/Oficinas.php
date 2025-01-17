@@ -115,7 +115,7 @@ class Oficinas extends CI_Controller
         */
         $this->form_validation->set_rules(
             'phone',
-            'número de teléfono',
+            'Número de teléfono oficial',
             'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
@@ -135,7 +135,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules('email', 'Correo electrónico', 'trim|required|valid_email');
         $this->form_validation->set_rules('sujeto', 'Sujeto Obligado', 'required');
         $this->form_validation->set_rules('unidad', 'Unidad administrativa', 'required');
-        $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
+        $this->form_validation->set_rules('tipo_vialidad', 'Tipo vialidad', 'required');
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre vialidad',

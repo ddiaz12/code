@@ -417,14 +417,14 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
         $this->form_validation->set_rules(
             'nombre_vialidad',
-            'Nombre de vialidad',
+            'Nombre vialidad',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
             )
         );
-        $this->form_validation->set_rules('localidad', 'Localidad', 'required');
+        $this->form_validation->set_rules('localidad', 'Nombre localidad', 'required');
         $this->form_validation->set_rules('tipo_asentamiento', 'Tipo asentamiento', 'required');
         $this->form_validation->set_rules('nombre_asentamiento', 'Nombre asentamiento', 'required');
 
@@ -469,18 +469,32 @@ class Menu extends CI_Controller
                 'status' => 1
             );
 
+            // Verificar que los horarios estén completos antes de insertar la oficina
             if (!empty($horarios_)) {
                 $horarios = json_decode($horarios_);
+                $dias_ingresados = array(); // Array para llevar un registro de los días ingresados
+
                 foreach ($horarios as $horario) {
+                    $dias = $horario->dia;
                     $aperturas = $horario->apertura;
                     $cierres = $horario->cierre;
 
                     // Si falta algún dato de apertura o cierre, mostrar mensaje de error
                     if (empty($aperturas) || empty($cierres)) {
-                        $response = array('status' => 'error', 'message' => 'Falta información en los campos de apertura o cierre.');
+                        $response = array('status' => 'error', 'message' => 'Falta información en horarios de atención en los campos de apertura o cierre.');
                         echo json_encode($response);
                         return;
                     }
+
+                    // Verificar si el día ya ha sido ingresado
+                    if (in_array($dias, $dias_ingresados)) {
+                        $response = array('status' => 'error', 'message' => 'El día ' . $dias . ' ya ha sido ingresado.');
+                        echo json_encode($response);
+                        return;
+                    }
+
+                    // Agregar el día al array de días ingresados
+                    $dias_ingresados[] = $dias;
                 }
             }
 
@@ -664,8 +678,6 @@ class Menu extends CI_Controller
                 'checkOficina' => $checkboxOficina == 'on' ? '1' : '0',
             );
 
-            $this->MenuModel->actualizar_unidad($id_unidad, $data);
-
             // Eliminar los horarios de la unidad administrativa
             $horariosEliminados_ = $this->input->post('horariosEliminados');
             if (!empty($horariosEliminados_)) {
@@ -675,20 +687,42 @@ class Menu extends CI_Controller
                 }
             }
 
+            // Verificar que los horarios estén completos antes de insertar la oficina
             if (!empty($horarios_)) {
                 $horarios = json_decode($horarios_);
+                $dias_ingresados = array(); // Array para llevar un registro de los días ingresados
+
                 foreach ($horarios as $horario) {
                     $dias = $horario->dia;
                     $aperturas = $horario->apertura;
                     $cierres = $horario->cierre;
 
-                    // Insertar el horario en la tabla de_horarios y obtener el ID insertado
-                    $id_horario = $this->MenuModel->insertarHorario($dias, $aperturas, $cierres);
+                    // Si falta algún dato de apertura o cierre, mostrar mensaje de error
+                    if (empty($aperturas) || empty($cierres)) {
+                        $response = array('status' => 'error', 'message' => 'Falta información en horarios de atención en los campos de apertura o cierre.');
+                        echo json_encode($response);
+                        return;
+                    }
 
-                    // Insertar una nueva fila en la tabla rel_unidad_horario
+                    // Verificar si el día ya ha sido ingresado
+                    if (in_array($dias, $dias_ingresados)) {
+                        $response = array('status' => 'error', 'message' => 'El día ' . $dias . ' ya ha sido ingresado.');
+                        echo json_encode($response);
+                        return;
+                    }
+
+                    // Agregar el día al array de días ingresados
+                    $dias_ingresados[] = $dias;
+                }
+
+                // Insertar los nuevos horarios
+                foreach ($horarios as $horario) {
+                    $id_horario = $this->MenuModel->insertarHorario($horario->dia, $horario->apertura, $horario->cierre);
                     $this->MenuModel->insertarRelacionUnidadHorario($id_unidad, $id_horario);
                 }
             }
+
+            $this->MenuModel->actualizar_unidad($id_unidad, $data);
 
             $response = array('status' => 'success');
             echo json_encode($response);

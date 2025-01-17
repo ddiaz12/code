@@ -87,7 +87,7 @@
                             success: function(result) {
                                 Swal.fire(
                                     '¡Eliminado!',
-                                    'La unidad administrativa ha sido eliminado correctamente.',
+                                    'La unidad administrativa ha sido eliminada correctamente.',
                                     'success'
                                 ).then((result) => {
                                     if (result.isConfirmed) {

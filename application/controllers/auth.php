@@ -44,7 +44,7 @@ class Auth extends CI_Controller
         if (!$this->ion_auth->logged_in()) {
             // Redirige a la página de login
             redirect('auth/login', 'refresh');
-        } else if (!$this->ion_auth->is_admin()) {
+        } else if (!$this->ion_auth->in_group('admin') && !$this->ion_auth->in_group('sedeco')) {
             show_error('You must be an administrator to view this page.');
         } else {
             $this->data['title'] = $this->lang->line('index_heading');
@@ -622,7 +622,7 @@ class Auth extends CI_Controller
      */
     public function create_user()
     {
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+        if (!$this->ion_auth->in_group('admin') && !$this->ion_auth->in_group('sedeco')) {
             if ($this->input->is_ajax_request()) {
                 echo json_encode(['status' => 'error', 'message' => 'No está autorizado para realizar esta acción.']);
                 return;
@@ -846,7 +846,7 @@ class Auth extends CI_Controller
             redirect('auth', 'refresh');
         }
 
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+        if (!$this->ion_auth->in_group('admin') && !$this->ion_auth->in_group('sedeco')) {
             if ($this->input->is_ajax_request()) {
                 echo json_encode(['status' => 'error', 'message' => 'No está autorizado para realizar esta acción.']);
                 return;
@@ -1276,7 +1276,7 @@ class Auth extends CI_Controller
     {
         $this->data['title'] = $this->lang->line('create_group_title');
 
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+        if (!$this->ion_auth->in_group('admin') && !$this->ion_auth->in_group('sedeco')) {
             if ($this->input->is_ajax_request()) {
                 echo json_encode(['status' => 'error', 'message' => 'No está autorizado para realizar esta acción.']);
                 return;

@@ -240,10 +240,21 @@ Registro Estatal de Regulaciones
                                 data-bs-target="#modalAgregarHorario">
                                 Agregar Horario
                             </button>
+                            <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
+                                    data-bs-target="#modalAgregarRangoHorario">
+                                    Agregar rango de horarios
+                            </button>
+
+                            <!-- Modal para Agregar Horarios -->
+                            @include('modal/unidadesHorarios')
+
+                            <!-- Modal para Agregar Rango de Horarios -->
+                            @include('modal/oficinaRangoHorarios')
                         </div>
 
-                        <!-- Modal para Agregar Horarios -->
-                        @include('modal/unidadesHorarios')
+                        <!-- Mensaje de error -->
+                        <div class="alert alert-danger" role="alert" id="msg_error_horarios" style="display: none;">
+                        </div>
 
                         <div class="d-flex justify-content-end mb-3">
                             <button type="button" class="btn btn-secondary me-2"
@@ -262,6 +273,7 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/apiAsentamientosEditar.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
 <script>
     function enviarFormulario() {
         var sendData = $('#formUnidad').serializeArray();
@@ -293,6 +305,18 @@ Registro Estatal de Regulaciones
                         }
                     })
                 } else if (response.status == 'error') {
+                    $('#msg_error').hide();
+                    // Mostrar el mensaje de error específico para los horarios
+                    if (response.message) {
+                        $('#msg_error_horarios').text(response.message);
+                    } else {
+                        $('#msg_error_horarios').text(
+                            'Ha ocurrido un error al intentar guardar. Por favor, verifica los campos e inténtalo de nuevo.'
+                        );
+                    }
+                    $('#msg_error_horarios').show();
+                    // Limpia los mensajes de error anteriores
+                    $('.text-danger').empty();
                     if (response.errores) {
                         $.each(response.errores, function (index, value) {
                             if ($("small#msg_" + index).length) {

@@ -283,9 +283,13 @@ Registro Estatal de Regulaciones
                 } else if (response.status == 'error') {
                     $('#msg_error').hide();
                     // Mostrar el mensaje de error específico para los horarios
-                    $('#msg_error_horarios').text(
-                        'Ha ocurrido un error al intentar guardar. Por favor, verifica los campos e inténtalo de nuevo.'
-                    );
+                    if (response.message) {
+                        $('#msg_error_horarios').text(response.message);
+                    } else {
+                        $('#msg_error_horarios').text(
+                            'Ha ocurrido un error al intentar guardar. Por favor, verifica los campos e inténtalo de nuevo.'
+                        );
+                    }
                     $('#msg_error_horarios').show();
                     // Limpia los mensajes de error anteriores
                     $('.text-danger').empty();

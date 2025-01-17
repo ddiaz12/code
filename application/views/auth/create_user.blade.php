@@ -136,7 +136,8 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="cargo">Cargo</label>
-                            <input type="text" class="form-control" id="cargo" name="cargo" placeholder="Cargo del servidor público">
+                            <input type="text" class="form-control" id="cargo" name="cargo"
+                                placeholder="Cargo del servidor público">
                         </div>
                         <small id="msg_cargo" class="text-danger"></small>
                     </div>
@@ -150,7 +151,8 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="clave">Clave empleado</label>
-                            <input type="text" class="form-control" id="clave" name="clave" placeholder="Número o clave del empleado">
+                            <input type="text" class="form-control" id="clave" name="clave"
+                                placeholder="Número o clave del empleado">
                         </div>
                         <small id="msg_clave" class="text-danger"></small>
                     </div>
@@ -173,14 +175,15 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="file">Archivo</label>
-                            <input type="file" class="form-control" id="userfile" name="userfile" required>
+                            <input type="file" class="form-control" id="userfile" name="userfile" accept="image/png, image/jpeg, application/pdf" required>
                             <small id="msg_file" class="text-danger"></small>
+                            <button type="button" class="btn btn-secondary mt-2" onclick="document.getElementById('userfile').value = '';">Deseleccionar archivo</button>
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mb-3">
                         <button type="button" class="btn btn-secondary me-2"
                             onclick="confirmarCancelar()">Cancelar</button>
-                        <button type="button" onclick="enviarFormulario();"
+                        <button type="button" onclick="enviaDatosFormulario();"
                             class="btn btn-guardar btn-rounded">Guardar</button>
                     </div>
                     <?php echo form_close(); ?>
@@ -194,26 +197,6 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
 <script>
-    function enviarFormulario() {
-        // Verifica si el campo de archivo está vacío
-        if ($('#userfile').val() === '') {
-            Swal.fire({
-                title: 'Archivo no seleccionado',
-                text: 'Tienes tres días para subir el archivo.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Entendido',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    enviaDatosFormulario();
-                }
-            });
-        } else {
-            enviaDatosFormulario();
-        }
-    }
-
     function enviaDatosFormulario() {
         var formData = new FormData($('#formUsuarios')[0]);
         mostrarPantallaDeCarga();
@@ -227,15 +210,27 @@ Registro Estatal de Regulaciones
             success: function (response) {
                 ocultarPantallaDeCarga();
                 if (response.status == 'success') {
-                    Swal.fire(
-                        '¡Éxito!',
-                        'El usuario ha sido agregado correctamente.',
-                        'success'
-                    ).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = response.redirect_url;
-                        }
-                    });
+                    if ($('#userfile').val() === '') {
+                        Swal.fire(
+                            '¡Éxito!',
+                            'El usuario ha sido agregado correctamente, pero no seleccionaste un archivo. Recuerda que tienes tres días para subirlo.',
+                            'warning'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = response.redirect_url;
+                            }
+                        });
+                    } else {
+                        Swal.fire(
+                            '¡Éxito!',
+                            'El usuario ha sido agregado correctamente.',
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = response.redirect_url;
+                            }
+                        });
+                    }
                 } else if (response.status == 'error') {
                     if (response.file_error) {
                         $('#msg_file').text(response.file_error);
