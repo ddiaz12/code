@@ -6,6 +6,10 @@
 <div class="container">
     <div class="row justify-content-center ">
         <div class="col-lg-5">
+            <a href="<?php echo base_url('ciudadania'); ?>"
+                class="btn btn-link position-absolute top-0 start-0 mt-2 ms-2">
+                <i class="fas fa-arrow-left"></i> Volver
+            </a>
             <div class="card shadow-lg border-0 rounded-lg mt-5">
                 <div class="card-header">
                     <h3 class="titulo-login my-4">Registro Estatal de Regulaciones</h3>

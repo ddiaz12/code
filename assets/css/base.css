@@ -614,6 +614,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
     margin-top: 1rem;
 }
 
+
 @media screen and (max-width: 990px) {
 	.div-escudo {
 		display: none;

@@ -698,7 +698,7 @@ class Auth extends CI_Controller
         );
 
         if ($identity_column !== 'email') {
-            $this->form_validation->set_rules('identity', 'Correo electrónico oficial', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
+            $this->form_validation->set_rules('identity', 'correo electrónico oficial', 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
             $this->form_validation->set_rules('email', 'Correo electrónico oficial', 'trim|required|valid_email');
         } else {
             $this->form_validation->set_rules('email', 'Correo electrónico oficial', 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
