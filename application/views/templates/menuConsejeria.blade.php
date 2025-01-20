@@ -59,8 +59,8 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownInfo">
                         <h6 class="dropdown-header">Información</h6>
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_guia'); ?>">Guias</a></li>
-                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_log'); ?>">Log de
-                                versiones</a></li>
+                        <!-- <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_log'); ?>">Log de
+                                versiones</a></li> -->
                     </ul>
                 </div>
             </div>

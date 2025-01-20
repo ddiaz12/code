@@ -11,8 +11,6 @@
 
             <div class="div-info">
                 <a href="https://www.col.gob.mx/economico/contenido/NTM0ODA=">Aviso de privacidad</a>
-                &middot;
-                <a href="https://www.col.gob.mx/economico/contenido/NTM0ODA=">Términos &amp; Condiciones</a>
             </div>
         </div>
     </div>
