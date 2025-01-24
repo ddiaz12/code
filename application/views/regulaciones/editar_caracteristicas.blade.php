@@ -179,7 +179,7 @@ Registro Estatal de Regulaciones
                                         <label for="campoExtra">Vigencia de la regulación</label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                             value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
-                                            required disabled>
+                                            required>
                                     </div>
                                 </form>
                                 <div class="row">
@@ -809,7 +809,7 @@ Registro Estatal de Regulaciones
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
                                     <a href="<?php echo base_url('RegulacionController'); ?>"
-                                        class="btn btn-secondary me-2">Cancelar</a>
+                                    id="cancelButton" class="btn btn-secondary me-2">Cancelar</a>
                                     <button type="button" class="btn btn-success btn-tinto"
                                         id="botonGuardar">Guardar</button>
                                 </div>
@@ -824,6 +824,56 @@ Registro Estatal de Regulaciones
 @endsection
 
 @section('js')
+<script>
+        $(document).ready(function() {
+            var formModified = false;
+
+            // Detectar cambios en los campos del formulario
+            $('#form-regulacion').on('change input', function() {
+                formModified = true;
+            });
+
+            // Interceptar clics en los enlaces
+            $('a').on('click', function(event) {
+                if (formModified) {
+                    event.preventDefault(); // Prevenir la acción predeterminada del enlace
+                    var href = $(this).attr('href');
+                    Swal.fire({
+                        title: 'Advertencia',
+                        text: 'Se perderán los datos ingresados',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, continuar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = href;
+                        }
+                    });
+                }
+            });
+        });
+</script>
+<script>
+$(document).ready(function() {
+    $('#cancelButton').click(function(event) {
+        event.preventDefault(); // Prevenir la acción predeterminada del enlace
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Se perderán los datos ingresados',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('RegulacionController'); ?>';
+            }
+        });
+    });
+});
+</script>
+
 <script>
     $(document).ready(function () {
         $('#myModal').on('show.bs.modal', function () {

@@ -296,7 +296,7 @@ Registro Estatal de Regulaciones
                     </script>
                     <div class="d-flex justify-content-end mb-3">
                         <a href="<?php echo base_url('RegulacionController'); ?>"
-                            class="btn btn-secondary me-2">Cancelar</a>
+                        id="cancelButton" class="btn btn-secondary me-2">Cancelar</a>
                         <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                     </div>
                 </div>
@@ -304,6 +304,55 @@ Registro Estatal de Regulaciones
         </div>
     </div>
 </div>
+<script>
+        $(document).ready(function() {
+            var formModified = false;
+
+            // Detectar cambios en los campos del formulario
+            $('#formGnat').on('change input', function() {
+                formModified = true;
+            });
+
+            // Interceptar clics en los enlaces
+            $('a').on('click', function(event) {
+                if (formModified) {
+                    event.preventDefault(); // Prevenir la acción predeterminada del enlace
+                    var href = $(this).attr('href');
+                    Swal.fire({
+                        title: 'Advertencia',
+                        text: 'Se perderán los datos ingresados',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, continuar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = href;
+                        }
+                    });
+                }
+            });
+        });
+</script>
+<script>
+$(document).ready(function() {
+    $('#cancelButton').click(function(event) {
+        event.preventDefault(); // Prevenir la acción predeterminada del enlace
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Se perderán los datos ingresados',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('RegulacionController'); ?>';
+            }
+        });
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
         $('.btn-tramites').click(function () {

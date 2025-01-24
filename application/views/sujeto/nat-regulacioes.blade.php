@@ -294,13 +294,61 @@ Registro Estatal de Regulaciones
                                 <p><label for="file">
                                         <h7>Subir documento</h7>
                                     </label></p>
-                                <label>
-                                    <input type="file" id="file" name="userfile">
-                                </label>
+                                    <style>
+                                        .file-input-container {
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 2px;
+                                            margin-bottom: 15px;
+                                        }
+
+                                        .file-input-container input[type="file"] {
+                                            display: none;
+                                        }
+
+                                        .file-input-label {
+                                            background-color: #7f2841;
+                                            color: white;
+                                            padding: 10px 20px;
+                                            border-radius: 5px;
+                                            cursor: pointer;
+                                            transition: background-color 0.3s ease;
+                                        }
+
+                                        .file-input-label:hover {
+                                            background-color: #b69664;
+                                        }
+                                        .file-name {
+                                            font-size: 14px;
+                                            color: #333333;
+                                            background-color: #7f2841;
+                                        }
+
+                                        .remove-file-button {
+                                            background-color: #7f2841;
+                                            color: white;
+                                            padding: 10px;
+                                            border: none;
+                                            border-radius: 5px;
+                                            cursor: pointer;
+                                            display: none;
+                                            transition: background-color 0.3s ease;
+                                        }
+
+                                        .remove-file-button:hover {
+                                            background-color: #c82333;
+                                        }
+                                    </style>
+                                    <div class="file-input-container">
+                                        <label for="file" class="file-input-label">Seleccionar archivo</label>
+                                        <input type="file" id="file" name="userfile" accept=".pdf,.doc,.docx,.docm">
+                                        <span id="fileName" class="file-name"></span>
+                                        <button type="button" id="removeFile" class="remove-file-button">X</button>
+                                    </div>
                             </div>
                             <div class="d-flex justify-content-end mb-3">
                                 <a href="<?php echo base_url('RegulacionController'); ?>"
-                                    class="btn btn-secondary me-2">Cancelar</a>
+                                id="cancelButton" class="btn btn-secondary me-2">Cancelar</a>
                                 <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                             </div>
                         </div>
@@ -310,6 +358,94 @@ Registro Estatal de Regulaciones
         </div>
     </div>
 </div>
+<script>
+        $(document).ready(function() {
+            var formModified = false;
+
+            // Detectar cambios en los campos del formulario
+            $('#formGnat').on('change input', function() {
+                formModified = true;
+            });
+
+            // Interceptar clics en los enlaces
+            $('a').on('click', function(event) {
+                if (formModified) {
+                    event.preventDefault(); // Prevenir la acción predeterminada del enlace
+                    var href = $(this).attr('href');
+                    Swal.fire({
+                        title: 'Advertencia',
+                        text: 'Se perderán los datos ingresados',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, continuar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = href;
+                        }
+                    });
+                }
+            });
+        });
+</script>
+<script>
+$(document).ready(function() {
+    $('#cancelButton').click(function(event) {
+        event.preventDefault(); // Prevenir la acción predeterminada del enlace
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Se perderán los datos ingresados',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('RegulacionController'); ?>';
+            }
+        });
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    var previousFileName = '';
+
+    $('#file').on('click', function() {
+        // Almacenar el nombre del archivo previamente seleccionado
+        previousFileName = $('#fileName').text();
+    });
+
+    $('#file').change(function() {
+        var fileName = $(this).val().split('\\').pop();
+        if (fileName) {
+            $('#fileName').text(fileName).css({
+                'padding': '10px',
+                'border-radius': '5px'
+            });
+            $('#removeFile').show(); // Mostrar el botón de eliminación
+        } else {
+            // Restaurar el nombre del archivo previamente seleccionado si se cancela la selección
+            $('#fileName').text(previousFileName).css({
+                'padding': previousFileName ? '10px' : '',
+                'border-radius': previousFileName ? '5px' : ''
+            });
+            if (!previousFileName) {
+                $('#removeFile').hide(); // Ocultar el botón de eliminación si no hay archivo previo
+            }
+        }
+    });
+
+    $('#removeFile').click(function() {
+        $('#file').val(''); // Restablecer el campo de entrada de archivo
+        $('#fileName').text('').css({
+            'padding': '',
+            'border-radius': ''
+        }); // Limpiar el nombre del archivo y los estilos
+        $(this).hide(); // Ocultar el botón de eliminación
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
         $('.btn-tramites').click(function () {
@@ -324,7 +460,7 @@ Registro Estatal de Regulaciones
 </script>
 
 <script>
-    (document).ready(function () {
+    $(document).ready(function () {
         $('input[type=radio][name=opcion]').change(function () {
             if (this.value == 'si') {
                 $('#inputs').show(); // Mostrar los inputs

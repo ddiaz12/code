@@ -80,7 +80,7 @@ Registro Estatal de Regulaciones
             <div class="col-md-9 p-0">
                 <div class="card">
                     <div class="card-header text-white">Materias Exentas</div>
-                    <div class="card-body align-content-center justify-content-center align-items-center div-card-body">
+                    <div id="form-regulacion" class="card-body align-content-center justify-content-center align-items-center div-card-body">
                         <div class="align-content-center justify-content-center align-items-center">
                             <div>
                                 <label for=" radioGroup">¿Existen materias que se exceptúan de la
@@ -278,7 +278,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="d-flex justify-content-end mb-3">
                         <a href="<?php echo base_url('emergency'); ?>"
-                            class="btn btn-secondary me-2">Cancelar</a>
+                        id="cancelButton" class="btn btn-secondary me-2">Cancelar</a>
                         <button type="submit" id="btnCheck" class="btn btn-guardar">Guardar</button>
                     </div>
                 </div>
@@ -289,6 +289,55 @@ Registro Estatal de Regulaciones
 
 @endsection
 @section('js')
+<script>
+        $(document).ready(function() {
+            var formModified = false;
+
+            // Detectar cambios en los campos del formulario
+            $('#form-regulacion').on('change input', function() {
+                formModified = true;
+            });
+
+            // Interceptar clics en los enlaces
+            $('a').on('click', function(event) {
+                if (formModified) {
+                    event.preventDefault(); // Prevenir la acción predeterminada del enlace
+                    var href = $(this).attr('href');
+                    Swal.fire({
+                        title: 'Advertencia',
+                        text: 'Se perderán los datos ingresados',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, continuar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = href;
+                        }
+                    });
+                }
+            });
+        });
+</script>
+<script>
+$(document).ready(function() {
+    $('#cancelButton').click(function(event) {
+        event.preventDefault(); // Prevenir la acción predeterminada del enlace
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Se perderán los datos ingresados',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('emergency'); ?>';
+            }
+        });
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
 

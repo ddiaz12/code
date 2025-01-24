@@ -97,7 +97,7 @@ Registro Estatal de Regulaciones
                                 data-target="#trazabilidadModal">
                                 <i class="fas fa-history"></i>
                             </button>
-                            <button class="btn btn-tinto2 btn-sm btn-comentarios" title="Comentarios"
+                            <button class="btn btn-tinto2 btn-sm btn-comentarios" title="Comentar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-comments"></i>
                             </button>

@@ -96,7 +96,6 @@ Registro Estatal de Regulaciones
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Nombre Sector</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -116,7 +115,6 @@ Registro Estatal de Regulaciones
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Nombre Subsector</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -137,7 +135,6 @@ Registro Estatal de Regulaciones
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Nombre Rama</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -157,7 +154,6 @@ Registro Estatal de Regulaciones
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Nombre Subrama</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -177,7 +173,6 @@ Registro Estatal de Regulaciones
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th>Nombre Clase</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -305,7 +300,7 @@ Registro Estatal de Regulaciones
                     </script>
                     <div class="d-flex justify-content-end mb-3">
                         <a href="<?php echo base_url('RegulacionController'); ?>"
-                            class="btn btn-secondary me-2">Cancelar</a>
+                        id="cancelButton" class="btn btn-secondary me-2">Cancelar</a>
                         <button type="button" id="btnGnat" class="btn btn-success btn-guardar">Guardar</button>
                     </div>
                 </div>
@@ -314,6 +309,25 @@ Registro Estatal de Regulaciones
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+    $('#cancelButton').click(function(event) {
+        event.preventDefault(); // Prevenir la acción predeterminada del enlace
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Se perderán los datos ingresados',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('RegulacionController'); ?>';
+            }
+        });
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
         $('input[type=radio][name=opcion2]').change(function () {
@@ -413,8 +427,7 @@ Registro Estatal de Regulaciones
                 // Agregar los nombres de los sectores a la tabla
                 response.forEach(function (sector) {
                     $('#selectedSectorsTable tbody').append('<tr><td>' + sector.Nombre_Sector +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
+                        
                         '</tr>');
                 });
             },
@@ -446,10 +459,7 @@ Registro Estatal de Regulaciones
                 // Agregar los nombres de los subsectors a la tabla
                 response.forEach(function (subsector) {
                     $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsector
-                        .Nombre_Subsector +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
-                        '</tr>');
+                        .Nombre_Subsector +'</tr>');
                 });
 
                 // Mostrar la tabla si tiene datos
@@ -485,8 +495,6 @@ Registro Estatal de Regulaciones
                 // Agregar los nombres de las ramas a la tabla
                 response.forEach(function (rama) {
                     $('#selectedRamasTable tbody').append('<tr><td>' + rama.Nombre_Rama +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
 
@@ -524,8 +532,6 @@ Registro Estatal de Regulaciones
                 response.forEach(function (subrama) {
                     $('#selectedSubramasTable tbody').append('<tr><td>' + subrama
                         .Nombre_Subrama +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
 
@@ -562,8 +568,6 @@ Registro Estatal de Regulaciones
                 // Agregar los nombres de las clases a la tabla
                 response.forEach(function (clase) {
                     $('#selectedClasesTable tbody').append('<tr><td>' + clase.Nombre_Clase +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
-                        '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
 

@@ -147,7 +147,7 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <label for="Fecha_Act">Fecha de última actualización de la regulación</label>
-                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required>
+                                    <input type="date" class="form-control" id="Fecha_Act" name="fecha_act" required readonly>
                                 </div>
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function () {
@@ -177,13 +177,13 @@ Registro Estatal de Regulaciones
                                         <label for="campoExtra">Vigencia de la regulación</label>
                                         <input type="date" class="form-control" id="campoExtra" name="campoExtra"
                                             value="<?php echo ($regulacion['Vigencia'] != '0000-00-00') ? $regulacion['Vigencia'] : ''; ?>"
-                                            required disabled readonly>
+                                            required readonly>
                                     </div>
                                 </form>
                                 <div class="col-md-6">
                                     <label for="Act_Reforma">Fecha de última Reforma</label>
                                     <input type="date" class="form-control" id="Act_Reforma" name="Act_Reforma"
-                                        required>
+                                        required readonly>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -202,7 +202,7 @@ Registro Estatal de Regulaciones
                                             <label for="AutoridadesEmiten">Autoridades que emiten la
                                                 regulación</label>
                                             <input type="text" class="form-control" id="AutoridadesEmiten"
-                                                name="aut_emiten" required>
+                                                name="aut_emiten" required readonly>
                                             <div id="searchResults" class="list-group"></div>
                                         </div>
                                     </div>
@@ -247,7 +247,7 @@ Registro Estatal de Regulaciones
                                             <label for="AutoridadesAplican">Autoridades que aplican la
                                                 regulación</label>
                                             <input type="text" class="form-control" id="AutoridadesAplican"
-                                                name="AutoridadesAplican" required>
+                                                name="AutoridadesAplican" required readonly>
                                             <div id="searchResults2" class="list-group"></div>
                                         </div>
                                     </div>
@@ -384,8 +384,6 @@ Registro Estatal de Regulaciones
                                                                     <td class="hidden-column">${row.ID_Padre || ''}</td>
                                                                     <td class="hidden-column indice-padre">${row.ID_Padre || ''}</td>
                                                                     <td class="text-end">
-                                                                        <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
-                                                                        <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
                                                                     </td>
                                                                 </tr>`;
 
@@ -629,7 +627,7 @@ Registro Estatal de Regulaciones
                                 <div class="form-group">
                                     <label for="inputObjetivo">Objeto de la regulación</label>
                                     <textarea class="form-control" id="inputObjetivo"
-                                        name="objetivoReg"><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+                                        name="objetivoReg" required readonly><?php echo htmlspecialchars($regulacion['Objetivo_Reg'], ENT_QUOTES, 'UTF-8'); ?> </textarea>
                                 </div>
                                 <p></p>
                                 <div class="header-container mb-0">
@@ -787,7 +785,7 @@ Registro Estatal de Regulaciones
                                 <p></p>
                                 <div class="d-flex justify-content-end mb-3">
                                     <a href="<?php echo base_url('PublicadasController'); ?>"
-                                        class="btn btn-secondary me-2">Cancelar</a>
+                                    id="cancelButton" class="btn btn-secondary me-2">Cancelar</a>
                                     <button type="button" class="btn btn-tinto"
                                         id="botonGuardar">Guardar</button>
                                 </div>
@@ -802,6 +800,25 @@ Registro Estatal de Regulaciones
 @endsection
 
 @section('js')
+<script>
+$(document).ready(function() {
+    $('#cancelButton').click(function(event) {
+        event.preventDefault(); // Prevenir la acción predeterminada del enlace
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Se perderán los datos ingresados',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('PublicadasController'); ?>';
+            }
+        });
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
         $('#myModal').on('show.bs.modal', function () {

@@ -277,7 +277,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="d-flex justify-content-end mb-3">
                         <a href="<?php echo base_url('RegulacionController'); ?>"
-                            class="btn btn-secondary me-2">Cancelar</a>
+                        id="cancelButton" class="btn btn-secondary me-2">Cancelar</a>
                         <button type="submit" id="btnCheck" class="btn btn-success btn-guardar">Guardar</button>
                     </div>
                 </div>
@@ -289,20 +289,31 @@ Registro Estatal de Regulaciones
 @endsection
 @section('js')
 <script>
+$(document).ready(function() {
+    $('#cancelButton').click(function(event) {
+        event.preventDefault(); // Prevenir la acción predeterminada del enlace
+        Swal.fire({
+            title: 'Advertencia',
+            text: 'Se perderán los datos ingresados',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('RegulacionController'); ?>';
+            }
+        });
+    });
+});
+</script>
+<script>
     $(document).ready(function () {
 
     });
 </script>
 <script>
     $(document).ready(function () {
-        $('input[type=radio][name=opcion]').change(function () {
-            if (this.value == 'si') {
-                $('#checkboxes input[type=checkbox]').prop('disabled', false); // Desbloquear los checkboxes
-            } else if (this.value == 'no') {
-                $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes
-            }
-        });
-
         // Inicializar el estado de los checkboxes basado en el radio button seleccionado por defecto
         if ($('input[type=radio][name=opcion]:checked').val() == 'no') {
             $('#checkboxes input[type=checkbox]').prop('disabled', true); // Bloquear los checkboxes

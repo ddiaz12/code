@@ -58,7 +58,7 @@ Registro Estatal de Regulaciones
                             <button class="btn btn-danger btn-sm delete-row" title="Eliminar">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
-                            <button class="btn btn-secondary btn-sm btn-devolver" title="Devolver"
+                            <button class="btn btn-secondary btn-sm btn-devolver" title="Regresar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-undo" title="Devolver"></i>
                             </button>
@@ -71,7 +71,7 @@ Registro Estatal de Regulaciones
                                 data-target="#trazabilidadModal">
                                 <i class="fas fa-history"></i>
                             </button>
-                            <button class="btn btn-tinto2 btn-sm btn-comentarios" title="Comentarios"
+                            <button class="btn btn-tinto2 btn-sm btn-comentarios" title="Comentar"
                                 data-id="<?php            echo $regulacion->ID_Regulacion; ?>">
                                 <i class="fas fa-comments"></i>
                             </button>
