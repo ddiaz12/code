@@ -118,7 +118,7 @@ Registro Estatal de Regulaciones
 
                                 <div class="col-md-6">
                                     <div>
-                                        <label for="RamaInput">Rama<span class="text-danger">*</span></label>
+                                        <label for="RamaInput">Rama</label>
                                         <input type="text" class="form-control" id="RamaInput" name="RamaInput"
                                             placeholder="Selecciona una opcion" required disabled>
                                     </div>
@@ -138,7 +138,7 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label for="SubramaInput">Subrama<span class="text-danger">*</span></label>
+                                        <label for="SubramaInput">Subrama</label>
                                         <input type="text" class="form-control" id="SubramaInput" name="SubramaInput"
                                             placeholder="Selecciona una opcion" required disabled>
                                     </div>
@@ -158,7 +158,7 @@ Registro Estatal de Regulaciones
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label for="ClaseInput">Clase<span class="text-danger">*</span></label>
+                                        <label for="ClaseInput">Clase</label>
                                         <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
                                             placeholder="Selecciona una opcion" required disabled>
                                     </div>
@@ -248,7 +248,57 @@ Registro Estatal de Regulaciones
                             <p><label for="file">
                                     <h7>Subir Documento</h7>
                                 </label></p>
-                            <input type="file" class="form-control-file" id="userfile" name="userfile">
+                                <style>
+                                        .file-input-container {
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 2px;
+                                            margin-bottom: 15px;
+                                        }
+
+                                        .file-input-container input[type="file"] {
+                                            display: none;
+                                        }
+
+                                        .file-input-label {
+                                            background-color: #7f2841;
+                                            color: white;
+                                            padding: 10px 20px;
+                                            border-radius: 5px;
+                                            cursor: pointer;
+                                            transition: background-color 0.3s ease;
+                                        }
+
+                                        .file-input-label:hover {
+                                            background-color: #b69664;
+                                        }
+                                        .file-name {
+                                            font-size: 14px;
+                                            color: #333333;
+                                            background-color: #7f2841;
+                                        }
+
+                                        .remove-file-button {
+                                            background-color: #7f2841;
+                                            color: white;
+                                            padding: 10px;
+                                            border: none;
+                                            border-radius: 5px;
+                                            cursor: pointer;
+                                            display: none;
+                                            transition: background-color 0.3s ease;
+                                        }
+
+                                        .remove-file-button:hover {
+                                            background-color: #c82333;
+                                        }
+                                </style>
+                            <div class="file-input-container">
+                                <label for="file" class="file-input-label">Seleccionar archivo</label>
+                                <input type="file" id="file" name="userfile" accept=".pdf,.doc,.docx,.docm">
+                                <span id="fileName" class="file-name"></span>
+                                <button type="button" id="removeFile" class="remove-file-button">X</button>
+                            </div>
                             <br>
                             <!-- Mostrar el nombre del archivo actual -->
                             <?php if (!empty($natreg2->file_path)): ?>
@@ -350,6 +400,45 @@ $(document).ready(function() {
                 window.location.href = '<?php echo base_url('RegulacionController'); ?>';
             }
         });
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    var previousFileName = '';
+
+    $('#file').on('click', function() {
+        // Almacenar el nombre del archivo previamente seleccionado
+        previousFileName = $('#fileName').text();
+    });
+
+    $('#file').change(function() {
+        var fileName = $(this).val().split('\\').pop();
+        if (fileName) {
+            $('#fileName').text(fileName).css({
+                'padding': '10px',
+                'border-radius': '5px'
+            });
+            $('#removeFile').show(); // Mostrar el botón de eliminación
+        } else {
+            // Restaurar el nombre del archivo previamente seleccionado si se cancela la selección
+            $('#fileName').text(previousFileName).css({
+                'padding': previousFileName ? '10px' : '',
+                'border-radius': previousFileName ? '5px' : ''
+            });
+            if (!previousFileName) {
+                $('#removeFile').hide(); // Ocultar el botón de eliminación si no hay archivo previo
+            }
+        }
+    });
+
+    $('#removeFile').click(function() {
+        $('#file').val(''); // Restablecer el campo de entrada de archivo
+        $('#fileName').text('').css({
+            'padding': '',
+            'border-radius': ''
+        }); // Limpiar el nombre del archivo y los estilos
+        $(this).hide(); // Ocultar el botón de eliminación
     });
 });
 </script>
@@ -758,8 +847,12 @@ $(document).ready(function() {
 
         $('#SectorInput').on('keyup', function () {
             let searchTerm = $(this).val();
+            if (searchTerm.trim() === '') {
+                $('#sectorResults').empty();
+                return;
+            }
             $.ajax({
-                url: '<?= base_url('PublicadasController/search_sector') ?>',
+                url: '<?= base_url('RegulacionController/search_sector') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -780,6 +873,33 @@ $(document).ready(function() {
         $('#sectorResults').on('click', 'li', function () {
             let sectorId = $(this).data('id');
             let sectorName = $(this).text();
+            // Verificar si el sector ya está en la lista
+            if (selectedSectorsIds.includes(sectorId)) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Este sector ya ha sido agregado.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+            // Verificar si el sector ya está en la tabla
+            let sectorExistsInTable = false;
+            $('#selectedSectorsTable tbody tr').each(function () {
+                if ($(this).find('td:first').text() === sectorName) {
+                    sectorExistsInTable = true;
+                    return false; // Salir del bucle each
+                }
+            });
+            if (sectorExistsInTable) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Este sector ya ha sido agregado en la tabla.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
             selectedSectors.push({
                 ID_sector: sectorId,
                 Nombre_Sector: sectorName
@@ -822,8 +942,12 @@ $(document).ready(function() {
         // Aqui se hace la busqueda de los subsectores y se muestran en una lista
         $('#SubsectorInput').on('keyup', function () {
             let searchTerm = $(this).val();
+            if (searchTerm.trim() === '') {
+                $('#subsectorResults').empty();
+                return;
+            }
             $.ajax({
-                url: '<?= base_url('PublicadasController/search_subsector') ?>',
+                url: '<?= base_url('RegulacionController/search_subsector') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -845,6 +969,33 @@ $(document).ready(function() {
         $('#subsectorResults').on('click', 'li', function () {
             let subsectorId = $(this).data('id');
             let subsectorName = $(this).text();
+            // Verificar si el subsector ya está en la lista de IDs
+            if (selectedSubsectorsIds.includes(subsectorId)) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Este subsector ya ha sido agregado.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+            // Verificar si el subsector ya está en la tabla
+            let subsectorExistsInTable = false;
+            $('#selectedSubsectorsTable tbody tr').each(function () {
+                if ($(this).find('td:first').text() === subsectorName) {
+                    subsectorExistsInTable = true;
+                    return false; // Salir del bucle each
+                }
+            });
+            if (subsectorExistsInTable) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Este subsector ya ha sido agregado en la tabla.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
             selectedSubsectors.push({
                 ID_subsector: subsectorId,
                 Nombre_Subsector: subsectorName
@@ -888,8 +1039,12 @@ $(document).ready(function() {
         // Aqui se hace la busqueda de las ramas y se muestran en una lista
         $('#RamaInput').on('keyup', function () {
             let searchTerm = $(this).val();
+            if (searchTerm.trim() === '') {
+                $('#ramaResults').empty();
+                return;
+            }
             $.ajax({
-                url: '<?= base_url('PublicadasController/search_rama') ?>',
+                url: '<?= base_url('RegulacionController/search_rama') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -910,6 +1065,33 @@ $(document).ready(function() {
         $('#ramaResults').on('click', 'li', function () {
             let ramaId = $(this).data('id');
             let ramaName = $(this).text();
+            // Verificar si la rama ya está en la lista de IDs
+            if (selectedRamasIds.includes(ramaId)) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Esta rama ya ha sido agregada.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+            // Verificar si la rama ya está en la tabla
+            let ramaExistsInTable = false;
+            $('#selectedRamasTable tbody tr').each(function () {
+                if ($(this).find('td:first').text() === ramaName) {
+                    ramaExistsInTable = true;
+                    return false; // Salir del bucle each
+                }
+            });
+            if (ramaExistsInTable) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Esta rama ya ha sido agregada en la tabla.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
             selectedRamas.push({
                 ID_Rama: ramaId,
                 Nombre_Rama: ramaName
@@ -952,8 +1134,12 @@ $(document).ready(function() {
         // Aqui se hace la busqueda de las subramas y se muestran en una lista
         $('#SubramaInput').on('keyup', function () {
             let searchTerm = $(this).val();
+            if (searchTerm.trim() === '') {
+                $('#subramaResults').empty();
+                return;
+            }
             $.ajax({
-                url: '<?= base_url('PublicadasController/search_subrama') ?>',
+                url: '<?= base_url('RegulacionController/search_subrama') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -974,6 +1160,33 @@ $(document).ready(function() {
         $('#subramaResults').on('click', 'li', function () {
             let subramaId = $(this).data('id');
             let subramaName = $(this).text();
+            // Verificar si la subrama ya está en la lista de IDs
+            if (selectedSubramasIds.includes(subramaId)) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Esta subrama ya ha sido agregada.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+            // Verificar si la subrama ya está en la tabla
+            let subramaExistsInTable = false;
+            $('#selectedSubramasTable tbody tr').each(function () {
+                if ($(this).find('td:first').text() === subramaName) {
+                    subramaExistsInTable = true;
+                    return false; // Salir del bucle each
+                }
+            });
+            if (subramaExistsInTable) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Esta subrama ya ha sido agregada en la tabla.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
             selectedSubramas.push({
                 ID_Subrama: subramaId,
                 Nombre_Subrama: subramaName
@@ -1017,8 +1230,12 @@ $(document).ready(function() {
         // Aqui se hace la busqueda de las clases y se muestran en una lista
         $('#ClaseInput').on('keyup', function () {
             let searchTerm = $(this).val();
+            if (searchTerm.trim() === '') {
+                $('#claseResults').empty();
+                return;
+            }
             $.ajax({
-                url: '<?= base_url('PublicadasController/search_clase') ?>',
+                url: '<?= base_url('RegulacionController/search_clase') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -1039,6 +1256,33 @@ $(document).ready(function() {
         $('#claseResults').on('click', 'li', function () {
             let claseId = $(this).data('id');
             let claseName = $(this).text();
+            // Verificar si la clase ya está en la lista de IDs
+            if (selectedClasesIds.includes(claseId)) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Esta clase ya ha sido agregada.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+            // Verificar si la clase ya está en la tabla
+            let claseExistsInTable = false;
+            $('#selectedClasesTable tbody tr').each(function () {
+                if ($(this).find('td:first').text() === claseName) {
+                    claseExistsInTable = true;
+                    return false; // Salir del bucle each
+                }
+            });
+            if (claseExistsInTable) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Esta clase ya ha sido agregada en la tabla.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
             selectedClases.push({
                 ID_clase: claseId,
                 Nombre_Clase: claseName
@@ -1082,8 +1326,12 @@ $(document).ready(function() {
         //aqui busca las regulaciones y las muesta en una lista
         $('#inputVinculadas').on('keyup', function () {
             let searchTerm = $(this).val();
+            if (searchTerm.trim() === '') {
+                $('#vinculadasResults').empty();
+                return;
+            }
             $.ajax({
-                url: '<?= base_url('PublicadasController/search_regulacion') ?>',
+                url: '<?= base_url('RegulacionController/search_regulacion') ?>',
                 type: 'POST',
                 data: {
                     search_term: searchTerm
@@ -1105,6 +1353,33 @@ $(document).ready(function() {
         $('#vinculadasResults').on('click', 'li', function () {
             let regulacionId = $(this).data('id');
             let regulacionName = $(this).text();
+            // Verificar si la regulación ya está en la lista de IDs
+            if (selectedRegulaciones.some(regulacion => regulacion.ID_Regulacion === regulacionId)) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Esta regulación ya ha sido agregada.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
+            // Verificar si la regulación ya está en la tabla
+            let regulacionExistsInTable = false;
+            $('#selectedRegulacionesTable tbody tr').each(function () {
+                if ($(this).find('td:first').text().trim() === regulacionName) {
+                    regulacionExistsInTable = true;
+                    return false; // Salir del bucle each
+                }
+            });
+            if (regulacionExistsInTable) {
+                Swal.fire({
+                    title: 'Advertencia',
+                    text: 'Esta regulación ya ha sido agregada en la tabla.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar'
+                });
+                return;
+            }
             selectedRegulaciones.push({
                 ID_Regulacion: regulacionId
             });
@@ -1117,7 +1392,7 @@ $(document).ready(function() {
             // Mostrar la tabla y agregar una fila
             $('#selectedRegulacionesTable').show();
             $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '</td>+<td> </td>+<td><button class="btn btn-danger btn-sm delete-row">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });

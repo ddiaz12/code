@@ -129,6 +129,11 @@ Registro Estatal de Regulaciones
                         // Mostrar el modal
                         var trazabilidadModal = new bootstrap.Modal(document.getElementById('trazabilidadModal'));
                         trazabilidadModal.show();
+                        
+                        // Agregar evento de clic al botón de cierre
+                        document.querySelector('#trazabilidadModal .close').addEventListener('click', function () {
+                            trazabilidadModal.hide();
+                        });
                     })
                     .catch(error => {
                         document.getElementById('trazabilidadContent').innerHTML = '<p>No se pudo cargar la trazabilidad.</p>';

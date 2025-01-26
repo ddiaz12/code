@@ -311,15 +311,21 @@ Registro Estatal de Regulaciones
                                             <div class="modal-body">
                                                 <form>
                                                     <div class="form-group">
-                                                        <label for="inputTexto">Texto</label>
+                                                        <label for="inputTexto">Texto<span class="text-danger">*</span></label>
                                                         <input type="text" class="form-control" id="inputTexto"
                                                             placeholder="Ingrese texto" name="texto">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="inputOrden">Orden</label>
-                                                        <input type="number" class="form-control" id="inputOrden"
-                                                            placeholder="Ingrese orden" name="orden">
+                                                        <label for="inputOrden">Orden<span class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control" id="inputOrden" placeholder="Ingrese orden" name="orden" min="0">
                                                     </div>
+                                                    <script>
+                                                        document.getElementById('inputOrden').addEventListener('input', function() {
+                                                            if (this.value < 0) {
+                                                                this.value = 0;
+                                                            }
+                                                        });
+                                                    </script>
                                                     <div class="form-group">
                                                         <label for="selectIndicePadre">Índice
                                                             Padre</label>
@@ -343,6 +349,16 @@ Registro Estatal de Regulaciones
                                                 <button type="button" id="guardarIbtn" class="btn btn-tinto">Guardar
                                                     cambios</button>
                                             </div>
+                                            <script>
+                                                $(document).ready(function() {
+                                                    $('#botonIndice').click(function() {
+                                                        // Limpiar los campos del formulario en el modal
+                                                        $('#inputTexto').val('');
+                                                        $('#inputOrden').val('');
+                                                        $('#selectIndicePadre').val('Seleccione un índice padre');
+                                                    });
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
@@ -680,13 +696,21 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarMat" class="btn btn-tinto"
-                                                    onclick="closeModal()">Guardar
-                                                    cambios</button>
+                                                <button type="button" id="guardarMat" class="btn btn-tinto">Guardar cambios</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#botonMaterias').click(function() {
+                                            // Limpiar los campos del formulario en el modal
+                                            $('#inputMat').val('');
+                                            $('#inputSec').val('');
+                                            $('#inputSuj').val('');
+                                        });
+                                    });
+                                </script>
                                 <table id="materiasTable" class="table table-spacing">
                                     <thead>
                                         <tr>
@@ -766,13 +790,21 @@ Registro Estatal de Regulaciones
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                                     onclick="closeModal()">Cerrar</button>
-                                                <button type="button" id="guardarFun" class="btn btn-tinto"
-                                                    onclick="closeModal()">Guardar
-                                                    cambios</button>
+                                                <button type="button" id="guardarFun" class="btn btn-tinto">Guardar cambios</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#botofundamentos').click(function() {
+                                            // Limpiar los campos del formulario en el modal
+                                            $('#inputNomReg').val('');
+                                            $('#inputArt').val('');
+                                            $('#inputLink').val('');
+                                        });
+                                    });
+                                </script>
                                 <table id="fundamentoTable" class="table table-spacing">
                                     <thead>
                                         <tr>
@@ -951,26 +983,56 @@ $(document).ready(function() {
             var inputSec = $('#inputSec').val();
             var inputSuj = $('#inputSuj').val();
 
-            // Crea una nueva fila con los datos
-            var newRow = '<tr>' +
-                '<td class="hidden-column">' + idCounter + '</td>' +
-                '<td>' + inputMat + '</td>' +
-                '<td>' + inputSec + '</td>' +
-                '<td>' + inputSuj + '</td>' +
-                '<td text-end><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>';
+            if (inputMat.trim() === '' || inputSec.trim() === '' || inputSuj.trim() === '') {
+                if (inputMat.trim() === '') {
+                    
+                    $('#inputMat').after(
+                        '<span class="error-message" style="color: red;">El campo "Materias" es obligatorio.</span>'
+                    );
+                }
+                if (inputSec.trim() === '') {
+                    
+                    $('#inputSec').after(
+                        '<span class="error-message" style="color: red;">El campo "Sectores" es obligatorio.</span>'
+                    );
+                }
+                if (inputSuj.trim() === '') {
+                    
+                    $('#inputSuj').after(
+                        '<span class="error-message" style="color: red;">El campo "Sujetos Regulados" es obligatorio.</span>'
+                    );
+                }
+                // Prevenir el cierre del modal
+                $('#matModal').modal('show');
+                return;
+            } else {
+                // Eliminar los mensajes de error
+                $('.error-message').remove();
+                
+                $('#matModal').modal('hide');
+                // Crea una nueva fila con los datos
+                var newRow = '<tr>' +
+                    '<td class="hidden-column">' + idCounter + '</td>' +
+                    '<td>' + inputMat + '</td>' +
+                    '<td>' + inputSec + '</td>' +
+                    '<td>' + inputSuj + '</td>' +
+                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<i class="fas fa-edit"></i></button></td>' +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>';
 
-            // Agrega la nueva fila a la tabla
-            $('#materiasTable tbody').append(newRow);
+                // Agrega la nueva fila a la tabla
+                $('#materiasTable tbody').append(newRow);
 
-            // Incrementa el contador de ID_MatSec
-            idCounter++;
+                // Incrementa el contador de ID_MatSec
+                idCounter++;
 
-            // Limpia los valores de los inputs
-            $('#inputMat').val('');
-            $('#inputSec').val('');
-            $('#inputSuj').val('');
+                // Limpia los valores de los inputs
+                $('#inputMat').val('');
+                $('#inputSec').val('');
+                $('#inputSuj').val('');
+            }
         });
 
         // Maneja el evento de clic para eliminar una fila
@@ -1039,27 +1101,54 @@ $(document).ready(function() {
             var inputArt = $('#inputArt').val();
             var inputLink = $('#inputLink').val();
 
-            // Crea una nueva fila con los datos
-            var newRow = '<tr>' +
-                '<td class="hidden-column">' + idCounter2 + '</td>' +
-                '<td>' + inputNomReg + '</td>' +
-                '<td>' + inputArt + '</td>' +
-                '<td>' + inputLink + '</td>' +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
-                '<i class="fas fa-trash-alt"></i></button></td>' +
-                '</tr>';
+            if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
+                if (inputNomReg.trim() === '') {
+                    
+                    $('#inputNomReg').after(
+                        '<span class="error-message" style="color: red;">El campo "Nombre de la Regulación" es obligatorio.</span>'
+                    );
+                }
+                if (inputArt.trim() === '') {
+                    
+                    $('#inputArt').after(
+                        '<span class="error-message" style="color: red;">El campo "Artículo" es obligatorio.</span>'
+                    );
+                }
+                if (inputLink.trim() === '') {
+                    
+                    $('#inputLink').after(
+                        '<span class="error-message" style="color: red;">El campo "Link" es obligatorio.</span>'
+                    );
+                }
+                $('#funModal').modal('show');
+                return;
+            } else {
+                $('#funModal').modal('hide');
+                // Crea una nueva fila con los datos
+                var newRow = '<tr>' +
+                    '<td class="hidden-column">' + idCounter2 + '</td>' +
+                    '<td>' + inputNomReg + '</td>' +
+                    '<td>' + inputArt + '</td>' +
+                    '<td>' + inputLink + '</td>' +
+                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<i class="fas fa-edit"></i></button></td>' +
+                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<i class="fas fa-trash-alt"></i></button></td>' +
+                    '</tr>';
 
-            // Agrega la nueva fila a la tabla
-            $('#fundamentoTable tbody').append(newRow);
+                // Agrega la nueva fila a la tabla
+                $('#fundamentoTable tbody').append(newRow);
 
-            // Incrementa el contador de ID_Fun
-            idCounter2++;
+                // Incrementa el contador de ID_Fun
+                idCounter2++;
 
-            // Limpia los valores de los inputs
-            $('#inputNomReg').val('');
-            $('#inputArt').val('');
-            $('#inputLink').val('');
+                // Limpia los valores de los inputs
+                $('#inputNomReg').val('');
+                $('#inputArt').val('');
+                $('#inputLink').val('');
+            }
         });
+
         // Maneja el evento de clic para eliminar una fila
         $('#fundamentoTable').on('click', '.delete-row', function () {
             var row = $(this).closest('tr');
@@ -2995,25 +3084,34 @@ $(document).ready(function() {
 
                 if (inputMat.trim() === '' || inputSec.trim() === '' || inputSuj.trim() === '') {
                     if (inputMat.trim() === '') {
-                        $('#inputMat').css('color', 'red');
-                        $('#inputMat').after(
-                            '<span class="error-message" style="color: red;">El campo "Materias" es obligatorio.</span>'
-                        );
+                        if ($('#inputMat').next('.error-message').length === 0) {
+                            $('#inputMat').after(
+                                '<span class="error-message" style="color: red;">El campo "Materias" es obligatorio.</span>'
+                            );
+                        }
                     }
                     if (inputSec.trim() === '') {
-                        $('#inputSec').css('color', 'red');
-                        $('#inputSec').after(
-                            '<span class="error-message" style="color: red;">El campo "Sectores" es obligatorio.</span>'
-                        );
+                        if ($('#inputSec').next('.error-message').length === 0) {
+                            $('#inputSec').after(
+                                '<span class="error-message" style="color: red;">El campo "Sectores" es obligatorio.</span>'
+                            );
+                        }
                     }
                     if (inputSuj.trim() === '') {
-                        $('#inputSuj').css('color', 'red');
-                        $('#inputSuj').after(
-                            '<span class="error-message" style="color: red;">El campo "Sujetos Regulados" es obligatorio.</span>'
-                        );
+                        if ($('#inputSuj').next('.error-message').length === 0) {
+                            $('#inputSuj').after(
+                                '<span class="error-message" style="color: red;">El campo "Sujetos Regulados" es obligatorio.</span>'
+                            );
+                        }
                     }
+                    // Prevenir el cierre del modal
+                    $('#matModal').modal('show');
                     return;
                 } else {
+                    // Eliminar los mensajes de error
+                    $('.error-message').remove();
+
+                    $('#matModal').modal('hide');
                     // Crea una nueva fila con los datos
                     var newRow = '<tr>' +
                         '<td class="hidden-column">' + idCounter + '</td>' +
@@ -3137,19 +3235,19 @@ $(document).ready(function() {
 
                 if (inputNomReg.trim() === '' || inputArt.trim() === '' || inputLink.trim() === '') {
                     if (inputNomReg.trim() === '') {
-                        $('#inputNomReg').css('color', 'red');
+                        
                         $('#inputNomReg').after(
                             '<span class="error-message" style="color: red;">El campo "Nombre de la Regulación" es obligatorio.</span>'
                         );
                     }
                     if (inputArt.trim() === '') {
-                        $('#inputArt').css('color', 'red');
+                        
                         $('#inputArt').after(
                             '<span class="error-message" style="color: red;">El campo "Artículo" es obligatorio.</span>'
                         );
                     }
                     if (inputLink.trim() === '') {
-                        $('#inputLink').css('color', 'red');
+                        
                         $('#inputLink').after(
                             '<span class="error-message" style="color: red;">El campo "Dirección web" es obligatorio.</span>'
                         );
@@ -3157,7 +3255,7 @@ $(document).ready(function() {
                     return;
                 } else if (!urlRegex.test(inputLink.trim())) {
                     // Validar que el link sea una URL válida
-                    $('#inputLink').css('color', 'red');
+                    
                     $('#inputLink').after(
                         '<span class="error-message" style="color: red;">El campo "Dirección web" debe ser una dirección web válida.</span>'
                     );
