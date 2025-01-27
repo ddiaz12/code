@@ -58,7 +58,7 @@ class emergency extends CI_Controller
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $id = $user->id;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['tipos_ordenamiento'] = $this->RegulacionModel->getTiposOrdenamiento2();
         $data['indices'] = $this->RegulacionModel->getIndices();
 

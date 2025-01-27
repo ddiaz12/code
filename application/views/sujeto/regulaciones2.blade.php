@@ -278,7 +278,6 @@ Registro Estatal de Regulaciones
 
                 Swal.fire({
                     title: '¿Enviar regulación?',
-                    text: "Enviar regulación a consejería Jurídica",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Sí, Enviar',
