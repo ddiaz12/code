@@ -211,11 +211,11 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
                                 data-bs-target="#modalAgregarHorario">
-                                Agregar Horario
+                                Agregar horario
                             </button>
                             <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
                                 data-bs-target="#modalAgregarRangoHorario">
-                                Agregar Rango de horarios
+                                Agregar rango de horarios
                             </button>
 
                             <!-- Modal para Agregar Horarios -->
@@ -273,21 +273,25 @@ Registro Estatal de Regulaciones
                 } else if (response.status == 'error') {
                     $('#msg_error').hide();
                     // Mostrar el mensaje de error específico para los horarios
-                    $('#msg_error_horarios').text(
-                        'Ha ocurrido un error al intentar guardar. Por favor, verifica los campos e inténtalo de nuevo.'
-                    );
+                    if (response.message) {
+                        $('#msg_error_horarios').text(response.message);
+                    } else {
+                        $('#msg_error_horarios').text(
+                            'Ha ocurrido un error al intentar guardar. Por favor, verifica los campos e inténtalo de nuevo.'
+                        );
+                    }
                     $('#msg_error_horarios').show();
                     // Limpia los mensajes de error anteriores
                     $('.text-danger').empty();
                     if (response.errores) {
-                        $.each(response.errores, function (index, value) {
+                        $.each(response.errores, function(index, value) {
                             if ($("small#msg_" + index).length) {
                                 $("small#msg_" + index).html(value);
                             }
                         });
                         Swal.fire(
                             '¡Error!',
-                            'Ha ocurrido un error al agregar la unidad administrativa. Por favor, inténtalo de nuevo.',
+                            'Ha ocurrido un error al editar la unidad administrativa. Por favor, inténtalo de nuevo.',
                             'error'
                         )
                     }

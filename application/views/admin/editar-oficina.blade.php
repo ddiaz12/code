@@ -231,7 +231,7 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
                                 data-bs-target="#modalAgregarHorario">
-                                Agregar Horario
+                                Agregar horario
                             </button>
                             <button type="button" class="btn btn-guardar" data-bs-toggle="modal"
                                 data-bs-target="#modalAgregarRangoHorario">
