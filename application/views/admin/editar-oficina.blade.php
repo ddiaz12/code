@@ -32,9 +32,9 @@ Registro Estatal de Regulaciones
                             <select class="form-control" id="selectSujeto" name="sujeto" required>
                                 <option disabled selected>Selecciona una opción</option>
                                 @foreach ($sujetos as $sujeto)
-                                    <option value="{{ $sujeto->ID_sujeto }}" {{ $sujeto->ID_sujeto == $oficinas->ID_sujeto ? 'selected' : '' }}>
-                                        {{ $sujeto->nombre_sujeto }}
-                                    </option>
+                                <option value="{{ $sujeto->ID_sujeto }}" {{ $sujeto->ID_sujeto == $oficinas->ID_sujeto ? 'selected' : '' }}>
+                                    {{ $sujeto->nombre_sujeto }}
+                                </option>
                                 @endforeach
                             </select>
                             <small id="msg_sujeto" class="text-danger"></small>
@@ -44,9 +44,9 @@ Registro Estatal de Regulaciones
                             <select class="form-control" id="selectUnidad" name="unidad" required>
                                 <option disabled selected>Selecciona una opción</option>
                                 @foreach ($unidades as $unidad)
-                                    <option value="{{ $unidad->ID_unidad }}" {{ $unidad->ID_unidad == $oficinas->ID_unidad ? 'selected' : '' }}>
-                                        {{ $unidad->nombre }}
-                                    </option>
+                                <option value="{{ $unidad->ID_unidad }}" {{ $unidad->ID_unidad == $oficinas->ID_unidad ? 'selected' : '' }}>
+                                    {{ $unidad->nombre }}
+                                </option>
                                 @endforeach
                             </select>
                             <small id="msg_unidad" class="text-danger"></small>
@@ -69,9 +69,9 @@ Registro Estatal de Regulaciones
                                 <select class="form-control" id="selectVialidad" name="tipo_vialidad" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($vialidades as $vialidad)
-                                        <option value="{{ $vialidad->ID_Vialidades }}" {{ $vialidad->ID_Vialidades == $oficinas->ID_vialidad ? 'selected' : '' }}>
-                                            {{ $vialidad->Vialidad }}
-                                        </option>
+                                    <option value="{{ $vialidad->ID_Vialidades }}" {{ $vialidad->ID_Vialidades == $oficinas->ID_vialidad ? 'selected' : '' }}>
+                                        {{ $vialidad->Vialidad }}
+                                    </option>
                                     @endforeach
                                 </select>
                                 <small id="msg_tipo_vialidad" class="text-danger"></small>
@@ -93,7 +93,7 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputNumExterior">Número exterior<span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="inputNumExterior" name="num_exterior"
+                                <input type="text" class="form-control" id="inputNumExterior" name="num_exterior" maxlength="4"
                                     value="{{ $oficinas->Num_Exterior }}" required>
                                 <small id="msg_num_exterior" class="text-danger"></small>
                             </div>
@@ -104,9 +104,9 @@ Registro Estatal de Regulaciones
                                 <select class="form-control" id="selectMunicipio" name="municipio" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($municipios as $municipio)
-                                        <option value="{{ $municipio->ID_Municipio }}" {{ $municipio->ID_Municipio == $oficinas->ID_municipio ? 'selected' : '' }}>
-                                            {{ $municipio->Nombre_municipio }}
-                                        </option>
+                                    <option value="{{ $municipio->ID_Municipio }}" {{ $municipio->ID_Municipio == $oficinas->ID_municipio ? 'selected' : '' }}>
+                                        {{ $municipio->Nombre_municipio }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -117,10 +117,10 @@ Registro Estatal de Regulaciones
                                 <select class="form-control" id="selectLocalidad" name="localidad" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($localidades as $localidad)
-                                        <option value="{{ $localidad->ID_localidad }}" {{ $localidad->ID_localidad == $oficinas->ID_localidad ? 'selected' : '' }}
-                                            data-clave="{{ $localidad->clave }}">
-                                            {{ $localidad->Localidades }}
-                                        </option>
+                                    <option value="{{ $localidad->ID_localidad }}" {{ $localidad->ID_localidad == $oficinas->ID_localidad ? 'selected' : '' }}
+                                        data-clave="{{ $localidad->clave }}">
+                                        {{ $localidad->Localidades }}
+                                    </option>
                                     @endforeach;
                                 </select>
                             </div>
@@ -148,11 +148,11 @@ Registro Estatal de Regulaciones
                                 <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
                                     <option disabled>Selecciona una opción</option>
                                     @foreach ($asentamientos as $asentamiento)
-                                        <option value="{{ $asentamiento->ID_nAsentamiento }}" 
-                                            {{ $asentamiento->ID_nAsentamiento == $oficinas->ID_nAsentamiento ? 'selected' : '' }}
-                                                data-codigo-postal="{{ $asentamiento->CP }}">
-                                            {{ $asentamiento->nombre }}
-                                        </option>
+                                    <option value="{{ $asentamiento->ID_nAsentamiento }}"
+                                        {{ $asentamiento->ID_nAsentamiento == $oficinas->ID_nAsentamiento ? 'selected' : '' }}
+                                        data-codigo-postal="{{ $asentamiento->CP }}">
+                                        {{ $asentamiento->nombre }}
+                                    </option>
                                     @endforeach;
                                 </select>
                             </div>
@@ -177,18 +177,18 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="ext">Extensión</label>
-                                <input type="text" class="form-control" id="ext" name="ext" maxlength="4"
+                                <input type="text" class="form-control" id="ext" name="ext" maxlength="6"
                                     value="{{ $oficinas->Extension }}">
-                                    <small id="msg_ext" class="text-danger"></small>
+                                <small id="msg_ext" class="text-danger"></small>
                             </div>
                         </div>
                         <div class="form-group">
-                        <label for="email">Correo electrónico<span class="text-danger">*</span></label>
+                            <label for="email">Correo electrónico<span class="text-danger">*</span></label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-envelope fa-2x"></i></span>
                                 </div>
-                                <input type="email" class="form-control" placeholder="Email" name="email"
+                                <input type="email" class="form-control" placeholder="Correo electrónico" name="email"
                                     value="{{ $oficinas->Correo_Elec }}" required>
                             </div>
                             <small id="msg_email" class="text-danger"></small>
@@ -212,16 +212,16 @@ Registro Estatal de Regulaciones
                                 </thead>
                                 <tbody>
                                     @foreach ($horarios as $horario)
-                                        <tr>
-                                            <td>{{ $horario->Dia }}</td>
-                                            <td>{{ $horario->Apertura }}</td>
-                                            <td>{{ $horario->Cierre }}</td>
-                                            <td>
-                                                <!-- Botón para eliminar la fila -->
-                                                <button type="button" class="btn btn-danger eliminar"
-                                                    data-id="{{ $horario->ID_Horario }}">Eliminar</button>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>{{ $horario->Dia }}</td>
+                                        <td>{{ $horario->Apertura }}</td>
+                                        <td>{{ $horario->Cierre }}</td>
+                                        <td>
+                                            <!-- Botón para eliminar la fila -->
+                                            <button type="button" class="btn btn-danger eliminar"
+                                                data-id="{{ $horario->ID_Horario }}">Eliminar</button>
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -266,6 +266,23 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/apiAsentamientosEditar.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#phone').mask('(000) 000-0000');
+        $('#ext').mask('000000');
+
+        // Aplicar máscara al campo de número exterior
+        $('#inputNumExterior').mask('Z', {
+            translation: {
+                'Z': {
+                    pattern: /[1-9sSnN\/]/, // Acepta números, "s", "S", "n", "N" y "/"
+                    recursive: true
+                }
+            }
+        });
+    });
+</script>
 <script>
     function enviarFormulario() {
         var sendData = $('#formOficina').serializeArray();
@@ -283,7 +300,7 @@ Registro Estatal de Regulaciones
             type: 'POST',
             dataType: 'json',
             data: sendData,
-            success: function (response) {
+            success: function(response) {
                 ocultarPantallaDeCarga();
                 if (response.status == 'success') {
                     Swal.fire(
@@ -309,7 +326,7 @@ Registro Estatal de Regulaciones
                     // Limpia los mensajes de error anteriores
                     $('.text-danger').empty();
                     if (response.errores) {
-                        $.each(response.errores, function (index, value) {
+                        $.each(response.errores, function(index, value) {
                             if ($("small#msg_" + index).length) {
                                 $("small#msg_" + index).html(value);
                             }
@@ -322,7 +339,7 @@ Registro Estatal de Regulaciones
                     }
                 }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 ocultarPantallaDeCarga();
                 console.error(xhr.responseText);
             }
@@ -344,9 +361,9 @@ Registro Estatal de Regulaciones
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Validación en tiempo real
-        $('#formOficina input, #formOficina select').on('input change', function () {
+        $('#formOficina input, #formOficina select').on('input change', function() {
             var $input = $(this);
             var $errorMsg = $("#msg_" + $input.attr('id'));
             if ($input.val() !== '') {
@@ -356,6 +373,5 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
-<script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/eliminarHorario.js'); ?>"></script>
 @endsection

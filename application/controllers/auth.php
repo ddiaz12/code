@@ -715,10 +715,10 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[4]|min_length[2]',
+            'trim|numeric|max_length[6]|min_length[2]',
             array(
                 'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
                 'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
             )
         );
@@ -906,10 +906,10 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[7]|min_length[2]',
+            'trim|numeric|max_length[6]|min_length[2]',
             array(
                 'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
                 'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
             )
         );
@@ -1152,10 +1152,10 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[7]|min_length[2]',
+            'trim|numeric|max_length[6]|min_length[2]',
             array(
                 'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
                 'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
             )
         );

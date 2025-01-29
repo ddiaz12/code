@@ -112,8 +112,7 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="ext">Extensión</label>
-                            <input type="text" class="form-control" id="ext" name="ext" placeholder="Extension"
-                                maxlength="4" required>
+                            <input type="text" class="form-control" id="ext" name="ext" placeholder="Extension" required>
                             <small id="msg_ext" class="text-danger"></small>
                         </div>
                     </div>
@@ -196,7 +195,13 @@ Registro Estatal de Regulaciones
 @endsection
 
 @section('js')
-<script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#phone').mask('(000) 000-0000'); 
+        $('#ext').mask('000000'); 
+    });
+</script>
 <script>
     function enviaDatosFormulario() {
         var formData = new FormData($('#formUsuarios')[0]);

@@ -86,7 +86,7 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputNumExterior">Número exterior<span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" id="inputNumExterior" name="num_exterior"
+                                <input type="text" class="form-control" id="inputNumExterior" name="num_exterior" maxlength="4"
                                     value="{{ $unidades->Num_Exterior }}" required>
                                 <small id="msg_num_exterior" class="text-danger"></small>
                             </div>
@@ -174,7 +174,7 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="ext">Extensión</label>
-                                <input type="text" class="form-control" id="ext" name="ext" maxlength="4"
+                                <input type="text" class="form-control" id="ext" name="ext"
                                     value="{{ $unidades->extension }}">
                                     <small id="msg_ext" class="text-danger"></small>
                             </div>
@@ -185,7 +185,7 @@ Registro Estatal de Regulaciones
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-envelope fa-2x"></i></span>
                                 </div>
-                                <input type="email" class="form-control" placeholder="Email" name="email"
+                                <input type="email" class="form-control" placeholder="Correo electrónico" name="email"
                                     value="{{ $unidades->Correo_Elec }}" required>
                             </div>
                             <small id="msg_email" class="text-danger"></small>
@@ -274,6 +274,23 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/apiAsentamientosEditar.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#phone').mask('(000) 000-0000'); 
+        $('#ext').mask('000000'); 
+
+        // Aplicar máscara al campo de número exterior
+        $('#inputNumExterior').mask('Z', {
+            translation: {
+                'Z': {
+                    pattern: /[1-9sSnN\/]/, // Acepta números, "s", "S", "n", "N" y "/"
+                    recursive: true
+                }
+            }
+        });
+    });
+</script>
 <script>
     function enviarFormulario() {
         var sendData = $('#formUnidad').serializeArray();
@@ -365,6 +382,5 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
-<script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/eliminarHorario.js'); ?>"></script>
 @endsection

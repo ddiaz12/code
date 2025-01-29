@@ -374,11 +374,9 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'num_exterior',
             'Número exterior',
-            'required|numeric|greater_than_equal_to[0]|max_length[5]',
+            'required|max_length[5]',
             array(
                 'required' => 'El campo %s es obligatorio.',
-                'numeric' => 'El campo %s solo puede contener números.',
-                'greater_than_equal_to' => 'El campo %s no puede ser negativo.',
                 'max_length' => 'El campo %s no debe exceder los 5 caracteres.'
             )
         );
@@ -405,10 +403,10 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[7]|min_length[2]',
+            'trim|numeric|max_length[6]|min_length[2]',
             array(
                 'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
                 'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
             )
         );
@@ -418,10 +416,10 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'nombre_vialidad',
             'Nombre vialidad',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.0-9ºª]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
+                'regex_match' => 'El campo %s solo puede contener letras, números, espacios, comas, puntos y abreviaturas comunes.'
             )
         );
         $this->form_validation->set_rules('localidad', 'Nombre localidad', 'required');
@@ -586,11 +584,9 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'num_exterior',
             'Número exterior',
-            'required|numeric|greater_than_equal_to[0]|max_length[5]',
+            'required|max_length[5]',
             array(
                 'required' => 'El campo %s es obligatorio.',
-                'numeric' => 'El campo %s solo puede contener números.',
-                'greater_than_equal_to' => 'El campo %s no puede ser negativo.',
                 'max_length' => 'El campo %s no debe exceder los 5 caracteres.'
             )
         );
@@ -617,10 +613,10 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[7]|min_length[2]',
+            'trim|numeric|max_length[6]|min_length[2]',
             array(
                 'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
+                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
                 'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
             )
         );
@@ -630,10 +626,10 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'nombre_vialidad',
             'Nombre de vialidad',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.0-9ºª]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
-                'regex_match' => 'El campo %s solo puede contener letras, espacios, comas y puntos.'
+                'regex_match' => 'El campo %s solo puede contener letras, números, espacios, comas, puntos y abreviaturas comunes.'
             )
         );
 

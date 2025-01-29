@@ -111,7 +111,13 @@ Registro Estatal de Regulaciones
 </div>
 @endsection
 @section('js')
-<script src="<?php echo base_url('assets/js/tel.js'); ?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#phone').mask('(000) 000-0000'); 
+        $('#ext').mask('0000'); 
+    });
+</script>
 <script>
     function enviarFormulario() {
         var sendData = $('#formSolicitud').serializeArray();
