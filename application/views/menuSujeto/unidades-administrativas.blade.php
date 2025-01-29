@@ -28,7 +28,6 @@ Registro Estatal de Regulaciones
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th class="tTabla-color">Id</th>
                         <th class="tTabla-color">Nombre de U.A</th>
                         <th class="tTabla-color">Siglas</th>
                         <th class="tTabla-color">Nombre Sujeto Obligado</th>
@@ -38,7 +37,6 @@ Registro Estatal de Regulaciones
                 <tbody>
                     @foreach ($unidades as $unidad)
                         <tr>
-                            <td>{{ $unidad->ID_unidad }}</td>
                             <td>{{ $unidad->nombre }}</td>
                             <td>{{ $unidad->siglas }}</td>
                             <td>{{ $unidad->nombre_sujeto }}</td>

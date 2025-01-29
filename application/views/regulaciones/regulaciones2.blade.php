@@ -213,7 +213,7 @@ Registro Estatal de Regulaciones
             }
         });
         // Captura el evento de clic en el botón de editar
-        $('.edit-row').on('click', function () {
+        $('#datatablesSimple').on('click', '.edit-row', function () {
             // Obtiene el ID de la regulación del atributo data-id
             var idRegulacion = $(this).data('id');
 

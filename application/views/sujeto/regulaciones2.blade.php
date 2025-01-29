@@ -30,7 +30,6 @@ Registro Estatal de Regulaciones
             <table id="datatablesSimple">
                 <thead>
                     <tr>
-                        <th class="tTabla-color">Id</th>
                         <th class="tTabla-color">Nombre</th>
                         <th class="tTabla-color">Homoclave</th>
                         <th class="tTabla-color">Estatus</th>
@@ -65,7 +64,6 @@ Registro Estatal de Regulaciones
             }
                 ?>
                     <tr>
-                        <td><?php            echo $regulacion->ID_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Nombre_Regulacion; ?></td>
                         <td><?php            echo $regulacion->Homoclave; ?></td>
                         <td>
@@ -209,7 +207,7 @@ Registro Estatal de Regulaciones
             }
         });
         // Captura el evento de clic en el botón de editar
-        $('.edit-row').on('click', function () {
+        $('#datatablesSimple').on('click', '.edit-row', function () {
             // Obtiene el ID de la regulación del atributo data-id
             var idRegulacion = $(this).data('id');
 
