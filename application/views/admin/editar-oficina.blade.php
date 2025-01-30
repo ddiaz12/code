@@ -11,7 +11,7 @@ Registro Estatal de Regulaciones
 
 @section('contenido')
 <ol class="breadcrumb mb-4 mt-5">
-    <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a>
+    <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Inicio</a>
     </li>
     <li class="breadcrumb-item"><a href="<?php echo base_url('oficinas'); ?>"><i
                 class="fas fa-cogs me-1"></i>Oficinas</a>
@@ -127,7 +127,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="claveLocalidad">Clave localidad<span class="text-danger">*</span></label>
+                                <label for="claveLocalidad">Clave localidad</label>
                                 <input type="number" class="form-control" id="claveLocalidad" name="clave_localidad"
                                     value="{{ $oficinas->clave }}" readonly>
                             </div>
@@ -160,7 +160,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputCP">C.P.<span class="text-danger">*</span></label>
+                                <label for="inputCP">C.P.</label>
                                 <input type="number" class="form-control" id="inputCP" name="codigo_postal"
                                     value="{{ $oficinas->CP }}" required readonly>
                                 <small id="msg_codigo_postal" class="text-danger"></small>
@@ -323,8 +323,6 @@ Registro Estatal de Regulaciones
                         );
                     }
                     $('#msg_error_horarios').show();
-                    // Limpia los mensajes de error anteriores
-                    $('.text-danger').empty();
                     if (response.errores) {
                         $.each(response.errores, function(index, value) {
                             if ($("small#msg_" + index).length) {

@@ -14,7 +14,7 @@
 
 @section('contenido')
     <ol class="breadcrumb mb-4 mt-5">
-        <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Home</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Inicio</a></li>
         <li class="breadcrumb-item"><a href="<?php echo base_url('auth'); ?>"><i class="fas fa-users me-1"></i>Usuarios</a></li>
         <li class="breadcrumb-item active"><i class="fas fa-user-edit me-1"></i>Editar Grupo</li>
     </ol>

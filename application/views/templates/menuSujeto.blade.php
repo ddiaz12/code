@@ -49,7 +49,7 @@
                 </div>
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownInfo"
-                        data-bs-toggle="dropdown" aria-expanded="false" title="Informacion">
+                        data-bs-toggle="dropdown" aria-expanded="false" title="Información">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-info icon-info"></i></div>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownInfo">
