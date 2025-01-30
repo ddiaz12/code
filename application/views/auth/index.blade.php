@@ -38,7 +38,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                         <th class="tTabla-color">Nombre completo</th>
                         <th class="tTabla-color">Sujeto Obligado</th>
                         <th class="tTabla-color">Unidad administrativa</th>
-                        <th class="tTabla-color">Grupo</th>
+                        <th class="tTabla-color">Rol</th>
                         <th class="tTabla-color">Estatus</th>
                         <th class="tTabla-color">Acciones</th>
                     </tr>
@@ -71,12 +71,30 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                                             onclick="confirmActivatePending('<?php echo base64_encode($user->id); ?>')">
                                             <i class="fas fa-clock" title="Usuario pendiente"></i> Pendiente
                                         </button>
-                                    <?php else: ?>
-                                        <button class="btn btn-success btn-sm"
-                                            onclick="confirmActivate('<?php echo base64_encode($user->id); ?>')">
-                                            <i class="fas fa-check-circle" title="Activar usuario"></i>Activar
-                                        </button>
-                                        </a>
+                                        <?php else:
+                                        // Verificar si el usuario tiene un rol válido (no "Sin-asignar")
+                                        $user_groups = $this->ion_auth->get_users_groups($user->id)->result();
+                                        $has_valid_role = FALSE;
+
+                                        foreach ($user_groups as $group) {
+                                            if ($group->id != 2) { // Si el ID del grupo no es 2 ("Sin-asignar")
+                                                $has_valid_role = TRUE;
+                                                break;
+                                            }
+                                        }
+
+                                        if ($has_valid_role): ?>
+                                            <button class="btn btn-success btn-sm"
+                                                onclick="confirmActivate('<?php echo base64_encode($user->id); ?>')">
+                                                <i class="fas fa-check-circle" title="Activar usuario"></i>Activar
+                                            </button>
+                                        <?php else: ?>
+                                            <!-- Botón deshabilitado con mensaje emergente -->
+                                            <button class="btn btn-secondary btn-sm"
+                                                onclick="showRoleAlert()">
+                                                <i class="fas fa-times-circle"></i> Activar
+                                            </button>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </td>
                                 <td>
@@ -86,7 +104,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                                     </a>
                                     <button class="btn btn btn-secondary btn-sm"
                                         onclick="confirmPending(<?php echo $user->id; ?>)" <?php if ($user->active == 1 || $user->status == 1)
-                                                                                                        echo 'disabled'; ?>>
+                                                                                                echo 'disabled'; ?>>
                                         <i class="fas fa-clock" title="Usuario pendiente"></i>
                                     </button>
                                     <button class="btn btn btn-danger btn-sm btn-ocultar"
@@ -181,6 +199,14 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                     }
                 });
             }
+        });
+    }
+
+    function showRoleAlert() {
+        Swal.fire({
+            title: 'Error',
+            text: 'El usuario no puede ser activado porque no tiene un rol válido asignado.',
+            icon: 'error'
         });
     }
 
