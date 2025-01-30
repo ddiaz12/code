@@ -229,9 +229,9 @@ class Auth extends CI_Controller
     {
         // setting validation rules by checking whether identity is username or email
         if ($this->config->item('identity', 'ion_auth') != 'email') {
-            $this->form_validation->set_rules('identity', 'correo electronico', 'required');
+            $this->form_validation->set_rules('identity', 'correo electrónico', 'required');
         } else {
-            $this->form_validation->set_rules('identity', 'correo electronico', 'required|valid_email');
+            $this->form_validation->set_rules('identity', 'correo electrónico', 'required|valid_email');
         }
 
 

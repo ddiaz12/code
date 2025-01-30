@@ -14,9 +14,9 @@ Registro Estatal de Regulaciones
     <ol class="breadcrumb mb-4 mt-5">
         <li class="breadcrumb-item"><a href="<?php echo base_url("home") ?>"><i class="fas fa-home me-1"></i>Inicio</a>
         </li>
-        <li class="breadcrumb-item active"><i class="fas fa-file-alt me-1"></i>Guias</li>
+        <li class="breadcrumb-item active"><i class="fas fa-file-alt me-1"></i>Guías</li>
     </ol>
-    <h1 class="mt-4 titulo-menu">Guias</h1>
+    <h1 class="mt-4 titulo-menu">Guías</h1>
 
     <!-- Formulario para subir archivos PDF -->
     <div class="card mb-4 div-datatables">

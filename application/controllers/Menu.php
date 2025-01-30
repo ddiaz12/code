@@ -353,6 +353,8 @@ class Menu extends CI_Controller
         //print_r($this->input->post('json1'));
         //print_r($this->input->post('json2'));
         //$datos = array();
+        $user = $this->ion_auth->user()->row();
+        $id = $user->id;
         $this->form_validation->set_rules(
             'inputNombre',
             'Nombre',
@@ -393,7 +395,7 @@ class Menu extends CI_Controller
         );*/
         $this->form_validation->set_rules(
             'phone',
-            'número de teléfono',
+            'Número de teléfono',
             'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
@@ -412,7 +414,7 @@ class Menu extends CI_Controller
         );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
         $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
-        $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
+        $this->form_validation->set_rules('tipo_vialidad', 'Tipo vialidad', 'required');
         $this->form_validation->set_rules(
             'nombre_vialidad',
             'Nombre vialidad',
@@ -452,6 +454,7 @@ class Menu extends CI_Controller
                 'ID_municipio' => $municipio,
                 'ID_localidad' => $localidad,
                 'ID_nAsentamiento' => $nombre_asentamiento,
+                'created_by' => $id,
                 'nombre' => $nombre,
                 'siglas' => $siglas,
                 'ID_vialidad' => $tipo_vialidad,
@@ -603,7 +606,7 @@ class Menu extends CI_Controller
         );*/
         $this->form_validation->set_rules(
             'phone',
-            'número de teléfono',
+            'Número de teléfono oficial',
             'required|regex_match[/^\(\d{3}\) \d{3}-\d{4}$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
@@ -612,7 +615,7 @@ class Menu extends CI_Controller
         );
         $this->form_validation->set_rules(
             'ext',
-            'extension',
+            'Extensión',
             'trim|numeric|max_length[6]|min_length[2]',
             array(
                 'numeric' => 'El campo %s debe ser numérico.',
@@ -621,11 +624,11 @@ class Menu extends CI_Controller
             )
         );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
-        $this->form_validation->set_rules('sujeto', 'Sujeto obligado', 'required');
-        $this->form_validation->set_rules('tipo_vialidad', 'Tipo de vialidad', 'required');
+        $this->form_validation->set_rules('sujeto', 'Sujeto Obligado', 'required');
+        $this->form_validation->set_rules('tipo_vialidad', 'Tipo vialidad', 'required');
         $this->form_validation->set_rules(
             'nombre_vialidad',
-            'Nombre de vialidad',
+            'Nombre vialidad',
             'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.0-9ºª]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',

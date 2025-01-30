@@ -14,7 +14,7 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownBalanced">
                         <h6 class="dropdown-header">Regulaciones</h6>
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_buzon'); ?>"><i class="fa-solid fa-inbox icon-inbox"></i> Mi
-                                buzon</a></li>
+                        buzón</a></li>
                         <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_enviadas'); ?>"><i
                                     class="fa-solid fa-paper-plane icon-sent"></i>
                                 Enviadas</a></li>
@@ -54,7 +54,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownInfo">
                         <h6 class="dropdown-header">Información</h6>
-                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_guia'); ?>">Guias</a></li>
+                        <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_guia'); ?>">Guías</a></li>
                         <!-- <li><a class="dropdown-item" href="<?php echo base_url('menu/menu_log'); ?>">Log de versiones</a></li>-->
                     </ul>
                 </div>

@@ -72,7 +72,7 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="first_name">Nombre<span class="text-danger">*</span></label>
+                            <label for="first_name">Nombre(s)<span class="text-danger">*</span></label>
                             <?php echo form_input($first_name, '', ['class' => 'form-control', 'id' => 'first_name']); ?>
                             <small id="msg_first_name" class="text-danger"></small>
                         </div>

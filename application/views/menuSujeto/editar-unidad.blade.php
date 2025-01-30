@@ -121,7 +121,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="claveLocalidad">Clave localidad<span class="text-danger">*</span></label>
+                                <label for="claveLocalidad">Clave localidad</label>
                                 <input type="number" class="form-control" id="claveLocalidad" name="clave_localidad"
                                     value="{{ $unidades->clave }}" readonly>
                                 <small id="msg_clave_localidad" class="text-danger"></small>
@@ -156,7 +156,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputCP">C.P.<span class="text-danger">*</span></label>
+                                <label for="inputCP">C.P.</label>
                                 <input type="number" class="form-control" id="inputCP" name="codigo_postal"
                                     value="{{ $unidades->CP }}" required readonly>
                                 <small id="msg_codigo_postal" class="text-danger"></small>
@@ -325,8 +325,6 @@ Registro Estatal de Regulaciones
                         );
                     }
                     $('#msg_error_horarios').show();
-                    // Limpia los mensajes de error anteriores
-                    $('.text-danger').empty();
                     if (response.errores) {
                         $.each(response.errores, function(index, value) {
                             if ($("small#msg_" + index).length) {
