@@ -150,11 +150,11 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="clave">Clave empleado</label>
-                            <input type="text" class="form-control" id="clave" name="clave"
+                            <label for="clave_empleado">clave empleado</label>
+                            <input type="text" class="form-control" id="clave_empleado" name="clave_empleado"
                                 placeholder="Número o clave del empleado">
                         </div>
-                        <small id="msg_clave" class="text-danger"></small>
+                        <small id="msg_clave_empleado" class="text-danger"></small>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">

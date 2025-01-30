@@ -690,7 +690,7 @@ class Auth extends CI_Controller
         );
         $this->form_validation->set_rules(
             'clave_empleado',
-            'clave_empleado',
+            'clave empleado',
             'trim|numeric',
             array(
                 'numeric' => 'El campo %s debe ser numérico.'

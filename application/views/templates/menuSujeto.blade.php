@@ -31,7 +31,7 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownUser">
-                        <h6 class="dropdown-header">Modulo de capacitaciones</h6>
+                        <h6 class="dropdown-header">Módulo de capacitaciones</h6>
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-book icon-cursos"></i>
                                 Cursos</a></li>
                     </ul>
