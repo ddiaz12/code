@@ -76,10 +76,12 @@ Registro Estatal de Regulaciones
         var table = $('#datatablesSimple').DataTable();
 
         // Cargar la lista de archivos al cargar la página
+        mostrarPantallaDeCarga();
         $.ajax({
             url: '<?= base_url("Guia/list") ?>', // Cambia por tu ruta
             type: 'GET',
             success: function (response) {
+                ocultarPantallaDeCarga();
                 if (response.success) {
                     response.data.forEach(function (file) {
                         agregarFila(file);
@@ -97,7 +99,7 @@ Registro Estatal de Regulaciones
             e.preventDefault();
 
             var formData = new FormData(this);
-
+            mostrarPantallaDeCarga();
             $.ajax({
                 url: '<?= base_url("Guia/upload_pdf") ?>', // Cambia por tu ruta
                 type: 'POST',
@@ -105,6 +107,7 @@ Registro Estatal de Regulaciones
                 processData: false,
                 contentType: false,
                 success: function (response) {
+                    ocultarPantallaDeCarga();
                     if (response.success) {
                         Swal.fire('Éxito', 'Archivo subido correctamente.', 'success').then(() => {
                             location.reload(); // Recargar la página
@@ -114,6 +117,7 @@ Registro Estatal de Regulaciones
                     }
                 },
                 error: function () {
+                    ocultarPantallaDeCarga();
                     Swal.fire('Error', 'No se pudo subir el archivo.', 'error');
                 }
             });
