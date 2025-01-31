@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="<?php echo base_url("assets/css/ciudadania.css") ?>">
     <script src="https://use.fontawesome.com/releases/v6.6.0/js/all.js" crossorigin="anonymous"></script>
 
-    <!-- Customcss -->
+    <!-- Incluir SweetAlert2 desde un CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!--<link rel="stylesheet" href="https://openapis.col.gob.mx/API_PU/css/bs4/layout.css">-->
     <script type="text/javascript" src="https://openapis.col.gob.mx/API_PU/js/b4/jquery-3.2.1.js"></script>

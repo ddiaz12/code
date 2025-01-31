@@ -206,8 +206,11 @@ Registro Estatal de Regulaciones
 
             <div class="row mt-4 justify-content-center">
                 <div class="col-md-3 btn-verRegulacion3">
-                    <a href="<?php echo !empty($enlace_oficial->file_path) ? base_url($enlace_oficial->file_path) : '#'; ?>"
-                        class="btn-download btn-custom">Descargar documento <br><i class="fas fa-download"></i></a>
+                    <a href="<?php echo !empty($enlace_oficial->file_path) ? base_url($enlace_oficial->file_path) : 'javascript:void(0);'; ?>"
+                        class="btn-download btn-custom"
+                        onclick="<?php echo empty($enlace_oficial->file_path) ? 'showNoDocumentAlert()' : ''; ?>">
+                        Descargar documento <br><i class="fas fa-download"></i>
+                    </a>
                 </div>
                 <div class="col-md-3 btn-verRegulacion2">
                     <a href="<?php echo base_url('ciudadania/descargarPdf/' . $regulacion->ID_Regulacion); ?>"
@@ -247,5 +250,16 @@ Registro Estatal de Regulaciones
             });
         });
     });
+
+    // Función para mostrar un mensaje cuando no hay un documento disponible
+    function showNoDocumentAlert() {
+        Swal.fire({
+            title: 'Documento no disponible',
+            text: 'No hay un documento para descargar en este momento.',
+            icon: 'info',
+            confirmButtonColor: '#923244',
+            confirmButtonText: 'Entendido'
+        });
+    }
 </script>
 @endsection
