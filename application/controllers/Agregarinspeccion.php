@@ -194,7 +194,7 @@ class Agregarinspeccion extends CI_Controller {
                 $this->session->set_flashdata('error', 'Ocurrió un error al guardar la información.');
             }
 
-            redirect('agregarinspeccion');
+            redirect('visitas');
         }
     }
 }

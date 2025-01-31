@@ -5,36 +5,41 @@ class Visitas_model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->load->database();
+        $this->load->database(); // Cargar la base de datos
     }
 
-    // Fetch all visitas
+    // Obtener todas las inspecciones
+    public function get_all_inspecciones() {
+        $query = $this->db->get('inspeccion_detallada');
+        return $query->result_array(); // Retorna un array con todas las inspecciones
+    }
+
+    // Alias para get_all_inspecciones()
     public function get_all_visitas() {
-        $query = $this->db->get('users');
-        return $query->result_array();
+        return $this->get_all_inspecciones(); // Llama al método existente
     }
 
-    // Add a new visita
-    public function add_visita($data) {
-        return $this->db->insert('users', $data);
+    // Obtener una inspección por su ID
+    public function get_inspeccion_by_id($id_inspeccion) {
+        $query = $this->db->get_where('inspeccion_detallada', array('id_inspeccion' => $id_inspeccion));
+        return $query->row_array(); // Retorna un array con los datos de la inspección
     }
 
-    // Fetch a single visita by ID
-    public function get_visita_by_id($id) {
-        $query = $this->db->get_where('users', array('id' => $id));
-        return $query->row_array();
+    // Agregar una nueva inspección
+    public function add_inspeccion($data) {
+        return $this->db->insert('inspeccion_detallada', $data); // Inserta los datos en la tabla
     }
 
-    // Update a visita
-    public function update_visita($id, $data) {
-        $this->db->where('id', $id);
-        return $this->db->update('users', $data);
+    // Actualizar una inspección existente
+    public function update_inspeccion($id_inspeccion, $data) {
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        return $this->db->update('inspeccion_detallada', $data); // Actualiza los datos de la inspección
     }
 
-    // Delete a visita
-    public function delete_visita($id) {
-        $this->db->where('id', $id);
-        return $this->db->delete('users');
+    // Eliminar una inspección
+    public function delete_inspeccion($id_inspeccion) {
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        return $this->db->delete('inspeccion_detallada'); // Elimina la inspección
     }
 }
 ?>

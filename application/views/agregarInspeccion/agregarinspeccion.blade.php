@@ -19,7 +19,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
             </a>
         </li>
         <li class="breadcrumb-item"><i class="fas fa-file-alt me-1"></i>Inspecciones</li>
-        <li class="breadcrumb-item"><i class="fas fa-plus-circle me-1"></i>Agregar inspector</li>
+        <li class="breadcrumb-item"><i class="fas fa-plus-circle me-1"></i>Agregar</li>
     </ol>
 
     <div class="row">
@@ -56,24 +56,30 @@ foreach ($steps as $index => $step) {
 
         <!-- Main Content -->
         <div class="col-md-9 main-content">
-
+            <script>
+                $(document).ready(function () {
+                    $('label').css('font-weight', 'bold');
+                });
+            </script>
 
             <div class="form-container">
                 {{ form_open_multipart('agregarinspeccion/guardar', ['id' => 'inspeccionForm', 'class' => 'needs-validation', 'novalidate' => '']) }}
                 <div class="form-step" id="step-1">
 
-                    <h3 style="background-color: #8E354A; color: white;">Inscripción al Registro Estatal de Visitas
-                        Domiciliarias (REVID)</h3>
-                    <h5 style="background-color:rgb(244, 241, 192); color: black;"> Atención: Esta ficha debe ser
-                        requisitada con el uso de letras mayúsculas y minusculas.</h5>
+                    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px;">Datos de
+                        identificación de Inspector(a), Verificador(a) y Visitador(a) Domiciliario(a)</h3>
+
+                    <h5 class="alert alert-warning"
+                        style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+                    </h5>
+
                     <div class="form-group">
-
-
-                        <label>Homoclave</label>
+                        <label><b>Homoclave</b></label>
                         {{ form_input(['name' => 'Homoclave', 'class' => 'form-control', 'value' => 'I-IPR-CTIH-0-IPR-0002', 'readonly' => true]) }}
                     </div>
                     <div class="form-group">
-                        <label>Nombre de la Inspección<span class="text-danger">*</span></label>
+                        <label><b>Nombre de la Inspección</b><span class="text-danger">*</span></label>
                         {{ form_input(['name' => 'Nombre_Inspeccion', 'class' => 'form-control', 'required' => 'required']) }}
                     </div>
                     <div class="form-group">
@@ -81,7 +87,7 @@ foreach ($steps as $index => $step) {
                         {{ form_input(['name' => 'Modalidad', 'class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
-                        <label>Sujeto Obligado<span class="text-danger">*</span></label>
+                        <label><b>Sujeto Obligado</b><span class="text-danger">*</span></label>
                         <select name="Sujeto_Obligado_ID" class="form-control" required>
                             <option value="">Selecciona un Sujeto Obligado</option>
                             @foreach($sujetos_obligados as $so)
@@ -284,9 +290,10 @@ foreach ($steps as $index => $step) {
                     </div>
                 </div>
                 <div class="form-step" id="step-6">
-                    <h8 class="mb-3">¿Cuántas inspecciones se realizaron en el año anterior por mes?<h8/>
-                    <div class="statistics-container">
-                        <?php
+                    <h8 class="mb-3">¿Cuántas inspecciones se realizaron en el año anterior por mes?
+                        <h8 />
+                        <div class="statistics-container">
+                            <?php
 $meses = [
     ['Enero', 'Febrero', 'Marzo'],
     ['Abril', 'Mayo', 'Junio'],
@@ -305,7 +312,7 @@ foreach ($meses as $fila) {
     echo '</div>';
 }
         ?>
-                    </div>
+                        </div>
                 </div>
                 <div class="form-step" id="step-7">
                     <h3>Paso 7: Información adicional</h3>
@@ -676,6 +683,59 @@ foreach ($meses as $fila) {
 
         .statistics-item {
             width: 100%;
+        }
+    }
+
+    /* Nuevos estilos para los campos de entrada */
+    .form-control {
+        width: 100%;
+        max-width: 300px;
+        padding: 0.375rem 0.5rem;
+        font-size: 0.9rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+
+    textarea.form-control {
+        min-height: 60px;
+        max-height: 120px;
+        resize: vertical;
+    }
+
+    select.form-control {
+        width: 100%;
+        max-width: 300px;
+        padding: 0.375rem 0.5rem;
+        font-size: 0.9rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        margin-bottom: 0.25rem;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .form-step {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .form-step>h3,
+    .form-step>h5,
+    .form-step>.full-width {
+        grid-column: 1 / -1;
+    }
+
+    @media (max-width: 768px) {
+        .form-step {
+            grid-template-columns: 1fr;
         }
     }
 </style>
