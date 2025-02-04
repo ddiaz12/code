@@ -103,7 +103,7 @@ Registro Estatal de Regulaciones
                                         <div>
                                             <label for="SectorInput">Sector<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="SectorInput" name="SectorInput"
-                                                placeholder="Selecciona una opcion" required>
+                                                placeholder="Selecciona una opción" required>
                                         </div>
                                         <ul id="sectorResults"></ul>
                                         <table id="selectedSectorsTable" class="table table-striped mt-4"
@@ -124,7 +124,7 @@ Registro Estatal de Regulaciones
                                             <label for="SubsectorInput">Subsector<span
                                                     class="text-danger">*</span></label>
                                             <input type="text" class="form-control" id="SubsectorInput"
-                                                name="SubsectorInput" placeholder="Selecciona una opcion" required>
+                                                name="SubsectorInput" placeholder="Selecciona una opción" required>
                                         </div>
                                         <ul id="subsectorResults" class="list-group mt-2"></ul>
                                         <table id="selectedSubsectorsTable" class="table table-striped mt-4"
@@ -145,7 +145,7 @@ Registro Estatal de Regulaciones
                                         <div>
                                             <label for="RamaInput">Rama</label>
                                             <input type="text" class="form-control" id="RamaInput" name="RamaInput"
-                                                placeholder="Selecciona una opcion" required>
+                                                placeholder="Selecciona una opción" required>
                                         </div>
                                         <ul id="ramaResults" class="list-group mt-2"></ul>
                                         <table id="selectedRamasTable" class="table table-striped mt-4"
@@ -165,7 +165,7 @@ Registro Estatal de Regulaciones
                                         <div>
                                             <label for="SubramaInput">Subrama</label>
                                             <input type="text" class="form-control" id="SubramaInput"
-                                                name="SubramaInput" placeholder="Selecciona una opcion" required>
+                                                name="SubramaInput" placeholder="Selecciona una opción" required>
                                         </div>
                                         <ul id="subramaResults" class="list-group mt-2"></ul>
                                         <table id="selectedSubramasTable" class="table table-striped mt-4"
@@ -185,7 +185,7 @@ Registro Estatal de Regulaciones
                                         <div>
                                             <label for="ClaseInput">Clase</label>
                                             <input type="text" class="form-control" id="ClaseInput" name="ClaseInput"
-                                                placeholder="Selecciona una opcion" required>
+                                                placeholder="Selecciona una opción" required>
                                         </div>
                                         <ul id="claseResults" class="list-group mt-2"></ul>
                                         <table id="selectedClasesTable" class="table table-striped mt-4"
@@ -614,7 +614,7 @@ $(document).ready(function() {
                 // Agregar los nombres de los sectores a la tabla
                 response.forEach(function (sector) {
                     $('#selectedSectorsTable tbody').append('<tr><td>' + sector.Nombre_Sector +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
@@ -648,7 +648,7 @@ $(document).ready(function() {
                 response.forEach(function (subsector) {
                     $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsector
                         .Nombre_Subsector +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
@@ -686,7 +686,7 @@ $(document).ready(function() {
                 // Agregar los nombres de las ramas a la tabla
                 response.forEach(function (rama) {
                     $('#selectedRamasTable tbody').append('<tr><td>' + rama.Nombre_Rama +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
@@ -725,7 +725,7 @@ $(document).ready(function() {
                 response.forEach(function (subrama) {
                     $('#selectedSubramasTable tbody').append('<tr><td>' + subrama
                         .Nombre_Subrama +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
@@ -763,7 +763,7 @@ $(document).ready(function() {
                 // Agregar los nombres de las clases a la tabla
                 response.forEach(function (clase) {
                     $('#selectedClasesTable tbody').append('<tr><td>' + clase.Nombre_Clase +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
@@ -805,7 +805,7 @@ $(document).ready(function() {
                 response.forEach(function (regulacion) {
                     $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacion
                         .Nombre_Regulacion +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>');
                 });
@@ -1078,7 +1078,7 @@ $(document).ready(function() {
             // Mostrar la tabla y agregar una fila
             $('#selectedSectorsTable').show();
             $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });
@@ -1192,7 +1192,7 @@ $(document).ready(function() {
             // Mostrar la tabla y agregar una fila
             $('#selectedSubsectorsTable').show();
             $('#selectedSubsectorsTable tbody').append('<tr><td>' + subsectorName +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });
@@ -1305,7 +1305,7 @@ $(document).ready(function() {
             // Mostrar la tabla y agregar una fila
             $('#selectedRamasTable').show();
             $('#selectedRamasTable tbody').append('<tr><td>' + ramaName +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                 '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>');
         });
 
@@ -1417,7 +1417,7 @@ $(document).ready(function() {
             // Mostrar la tabla y agregar una fila
             $('#selectedSubramasTable').show();
             $('#selectedSubramasTable tbody').append('<tr><td>' + subramaName +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });
@@ -1530,7 +1530,7 @@ $(document).ready(function() {
             // Mostrar la tabla y agregar una fila
             $('#selectedClasesTable').show();
             $('#selectedClasesTable tbody').append('<tr><td>' + claseName +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });
@@ -1666,7 +1666,7 @@ $(document).ready(function() {
 
                 if (regulacionName && regulacionLink) {
                     // Agrega la regulación manual a la tabla y a la variable manualRegulaciones
-                    $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '</td><td>' + regulacionLink + '</td><td><button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>');
+                    $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName + '</td><td>' + regulacionLink + '</td><td><button class="btn btn-danger btn-sm delete-row" title="Eliminar"><i class="fas fa-trash-alt"></i></button></td></tr>');
                     $('#selectedRegulacionesTable').show();
 
                     // Agrega la regulación manual al array para enviarla a la base de datos

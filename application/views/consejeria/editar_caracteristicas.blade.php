@@ -937,7 +937,7 @@ $(document).ready(function() {
                 '<td>' + inputMat + '</td>' +
                 '<td>' + inputSec + '</td>' +
                 '<td>' + inputSuj + '</td>' +
-                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>';
 
@@ -1048,14 +1048,17 @@ $(document).ready(function() {
                     '<td>' + inputNomReg + '</td>' +
                     '<td>' + inputArt + '</td>' +
                     '<td>' + inputLink + '</td>' +
-                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                     '<i class="fas fa-edit"></i></button></td>' +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                     '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>';
 
                 // Agrega la nueva fila a la tabla
                 $('#fundamentoTable tbody').append(newRow);
+
+                // Inicializar tooltips para los nuevos elementos
+                $('[]').tooltip();
 
                 // Incrementa el contador de ID_Fun
                 idCounter2++;
@@ -1220,7 +1223,7 @@ $(document).ready(function() {
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                         '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
                     tableBody.append(row);
@@ -1238,7 +1241,7 @@ $(document).ready(function() {
                     var row = '<tr data-id="' + item.ID_Dependencia + '">' +
                         '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                         '<td>' + item.Tipo_Dependencia + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
                     tableBody.append(row);
@@ -2671,13 +2674,15 @@ $(document).ready(function() {
                                 lastInsertedOrden + '</td>' +
                                 '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
                                 '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                                '<td><button class="btn btn-danger btn-sm edit-row">' +
+                                '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                                 '<i class="fas fa-edit"></i></button></td>' +
-                                '<td><button class="btn btn-danger btn-sm delete-row">' +
+                                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                                 '<i class="fas fa-trash-alt"></i></button></td>' +
                                 '</tr>';
                             $('#resultTable tbody')
                                 .append(newRow);
+                            // Inicializar tooltips para los nuevos elementos
+                            $('[]').tooltip();
                         },
                         error: function (jqXHR, textStatus,
                             errorThrown) {
@@ -2697,15 +2702,24 @@ $(document).ready(function() {
                         lastInsertedOrden + '</td>' +
                         '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
                         '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm edit-row">' +
+                        '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                         '<i class="fas fa-edit"></i></button></td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>';
                     $('#resultTable tbody').append(newRow);
+                    // Inicializar tooltips para los nuevos elementos
+                    $('[]').tooltip();
                 }
             }
 
         });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('[]').tooltip();
     });
 </script>
 <script>
@@ -2882,13 +2896,15 @@ $(document).ready(function() {
                                     lastInsertedOrden + '</td>' +
                                     '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
                                     '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                                    '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                                     '<i class="fas fa-edit"></i></button></td>' +
-                                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                                    '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                                     '<i class="fas fa-trash-alt"></i></button></td>' +
                                     '</tr>';
                                 $('#resultTable tbody')
                                     .append(newRow);
+                                // Inicializar tooltips para los nuevos elementos
+                                $('[]').tooltip();
                             },
                             error: function (jqXHR, textStatus,
                                 errorThrown) {
@@ -2908,11 +2924,13 @@ $(document).ready(function() {
                             lastInsertedOrden + '</td>' +
                             '<td class="hidden-column">' + lastInsertedIndicePadre + '</td>' +
                             '<td class="hidden-column indice-padre">' + lastInsertedIDIndicePadre + '</td>' +
-                            '<td><button class="btn btn-danger btn-sm edit-row">' +
+                            '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                             '<i class="fas fa-edit"></i></button></td>' +
-                            '<td><button class="btn btn-danger btn-sm delete-row">' +
+                            '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                             '<i class="fas fa-trash-alt"></i></button></td>' + '</tr>';
                         $('#resultTable tbody').append(newRow);
+                        // Inicializar tooltips para los nuevos elementos
+                        $('[]').tooltip();
                     }
                 }
             }
@@ -3042,14 +3060,17 @@ $(document).ready(function() {
                         '<td>' + inputMat + '</td>' +
                         '<td>' + inputSec + '</td>' +
                         '<td>' + inputSuj + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm edit-row">' +
+                        '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                         '<i class="fas fa-edit"></i></button></td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
 
                     // Agrega la nueva fila a la tabla
                     $('#materiasTable tbody').append(newRow);
+
+                    // Inicializar tooltips para los nuevos elementos
+                    $('[]').tooltip();
 
                     // Incrementa el contador de ID_MatSec
                     idCounter++;
@@ -3182,14 +3203,17 @@ $(document).ready(function() {
                         '<td>' + inputNomReg + '</td>' +
                         '<td>' + inputArt + '</td>' +
                         '<td>' + inputLink + '</td>' +
-                        '<td><button class="btn btn-danger btn-sm edit-row">' +
+                        '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                         '<i class="fas fa-edit"></i></button></td>' +
-                        '<td><button class="btn btn-danger btn-sm delete-row">' +
+                        '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
 
                     // Agrega la nueva fila a la tabla
                     $('#fundamentoTable tbody').append(newRow);
+
+                    // Inicializar tooltips para los nuevos elementos
+                    $('[]').tooltip();
 
                     // Incrementa el contador de ID_Fun
                     idCounter2++;

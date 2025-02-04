@@ -406,8 +406,8 @@ Registro Estatal de Regulaciones
                                                                     <td class="hidden-column">${row.ID_Padre || ''}</td>
                                                                     <td class="hidden-column indice-padre">${row.ID_Padre || ''}</td>
                                                                     <td class="text-end">
-                                                                        <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
-                                                                        <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                                                                        <button class="btn btn-gris btn-sm edit-row me-2" title="Editar"><i class="fas fa-edit"></i></button>
+                                                                        <button class="btn btn-danger btn-sm delete-row" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                                                                     </td>
                                                                 </tr>`;
 
@@ -1018,14 +1018,17 @@ $(document).ready(function() {
                     '<td>' + inputMat + '</td>' +
                     '<td>' + inputSec + '</td>' +
                     '<td>' + inputSuj + '</td>' +
-                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                     '<i class="fas fa-edit"></i></button></td>' +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                     '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>';
 
                 // Agrega la nueva fila a la tabla
                 $('#materiasTable tbody').append(newRow);
+
+                // Inicializar tooltips para los nuevos elementos
+                $('[]').tooltip();
 
                 // Incrementa el contador de ID_MatSec
                 idCounter++;
@@ -1132,14 +1135,17 @@ $(document).ready(function() {
                     '<td>' + inputNomReg + '</td>' +
                     '<td>' + inputArt + '</td>' +
                     '<td>' + inputLink + '</td>' +
-                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                     '<i class="fas fa-edit"></i></button></td>' +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                     '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>';
 
                 // Agrega la nueva fila a la tabla
                 $('#fundamentoTable tbody').append(newRow);
+
+                // Inicializar tooltips para los nuevos elementos
+                $('[]').tooltip();
 
                 // Incrementa el contador de ID_Fun
                 idCounter2++;
@@ -2765,8 +2771,8 @@ $(document).ready(function() {
                         <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
                         <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
                         <td class="text-end">
-                            <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-gris btn-sm edit-row me-2" title="Editar"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm delete-row" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                         </td>
                         </tr>`;
                         $('#resultTable tbody').append(newRow);
@@ -2962,8 +2968,8 @@ $(document).ready(function() {
                                 <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
                                 <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
                                 <td class="text-end">
-                                    <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="btn btn-gris btn-sm edit-row me-2" title="Editar"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-danger btn-sm delete-row" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                                 </tr>`;
 
