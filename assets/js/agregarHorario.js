@@ -1,4 +1,6 @@
 var horarios = [];
+var horariosEliminados = [];
+
 document.addEventListener('DOMContentLoaded', function() {
     var tablaHorarios = document.getElementById('tablaHorarios');
     var btnGuardarHorario = document.getElementById('btnGuardarHorario');
@@ -7,6 +9,19 @@ document.addEventListener('DOMContentLoaded', function() {
         var dia = document.getElementById('dia').value;
         var apertura = document.getElementById('apertura').value;
         var cierre = document.getElementById('cierre').value;
+
+        // Validar campos en blanco
+        if (!apertura || !cierre) {
+            alert('Por favor, complete todos los campos.');
+            return;
+        }
+
+        // Validar horarios duplicados
+        let horarioDuplicado = horarios.some(h => h.dia === dia);
+        if (horarioDuplicado) {
+            alert('Este horario ya existe.');
+            return;
+        }
 
         let horario = {
             id: Date.now(), // Identificador único
@@ -49,6 +64,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var modal = document.getElementById('modalAgregarHorario');
         var modalBootstrap = bootstrap.Modal.getInstance(modal);
         modalBootstrap.hide();
-
     });
+});
+
+$('#tablaHorarios').on('click', '.eliminar', function() {
+    var idHorario = $(this).data('id');
+    horariosEliminados.push(idHorario);
+    $(this).closest('tr').remove();
 });
