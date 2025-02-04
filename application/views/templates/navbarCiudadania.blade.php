@@ -38,7 +38,7 @@
                                 target="_blank">Transparencia</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" data-toggle="tooltip" data-placement="right"
+                            <a class="nav-link" href="#"  data-placement="right"
                                 title="Accesibilidad" onclick="showAccessibilityMenu()">
                                 <div class="sb-nav-link-icon">
                                     <i class="fa-solid fa-universal-access"></i>

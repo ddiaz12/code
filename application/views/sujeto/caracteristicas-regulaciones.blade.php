@@ -659,14 +659,17 @@ $(document).ready(function() {
                     '<td>' + inputMat + '</td>' +
                     '<td>' + inputSec + '</td>' +
                     '<td>' + inputSuj + '</td>' +
-                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                     '<i class="fas fa-edit"></i></button></td>' +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                     '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>';
 
                 // Agrega la nueva fila a la tabla
                 $('#materiasTable tbody').append(newRow);
+
+                // Inicializar tooltips para los nuevos elementos
+                $('[]').tooltip();
 
                 // Incrementa el contador de ID_MatSec
                 idCounter++;
@@ -753,14 +756,17 @@ $(document).ready(function() {
                     '<td>' + inputNomReg + '</td>' +
                     '<td>' + inputArt + '</td>' +
                     '<td>' + inputLink + '</td>' +
-                    '<td><button class="btn btn-danger btn-sm edit-row">' +
+                    '<td><button class="btn btn-danger btn-sm edit-row" title="Editar" >' +
                     '<i class="fas fa-edit"></i></button></td>' +
-                    '<td><button class="btn btn-danger btn-sm delete-row">' +
+                    '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
                     '<i class="fas fa-trash-alt"></i></button></td>' +
                     '</tr>';
 
                 // Agrega la nueva fila a la tabla
                 $('#fundamentoTable tbody').append(newRow);
+
+                // Inicializar tooltips para los nuevos elementos
+                $('[]').tooltip();
 
                 // Incrementa el contador de ID_Fun
                 idCounter2++;
@@ -990,7 +996,7 @@ $(document).ready(function() {
             // Imprimir formData en consola
             console.log(formData);
             if (formData.nombre === '' || formData.fecha_expedicion === '' || formData.fecha_publicacion === '' || ($('#si').is(':checked') &&
-                formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || formData.unidad === null) {
+                formData.campoExtra === '') || $('#materiasTable tbody tr').length === 0 || formData.unidad === null || formData.objetivoReg === '') {
                 if (formData.nombre === '') {
                     $('#inputNombre').css('color', 'red');
                     $('#inputNombre').after(
@@ -1031,6 +1037,12 @@ $(document).ready(function() {
                     $('#selectUnidad').css('color', 'red');
                     $('#selectUnidad').after(
                         '<span class="error-message" style="color: red;">El campo "Tipo de ordenamiento jurídico" es obligatorio.</span>'
+                    );
+                }
+                if (formData.objetivoReg === '') {
+                    $('#inputObjetivo').css('color', 'red');
+                    $('#inputObjetivo').after(
+                        '<span class="error-message" style="color: red;">El campo "Objeto de la regulación" es obligatorio.</span>'
                     );
                 }
                 Swal.fire({
@@ -1649,8 +1661,8 @@ $(document).ready(function() {
                         <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
                         <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
                         <td class="text-end">
-                            <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-gris btn-sm edit-row me-2" title="Editar"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm delete-row" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                         </td>
                         </tr>`;
                         $('#resultTable tbody').append(newRow);
@@ -1809,8 +1821,8 @@ $(document).ready(function() {
                                 <td class="hidden-column">${lastInsertedIndicePadre || ''}</td>
                                 <td class="hidden-column indice-padre">${lastInsertedIDIndicePadre || ''}</td>
                                 <td class="text-end">
-                                    <button class="btn btn-gris btn-sm edit-row me-2"><i class="fas fa-edit"></i></button>
-                                    <button class="btn btn-danger btn-sm delete-row"><i class="fas fa-trash-alt"></i></button>
+                                    <button class="btn btn-gris btn-sm edit-row me-2" title="Editar"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-danger btn-sm delete-row" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
                                 </td>
                                 </tr>`;
 
