@@ -66,8 +66,8 @@ foreach ($steps as $index => $step) {
                 {{ form_open_multipart('agregarinspeccion/guardar', ['id' => 'inspeccionForm', 'class' => 'needs-validation', 'novalidate' => '']) }}
                 <div class="form-step" id="step-1">
 
-                    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px;">Datos de
-                        identificación de Inspector(a), Verificador(a) y Visitador(a) Domiciliario(a)</h3>
+                <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Inscripción al Registro Estatal de Visitas
+                Domiciliarias (REVID)</h3>
 
                     <h5 class="alert alert-warning"
                         style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
