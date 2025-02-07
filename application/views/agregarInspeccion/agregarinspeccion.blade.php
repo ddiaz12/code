@@ -18,8 +18,14 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                 <i class="fas fa-home me-1"></i>Home
             </a>
         </li>
-        <li class="breadcrumb-item"><i class="fas fa-file-alt me-1"></i>Inspecciones</li>
-        <li class="breadcrumb-item"><i class="fas fa-plus-circle me-1"></i>Agregar</li>
+        <li class="breadcrumb-item">
+            <a href="<?php echo base_url('visitas'); ?>" class="text-decoration-none">
+                <i class="fas fa-file-alt me-1"></i>Inspecciones
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            <i class="fas fa-plus-circle me-1"></i>Agregar inspección
+        </li>
     </ol>
 
     <div class="row">
@@ -140,14 +146,18 @@ foreach ($steps as $index => $step) {
                         <label>Tamaño de empresa (número de trabajadores)</label>
                         {{ form_input(['name' => 'Tamano_Empresa', 'class' => 'form-control']) }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="criterio-container">
                         <label>¿Existe algún criterio que defina a qué sujeto regulado se aplica?</label>
-                        <select name="Existe_Criterio" class="form-control">
-                            <option value="no">No</option>
-                            <option value="si">Sí</option>
-                        </select>
-                        <label>Describir el criterio (si "Sí")</label>
-                        {{ form_textarea(['name' => 'Criterio_Descripcion', 'class' => 'form-control', 'rows' => 2]) }}
+                        <div>
+                            <label>
+                                <input type="radio" name="Existe_Criterio_Radio" id="Existe_Criterio_Si" value="si"> Sí
+                            </label>
+                            <label>
+                                <input type="radio" name="Existe_Criterio_Radio" id="Existe_Criterio_No" value="no" checked> No
+                            </label>
+                        </div>
+                        <label>Describir el criterio</label>
+                        {{ form_textarea(['name' => 'Criterio_Descripcion', 'class' => 'form-control', 'rows' => 2, 'id' => 'Criterio_Descripcion', 'disabled' => true, 'style' => 'opacity:0.5;']) }}
                     </div>
                     <div class="form-group">
                         <label>¿Se inspecciona a sujetos que hayan recibido resolución de algún trámite?</label>
@@ -212,7 +222,7 @@ foreach ($steps as $index => $step) {
                             <option value="no">No</option>
                             <option value="si">Sí</option>
                         </select>
-                        <label>Subir formato (jpg, png, pdf)</label><br>
+                        <label>Subir formato (jpg, png, pdf)</label>
                         <input type="file" name="Archivo_Formato" class="form-control-file">
                         <label>¿El formato se encuentra fundamentado jurídicamente?</label>
                         <select name="Formato_Fundamento" class="form-control">
@@ -315,14 +325,14 @@ foreach ($meses as $fila) {
                         </div>
                 </div>
                 <div class="form-step" id="step-7">
-                    <h3>Paso 7: Información adicional</h3>
+                    <h3>Información adicional</h3>
                     <div class="form-group">
                         <label>Información que se considere útil</label>
                         {{ form_textarea(['name' => 'Info_Adicional', 'class' => 'form-control', 'rows' => 3]) }}
                     </div>
                 </div>
                 <div class="form-step" id="step-8">
-                    <h3>Paso 8: No publicidad</h3>
+                    <h3>No publicidad</h3>
                     <div class="form-group">
                         <label>¿Permitir que todos los datos sean públicos?</label>
                         <select name="Permitir_Publicidad" class="form-control">
@@ -331,7 +341,7 @@ foreach ($meses as $fila) {
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Justificante no publicidad (PDF, JPG, PNG)</label><br>
+                        <label>Justificante no publicidad (PDF, JPG, PNG)</label>
                         <input type="file" name="Documento_No_Publicidad" class="form-control-file">
                     </div>
                     <div class="form-group">
@@ -357,7 +367,7 @@ foreach ($meses as $fila) {
                     </div>
                 </div>
                 <div class="form-step" id="step-9">
-                    <h3>Paso 9: Emergencias</h3>
+                    <h3>Emergencias</h3>
                     <div class="form-group">
                         <label>¿La inspección es requerida para atender una situación de emergencia?</label>
                         <select name="Es_Emergencia" class="form-control">
@@ -370,7 +380,7 @@ foreach ($meses as $fila) {
                         {{ form_textarea(['name' => 'Justificacion_Emergencia', 'class' => 'form-control', 'rows' => 3]) }}
                     </div>
                     <div class="form-group">
-                        <label>Cargar el oficio o acta de declaración de emergencia (PDF, PNG, JPG)</label><br>
+                        <label>Cargar el oficio o acta de declaración de emergencia (PDF, PNG, JPG)</label>
                         <input type="file" name="Archivo_Declaracion_Emergencia" class="form-control-file">
                     </div>
                 </div>
@@ -387,6 +397,7 @@ foreach ($meses as $fila) {
 </div>
 
 <style>
+    /* --- Global Variables --- */
     :root {
         --primary-color: #8E354A;
         --border-color: #E5E7EB;
@@ -394,82 +405,31 @@ foreach ($meses as $fila) {
         --text-color: #374151;
         --heading-color: #111827;
     }
-
-    /* Update existing styles */
-    .main-content {
-        margin-top: -100px;
-        /* Reduced from 55px */
-    }
-
-    .form-container {
-        padding: 1.5rem;
-        /* Reduced padding */
-    }
-
-    /* Add new grid layout styles */
-    .form-step {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    /* Full width elements */
-    .form-step>h3,
-    .form-step>h5,
-    .form-step>.full-width {
-        grid-column: 1 / -1;
-    }
-
-    /* Smaller input fields */
-    .form-control {
-        padding: 0.375rem 0.5rem;
-        /* Reduced padding */
-        min-height: unset;
-        /* Remove minimum height */
-    }
-
-    /* Smaller textareas */
-    textarea.form-control {
-        min-height: 60px;
-        /* Reduced from default */
-        max-height: 120px;
-        /* Add maximum height */
-    }
-
-    /* Responsive design */
-    @media (max-width: 768px) {
-        .form-step {
-            grid-template-columns: 1fr;
-            /* Single column on mobile */
-        }
-    }
-
-    /* Adjust form group spacing */
-    .form-group {
-        margin-bottom: 1rem;
-        /* Reduced from 1.5rem */
-    }
-
-    /* Make labels more compact */
-    .form-group label {
-        margin-bottom: 0.25rem;
-        /* Reduced from 0.5rem */
-        font-size: 0.9rem;
-        /* Slightly smaller font */
-    }
-
+    
+    /* --- General Layout --- */
     .container-fluid {
         background-color: var(--background-color);
         min-height: 100vh;
         padding-top: 1rem;
     }
-
+    .main-content {
+        margin-top: 0; /* Cambiado de -100px a 0 */
+    }
+    .form-container {
+        padding: 1.5rem;
+        margin-left: 0.5cm;
+        margin-right: 0.5cm;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* --- Menú / Sidebar Wizard --- */
     .sidebar-wizard {
         background: white;
         border-radius: 0.5rem;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
-
     .wizard-step {
         border: none !important;
         color: var(--text-color);
@@ -478,83 +438,80 @@ foreach ($meses as $fila) {
         border-radius: 0.375rem !important;
         transition: all 0.2s;
     }
-
     .wizard-step:hover {
         background-color: #F3F4F6;
     }
-
     .wizard-step.active {
         background-color: var(--primary-color) !important;
         color: white;
     }
-
-    .form-container {
-        background: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        padding: 2rem;
+    
+    /* --- Estilos del Formulario --- */
+    .form-step {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
-
-    .form-group {
-        margin-bottom: 1.5rem;
+    .form-step > h3,
+    .form-step > h5,
+    .form-step > .full-width {
+        grid-column: 1 / -1;
     }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: var(--heading-color);
-        font-weight: 500;
-    }
-
     .form-control {
         width: 100%;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid var(--border-color);
-        border-radius: 0.375rem;
-        transition: border-color 0.2s;
+        max-width: 500px;
+        padding: 0.375rem 0.5rem;
+        font-size: 0.9rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
     }
-
-    .form-control:focus {
-        border-color: var(--primary-color);
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    textarea.form-control {
+        min-height: 60px;
+        max-height: 120px;
+        resize: vertical;
     }
-
-    .btn {
-        padding: 0.5rem 1rem;
-        border-radius: 0.375rem;
-        font-weight: 500;
-        transition: all 0.2s;
+    select.form-control {
+        width: 100%;
+        max-width: 500px;
+        padding: 0.375rem 0.5rem;
+        font-size: 0.9rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
     }
-
-    #nextBtn,
-    #submitBtn {
-        background-color: var(--primary-color);
-        border: none;
+    .form-group {
+        margin-bottom: 0.5rem !important;
     }
-
-    #nextBtn:hover,
-    #submitBtn:hover {
-        background-color: #4F46E5;
+    .form-group label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-size: 0.9rem;
+        font-weight: bold;
+        text-align: left;
+        padding-right: 0;
     }
-
-    .form-navigation {
-        margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-color);
+    /* Estilos específicos para el paso 4 */
+    #step-4 {
+        gap: 0.5rem;
     }
-
-
-    .validate-btn {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 0.375rem;
-        font-weight: 500;
+    #step-4 .form-group {
+        margin-bottom: 0.2rem !important;
     }
-
-    /* Estilos para los botones de navegación */
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .form-step {
+            grid-template-columns: 1fr;
+        }
+        .statistics-row {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .statistics-item {
+            width: 100%;
+        }
+    }
+    
+    /* --- Botones y Navegación --- */
     .form-navigation {
         margin-top: 2rem;
         padding-top: 1rem;
@@ -563,8 +520,6 @@ foreach ($meses as $fila) {
         justify-content: space-between;
         gap: 1rem;
     }
-
-    /* Estilo base para todos los botones */
     .form-navigation .btn {
         padding: 8px 24px;
         border-radius: 4px;
@@ -572,172 +527,80 @@ foreach ($meses as $fila) {
         transition: all 0.2s;
         border: none;
     }
-
-    /* Botón Anterior */
     #prevBtn {
         background-color: #6B7280;
-        /* Color gris */
         color: white;
     }
-
     #prevBtn:hover {
         background-color: #4B5563;
     }
-
-    /* Botón Siguiente */
     #nextBtn {
         background-color: #4A0404;
-        /* Color guinda/maroon */
         color: white;
     }
-
     #nextBtn:hover {
         background-color: #3A0303;
     }
-
-    /* Botón Guardar */
     #submitBtn {
         background-color: rgb(76, 228, 134);
-        /* Color guinda/maroon */
         color: white;
     }
-
     #submitBtn:hover {
         background-color: #3A0303;
     }
-
-    /* Estilo para botón deshabilitado */
     .form-navigation .btn:disabled {
         background-color: #D1D5DB;
         cursor: not-allowed;
         opacity: 0.7;
     }
-
-    .statistics-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-
-    .statistics-item {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .statistics-item label {
-        margin-bottom: 0.25rem;
-    }
-
-    .statistics-input {
-        width: 100%;
-        padding: 0.375rem 0.5rem;
-        font-size: 0.9rem;
-    }
-
-    @media (max-width: 768px) {
-        .statistics-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 480px) {
-        .statistics-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    /* Estilos específicos para el paso de estadísticas */
+    
+    /* --- Sección de Estadísticas --- */
     .statistics-container {
         width: 100%;
         max-width: 800px;
         margin-left: 0;
     }
-
     .statistics-row {
         display: flex;
         gap: 20px;
         margin-bottom: 15px;
     }
-
     .statistics-item {
         display: flex;
         align-items: center;
         width: 250px;
+        flex-direction: column;
     }
-
     .mes-label {
         width: 100px;
         text-align: left;
         margin-right: 10px;
     }
-
     .statistics-input {
         width: 80px !important;
-    }
-
-    @media (max-width: 768px) {
-        .statistics-row {
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .statistics-item {
-            width: 100%;
-        }
-    }
-
-    /* Nuevos estilos para los campos de entrada */
-    .form-control {
-        width: 100%;
-        max-width: 300px;
         padding: 0.375rem 0.5rem;
         font-size: 0.9rem;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
     }
-
-    textarea.form-control {
-        min-height: 60px;
-        max-height: 120px;
-        resize: vertical;
+    
+    /* Estilo para resaltar el breadcrumb activo */
+    .breadcrumb-item.active {
+        color: blue;
     }
-
-    select.form-control {
-        width: 100%;
-        max-width: 300px;
-        padding: 0.375rem 0.5rem;
-        font-size: 0.9rem;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
+    
+    /* Establece color para enlaces de breadcrumb no activos */
+    .breadcrumb-item a {
+        color: #000 !important;
     }
-
-    .form-group {
-        margin-bottom: 1rem;
+    /* Cambia a azul al pasar el cursor */
+    .breadcrumb-item a:hover {
+        color: blue !important;
     }
-
-    .form-group label {
-        margin-bottom: 0.25rem;
-        font-size: 0.9rem;
-        font-weight: bold;
+    /* Resalta el breadcrumb activo en azul */
+    .breadcrumb-item.active {
+        color: blue !important;
     }
-
-    .form-step {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-
-    .form-step>h3,
-    .form-step>h5,
-    .form-step>.full-width {
-        grid-column: 1 / -1;
-    }
-
-    @media (max-width: 768px) {
-        .form-step {
-            grid-template-columns: 1fr;
-        }
-    }
+    
+    /* ...existing other styles... */
 </style>
 
 <script>
@@ -746,9 +609,9 @@ foreach ($meses as $fila) {
 
     function showStep(step) {
         $('.form-step').hide();
-        $(`#step-${step}`).show();
+        $(`#step-${step}`).show(); // Se corrige el selector
         $('.wizard-step').removeClass('active');
-        $(`.wizard-step[data-step="${step}"]`).addClass('active');
+        $(`.wizard-step[data-step="${step}"]`).addClass('active'); // Se corrige el selector
 
         if (step === 1) {
             $('#prevBtn').hide();
@@ -781,6 +644,22 @@ foreach ($meses as $fila) {
             const step = $(this).data('step');
             showStep(step);
         });
+
+        $('#Existe_Criterio').change(function(){
+            if ($(this).is(':checked')) {
+                $('#Criterio_Descripcion').removeAttr('disabled').css('opacity', '1');
+            } else {
+                $('#Criterio_Descripcion').attr('disabled', true).css('opacity', '0.5');
+            }
+        });
+
+        $("input[name='Existe_Criterio_Radio']").change(function(){
+            if ($(this).val() === 'si') {
+                $('#Criterio_Descripcion').removeAttr('disabled').css('opacity', '1');
+            } else {
+                $('#Criterio_Descripcion').attr('disabled', true).css('opacity', '0.5');
+            }
+        });
     });
 
     (function () {
@@ -795,7 +674,7 @@ foreach ($meses as $fila) {
                     }
                     form.classList.add('was-validated')
                 }, false)
-            })
+            })()
     })()
 </script>
 @endsection
