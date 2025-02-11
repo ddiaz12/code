@@ -1,4 +1,3 @@
-
 @layout('templates/master')
 @section('titulo')
 Registro Estatal de Regulaciones y Visitas Domiciliarias
@@ -59,9 +58,29 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                 </tr>
             </thead>
             <tbody>
+                @if (empty($inspecciones))
                 <tr>
                     <td colspan="10" class="text-center py-3">No hay información disponible</td>
                 </tr>
+                @else
+                @foreach ($inspecciones as $inspeccion)
+                <tr>
+                    <td>{{ $inspeccion['id_inspeccion'] }}</td>
+                    <td>{{ $inspeccion['Homoclave'] }}</td>
+                    <td>{{ $inspeccion['Nombre_Inspeccion'] }}</td>
+                    <td>{{ $inspeccion['Modalidad'] }}</td>
+                    <td>{{ $inspeccion['Sujeto_Obligado_ID'] }}</td>
+                    <td>{{ $inspeccion['Unidad_Administrativa'] }}</td>
+                    <td>{{ $inspeccion['Estatus'] }}</td>
+                    <td>{{ $inspeccion['Tipo_Inspeccion'] }}</td>
+                    <td>{{ $inspeccion['Vigencia'] }}</td>
+                    <td>
+                        <a href="{{ base_url('inspeccion/editar/'.$inspeccion['id_inspeccion']) }}" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="{{ base_url('inspeccion/eliminar/'.$inspeccion['id_inspeccion']) }}" class="btn btn-sm btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                @endforeach
+                @endif
             </tbody>
         </table>
     </div>
@@ -104,6 +123,10 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.table td {
+    white-space: normal;
+    word-wrap: break-word;
 }
 @media screen and (max-width: 767px) {
     .table th,

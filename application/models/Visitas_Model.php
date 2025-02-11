@@ -10,6 +10,7 @@ class Visitas_model extends CI_Model {
 
     // Obtener todas las inspecciones
     public function get_all_inspecciones() {
+        $this->db->select('id_inspeccion, Homoclave, Nombre_Inspeccion, Modalidad, Sujeto_Obligado_ID, Tipo_Inspeccion, Realizada_En as Unidad_Administrativa, Fundamento_Juridico as Estatus, Periodicidad as Vigencia');
         $query = $this->db->get('inspeccion_detallada');
         return $query->result_array(); // Retorna un array con todas las inspecciones
     }
