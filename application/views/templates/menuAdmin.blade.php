@@ -25,18 +25,6 @@
                     </ul>
                 </div>
                 <div class="dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownUser"
-                        data-bs-toggle="dropdown" aria-expanded="false" title="Modulo de capacitaciones">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard-user icon-user"></i>
-                        </div>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownUser">
-                        <h6 class="dropdown-header">Módulo de capacitaciones</h6>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-book icon-cursos"></i>
-                                Cursos</a></li>
-                    </ul>
-                </div>
-                <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownGear"
                         data-bs-toggle="dropdown" aria-expanded="false" title="Ayuda">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-gear icon-gear"></i></div>
