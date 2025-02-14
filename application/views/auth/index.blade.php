@@ -103,7 +103,7 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                                         <i class="fas fa-edit" title="Editar usuario"></i>
                                     </a>
                                     <button class="btn btn btn-secondary btn-sm"
-                                        onclick="confirmPending(<?php echo $user->id; ?>)" <?php if ($user->active == 1 || $user->status == 1)
+                                        onclick="confirmPending(<?php echo $user->id; ?>)" <?php if ($user->active == 1 || $user->status == 0)
                                                                                                 echo 'disabled'; ?>>
                                         <i class="fas fa-clock" title="Usuario pendiente"></i>
                                     </button>

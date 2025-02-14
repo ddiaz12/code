@@ -12,6 +12,22 @@ document.addEventListener("DOMContentLoaded", function () {
         "Viernes",
         "Sabado",
     ];
+    
+    // Función para limpiar el modal
+    function limpiarModalRangoHorario() {
+        document.getElementById("diaDesde").selectedIndex = 0; // Restablecer el select
+        document.getElementById("diaHasta").selectedIndex = 0; // Restablecer el select
+        document.getElementById("aperturaRango").value = ""; // Limpiar campo de apertura
+        document.getElementById("cierreRango").value = ""; // Limpiar campo de cierre
+    }
+
+    // Limpiar el modal cada vez que se abre
+    document
+        .getElementById("modalAgregarRangoHorario")
+        .addEventListener("show.bs.modal", function () {
+            limpiarModalRangoHorario();
+        });
+        
 
     btnGuardarRangoHorario.addEventListener("click", function () {
         var diaDesde = document.getElementById("diaDesde").value;
