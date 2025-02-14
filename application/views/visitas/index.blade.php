@@ -13,11 +13,11 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 <div class="container-fluid px-4">
 <ol class="breadcrumb mb-4 mt-5" style="margin-left: 69px;">
     <li class="breadcrumb-item">
-        <a href="<?php echo base_url('home'); ?>" class="text-decoration-none">
+        <a href="<?php echo base_url('home'); ?>" class="text-decoration-none breadcrumb-home">
             <i class="fas fa-home me-1"></i>Home
         </a>
     </li>
-    <li class="breadcrumb-item"><i class="fas fa-file-alt me-1"></i>Inspecciones</li>
+    <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-file-alt me-1"></i>Inspecciones</li>
 </ol>
 
 
@@ -87,6 +87,15 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 </div>
 
 <style>
+    .breadcrumb-home {
+        color: black !important;
+    }
+    .breadcrumb-home:hover {
+        color: #0d6efd !important;
+    }
+    .breadcrumb-item.active {
+        color: #0d6efd !important;
+    }
     @media (max-width: 767px) {
         .col-12.col-md-4.text-md-end {
             text-align: left !important;
@@ -136,7 +145,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
     }
 }
 </style>
-
+        
 <script>
 $(document).ready(function() {
     // Inicializar DataTables con configuración en español
