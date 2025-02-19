@@ -33,8 +33,14 @@ class Visitas extends CI_Controller {
             $this->Visitas_model->add_visita($this->input->post());
             redirect('visitas');
         } else {
-            // Load the form view
-            $this->blade->render    ('visitas/agregar');
+            // Obtener el número máximo actual y generar la nueva Homoclave
+            $query = $this->db->query("SELECT IFNULL(MAX(CAST(SUBSTRING(Homoclave, LENGTH('I-IPR-CTIH-0-IPR-')+1) AS UNSIGNED)), 0) as max_val FROM inspeccion_detallada");
+            $max = (int) $query->row()->max_val;
+            $newNumber = $max + 1;
+            $homoclaveNuevo = "I-IPR-CTIH-0-IPR-" . str_pad($newNumber, 4, "0", STR_PAD_LEFT);
+            $data['homoclaveNuevo'] = $homoclaveNuevo;
+            // Renderizar la vista de agregar inspección
+            $this->blade->render('inspeccion/agregar_inspeccion', $data);
         }
     }
 }
