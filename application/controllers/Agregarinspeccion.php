@@ -6,15 +6,40 @@ class Agregarinspeccion extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            print_r($this->ion_auth->logged_in());
+            redirect('auth/login', 'refresh');
+        }
         $this->load->model('AgregarInspeccionModel');
         $this->load->helper(['form', 'url']);
         $this->load->library(['form_validation', 'session', 'upload']);
         $this->load->model('NotificacionesModel');
+        // Cargar el modelo correcto con el nombre "visitas_model"
+        $this->load->model('visitas_model');
+    }
+
+    public function regulaciones()
+    {
+        // Verifica el grupo del usuario y redirige a la vista correspondiente
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $this->blade->render('sujeto/regulaciones');
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('admin/regulaciones');
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('consejeria/regulaciones');
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/login', 'refresh');
+        }
     }
 
     // Muestra la vista Blade con el formulario completo
-    public function agregarinspeccion()
+    public function agregarinspeccion($id_inspeccion = null)
     {
+        $data = [];
+        if ($id_inspeccion) {
+            $data['inspeccion'] = $this->visitas_model->get_inspeccion_by_id($id_inspeccion);
+        }
                 //Correo y timer
                 $user = $this->ion_auth->user()->row();
                 $group = $this->ion_auth->get_users_groups($user->id)->row();
@@ -30,6 +55,9 @@ class Agregarinspeccion extends CI_Controller {
         // Obtener sujetos obligados para el dropdown
         $data['sujetos_obligados'] = $this->AgregarInspeccionModel->getSujetosObligados();
 
+        $data['success'] = $this->session->flashdata('success');
+        $data['error']   = $this->session->flashdata('error');
+
         // Renderiza la vista Blade "agregarInspeccion"
         $this->blade->render('agregarInspeccion/agregarinspeccion', $data);
     }
@@ -37,14 +65,14 @@ class Agregarinspeccion extends CI_Controller {
     // Procesa el formulario al hacer submit
     public function guardar()
     {
+        $id = $this->input->post('id_inspeccion'); // Campo oculto en el formulario
         // (1) Validación básica de ejemplo
         $this->form_validation->set_rules('Nombre_Inspeccion', 'Nombre de la Inspección', 'required');
         $this->form_validation->set_rules('Sujeto_Obligado_ID', 'Sujeto Obligado', 'required');
         $this->form_validation->set_rules('Objetivo', 'Objetivo de la inspección', 'required');
 
         if ($this->form_validation->run() === FALSE) {
-            // Si falla validación, recargamos la vista con errores
-            $this->agregarinspeccion();
+            echo json_encode(['success' => false, 'message' => validation_errors()]);
         } else {
             // (2) Configurar SUBIDA DE ARCHIVOS (si procede)
             // Por ejemplo, subiremos "Archivo_Formato" y "Documento_No_Publicidad", 
@@ -186,15 +214,49 @@ class Agregarinspeccion extends CI_Controller {
                 'Archivo_Declaracion_Emergencia'=> $archivo_declaracion_emergencia_name
             ];
 
-            // (4) Insertar en BD
-            $insertado = $this->AgregarInspeccionModel->guardarInspeccion($data);
-            if ($insertado) {
-                $this->session->set_flashdata('success', 'Inspección guardada exitosamente.');
+            // Verificar si es una edición o una nueva inserción
+            if ($id) {
+                // Actualizar inspección existente
+                $actualizado = $this->AgregarInspeccionModel->update_inspeccion($id, $data);
+                if ($actualizado) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(['success' => false]);
+                }
             } else {
-                $this->session->set_flashdata('error', 'Ocurrió un error al guardar la información.');
+                // Insertar nueva inspección
+                $insertado = $this->AgregarInspeccionModel->guardarInspeccion($data);
+                if ($insertado) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(['success' => false]);
+                }
             }
-
-            redirect('visitas');
         }
+    }
+
+    public function editar($id) {
+        // Obtener datos de la inspección usando el modelo visitas_model
+        $data['inspeccion'] = $this->visitas_model->obtenerInspeccionPorId($id);
+
+        //Correo y timer
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+
+        $data['meses'] = [
+            'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+            'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+        ];
+
+        $data['activeSection'] = $this->input->get('section') ?? 'Datos de identificación';
+        // Obtener sujetos obligados para el dropdown
+        $data['sujetos_obligados'] = $this->AgregarInspeccionModel->getSujetosObligados();
+
+        // Renderizar la misma vista de agregar inspección con datos precargados
+        $this->blade->render('agregarInspeccion/agregarinspeccion', $data);
     }
 }

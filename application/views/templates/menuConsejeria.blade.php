@@ -28,7 +28,7 @@
 
                     </ul>
                 </div>
-                <!-- <div class="dropdown">
+                <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownUser"
                         data-bs-toggle="dropdown" aria-expanded="false" title="Modulo de capacitaciones">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard-user icon-user"></i>
@@ -39,7 +39,7 @@
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-book icon-cursos"></i>
                                 Cursos</a></li>
                     </ul>
-                </div> -->
+                </div>
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownGear"
                         data-bs-toggle="dropdown" aria-expanded="false" title="Ayuda">

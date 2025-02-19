@@ -26,15 +26,43 @@ class Inspectores extends CI_Controller {
         $this->blade->render('inspectores/index', $data);
     }
 
-    public function agregar() {
-        // Logic for adding a new inspection
-        if ($this->input->post()) {
-            // Handle form submission
-            $this->Visitas_model->add_visita($this->input->post());
-            redirect('inspectores');
+    public function agregarInspector() {
+        $this->blade->render('inspector/agregarInspector');
+    }
+
+    public function guardar() {
+        // Validación básica de ejemplo
+        $this->form_validation->set_rules('nombre', 'Nombre', 'required');
+        $this->form_validation->set_rules('primer_apellido', 'Primer Apellido', 'required');
+        $this->form_validation->set_rules('segundo_apellido', 'Segundo Apellido', 'required');
+        $this->form_validation->set_rules('numero_empleado', 'Número de Empleado', 'required');
+        $this->form_validation->set_rules('cargo', 'Cargo', 'required');
+        $this->form_validation->set_rules('sujeto_obligado', 'Sujeto Obligado', 'required');
+        $this->form_validation->set_rules('unidad_administrativa', 'Unidad Administrativa', 'required');
+
+        if ($this->form_validation->run() === FALSE) {
+            $this->agregarInspector();
         } else {
-            // Load the form view
-            $this->blade->render    ('inspectores/agregar');
+            // Recopilar los datos del formulario
+            $data = [
+                'nombre' => $this->input->post('nombre'),
+                'Apellido_Paterno' => $this->input->post('primer_apellido'),
+                'Apellido_Materno' => $this->input->post('segundo_apellido'),
+                'Telefono' => $this->input->post('numero_empleado'), // Cambio de clave a "Telefono"
+                'cargo' => $this->input->post('cargo'),
+                'sujeto_obligado' => $this->input->post('sujeto_obligado'),
+                'unidad_administrativa' => $this->input->post('unidad_administrativa'),
+                // Añade más campos según los que hayas agregado en la base de datos
+            ];
+
+            // Guardar los datos en la base de datos
+            $result = $this->Inspectores_Model->agregarInspector($data);
+            if ($result) {
+                $this->session->set_flashdata('success', 'Se completó el registro');
+            } else {
+                $this->session->set_flashdata('error', 'Ocurrió un error al guardar la información.');
+            }
+            redirect('inspectores');
         }
     }
 }

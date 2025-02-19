@@ -7,6 +7,7 @@ class AgregarInspector extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('AgregarInspectorModel');
+        $this->load->model('Inspector_model'); // Asegúrate de cargar el modelo aquí
         $this->load->helper(['form', 'url']);
         $this->load->library(['form_validation', 'session']);
         $this->load->model('NotificacionesModel');
@@ -56,5 +57,20 @@ class AgregarInspector extends CI_Controller {
             // Redirigir a la vista principal de inspectores o a donde quieras
             redirect('AgregarInspector/agregarInspector');
         }
+    }
+
+    public function editarInspector($id) {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row();
+        $groupName = $group->name;
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+
+        $inspector = $this->Inspector_model->getInspectorById($id);
+        if (!$inspector) {
+            show_404();
+        }
+        $data['inspector'] = $inspector;
+        // Se carga la misma vista que para agregar, pero ahora en modo edición
+        $this->blade->render('inspector/agregarInspector', $data);
     }
 }

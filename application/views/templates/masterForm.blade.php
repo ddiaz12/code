@@ -28,7 +28,7 @@
 
 <body class="sb-nav-fixed cuerpo-sujeto">
     <div class="loader">
-        <img src="<?php echo base_url('assets/img/load.gif'); ?>" />
+        <img src="<?php echo base_url('assets/img/Snake.gif'); ?>" />
     </div>
     <!-- Contenido -->
     <main class="main-contenido">

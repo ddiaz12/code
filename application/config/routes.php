@@ -56,5 +56,6 @@ $route['ciudadania/buscarRegulacion'] = 'Ciudadania/buscarRegulacion';
 $route['actualizar-estatus'] = 'RegulacionController/actualizar_estatus';
 $route['guias/list'] = 'Guia/list';
 $route['guias/delete'] = 'Guia/delete';
+$route['inspector/EditarInspector/(:num)'] = 'AgregarInspector/editarInspector/$1';
 
 //$route['ciudadania/buscarRegulaciones'] = 'Ciudadania/buscarRegulaciones';

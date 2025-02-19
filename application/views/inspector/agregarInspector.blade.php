@@ -9,7 +9,21 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 @include('templates/menuAdmin')
 @endsection
 @section('contenido')
-<div class="container-fluid mt-4">
+@if ($this->session->flashdata('success'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: '<?= $this->session->flashdata('success') ?>',
+        showConfirmButton: false,
+        timer: 2000
+    }).then(() => {
+        window.location.href = '<?= base_url("inspectores") ?>';
+    });
+</script>
+@endif
+
     <ol class="breadcrumb mb-4 mt-5" style="margin-left: 5px;">
         <li class="breadcrumb-item">
             <a href="<?php echo base_url('home'); ?>" class="text-decoration-none">
@@ -47,7 +61,10 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
         <div class="col-md-9 main-content">
             <div class="card">
                 <div class="card-body">
-                    <?php echo form_open_multipart('agregarinspector/guardar', ['id' => 'inspectorForm', 'class' => 'needs-validation', 'novalidate' => '']); ?>
+                    <?php echo form_open_multipart('inspectores/guardar', ['id' => 'inspectorForm', 'class' => 'needs-validation', 'novalidate' => '']); ?>
+                    <?php if(isset($inspector)): ?>
+                        <?php echo form_hidden('Inspector_ID', $inspector->Inspector_ID); ?>
+                    <?php endif; ?>
                     
                     <!-- Step 1: Datos de identificación -->
                     <div class="form-step" id="step-1">
@@ -60,17 +77,35 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nombre">Nombre(s) de servidor(a) público(a) <span class="text-danger">*</span></label>
-                                    <?php echo form_input(['name' => 'nombre', 'id' => 'nombre', 'class' => 'form-control', 'required' => 'required']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'nombre', 
+                                        'id' => 'nombre', 
+                                        'class' => 'form-control', 
+                                        'required' => 'required', 
+                                        'value' => isset($inspector->nombre) ? $inspector->nombre : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="primer_apellido">Primer Apellido <span class="text-danger">*</span></label>
-                                    <?php echo form_input(['name' => 'primer_apellido', 'id' => 'primer_apellido', 'class' => 'form-control', 'required' => 'required']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'primer_apellido', 
+                                        'id' => 'primer_apellido', 
+                                        'class' => 'form-control', 
+                                        'required' => 'required', 
+                                        'value' => isset($inspector->primer_apellido) ? $inspector->primer_apellido : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="segundo_apellido">Segundo Apellido <span class="text-danger">*</span></label>
-                                    <?php echo form_input(['name' => 'segundo_apellido', 'id' => 'segundo_apellido', 'class' => 'form-control', 'required' => 'required']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'segundo_apellido', 
+                                        'id' => 'segundo_apellido', 
+                                        'class' => 'form-control', 
+                                        'required' => 'required', 
+                                        'value' => isset($inspector->segundo_apellido) ? $inspector->segundo_apellido : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
@@ -81,22 +116,46 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="numero_empleado">Número o clase del empleado <span class="text-danger">*</span></label>
-                                    <?php echo form_input(['name' => 'numero_empleado', 'id' => 'numero_empleado', 'class' => 'form-control', 'required' => 'required']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'numero_empleado', 
+                                        'id' => 'numero_empleado', 
+                                        'class' => 'form-control', 
+                                        'required' => 'required', 
+                                        'value' => isset($inspector->numero_empleado) ? $inspector->numero_empleado : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="cargo">Cargo del servidor público <span class="text-danger">*</span></label>
-                                    <?php echo form_input(['name' => 'cargo', 'id' => 'cargo', 'class' => 'form-control', 'required' => 'required']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'cargo', 
+                                        'id' => 'cargo', 
+                                        'class' => 'form-control', 
+                                        'required' => 'required', 
+                                        'value' => isset($inspector->cargo) ? $inspector->cargo : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="sujeto_obligado">Sujeto Obligado <span class="text-danger">*</span></label>
-                                    <?php echo form_input(['name' => 'sujeto_obligado', 'id' => 'sujeto_obligado', 'class' => 'form-control', 'required' => 'required']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'sujeto_obligado', 
+                                        'id' => 'sujeto_obligado', 
+                                        'class' => 'form-control', 
+                                        'required' => 'required', 
+                                        'value' => isset($inspector->sujeto_obligado) ? $inspector->sujeto_obligado : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="unidad_administrativa">Unidad administrativa <span class="text-danger">*</span></label>
-                                    <?php echo form_input(['name' => 'unidad_administrativa', 'id' => 'unidad_administrativa', 'class' => 'form-control', 'required' => 'required']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'unidad_administrativa', 
+                                        'id' => 'unidad_administrativa', 
+                                        'class' => 'form-control', 
+                                        'required' => 'required', 
+                                        'value' => isset($inspector->unidad_administrativa) ? $inspector->unidad_administrativa : ''
+                                    ]); ?>
                                 </div>
                             </div>
                         </div>
@@ -104,37 +163,72 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 
                     <!-- Step 2: Datos del superior jerárquico -->
                     <div class="form-step" id="step-2" style="display: none;">
+                    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Datos del Superior(a) Jerarquico(a)</h3>
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+                        </h5>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="buscar_superior">Buscar superior(a) jerárquico(a) <span class="text-danger">*</span></label>
-                                    <?php echo form_input(['name' => 'buscar_superior', 'id' => 'buscar_superior', 'class' => 'form-control', 'required' => 'required']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'buscar_superior', 
+                                        'id' => 'buscar_superior', 
+                                        'class' => 'form-control', 
+                                        'required' => 'required', 
+                                        'value' => isset($inspector->buscar_superior) ? $inspector->buscar_superior : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="nombre_superior">Nombre(s)</label>
-                                    <?php echo form_input(['name' => 'nombre_superior', 'id' => 'nombre_superior', 'class' => 'form-control']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'nombre_superior', 
+                                        'id' => 'nombre_superior', 
+                                        'class' => 'form-control', 
+                                        'value' => isset($inspector->nombre_superior) ? $inspector->nombre_superior : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="apellido_paterno_superior">Apellido paterno</label>
-                                    <?php echo form_input(['name' => 'apellido_paterno_superior', 'id' => 'apellido_paterno_superior', 'class' => 'form-control']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'apellido_paterno_superior', 
+                                        'id' => 'apellido_paterno_superior', 
+                                        'class' => 'form-control', 
+                                        'value' => isset($inspector->apellido_paterno_superior) ? $inspector->apellido_paterno_superior : ''
+                                    ]); ?>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="apellido_materno_superior">Apellido materno</label>
-                                    <?php echo form_input(['name' => 'apellido_materno_superior', 'id' => 'apellido_materno_superior', 'class' => 'form-control']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'apellido_materno_superior', 
+                                        'id' => 'apellido_materno_superior', 
+                                        'class' => 'form-control', 
+                                        'value' => isset($inspector->apellido_materno_superior) ? $inspector->apellido_materno_superior : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="telefono_superior">Teléfono de contacto</label>
-                                    <?php echo form_input(['name' => 'telefono_superior', 'id' => 'telefono_superior', 'class' => 'form-control']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'telefono_superior', 
+                                        'id' => 'telefono_superior', 
+                                        'class' => 'form-control', 
+                                        'value' => isset($inspector->telefono_superior) ? $inspector->telefono_superior : ''
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="extension_superior">Extensión</label>
-                                    <?php echo form_input(['name' => 'extension_superior', 'id' => 'extension_superior', 'class' => 'form-control']); ?>
+                                    <?php echo form_input([
+                                        'name' => 'extension_superior', 
+                                        'id' => 'extension_superior', 
+                                        'class' => 'form-control', 
+                                        'value' => isset($inspector->extension_superior) ? $inspector->extension_superior : ''
+                                    ]); ?>
                                 </div>
                             </div>
                         </div>
@@ -142,11 +236,14 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 
                     <!-- Step 3: No publicidad -->
                     <div class="form-step" id="step-3" style="display: none;">
+                    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">No publicidad</h3>
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>¿Permitir que todos los datos del inspector, verificador o visitador sean públicos?</label>
-                                    <?php echo form_dropdown('permitir_publicidad', ['si' => 'Sí', 'no' => 'No'], '', 'class="form-control"'); ?>
+                                    <?php echo form_dropdown('permitir_publicidad', ['si' => 'Sí', 'no' => 'No'], isset($inspector->permitir_publicidad) ? $inspector->permitir_publicidad : '', 'class="form-control"'); ?>
                                 </div>
 
                                 <div class="form-group">
@@ -158,11 +255,11 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                                 <div class="form-group">
                                     <label>Determina la información de la ficha del Inspector(a) que no se puede publicar en el portal ciudadano:</label>
                                     <select class="form-control" name="datos_no_publicar[]" multiple>
-                                        <option value="nombre">Nombre</option>
-                                        <option value="primer_apellido">Primer Apellido</option>
-                                        <option value="segundo_apellido">Segundo Apellido</option>
-                                        <option value="fotografia">Fotografía</option>
-                                        <option value="cargo">Cargo</option>
+                                        <option value="nombre" <?php echo isset($inspector->datos_no_publicar) && in_array('nombre', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Nombre</option>
+                                        <option value="primer_apellido" <?php echo isset($inspector->datos_no_publicar) && in_array('primer_apellido', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Primer Apellido</option>
+                                        <option value="segundo_apellido" <?php echo isset($inspector->datos_no_publicar) && in_array('segundo_apellido', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Segundo Apellido</option>
+                                        <option value="fotografia" <?php echo isset($inspector->datos_no_publicar) && in_array('fotografia', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Fotografía</option>
+                                        <option value="cargo" <?php echo isset($inspector->datos_no_publicar) && in_array('cargo', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Cargo</option>
                                     </select>
                                 </div>
                             </div>
@@ -171,16 +268,30 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 
                     <!-- Step 4: Emergencias -->
                     <div class="form-step" id="step-4" style="display: none;">
+                    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Emergencias</h3>
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box ;">
+                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="es_emergencia">¿El inspector es requerido para atender una situación de emergencia?</label>
-                                    <?php echo form_checkbox(['name' => 'es_emergencia', 'id' => 'es_emergencia', 'class' => 'form-check-input']); ?>
+                                    <?php echo form_checkbox([
+                                        'name' => 'es_emergencia', 
+                                        'id' => 'es_emergencia', 
+                                        'class' => 'form-check-input', 
+                                        'checked' => isset($inspector->es_emergencia) ? $inspector->es_emergencia : false
+                                    ]); ?>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="justificacion_emergencia">Justificar las razones por las cuales se habilita un inspector(a) para atender una situación de emergencia.</label>
-                                    <?php echo form_textarea(['name' => 'justificacion_emergencia', 'id' => 'justificacion_emergencia', 'class' => 'form-control', 'rows' => '3']); ?>
+                                    <?php echo form_textarea([
+                                        'name' => 'justificacion_emergencia', 
+                                        'id' => 'justificacion_emergencia', 
+                                        'class' => 'form-control', 
+                                        'rows' => '3', 
+                                        'value' => isset($inspector->justificacion_emergencia) ? $inspector->justificacion_emergencia : ''
+                                    ]); ?>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -215,7 +326,8 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
     }
 
     .main-content {
-        margin-top: -100px;
+        /* Se ajusta el margen para centrar el contenido, quitando el offset negativo */
+        margin-top: 20px;
     }
 
     .card {
@@ -396,4 +508,3 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
     })()
 </script>
 @endsection
-

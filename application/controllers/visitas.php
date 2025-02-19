@@ -7,7 +7,7 @@ class Visitas extends CI_Controller {
         parent::__construct();
         $this->load->model('NotificacionesModel');// Cargar modelo de notificaciones
         // Load necessary models, libraries, etc.
-        $this->load->model('Visitas_model');
+        $this->load->model('Visitas_Model');
         
     }
 
@@ -20,7 +20,7 @@ class Visitas extends CI_Controller {
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
 
         // Fetch data from the model
-        $data['visitas'] = $this->Visitas_model->get_all_visitas();
+        $data['inspecciones'] = $this->Visitas_Model->get_inspecciones();
 
         // Load the view and pass the data
         $this->blade->render('visitas/index', $data);

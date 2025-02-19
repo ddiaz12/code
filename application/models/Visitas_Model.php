@@ -21,26 +21,39 @@ class Visitas_model extends CI_Model {
     }
 
     // Obtener una inspección por su ID
-    public function get_inspeccion_by_id($id_inspeccion) {
-        $query = $this->db->get_where('inspeccion_detallada', array('id_inspeccion' => $id_inspeccion));
-        return $query->row_array(); // Retorna un array con los datos de la inspección
+    public function get_inspeccion_by_id($id) {
+        return $this->db->get_where('inspeccion_detallada', ['id_inspeccion' => $id])->row_array();
+    }
+
+    // Modificar el método para usar la tabla "inspeccion_detallada" y la clave "id_inspeccion"
+    public function obtenerInspeccionPorId($id) {
+        $this->db->where('id_inspeccion', $id);
+        $query = $this->db->get('inspeccion_detallada');
+        return $query->row();
     }
 
     // Agregar una nueva inspección
-    public function add_inspeccion($data) {
-        return $this->db->insert('inspeccion_detallada', $data); // Inserta los datos en la tabla
+    public function add_inspeccion($datos) {
+        return $this->db->insert('inspeccion_detallada', $datos); // Inserta los datos en la tabla
     }
 
     // Actualizar una inspección existente
-    public function update_inspeccion($id_inspeccion, $data) {
-        $this->db->where('id_inspeccion', $id_inspeccion);
-        return $this->db->update('inspeccion_detallada', $data); // Actualiza los datos de la inspección
+    public function update_inspeccion($id, $datos) {
+        $this->db->where('id_inspeccion', $id);
+        return $this->db->update('inspeccion_detallada', $datos); // Actualiza los datos de la inspección
     }
 
     // Eliminar una inspección
     public function delete_inspeccion($id_inspeccion) {
         $this->db->where('id_inspeccion', $id_inspeccion);
         return $this->db->delete('inspeccion_detallada'); // Elimina la inspección
+    }
+
+    // Obtener inspecciones con los campos deseados
+    public function get_inspecciones(){
+        $this->db->select('id_inspeccion, Homoclave, Nombre_Inspeccion, Modalidad, Sujeto_Obligado_ID, Realizada_En as Unidad_Administrativa, Fundamento_Juridico as Estatus, Tipo_Inspeccion, Periodicidad as Vigencia');
+        $query = $this->db->get('inspeccion_detallada'); // Cambiar 'inspecciones' por 'inspeccion_detallada'
+        return $query->result_array();
     }
 }
 ?>

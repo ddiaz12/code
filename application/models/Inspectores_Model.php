@@ -5,31 +5,30 @@ class Inspectores_Model extends CI_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->load->database();
+        $this->load->database(); // Cargar la base de datos
     }
 
+    // Obtener todos los inspectores
     public function get_all_inspectores() {
-        $query = $this->db->get('users');
-        return $query->result();
+        $query = $this->db->get('inspectores');
+        return $query->result(); // Retorna un array de objetos
     }
 
+    // Método para agregar un nuevo inspector
     public function agregarInspector($data) {
-        return $this->db->insert('users', $data);
+        return $this->db->insert('inspectores', $data);
     }
 
+    // Método para obtener un inspector por su ID
     public function obtenerInspectorPorId($id) {
-        $query = $this->db->get_where('users', array('id' => $id));
+        $query = $this->db->get_where('inspectores', array('Inspector_ID' => $id));
         return $query->row();
     }
 
-    public function actualizarInspector($id, $data) {
-        $this->db->where('id', $id);
-        return $this->db->update('users', $data);
-    }
- 
-    public function eliminarInspector($id) {
-        $this->db->where('id', $id);
-        return $this->db->delete('users');
+    // Método para actualizar un inspector existente
+    public function update_inspector($id_inspector, $data) {
+        $this->db->where('Inspector_ID', $id_inspector);
+        return $this->db->update('inspectores', $data);
     }
 }
 ?>

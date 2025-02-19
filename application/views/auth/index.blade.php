@@ -98,21 +98,19 @@ Registro Estatal de Regulaciones (RER) - Usuarios
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <div class="d-flex gap-1">
                                     <a href="<?php echo base_url('auth/edit_user/' . base64_encode($user->id)); ?>"
                                         class="btn btn btn-dorado btn-sm">
                                         <i class="fas fa-edit" title="Editar usuario"></i>
                                     </a>
                                     <button class="btn btn btn-secondary btn-sm"
-                                        onclick="confirmPending(<?php echo $user->id; ?>)" <?php if ($user->active == 1)
+                                        onclick="confirmPending(<?php echo $user->id; ?>)" <?php if ($user->active == 1 || $user->status == 0)
                                                                                                 echo 'disabled'; ?>>
                                         <i class="fas fa-clock" title="Usuario pendiente"></i>
                                     </button>
                                     <button class="btn btn btn-danger btn-sm btn-ocultar"
                                         onclick="confirmDelete(<?php echo $user->id; ?>)">
                                         <i class="fas fa-trash-alt" title="Eliminar usuario"></i>
-                                        </button>
-                                    </div>
+                                    </button>
                                 </td>
                             </tr>
                         <?php endif; ?>
