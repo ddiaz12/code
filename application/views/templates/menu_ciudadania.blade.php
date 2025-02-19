@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[]').tooltip();
     });
 </script>
 
@@ -8,7 +8,7 @@
     <nav class="sb-sidenav sb-sidenav-black" id="sidenavAccordion">
         <div class="sb-sidenav-menu menu-custom">
             <div class="nav">
-                <a class="nav-link" href="https://www.col.gob.mx//economico/contenido/MzEwNTU=" data-toggle="tooltip"
+                <a class="nav-link" href="https://www.col.gob.mx//economico/contenido/MzEwNTU=" 
                     data-placement="right" title="Visitas Domiciliarias">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-person-shelter"></i>
@@ -17,7 +17,7 @@
                 </a>
             </div>
             <div class="nav">
-                <a class="nav-link" href="https://www.col.gob.mx/Portal/Tramites" data-toggle="tooltip"
+                <a class="nav-link" href="https://www.col.gob.mx/Portal/Tramites" 
                     data-placement="right" title="Tramites y Servicios">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-file-contract"></i>
@@ -26,7 +26,7 @@
                 </a>
             </div>
             <div class="nav">
-                <a class="nav-link" href="https://protestaciudadana.col.gob.mx/" data-toggle="tooltip"
+                <a class="nav-link" href="https://protestaciudadana.col.gob.mx/" 
                     data-placement="right" title="Protesta Ciudadana">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-person-circle-exclamation"></i>
@@ -35,7 +35,7 @@
                 </a>
             </div>
             <div class="nav">
-                <a class="nav-link" href="https://catalogonacional.gob.mx/" data-toggle="tooltip"
+                <a class="nav-link" href="https://catalogonacional.gob.mx/" 
                     data-placement="right" title="CNARTyS">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-landmark"></i>
@@ -45,7 +45,7 @@
             </div>
             <!--
             <div class="nav">
-                <a class="nav-link" href="#" data-toggle="tooltip" data-placement="right" title="Accesibilidad"
+                <a class="nav-link" href="#"  data-placement="right" title="Accesibilidad"
                     onclick="showAccessibilityMenu()">
                     <div class="sb-nav-link-icon">
                         <i class="fa-solid fa-universal-access"></i>

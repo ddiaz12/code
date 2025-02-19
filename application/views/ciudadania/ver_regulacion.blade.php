@@ -57,7 +57,7 @@ Registro Estatal de Regulaciones
                 </div>
                 <div class="div-protesta text-center">
                     <a class="nav-link d-flex flex-column align-items-center"
-                        href="https://protestaciudadana.col.gob.mx/" data-toggle="tooltip" data-placement="right"
+                        href="https://protestaciudadana.col.gob.mx/"  data-placement="right"
                         title="Protesta Ciudadana">
                         <div class="sb-nav-link-icon">
                             <i class="fa-solid fa-person-circle-exclamation icon-protesta"></i>

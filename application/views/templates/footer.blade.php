@@ -1,7 +1,7 @@
 <footer class="py-4 mt-auto footer">
     <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">
-            <div class="text-muted">Registro Estatal de Regulaciones &middot; 2024 </div>
+            <div class="text-muted">Registro Estatal de <br> Regulaciones &middot; 2024 </div>
             <div class="text-muted div-info">Secretaría de Desarrollo Económico
                 <br> Complejo Administrativo del Gobierno del Estado 3er. Anillo Periférico, <br>
                 Esq. Ejército

@@ -266,6 +266,7 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/apiAsentamientosEditar.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/agregarHorario.js'); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -371,5 +372,4 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
-<script src="<?php echo base_url('assets/js/eliminarHorario.js'); ?>"></script>
 @endsection

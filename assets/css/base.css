@@ -87,7 +87,7 @@ h3,
 #sidenavAccordion {
 	width: 100%;
 	background-color: #b69664;
-	margin-top: 3rem;
+	margin-top: 5rem;
 }
 
 #sidebarToggle {
@@ -126,7 +126,7 @@ h3,
 
 .px-4 {
 	padding-right: 3rem !important;
-	padding-left: 1rem !important;
+	padding-left: 3rem !important;
 }
 
 .menu-custom {

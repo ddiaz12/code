@@ -81,7 +81,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputNumExterior">Número exterior<span class="text-danger">*</span></label>
+                                <label for="num_exterior">Número exterior<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="num_exterior" name="num_exterior" maxlength="4"
                                     required>
                                 <small id="msg_num_exterior" class="text-danger"></small>
@@ -252,6 +252,8 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/apiAsentamientos.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/getElementChange.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/agregarHorario.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script>
     $(document).ready(function(){
@@ -259,7 +261,7 @@ Registro Estatal de Regulaciones
         $('#ext').mask('000000'); 
 
         // Aplicar máscara al campo de número exterior
-        $('#inputNumExterior').mask('Z', {
+        $('#num_exterior').mask('Z', {
             translation: {
                 'Z': {
                     pattern: /[1-9sSnN\/]/, // Acepta números, "s", "S", "n", "N" y "/"
@@ -356,6 +358,4 @@ Registro Estatal de Regulaciones
         });
     });
 </script>
-<script src="<?php echo base_url('assets/js/agregarHorario.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
 @endsection
