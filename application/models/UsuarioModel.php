@@ -73,6 +73,14 @@ class UsuarioModel extends CI_Model
         return $query->result();
     }
 
+    public function getUnidadesAdministrativasBySujeto($sujeto_id, $user_id)
+    {
+        $this->db->where('ID_sujeto', $sujeto_id);
+        $this->db->where('created_by', $user_id);
+        $query = $this->db->get('cat_unidad_administrativa');
+        return $query->result();
+    }
+
     //Trea las unidades administrativas que estan escondidas en el formulario de la solicitud
     public function getUnidadesAdministrativasSolicitud()
     {

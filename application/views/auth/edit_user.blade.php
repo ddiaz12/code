@@ -144,6 +144,13 @@ Registro Estatal de Regulaciones
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <?php echo form_input($email, '', ['class' => 'form-control', 'id' => 'email', 'disabled' => 'disabled']); ?>
+                            <small id="msg_email" class="text-danger"></small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="password">Contraseña</label>
                             <?php echo form_input($password, '', [
                                 'class' => 'form-control', 'id' => 'password',
@@ -223,6 +230,28 @@ Registro Estatal de Regulaciones
     $(document).ready(function(){
         $('#phone').mask('(000) 000-0000'); 
         $('#ext').mask('000000'); 
+    });
+
+    // Manejar el cambio en el campo de selección de sujetos obligados
+    $('#sujetos').change(function() {
+        var sujeto_id = $(this).val();
+        if (sujeto_id) {
+            $.ajax({
+                url: '<?php echo base_url('auth/get_unidades_by_sujeto/'); ?>' + sujeto_id,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#unidades').empty();
+                    $('#unidades').append('<option disabled selected>Selecciona una opción</option>');
+                    $.each(data, function(key, value) {
+                        $('#unidades').append('<option value="' + value.ID_unidad + '">' + value.nombre + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#unidades').empty();
+            $('#unidades').append('<option disabled selected>Selecciona una opción</option>');
+        }
     });
 </script>
 <script>

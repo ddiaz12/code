@@ -69,6 +69,14 @@ class Oficinas extends CI_Controller
         }
     }
 
+        public function get_unidades_by_sujeto($sujeto_id)
+        {
+            $user = $this->ion_auth->user()->row();
+            $user_id = $user->id;
+            $unidades = $this->OficinaModel->getUnidadesBySujeto($sujeto_id, $user_id);
+            echo json_encode($unidades);
+        }
+
     public function insertar()
     {
         $this->form_validation->set_rules(

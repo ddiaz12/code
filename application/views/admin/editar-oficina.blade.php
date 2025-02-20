@@ -283,6 +283,28 @@ Registro Estatal de Regulaciones
             }
         });
     });
+
+    // Manejar el cambio en el campo de selección de sujetos obligados
+    $('#selectSujeto').change(function() {
+        var sujeto_id = $(this).val();
+        if (sujeto_id) {
+            $.ajax({
+                url: '<?php echo base_url('oficinas/get_unidades_by_sujeto/'); ?>' + sujeto_id,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#selectUnidad').empty();
+                    $('#selectUnidad').append('<option disabled selected>Selecciona una opción</option>');
+                    $.each(data, function(key, value) {
+                        $('#selectUnidad').append('<option value="' + value.ID_unidad + '">' + value.nombre + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#selectUnidad').empty();
+            $('#selectUnidad').append('<option disabled selected>Selecciona una opción</option>');
+        }
+    });
 </script>
 <script>
     function enviarFormulario() {

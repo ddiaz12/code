@@ -71,7 +71,7 @@ class Menu extends CI_Controller
         $groupName = $group->name;
         $id = $user->id;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
-        $data['unidades'] = $this->MenuModel->getUnidadesAdministrativas();
+        $data['unidades'] = $this->MenuModel->getUnidadesAdministrativas($id);
 
         if ($this->ion_auth->in_group('sujeto_obligado')) {
             $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);

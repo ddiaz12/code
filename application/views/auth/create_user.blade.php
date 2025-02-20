@@ -60,10 +60,10 @@ Registro Estatal de Regulaciones
                             <label for="unidades">Unidad administrativa<span class="text-danger">*</span></label>
                             <select class="form-control" id="unidades" name="unidades" required>
                                 <option disabled selected>Selecciona una opción</option>
-                                <?php foreach ($unidades as $unidad): ?>
+                                <!-- <?php foreach ($unidades as $unidad): ?>
                                 <option value="<?php    echo $unidad->ID_unidad; ?>"><?php    echo $unidad->nombre; ?>
                                 </option>
-                                <?php endforeach; ?>
+                                <?php endforeach; ?> -->
                             </select>
                             <small id="msg_unidades" class="text-danger"></small>
                         </div>
@@ -201,6 +201,29 @@ Registro Estatal de Regulaciones
         $('#phone').mask('(000) 000-0000'); 
         $('#ext').mask('000000'); 
     });
+
+     // Manejar el cambio en el campo de selección de sujetos obligados
+     $('#sujetos').change(function() {
+            var sujeto_id = $(this).val();
+            if (sujeto_id) {
+                $.ajax({
+                    url: '<?php echo base_url('auth/get_unidades_by_sujeto/'); ?>' + sujeto_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#unidades').empty();
+                        $('#unidades').append('<option disabled selected>Selecciona una opción</option>');
+                        $.each(data, function(key, value) {
+                            $('#unidades').append('<option value="' + value.ID_unidad + '">' + value.nombre + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#unidades').empty();
+                $('#unidades').append('<option disabled selected>Selecciona una opción</option>');
+            }
+        });
+    
 </script>
 <script>
     function enviaDatosFormulario() {

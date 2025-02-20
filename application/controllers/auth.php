@@ -819,6 +819,13 @@ class Auth extends CI_Controller
         }
     }
 
+    public function get_unidades_by_sujeto($sujeto_id)
+    {
+        $user = $this->ion_auth->user()->row();
+        $user_id = $user->id;
+        $unidades = $this->UsuarioModel->getUnidadesAdministrativasBySujeto($sujeto_id, $user_id);
+        echo json_encode($unidades);
+    }
 
 
     /**
@@ -1061,6 +1068,12 @@ class Auth extends CI_Controller
                     'id' => 'fecha',
                     'type' => 'date',
                     'value' => $this->form_validation->set_value('fecha', $user->fecha_cargo),
+                ];
+                $this->data['email'] = [
+                    'name' => 'email',
+                    'id' => 'email',
+                    'type' => 'text',
+                    'value' => $this->form_validation->set_value('email', $user->email),
                 ];
                 $this->data['password'] = [
                     'name' => 'password',

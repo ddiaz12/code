@@ -7,7 +7,7 @@ class OficinaModel extends CI_Model
     {
         parent::__construct();
 
-    }   
+    }
     public function getOficinas()
     {
         $this->db->select('ma_oficina_administrativa.*');
@@ -17,7 +17,8 @@ class OficinaModel extends CI_Model
         return $query->result();
     }
 
-    public function getDatos($id_oficina) {
+    public function getDatos($id_oficina)
+    {
         $this->db->where('ID_Oficina', $id_oficina);
         $query = $this->db->get('ma_oficina_administrativa');
         return $query->row_array();
@@ -57,6 +58,13 @@ class OficinaModel extends CI_Model
     {
         $this->db->where('nombre !=', 'No especificado');
         $this->db->where('status', 1);
+        $query = $this->db->get('cat_unidad_administrativa');
+        return $query->result();
+    }
+    public function getUnidadesBySujeto($sujeto_id, $user_id)
+    {
+        $this->db->where('ID_sujeto', $sujeto_id);
+        $this->db->where('created_by', $user_id);
         $query = $this->db->get('cat_unidad_administrativa');
         return $query->result();
     }
@@ -142,10 +150,11 @@ class OficinaModel extends CI_Model
         $this->db->delete('ma_oficina_administrativa');
     }
 
-    public function ocultarOficina($id){
+    public function ocultarOficina($id)
+    {
         $this->db->where('ID_Oficina', $id);
         $this->db->update('ma_oficina_administrativa', ['status' => 0]);
-    
+
     }
 
     public function eliminarHorarios($idhorario)
