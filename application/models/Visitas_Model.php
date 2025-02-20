@@ -20,8 +20,9 @@ class Visitas_model extends CI_Model {
         return $this->get_all_inspecciones(); // Llama al método existente
     }
 
-    // Obtener una inspección por su ID
+    // Obtener una inspección por su ID con alias para la vista PDF
     public function get_inspeccion_by_id($id) {
+        $this->db->select("*, Realizada_En as Unidad_Administrativa, Fundamento_Juridico as Estatus, Periodicidad as Vigencia");
         return $this->db->get_where('inspeccion_detallada', ['id_inspeccion' => $id])->row_array();
     }
 
@@ -49,10 +50,10 @@ class Visitas_model extends CI_Model {
         return $this->db->delete('inspeccion_detallada'); // Elimina la inspección
     }
 
-    // Obtener inspecciones con los campos deseados
+    // Obtener inspecciones con alias para los campos requeridos
     public function get_inspecciones(){
-        $this->db->select('id_inspeccion, Homoclave, Nombre_Inspeccion, Modalidad, Sujeto_Obligado_ID, Realizada_En as Unidad_Administrativa, Fundamento_Juridico as Estatus, Tipo_Inspeccion, Periodicidad as Vigencia');
-        $query = $this->db->get('inspeccion_detallada'); // Cambiar 'inspecciones' por 'inspeccion_detallada'
+        $this->db->select("id_inspeccion, Homoclave, Nombre_Inspeccion, Modalidad, Sujeto_Obligado_ID, Realizada_En as Unidad_Administrativa, Fundamento_Juridico as Estatus, Tipo_Inspeccion, Periodicidad as Vigencia");
+        $query = $this->db->get('inspeccion_detallada');
         return $query->result_array();
     }
 }

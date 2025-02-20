@@ -23,8 +23,9 @@
         <h2 class="mt-4 text-center"><b>Registro Estatal de Visitas Domiciliarias (REVID)</b></h2>
         <h5 class="text-center fs-5 fst-italic mb-4">Inspecciones, Verificaciones y Visitas Domiciliarias</h5>
 
-        <div style="height: 1.5cm;"></div>
-
+        <!-- Eliminar o reducir el espacio extra -->
+        <!-- <div style="height: 1.5cm;"></div> -->
+        
         <div class="container-fluid px-4" style="max-width: calc(100% - 3cm); margin: 0 auto;">
             <div class="row align-items-center mb-3">
                 <div class="col-12 col-md-8">
@@ -78,6 +79,8 @@
                                         <a href="#" title="Trazabilidad"><i class="fas fa-route"></i></a>
                                         <a href="#" title="Agregar Comentarios"><i class="fas fa-comments"></i></a>
                                         <a href="#" title="Eliminar"><i class="fas fa-trash-alt"></i></a>
+                                        <a href="<?= base_url('visitas/descargar/pdf/'.$inspeccion['id_inspeccion']); ?>" title="Descargar PDF"><i class="fas fa-file-pdf"></i></a>
+                                        <a href="<?= base_url('visitas/descargar/excel/'.$inspeccion['id_inspeccion']); ?>" title="Descargar Excel"><i class="fas fa-file-excel"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
