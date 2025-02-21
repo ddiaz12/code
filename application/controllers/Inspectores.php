@@ -8,7 +8,7 @@ class Inspectores extends CI_Controller {
         // Load necessary models, libraries, etc.
         $this->load->model('Inspectores_Model');
         $this->load->helper(['form', 'url']);
-        $this->load->library(['form_validation', 'session', 'upload']);
+        $this->load->library(['form_validation', 'session', 'upload', 'pdf']);
         $this->load->model('NotificacionesModel');
     }
 
@@ -75,6 +75,75 @@ class Inspectores extends CI_Controller {
             }
             redirect('inspectores');
         }
+    }
+
+    public function descargar($tipo) {
+        $inspectores = $this->Inspectores_Model->get_all_inspectores();
+
+        if ($tipo == 'pdf') {
+            $this->generar_pdf($inspectores);
+        } elseif ($tipo == 'excel') {
+            $this->generar_excel($inspectores);
+        } else {
+            show_404();
+        }
+    }
+
+    private function generar_pdf($inspectores) {
+        if (empty($inspectores)) {
+            show_error('No hay inspectores disponibles para generar el PDF.');
+            return;
+        }
+
+        $html = '';
+        foreach ($inspectores as $inspector) {
+            $html .= $this->blade->render('inspectores/pdf_template', ['inspector' => $inspector], true);
+        }
+
+        $this->pdf->loadHtml($html);
+        $this->pdf->setPaper('A4', 'landscape');
+        $this->pdf->render();
+        $this->pdf->stream("fichas_inspectores.pdf", array("Attachment" => 1));
+    }
+
+    private function generar_excel($inspectores) {
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set header
+        $sheet->setCellValue('A1', 'ID');
+        $sheet->setCellValue('B1', 'Homoclave');
+        $sheet->setCellValue('C1', 'Nombre');
+        $sheet->setCellValue('D1', 'Primer Apellido');
+        $sheet->setCellValue('E1', 'Segundo Apellido');
+        $sheet->setCellValue('F1', 'Sujeto Obligado');
+        $sheet->setCellValue('G1', 'Unidad Administrativa');
+        $sheet->setCellValue('H1', 'Estatus');
+        $sheet->setCellValue('I1', 'Tipo');
+        $sheet->setCellValue('J1', 'Vigencia');
+
+        // Set data
+        $row = 2;
+        foreach ($inspectores as $inspector) {
+            $sheet->setCellValue('A' . $row, $inspector->Inspector_ID);
+            $sheet->setCellValue('B' . $row, $inspector->Homoclave);
+            $sheet->setCellValue('C' . $row, $inspector->Nombre);
+            $sheet->setCellValue('D' . $row, $inspector->Apellido_Paterno);
+            $sheet->setCellValue('E' . $row, $inspector->Apellido_Materno);
+            $sheet->setCellValue('F' . $row, $inspector->Sujeto_Obligado);
+            $sheet->setCellValue('G' . $row, $inspector->Unidad_Administrativa);
+            $sheet->setCellValue('H' . $row, $inspector->Estatus);
+            $sheet->setCellValue('I' . $row, $inspector->Tipo);
+            $sheet->setCellValue('J' . $row, $inspector->Vigencia);
+            $row++;
+        }
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $filename = 'fichas_inspectores.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        $writer->save('php://output');
     }
 }
 ?>

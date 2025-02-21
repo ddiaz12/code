@@ -35,9 +35,23 @@
                     </p>
                 </div>
                 <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
-                    <a href="<?php echo base_url('AgregarInspector/agregarInspector'); ?>" class="btn btn-warning">
-                        <i class="fas fa-plus-circle me-1"></i> Agregar Inspector
-                    </a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-download me-1"></i> Descargar
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="<?= base_url('inspectores/descargar/pdf'); ?>?ids=<?= implode(',', array_column($inspectores, 'Inspector_ID')); ?>">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="<?= base_url('inspectores/descargar/excel'); ?>?ids=<?= implode(',', array_column($inspectores, 'Inspector_ID')); ?>">
+                                    <i class="fas fa-file-excel"></i> Excel
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

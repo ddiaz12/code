@@ -34,9 +34,23 @@
                     </p>
                 </div>
                 <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
-                    <a href="<?= base_url('Agregarinspeccion/agregarinspeccion'); ?>" class="btn btn-warning">
-                        <i class="fas fa-plus-circle me-1"></i> Agregar Inspección
-                    </a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-download me-1"></i> Descargar
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="<?= base_url('visitas/descargar/pdf'); ?>?ids=<?= implode(',', array_column($inspecciones, 'id_inspeccion')); ?>">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="<?= base_url('visitas/descargar/excel'); ?>?ids=<?= implode(',', array_column($inspecciones, 'id_inspeccion')); ?>">
+                                    <i class="fas fa-file-excel"></i> Excel
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -79,9 +93,7 @@
                                         <a href="#" title="Trazabilidad"><i class="fas fa-route"></i></a>
                                         <a href="#" title="Agregar Comentarios"><i class="fas fa-comments"></i></a>
                                         <a href="#" title="Eliminar"><i class="fas fa-trash-alt"></i></a>
-                                        <a href="<?= base_url('visitas/descargar/pdf/'.$inspeccion['id_inspeccion']); ?>" title="Descargar PDF"><i class="fas fa-file-pdf"></i></a>
-                                        <a href="<?= base_url('visitas/descargar/excel/'.$inspeccion['id_inspeccion']); ?>" title="Descargar Excel"><i class="fas fa-file-excel"></i></a>
-                                    </td>
+                                        
                                 </tr>
                             @endforeach
                         @endif
