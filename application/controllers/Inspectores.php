@@ -22,8 +22,19 @@ class Inspectores extends CI_Controller {
         // Fetch data from the model
         $data['inspectores'] = $this->Inspectores_Model->get_all_inspectores();
 
-        // Load the view and pass the data
-        $this->blade->render('inspectores/index', $data);
+        // Gestiona las vista depende el usuario que este logeado
+        $id = $user->id;
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
+            $this->blade->render('inspectores/SOindex', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('inspectores/index', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('inspectores/index', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
 
     public function agregarInspector() {

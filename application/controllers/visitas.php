@@ -21,10 +21,21 @@ class Visitas extends CI_Controller {
 
         // Fetch data from the model
         $data['inspecciones'] = $this->Visitas_Model->get_inspecciones();
-
-        // Load the view and pass the data
-        $this->blade->render('visitas/index', $data);
+        // Gestiona las vista depende el usuario que este logeado
+        $id = $user->id;
+        if ($this->ion_auth->in_group('sujeto_obligado')) {
+            $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsId($id);
+            $this->blade->render('visitas/SOindex', $data);
+        } elseif ($this->ion_auth->in_group('sedeco') || $this->ion_auth->in_group('admin')) {
+            $this->blade->render('visitas/index', $data);
+        } elseif ($this->ion_auth->in_group('consejeria')) {
+            $this->blade->render('visitas/index', $data);
+        } else {
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            redirect('auth/logout', 'refresh');
+        }
     }
+    
 
     public function agregar() {
         // Logic for adding a new inspection
@@ -44,28 +55,33 @@ class Visitas extends CI_Controller {
         }
     }
 
-    // Cambiar la firma para recibir el ID de inspección
-    public function descargar($tipo, $id) {
-        $inspeccion = $this->Visitas_Model->get_inspeccion_by_id($id);
-        if(!$inspeccion) { 
-            show_404();
-        }
+    public function descargar($tipo) {
+        $inspecciones = $this->Visitas_Model->get_inspecciones();
+
         if ($tipo == 'pdf') {
-            $this->generar_pdf($inspeccion);
+            $this->generar_pdf($inspecciones);
         } elseif ($tipo == 'excel') {
-            $this->generar_excel([$inspeccion]); // o procesar según tu lógica para Excel
+            $this->generar_excel($inspecciones);
         } else {
             show_404();
         }
     }
 
-    // Modificar para recibir una única inspección y pasarla a la vista
-    private function generar_pdf($inspeccion) {
-        $html = $this->blade->render('visitas/pdf_template', ['inspeccion' => $inspeccion], true);
+    private function generar_pdf($inspecciones) {
+        if (empty($inspecciones)) {
+            show_error('No hay inspecciones disponibles para generar el PDF.');
+            return;
+        }
+
+        $html = '';
+        foreach ($inspecciones as $inspeccion) {
+            $html .= $this->blade->render('visitas/pdf_template', ['inspeccion' => $inspeccion], true);
+        }
+
         $this->pdf->loadHtml($html);
         $this->pdf->setPaper('A4', 'landscape');
         $this->pdf->render();
-        $this->pdf->stream("ficha_inspeccion.pdf", array("Attachment" => 1));
+        $this->pdf->stream("fichas_inspecciones.pdf", array("Attachment" => 1));
     }
 
     private function generar_excel($inspecciones) {
@@ -91,7 +107,7 @@ class Visitas extends CI_Controller {
             $sheet->setCellValue('C' . $row, $inspeccion['Nombre_Inspeccion']);
             $sheet->setCellValue('D' . $row, $inspeccion['Modalidad']);
             $sheet->setCellValue('E' . $row, $inspeccion['Sujeto_Obligado_ID']);
-            $sheet->setCellValue('F' . $row, $inspeccion['Unidad_Administrativa']); // corregido
+            $sheet->setCellValue('F' . $row, $inspeccion['Unidad Administrativa']);
             $sheet->setCellValue('G' . $row, $inspeccion['Estatus']);
             $sheet->setCellValue('H' . $row, $inspeccion['Tipo_Inspeccion']);
             $sheet->setCellValue('I' . $row, $inspeccion['Vigencia']);

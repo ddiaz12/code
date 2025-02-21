@@ -11,7 +11,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 @section('contenido')
 <!-- Contenido -->
 <div class="container-fluid px-4" style="max-width: calc(100% - 6cm); margin: 0 auto;">
-    <h1 class="mt-4 mb-4 titulo-menu">Escritorio del Sujeto Obligado</h1>
+    <h1 class="mt-4 mb-4 titulo-menu">Escritorio de la Secretaria de Desarrollo Económico</h1>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <!-- Regulaciones -->
         <div class="col">
@@ -55,7 +55,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                 </div>
             </div>
         </div>
-        <!-- Unidades Administrativas (nueva tarjeta) -->
+        <!-- Unidades Administrativas -->
         <div class="col">
             <div class="card shadow h-100">
                 <div class="card-header py-2">
@@ -66,20 +66,6 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                 </div>
                 <div class="card-footer text-center py-2">
                     <a href="<?= base_url('menu/menu_unidades'); ?>" class="btn btn-primary btn-oficina btn-sm">Administrar</a>
-                </div>
-            </div>
-        </div>
-        <!-- Oficinas -->
-        <div class="col">
-            <div class="card shadow h-100">
-                <div class="card-header py-2">
-                    <h6 class="m-0 font-weight-bold text-cards text-center">Oficinas</h6>
-                </div>
-                <div class="card-body d-flex align-items-center justify-content-center" style="height: 80px; overflow-y: auto;">
-                    <p class="card-text text-center mb-0" style="font-size: 0.85rem;">Administra las oficinas de tu dependencia.</p>
-                </div>
-                <div class="card-footer text-center py-2">
-                    <a href="<?= base_url('oficinas'); ?>" class="btn btn-primary btn-oficina btn-sm">Administrar</a>
                 </div>
             </div>
         </div>
@@ -97,10 +83,8 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Mesa de ayuda -->
-    <div class="row mt-3 justify-content-center">
-        <div class="col-12 col-md-6 col-lg-4">
+        <!-- Mesa de ayuda -->
+        <div class="col">
             <div class="card shadow h-100">
                 <div class="card-header py-2">
                     <h6 class="m-0 font-weight-bold text-cards text-center">Mesa de ayuda</h6>
