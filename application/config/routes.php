@@ -62,5 +62,7 @@ $route['guias/list'] = 'Guia/list';
 $route['guias/delete'] = 'Guia/delete';
 $route['inspector/EditarInspector/(:num)'] = 'AgregarInspector/editarInspector/$1';
 $route['visitas/descargar/(:any)'] = 'visitas/descargar/$1';
+$route['ver-inspectores'] = 'VerInspectoresController/verInspectores';
+$route['ver-inspecciones'] = 'VerInspeccionesController/verInspecciones';
 
 //$route['ciudadania/buscarRegulaciones'] = 'Ciudadania/buscarRegulaciones';

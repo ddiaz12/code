@@ -281,7 +281,7 @@ Registro Estatal de Visitas Domiciliarias
                         Consulta la lista de Inspectores(as), Verificadores(as) y Visitadores(as).
                     </p>
                     <div class="consulta-footer">
-                        <a href="#" class="btn-consultar">Consultar</a>
+                        <a href="{{ base_url('ver-inspectores') }}" class="btn-consultar">Consultar</a>
                     </div>
                 </div>
             </div>
@@ -296,7 +296,7 @@ Registro Estatal de Visitas Domiciliarias
                         Consulta la información de Inspecciones, Verificaciones y Visitas Domiciliarias.
                     </p>
                     <div class="consulta-footer">
-                        <a href="#" class="btn-consultar">Consultar</a>
+                        <a href="{{ base_url('ver-inspecciones') }}" class="btn-consultar">Consultar</a>
                     </div>
                 </div>
             </div>
