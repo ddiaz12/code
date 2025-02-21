@@ -52,6 +52,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'ciudadania';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// Ruta: http://localhost/codediego/consulta-visitas-domiciliarias
+$route['consulta-visitas-domiciliarias'] = 'ConsultaVisitasDomiciliariasController';
+
 $route['ciudadania/buscarRegulacion'] = 'Ciudadania/buscarRegulacion';
 $route['actualizar-estatus'] = 'RegulacionController/actualizar_estatus';
 $route['guias/list'] = 'Guia/list';
