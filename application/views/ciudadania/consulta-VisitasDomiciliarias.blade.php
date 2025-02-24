@@ -311,7 +311,7 @@ Registro Estatal de Visitas Domiciliarias
                         Consulta las estadísticas de Inspecciones, Verificaciones y Visitas Domiciliarias.
                     </p>
                     <div class="consulta-footer">
-                        <a href="#" class="btn-consultar">Consultar</a>
+                        <a href="{{ base_url('ver-estadisticas') }}" class="btn-consultar">Consultar</a>
                     </div>
                 </div>
             </div>
@@ -319,15 +319,7 @@ Registro Estatal de Visitas Domiciliarias
     </div>
 </div>
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <p class="text-muted" style="font-size: 0.9rem;">
-                Complejo Administrativo del Gobierno del Estado 3er. Anillo Periférico, Esq. Ejército Mexicano S/N. Colonia el Diezmo. C.P. 28010, Colima, Colima, México. Tel. (312) 316 2000
-            </p>
-        </div>
-    </div>
-</div>
+
 @endsection
 
 @section('js')
@@ -350,5 +342,5 @@ Registro Estatal de Visitas Domiciliarias
 @endsection
 
 @section('footer')
-@include('templates/footer')
+@include('templates/footerCiudadania')
 @endsection
