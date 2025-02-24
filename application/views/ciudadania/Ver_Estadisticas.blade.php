@@ -50,7 +50,7 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
     }
     .table-container {
         background-color: white;
-        border-radius: 0.5rem;
+        border-radius: 15px; /* Bordes más curvados */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin: 2rem auto;
         padding: 1.5rem;
@@ -58,7 +58,8 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
     }
     .table-inspecciones {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: separate; /* Cambiar a separate para bordes curvados */
+        border-spacing: 0;
         margin-bottom: 1rem;
     }
     .table-inspecciones th {
@@ -68,20 +69,47 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
         text-align: left;
         font-weight: 500;
         white-space: nowrap;
+        border-top-left-radius: 15px; /* Bordes más curvados */
+        border-top-right-radius: 15px; /* Bordes más curvados */
     }
     .table-inspecciones td {
         padding: 1rem;
         border-bottom: 1px solid #e2e8f0;
         color: #4a5568;
     }
+    .table-inspecciones tr:last-child td {
+        border-bottom-left-radius: 15px; /* Bordes más curvados */
+        border-bottom-right-radius: 15px; /* Bordes más curvados */
+    }
     .table-inspecciones tr:hover {
         background-color: #f8fafc;
     }
-    .table-inspecciones tr:last-child td {
-        border-bottom: none;
-    }
     .text-center-cell {
         text-align: center;
+    }
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .btn-custom {
+        background-color: #712F3E;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+    .btn-custom:hover {
+        background-color: #5a2632;
+        color: white;
+        text-decoration: none;
+    }
+    .btn-container-bottom {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
     }
     @media (max-width: 768px) {
         .table-container {
@@ -128,6 +156,11 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
         </div>
     </div>
 
+    <!-- Botón de Descargar PDF -->
+    <div class="btn-container">
+        <button class="btn-custom" onclick="descargarPDF()">Descargar PDF</button>
+    </div>
+
     <!-- Tabla de Inspecciones -->
     <div class="table-container">
         <table class="table-inspecciones">
@@ -149,6 +182,11 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
             </tbody>
         </table>
     </div>
+
+    <!-- Botón de Regresar -->
+    <div class="btn-container-bottom">
+        <a href="{{ base_url('consulta-visitas-domiciliarias') }}" class="btn-custom">Regresar</a>
+    </div>
 </div>
 @endsection
 
@@ -167,6 +205,15 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
             event.preventDefault();
             document.querySelector('.btn-search').click();
         }
+    }
+
+    function descargarPDF() {
+        // Lógica para descargar la tabla en formato PDF
+        // Puedes usar una librería como jsPDF para generar el PDF
+        const doc = new jsPDF();
+        doc.text("Inspecciones, Verificaciones y Visitas Domiciliarias", 10, 10);
+        doc.autoTable({ html: '.table-inspecciones' });
+        doc.save('inspecciones.pdf');
     }
 </script>
 @endsection
