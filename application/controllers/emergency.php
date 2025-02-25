@@ -1172,6 +1172,17 @@ class emergency extends CI_Controller
 
     public function enviar_regulacion($id_regulacion)
     {
+        // Buscar en la tabla rel_nat_reg el valor de ID_Regulacion
+        $this->load->database();
+        $query = $this->db->get_where('rel_nat_reg', ['ID_Regulacion' => $id_regulacion]);
+        $result = $query->row();
+
+        if (!$result) {
+            // Devolver respuesta JSON de error si no se encuentra la regulación en rel_nat_reg
+            echo json_encode(['success' => false, 'message' => 'La regulacion esta incompleta.']);
+            return;
+        }
+        
         $regulacion = $this->RegulacionModel->obtenerRegulacionPorId($id_regulacion);
         $user = $this->ion_auth->user()->row(); // Obtener el usuario actual
         $group = $this->ion_auth->get_users_groups($user->id)->row(); // Obtener el grupo del usuario
@@ -1285,26 +1296,51 @@ class emergency extends CI_Controller
 
     public function publicar_regulacion($idRegulacion)
     {
-        $this->RegulacionModel->publicar_regulacion($idRegulacion);
+        // Buscar en la tabla rel_nat_reg el valor de ID_Regulacion
+        $this->load->database();
+        $query = $this->db->get_where('rel_nat_reg', ['ID_Regulacion' => $idRegulacion]);
+        $result = $query->row();
 
-        // Obtener el usuario actual
-        $user = $this->ion_auth->user()->row();
-        $idUser = $user->id;
+        if ($result) {
+            $idNat = $result->ID_Nat;
 
-        // Registrar el movimiento en la trazabilidad
-        $dataTrazabilidad = [
-            'ID_Regulacion' => $idRegulacion,
-            'fecha_movimiento' => date('Y-m-d H:i:s'),
-            'descripcion_movimiento' => 'Regulación publicada',
-            'usuario_responsable' => $user->email,
-            'estatus_anterior' => 'Enviado',
-            'estatus_nuevo' => 'Publicado'
-        ];
+            // Buscar en la tabla de_naturaleza_regulacion el valor de ID_Nat
+            $query = $this->db->get_where('de_naturaleza_regulacion', ['ID_Nat' => $idNat]);
+            $natResult = $query->row();
 
-        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
+            if ($natResult) {
+                // Verificar los campos Enlace_Oficial y file_path
+                if (empty($natResult->Enlace_Oficial) && empty($natResult->file_path)) {
+                    echo json_encode(['success' => false, 'message' => 'No se puede publicar la regulación. El campo Enlace_Oficial está vacío. y No se subio el documento.']);
+                    return;
+                }else{
+                    if (empty($natResult->Enlace_Oficial) || empty($natResult->file_path)) {
+                        echo json_encode(['success' => false, 'message' => 'No se puede publicar la regulación. El campo Enlace_Oficial está vacío.']);
+                        return;
+                    }else{
+                        $this->RegulacionModel->publicar_regulacion($idRegulacion);
 
+                        // Obtener el usuario actual
+                        $user = $this->ion_auth->user()->row();
+                        $idUser = $user->id;
 
-        echo json_encode(['success' => true, 'message' => 'La regulación ha sido publicada correctamente.']);
+                        // Registrar el movimiento en la trazabilidad
+                        $dataTrazabilidad = [
+                            'ID_Regulacion' => $idRegulacion,
+                            'fecha_movimiento' => date('Y-m-d H:i:s'),
+                            'descripcion_movimiento' => 'Regulación publicada',
+                            'usuario_responsable' => $user->email,
+                            'estatus_anterior' => 'Enviado',
+                            'estatus_nuevo' => 'Publicado'
+                        ];
+
+                        $this->RegulacionModel->registrarMovimiento($dataTrazabilidad);
+
+                        echo json_encode(['success' => true, 'message' => 'La regulación ha sido publicada correctamente.']);
+                    }
+                }
+            }
+        }
     }
 
     public function despublicar_regulacion($idRegulacion)
