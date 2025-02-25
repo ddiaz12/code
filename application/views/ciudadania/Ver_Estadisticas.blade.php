@@ -8,7 +8,7 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
 @endsection
 
 @section('menu')
-@include('templates/menu_ciudadania')
+@include('templates/menu_VisitasDomiciliarias')
 @endsection
 
 @section('contenido')

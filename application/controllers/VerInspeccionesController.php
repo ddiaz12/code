@@ -18,7 +18,8 @@ class VerInspeccionesController extends CI_Controller
     {
         // Ruta para ver la vista: http://localhost/codediego/ver-inspecciones
         $data['inspecciones'] = $this->VerInspeccionesModel->getInspecciones();
-        $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'ver_Inspecciones', $data);
+        $data['numeroResultados'] = count($data['inspecciones']);
+        $this->blade->render('ciudadania' . DIRECTORY_SEPARATOR . 'Ver_Inspecciones', $data);
     }
 
     public function buscarInspecciones()
@@ -28,6 +29,7 @@ class VerInspeccionesController extends CI_Controller
 
         // Preparar los datos para la vista o devolver como JSON
         $data['inspecciones'] = $resultados;
+        $data['numeroResultados'] = count($resultados);
         // Para devolver como JSON
         echo json_encode($data['inspecciones']);
     }

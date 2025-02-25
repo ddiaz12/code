@@ -8,12 +8,12 @@
     <nav class="sb-sidenav sb-sidenav-black" id="sidenavAccordion">
         <div class="sb-sidenav-menu menu-custom">
             <div class="nav">
-                <a class="nav-link" href="{{ base_url('consulta-visitas-domiciliarias') }}" 
+                <a class="nav-link" href="{{ base_url('ciudadania') }}" 
                     data-placement="right" title="Visitas Domiciliarias">
                     <div class="sb-nav-link-icon">
-                        <i class="fa-solid fa-person-shelter"></i>
+                        <i class="fa-solid fa-landmark"></i>
                     </div>
-                    <span class="nav-text">Registro Estatal de Visitas Domiciliarias</span>
+                    <span class="nav-text">Registro Estatal de Regulaciones</span>
                 </a>
             </div>
             <div class="nav">
