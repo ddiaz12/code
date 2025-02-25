@@ -117,13 +117,13 @@ $lang['edit_group_validation_desc_label']  = 'Description';
 
 // Change Password
 $lang['change_password_heading']                               = 'Change Password';
-$lang['change_password_old_password_label']                    = 'Old Password:';
-$lang['change_password_new_password_label']                    = 'New Password (at least %s characters long):';
-$lang['change_password_new_password_confirm_label']            = 'Confirm New Password:';
+$lang['change_password_old_password_label']                    = 'Contraseña actual:';
+$lang['change_password_new_password_label']                    = 'Nueva contraseña (Al menos debe de ser de %s caracteres de largo):';
+$lang['change_password_new_password_confirm_label']            = 'Confirmar contraseña:';
 $lang['change_password_submit_btn']                            = 'Change';
-$lang['change_password_validation_old_password_label']         = 'Old Password';
-$lang['change_password_validation_new_password_label']         = 'New Password';
-$lang['change_password_validation_new_password_confirm_label'] = 'Confirm New Password';
+$lang['change_password_validation_old_password_label']         = 'Contraseña actual';
+$lang['change_password_validation_new_password_label']         = 'Nueva contraseña';
+$lang['change_password_validation_new_password_confirm_label'] = 'Confirmar nueva contraseña';
 
 // Forgot Password
 $lang['forgot_password_heading']                 = 'Forgot Password';

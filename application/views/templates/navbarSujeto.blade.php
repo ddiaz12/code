@@ -29,7 +29,7 @@
             <a class="nav-link" href="<?php echo base_url('menu/menu_buzon'); ?>">
                 <i class="fas fa-envelope fa-lg"></i>
                 @if($unread_notifications > 0)
-                    <span class="badge badge-danger">{{ $unread_notifications }}</span>
+                <span class="badge badge-danger">{{ $unread_notifications }}</span>
                 @endif
             </a>
         </li>
@@ -37,6 +37,9 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false"><i class="fa-solid fa-user fa-lg"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <!-- Cambiar contraseña -->
+                <li><a class="dropdown-item" href="<?php echo base_url(); ?>auth/change_password"><i
+                            class="fas fa-key"></i> Cambiar contraseña</a></li>
                 <li><a class="dropdown-item" href="<?php echo base_url(); ?>auth/logout"><i
                             class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
             </ul>

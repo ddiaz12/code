@@ -177,7 +177,8 @@ class Auth extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             // display the form
             // set the flash data error message if there is one
-            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            $this->data['message'] = $this->session->flashdata('message');
+            $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
 
             $this->data['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
             $this->data['old_password'] = [
@@ -205,9 +206,15 @@ class Auth extends CI_Controller
             ];
 
             // render
-            $this->_render_page('auth' . DIRECTORY_SEPARATOR . 'change_password', $this->data);
+            $this->blade->render('auth' . DIRECTORY_SEPARATOR . 'change_password', $this->data);
         } else {
             $identity = $this->session->userdata('identity');
+
+            // Verificar si la contraseña actual ingresada es correcta
+            if (!$this->ion_auth->verify_password($this->input->post('old'), $user->password)) {
+                $this->session->set_flashdata('error', 'La contraseña actual es incorrecta.');
+                redirect('auth/change_password', 'refresh');
+            }
 
             $change = $this->ion_auth->change_password($identity, $this->input->post('old'), $this->input->post('new'));
 
