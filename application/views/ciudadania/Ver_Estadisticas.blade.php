@@ -16,31 +16,49 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
     .container-main {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 1rem;
+        padding: 2rem 1rem;
+    }
+    .header-section {
+        margin: 3rem 0 4rem;
     }
     .titulo-ciudadania {
         color: #712F3E;
         font-weight: bold;
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        position: relative;
+        padding-bottom: 1rem;
+    }
+    .titulo-ciudadania::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background-color: #C19C67;
     }
     .subtitulo {
         color: #666;
         font-style: italic;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         margin-bottom: 1.5rem;
     }
     .descripcion {
         color: #666;
-        font-size: 0.95rem;
+        font-size: 1rem;
         margin-bottom: 2rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .div-buscador {
         background-color: white;
-        padding: 2rem;
+        padding: 2.5rem;
         border-radius: 0.5rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin: 2rem auto;
+        margin: 3rem auto;
         max-width: 800px;
     }
     .input-buscador {
@@ -50,7 +68,7 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
     }
     .table-container {
         background-color: white;
-        border-radius: 15px; /* Bordes más curvados */
+        border-radius: 15px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin: 2rem auto;
         padding: 1.5rem;
@@ -58,7 +76,7 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
     }
     .table-inspecciones {
         width: 100%;
-        border-collapse: separate; /* Cambiar a separate para bordes curvados */
+        border-collapse: separate;
         border-spacing: 0;
         margin-bottom: 1rem;
     }
@@ -69,8 +87,8 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
         text-align: left;
         font-weight: 500;
         white-space: nowrap;
-        border-top-left-radius: 15px; /* Bordes más curvados */
-        border-top-right-radius: 15px; /* Bordes más curvados */
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
     }
     .table-inspecciones td {
         padding: 1rem;
@@ -78,8 +96,8 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
         color: #4a5568;
     }
     .table-inspecciones tr:last-child td {
-        border-bottom-left-radius: 15px; /* Bordes más curvados */
-        border-bottom-right-radius: 15px; /* Bordes más curvados */
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
     }
     .table-inspecciones tr:hover {
         background-color: #f8fafc;
@@ -127,14 +145,18 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
 </style>
 
 <div class="container-main">
-    <!-- Títulos -->
-    <h1 class="text-center titulo-ciudadania">Registro Estatal de Visitas Domiciliarias (REVID)</h1>
-    <h2 class="text-center subtitulo">Inspecciones, Verificaciones y Visitas Domiciliarias</h2>
-    <p class="text-center descripcion">
-        Consulta de las Inspecciones, Verificaciones y Visitas Domiciliarias en el Estado de Colima
-    </p>
+    <div class="header-section">
+        <h1 class="text-center titulo-ciudadania">
+            Registro Estatal de Visitas Domiciliarias (REVID)
+        </h1>
+        <h2 class="text-center subtitulo">
+            Inspecciones, Verificaciones y Visitas Domiciliarias
+        </h2>
+        <p class="text-center descripcion">
+            Consulta de las Inspecciones, Verificaciones y Visitas Domiciliarias en el Estado de Colima
+        </p>
+    </div>
 
-    <!-- Buscador -->
     <div class="div-buscador">
         <div class="input-group mb-3">
             <input type="search" 
@@ -156,12 +178,10 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
         </div>
     </div>
 
-    <!-- Botón de Descargar PDF -->
     <div class="btn-container">
         <button class="btn-custom" onclick="descargarPDF()">Descargar PDF</button>
     </div>
 
-    <!-- Tabla de Inspecciones -->
     <div class="table-container">
         <table class="table-inspecciones">
             <thead>
@@ -183,7 +203,6 @@ Estadísticas - Registro Estatal de Visitas Domiciliarias
         </table>
     </div>
 
-    <!-- Botón de Regresar -->
     <div class="btn-container-bottom">
         <a href="{{ base_url('consulta-visitas-domiciliarias') }}" class="btn-custom">Regresar</a>
     </div>
