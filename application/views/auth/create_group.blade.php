@@ -40,7 +40,6 @@
                                     <small id="msg_description" class="text-danger"></small>
                                 </div>
                             </div>
-
                             <div class="d-flex justify-content-end mb-3">
                                 <button type="button" class="btn btn-secondary me-2" onclick="confirmarCancelar()">Cancelar</button>
                                 <button type="submit" class="btn btn-guardar btn-rounded">Crear grupo</button>

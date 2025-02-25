@@ -6,7 +6,7 @@
                     <h5 class="modal-title" id="comentariosModalLabel">Comentarios</h5>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" id="comentarioNuevo" placeholder="Comentario"></textarea>
+                    <textarea class="form-control" id="comentarioNuevo" placeholder="Comentario" rows="4"></textarea>
                     <div class="input-group my-2">
                         <input type="text" id="buscarComentario" class="form-control" placeholder="Buscar comentario">
                         <div class="input-group-append">

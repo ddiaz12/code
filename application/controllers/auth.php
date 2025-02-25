@@ -949,10 +949,29 @@ class Auth extends CI_Controller
             )
         );
         if ($this->input->post('password')) {
-            $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
-                $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
+            $this->form_validation->set_rules('current_password', 'contraseña actual', 'required', [
+                'required' => 'Debe ingresar su contraseña actual.'
+            ]);
+            $this->form_validation->set_rules('password', 'nueva contraseña', 'required|min_length[' .
+                $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]', [
+                'required' => 'Debe ingresar una nueva contraseña.',
+                'min_length' => 'La nueva contraseña debe tener al menos ' . $this->config->item('min_password_length', 'ion_auth') . ' caracteres.',
+                'matches' => 'Las contraseñas no coinciden.'
+            ]);
             $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
-        }
+        
+            if ($this->form_validation->run()) {
+                // Verificar si la contraseña actual ingresada es correcta
+                if (!$this->ion_auth->verify_password($this->input->post('current_password'), $user->password)) {
+                    $response = [
+                        'status' => 'error',
+                        'message' => 'La contraseña actual es incorrecta.'
+                    ];
+                    echo json_encode($response);
+                    return;
+                }
+            }
+        }        
 
         if ($this->form_validation->run() === TRUE) {
             $upload_result = $this->uploadFile($_FILES['userfile'], $id);

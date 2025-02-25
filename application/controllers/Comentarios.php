@@ -21,6 +21,12 @@ class Comentarios extends CI_Controller
         $idRegulacion = $this->input->post('idRegulacion');
         $idUsuario = $this->ion_auth->user()->row()->id; // Obtener el ID del usuario autenticado
 
+        // Validar la longitud del comentario
+        if (strlen($comentario) > 500) { // Establece el límite de caracteres que desees
+            echo json_encode(['status' => 'error', 'message' => 'El comentario no puede exceder los 500 caracteres.']);
+            return;
+        }
+
         if (!empty($comentario) && !empty($idRegulacion)) {
             $data = [
                 'ID_Regulacion' => $idRegulacion,
@@ -47,7 +53,7 @@ class Comentarios extends CI_Controller
                     'fecha_envio' => date('Y-m-d H:i:s')
                 ];
                 $this->NotificacionesModel->crearNotificacion($notificacionData);
-            }elseif($regulacion && $regulacion->Estatus == 3 && $this->ion_auth->in_group('sujeto_obligado')){
+            } elseif ($regulacion && $regulacion->Estatus == 3 && $this->ion_auth->in_group('sujeto_obligado')) {
 
                 // Crear la notificación
                 $notificacionData = [
@@ -79,7 +85,7 @@ class Comentarios extends CI_Controller
         if (!empty($comentarios)) {
             foreach ($comentarios as $comentario) {
                 echo '<tr>';
-                echo '<td>' . htmlspecialchars($comentario->comentario) . '</td>';
+                echo '<td><div class="comentario-contenedor">' . htmlspecialchars($comentario->comentario) . '</div></td>';
                 echo '<td>' . htmlspecialchars($comentario->usuario) . '</td>';
                 echo '<td>' . date('Y-m-d H:i:s', strtotime($comentario->fecha_creacion)) . '</td>';
                 echo '<td>';

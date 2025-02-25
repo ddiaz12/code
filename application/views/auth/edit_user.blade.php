@@ -14,7 +14,8 @@ Registro Estatal de Regulaciones
 
 @section('contenido')
 <ol class="breadcrumb mb-4 mt-5">
-    <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Inicio</a></li>
+    <li class="breadcrumb-item"><a href="<?php echo base_url('home'); ?>"><i class="fas fa-home me-1"></i>Inicio</a>
+    </li>
     <li class="breadcrumb-item"><a href="<?php echo base_url('auth'); ?>"><i class="fas fa-users me-1"></i>Usuarios</a>
     </li>
     <li class="breadcrumb-item active"><i class="fas fa-user-edit me-1"></i>Editar usuario</li>
@@ -27,27 +28,27 @@ Registro Estatal de Regulaciones
                 <div class="card-header header-usuario text-white">Editar Usuario</div>
                 <div class="card-body">
                     <?php echo form_open_multipart(uri_string(), ['class' => 'row g-3', 'id' => 'formUsuarios']); ?>
-                    
+
                     <!--<div class="col-md-6">
-                        <div class="form-group">
-                            <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="tipoSujeto" name="tipoSujeto">
-                                <option disabled>Selecciona una opción</option>
-                                <?php foreach ($tipos as $tipo) : ?>
-                                    <option value="<?php echo $tipo->ID_tipoSujeto; ?>" <?php echo $tipo->ID_tipoSujeto == $user->id_tipoSujeto ? 'selected' : ''; ?>>
-                                        <?php echo $tipo->tipo_sujeto; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <small id="msg_tipoSujeto" class="text-danger"></small>
-                        </div>
-                    </div>-->
+                            <div class="form-group">
+                                <label for="tipoSujeto">Tipo de sujeto obligado<span class="text-danger">*</span></label>
+                                <select class="form-control" id="tipoSujeto" name="tipoSujeto">
+                                    <option disabled>Selecciona una opción</option>
+                                    <?php foreach ($tipos as $tipo): ?>
+                                        <option value="<?php echo $tipo->ID_tipoSujeto; ?>" <?php echo $tipo->ID_tipoSujeto == $user->id_tipoSujeto ? 'selected' : ''; ?>>
+                                            <?php echo $tipo->tipo_sujeto; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <small id="msg_tipoSujeto" class="text-danger"></small>
+                            </div>
+                        </div>-->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sujetos">Sujeto Obligado<span class="text-danger">*</span></label>
                             <select class="form-control" id="sujetos" name="sujetos">
                                 <option disabled selected>Selecciona una opción</option>
-                                <?php foreach ($sujetos as $sujeto) : ?>
+                                <?php foreach ($sujetos as $sujeto): ?>
                                     <option value="<?php echo $sujeto->ID_sujeto; ?>" <?php echo $sujeto->ID_sujeto == $user->id_sujeto ? 'selected' : ''; ?>>
                                         <?php echo $sujeto->nombre_sujeto; ?>
                                     </option>
@@ -61,7 +62,7 @@ Registro Estatal de Regulaciones
                             <label for="unidades">Unidad administrativa<span class="text-danger">*</span></label>
                             <select class="form-control" id="unidades" name="unidades">
                                 <option disabled selected>Selecciona una opción</option>
-                                <?php foreach ($unidades as $unidad) : ?>
+                                <?php foreach ($unidades as $unidad): ?>
                                     <option value="<?php echo $unidad->ID_unidad; ?>" <?php echo $unidad->ID_unidad == $user->id_unidad ? 'selected' : ''; ?>>
                                         <?php echo $unidad->nombre; ?>
                                     </option>
@@ -116,7 +117,8 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="cargo">Cargo</label>
                             <?php echo form_input($cargo, '', [
-                                'class' => 'form-control', 'id' => 'cargo',
+                                'class' => 'form-control',
+                                'id' => 'cargo',
                                 'placeholder' => 'Cargo del servidor público'
                             ]); ?>
                             <small id="msg_cargo" class="text-danger"></small>
@@ -126,7 +128,8 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="titulo">Título</label>
                             <?php echo form_input($titulo, '', [
-                                'class' => 'form-control', 'id' => 'titulo',
+                                'class' => 'form-control',
+                                'id' => 'titulo',
                                 'placeholder' => 'Título'
                             ]); ?>
                             <small id="msg_titulo" class="text-danger"></small>
@@ -136,7 +139,8 @@ Registro Estatal de Regulaciones
                         <div class="form-group">
                             <label for="clave_empleado">Clave empleado</label>
                             <?php echo form_input($clave_empleado, '', [
-                                'class' => 'form-control', 'id' => 'clave_empleado',
+                                'class' => 'form-control',
+                                'id' => 'clave_empleado',
                                 'placeholder' => 'Número o clave del empleado'
                             ]); ?>
                             <small id="msg_clave_empleado" class="text-danger"></small>
@@ -150,11 +154,20 @@ Registro Estatal de Regulaciones
                         </div>
                     </div>
                     <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="current_password">Contraseña actual</label>
+                        <input type="password" name="current_password" id="current_password" class="form-control"
+                            required>
+                        <small id="msg_current_password" class="text-danger"></small>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="password">Contraseña</label>
                             <?php echo form_input($password, '', [
-                                'class' => 'form-control', 'id' => 'password',
-                                'placeholder' => 'Contraseña'
+                                'class' => 'form-control',
+                                'id' => 'password',
+                                'placeholder' => 'Nueva contraseña'
                             ]); ?>
                             <small id="msg_password" class="text-danger"></small>
                         </div>
@@ -173,8 +186,10 @@ Registro Estatal de Regulaciones
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="file">Archivo</label>
-                            <input type="file" class="form-control" id="userfile" name="userfile" accept="image/png, image/jpeg, application/pdf">
-                            <button type="button" class="btn btn-secondary mt-2" onclick="document.getElementById('userfile').value = '';">Deseleccionar archivo</button>
+                            <input type="file" class="form-control" id="userfile" name="userfile"
+                                accept="image/png, image/jpeg, application/pdf">
+                            <button type="button" class="btn btn-secondary mt-2"
+                                onclick="document.getElementById('userfile').value = '';">Deseleccionar archivo</button>
                             <!-- Mostrar el nombre del archivo actual -->
                             <?php if (!empty($archivo)): ?>
                                 <small id="current_file" class="form-text text-muted">
@@ -197,11 +212,11 @@ Registro Estatal de Regulaciones
                             <small id="msg_file" class="text-danger"></small>
                         </div>
                     </div>
-                    <?php if ($this->ion_auth->is_admin()) : ?>
+                    <?php if ($this->ion_auth->is_admin()): ?>
                         <div class="col-md-12">
                             <h3>Asignar rol</h3>
                             <select name="groups[]" class="form-control">
-                                <?php foreach ($groups as $group) : ?>
+                                <?php foreach ($groups as $group): ?>
                                     <option value="<?php echo $group['id']; ?>" <?php echo in_array($group['id'], array_column($currentGroups, 'id')) ? 'selected' : ''; ?>>
                                         <?php echo htmlspecialchars($group['name'], ENT_QUOTES, 'UTF-8'); ?>
                                     </option>
@@ -213,8 +228,10 @@ Registro Estatal de Regulaciones
                     <?php echo form_hidden('id', $user->id); ?>
 
                     <div class="d-flex justify-content-end mb-3">
-                        <button type="button" class="btn btn-secondary me-2" onclick="confirmarCancelar()">Cancelar</button>
-                        <button type="button" onclick="enviarFormulario();" class="btn btn-guardar btn-rounded">Guardar</button>
+                        <button type="button" class="btn btn-secondary me-2"
+                            onclick="confirmarCancelar()">Cancelar</button>
+                        <button type="button" onclick="enviarFormulario();"
+                            class="btn btn-guardar btn-rounded">Guardar</button>
                     </div>
                     <?php echo form_close(); ?>
                 </div>
@@ -227,9 +244,9 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $('#phone').mask('(000) 000-0000'); 
-        $('#ext').mask('000000'); 
+    $(document).ready(function() {
+        $('#phone').mask('(000) 000-0000');
+        $('#ext').mask('000000');
     });
 
     // Manejar el cambio en el campo de selección de sujetos obligados
@@ -278,6 +295,13 @@ Registro Estatal de Regulaciones
                         }
                     });
                 } else if (response.status == 'error') {
+                    if (response.message) {
+                        Swal.fire(
+                            '¡Error!',
+                            response.message,
+                            'error'
+                        );
+                    }
                     if (response.file_error) {
                         $('#msg_file').text(response.file_error);
                     }
@@ -288,11 +312,6 @@ Registro Estatal de Regulaciones
                             }
                         });
                     }
-                    Swal.fire(
-                        '¡Error!',
-                        'Ha ocurrido un error al actualizar el usuario. Por favor, inténtalo de nuevo.',
-                        'error'
-                    )
                 }
             },
             error: function() {

@@ -337,12 +337,21 @@ Registro Estatal de Regulaciones
             success: function (response) {
                 var result = JSON.parse(response);
                 if (result.status === 'success') {
-                    alert(result.message);
-                    $('#comentarioNuevo').val(''); // Limpiar el campo de comentario
-                    // Recargar comentarios
-                    location.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: result.message,
+                    }).then(() => {
+                        $('#comentarioNuevo').val(''); // Limpiar el campo de comentario
+                        // Recargar comentarios
+                        location.reload();
+                    });
                 } else {
-                    alert(result.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message,
+                    });
                 }
             },
             error: function () {
