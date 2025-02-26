@@ -28,7 +28,7 @@ class Agregarinspeccion extends CI_Controller {
         } elseif ($this->ion_auth->in_group('consejeria')) {
             $this->blade->render('consejeria/regulaciones');
         } else {
-            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
+            // Si el usuario no pertenece a ninguno de los grupos anteriores, redirige a la página de inicio de sesión
             redirect('auth/login', 'refresh');
         }
     }
@@ -51,7 +51,7 @@ class Agregarinspeccion extends CI_Controller {
                     'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
                 ];
         
-        $data['activeSection'] = $this->input->get('section') ?? 'Datos de identificación';
+        $data['activeSection'] = $this->input->get('section') ?? 'Datos de identificación';
         // Obtener sujetos obligados para el dropdown
         $data['sujetos_obligados'] = $this->AgregarInspeccionModel->getSujetosObligados();
 
@@ -66,10 +66,10 @@ class Agregarinspeccion extends CI_Controller {
     public function guardar()
     {
         $id = $this->input->post('id_inspeccion'); // Campo oculto en el formulario
-        // (1) Validación básica de ejemplo
-        $this->form_validation->set_rules('Nombre_Inspeccion', 'Nombre de la Inspección', 'required');
+        // (1) Validación básica de ejemplo
+        $this->form_validation->set_rules('Nombre_Inspeccion', 'Nombre de la Inspección', 'required');
         $this->form_validation->set_rules('Sujeto_Obligado_ID', 'Sujeto Obligado', 'required');
-        $this->form_validation->set_rules('Objetivo', 'Objetivo de la inspección', 'required');
+        $this->form_validation->set_rules('Objetivo', 'Objetivo de la inspección', 'required');
 
         if ($this->form_validation->run() === FALSE) {
             echo json_encode(['success' => false, 'message' => validation_errors()]);
@@ -78,7 +78,7 @@ class Agregarinspeccion extends CI_Controller {
             // Por ejemplo, subiremos "Archivo_Formato" y "Documento_No_Publicidad", 
             // y "Archivo_Declaracion_Emergencia". Haz esto para cada archivo que subas.
 
-            $upload_path = FCPATH . 'uploads/'; // Ajusta la ruta según tu proyecto
+            $upload_path = FCPATH . 'uploads/'; // Ajusta la ruta según tu proyecto
             if (!is_dir($upload_path)) {
                 mkdir($upload_path, 0777, TRUE);
             }
@@ -118,7 +118,7 @@ class Agregarinspeccion extends CI_Controller {
             }
 
             // (3) Recopilar TODOS los campos del formulario
-            // Aquí obtienes los campos name="..." que pusiste en la vista
+            // Aquí obtienes los campos name="..." que pusiste en la vista
             $data = [
                 // Paso 1
                 'Homoclave'                     => $this->input->post('Homoclave'),
@@ -159,7 +159,7 @@ class Agregarinspeccion extends CI_Controller {
                 'Formato_Fundamento'            => $this->input->post('Formato_Fundamento'),
                 'Tiene_Costo'                   => $this->input->post('Tiene_Costo'),
                 'Detalle_Costo'                 => $this->input->post('Detalle_Costo'),
-                // Pasos: si en la vista lo envías como JSON o un array, conviértelo aquí:
+                // Pasos: si en la vista lo envías como JSON o un array, conviértelo aquí:
                 'Pasos'                         => $this->input->post('Pasos'),
 
                 // Paso 4
@@ -214,9 +214,9 @@ class Agregarinspeccion extends CI_Controller {
                 'Archivo_Declaracion_Emergencia'=> $archivo_declaracion_emergencia_name
             ];
 
-            // Verificar si es una edición o una nueva inserción
+            // Verificar si es una edición o una nueva inserción
             if ($id) {
-                // Actualizar inspección existente
+                // Actualizar inspección existente
                 $actualizado = $this->AgregarInspeccionModel->update_inspeccion($id, $data);
                 if ($actualizado) {
                     echo json_encode(['success' => true]);
@@ -225,7 +225,7 @@ class Agregarinspeccion extends CI_Controller {
                     echo json_encode(['success' => false]);
                 }
             } else {
-                // Insertar nueva inspección
+                // Insertar nueva inspección
                 $insertado = $this->AgregarInspeccionModel->guardarInspeccion($data);
                 if ($insertado) {
                     echo json_encode(['success' => true]);
@@ -238,7 +238,7 @@ class Agregarinspeccion extends CI_Controller {
     }
 
     public function editar($id) {
-        // Obtener datos de la inspección usando el modelo visitas_model
+        // Obtener datos de la inspección usando el modelo visitas_model
         $data['inspeccion'] = $this->visitas_model->obtenerInspeccionPorId($id);
 
         //Correo y timer
@@ -252,11 +252,11 @@ class Agregarinspeccion extends CI_Controller {
             'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
         ];
 
-        $data['activeSection'] = $this->input->get('section') ?? 'Datos de identificación';
+        $data['activeSection'] = $this->input->get('section') ?? 'Datos de identificación';
         // Obtener sujetos obligados para el dropdown
         $data['sujetos_obligados'] = $this->AgregarInspeccionModel->getSujetosObligados();
 
-        // Renderizar la misma vista de agregar inspección con datos precargados
+        // Renderizar la misma vista de agregar inspección con datos precargados
         $this->blade->render('agregarInspeccion/agregarinspeccion', $data);
     }
 }

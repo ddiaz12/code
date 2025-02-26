@@ -429,7 +429,7 @@ foreach ($meses as $fila) {
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
-                        <div class="form-group"></div>
+                        <div class="form-group">
                             <label>¿La inspección es requerida para atender una situación de emergencia?</label>
                             <select name="Es_Emergencia" class="form-control">
                                 <option value="no" {{ !isset($inspeccion) || $inspeccion->Es_Emergencia == 'no' ? 'selected' : '' }}>No</option>

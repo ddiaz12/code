@@ -8,18 +8,18 @@ class AgregarInspeccionModel extends CI_Model {
         $this->load->database(); // Cargar la base de datos
     }
 
-    // Inserta una nueva inspección en la tabla inspeccion_detallada
+    // Inserta una nueva inspección en la tabla inspeccion_detallada
     public function guardarInspeccion($data) {
         return $this->db->insert('inspeccion_detallada', $data);
     }
 
-    // Método para actualizar una inspección existente
+    // Método para actualizar una inspección existente
     public function update_inspeccion($id_inspeccion, $data) {
         $this->db->where('id_inspeccion', $id_inspeccion);
         return $this->db->update('inspeccion_detallada', $data);
     }
 
-    // Método para obtener la lista de sujetos obligados
+    // Método para obtener la lista de sujetos obligados
     public function getSujetosObligados()
     {
         $this->db->where('nombre_sujeto !=', 'No especificado');
