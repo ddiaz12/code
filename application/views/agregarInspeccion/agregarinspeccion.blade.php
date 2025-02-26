@@ -80,9 +80,7 @@ foreach ($steps as $index => $step) {
 
                     <div class="form-step" id="step-1">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Datos de identificación</h3>
-
-                        <h5 class="alert alert-warning"
-                            style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
@@ -192,9 +190,7 @@ foreach ($steps as $index => $step) {
                     </div>
                     <div class="form-step" id="step-2">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Autoridad pública</h3>
-
-                        <h5 class="alert alert-warning"
-                            style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
@@ -207,9 +203,7 @@ foreach ($steps as $index => $step) {
                     </div>
                     <div class="form-step" id="step-3">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información sobre la inspección</h3>
-
-                        <h5 class="alert alert-warning"
-                            style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
@@ -268,9 +262,7 @@ foreach ($steps as $index => $step) {
                     </div>
                     <div class="form-step" id="step-4">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Más detalles</h3>
-
-                        <h5 class="alert alert-warning"
-                            style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
@@ -311,9 +303,7 @@ foreach ($steps as $index => $step) {
                     </div>
                     <div class="form-step" id="step-5">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información de la Autoridad Pública y Contacto</h3>
-
-                        <h5 class="alert alert-warning"
-                            style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
@@ -337,9 +327,7 @@ foreach ($steps as $index => $step) {
                     </div>
                     <div class="form-step" id="step-6">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Estadísticas</h3>
-
-                        <h5 class="alert alert-warning"
-                            style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
@@ -369,9 +357,7 @@ foreach ($meses as $fila) {
                     </div>
                     <div class="form-step" id="step-7">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información adicional</h3>
-
-                        <h5 class="alert alert-warning"
-                            style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
@@ -382,9 +368,7 @@ foreach ($meses as $fila) {
                     </div>
                     <div class="form-step" id="step-8">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">No publicidad</h3>
-
-                        <h5 class="alert alert-warning"
-                            style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
@@ -423,13 +407,12 @@ foreach ($meses as $fila) {
                     </div>
                     <div class="form-step" id="step-9">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Emergencias</h3>
-
                         <h5 class="alert alert-warning"
                             style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
 
-                        <div class="form-group">
+                        <div class="form-group"></div>
                             <label>¿La inspección es requerida para atender una situación de emergencia?</label>
                             <select name="Es_Emergencia" class="form-control">
                                 <option value="no" {{ !isset($inspeccion) || $inspeccion->Es_Emergencia == 'no' ? 'selected' : '' }}>No</option>
