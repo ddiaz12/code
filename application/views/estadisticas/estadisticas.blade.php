@@ -34,43 +34,56 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
             <div class="header-actions">
                 <h3>Estadísticas</h3>
                 <div class="button-group">
-                    <button type="button" class="btn btn-secondary">Regresar</button>
-                    <button type="button" class="btn btn-primary">Descargar en PDF</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='{{ base_url('home') }}'">Regresar</button>
                 </div>
             </div>
 
             <p class="question-text">¿Cuántas inspecciones se realizaron en el año anterior durante los siguientes Meses?</p>
 
-            <div class="months-grid">
-                <?php
-                $months = [
-                    ['Enero', 'Febrero', 'Marzo'],
-                    ['Abril', 'Mayo', 'Junio'],
-                    ['Julio', 'Agosto', 'Septiembre'],
-                    ['Octubre', 'Noviembre', 'Diciembre']
-                ];
+            <form action="{{ base_url('estadisticas/guardar') }}" method="post">
+                <div class="months-grid">
+                    <?php
+                    $months = [
+                        ['Enero', 'Febrero', 'Marzo'],
+                        ['Abril', 'Mayo', 'Junio'],
+                        ['Julio', 'Agosto', 'Septiembre'],
+                        ['Octubre', 'Noviembre', 'Diciembre']
+                    ];
 
-                foreach ($months as $row) {
-                    echo '<div class="month-row">';
-                    foreach ($row as $month) {
-                        echo '<div class="month-item">
-                                <label>' . $month . ':</label>
-                                <input type="number" name="' . strtolower($month) . '" class="form-control" min="0" value="0">
-                              </div>';
+                    foreach ($months as $row) {
+                        echo '<div class="month-row">';
+                        foreach ($row as $month) {
+                            echo '<div class="month-item">
+                                    <label>' . $month . ':</label>
+                                    <input type="number" name="' . strtolower($month) . '" class="form-control" min="0" value="0">
+                                  </div>';
+                        }
+                        echo '</div>';
                     }
-                    echo '</div>';
-                }
-                ?>
-            </div>
+                    ?>
+                </div>
 
-            <div class="additional-questions">
-                <p>¿Cuántas Inspecciones, Verificaciones o Visitas Domiciliaras derivaron en sanción en el año inmediato anterior?</p>
-                <input type="number" class="form-control sanctions-input" min="0" value="1">
-            </div>
+                <div class="additional-questions">
+                    <p>¿Cuántas Inspecciones, Verificaciones o Visitas Domiciliaras derivaron en sanción en el año inmediato anterior?</p>
+                    <input type="number" name="sanciones" class="form-control sanctions-input" min="0" value="1">
+                </div>
 
-            <p class="update-date">
-                Fecha de última actualización de la ficha de inspección: {{ $ultima_actualizacion ?? '' }}
-            </p>
+                <input type="hidden" name="ultima_actualizacion" value="{{ date('Y-m-d H:i:s') }}">
+                <input type="hidden" name="Ficha_ID" value="{{ $ficha_id ?? '' }}">
+                <input type="hidden" name="Inspector_ID" value="{{ $inspector_id ?? '' }}">
+                <input type="hidden" name="Sujeto_Obligado_ID" value="{{ $sujeto_obligado_id ?? '' }}">
+                <input type="hidden" name="Fecha_Estadistica" value="{{ date('Y-m-d') }}">
+                <input type="hidden" name="Tipo_Inspeccion" value="{{ $tipo_inspeccion ?? '' }}">
+                <input type="hidden" name="Resultado" value="{{ $resultado ?? '' }}">
+
+                <p class="update-date">
+                    Fecha de última actualización de la ficha de inspección: {{ $ultima_actualizacion ?? '' }}
+                </p>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -177,6 +190,22 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
     .update-date {
         font-size: 14px;
         color: #666;
+    }
+
+    .form-group {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
     }
 
     @media (max-width: 768px) {
