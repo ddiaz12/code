@@ -59,7 +59,8 @@ Otro (si selecciona otro que salga otro y especifique)
   
 
 #### Autoridad Pública
-- Información de las autoridades competentes, encargadas de ordenar las inspecciones, verificaciones y visitas domiciliaras (Poner un campo que diga buscar oficinas y al lado un boton con el icono de una lupa que diga "mis oficinas" y que ese boton muestre el nombre de las oficinas y agregue el dato de la oficina seleccionada, las oficinas se encuentran en la base de datos sedeco con el nombre de la tabla ma_oficina_administrativa, con estos datos _Oficina	ID_sujeto	ID_unidad	ID_Dep	ID_vialidad	ID_municipio	ID_localidad	ID_nAsentamiento	nombre	tipo	Siglas	Nombre_Vialidad	Num_interior	Num_Exterior	NumTel_Oficial	Extension	Correo_Elec	Notas	fecha_act	tipo_asentamiento	status, solo ocupamos agregar al campo nombre	tipo	Siglas	Nombre_Vialidad	Num_interior	Num_Exterior	NumTel_Oficial	Extension	Correo_Elec)
+- Información de las autoridades competentes, encargadas de ordenar las inspecciones, verificaciones y visitas domiciliaras 
+(Poner un campo que diga buscar oficinas (para que sea un buscador y busque las oficinas existentes) y al lado un boton con el icono de una lupa que diga "mis oficinas" y que ese boton muestre el nombre de las oficinas las oficinas creadas. que solo traiga el nombre de la oficina  de ma_oficina_administrativa)
 
 #### Información sobre la inspección
 - Bien, elemento, objeto o sujeto de inspección, verificación o visita domiciliaria:*
