@@ -37,7 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Validar campos vacíos
         if (!diaDesde || !diaHasta || !aperturaRango || !cierreRango) {
-            alert("Por favor, complete todos los campos.");
+            Swal.fire({
+            icon: 'warning',
+            title: 'Campos incompletos',
+            text: 'Por favor, complete todos los campos.'
+            });
             return;
         }
 
@@ -49,8 +53,12 @@ document.addEventListener("DOMContentLoaded", function () {
         for (var i = diaDesdeIndex; i <= diaHastaIndex; i++) {
             let diaDuplicado = horarios.some(h => h.dia === dias[i]);
             if (diaDuplicado) {
-                alert(`El día ${dias[i]} ya existe en la lista de horarios.`);
-                return;
+            Swal.fire({
+                icon: 'error',
+                title: 'Día duplicado',
+                text: `El día ${dias[i]} ya existe en la lista de horarios.`
+            });
+            return;
             }
         }
 

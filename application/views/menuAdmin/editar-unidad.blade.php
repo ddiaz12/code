@@ -195,7 +195,7 @@ Registro Estatal de Regulaciones
                             <textarea class="form-control" id="inputNotas"
                                 name="notas">{{ $unidades->Notas }}</textarea>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="checkboxOficina"
                                     name="checkboxOficina" {{ $unidades->checkOficina ? 'checked' : '' }}>
@@ -203,7 +203,7 @@ Registro Estatal de Regulaciones
                                     ¿Usar unidad administrativa como oficina?
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Tabla de Horarios de Atención -->
                         <div class="form-group">

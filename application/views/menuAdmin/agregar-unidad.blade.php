@@ -186,7 +186,7 @@ Registro Estatal de Regulaciones
                             <label for="inputNotas">Notas</label>
                             <textarea class="form-control" id="inputNotas" name="notas"></textarea>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="checkboxOficina"
                                     name="checkboxOficina">
@@ -194,7 +194,7 @@ Registro Estatal de Regulaciones
                                     ¿Usar unidad administrativa como oficina?
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
 
 
                         <!-- Tabla de Horarios de Atención -->

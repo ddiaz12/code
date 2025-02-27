@@ -69,13 +69,13 @@ class Oficinas extends CI_Controller
         }
     }
 
-        public function get_unidades_by_sujeto($sujeto_id)
-        {
-            $user = $this->ion_auth->user()->row();
-            $user_id = $user->id;
-            $unidades = $this->OficinaModel->getUnidadesBySujeto($sujeto_id, $user_id);
-            echo json_encode($unidades);
-        }
+    public function get_unidades_by_sujeto($sujeto_id)
+    {
+        $user = $this->ion_auth->user()->row();
+        $user_id = $user->id;
+        $unidades = $this->OficinaModel->getUnidadesBySujeto($sujeto_id, $user_id);
+        echo json_encode($unidades);
+    }
 
     public function insertar()
     {
@@ -131,11 +131,12 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[6]|min_length[2]',
+            'trim|regex_match[/^[1-9]*$/]|max_length[6]|min_length[2]',
             array(
-                'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
-                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            'numeric' => 'El campo %s debe ser numérico.',
+            'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
+            'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
+            'regex_match' => 'El campo %s no debe contener el número 0.'
             )
         );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'trim|required|valid_email');
@@ -145,7 +146,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre vialidad',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.\d]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'
@@ -260,13 +261,14 @@ class Oficinas extends CI_Controller
         }
         $this->load->model('NotificacionesModel');
         $user = $this->ion_auth->user()->row();
+        $idUser = $user->id;
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['oficinas'] = $this->OficinaModel->getOficinaEditar($id);
         $data['horarios'] = $this->OficinaModel->getHorariosOficina($id);
         $data['sujetos'] = $this->OficinaModel->getSujetosObligados();
-        $data['unidades'] = $this->OficinaModel->getUnidadAdministrativa();
+        $data['unidades'] = $this->OficinaModel->getUnidadAdministrativaByUser($idUser);
         $data['vialidades'] = $this->OficinaModel->getCatVialidades();
         $data['municipios'] = $this->OficinaModel->getCatMunicipios();
         $data['localidades'] = $this->OficinaModel->getCatLocalidades();
@@ -344,11 +346,12 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[7]|min_length[2]',
+            'trim|regex_match[/^[1-9]*$/]|max_length[6]|min_length[2]',
             array(
-                'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 4 caracteres.',
-                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            'numeric' => 'El campo %s debe ser numérico.',
+            'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
+            'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
+            'regex_match' => 'El campo %s no debe contener el número 0.'
             )
         );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'trim|required|valid_email');
@@ -358,7 +361,7 @@ class Oficinas extends CI_Controller
         $this->form_validation->set_rules(
             'inputVialidad',
             'Nombre de vialidad',
-            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.]+$/]',
+            'trim|required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,\.\d]+$/]',
             array(
                 'required' => 'El campo %s es obligatorio.',
                 'regex_match' => 'El campo %s solo puede contener letras, comas y puntos.'

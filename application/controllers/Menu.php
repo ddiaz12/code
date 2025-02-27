@@ -405,11 +405,12 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|numeric|max_length[6]|min_length[2]',
+            'trim|regex_match[/^[1-9]*$/]|max_length[6]|min_length[2]',
             array(
-                'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
-                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            'numeric' => 'El campo %s debe ser numérico.',
+            'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
+            'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
+            'regex_match' => 'El campo %s no debe contener el número 0.'
             )
         );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
@@ -616,11 +617,12 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'Extensión',
-            'trim|numeric|max_length[6]|min_length[2]',
+            'trim|regex_match[/^[1-9]*$/]|max_length[6]|min_length[2]',
             array(
-                'numeric' => 'El campo %s debe ser numérico.',
-                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
-                'min_length' => 'El campo %s debe tener al menos 2 caracteres.'
+            'numeric' => 'El campo %s debe ser numérico.',
+            'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
+            'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
+            'regex_match' => 'El campo %s no debe contener el número 0.'
             )
         );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');

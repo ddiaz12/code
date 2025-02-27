@@ -69,6 +69,13 @@ class OficinaModel extends CI_Model
         return $query->result();
     }
 
+    public function getUnidadAdministrativaByUser($user_id)
+    {
+        $this->db->where('created_by', $user_id);
+        $query = $this->db->get('cat_unidad_administrativa');
+        return $query->result();
+    }
+
     public function getCatVialidades()
     {
         $query = $this->db->get('cat_vialidades');

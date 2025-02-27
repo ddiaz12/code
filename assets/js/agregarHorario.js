@@ -26,14 +26,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// Validar campos en blanco
 		if (!apertura || !cierre) {
-			alert("Por favor, complete todos los campos.");
+			Swal.fire({
+				icon: 'warning',
+				title: 'Campos incompletos',
+				text: 'Por favor, complete todos los campos.'
+			});
 			return;
 		}
 
 		// Validar horarios duplicados
 		let horarioDuplicado = horarios.some((h) => h.dia === dia);
 		if (horarioDuplicado) {
-			alert("Este horario ya existe.");
+			Swal.fire({
+				icon: 'error',
+				title: 'Horario duplicado',
+				text: 'Este horario ya existe.'
+			});
 			return;
 		}
 
