@@ -10,9 +10,9 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 @endsection
 @section('contenido')
 
-<div class="container-fluid" style="margin-top: 20px;"> <!-- Añadido margen superior -->
+<div class="container-fluid" style="margin-top: 20px;">
     <!-- Breadcrumb -->
-    <nav class="breadcrumb-container" style="margin-left: -180px; margin-right: 20px; margin-top: 2px;"> <!-- Añadido margen superior -->
+    <nav class="breadcrumb-container" style="margin-left: -180px; margin-right: 20px; margin-top: 2px;">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ base_url('home') }}">
@@ -34,7 +34,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
             <div class="header-actions">
                 <h3>Estadísticas</h3>
                 <div class="button-group">
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href='{{ base_url('home') }}'">Regresar</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='{{ base_url('home-sujeto') }}'">Regresar</button>
                 </div>
             </div>
 
@@ -69,12 +69,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                 </div>
 
                 <input type="hidden" name="ultima_actualizacion" value="{{ date('Y-m-d H:i:s') }}">
-                <input type="hidden" name="Ficha_ID" value="{{ $ficha_id ?? '' }}">
-                <input type="hidden" name="Inspector_ID" value="{{ $inspector_id ?? '' }}">
-                <input type="hidden" name="Sujeto_Obligado_ID" value="{{ $sujeto_obligado_id ?? '' }}">
                 <input type="hidden" name="Fecha_Estadistica" value="{{ date('Y-m-d') }}">
-                <input type="hidden" name="Tipo_Inspeccion" value="{{ $tipo_inspeccion ?? '' }}">
-                <input type="hidden" name="Resultado" value="{{ $resultado ?? '' }}">
 
                 <p class="update-date">
                     Fecha de última actualización de la ficha de inspección: {{ $ultima_actualizacion ?? '' }}
@@ -84,6 +79,33 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                     <button type="submit" class="btn btn-success">Guardar</button>
                 </div>
             </form>
+        </div>
+
+        <!-- Tabla de Inspecciones Detalladas -->
+        <div class="inspecciones-detalladas-section">
+            <h3 class="estadisticas-ingresadas">Estadisticas ingresadas</h3>
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Fecha de creación de la Estadística</th>
+                                <th>Sanciones</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($inspecciones_detalladas as $inspeccion)
+                                <tr>
+                                    <td>{{ \Carbon\Carbon::parse($inspeccion['Ultima_Actualizacion'] ?? $inspeccion['updated_at'])->format('Y-m-d') }}</td>
+                                    <td>{{ $inspeccion['Sanciones'] }}</td>
+                                    <td>{{ $inspeccion['Total'] }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -206,6 +228,64 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
     .btn-success:hover {
         background-color: #218838;
         border-color: #1e7e34;
+    }
+
+    .inspecciones-detalladas-section {
+        margin-top: 40px;
+        overflow-x: auto;
+    }
+
+    .estadisticas-ingresadas {
+        color: #000000;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .table-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+        border-collapse: collapse;
+    }
+
+    .table thead th {
+        background-color: #712F3E;
+        color: white;
+        font-weight: 500;
+        padding: 12px;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+        color: #333;
+    }
+
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
 
     @media (max-width: 768px) {

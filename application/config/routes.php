@@ -66,5 +66,4 @@ $route['ver-inspectores'] = 'VerInspectoresController/verInspectores';
 $route['ver-inspecciones'] = 'VerInspeccionesController/verInspecciones';
 $route['ver-estadisticas'] = 'VerEstadisticasController/verEstadisticas';
 $route['estadisticas/guardar'] = 'estadisticas/guardar';
-
 //$route['ciudadania/buscarRegulaciones'] = 'Ciudadania/buscarRegulaciones';

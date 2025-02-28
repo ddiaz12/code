@@ -23,25 +23,13 @@ class EstadisticasModel extends CI_Model {
 
     // Método para insertar una nueva estadística
     public function insert_estadistica($data) {
-        $data['ultima_actualizacion'] = date('Y-m-d H:i:s');
-        $data['Ficha_ID'] = $data['Ficha_ID'];
-        $data['Fecha_Estadistica'] = $data['Fecha_Estadistica'];
-        $data['Inspector_ID'] = $data['Inspector_ID'];
-        $data['Sujeto_Obligado_ID'] = $data['Sujeto_Obligado_ID'];
-        $data['Tipo_Inspeccion'] = $data['Tipo_Inspeccion'];
-        $data['Resultado'] = $data['Resultado'];
+        $data['Ultima_Actualizacion'] = date('Y-m-d H:i:s');
         return $this->db->insert('estadisticas', $data);
     }
 
     // Método para actualizar una estadística existente
     public function update_estadistica($id, $data) {
-        $data['ultima_actualizacion'] = date('Y-m-d H:i:s');
-        $data['Ficha_ID'] = $data['Ficha_ID'];
-        $data['Fecha_Estadistica'] = $data['Fecha_Estadistica'];
-        $data['Inspector_ID'] = $data['Inspector_ID'];
-        $data['Sujeto_Obligado_ID'] = $data['Sujeto_Obligado_ID'];
-        $data['Tipo_Inspeccion'] = $data['Tipo_Inspeccion'];
-        $data['Resultado'] = $data['Resultado'];
+        $data['Ultima_Actualizacion'] = date('Y-m-d H:i:s');
         $this->db->where('Estadistica_ID', $id);
         return $this->db->update('estadisticas', $data);
     }
@@ -50,5 +38,12 @@ class EstadisticasModel extends CI_Model {
     public function delete_estadistica($id) {
         $this->db->where('Estadistica_ID', $id);
         return $this->db->delete('estadisticas');
+    }
+
+    // Método para obtener la última actualización
+    public function get_ultima_actualizacion() {
+        $this->db->select_max('Ultima_Actualizacion');
+        $query = $this->db->get('estadisticas');
+        return $query->row()->Ultima_Actualizacion;
     }
 }
