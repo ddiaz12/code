@@ -3,10 +3,10 @@
 {{ isset($inspeccion) ? 'Editar Inspección' : 'Agregar Inspección' }}
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+@include('templates/navbarSujeto')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+@include('templates/menuSujeto')
 @endsection
 @section('contenido')
 @if (!empty($success))
@@ -78,355 +78,793 @@ foreach ($steps as $index => $step) {
                     <!-- Campo oculto para el ID de la inspección -->
                     <input type="hidden" name="id_inspeccion" value="{{ isset($inspeccion) ? $inspeccion->id_inspeccion : '' }}">
 
-                    <div class="form-step" id="step-1">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Datos de identificación</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
 
-                        <div class="form-group">
-                            <label><b>Homoclave</b></label>
-                            {{ form_input(['name' => 'Homoclave', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Homoclave : 'I-IPR-CTIH-0-IPR-0002', 'readonly' => true]) }}
-                        </div>
-                        <div class="form-group">
-                            <label><b>Nombre de la Inspección</b><span class="text-danger">*</span></label>
-                            {{ form_input(['name' => 'Nombre_Inspeccion', 'class' => 'form-control', 'required' => 'required', 'value' => isset($inspeccion) ? $inspeccion->Nombre_Inspeccion : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Modalidad (si existe)</label>
-                            {{ form_input(['name' => 'Modalidad', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Modalidad : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label><b>Sujeto Obligado</b><span class="text-danger">*</span></label>
-                            <select name="Sujeto_Obligado_ID" class="form-control" required>
-                                <option value="">Selecciona un Sujeto Obligado</option>
-                                @foreach($sujetos_obligados as $so)
-                                    <option value="{{ $so->ID_sujeto }}" {{ isset($inspeccion) && $inspeccion->Sujeto_Obligado_ID == $so->ID_sujeto ? 'selected' : '' }}>{{ $so->nombre_sujeto }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Tipo de inspección/verificación/visita</label>
-                            {{ form_input(['name' => 'Tipo_Inspeccion', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Tipo_Inspeccion : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿La inspección va dirigida a?</label>
-                            <select name="Dirigida_A" class="form-control">
-                                <option value="">Selecciona</option>
-                                <option value="Físicas" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Físicas' ? 'selected' : '' }}>Personas físicas</option>
-                                <option value="Morales" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Morales' ? 'selected' : '' }}>Personas morales</option>
-                                <option value="Ambas" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Ambas' ? 'selected' : '' }}>Ambas</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>La Inspección es (Ordinaria, Extraordinaria, etc.)</label>
-                            {{ form_input(['name' => 'Caracter_Inspeccion', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Caracter_Inspeccion : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿Dónde se realiza la Inspección?</label>
-                            {{ form_input(['name' => 'Realizada_En', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Realizada_En : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Objetivo de la Inspección<span class="text-danger">*</span></label>
-                            {{ form_textarea(['name' => 'Objetivo', 'class' => 'form-control', 'rows' => 3, 'required' => true, 'value' => isset($inspeccion) ? $inspeccion->Objetivo : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Palabras Clave</label>
-                            {{ form_textarea(['name' => 'Palabras_Clave', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Palabras_Clave : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Periodicidad (Ej. Mensual, Trimestral)</label>
-                            {{ form_input(['name' => 'Periodicidad', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Periodicidad : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Especificar qué motiva la Inspección</label>
-                            {{ form_textarea(['name' => 'Motivo_Inspeccion', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Motivo_Inspeccion : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Si la inspección es motivada por un Trámite o Servicio, menciona cuáles</label>
-                            {{ form_textarea(['name' => 'Tramites_Servicios', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Tramites_Servicios : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Tamaño de empresa (número de trabajadores)</label>
-                            {{ form_input(['name' => 'Tamano_Empresa', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Tamano_Empresa : '' ]) }}
-                        </div>
-                        <div class="form-group" id="criterio-container">
-                            <label>¿Existe algún criterio que defina a qué sujeto regulado se aplica?</label>
-                            <div>
-                                <label>
-                                    <input type="radio" name="Existe_Criterio_Radio" id="Existe_Criterio_Si" value="si" 
-                                    {{ (isset($inspeccion) && isset($inspeccion->Existe_Criterio_Radio) && $inspeccion->Existe_Criterio_Radio == 'si') ? 'checked' : '' }}> Sí
-                                </label>
-                                <label>
-                                    <input type="radio" name="Existe_Criterio_Radio" id="Existe_Criterio_No" value="no" 
-                                    {{ (!isset($inspeccion) || (isset($inspeccion->Existe_Criterio_Radio) && $inspeccion->Existe_Criterio_Radio == 'no')) ? 'checked' : '' }}> No
-                                </label>
-                            </div>
-                            <label>Describir el criterio</label>
-                            <textarea name="Criterio_Descripcion" class="form-control" rows="3" id="Criterio_Descripcion">{{ isset($inspeccion) ? $inspeccion->Criterio_Descripcion : '' }}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>¿Se inspecciona a sujetos que hayan recibido resolución de algún trámite?</label>
-                            <select name="Inspecciona_Sujetos_Resolucion" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Inspecciona_Sujetos_Resolucion == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Inspecciona_Sujetos_Resolucion == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                            <label>Nombre Trámite o Servicio</label>
-                            {{ form_input(['name' => 'Nombre_Tramite_Servicio_Resol', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Nombre_Tramite_Servicio_Resol : '' ]) }}
-                            <label>Añadir enlace (http)</label>
-                            {{ form_input(['name' => 'Enlace_Tramite_Servicio_Resol', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Enlace_Tramite_Servicio_Resol : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿Existe un fundamento jurídico?</label>
-                            <select name="Fundamento_Juridico" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Fundamento_Juridico == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Fundamento_Juridico == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                            <label>Nombre del trámite/fundamento</label>
-                            {{ form_input(['name' => 'Nombre_Tramite_Fundamento', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Nombre_Tramite_Fundamento : '' ]) }}
-                            <label>Añadir enlace (http)</label>
-                            {{ form_input(['name' => 'Enlace_Fundamento', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Enlace_Fundamento : '' ]) }}
-                        </div>
-                    </div>
-                    <div class="form-step" id="step-2">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Autoridad pública</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
+                    <!----------------------Campo 1------------------------>
+<div class="form-step" id="step-1">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Datos de identificación</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
 
-                        <div class="form-group">
-                            <label>Unidades Administrativas (JSON o texto)</label>
-                            {{ form_textarea(['name' => 'Unidades_Administrativas', 'class' => 'form-control', 'rows' => 3, 'value' => isset($inspeccion) ? $inspeccion->Unidades_Administrativas : '' ]) }}
-                            <small class="form-text text-muted">Podrías listar las IDs separadas por coma, o un JSON.</small>
-                        </div>
-                    </div>
-                    <div class="form-step" id="step-3">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información sobre la inspección</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
+    <div class="form-group">
+        <label><b>Homoclave</b></label>
+        {{ form_input(['name' => 'Homoclave', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Homoclave : 'I-IPR-CTIH-0-IPR-0002', 'readonly' => true]) }}
+    </div>
+    <div class="form-group">
+        <label><b>Nombre de la Inspección</b><span class="text-danger">*</span></label>
+        {{ form_input(['name' => 'Nombre_Inspeccion', 'class' => 'form-control', 'required' => 'required', 'value' => isset($inspeccion) ? $inspeccion->Nombre_Inspeccion : '' ]) }}
+    </div>
+    <div class="form-group">
+        <label>Modalidad (si existe)</label>
+        {{ form_input(['name' => 'Modalidad', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Modalidad : '' ]) }}
+    </div>
+    <div class="form-group">
+        <label><b>Tipo de inspección, verificación o visita domiciliaria</b><span class="text-danger">*</span></label>
+        <select name="Tipo_Inspeccion" class="form-control" required>
+            <option value="">Selecciona</option>
+            <option value="Asesoria" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Asesoria' ? 'selected' : '' }}>Asesoria</option>
+            <option value="Asistencia" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Asistencia' ? 'selected' : '' }}>Asistencia</option>
+            <option value="Control" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Control' ? 'selected' : '' }}>Control</option>
+            <option value="Corroboración" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Corroboración' ? 'selected' : '' }}>Corroboración</option>
+            <option value="Otra" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Otra' ? 'selected' : '' }}>Otra</option>
+            <option value="Promoción" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Promoción' ? 'selected' : '' }}>Promoción</option>
+            <option value="Supervisión" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Supervisión' ? 'selected' : '' }}>Supervisión</option>
+            <option value="Vigilancia" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Vigilancia' ? 'selected' : '' }}>Vigilancia</option>
+        </select>
+        <div id="especificarOtra" style="display: none;">
+            <label>Especificar otra:</label>
+            {{ form_input(['name' => 'Especificar_Otra', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Especificar_Otra : '' ]) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>Sujeto Obligado</b><span class="text-danger">*</span></label>
+        <select name="Sujeto_Obligado_ID" class="form-control" required>
+            <option value="">Selecciona un Sujeto Obligado</option>
+            @foreach($sujetos_obligados as $so)
+                <option value="{{ $so->ID_sujeto }}" {{ isset($inspeccion) && $inspeccion->Sujeto_Obligado_ID == $so->ID_sujeto ? 'selected' : '' }}>{{ $so->nombre_sujeto }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label><b>Ley de Fomento a la Confianza Ciudadana</b></label>
+        <p style="font-size: 14px;">¿La inspección, verificación o visita domiciliaria se encuentra exenta de la Ley de Fomento a la Confianza Ciudadana?<span class="text-danger">*</span></p>
+        <div>
+            <label><input type="radio" name="Ley_Fomento" value="si" {{ isset($inspeccion) && $inspeccion->Ley_Fomento == 'si' ? 'checked' : '' }}> Sí</label>
+            <label><input type="radio" name="Ley_Fomento" value="no" {{ isset($inspeccion) && $inspeccion->Ley_Fomento == 'no' ? 'checked' : '' }}> No</label>
+        </div>
+        <div id="justificarLeyFomento" style="display: none;">
+            <label>Justificar si la inspección, verificación o visita domiciliaria son sujetas para todas o algunas de sus modalidades a suspensión conforme lo establecido en el artículo 1 y 13 de la Ley de Fomento a la Confianza Ciudadana:<span class="text-danger">*</span></label>
+            {{ form_textarea(['name' => 'Justificacion_Ley_Fomento', 'class' => 'form-control', 'rows' => 3, 'required' => true, 'value' => isset($inspeccion) ? $inspeccion->Justificacion_Ley_Fomento : '' ]) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>¿La inspección, verificación o visita domiciliaria va dirigida a personas físicas, morales o ambas?</b><span class="text-danger">*</span></label>
+        <select name="Dirigida_A" class="form-control" required>
+            <option value="">Selecciona</option>
+            <option value="Físicas" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Físicas' ? 'selected' : '' }}>Personas físicas</option>
+            <option value="Físicas con actividad empresarial" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Físicas con actividad empresarial' ? 'selected' : '' }}>Personas físicas con actividad empresarial</option>
+            <option value="Morales" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Morales' ? 'selected' : '' }}>Personas morales</option>
+            <option value="Otras" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Otras' ? 'selected' : '' }}>Otras</option>
+        </select>
+        <div id="especificarDirigidaA" style="display: none;">
+            <label>Indicar a quién va dirigida la inspección, verificación o visita domiciliaria:</label>
+            {{ form_input(['name' => 'Especificar_Dirigida_A', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Especificar_Dirigida_A : '' ]) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>La inspección, verificación o visita domiciliaria es:</b><span class="text-danger">*</span></label>
+        <select name="Caracter_Inspeccion" class="form-control" required>
+            <option value="">Selecciona</option>
+            <option value="PREVENTIVA" {{ isset($inspeccion) && $inspeccion->Caracter_Inspeccion == 'PREVENTIVA' ? 'selected' : '' }}>PREVENTIVA (se realiza para prevenir algún impacto negativo)</option>
+            <option value="REACTIVA" {{ isset($inspeccion) && $inspeccion->Caracter_Inspeccion == 'REACTIVA' ? 'selected' : '' }}>REACTIVA (como respuesta a un accidente o amenaza particular)</option>
+            <option value="SEGUIMIENTO" {{ isset($inspeccion) && $inspeccion->Caracter_Inspeccion == 'SEGUIMIENTO' ? 'selected' : '' }}>SEGUIMIENTO (se da seguimiento al cumplimiento de alguna obligación en particular)</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label><b>Indique si la verificación, inspección o visita domiciliaria se realiza en:</b><span class="text-danger">*</span></label>
+        <select name="Realizada_En" class="form-control" required>
+            <option value="">Selecciona</option>
+            <option value="Domicilio" {{ isset($inspeccion) && $inspeccion->Realizada_En == 'Domicilio' ? 'selected' : '' }}>En el domicilio o establecimientos de los Sujetos Regulados</option>
+            <option value="Oficinas" {{ isset($inspeccion) && $inspeccion->Realizada_En == 'Oficinas' ? 'selected' : '' }}>En las oficinas del Sujeto Obligado</option>
+            <option value="Electronicos" {{ isset($inspeccion) && $inspeccion->Realizada_En == 'Electronicos' ? 'selected' : '' }}>Medios electrónicos</option>
+            <option value="Otro" {{ isset($inspeccion) && $inspeccion->Realizada_En == 'Otro' ? 'selected' : '' }}>Otro</option>
+        </select>
+        <div id="especificarRealizadaEn" style="display: none;">
+            <label>Otros:</label>
+            {{ form_input(['name' => 'Especificar_Realizada_En', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Especificar_Realizada_En : '' ]) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>¿Cuál es el objetivo de la inspección, verificación o visita domiciliaria?</b><span class="text-danger">*</span></label>
+        {{ form_textarea(['name' => 'Objetivo', 'class' => 'form-control', 'rows' => 3, 'required' => true, 'value' => isset($inspeccion) ? $inspeccion->Objetivo : '' ]) }}
+    </div>
+    <div class="form-group">
+        <label><b>Palabras clave que describan o identifiquen las inspecciones, verificaciones y visitas domiciliarias:</b><span class="text-danger">*</span></label>
+        {{ form_textarea(['name' => 'Palabras_Clave', 'class' => 'form-control', 'rows' => 2, 'required' => true, 'value' => isset($inspeccion) ? $inspeccion->Palabras_Clave : '' ]) }}
+    </div>
+    <div class="form-group">
+        <label><b>Periodicidad en la que se realiza:</b><span class="text-danger">*</span></label>
+        <select name="Periodicidad" class="form-control" required>
+            <option value="">Selecciona</option>
+            <option value="Anual" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Anual' ? 'selected' : '' }}>Anual</option>
+            <option value="Bienal" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Bienal' ? 'selected' : '' }}>Bienal</option>
+            <option value="Diaria" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Diaria' ? 'selected' : '' }}>Diaria</option>
+            <option value="Mensual" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Mensual' ? 'selected' : '' }}>Mensual</option>
+            <option value="No aplica" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'No aplica' ? 'selected' : '' }}>No aplica</option>
+            <option value="Semanal" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Semanal' ? 'selected' : '' }}>Semanal</option>
+            <option value="Semestral" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Semestral' ? 'selected' : '' }}>Semestral</option>
+            <option value="Trineal o más" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Trineal o más' ? 'selected' : '' }}>Trineal o más</option>
+            <option value="Trimestral" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Trimestral' ? 'selected' : '' }}>Trimestral</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label><b>Especificar qué motiva la inspección, verificación o visita domiciliaria:</b><span class="text-danger">*</span></label>
+        <select name="Motivo_Inspeccion" class="form-control" required>
+            <option value="">Selecciona</option>
+            <option value="Ordinaria" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'Ordinaria' ? 'selected' : '' }}>Ordinaria</option>
+            <option value="Extraordinaria" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'Extraordinaria' ? 'selected' : '' }}>Extraordinaria</option>
+            <option value="De oficio" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'De oficio' ? 'selected' : '' }}>De oficio</option>
+            <option value="A solicitud de parte" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'A solicitud de parte' ? 'selected' : '' }}>A solicitud de parte</option>
+            <option value="Forma parte de un trámite o servicio" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'Forma parte de un trámite o servicio' ? 'selected' : '' }}>Forma parte de un trámite o servicio</option>
+            <option value="Otro" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'Otro' ? 'selected' : '' }}>Otro</option>
+        </select>
+        <div id="especificarMotivoInspeccion" style="display: none;">
+            <label>Especificar otro:</label>
+            {{ form_input(['name' => 'Especificar_Motivo_Inspeccion', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Especificar_Motivo_Inspeccion : '' ]) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>Nombre de trámite o servicio asociado en esta inspección, verificación o visita domiciliaria:</b><span class="text-danger">*</span></label>
+        <div>
+            <label>Nombre del servicio o trámite:</label>
+            {{ form_input(['name' => 'Nombre_Tramite_Servicio', 'class' => 'form-control', 'required' => true, 'value' => isset($inspeccion) ? $inspeccion->Nombre_Tramite_Servicio : '' ]) }}
+        </div>
+        <div>
+            <label>URL relacionado:</label>
+            {{ form_input(['name' => 'URL_Tramite_Servicio', 'class' => 'form-control', 'type' => 'url', 'required' => true, 'value' => isset($inspeccion) ? $inspeccion->URL_Tramite_Servicio : '' ]) }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label><b>¿Existe un fundamento jurídico que dé origen a la inspección, verificación o visita domiciliaria?</b><span class="text-danger">*</span></label>
+        <div>
+            <label><input type="radio" name="Fundamento_Juridico" value="si" {{ isset($inspeccion) && $inspeccion->Fundamento_Juridico == 'si' ? 'checked' : '' }}> Sí</label>
+            <label><input type="radio" name="Fundamento_Juridico" value="no" {{ isset($inspeccion) && $inspeccion->Fundamento_Juridico == 'no' ? 'checked' : '' }}> No</label>
+        </div>
+        <div id="fundamentoJuridico" style="display: none;">
+            <label>Seleccionar tipo de fundamento jurídico:</label>
+            <select name="Tipo_Fundamento_Juridico" class="form-control">
+                <option value="">Selecciona</option>
+                @foreach($tipos_fundamento_juridico as $tipo)
+                    <option value="{{ $tipo->id }}" {{ isset($inspeccion) && $inspeccion->Tipo_Fundamento_Juridico == $tipo->id ? 'selected' : '' }}>{{ $tipo->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+<!----------------------Campo 2------------------------>
+<div class="form-step" id="step-2">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Autoridad pública</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
 
-                        <div class="form-group">
-                            <label>Bien, elemento o sujeto de la inspección</label>
-                            {{ form_textarea(['name' => 'Bien_Elemento', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Bien_Elemento : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿Participan otros Sujetos Obligados?</label>
-                            <select name="Otros_Sujetos_Participan" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Otros_Sujetos_Participan == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Otros_Sujetos_Participan == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                            <label>Buscar/Agregar Sujeto Obligado Adicional</label>
-                            {{ form_textarea(['name' => 'Sujeto_Obligado_Adicional', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Sujeto_Obligado_Adicional : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Derechos del Sujeto Regulado</label>
-                            {{ form_textarea(['name' => 'Derechos_Sujeto_Regulado', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Derechos_Sujeto_Regulado : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Obligaciones del Sujeto Regulado</label>
-                            {{ form_textarea(['name' => 'Obligaciones_Sujeto_Regulado', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Obligaciones_Sujeto_Regulado : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Requisitos o documentos a presentar</label>
-                            {{ form_textarea(['name' => 'Requisitos_Inspeccion', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Requisitos_Inspeccion : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿Debe rellenar o firmar algún formato?</label>
-                            <select name="Firmar_Formato" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Firmar_Formato == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Firmar_Formato == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                            <label>Subir formato (jpg, png, pdf)</label>
-                            <input type="file" name="Archivo_Formato" class="form-control-file">
-                            <label>¿El formato se encuentra fundamentado jurídicamente?</label>
-                            <select name="Formato_Fundamento" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Formato_Fundamento == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Formato_Fundamento == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>¿Tiene algún costo?</label>
-                            <select name="Tiene_Costo" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Tiene_Costo == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Tiene_Costo == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                            <label>Detalle costo/conceptos</label>
-                            {{ form_textarea(['name' => 'Detalle_Costo', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Detalle_Costo : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Pasos a realizar (puedes guardarlos en un JSON o texto)</label>
-                            {{ form_textarea(['name' => 'Pasos', 'class' => 'form-control', 'rows' => 3, 'value' => isset($inspeccion) ? $inspeccion->Pasos : '' ]) }}
-                        </div>
-                    </div>
-                    <div class="form-step" id="step-4">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Más detalles</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
+    <div class="form-group">
+        <label>Información de las autoridades competentes</label>
+        <div class="input-group">
+            <input type="text" name="Oficina_Administrativa" class="form-control" placeholder="Buscar oficinas" id="buscarOficinasInput">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="buscarOficinasBtn">
+                    <i class="fas fa-search"></i> Mis oficinas
+                </button>
+            </div>
+        </div>
+        <small class="form-text text-muted">Selecciona una oficina de la lista.</small>
+    </div>
 
-                        <div class="form-group">
-                            <label>Materia de la inspección (Ambiental, Laboral, etc.)</label>
-                            {{ form_input(['name' => 'Materia_Inspeccion', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Materia_Inspeccion : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Sector / Subsector / Rama / Subrama / Clase</label>
-                            {{ form_input(['name' => 'Sector', 'class' => 'form-control mb-2', 'placeholder' => 'Sector', 'value' => isset($inspeccion) ? $inspeccion->Sector : '' ]) }}
-                            {{ form_input(['name' => 'Subsector', 'class' => 'form-control mb-2', 'placeholder' => 'Subsector', 'value' => isset($inspeccion) ? $inspeccion->Subsector : '' ]) }}
-                            {{ form_input(['name' => 'Rama', 'class' => 'form-control mb-2', 'placeholder' => 'Rama', 'value' => isset($inspeccion) ? $inspeccion->Rama : '' ]) }}
-                            {{ form_input(['name' => 'Subrama', 'class' => 'form-control mb-2', 'placeholder' => 'Subrama', 'value' => isset($inspeccion) ? $inspeccion->Subrama : '' ]) }}
-                            {{ form_input(['name' => 'Clase', 'class' => 'form-control', 'placeholder' => 'Clase', 'value' => isset($inspeccion) ? $inspeccion->Clase : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿Es posible avisar previamente?</label>
-                            <select name="Aviso_Previo" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Aviso_Previo == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Aviso_Previo == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                            <label>Valor del plazo</label>
-                            {{ form_input(['name' => 'Valor_Plazo', 'type' => 'number', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Valor_Plazo : '' ]) }}
-                            <label>Unidad de medida (días, semanas...)</label>
-                            {{ form_input(['name' => 'Unidad_Medida_Plazo', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Unidad_Medida_Plazo : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿Qué tipo de sanciones pueden derivar?</label>
-                            {{ form_input(['name' => 'Tipo_Sancion', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Tipo_Sancion : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿Las sanciones están fundamentadas jurídicamente?</label>
-                            <select name="Sanciones_Fundamento" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Sanciones_Fundamento == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Sanciones_Fundamento == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-step" id="step-5">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información de la Autoridad Pública y Contacto</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
+    <ul id="oficinasSeleccionadas" class="list-group mt-2"></ul>
 
-                        <div class="form-group">
-                            <label>Facultades, atribuciones y obligaciones del Inspector</label>
-                            {{ form_textarea(['name' => 'Facultades_Inspector', 'class' => 'form-control', 'rows' => 3, 'value' => isset($inspeccion) ? $inspeccion->Facultades_Inspector : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Las Inspecciones se realizan a través de:</label>
-                            {{ form_textarea(['name' => 'Metodo_Inspecciones', 'class' => 'form-control', 'rows' => 2, 'value' => isset($inspeccion) ? $inspeccion->Metodo_Inspecciones : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>¿Existe un contacto directo para quejas?</label>
-                            <select name="Contacto_Quejas" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Contacto_Quejas == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Contacto_Quejas == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                            <label>Datos de contacto (si "Sí")</label>
-                            {{ form_input(['name' => 'Contacto_Quejas_Datos', 'class' => 'form-control', 'value' => isset($inspeccion) ? $inspeccion->Contacto_Quejas_Datos : '' ]) }}
-                        </div>
-                    </div>
-                    <div class="form-step" id="step-6">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Estadísticas</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
+    <div id="oficinasModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="oficinasModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="oficinasModalLabel">Seleccionar Oficina Administrativa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" id="oficinasTable">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($oficinas as $oficina)
+                                <tr>
+                                    <td>{{ $oficina->nombre }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary seleccionarOficinaBtn" data-oficina="{{ $oficina->nombre }}">Seleccionar</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    <button type="button" class="btn btn-primary" id="aceptarOficinaBtn">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <h8 class="mb-3">¿Cuántas inspecciones se realizaron en el año anterior por mes?
-                            <h8 />
-                            <div class="statistics-container">
-                                <?php
-$meses = [
-    ['Enero', 'Febrero', 'Marzo'],
-    ['Abril', 'Mayo', 'Junio'],
-    ['Julio', 'Agosto', 'Septiembre'],
-    ['Octubre', 'Noviembre', 'Diciembre']
-];
+<script>
+$(document).ready(function() {
+    $('#buscarOficinasBtn').click(function() {
+        $('#oficinasModal').modal('show');
+    });
 
-foreach ($meses as $fila) {
-    echo '<div class="statistics-row">';
-    foreach ($fila as $mes) {
-        echo '<div class="statistics-item">
-                            <label class="mes-label">' . $mes . ':</label>
-                            <input type="number" name="' . $mes . '_Inspecciones" class="form-control statistics-input" min="0" value="' . (isset($inspeccion) ? $inspeccion->{$mes . '_Inspecciones'} : '0') . '">
-                          </div>';
-    }
-    echo '</div>';
-}
-            ?>
-                            </div>
-                    </div>
-                    <div class="form-step" id="step-7">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información adicional</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
+    $('.seleccionarOficinaBtn').click(function() {
+        var oficina = $(this).data('oficina');
+        $('#oficinasSeleccionadas').append('<li class="list-group-item">' + oficina + '<button type="button" class="btn btn-danger btn-sm float-right quitarOficinaBtn">Quitar</button></li>');
+        $('#oficinasModal').modal('hide');
+    });
 
-                        <div class="form-group">
-                            <label>Información que se considere útil</label>
-                            {{ form_textarea(['name' => 'Info_Adicional', 'class' => 'form-control', 'rows' => 3, 'value' => isset($inspeccion) ? $inspeccion->Info_Adicional : '' ]) }}
-                        </div>
-                    </div>
-                    <div class="form-step" id="step-8">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">No publicidad</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
+    $('#aceptarOficinaBtn').click(function() {
+        $('#oficinasModal').modal('hide');
+    });
 
-                        <div class="form-group">
-                            <label>¿Permitir que todos los datos sean públicos?</label>
-                            <select name="Permitir_Publicidad" class="form-control">
-                                <option value="si" {{ !isset($inspeccion) || $inspeccion->Permitir_Publicidad == 'si' ? 'selected' : '' }}>Sí</option>
-                                <option value="no" {{ isset($inspeccion) && $inspeccion->Permitir_Publicidad == 'no' ? 'selected' : '' }}>No</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Justificante no publicidad (PDF, JPG, PNG)</label>
-                            <input type="file" name="Documento_No_Publicidad" class="form-control-file">
-                        </div>
-                        <div class="form-group">
-                            <label>Determina la información que NO se puede publicar:</label>
-                            <label>Datos de identificación</label>
-                            <input type="text" name="No_Publicar_Datos_Identificacion" class="form-control"
-                                placeholder="Ej. Homoclave, Nombre..." value="{{ isset($inspeccion) ? $inspeccion->No_Publicar_Datos_Identificacion : '' }}">
+    $('#buscarOficinasInput').on('input', function() {
+        var searchTerm = $(this).val().toLowerCase();
+        $('#oficinasTable tbody tr').each(function() {
+            var oficinaNombre = $(this).find('td:first').text().toLowerCase();
+            if (oficinaNombre.includes(searchTerm)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
 
-                            <label>¿Ocultar contacto de la Autoridad Pública?</label>
-                            <select name="No_Publicar_Contacto_Autoridad" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->No_Publicar_Contacto_Autoridad == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->No_Publicar_Contacto_Autoridad == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
+    $('#oficinasSeleccionadas').on('click', '.quitarOficinaBtn', function() {
+        $(this).parent().remove();
+    });
+});
+</script>
+<!----------------------Campo 3------------------------>
+<div class="form-step" id="step-3">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información sobre la inspección</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
 
-                            <label>Información sobre la inspección</label>
-                            <input type="text" name="No_Publicar_Info_Inspeccion" class="form-control" value="{{ isset($inspeccion) ? $inspeccion->No_Publicar_Info_Inspeccion : '' }}">
+    <div class="form-group">
+        <label>Bien, elemento, objeto o sujeto de inspección, verificación o visita domiciliaria:<span class="text-danger">*</span></label>
+        {{ form_textarea(['name' => 'Bien_Elemento', 'class' => 'form-control', 'rows' => 2, 'required' => 'required', 'value' => isset($inspeccion) ? $inspeccion->Bien_Elemento : '' ]) }}
+    </div>
 
-                            <label>Información de la Autoridad Pública</label>
-                            <input type="text" name="No_Publicar_Info_Autoridad" class="form-control" value="{{ isset($inspeccion) ? $inspeccion->No_Publicar_Info_Autoridad : '' }}">
+    <div class="form-group">
+        <label>Indicar si otros Sujetos Obligados participan en la realización de las inspecciones, verificaciones y visitas domiciliarias:<span class="text-danger">*</span></label>
+        <select name="Otros_Sujetos_Participan" class="form-control" required>
+            <option value="no" {{ !isset($inspeccion) || $inspeccion->Otros_Sujetos_Participan == 'no' ? 'selected' : '' }}>No</option>
+            <option value="si" {{ isset($inspeccion) && $inspeccion->Otros_Sujetos_Participan == 'si' ? 'selected' : '' }}>Sí</option>
+        </select>
+    </div>
 
-                            <label>Estadísticas</label>
-                            <input type="text" name="No_Publicar_Estadisticas" class="form-control" value="{{ isset($inspeccion) ? $inspeccion->No_Publicar_Estadisticas : '' }}">
-                        </div>
-                    </div>
-                    <div class="form-step" id="step-9">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Emergencias</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
+    <div class="form-group" id="sujetosObligados" style="display: none;">
+        <label>¿Cuáles Sujetos Obligados?</label>
+        <div class="input-group">
+            <input type="text" name="Buscar_Sujeto_Obligado" class="form-control" placeholder="Buscar Sujeto Obligado" id="buscarSujetosInput">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="buscarSujetosBtn">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+        </div>
+        <small class="form-text text-muted">Selecciona un sujeto obligado de la lista.</small>
+    </div>
 
-                        <div class="form-group">
-                            <label>¿La inspección es requerida para atender una situación de emergencia?</label>
-                            <select name="Es_Emergencia" class="form-control">
-                                <option value="no" {{ !isset($inspeccion) || $inspeccion->Es_Emergencia == 'no' ? 'selected' : '' }}>No</option>
-                                <option value="si" {{ isset($inspeccion) && $inspeccion->Es_Emergencia == 'si' ? 'selected' : '' }}>Sí</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Justificar razones de emergencia</label>
-                            {{ form_textarea(['name' => 'Justificacion_Emergencia', 'class' => 'form-control', 'rows' => 3, 'value' => isset($inspeccion) ? $inspeccion->Justificacion_Emergencia : '' ]) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Cargar el oficio o acta de declaración de emergencia (PDF, PNG, JPG)</label>
-                            <input type="file" name="Archivo_Declaracion_Emergencia" class="form-control-file">
-                        </div>
-                    </div>
+    <div id="sujetosModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sujetosModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sujetosModalLabel">Seleccionar Sujeto Obligado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" id="sujetosTable">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($sujetos_obligados as $sujeto)
+                                <tr>
+                                    <td>{{ $sujeto->nombre_sujeto }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary seleccionarSujetoBtn" data-sujeto="{{ $sujeto->nombre_sujeto }}">Seleccionar</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    <button type="button" class="btn btn-primary" id="aceptarSujetoBtn">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="form-group">
+        <label>Derechos del sujeto regulado durante la inspección, verificación o visita domiciliaria</label>
+        <div class="input-group">
+            <input type="text" name="Derecho_Sujeto_Regulado" class="form-control" placeholder="Agregar derecho del sujeto regulado">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="agregarDerechoBtn">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+        </div>
+        <ul id="derechosList" class="list-group mt-2"></ul>
+    </div>
+
+    <div class="form-group">
+        <label>Obligaciones que debe cumplir el sujeto regulado</label>
+        <div class="input-group">
+            <input type="text" name="Obligacion_Sujeto_Regulado" class="form-control" placeholder="Agregar obligaciones">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="agregarObligacionBtn">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+        </div>
+        <ul id="obligacionesList" class="list-group mt-2"></ul>
+    </div>
+
+    <div class="form-group">
+        <label>Fundamento Jurídico de la existencia de la inspección, verificación o visita domiciliaria:<span class="text-danger">*</span></label>
+        <div class="input-group">
+            <input type="text" name="Nombre_Fundamento" class="form-control" placeholder="Nombre" required>
+            <input type="text" name="Articulo_Fundamento" class="form-control" placeholder="Artículo" required>
+            <input type="url" name="Url_Fundamento" class="form-control" placeholder="URL" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Especificar si el sujeto regulado debe llenar o firmar algún formato para la inspección, verificación o visita domiciliaria:<span class="text-danger">*</span></label>
+        <select name="Firmar_Formato" class="form-control" required>
+            <option value="no" {{ !isset($inspeccion) || $inspeccion->Firmar_Formato == 'no' ? 'selected' : '' }}>No</option>
+            <option value="si" {{ isset($inspeccion) && $inspeccion->Firmar_Formato == 'si' ? 'selected' : '' }}>Sí</option>
+        </select>
+    </div>
+
+    <div class="form-group" id="formatoUpload" style="display: none;">
+        <label>Subir formato (PDF, JPG, PNG)</label>
+        <input type="file" name="Archivo_Formato" class="form-control-file" accept=".pdf,.jpg,.png">
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('select[name="Otros_Sujetos_Participan"]').change(function() {
+        if ($(this).val() == 'si') {
+            $('#sujetosObligados').show();
+        } else {
+            $('#sujetosObligados').hide();
+        }
+    });
+
+    $('#buscarSujetosBtn').click(function() {
+        $('#sujetosModal').modal('show');
+    });
+
+    $('.seleccionarSujetoBtn').click(function() {
+        var sujeto = $(this).data('sujeto');
+        $('input[name="Buscar_Sujeto_Obligado"]').val(sujeto);
+        $('#sujetosModal').modal('hide');
+    });
+
+    $('#aceptarSujetoBtn').click(function() {
+        $('#sujetosModal').modal('hide');
+    });
+
+    $('#buscarSujetosInput').on('input', function() {
+        var searchTerm = $(this).val().toLowerCase();
+        $('#sujetosTable tbody tr').each(function() {
+            var sujetoNombre = $(this).find('td:first').text().toLowerCase();
+            if (sujetoNombre.includes(searchTerm)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    $('#agregarDerechoBtn').click(function() {
+        var derecho = $('input[name="Derecho_Sujeto_Regulado"]').val();
+        if (derecho) {
+            $('#derechosList').append('<li class="list-group-item">' + derecho + '<button type="button" class="btn btn-danger btn-sm float-right quitarDerechoBtn">Quitar</button></li>');
+            $('input[name="Derecho_Sujeto_Regulado"]').val('');
+        }
+    });
+
+    $('#derechosList').on('click', '.quitarDerechoBtn', function() {
+        $(this).parent().remove();
+    });
+
+    $('#agregarObligacionBtn').click(function() {
+        var obligacion = $('input[name="Obligacion_Sujeto_Regulado"]').val();
+        if (obligacion) {
+            $('#obligacionesList').append('<li class="list-group-item">' + obligacion + '<button type="button" class="btn btn-danger btn-sm float-right quitarObligacionBtn">Quitar</button></li>');
+            $('input[name="Obligacion_Sujeto_Regulado"]').val('');
+        }
+    });
+
+    $('#obligacionesList').on('click', '.quitarObligacionBtn', function() {
+        $(this).parent().remove();
+    });
+
+    $('select[name="Firmar_Formato"]').change(function() {
+        if ($(this).val() == 'si') {
+            $('#formatoUpload').show();
+        } else {
+            $('#formatoUpload').hide();
+        }
+    });
+});
+</script>
+<!----------------------Campo 4------------------------>
+<div class="form-step" id="step-4">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Más detalles</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
+
+    <div class="form-group">
+        <label>¿Tiene algún costo o pago de derechos, productos y aprovechamientos aplicables?<span class="text-danger">*</span></label>
+        <select name="Tiene_Costo" class="form-control" required>
+            <option value="no" {{ !isset($inspeccion) || $inspeccion->Tiene_Costo == 'no' ? 'selected' : '' }}>No</option>
+            <option value="si" {{ isset($inspeccion) && $inspeccion->Tiene_Costo == 'si' ? 'selected' : '' }}>Sí</option>
+        </select>
+    </div>
+
+    <div class="form-group" id="costoDetails" style="display: none;">
+        <label>Indicar monto<span class="text-danger">*</span></label>
+        <input type="number" name="Monto_Costo" class="form-control" placeholder="Monto" min="0">
+        <label>¿El monto se encuentra fundamentado jurídicamente?<span class="text-danger">*</span></label>
+        <select name="Monto_Fundamentado" class="form-control" required>
+            <option value="no" {{ !isset($inspeccion) || $inspeccion->Monto_Fundamentado == 'no' ? 'selected' : '' }}>No</option>
+            <option value="si" {{ isset($inspeccion) && $inspeccion->Monto_Fundamentado == 'si' ? 'selected' : '' }}>Sí</option>
+        </select>
+        <div id="fundamentoDetails" style="display: none;">
+            <label>Nombre del fundamento</label>
+            <input type="text" name="Nombre_Fundamento_Costo" class="form-control" placeholder="Nombre">
+            <label>URL del fundamento</label>
+            <input type="url" name="Url_Fundamento_Costo" class="form-control" placeholder="URL">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label><b>Pasos a realizar por el inspector o verificador durante la inspección, verificación o visita domiciliaria:</b></label>
+        <p style="color: grey;">Aproximadamente, ¿Cuánto tiempo lleva la verificación en todas sus etapas –orden, diligencia y resolución-? Indique y desglose lo más posible los pasos realizados:</p>
+        <textarea name="Pasos_Inspector" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Tramites vinculados a la inspección, verificación o visita domiciliaria<span class="text-danger">*</span></label>
+        <input type="text" name="Nombre_Tramite_Vinculado" class="form-control" placeholder="Nombre del tramite">
+        <input type="url" name="Url_Tramite_Vinculado" class="form-control" placeholder="URL del tramite">
+    </div>
+
+    <div class="form-group">
+        <label>Regulaciones que debe cumplir el sujeto obligado</label>
+        <input type="text" name="Nombre_Regulacion" class="form-control" placeholder="Nombre de la regulación">
+        <input type="url" name="Url_Regulacion" class="form-control" placeholder="URL de la regulación">
+    </div>
+
+    <div class="form-group">
+        <label>Requisitos o documentos que debe presentar el interesado</label>
+        <input type="file" name="Requisitos_Documentos" class="form-control-file" accept=".pdf,.jpg,.png">
+    </div>
+
+    <div class="form-group">
+        <label>¿Qué tipo de sanciones pueden derivar a partir de esta inspección?<span class="text-danger">*</span></label>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Clausura definitiva">
+            <label class="form-check-label">Clausura definitiva</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Clausura temporal">
+            <label class="form-check-label">Clausura temporal</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Multa">
+            <label class="form-check-label">Multa</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Otra">
+            <label class="form-check-label">Otra</label>
+            <input type="text" name="Otra_Sancion" class="form-control mt-2" placeholder="Especificar otra sanción">
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Revocación de licencia, permiso, autorización u otro">
+            <label class="form-check-label">Revocación de licencia, permiso, autorización u otro</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Suspensión definitiva de actividades">
+            <label class="form-check-label">Suspensión definitiva de actividades</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Suspensión temporal de actividades">
+            <label class="form-check-label">Suspensión temporal de actividades</label>
+        </div>
+        <label>URL de la sanción</label>
+        <input type="url" name="Url_Sancion" class="form-control" placeholder="URL de la sanción">
+    </div>
+
+    <div class="form-group">
+        <label>Tiempo aproximado de la inspección, verificación o visita domiciliaria<span class="text-danger">*</span></label>
+        <input type="number" name="Valor_Plazo" class="form-control" placeholder="Valor del plazo" min="1">
+        <select name="Unidad_Medida_Plazo" class="form-control">
+            <option value="Días naturales">Días naturales</option>
+            <option value="Días hábiles">Días hábiles</option>
+            <option value="Meses">Meses</option>
+            <option value="Años">Años</option>
+            <option value="No aplica">No aplica</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Formato o formulario, en su caso, que el Sujeto Obligado utiliza</label>
+        <input type="text" name="Nombre_Formato" class="form-control" placeholder="Nombre">
+        <input type="file" name="Archivo_Formato" class="form-control-file" accept=".pdf,.jpg,.png">
+    </div>
+
+    <div class="form-group">
+        <label>Facultades, atribuciones y obligaciones del Sujeto Obligado que la realiza<span class="text-danger">*</span></label>
+        <div class="input-group">
+            <input type="text" name="Facultades_Obligaciones" class="form-control" placeholder="Agregar Facultades, atribuciones y obligaciones">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="agregarFacultadBtn">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+        </div>
+        <ul id="facultadesList" class="list-group mt-2"></ul>
+    </div>
+
+    <div class="form-group">
+        <label>Servidores públicos facultados para realizar la inspección, verificación o visita domiciliaria</label>
+        <input type="text" name="Nombre_Servidor_Publico" class="form-control" placeholder="Nombre">
+        <input type="url" name="Url_Servidor_Publico" class="form-control" placeholder="URL directo a su ficha">
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('select[name="Tiene_Costo"]').change(function() {
+        if ($(this).val() == 'si') {
+            $('#costoDetails').show();
+        } else {
+            $('#costoDetails').hide();
+        }
+    });
+
+    $('select[name="Monto_Fundamentado"]').change(function() {
+        if ($(this).val() == 'si') {
+            $('#fundamentoDetails').show();
+        } else {
+            $('#fundamentoDetails').hide();
+        }
+    });
+
+    $('#agregarFacultadBtn').click(function() {
+        var facultad = $('input[name="Facultades_Obligaciones"]').val();
+        if (facultad) {
+            $('#facultadesList').append('<li class="list-group-item">' + facultad + '<button type="button" class="btn btn-danger btn-sm float-right quitarFacultadBtn">Quitar</button></li>');
+            $('input[name="Facultades_Obligaciones"]').val('');
+        }
+    });
+
+    $('#facultadesList').on('click', '.quitarFacultadBtn', function() {
+        $(this).parent().remove();
+    });
+});
+</script>
+<!----------------------Campo 5------------------------>
+<div class="form-step" id="step-5">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información de la Autoridad Pública y Contacto</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
+
+    <div class="form-group">
+        <label>Números telefónicos</label>
+        <input type="text" name="Numeros_Telefonicos" class="form-control" placeholder="Números telefónicos">
+    </div>
+
+    <div class="form-group">
+        <label>Dirección y correo electrónico de los órganos internos de control o equivalentes para realizar denuncias</label>
+        <input type="text" name="Direccion_Organos_Control" class="form-control" placeholder="Dirección">
+        <input type="email" name="Correo_Organos_Control" class="form-control" placeholder="Correo electrónico">
+    </div>
+
+    <div class="form-group">
+        <label>Señalamiento de los medios de impugnación con los que cuenta el interesado que se inconforme con la inspección, verificación o visita domiciliaria:<span class="text-danger">*</span></label>
+        <input type="text" name="Nombre_Regulacion_Impugnacion" class="form-control" placeholder="Nombre de la regulación">
+        <input type="text" name="Articulo_Regulacion_Impugnacion" class="form-control" placeholder="Artículo">
+        <input type="text" name="Parrafo_Regulacion_Impugnacion" class="form-control" placeholder="Párrafo, número o numeral">
+        <input type="url" name="Url_Regulacion_Impugnacion" class="form-control" placeholder="URL de la regulación">
+    </div>
+</div>
+<!----------------------Campo 6------------------------>
+<div class="form-step" id="step-6">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Estadísticas</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
+
+    <h8 class="mb-3">¿Cuántas inspecciones se realizaron en el año anterior por mes?<span class="text-danger">*</span></h8>
+    <div class="statistics-container">
+        <?php
+        $meses = [
+            ['Enero', 'Febrero', 'Marzo'],
+            ['Abril', 'Mayo', 'Junio'],
+            ['Julio', 'Agosto', 'Septiembre'],
+            ['Octubre', 'Noviembre', 'Diciembre']
+        ];
+
+        foreach ($meses as $fila) {
+            echo '<div class="statistics-row">';
+            foreach ($fila as $mes) {
+                echo '<div class="statistics-item">
+                        <label class="mes-label">' . $mes . ':</label>
+                        <input type="number" name="' . $mes . '_Inspecciones" class="form-control statistics-input" min="0" value="' . (isset($inspeccion) ? $inspeccion->{$mes . '_Inspecciones'} : '0') . '">
+                      </div>';
+            }
+            echo '</div>';
+        }
+        ?>
+    </div>
+
+    <div class="form-group mt-4">
+        <label>¿Cuántas inspecciones derivaron en sanción en el año inmediato anterior?<span class="text-danger">*</span></label>
+        <input type="number" name="Inspecciones_Con_Sancion" class="form-control" min="0" value="{{ isset($inspeccion) ? $inspeccion->Inspecciones_Con_Sancion : '0' }}">
+    </div>
+</div>
+<!----------------------Campo 7------------------------>
+<div class="form-step" id="step-7">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Información adicional</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
+
+    <div class="form-group">
+        <label>Información que se considere útil para que el interesado realice la inspección, verificación o visita domiciliaria:</label>
+        {{ form_textarea(['name' => 'Info_Adicional', 'class' => 'form-control', 'rows' => 3, 'value' => isset($inspeccion) ? $inspeccion->Info_Adicional : '' ]) }}
+    </div>
+</div>
+<!----------------------Campo 8------------------------>
+<div class="form-step" id="step-8">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">No publicidad</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
+
+    <div class="form-group">
+        <label>¿Permitir que todos los datos de la inspección, verificación o visita domiciliaria sea pública?<span class="text-danger">*</span></label>
+        <select name="Permitir_Publicidad" class="form-control" required>
+            <option value="si" {{ !isset($inspeccion) || $inspeccion->Permitir_Publicidad == 'si' ? 'selected' : '' }}>Sí</option>
+            <option value="no" {{ isset($inspeccion) && $inspeccion->Permitir_Publicidad == 'no' ? 'selected' : '' }}>No</option>
+        </select>
+    </div>
+
+    <div id="noPublicidadDetails" style="display: none;">
+        <div class="form-group">
+            <label>Cargar un documento por medio del cual el sujeto obligado justifique que no se puede publicar la información de sus inspectores, verificadores y visitadores y/o inspecciones, verificaciones y visitas domiciliarias.<span class="text-danger">*</span></label>
+            <input type="file" name="Documento_No_Publicidad" class="form-control-file" accept=".pdf,.jpg,.png">
+        </div>
+        <div class="form-group">
+            <label>Determina la información de la ficha de la inspección, verificación o visita domiciliaria que no se puede publicar en el portal ciudadano:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="No_Publicar[]" value="Datos de identificación de la inspección">
+                <label class="form-check-label">Datos de identificación de la inspección</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="No_Publicar[]" value="Contacto de la Autoridad Pública">
+                <label class="form-check-label">Contacto de la Autoridad Pública</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="No_Publicar[]" value="Información sobre la inspección">
+                <label class="form-check-label">Información sobre la inspección</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="No_Publicar[]" value="Más detalles">
+                <label class="form-check-label">Más detalles</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="No_Publicar[]" value="Información de la Autoridad Pública">
+                <label class="form-check-label">Información de la Autoridad Pública</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="No_Publicar[]" value="Estadística">
+                <label class="form-check-label">Estadística</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('select[name="Permitir_Publicidad"]').change(function() {
+        if ($(this).val() == 'no') {
+            $('#noPublicidadDetails').show();
+            Swal.fire({
+                title: 'Información',
+                text: 'Conforme a lo dispuesto en la Estrategia Nacional de Mejora Regulatoria, respecto a la clasificación de la información registrada del Registro Nacional de Visitas Domiciliarias, los sujetos obligados podrán determinar la publicación parcial o total de la información de sus inspectores, verificadores o visitadores, así como también de sus inspecciones, verificaciones y visitas domiciliarias, a fin de mantener la integridad o seguridad del servidor público y se consigan lograr los objetivos que se pretenden alcanzar por la inspección, verificación o visita domiciliaria. Conforme a lo anterior, los datos que determine el sujeto obligado que no pueden formar parte de la esfera pública, la autoridad o encargado de mejora regulatoria no compartirá dicha información a otras autoridades y se abstendrá de publicarla en el portal ciudadano, siempre y cuando la autoridad o encargado de mejora regulatoria así lo determine.',
+                icon: 'info',
+                confirmButtonText: 'Aceptar'
+            });
+        } else {
+            $('#noPublicidadDetails').hide();
+        }
+    });
+});
+</script>
+<!----------------------Campo 9------------------------>
+<div class="form-step" id="step-9">
+    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Emergencias</h3>
+    <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
+        Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
+    </h5>
+
+    <div class="form-group">
+        <label>¿La inspección es requerida para atender una situación de emergencia?</label>
+        <select name="Es_Emergencia" class="form-control" required>
+            <option value="no" {{ !isset($inspeccion) || $inspeccion->Es_Emergencia == 'no' ? 'selected' : '' }}>No</option>
+            <option value="si" {{ isset($inspeccion) && $inspeccion->Es_Emergencia == 'si' ? 'selected' : '' }}>Sí</option>
+        </select>
+    </div>
+
+    <div id="emergenciaDetails" style="display: none;">
+        <div class="alert alert-info">
+        <div class="form-group">
+            <label>Justificar las razones por las cuales se habilita una inspección para atender una situación de emergencia</label>
+            {{ form_textarea(['name' => 'Justificacion_Emergencia', 'class' => 'form-control', 'rows' => 3, 'value' => isset($inspeccion) ? $inspeccion->Justificacion_Emergencia : '' ]) }}
+        </div>
+        <div class="form-group">
+            <label>Cargar el oficio o acta de declaración de emergencia (PDF, PNG, JPG)<span class="text-danger">*</span></label>
+            <input type="file" name="Archivo_Declaracion_Emergencia" class="form-control-file" accept=".pdf,.jpg,.png">
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('select[name="Es_Emergencia"]').change(function() {
+        if ($(this).val() == 'si') {
+            $('#emergenciaDetails').show();
+            Swal.fire({
+                title: 'Información',
+                text: 'Con fundamento en el artículo 56, de la Sección IV, Capítulo I, Título Tercero de la Ley General de Mejora Regulatoria, los sujetos obligados podrán registrar una inspección, verificación o visita domiciliaria y/o inspectores, verificadores o visitadores para atender una situación de emergencia en los cinco días hábiles posteriores a su habilitación. Al respecto, el sujeto obligado deberá informar y justificar a la autoridad o encargado de mejora regulatoria correspondiente las razones para habilitar a nuevos inspectores y/o inspecciones para atender las situaciones de emergencia.',
+                icon: 'info',
+                confirmButtonText: 'Aceptar'
+            });
+        } else {
+            $('#emergenciaDetails').hide();
+        }
+    });
+});
+</script>
                     <div class="form-navigation">
                         <button type="button" class="btn" id="prevBtn" onclick="navigateStep(-1)">Anterior</button>
                         <button type="button" class="btn" id="nextBtn" onclick="navigateStep(1)">Siguiente</button>
