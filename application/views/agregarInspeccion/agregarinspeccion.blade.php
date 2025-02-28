@@ -41,43 +41,36 @@
         <div class="col-md-3 sidebar-wizard">
             <div class="list-group">
                 <?php
-$steps = [
-    ["label" => "Datos de identificación", "icon" => "fa-solid fa-id-card"],
-    ["label" => "Autoridad Pública", "icon" => "fa-solid fa-user-shield"],
-    ["label" => "Información sobre la inspección", "icon" => "fa-solid fa-file-alt"],
-    ["label" => "Más detalles", "icon" => "fa-solid fa-info-circle"],
-    ["label" => "Información de la Autoridad Pública y Contacto", "icon" => "fa-solid fa-building"],
-    ["label" => "Estadísticas", "icon" => "fa-solid fa-chart-bar"],
-    ["label" => "Información adicional", "icon" => "fa-solid fa-list"],
-    ["label" => "No publicidad", "icon" => "fa fa-user-secret"],
-    ["label" => "Emergencias", "icon" => "fa-solid fa-exclamation-triangle"]
-];
+                $steps = [
+                    ["label" => "Datos de identificación", "icon" => "fa-solid fa-id-card"],
+                    ["label" => "Autoridad Pública", "icon" => "fa-solid fa-user-shield"],
+                    ["label" => "Información sobre la inspección", "icon" => "fa-solid fa-file-alt"],
+                    ["label" => "Más detalles", "icon" => "fa-solid fa-info-circle"],
+                    ["label" => "Información de la Autoridad Pública y Contacto", "icon" => "fa-solid fa-building"],
+                    ["label" => "Estadísticas", "icon" => "fa-solid fa-chart-bar"],
+                    ["label" => "Información adicional", "icon" => "fa-solid fa-list"],
+                    ["label" => "No publicidad", "icon" => "fa fa-user-secret"],
+                    ["label" => "Emergencias", "icon" => "fa-solid fa-exclamation-triangle"]
+                ];
 
-foreach ($steps as $index => $step) {
-    $stepNumber = $index + 1;
-    echo '<button class="list-group-item list-group-item-action wizard-step" data-step="' . $stepNumber . '">
-            <i class="' . $step["icon"] . ' me-2"></i>' .
-        $step["label"] .
-        '</button>';
-}
+                foreach ($steps as $index => $step) {
+                    $stepNumber = $index + 1;
+                    echo '<button class="list-group-item list-group-item-action wizard-step" data-step="' . $stepNumber . '">
+                            <i class="' . $step["icon"] . ' me-2"></i>' .
+                        $step["label"] .
+                        '</button>';
+                }
                 ?>
             </div>
         </div>
 
         <!-- Main Content -->
         <div class="col-md-9 main-content">
-            <script>
-                $(document).ready(function () {
-                    $('label').css('font-weight', 'bold');
-                });
-            </script>
-
             <div class="form-container">
                 <form id="inspeccionForm" method="post" action="<?= base_url('Agregarinspeccion/guardar'); ?>" enctype="multipart/form-data">
                     <input type="hidden" name="id_inspeccion" value="{{ isset($inspeccion) ? $inspeccion->id_inspeccion : '' }}">
                     <!-- Campo oculto para el ID de la inspección -->
                     <input type="hidden" name="id_inspeccion" value="{{ isset($inspeccion) ? $inspeccion->id_inspeccion : '' }}">
-
 
                     <!----------------------Campo 1------------------------>
 <div class="form-step" id="step-1">
@@ -241,6 +234,58 @@ foreach ($steps as $index => $step) {
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function() {
+    $('input[name="Ley_Fomento"]').change(function() {
+        if ($(this).val() == 'si') {
+            $('#justificarLeyFomento').show();
+        } else {
+            $('#justificarLeyFomento').hide();
+        }
+    });
+
+    $('select[name="Tipo_Inspeccion"]').change(function() {
+        if ($(this).val() == 'Otra') {
+            $('#especificarOtra').show();
+        } else {
+            $('#especificarOtra').hide();
+        }
+    });
+
+    $('select[name="Dirigida_A"]').change(function() {
+        if ($(this).val() == 'Otras') {
+            $('#especificarDirigidaA').show();
+        } else {
+            $('#especificarDirigidaA').hide();
+        }
+    });
+
+    $('select[name="Realizada_En"]').change(function() {
+        if ($(this).val() == 'Otro') {
+            $('#especificarRealizadaEn').show();
+        } else {
+            $('#especificarRealizadaEn').hide();
+        }
+    });
+
+    $('select[name="Motivo_Inspeccion"]').change(function() {
+        if ($(this).val() == 'Otro') {
+            $('#especificarMotivoInspeccion').show();
+        } else {
+            $('#especificarMotivoInspeccion').hide();
+        }
+    });
+
+    $('input[name="Fundamento_Juridico"]').change(function() {
+        if ($(this).val() == 'si') {
+            $('#fundamentoJuridico').show();
+        } else {
+            $('#fundamentoJuridico').hide();
+        }
+    });
+});
+</script>
 <!----------------------Campo 2------------------------>
 <div class="form-step" id="step-2">
     <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Autoridad pública</h3>
@@ -249,53 +294,53 @@ foreach ($steps as $index => $step) {
     </h5>
 
     <div class="form-group">
-        <label>Información de las autoridades competentes</label>
-        <div class="input-group">
-            <input type="text" name="Oficina_Administrativa" class="form-control" placeholder="Buscar oficinas" id="buscarOficinasInput">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="buscarOficinasBtn">
-                    <i class="fas fa-search"></i> Mis oficinas
+    <label>Información de las autoridades competentes</label>
+    <div class="input-group">
+        <input type="text" name="Oficina_Administrativa" class="form-control" placeholder="Buscar oficinas" id="buscarOficinasInput">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="buscarOficinasBtn">
+                <i class="fas fa-search"></i> Mis oficinas
+            </button>
+        </div>
+    </div>
+    <ul id="oficinasDropdown" class="list-group mt-2" style="display: none; position: absolute; z-index: 1000; width: 100%;"></ul>
+    <small class="form-text text-muted">Selecciona una oficina de la lista.</small>
+</div>
+
+<ul id="oficinasSeleccionadas" class="list-group mt-2"></ul>
+
+<div id="oficinasModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="oficinasModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="oficinasModalLabel">Seleccionar Oficina Administrativa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-        </div>
-        <small class="form-text text-muted">Selecciona una oficina de la lista.</small>
-    </div>
-
-    <ul id="oficinasSeleccionadas" class="list-group mt-2"></ul>
-
-    <div id="oficinasModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="oficinasModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="oficinasModalLabel">Seleccionar Oficina Administrativa</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered" id="oficinasTable">
-                        <thead>
+            <div class="modal-body">
+                <table class="table table-bordered" id="oficinasTable">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($oficinas as $oficina)
                             <tr>
-                                <th>Nombre</th>
-                                <th>Acción</th>
+                                <td>{{ $oficina->nombre }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary seleccionarOficinaBtn" data-oficina="{{ $oficina->nombre }}">Seleccionar</button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($oficinas as $oficina)
-                                <tr>
-                                    <td>{{ $oficina->nombre }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary seleccionarOficinaBtn" data-oficina="{{ $oficina->nombre }}">Seleccionar</button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-                    <button type="button" class="btn btn-primary" id="aceptarOficinaBtn">Aceptar</button>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="aceptarOficinaBtn">Aceptar</button>
+            </div>
             </div>
         </div>
     </div>
@@ -309,7 +354,7 @@ $(document).ready(function() {
 
     $('.seleccionarOficinaBtn').click(function() {
         var oficina = $(this).data('oficina');
-        $('#oficinasSeleccionadas').append('<li class="list-group-item">' + oficina + '<button type="button" class="btn btn-danger btn-sm float-right quitarOficinaBtn">Quitar</button></li>');
+        $('#oficinasSeleccionadas').append('<li class="list-group-item d-flex justify-content-between align-items-center">' + oficina + '<button type="button" class="btn btn-danger btn-sm quitarOficinaBtn">Quitar</button></li>');
         $('#oficinasModal').modal('hide');
     });
 
@@ -327,10 +372,41 @@ $(document).ready(function() {
                 $(this).hide();
             }
         });
+
+        // Mostrar lista desplegable con coincidencias
+        var matches = $('#oficinasTable tbody tr:visible').map(function() {
+            return $(this).find('td:first').text();
+        }).get();
+
+        var dropdown = $('#oficinasDropdown');
+        dropdown.empty();
+        if (matches.length > 0 && searchTerm.length > 0) {
+            matches.forEach(function(match) {
+                dropdown.append('<li class="list-group-item seleccionarOficinaDropdown">' + match + '</li>');
+            });
+            dropdown.show();
+        } else {
+            dropdown.hide();
+        }
     });
 
     $('#oficinasSeleccionadas').on('click', '.quitarOficinaBtn', function() {
         $(this).parent().remove();
+    });
+
+    // Seleccionar oficina desde la lista desplegable
+    $(document).on('click', '.seleccionarOficinaDropdown', function() {
+        var oficina = $(this).text();
+        $('#oficinasSeleccionadas').append('<li class="list-group-item d-flex justify-content-between align-items-center">' + oficina + '<button type="button" class="btn btn-danger btn-sm quitarOficinaBtn">Quitar</button></li>');
+        $('#buscarOficinasInput').val('');
+        $('#oficinasDropdown').hide();
+    });
+
+    // Ocultar lista desplegable al hacer clic fuera
+    $(document).click(function(event) {
+        if (!$(event.target).closest('#buscarOficinasInput, #oficinasDropdown').length) {
+            $('#oficinasDropdown').hide();
+        }
     });
 });
 </script>
@@ -348,10 +424,10 @@ $(document).ready(function() {
 
     <div class="form-group">
         <label>Indicar si otros Sujetos Obligados participan en la realización de las inspecciones, verificaciones y visitas domiciliarias:<span class="text-danger">*</span></label>
-        <select name="Otros_Sujetos_Participan" class="form-control" required>
-            <option value="no" {{ !isset($inspeccion) || $inspeccion->Otros_Sujetos_Participan == 'no' ? 'selected' : '' }}>No</option>
-            <option value="si" {{ isset($inspeccion) && $inspeccion->Otros_Sujetos_Participan == 'si' ? 'selected' : '' }}>Sí</option>
-        </select>
+        <div>
+            <label><input type="radio" name="Otros_Sujetos_Participan" value="no" {{ !isset($inspeccion) || $inspeccion->Otros_Sujetos_Participan == 'no' ? 'checked' : '' }}> No</label>
+            <label><input type="radio" name="Otros_Sujetos_Participan" value="si" {{ isset($inspeccion) && $inspeccion->Otros_Sujetos_Participan == 'si' ? 'checked' : '' }}> Sí</label>
+        </div>
     </div>
 
     <div class="form-group" id="sujetosObligados" style="display: none;">
@@ -455,7 +531,7 @@ $(document).ready(function() {
 
 <script>
 $(document).ready(function() {
-    $('select[name="Otros_Sujetos_Participan"]').change(function() {
+    $('input[name="Otros_Sujetos_Participan"]').change(function() {
         if ($(this).val() == 'si') {
             $('#sujetosObligados').show();
         } else {
@@ -865,7 +941,7 @@ $(document).ready(function() {
     });
 });
 </script>
-                    <div class="form-navigation">
+<div class="form-navigation">
                         <button type="button" class="btn" id="prevBtn" onclick="navigateStep(-1)">Anterior</button>
                         <button type="button" class="btn" id="nextBtn" onclick="navigateStep(1)">Siguiente</button>
                         <button type="submit" class="btn" id="submitBtn" style="display:none;">{{ isset($inspeccion) ? 'Actualizar' : 'Guardar' }}</button>
@@ -875,7 +951,6 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
-
 <style>
     /* --- Global Variables --- */
     :root {
