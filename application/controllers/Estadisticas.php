@@ -6,6 +6,7 @@ class Estadisticas extends CI_Controller {
         parent::__construct();
         $this->load->model('EstadisticasModel');
         $this->load->model('NotificacionesModel');
+        $this->load->model('InspeccionDetalladaModel');
         $this->load->helper(['form', 'url']);
         $this->load->library(['form_validation', 'session', 'upload', 'ion_auth']);
     }
@@ -29,6 +30,19 @@ class Estadisticas extends CI_Controller {
             'Enero','Febrero','Marzo','Abril','Mayo','Junio',
             'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
         ];
+
+        // Obtener datos de inspeccion_detallada
+        $inspecciones_detalladas = $this->InspeccionDetalladaModel->get_all_inspecciones();
+
+        // Calcular el total de inspecciones desde enero hasta diciembre
+        foreach ($inspecciones_detalladas as &$inspeccion) {
+            $inspeccion['Total'] = $inspeccion['Enero_Inspecciones'] + $inspeccion['Febrero_Inspecciones'] + $inspeccion['Marzo_Inspecciones'] +
+                                   $inspeccion['Abril_Inspecciones'] + $inspeccion['Mayo_Inspecciones'] + $inspeccion['Junio_Inspecciones'] +
+                                   $inspeccion['Julio_Inspecciones'] + $inspeccion['Agosto_Inspecciones'] + $inspeccion['Septiembre_Inspecciones'] +
+                                   $inspeccion['Octubre_Inspecciones'] + $inspeccion['Noviembre_Inspecciones'] + $inspeccion['Diciembre_Inspecciones'];
+        }
+
+        $data['inspecciones_detalladas'] = $inspecciones_detalladas;
 
         // Renderizar la vista usando Blade
         $this->blade->render('estadisticas/estadisticas', $data);
@@ -62,9 +76,7 @@ class Estadisticas extends CI_Controller {
         } else {
             // Tomar los datos del POST
             $data = [
-                'Ficha_ID' => $this->input->post('Ficha_ID'),
-                'Inspector_ID' => $this->input->post('Inspector_ID'),
-                'Sujeto_Obligado_ID' => $this->input->post('Sujeto_Obligado_ID'),
+                'Fecha_Estadistica' => $this->input->post('Fecha_Estadistica'),
                 'Enero_Inspecciones' => $this->input->post('enero'),
                 'Febrero_Inspecciones' => $this->input->post('febrero'),
                 'Marzo_Inspecciones' => $this->input->post('marzo'),
@@ -77,11 +89,12 @@ class Estadisticas extends CI_Controller {
                 'Octubre_Inspecciones' => $this->input->post('octubre'),
                 'Noviembre_Inspecciones' => $this->input->post('noviembre'),
                 'Diciembre_Inspecciones' => $this->input->post('diciembre'),
-                'Fecha_Estadistica' => $this->input->post('Fecha_Estadistica'),
-                'Tipo_Inspeccion' => $this->input->post('Tipo_Inspeccion'),
-                'Resultado' => $this->input->post('Resultado'),
+                'Ultima_Actualizacion' => $this->input->post('ultima_actualizacion'),
                 'Sanciones' => $this->input->post('sanciones'),
-                'ultima_actualizacion' => $this->input->post('ultima_actualizacion')
+                'Total' => $this->input->post('enero') + $this->input->post('febrero') + $this->input->post('marzo') +
+                           $this->input->post('abril') + $this->input->post('mayo') + $this->input->post('junio') +
+                           $this->input->post('julio') + $this->input->post('agosto') + $this->input->post('septiembre') +
+                           $this->input->post('octubre') + $this->input->post('noviembre') + $this->input->post('diciembre')
             ];
 
             // Llamamos al modelo para guardar

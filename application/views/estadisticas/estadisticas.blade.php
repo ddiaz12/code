@@ -10,9 +10,9 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 @endsection
 @section('contenido')
 
-<div class="container-fluid" style="margin-top: 20px;"> <!-- Añadido margen superior -->
+<div class="container-fluid" style="margin-top: 20px;">
     <!-- Breadcrumb -->
-    <nav class="breadcrumb-container" style="margin-left: -180px; margin-right: 20px; margin-top: 2px;"> <!-- Añadido margen superior -->
+    <nav class="breadcrumb-container" style="margin-left: -180px; margin-right: 20px; margin-top: 2px;">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="{{ base_url('home') }}">
@@ -34,7 +34,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
             <div class="header-actions">
                 <h3>Estadísticas</h3>
                 <div class="button-group">
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href='{{ base_url('home') }}'">Regresar</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='{{ base_url('home-sujeto') }}'">Regresar</button>
                 </div>
             </div>
 
@@ -69,12 +69,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                 </div>
 
                 <input type="hidden" name="ultima_actualizacion" value="{{ date('Y-m-d H:i:s') }}">
-                <input type="hidden" name="Ficha_ID" value="{{ $ficha_id ?? '' }}">
-                <input type="hidden" name="Inspector_ID" value="{{ $inspector_id ?? '' }}">
-                <input type="hidden" name="Sujeto_Obligado_ID" value="{{ $sujeto_obligado_id ?? '' }}">
                 <input type="hidden" name="Fecha_Estadistica" value="{{ date('Y-m-d') }}">
-                <input type="hidden" name="Tipo_Inspeccion" value="{{ $tipo_inspeccion ?? '' }}">
-                <input type="hidden" name="Resultado" value="{{ $resultado ?? '' }}">
 
                 <p class="update-date">
                     Fecha de última actualización de la ficha de inspección: {{ $ultima_actualizacion ?? '' }}
@@ -84,6 +79,33 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                     <button type="submit" class="btn btn-success">Guardar</button>
                 </div>
             </form>
+        </div>
+
+        <!-- Tabla de Inspecciones Detalladas -->
+        <div class="inspecciones-detalladas-section">
+            <h3>Estadisticas ingresadas</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Homoclave</th>
+                        <th>Nombre de la Inspección</th>
+                        <th>Inspecciones Sancionadas</th>
+                        <th>Total</th>
+                        <th>Última Actualización</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($inspecciones_detalladas as $inspeccion)
+                        <tr>
+                            <td>{{ $inspeccion['Homoclave'] }}</td>
+                            <td>{{ $inspeccion['Nombre_Inspeccion'] }}</td>
+                            <td>{{ $inspeccion['Inspecciones_Sancionadas'] }}</td>
+                            <td>{{ $inspeccion['Total'] }}</td>
+                            <td>{{ $inspeccion['Ultima_Actualizacion'] }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -206,6 +228,14 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
     .btn-success:hover {
         background-color: #218838;
         border-color: #1e7e34;
+    }
+
+    .inspecciones-detalladas-section {
+        margin-top: 40px;
+    }
+
+    .inspecciones-detalladas-section h3 {
+        margin-bottom: 20px;
     }
 
     @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class ConsultaVisitasDomiciliariasModel extends CI_Model
+class VisitasDomiciliariasModel extends CI_Model
 {
     public function __construct()
     {
@@ -23,7 +23,6 @@ class ConsultaVisitasDomiciliariasModel extends CI_Model
 
     public function contarRegulaciones()
     {
-        // Contar las filas en la tabla 'cat_sujeto_obligado'
         return $this->db->count_all('cat_sujeto_obligado');
     }
 
