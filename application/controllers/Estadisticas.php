@@ -42,7 +42,24 @@ class Estadisticas extends CI_Controller {
                                    $inspeccion['Octubre_Inspecciones'] + $inspeccion['Noviembre_Inspecciones'] + $inspeccion['Diciembre_Inspecciones'];
         }
 
-        $data['inspecciones_detalladas'] = $inspecciones_detalladas;
+        // Obtener datos de estadisticas
+        $estadisticas = $this->EstadisticasModel->get_all_estadisticas();
+
+        // Combinar datos de inspeccion_detallada y estadisticas
+        foreach ($estadisticas as &$estadistica) {
+            foreach ($inspecciones_detalladas as $inspeccion) {
+                if (isset($inspeccion['Fecha_Estadistica']) && $estadistica['Fecha_Estadistica'] == $inspeccion['Fecha_Estadistica']) {
+                    $estadistica['updated_at'] = $inspeccion['updated_at'];
+                    break;
+                }
+            }
+        }
+
+        $data['inspecciones_detalladas'] = $estadisticas;
+
+        // Obtener la última actualización
+        $ultima_actualizacion = $this->EstadisticasModel->get_ultima_actualizacion();
+        $data['ultima_actualizacion'] = $ultima_actualizacion;
 
         // Renderizar la vista usando Blade
         $this->blade->render('estadisticas/estadisticas', $data);
@@ -76,7 +93,7 @@ class Estadisticas extends CI_Controller {
         } else {
             // Tomar los datos del POST
             $data = [
-                'Fecha_Estadistica' => $this->input->post('Fecha_Estadistica'),
+                'Fecha_Estadistica' => date('Y-m-d'),
                 'Enero_Inspecciones' => $this->input->post('enero'),
                 'Febrero_Inspecciones' => $this->input->post('febrero'),
                 'Marzo_Inspecciones' => $this->input->post('marzo'),
@@ -89,7 +106,7 @@ class Estadisticas extends CI_Controller {
                 'Octubre_Inspecciones' => $this->input->post('octubre'),
                 'Noviembre_Inspecciones' => $this->input->post('noviembre'),
                 'Diciembre_Inspecciones' => $this->input->post('diciembre'),
-                'Ultima_Actualizacion' => $this->input->post('ultima_actualizacion'),
+                'Ultima_Actualizacion' => date('Y-m-d H:i:s'),
                 'Sanciones' => $this->input->post('sanciones'),
                 'Total' => $this->input->post('enero') + $this->input->post('febrero') + $this->input->post('marzo') +
                            $this->input->post('abril') + $this->input->post('mayo') + $this->input->post('junio') +

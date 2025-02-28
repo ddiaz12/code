@@ -39,4 +39,11 @@ class EstadisticasModel extends CI_Model {
         $this->db->where('Estadistica_ID', $id);
         return $this->db->delete('estadisticas');
     }
+
+    // Método para obtener la última actualización
+    public function get_ultima_actualizacion() {
+        $this->db->select_max('Ultima_Actualizacion');
+        $query = $this->db->get('estadisticas');
+        return $query->row()->Ultima_Actualizacion;
+    }
 }

@@ -83,29 +83,29 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 
         <!-- Tabla de Inspecciones Detalladas -->
         <div class="inspecciones-detalladas-section">
-            <h3>Estadisticas ingresadas</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Homoclave</th>
-                        <th>Nombre de la Inspección</th>
-                        <th>Inspecciones Sancionadas</th>
-                        <th>Total</th>
-                        <th>Última Actualización</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($inspecciones_detalladas as $inspeccion)
-                        <tr>
-                            <td>{{ $inspeccion['Homoclave'] }}</td>
-                            <td>{{ $inspeccion['Nombre_Inspeccion'] }}</td>
-                            <td>{{ $inspeccion['Inspecciones_Sancionadas'] }}</td>
-                            <td>{{ $inspeccion['Total'] }}</td>
-                            <td>{{ $inspeccion['Ultima_Actualizacion'] }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <h3 class="estadisticas-ingresadas">Estadisticas ingresadas</h3>
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Fecha de creación de la Estadística</th>
+                                <th>Sanciones</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($inspecciones_detalladas as $inspeccion)
+                                <tr>
+                                    <td>{{ \Carbon\Carbon::parse($inspeccion['Ultima_Actualizacion'] ?? $inspeccion['updated_at'])->format('Y-m-d') }}</td>
+                                    <td>{{ $inspeccion['Sanciones'] }}</td>
+                                    <td>{{ $inspeccion['Total'] }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -232,10 +232,60 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
 
     .inspecciones-detalladas-section {
         margin-top: 40px;
+        overflow-x: auto;
     }
 
-    .inspecciones-detalladas-section h3 {
+    .estadisticas-ingresadas {
+        color: #000000;
         margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .table-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+        border-collapse: collapse;
+    }
+
+    .table thead th {
+        background-color: #712F3E;
+        color: white;
+        font-weight: 500;
+        padding: 12px;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+        border-top: 1px solid #dee2e6;
+        color: #333;
+    }
+
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
 
     @media (max-width: 768px) {
