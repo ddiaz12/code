@@ -22,9 +22,6 @@
 
         <h2 class="mt-4 text-center"><b>Registro Estatal de Visitas Domiciliarias (REVID)</b></h2>
         <h5 class="text-center fs-5 fst-italic mb-4">Inspecciones, Verificaciones y Visitas Domiciliarias</h5>
-
-        <!-- Eliminar o reducir el espacio extra -->
-        <!-- <div style="height: 1.5cm;"></div> -->
         
         <div class="container-fluid px-4" style="max-width: calc(100% - 3cm); margin: 0 auto;">
             <div class="row align-items-center mb-3">
@@ -40,12 +37,12 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="<?= base_url('visitas/descargar/pdf'); ?>?ids=<?= implode(',', array_column($inspecciones, 'id_inspeccion')); ?>">
+                                <a class="dropdown-item" href="<?= base_url('visitas/descargar/pdf'); ?>?ids=<?= implode(',', array_column($inspecciones, 'ID')); ?>">
                                     <i class="fas fa-file-pdf"></i> PDF
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="<?= base_url('visitas/descargar/excel'); ?>?ids=<?= implode(',', array_column($inspecciones, 'id_inspeccion')); ?>">
+                                <a class="dropdown-item" href="<?= base_url('visitas/descargar/excel'); ?>?ids=<?= implode(',', array_column($inspecciones, 'ID')); ?>">
                                     <i class="fas fa-file-excel"></i> Excel
                                 </a>
                             </li>
@@ -54,57 +51,60 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr style="background-color: #8E354A; color: white;">
-                            <th class="text-center">ID</th>
-                            <th class="text-center">Homoclave</th>
-                            <th class="text-center">Nombre</th>
-                            <th class="text-center">Modalidad</th>
-                            <th class="text-center">Sujeto Obligado</th>
-                            <th class="text-center">Unidad Administrativa</th>
-                            <th class="text-center">Estatus</th>
-                            <th class="text-center">Tipo</th>
-                            <th class="text-center">Vigencia</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (empty($inspecciones))
-                            <tr>
-                                <td colspan="10" class="text-center py-3">No hay información disponible</td>
+            <!-- Tabla -->
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr style="background-color: #8E354A; color: white;">
+                                <th>ID</th>
+                                <th>Homoclave</th>
+                                <th>Nombre</th>
+                                <th>Modalidad</th>
+                                <th>Sujeto Obligado</th>
+                                <th>Unidad Administrativa</th>
+                                <th>Estatus</th>
+                                <th>Tipo</th>
+                                <th>Vigencia</th>
+                                <th>Acciones</th>
                             </tr>
-                        @else
+                        </thead>
+                        <tbody>
                             @foreach ($inspecciones as $inspeccion)
-                                <tr>
-                                    <td class="text-center">{{ $inspeccion['id_inspeccion'] }}</td>
-                                    <td class="text-center">{{ $inspeccion['Homoclave'] }}</td>
-                                    <td class="text-center">{{ $inspeccion['Nombre_Inspeccion'] }}</td>
-                                    <td class="text-center">{{ $inspeccion['Modalidad'] }}</td>
-                                    <td class="text-center">{{ $inspeccion['Sujeto_Obligado_ID'] }}</td>
-                                    <td class="text-center">{{ $inspeccion['Unidad_Administrativa'] }}</td>
-                                    <td class="text-center">{{ $inspeccion['Estatus'] }}</td>
-                                    <td class="text-center">{{ $inspeccion['Tipo_Inspeccion'] }}</td>
-                                    <td class="text-center">{{ $inspeccion['Vigencia'] }}</td>
-                                    <td class="text-center">
-                                        <a href="#" title="Enviar"><i class="fas fa-paper-plane"></i></a>
-                                        <a href="<?= base_url('Agregarinspeccion/editar/'.$inspeccion['id_inspeccion']); ?>" title="Editar"><i class="fas fa-edit"></i></a>
-                                        <a href="#" title="Trazabilidad"><i class="fas fa-route"></i></a>
-                                        <a href="#" title="Agregar Comentarios"><i class="fas fa-comments"></i></a>
-                                        <a href="#" title="Eliminar"><i class="fas fa-trash-alt"></i></a>
-                                        
-                                </tr>
+                            <tr>
+                                <td>{{ $inspeccion['id_inspeccion'] }}</td>
+                                <td>{{ $inspeccion['Homoclave'] }}</td>
+                                <td>{{ $inspeccion['Nombre_Inspeccion'] }}</td>
+                                <td>{{ $inspeccion['Modalidad'] }}</td>
+                                <td>{{ $inspeccion['Sujeto_Obligado'] }}</td>
+                                <td>{{ $inspeccion['Unidad_Administrativa'] }}</td>
+                                <td>{{ $inspeccion['Estatus'] }}</td>
+                                <td>{{ $inspeccion['Tipo'] }}</td>
+                                <td>{{ $inspeccion['Vigencia'] }}</td>
+                                <td class="action-icons">
+                                    <a href="{{ base_url('InspeccionesController/form/' . $inspeccion['id_inspeccion']) }}" 
+                                       title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ base_url('InspeccionesController/eliminar/' . $inspeccion['id_inspeccion']) }}" 
+                                       title="Eliminar" 
+                                       onclick="return confirm('¿Estás seguro de eliminar esta inspección?');">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
                             @endforeach
-                        @endif
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
     <style>
-        /* Estilo similar a la vista de inspectores */
+        .table thead tr {
+            background-color: #8E354A;
+            color: white;
+        }
         .table td .fas {
             margin: 0 5px;
             color: #8E354A;
@@ -113,7 +113,7 @@
         }
         .table td .fas:hover {
             transform: scale(1.2);
-            color: #6A2338;
+            color: #8E354A;
         }
         .table td a {
             text-decoration: none;
@@ -149,7 +149,8 @@
         $(document).ready(function () {
             $('.table').DataTable({
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                    "emptyTable": "No hay datos disponibles en la tabla"
                 },
                 "ordering": false,
                 "paging": false,

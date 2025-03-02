@@ -37,7 +37,7 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                     <p class="card-text text-center mb-0" style="font-size: 0.85rem;">Administra inspecciones, verificaciones y visitas domiciliarias.</p>
                 </div>
                 <div class="card-footer text-center py-2">
-                    <a href="<?= base_url('visitas'); ?>" class="btn btn-primary btn-oficina btn-sm">Administrar</a>
+                    <a href="<?= base_url('inspecciones'); ?>" class="btn btn-primary btn-oficina btn-sm">Administrar</a>
                 </div>
             </div>
         </div>
