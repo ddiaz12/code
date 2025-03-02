@@ -43,9 +43,7 @@ class InspeccionesController extends CI_Controller {
 
     // Cargar formulario para agregar o editar inspección
     public function form($id_inspeccion = null) {
-        log_message('debug', 'InspeccionesController form method called with id: ' . $id_inspeccion);
-        
-        // Definir datos iniciales
+        // Se preparan las variables a pasar a la vista, incluyendo los campos definidos en la base de datos.
         $data = [
             'pasos' => [
                 "Datos de identificación",
@@ -59,28 +57,24 @@ class InspeccionesController extends CI_Controller {
                 "Emergencias"
             ],
             'tipos_inspeccion' => ["Asesoria", "Asistencia", "Control", "Corroboración", "Otra", "Promoción", "Supervisión", "Vigilancia"],
-            'inspeccion' => null, // Inicializa inspección como null por defecto
-            'tipoSeleccionado' => null // Inicializa tipoSeleccionado
+            'inspeccion' => null,
+            'tipoSeleccionado' => null
         ];
     
-        // Si se proporciona un ID, obtener los datos de la inspección
         if ($id_inspeccion) {
-            $data['inspeccion'] = $this->InspeccionesModel->get_inspeccion_by_id($id_inspeccion);
-            log_message('debug', 'Inspeccion data: ' . print_r($data['inspeccion'], true));
-    
-            // Si la inspección tiene un tipo, pasarlo a la vista
+            $inspeccionData = $this->InspeccionesModel->get_inspeccion_by_id($id_inspeccion);
+            $data['inspeccion'] = (object)$inspeccionData;
             $data['tipoSeleccionado'] = isset($data['inspeccion']->Tipo_Inspeccion) ? $data['inspeccion']->Tipo_Inspeccion : null;
         }
     
-        // Obtener usuario y grupo para notificaciones
+        // Notificaciones y otros datos
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
-        $groupName = $group->name;
-        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
+        $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($group->name);
     
-        // Renderizar vista con datos
         $this->blade->render('inspecciones/agregarinspeccion', $data);
     }
+
     // Guardar una nueva inspección o actualizar una existente
     public function guardar() {
         log_message('debug', 'InspeccionesController guardar method called');

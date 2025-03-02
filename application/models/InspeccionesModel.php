@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// Se asume que la tabla "ma_inspeccion" contiene columnas con los nombres usados en el formulario.
 class InspeccionesModel extends CI_Model {
 
     public function __construct() {
@@ -8,10 +9,9 @@ class InspeccionesModel extends CI_Model {
         $this->load->database();
     }
 
-    // Obtener todas las inspecciones
+    // Obtener todas las inspecciones (usando la tabla ma_inspeccion)
     public function get_inspecciones() {
-        $this->db->select('*');
-        $query = $this->db->get('ma_inspeccion'); // Nombre de la tabla en la base de datos
+        $query = $this->db->get('ma_inspeccion');
         return $query->result_array();
     }
 
