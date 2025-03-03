@@ -323,8 +323,7 @@
 
 <!-- ===================== Sección de Fundamentos (se muestra solo si la respuesta es "Sí") ===================== -->
 <div id="fundamentosContainer" style="display: none; margin-top: 20px;">
-  <h5>Fundamentos jurídicos</h5>
-
+  <h5 id="tituloFundamentos" style="display: none;">Fundamentos jurídicos</h5>
   <!-- Tabla donde se mostrarán los fundamentos añadidos -->
   <table class="table table-bordered mt-3" id="tablaFundamentos">
     <thead>
@@ -415,6 +414,9 @@
 <!-- ===================== Script con la lógica ===================== -->
 <script>
 $(document).ready(function() {
+  // Inicialmente oculta la tabla de fundamentos y el título
+  $('#tablaFundamentos').hide();
+  $('#tituloFundamentos').hide();
   // 1. Mostrar/ocultar la sección de fundamentos según "Sí" o "No"
   $('input[name="Fundamento_Juridico"]').change(function() {
     if ($(this).val() === 'si') {
@@ -459,6 +461,12 @@ $(document).ready(function() {
     `;
     $('#tablaFundamentos tbody').append(fila);
 
+    // Si es el primer registro, muestra la tabla y el título
+    if ($('#tablaFundamentos tbody tr').length > 0) {
+        $('#tablaFundamentos').show();
+        $('#tituloFundamentos').show();
+    }
+
     // Cerrar el modal
     $('#modalFundamento').modal('hide');
 
@@ -486,6 +494,11 @@ $(document).ready(function() {
   // 4. Eliminar fila de la tabla si dan clic en el botón de basura
   $('#tablaFundamentos').on('click', '.btnBorrarFundamento', function() {
     $(this).closest('tr').remove();
+    // Si ya no hay filas, oculta la tabla y el título
+    if ($('#tablaFundamentos tbody tr').length === 0) {
+        $('#tablaFundamentos').hide();
+        $('#tituloFundamentos').hide();
+    }
   });
 });
 
