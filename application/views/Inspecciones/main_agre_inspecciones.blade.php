@@ -95,31 +95,49 @@
                     <input type="hidden" name="id_inspeccion" value="{{ isset($inspeccion) ? $inspeccion->id_inspeccion : '' }}">
 
                     <!-- =================== STEP 1: Datos de identificación =================== -->
-                    @include('Inspecciones/steps/datos_de_identificacion')
+                    <div class="form-step" id="step-1">
+                        @include('Inspecciones/steps/datos_de_identificacion')
+                    </div>
 
                     <!-- =================== STEP 2: Autoridad Pública =================== -->
-                    @include('Inspecciones/steps/autoridadpublica')
+                    <div class="form-step" id="step-2">
+                        @include('Inspecciones/steps/autoridadpublica')
+                    </div>
 
                     <!-- =================== STEP 3: Información sobre la inspección =================== -->
-                    @include('Inspecciones/steps/inf_sobre_inspeccion')
+                    <div class="form-step" id="step-3">
+                        @include('Inspecciones/steps/inf_sobre_inspeccion')
+                    </div>
 
                     <!-- =================== STEP 4: Más detalles =================== -->
-                    @include('Inspecciones/steps/masdetalle')
+                    <div class="form-step" id="step-4">
+                        @include('Inspecciones/steps/masdetalle')
+                    </div>
 
                     <!-- =================== STEP 5: Información de la Autoridad Pública y Contacto =================== -->
-                    @include('Inspecciones/steps/inf_autpub_contacto')
+                    <div class="form-step" id="step-5">
+                        @include('Inspecciones/steps/inf_autpub_contacto')
+                    </div>
 
                     <!-- =================== STEP 6: Estadísticas =================== -->
-                    @include('Inspecciones/steps/step_estadisticas')
+                    <div class="form-step" id="step-6">
+                        @include('Inspecciones/steps/step_estadisticas')
+                    </div>
 
                     <!-- =================== STEP 7: Información adicional =================== -->
-                    @include('Inspecciones/steps/inf_adicional')
+                    <div class="form-step" id="step-7">
+                        @include('Inspecciones/steps/inf_adicional')
+                    </div>
 
                     <!-- =================== STEP 8: No publicidad =================== -->
-                    @include('Inspecciones/steps/no_publicidad')
+                    <div class="form-step" id="step-8">
+                        @include('Inspecciones/steps/no_publicidad')
+                    </div>
 
                     <!-- =================== STEP 9: Emergencias =================== -->
-                    @include('Inspecciones/steps/emergencias')
+                    <div class="form-step" id="step-9">
+                        @include('Inspecciones/steps/emergencias')
+                    </div>
 
                     <!-- Botones de navegación -->
                     <div class="form-navigation">
@@ -180,13 +198,12 @@
         color: white;
     }
     .form-step {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        display: none; /* Por defecto, se ocultan */
     }
-    /* Los steps que no sean el 1 se muestran en 1 columna */
-    .form-step:not(#step-1) {
-        grid-template-columns: 1fr;
+    .form-step.active {
+        display: grid; /* El paso activo se muestra como grid */
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas para el step */
+        gap: 1rem;
     }
     .form-step > h3,
     .form-step > h5,
@@ -224,9 +241,9 @@
         font-weight: bold;
         text-align: left;
     }
-    /* Responsive */
+    /* Responsive: en pantallas chicas, 1 sola columna */
     @media (max-width: 768px) {
-        .form-step {
+        .form-step.active {
             grid-template-columns: 1fr;
         }
         .statistics-row {
@@ -325,11 +342,12 @@ let currentStep = 1;
 const totalSteps = 9;
 
 function showStep(step) {
-    // Oculta todos los steps y muestra solo el actual asignándole display grid
-    $('.form-step').hide();
-    $('#step-' + step).css('display','grid');
+    // Remueve la clase active de todos los steps
+    $('.form-step').removeClass('active');
+    // Agrega la clase active solo al step actual
+    $('#step-' + step).addClass('active');
     
-    // Actualiza la clase "active" en el sidebar
+    // Actualiza la clase "active" en los botones de la sidebar
     $('.wizard-step').removeClass('active');
     $('.wizard-step[data-step="'+step+'"]').addClass('active');
 
@@ -359,6 +377,7 @@ function navigateStep(direction) {
 $(document).ready(function() {
     // Inicializa el primer step
     showStep(1);
+
     // Navegación por clic en el sidebar
     $('.wizard-step').click(function() {
         const step = $(this).data('step');

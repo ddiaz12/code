@@ -52,22 +52,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'ciudadania';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-
-// Ruta: http://localhost/codediego/consulta-visitas-domiciliarias
-$route['consulta-visitas-domiciliarias'] = 'ConsultaVisitasDomiciliariasController';
-
 $route['ciudadania/buscarRegulacion'] = 'Ciudadania/buscarRegulacion';
 $route['actualizar-estatus'] = 'RegulacionController/actualizar_estatus';
 $route['guias/list'] = 'Guia/list';
 $route['guias/delete'] = 'Guia/delete';
 $route['inspector/EditarInspector/(:num)'] = 'AgregarInspector/editarInspector/$1';
-$route['visitas/descargar/(:any)'] = 'visitas/descargar/$1';
-$route['ver-inspectores'] = 'VerInspectoresController/verInspectores';
-$route['ver-inspecciones'] = 'VerInspeccionesController/verInspecciones';
-$route['ver-estadisticas'] = 'VerEstadisticasController/verEstadisticas';
-$route['estadisticas/guardar'] = 'estadisticas/guardar';
+
+// Rutas para Inspecciones
 $route['inspecciones'] = 'InspeccionesController/index';
-$route['inspecciones/agregar'] = 'InspeccionesController/form';
-$route['inspecciones/editar/(:num)'] = 'InspeccionesController/form/$1';
+$route['inspecciones/form'] = 'InspeccionesController/form';
+$route['inspecciones/form/(:num)'] = 'InspeccionesController/form/$1';
 $route['inspecciones/guardar'] = 'InspeccionesController/guardar';
 $route['inspecciones/eliminar/(:num)'] = 'InspeccionesController/eliminar/$1';
+
+// Rutas para la nueva vista de agregar inspecciones
+$route['inspecciones/main_agre_inspecciones'] = 'InspeccionesController/form';
+$route['inspecciones/main_agre_inspecciones/(:num)'] = 'InspeccionesController/form/$1';
+
+//$route['ciudadania/buscarRegulaciones'] = 'Ciudadania/buscarRegulaciones';

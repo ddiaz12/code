@@ -80,7 +80,7 @@ class InspeccionesController extends CI_Controller {
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($group->name);
     
         // Finalmente, renderiza la vista UNA sola vez, ya con todo en $data
-        $this->blade->render('inspecciones/agregarinspeccion', $data);
+        $this->blade->render('inspecciones/main_agre_inspecciones', $data);
     }
 
     // Guardar una nueva inspección o actualizar una existente
@@ -104,6 +104,31 @@ class InspeccionesController extends CI_Controller {
             // Guardar fundamentos jurídicos si existen
             if (isset($data['Fundamentos_Juridicos'])) {
                 $this->InspeccionesModel->guardar_fundamentos_juridicos($data['id_inspeccion'], $data['Fundamentos_Juridicos']);
+            }
+
+            // Guardar oficinas seleccionadas si existen
+            if (isset($data['Oficinas_Seleccionadas'])) {
+                $this->InspeccionesModel->guardar_oficinas($data['id_inspeccion'], $data['Oficinas_Seleccionadas']);
+            }
+
+            // Guardar sujetos obligados seleccionados si existen
+            if (isset($data['Sujetos_Obligados_Seleccionados'])) {
+                $this->InspeccionesModel->guardar_sujetos_obligados($data['id_inspeccion'], $data['Sujetos_Obligados_Seleccionados']);
+            }
+
+            // Guardar derechos del sujeto regulado si existen
+            if (isset($data['Derechos_Sujeto_Regulado'])) {
+                $this->InspeccionesModel->guardar_derechos($data['id_inspeccion'], $data['Derechos_Sujeto_Regulado']);
+            }
+
+            // Guardar obligaciones del sujeto regulado si existen
+            if (isset($data['Obligaciones_Sujeto_Regulado'])) {
+                $this->InspeccionesModel->guardar_obligaciones($data['id_inspeccion'], $data['Obligaciones_Sujeto_Regulado']);
+            }
+
+            // Guardar facultades del sujeto obligado si existen
+            if (isset($data['Facultades_Sujeto_Obligado'])) {
+                $this->InspeccionesModel->guardar_facultades($data['id_inspeccion'], $data['Facultades_Sujeto_Obligado']);
             }
 
             $this->session->set_flashdata('success', 'Inspección guardada correctamente.');

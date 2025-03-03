@@ -51,4 +51,82 @@ class InspeccionesModel extends CI_Model {
         $query = $this->db->get('cat_tipo_ord_jur');
         return $query->result();
     }
+
+    // Guardar fundamentos jurídicos
+    public function guardar_fundamentos_juridicos($id_inspeccion, $fundamentos) {
+        // Eliminar fundamentos existentes para esta inspección
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        $this->db->delete('fundamentos_juridicos');
+
+        // Insertar nuevos fundamentos
+        foreach ($fundamentos as $fundamento) {
+            $fundamento['id_inspeccion'] = $id_inspeccion;
+            $this->db->insert('fundamentos_juridicos', $fundamento);
+        }
+    }
+
+    // Guardar oficinas seleccionadas
+    public function guardar_oficinas($id_inspeccion, $oficinas) {
+        // Eliminar oficinas existentes para esta inspección
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        $this->db->delete('oficinas_seleccionadas');
+
+        // Insertar nuevas oficinas
+        foreach ($oficinas as $oficina) {
+            $oficina['id_inspeccion'] = $id_inspeccion;
+            $this->db->insert('oficinas_seleccionadas', $oficina);
+        }
+    }
+
+    // Guardar sujetos obligados seleccionados
+    public function guardar_sujetos_obligados($id_inspeccion, $sujetos) {
+        // Eliminar sujetos obligados existentes para esta inspección
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        $this->db->delete('sujetos_obligados_seleccionados');
+
+        // Insertar nuevos sujetos obligados
+        foreach ($sujetos as $sujeto) {
+            $sujeto['id_inspeccion'] = $id_inspeccion;
+            $this->db->insert('sujetos_obligados_seleccionados', $sujeto);
+        }
+    }
+
+    // Guardar derechos del sujeto regulado
+    public function guardar_derechos($id_inspeccion, $derechos) {
+        // Eliminar derechos existentes para esta inspección
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        $this->db->delete('derechos_sujeto_regulado');
+
+        // Insertar nuevos derechos
+        foreach ($derechos as $derecho) {
+            $derecho['id_inspeccion'] = $id_inspeccion;
+            $this->db->insert('derechos_sujeto_regulado', $derecho);
+        }
+    }
+
+    // Guardar obligaciones del sujeto regulado
+    public function guardar_obligaciones($id_inspeccion, $obligaciones) {
+        // Eliminar obligaciones existentes para esta inspección
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        $this->db->delete('obligaciones_sujeto_regulado');
+
+        // Insertar nuevas obligaciones
+        foreach ($obligaciones as $obligacion) {
+            $obligacion['id_inspeccion'] = $id_inspeccion;
+            $this->db->insert('obligaciones_sujeto_regulado', $obligacion);
+        }
+    }
+
+    // Guardar facultades del sujeto obligado
+    public function guardar_facultades($id_inspeccion, $facultades) {
+        // Eliminar facultades existentes para esta inspección
+        $this->db->where('id_inspeccion', $id_inspeccion);
+        $this->db->delete('facultades_sujeto_obligado');
+
+        // Insertar nuevas facultades
+        foreach ($facultades as $facultad) {
+            $facultad['id_inspeccion'] = $id_inspeccion;
+            $this->db->insert('facultades_sujeto_obligado', $facultad);
+        }
+    }
 }
