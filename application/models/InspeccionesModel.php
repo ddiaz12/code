@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// Se asume que la tabla "ma_inspeccion" contiene columnas con los nombres usados en el formulario.
 class InspeccionesModel extends CI_Model {
 
     public function __construct() {
@@ -9,9 +8,10 @@ class InspeccionesModel extends CI_Model {
         $this->load->database();
     }
 
-    // Obtener todas las inspecciones (usando la tabla ma_inspeccion)
+    // Obtener todas las inspecciones
     public function get_inspecciones() {
-        $query = $this->db->get('ma_inspeccion');
+        $this->db->select('*');
+        $query = $this->db->get('ma_inspeccion'); // Nombre de la tabla en la base de datos
         return $query->result_array();
     }
 
@@ -37,5 +37,18 @@ class InspeccionesModel extends CI_Model {
     public function delete_inspeccion($id) {
         $this->db->where('id_inspeccion', $id);
         return $this->db->delete('ma_inspeccion');
+    }
+    
+    // Obtener sujetos obligados para la vista
+    public function get_sujetos_obligados() {
+        // Cambiar el nombre de la tabla a "cat_sujeto_obligado"
+        $query = $this->db->get('cat_sujeto_obligado');
+        return $query->result();
+    }
+    
+    // Obtener catálogo de tipo de ordenamiento jurídico
+    public function get_tipo_ord_jur() {
+        $query = $this->db->get('cat_tipo_ord_jur');
+        return $query->result();
     }
 }

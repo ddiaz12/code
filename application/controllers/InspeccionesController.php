@@ -43,7 +43,7 @@ class InspeccionesController extends CI_Controller {
 
     // Cargar formulario para agregar o editar inspección
     public function form($id_inspeccion = null) {
-        // Se preparan las variables a pasar a la vista, incluyendo los campos definidos en la base de datos.
+        // Se preparan las variables a pasar a la vista
         $data = [
             'pasos' => [
                 "Datos de identificación",
@@ -61,17 +61,25 @@ class InspeccionesController extends CI_Controller {
             'tipoSeleccionado' => null
         ];
     
+        // Si recibes un ID, carga la inspección
         if ($id_inspeccion) {
             $inspeccionData = $this->InspeccionesModel->get_inspeccion_by_id($id_inspeccion);
             $data['inspeccion'] = (object)$inspeccionData;
-            $data['tipoSeleccionado'] = isset($data['inspeccion']->Tipo_Inspeccion) ? $data['inspeccion']->Tipo_Inspeccion : null;
+            $data['tipoSeleccionado'] = isset($data['inspeccion']->Tipo_Inspeccion)
+                                        ? $data['inspeccion']->Tipo_Inspeccion
+                                        : null;
         }
+    
+        // Carga de sujetos obligados (si lo requieres en la vista)
+        $data['sujetos_obligados'] = $this->InspeccionesModel->get_sujetos_obligados();
+        $data['cat_tipo_ord_jur'] = $this->InspeccionesModel->get_tipo_ord_jur(); // Nuevo
     
         // Notificaciones y otros datos
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($group->name);
     
+        // Finalmente, renderiza la vista UNA sola vez, ya con todo en $data
         $this->blade->render('inspecciones/agregarinspeccion', $data);
     }
 
@@ -92,6 +100,12 @@ class InspeccionesController extends CI_Controller {
             } else {
                 $this->InspeccionesModel->insert_inspeccion($data);
             }
+
+            // Guardar fundamentos jurídicos si existen
+            if (isset($data['Fundamentos_Juridicos'])) {
+                $this->InspeccionesModel->guardar_fundamentos_juridicos($data['id_inspeccion'], $data['Fundamentos_Juridicos']);
+            }
+
             $this->session->set_flashdata('success', 'Inspección guardada correctamente.');
             redirect('InspeccionesController/index');
         }
