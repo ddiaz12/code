@@ -309,84 +309,206 @@
                         </div>
 
                         <!-- Modal de Fundamentos Jurídicos -->
-                        <div id="modalFundamento" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header" style="background-color: #8E354A;">
-                                        <h5 class="modal-title" style="color: white; width: 100%; text-align: center;">Fundamentos jurídicos</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="fundamentoForm">
-                                            <!-- Tipo de ordenamiento -->
-                                            <div class="form-group">
-                                                <label><b>Tipo de ordenamiento:</b><span class="text-danger">*</span></label>
-                                                <select name="ID_tOrdJur" class="form-control" required>
-                                                    @foreach($cat_tipo_ord_jur as $tipo)
-                                                        <option value="{{ $tipo->ID_tOrdJur }}">
-                                                            {{ $tipo->Tipo_Ordenamiento }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                        <div class="form-group">
+  <label><b>¿Existe un fundamento jurídico que dé origen a la inspección, verificación o visita domiciliaria?</b><span class="text-danger">*</span></label>
+  <div>
+    <label>
+      <input type="radio" name="Fundamento_Juridico" value="si"> Sí
+    </label>
+    <label>
+      <input type="radio" name="Fundamento_Juridico" value="no" checked> No
+    </label>
+  </div>
+</div>
 
-                                            <!-- Nombre del ordenamiento -->
-                                            <div class="form-group">
-                                                <label><b>Nombre del ordenamiento:</b><span class="text-danger">*</span></label>
-                                                <input type="text" name="Nombre_Ordenamiento" class="form-control" required>
-                                            </div>
+<!-- ===================== Sección de Fundamentos (se muestra solo si la respuesta es "Sí") ===================== -->
+<div id="fundamentosContainer" style="display: none; margin-top: 20px;">
+  <h5>Fundamentos jurídicos</h5>
 
-                                            <!-- Detalles del fundamento jurídico -->
-                                            <div class="form-row">
-                                                <div class="col">
-                                                    <label>Artículo:</label>
-                                                    <input type="text" name="Articulo" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label>Fracción:</label>
-                                                    <input type="text" name="Fraccion" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label>Inciso:</label>
-                                                    <input type="text" name="Inciso" class="form-control">
-                                                </div>
-                                            </div>
+  <!-- Tabla donde se mostrarán los fundamentos añadidos -->
+  <table class="table table-bordered mt-3" id="tablaFundamentos">
+    <thead>
+      <tr>
+        <th style="width: 30%">Tipo de ordenamiento</th>
+        <th style="width: 50%">Nombre del ordenamiento</th>
+        <th style="width: 20%">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Se agregarán filas dinámicamente con JS -->
+    </tbody>
+  </table>
+</div>
 
-                                            <div class="form-row mt-3">
-                                                <div class="col">
-                                                    <label>Párrafo:</label>
-                                                    <input type="text" name="Parrafo" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label>Número:</label>
-                                                    <input type="text" name="Numero" class="form-control">
-                                                </div>
-                                                <div class="col">
-                                                    <label>Letra:</label>
-                                                    <input type="text" name="Letra" class="form-control">
-                                                </div>
-                                            </div>
+<!-- ===================== Modal de Fundamentos Jurídicos ===================== -->
+<div class="modal fade" id="modalFundamento" tabindex="-1" role="dialog" aria-labelledby="modalFundamentoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #8E354A;">
+        <h5 class="modal-title" style="color: white;" id="modalFundamentoLabel">Fundamentos jurídicos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="cerrarModalFundamento()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Tipo de ordenamiento -->
+        <div class="form-group">
+          <label><b>Tipo de ordenamiento:</b><span class="text-danger">*</span></label>
+          <select id="tipoOrdenamiento" class="form-control">
+            <option value="">Selecciona una opción</option>
+            <option value="Ley">Ley</option>
+            <option value="Reglamento">Reglamento</option>
+            <option value="Norma Oficial Mexicana">Norma Oficial Mexicana</option>
+            <option value="Acuerdo">Acuerdo</option>
+            <!-- etc. O llénalo dinámicamente con tu cat_tipo_ord_jur -->
+          </select>
+        </div>
 
-                                            <div class="form-group mt-3">
-                                                <label>Otro:</label>
-                                                <input type="text" name="Otro" class="form-control">
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cerrar</button>
-                                        <button type="button" class="btn btn-primary" onclick="validarYGuardar()">Guardar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Nombre del ordenamiento -->
+        <div class="form-group">
+          <label><b>Nombre del ordenamiento:</b><span class="text-danger">*</span></label>
+          <input type="text" id="nombreOrdenamiento" class="form-control" required>
+        </div>
 
-                        <!-- Campo oculto para almacenar la lista de fundamentos en JSON -->
-                        <input type="hidden" name="fundamentos" id="fundamentos" value="" />
+        <!-- Otros campos: Artículo, Fracción, Inciso, etc. -->
+        <div class="form-row">
+          <div class="col">
+            <label>Artículo:</label>
+            <input type="text" id="articulo" class="form-control">
+          </div>
+          <div class="col">
+            <label>Fracción:</label>
+            <input type="text" id="fraccion" class="form-control">
+          </div>
+          <div class="col">
+            <label>Inciso:</label>
+            <input type="text" id="inciso" class="form-control">
+          </div>
+        </div>
+        <div class="form-row mt-3">
+          <div class="col">
+            <label>Párrafo:</label>
+            <input type="text" id="parrafo" class="form-control">
+          </div>
+          <div class="col">
+            <label>Número:</label>
+            <input type="text" id="numero" class="form-control">
+          </div>
+          <div class="col">
+            <label>Letra:</label>
+            <input type="text" id="letra" class="form-control">
+          </div>
+        </div>
+        <div class="form-group mt-3">
+          <label>Otro:</label>
+          <input type="text" id="otro" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- Botón para cerrar sin guardar -->
+        <button type="button" class="btn btn-secondary" onclick="cerrarModalFundamento()">Cerrar</button>
+        <!-- Botón para guardar -->
+        <button type="button" class="btn btn-primary" id="btnGuardarFundamento">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-                        <!-- Contenedor donde se mostrarán los fundamentos agregados -->
-                        <div id="listaFundamentos" class="mt-3"></div>
-                    </div>
+<!-- ===================== Script con la lógica ===================== -->
+<script>
+$(document).ready(function() {
+  // 1. Mostrar/ocultar la sección de fundamentos según "Sí" o "No"
+  $('input[name="Fundamento_Juridico"]').change(function() {
+    if ($(this).val() === 'si') {
+      $('#fundamentosContainer').show();
+    } else {
+      $('#fundamentosContainer').hide();
+    }
+  });
 
+  // 2. Abrir el modal al dar clic en "Añadir Fundamento"
+  $('#btnAddFundamento').click(function() {
+    $('#modalFundamento').modal('show'); // Abre el modal
+  });
+
+  // 3. Guardar el fundamento al dar clic en "Guardar" del modal
+  $('#btnGuardarFundamento').click(function() {
+    // Validar campos obligatorios
+    let tipo = $('#tipoOrdenamiento').val().trim();
+    let nombre = $('#nombreOrdenamiento').val().trim();
+
+    if (!tipo || !nombre) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Campos requeridos',
+        text: 'Debes seleccionar el Tipo de ordenamiento y capturar el Nombre',
+        confirmButtonColor: '#8E354A'
+      });
+      return;
+    }
+
+    // Agregar una fila a la tabla con el Tipo y Nombre
+    let fila = `
+      <tr>
+        <td>${tipo}</td>
+        <td>${nombre}</td>
+        <td>
+          <button type="button" class="btn btn-danger btn-sm btnBorrarFundamento">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+    $('#tablaFundamentos tbody').append(fila);
+
+    // Cerrar el modal
+    $('#modalFundamento').modal('hide');
+
+    // Limpia campos del modal (opcional)
+    $('#tipoOrdenamiento').val('');
+    $('#nombreOrdenamiento').val('');
+    $('#articulo').val('');
+    $('#fraccion').val('');
+    $('#inciso').val('');
+    $('#parrafo').val('');
+    $('#numero').val('');
+    $('#letra').val('');
+    $('#otro').val('');
+
+    // Opcional: mostrar alerta de éxito
+    Swal.fire({
+      icon: 'success',
+      title: 'Fundamento agregado',
+      text: 'Se ha agregado un fundamento jurídico a la lista.',
+      confirmButtonColor: '#8E354A',
+      timer: 1500
+    });
+  });
+
+  // 4. Eliminar fila de la tabla si dan clic en el botón de basura
+  $('#tablaFundamentos').on('click', '.btnBorrarFundamento', function() {
+    $(this).closest('tr').remove();
+  });
+});
+
+// Función para cerrar el modal con confirmación (si quieres)
+function cerrarModalFundamento() {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: "Los cambios no guardados se perderán",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#8E354A',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Sí, cerrar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $('#modalFundamento').modal('hide');
+    }
+  });
+}
+</script>
                     <!-- =================== STEP 2: Autoridad Pública =================== -->
                     <div class="form-step" id="step-2">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">
