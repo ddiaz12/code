@@ -356,11 +356,9 @@
           <label><b>Tipo de ordenamiento:</b><span class="text-danger">*</span></label>
           <select id="tipoOrdenamiento" class="form-control">
             <option value="">Selecciona una opción</option>
-            <option value="Ley">Ley</option>
-            <option value="Reglamento">Reglamento</option>
-            <option value="Norma Oficial Mexicana">Norma Oficial Mexicana</option>
-            <option value="Acuerdo">Acuerdo</option>
-            <!-- etc. O llénalo dinámicamente con tu cat_tipo_ord_jur -->
+            @foreach($cat_tipo_ord_jur as $tipo)
+              <option value="{{ $tipo->ID_tOrdJur }}">{{ $tipo->Tipo_Ordenamiento }}</option>
+            @endforeach
           </select>
         </div>
 
@@ -996,7 +994,7 @@ function cerrarModalFundamento() {
                     <div class="form-step" id="step-9">
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">
                             Emergencias
-                        </h3>
+                        </h5>
                         <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0;">
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
