@@ -28,17 +28,11 @@
     <label><b>Tipo de inspección, verificación o visita domiciliaria</b><span class="text-danger">*</span></label>
     <select name="Tipo_Inspeccion" class="form-control" required>
         <option value="">Selecciona</option>
-        <option value="Asesoria" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Asesoria' ? 'selected' : '' }}>
-            Asesoria</option>
-        <option value="Asistencia" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Asistencia' ? 'selected' : '' }}>Asistencia</option>
-        <option value="Control" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Control' ? 'selected' : '' }}>
-            Control</option>
-        <option value="Corroboración" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Corroboración' ? 'selected' : '' }}>Corroboración</option>
-        <option value="Otra" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Otra' ? 'selected' : '' }}>Otra
-        </option>
-        <option value="Promoción" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Promoción' ? 'selected' : '' }}>Promoción</option>
-        <option value="Supervisión" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Supervisión' ? 'selected' : '' }}>Supervisión</option>
-        <option value="Vigilancia" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Vigilancia' ? 'selected' : '' }}>Vigilancia</option>
+        @foreach($tipos_inspeccion as $tipo)
+            <option value="{{ $tipo->ID }}" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == $tipo->ID ? 'selected' : '' }}>
+                {{ $tipo->Tipo }}
+            </option>
+        @endforeach
     </select>
     <div id="especificarOtra" style="display: none;">
         <label>Especificar otra:</label>

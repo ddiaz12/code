@@ -56,7 +56,7 @@ class InspeccionesController extends CI_Controller {
                 "No publicidad",
                 "Emergencias"
             ],
-            'tipos_inspeccion' => ["Asesoria", "Asistencia", "Control", "Corroboración", "Otra", "Promoción", "Supervisión", "Vigilancia"],
+            'tipos_inspeccion' => $this->InspeccionesModel->get_tipos_inspeccion(), // Obtener tipos de inspección del catálogo
             'inspeccion' => null,
             'tipoSeleccionado' => null
         ];

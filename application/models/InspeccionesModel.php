@@ -129,4 +129,11 @@ class InspeccionesModel extends CI_Model {
             $this->db->insert('facultades_sujeto_obligado', $facultad);
         }
     }
+
+    // Obtener todos los tipos de inspección
+    public function get_tipos_inspeccion() {
+        $this->db->select('ID, Tipo');
+        $query = $this->db->get('cat_ins_tipo_inspeccion');
+        return $query->result();
+    }
 }
