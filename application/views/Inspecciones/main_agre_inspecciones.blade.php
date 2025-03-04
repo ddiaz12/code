@@ -200,7 +200,7 @@
     }
     .form-step.active {
         display: grid; /* El paso activo se muestra como grid */
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas para el step */
+        grid-template-columns: repeat(1, 1fr); /* 2 columnas para el step */
         gap: 1rem;
     }
     .form-step > h3,

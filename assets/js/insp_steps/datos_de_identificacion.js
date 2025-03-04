@@ -1,64 +1,49 @@
-
 $(document).ready(function() {
-    // Tipo de inspección -> "Otra"
-    $('select[name="Tipo_Inspeccion"]').change(function(){
-        if ($(this).val() === 'Otra') {
+    // Función para mostrar u ocultar el input "Especificar otra"
+    function toggleEspecificarOtra() {
+        // Suponiendo que el ID para "Otra" es 9 en la base de datos
+        if ($('select[name="Tipo_Inspeccion"]').val() === '5') {
             $('#especificarOtra').show();
         } else {
             $('#especificarOtra').hide();
         }
+    }
+
+    // Ejecutar al cargar la página (para que si viene seleccionado "Otra", se muestre)
+    toggleEspecificarOtra();
+    
+    // Asignar el evento change para actualizar el estado cuando el usuario cambie el valor
+    $('select[name="Tipo_Inspeccion"]').change(function(){
+        toggleEspecificarOtra();
     });
 
     // Ley de Fomento
     $('input[name="Ley_Fomento"]').change(function(){
-        if ($(this).val() === 'si') {
-            $('#justificarLeyFomento').show();
-        } else {
-            $('#justificarLeyFomento').hide();
-        }
+        $('#justificarLeyFomento').toggle($(this).val() === 'si');
     });
 
     // Dirigida a
     $('select[name="Dirigida_A"]').change(function(){
-        if ($(this).val() === 'Otras') {
-            $('#especificarDirigidaA').show();
-        } else {
-            $('#especificarDirigidaA').hide();
-        }
+        $('#especificarDirigidaA').toggle($(this).val() === 'Otras');
     });
 
     // Realizada en
     $('select[name="Realizada_En"]').change(function(){
-        if ($(this).val() === 'Otro') {
-            $('#especificarRealizadaEn').show();
-        } else {
-            $('#especificarRealizadaEn').hide();
-        }
+        $('#especificarRealizadaEn').toggle($(this).val() === 'Otro');
     });
 
     // Motivo de Inspección
     $('select[name="Motivo_Inspeccion"]').change(function(){
-        if ($(this).val() === 'Otro') {
-            $('#especificarMotivoInspeccion').show();
-        } else {
-            $('#especificarMotivoInspeccion').hide();
-        }
+        $('#especificarMotivoInspeccion').toggle($(this).val() === 'Otro');
     });
 
     // Mostrar/ocultar botón y contenedor de Fundamento según la selección
     // Se evalúa inicialmente el estado del input Fundamento_Juridico
-    if ($('input[name="Fundamento_Juridico"]:checked').val() === 'si') {
-        $('#btnAddFundamento, #fundamentosContainer').show();
-    } else {
-        $('#btnAddFundamento, #fundamentosContainer').hide();
-    }
+    $('#btnAddFundamento, #fundamentosContainer').toggle($('input[name="Fundamento_Juridico"]:checked').val() === 'si');
+
     // Cada vez que se cambie el valor, se actualiza la visibilidad de ambos elementos
     $('input[name="Fundamento_Juridico"]').change(function() {
-        if ($(this).val() === 'si') {
-            $('#btnAddFundamento, #fundamentosContainer').show();
-        } else {
-            $('#btnAddFundamento, #fundamentosContainer').hide();
-        }
+        $('#btnAddFundamento, #fundamentosContainer').toggle($(this).val() === 'si');
     });
 
     // Abrir el modal al dar clic en "Añadir Fundamento"
@@ -70,6 +55,7 @@ $(document).ready(function() {
     $('#btnGuardarFundamento').click(function() {
         // Validar campos obligatorios
         let tipo = $('#tipoOrdenamiento').val().trim();
+        let tipoTexto = $('#tipoOrdenamiento option:selected').text().trim();
         let nombre = $('#nombreOrdenamiento').val().trim();
 
         if (!tipo || !nombre) {
@@ -82,10 +68,10 @@ $(document).ready(function() {
             return;
         }
 
-        // Agregar una fila a la tabla con el Tipo y Nombre
+        // Agregar una fila a la tabla con el Tipo (texto) y Nombre
         let fila = `
             <tr>
-                <td>${tipo}</td>
+                <td>${tipoTexto}</td>
                 <td>${nombre}</td>
                 <td>
                     <button type="button" class="btn btn-danger btn-sm btnBorrarFundamento">
@@ -143,4 +129,7 @@ function cerrarModalFundamento() {
         }
     });
 }
+
+
+
 

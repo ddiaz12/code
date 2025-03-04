@@ -25,8 +25,11 @@
 </div>
 <!-- Tipo de inspección -->
 <div class="form-group">
-    <label><b>Tipo de inspección, verificación o visita domiciliaria</b><span class="text-danger">*</span></label>
-    <select name="Tipo_Inspeccion" class="form-control" required>
+    <label>
+        <b>Tipo de inspección, verificación o visita domiciliaria</b>
+        <span class="text-danger">*</span>
+    </label>
+    <select name="Tipo_Inspeccion" class="form-control" required id="tipoInspeccionSelect">
         <option value="">Selecciona</option>
         @foreach($tipos_inspeccion as $tipo)
             <option value="{{ $tipo->ID }}" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == $tipo->ID ? 'selected' : '' }}>
@@ -36,10 +39,13 @@
     </select>
     <div id="especificarOtra" style="display: none;">
         <label>Especificar otra:</label>
-        <input type="text" name="Especificar_Otra" class="form-control"
-            value="{{ $inspeccion->Especificar_Otra ?? '' }}">
+        <input type="text" name="Especificar_Otra" class="form-control" value="{{ $inspeccion->Especificar_Otra ?? '' }}">
     </div>
 </div>
+
+<!-- Enlazar el archivo JavaScript -->
+<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
+
 <!-- Sujeto Obligado -->
 <div class="form-group">
     <label><b>Sujeto Obligado</b><span class="text-danger">*</span></label>
@@ -85,13 +91,11 @@
             ambas?</b><span class="text-danger">*</span></label>
     <select name="Dirigida_A" class="form-control" required>
         <option value="">Selecciona</option>
-        <option value="Físicas" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Físicas' ? 'selected' : '' }}>
-            Personas físicas</option>
-        <option value="Físicas con actividad empresarial" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Físicas con actividad empresarial' ? 'selected' : '' }}>Personas físicas con actividad empresarial</option>
-        <option value="Morales" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Morales' ? 'selected' : '' }}>
-            Personas morales</option>
-        <option value="Otras" {{ isset($inspeccion) && $inspeccion->Dirigida_A == 'Otras' ? 'selected' : '' }}>Otras
-        </option>
+        @foreach($destinatarios as $destinatario)
+            <option value="{{ $destinatario->ID }}" {{ isset($inspeccion) && $inspeccion->Dirigida_A == $destinatario->ID ? 'selected' : '' }}>
+                {{ $destinatario->Destinatario }}
+            </option>
+        @endforeach
     </select>
     <div id="especificarDirigidaA" style="display: none;">
         <label>Indicar a quién va dirigida la inspección, verificación o visita domiciliaria:</label>
@@ -99,32 +103,34 @@
             value="{{ $inspeccion->Especificar_Dirigida_A ?? '' }}">
     </div>
 </div>
+<!-- Enlazar el archivo JavaScript -->
+<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Caracter de la inspección -->
 <div class="form-group">
     <label><b>La inspección, verificación o visita domiciliaria es:</b><span class="text-danger">*</span></label>
     <select name="Caracter_Inspeccion" class="form-control" required>
         <option value="">Selecciona</option>
-        <option value="PREVENTIVA" {{ isset($inspeccion) && $inspeccion->Caracter_Inspeccion == 'PREVENTIVA' ? 'selected' : '' }}>PREVENTIVA (se realiza para prevenir algún impacto negativo)</option>
-        <option value="REACTIVA" {{ isset($inspeccion) && $inspeccion->Caracter_Inspeccion == 'REACTIVA' ? 'selected' : '' }}>REACTIVA (como respuesta a un accidente o amenaza particular)</option>
-        <option value="SEGUIMIENTO" {{ isset($inspeccion) && $inspeccion->Caracter_Inspeccion == 'SEGUIMIENTO' ? 'selected' : '' }}>SEGUIMIENTO (se da seguimiento al cumplimiento de alguna obligación en particular)
-        </option>
+        @foreach($caracteres_inspeccion as $caracter)
+            <option value="{{ $caracter->ID }}" {{ isset($inspeccion) && $inspeccion->Caracter_Inspeccion == $caracter->ID ? 'selected' : '' }}>
+                {{ $caracter->Clasificacion }} ({{ $caracter->Descripcion }})
+            </option>
+        @endforeach
     </select>
 </div>
+<!-- Enlazar el archivo JavaScript -->
+<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Realizada en -->
 <div class="form-group">
-    <label><b>Indique si la verificación, inspección o visita domiciliaria se realiza en:</b><span
-            class="text-danger">*</span></label>
+    <label><b>Indique si la verificación, inspección o visita domiciliaria se realiza en:</b><span class="text-danger">*</span></label>
     <select name="Realizada_En" class="form-control" required>
         <option value="">Selecciona</option>
-        <option value="Domicilio" {{ isset($inspeccion) && $inspeccion->Realizada_En == 'Domicilio' ? 'selected' : '' }}>
-            En el domicilio o establecimientos de los Sujetos Regulados</option>
-        <option value="Oficinas" {{ isset($inspeccion) && $inspeccion->Realizada_En == 'Oficinas' ? 'selected' : '' }}>En
-            las oficinas del Sujeto Obligado</option>
-        <option value="Electronicos" {{ isset($inspeccion) && $inspeccion->Realizada_En == 'Electronicos' ? 'selected' : '' }}>Medios electrónicos</option>
-        <option value="Otro" {{ isset($inspeccion) && $inspeccion->Realizada_En == 'Otro' ? 'selected' : '' }}>Otro
-        </option>
+        @foreach($lugares_realizacion as $lugar)
+            <option value="{{ $lugar->ID }}" {{ isset($inspeccion) && $inspeccion->Realizada_En == $lugar->ID ? 'selected' : '' }}>
+                {{ $lugar->Lugar }}
+            </option>
+        @endforeach
     </select>
     <div id="especificarRealizadaEn" style="display: none;">
         <label>Otros:</label>
@@ -132,6 +138,8 @@
             value="{{ $inspeccion->Especificar_Realizada_En ?? '' }}">
     </div>
 </div>
+<!-- Enlazar el archivo JavaScript -->
+<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Objetivo -->
 <div class="form-group">
@@ -153,46 +161,34 @@
     <label><b>Periodicidad en la que se realiza:</b><span class="text-danger">*</span></label>
     <select name="Periodicidad" class="form-control" required>
         <option value="">Selecciona</option>
-        <option value="Anual" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Anual' ? 'selected' : '' }}>Anual
-        </option>
-        <option value="Bienal" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Bienal' ? 'selected' : '' }}>Bienal
-        </option>
-        <option value="Diaria" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Diaria' ? 'selected' : '' }}>Diaria
-        </option>
-        <option value="Mensual" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Mensual' ? 'selected' : '' }}>
-            Mensual</option>
-        <option value="No aplica" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'No aplica' ? 'selected' : '' }}>
-            No aplica</option>
-        <option value="Semanal" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Semanal' ? 'selected' : '' }}>
-            Semanal</option>
-        <option value="Semestral" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Semestral' ? 'selected' : '' }}>
-            Semestral</option>
-        <option value="Trineal o más" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Trineal o más' ? 'selected' : '' }}>Trineal o más</option>
-        <option value="Trimestral" {{ isset($inspeccion) && $inspeccion->Periodicidad == 'Trimestral' ? 'selected' : '' }}>Trimestral</option>
+        @foreach($periodicidades as $periodicidad)
+            <option value="{{ $periodicidad->ID }}" {{ isset($inspeccion) && $inspeccion->Periodicidad == $periodicidad->ID ? 'selected' : '' }}>
+                {{ $periodicidad->Periodicidad }}
+            </option>
+        @endforeach
     </select>
 </div>
+<!-- Enlazar el archivo JavaScript -->
+<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Motivo de la inspección -->
 <div class="form-group">
-    <label><b>Especificar qué motiva la inspección, verificación o visita domiciliaria:</b><span
-            class="text-danger">*</span></label>
+    <label><b>Especificar qué motiva la inspección, verificación o visita domiciliaria:</b><span class="text-danger">*</span></label>
     <select name="Motivo_Inspeccion" class="form-control" required>
         <option value="">Selecciona</option>
-        <option value="Ordinaria" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'Ordinaria' ? 'selected' : '' }}>Ordinaria</option>
-        <option value="Extraordinaria" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'Extraordinaria' ? 'selected' : '' }}>Extraordinaria</option>
-        <option value="De oficio" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'De oficio' ? 'selected' : '' }}>De oficio</option>
-        <option value="A solicitud de parte" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'A solicitud de parte' ? 'selected' : '' }}>A solicitud de parte</option>
-        <option value="Forma parte de un trámite o servicio" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'Forma parte de un trámite o servicio' ? 'selected' : '' }}>Forma parte de
-            un trámite o servicio</option>
-        <option value="Otro" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == 'Otro' ? 'selected' : '' }}>Otro
-        </option>
+        @foreach($motivos_inspeccion as $motivo)
+            <option value="{{ $motivo->ID }}" {{ isset($inspeccion) && $inspeccion->Motivo_Inspeccion == $motivo->ID ? 'selected' : '' }}>
+                {{ $motivo->Motivo }}
+            </option>
+        @endforeach
     </select>
     <div id="especificarMotivoInspeccion" style="display: none;">
         <label>Especificar otro:</label>
-        <input type="text" name="Especificar_Motivo_Inspeccion" class="form-control"
-            value="{{ $inspeccion->Especificar_Motivo_Inspeccion ?? '' }}">
+        <input type="text" name="Especificar_Motivo_Inspeccion" class="form-control" value="{{ $inspeccion->Especificar_Motivo_Inspeccion ?? '' }}">
     </div>
 </div>
+<!-- Enlazar el archivo JavaScript -->
+<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Nombre de trámite o servicio -->
 <div class="form-group">
@@ -266,11 +262,9 @@
           <label><b>Tipo de ordenamiento:</b><span class="text-danger">*</span></label>
           <select id="tipoOrdenamiento" class="form-control">
             <option value="">Selecciona una opción</option>
-            <option value="Ley">Ley</option>
-            <option value="Reglamento">Reglamento</option>
-            <option value="Norma Oficial Mexicana">Norma Oficial Mexicana</option>
-            <option value="Acuerdo">Acuerdo</option>
-            <!-- etc. O llénalo dinámicamente con tu cat_tipo_ord_jur -->
+            @foreach($tipos_ordenamiento as $tipo)
+              <option value="{{ $tipo->ID_tOrdJur }}">{{ $tipo->Tipo_Ordenamiento }}</option>
+            @endforeach
           </select>
         </div>
 

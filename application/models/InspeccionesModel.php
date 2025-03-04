@@ -46,7 +46,7 @@ class InspeccionesModel extends CI_Model {
         return $query->result();
     }
     
-    // Obtener catálogo de tipo de ordenamiento jurídico
+    // Obtener tipos de ordenamiento para la vista usando la tabla catalogo
     public function get_tipo_ord_jur() {
         $query = $this->db->get('cat_tipo_ord_jur');
         return $query->result();
@@ -134,6 +134,36 @@ class InspeccionesModel extends CI_Model {
     public function get_tipos_inspeccion() {
         $this->db->select('ID, Tipo');
         $query = $this->db->get('cat_ins_tipo_inspeccion');
+        return $query->result();
+    }
+
+    // Obtener destinatarios para la vista
+    public function get_destinatarios() {
+        $query = $this->db->get('cat_ins_destinatario');
+        return $query->result();
+    }
+
+    // Obtener caracteres de inspección para la vista
+    public function get_caracteres_inspeccion() {
+        $query = $this->db->get('cat_ins_inspeccion_es');
+        return $query->result();
+    }
+
+    // Obtener lugares de realización para la vista
+    public function get_lugares_realizacion() {
+        $query = $this->db->get('cat_ins_lugar_realizacion');
+        return $query->result();
+    }
+
+    // Obtener periodicidades para la vista
+    public function get_periodicidades() {
+        $query = $this->db->get('cat_ins_periodicidad');
+        return $query->result();
+    }
+
+    // Obtener motivos de inspección para la vista
+    public function get_motivos_inspeccion() {
+        $query = $this->db->get('cat_ins_motivo_inspeccion');
         return $query->result();
     }
 }

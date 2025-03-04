@@ -70,9 +70,15 @@ class InspeccionesController extends CI_Controller {
                                         : null;
         }
     
-        // Carga de sujetos obligados (si lo requieres en la vista)
+        // Carga de sujetos obligados, destinatarios, caracteres de inspección, lugares de realización, periodicidades, motivos de inspección y tipos de ordenamiento
         $data['sujetos_obligados'] = $this->InspeccionesModel->get_sujetos_obligados();
+        $data['destinatarios'] = $this->InspeccionesModel->get_destinatarios(); // Nuevo
+        $data['caracteres_inspeccion'] = $this->InspeccionesModel->get_caracteres_inspeccion(); // Nuevo
+        $data['lugares_realizacion'] = $this->InspeccionesModel->get_lugares_realizacion(); // Nuevo
+        $data['periodicidades'] = $this->InspeccionesModel->get_periodicidades(); // Nuevo
+        $data['motivos_inspeccion'] = $this->InspeccionesModel->get_motivos_inspeccion(); // Nuevo
         $data['cat_tipo_ord_jur'] = $this->InspeccionesModel->get_tipo_ord_jur(); // Nuevo
+        $data['tipos_ordenamiento'] = $this->InspeccionesModel->get_tipo_ord_jur(); // Nuevo
     
         // Notificaciones y otros datos
         $user = $this->ion_auth->user()->row();
