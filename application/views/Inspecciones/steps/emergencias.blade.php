@@ -28,13 +28,7 @@
         </div>
     </div>
 </div>
-</div>
-
-<!-- Botones de navegación -->
-<div class="form-navigation">
-    <button type="button" class="btn" id="prevBtn" onclick="navigateStep(-1)">Anterior</button>
-    <button type="button" class="btn" id="nextBtn" onclick="navigateStep(1)">Siguiente</button>
-    <button type="submit" class="btn" id="submitBtn" style="display:none;">
-        {{ isset($inspeccion) ? 'Actualizar' : 'Guardar' }}
-    </button>
+<div class="form-group">
+    <label>Información de emergencia</label>
+    <input type="text" name="Informacion_Emergencia" class="form-control" placeholder="Información de emergencia">
 </div>

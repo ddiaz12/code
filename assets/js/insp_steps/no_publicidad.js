@@ -1,5 +1,12 @@
 $(document).ready(function() {
-    // Permitir Publicidad
+    // Inicializar visibilidad de la sección de detalles
+    if ($('select[name="Permitir_Publicidad"]').val() === 'no') {
+        $('#noPublicidadDetails').show();
+    } else {
+        $('#noPublicidadDetails').hide();
+    }
+
+    // Mostrar/ocultar detalles según selección de publicidad
     $('select[name="Permitir_Publicidad"]').change(function() {
         if ($(this).val() == 'no') {
             $('#noPublicidadDetails').show();

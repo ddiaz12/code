@@ -166,4 +166,10 @@ class InspeccionesModel extends CI_Model {
         $query = $this->db->get('cat_ins_motivo_inspeccion');
         return $query->result();
     }
+
+    // Obtener secciones no públicas para la vista
+    public function get_cat_ins_secciones_no_publicas() {
+        $query = $this->db->get('cat_ins_secciones_no_publicas');
+        return $query->result();
+    }
 }
