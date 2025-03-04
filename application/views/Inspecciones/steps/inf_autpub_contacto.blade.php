@@ -1,4 +1,4 @@
- <!-- =================== STEP 5: Información de la Autoridad Pública y Contacto =================== -->
+<!-- =================== STEP 5: Información de la Autoridad Pública y Contacto =================== -->
  
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">
                             Información de la Autoridad Pública y Contacto
@@ -20,9 +20,8 @@
                             <label>
                                 Señalamiento de los medios de impugnación con los que cuenta el interesado que se inconforme con la inspección, verificación o visita domiciliaria:<span class="text-danger">*</span>
                             </label>
-                            <input type="text" name="Nombre_Regulacion_Impugnacion" class="form-control" placeholder="Nombre de la regulación">
-                            <input type="text" name="Articulo_Regulacion_Impugnacion" class="form-control" placeholder="Artículo">
-                            <input type="text" name="Parrafo_Regulacion_Impugnacion" class="form-control" placeholder="Párrafo, número o numeral">
-                            <input type="url" name="Url_Regulacion_Impugnacion" class="form-control" placeholder="URL de la regulación">
+                            <input type="text" name="Nombre_Regulacion_Impugnacion" class="form-control" placeholder="Nombre de la regulación" required>
+                            <input type="text" name="Articulo_Regulacion_Impugnacion" class="form-control" placeholder="Artículo" required>
+                            <input type="text" name="Parrafo_Regulacion_Impugnacion" class="form-control" placeholder="Párrafo, número o numeral" required>
+                            <input type="url" name="Url_Regulacion_Impugnacion" class="form-control" placeholder="URL de la regulación" required>
                         </div>
-                    

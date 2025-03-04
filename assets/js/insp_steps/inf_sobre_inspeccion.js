@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // Otros Sujetos Participan
+    // Mostrar/ocultar "¿Cuáles Sujetos Obligados?"
     $('select[name="Otros_Sujetos_Participan"]').change(function () {
         if ($(this).val() == 'si') {
             $('#sujetosObligados').show();
@@ -7,6 +7,11 @@ $(document).ready(function() {
             $('#sujetosObligados').hide();
         }
     });
+
+    // Ejecutar al cargar la página
+    if ($('select[name="Otros_Sujetos_Participan"]').val() == 'si') {
+        $('#sujetosObligados').show();
+    }
 
     // Modal "Buscar Sujetos"
     $('#buscarSujetosBtn').click(function() {
@@ -79,4 +84,9 @@ $(document).ready(function() {
             $('#formatoUpload').hide();
         }
     });
+
+    // Ejecutar al cargar la página
+    if ($('select[name="Firmar_Formato"]').val() == 'si') {
+        $('#formatoUpload').show();
+    }
 });
