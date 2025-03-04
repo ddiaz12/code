@@ -65,8 +65,6 @@ $route['inspecciones/form/(:num)'] = 'InspeccionesController/form/$1';
 $route['inspecciones/guardar'] = 'InspeccionesController/guardar';
 $route['inspecciones/eliminar/(:num)'] = 'InspeccionesController/eliminar/$1';
 
-// Rutas para la nueva vista de agregar inspecciones
+// Rutas para la nueva vista de agregar inspecciones (corrigiendo dentro del archivo existente)
 $route['inspecciones/main_agre_inspecciones'] = 'InspeccionesController/form';
 $route['inspecciones/main_agre_inspecciones/(:num)'] = 'InspeccionesController/form/$1';
-
-//$route['ciudadania/buscarRegulaciones'] = 'Ciudadania/buscarRegulaciones';
