@@ -23,8 +23,21 @@ $(document).ready(function() {
     });
 
     // Dirigida a
+    function toggleEspecificarDirigidaA() {
+        const selectedText = $('select[name="Dirigida_A"] option:selected').text().trim();
+        if (selectedText === 'Otras') {
+            $('#especificarDirigidaA').show();
+        } else {
+            $('#especificarDirigidaA').hide();
+        }
+    }
+
+    // Ejecutar al cargar la página
+    toggleEspecificarDirigidaA();
+
+    // Asignar evento change para actualizar al cambiar la selección
     $('select[name="Dirigida_A"]').change(function(){
-        $('#especificarDirigidaA').toggle($(this).val() === 'Otras');
+        toggleEspecificarDirigidaA();
     });
 
     // Realizada en
@@ -32,9 +45,45 @@ $(document).ready(function() {
         $('#especificarRealizadaEn').toggle($(this).val() === 'Otro');
     });
 
+    // Función para mostrar u ocultar el input "EspecificarRealizadaEn"
+    function toggleEspecificarRealizadaEn() {
+        const selectedText = $('select[name="Realizada_En"] option:selected').text().trim();
+        if (selectedText === 'Otro') {
+            $('#especificarRealizadaEn').show();
+        } else {
+            $('#especificarRealizadaEn').hide();
+        }
+    }
+
+    // Ejecutar al cargar la página
+    toggleEspecificarRealizadaEn();
+
+    // Asignar evento change para actualizar al cambiar la selección
+    $('select[name="Realizada_En"]').change(function(){
+        toggleEspecificarRealizadaEn();
+    });
+
     // Motivo de Inspección
     $('select[name="Motivo_Inspeccion"]').change(function(){
         $('#especificarMotivoInspeccion').toggle($(this).val() === 'Otro');
+    });
+
+    // Función para mostrar u ocultar el input "EspecificarMotivoInspeccion"
+    function toggleEspecificarMotivoInspeccion() {
+        const selectedText = $('select[name="Motivo_Inspeccion"] option:selected').text().trim();
+        if (selectedText === 'Otro') {
+            $('#especificarMotivoInspeccion').show();
+        } else {
+            $('#especificarMotivoInspeccion').hide();
+        }
+    }
+
+    // Ejecutar al cargar la página
+    toggleEspecificarMotivoInspeccion();
+
+    // Asignar evento change para actualizar la visibilidad al cambiar la selección
+    $('select[name="Motivo_Inspeccion"]').change(function(){
+        toggleEspecificarMotivoInspeccion();
     });
 
     // Mostrar/ocultar botón y contenedor de Fundamento según la selección
