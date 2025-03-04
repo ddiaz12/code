@@ -29,7 +29,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="oficinasModalLabel">Seleccionar Oficina Administrativa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <!-- Usa data-bs-dismiss="modal" para Bootstrap 5 -->
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -63,8 +64,9 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-                <button type="button" class="btn btn-primary" id="aceptarOficinaBtn">Aceptar</button>
+                <!-- Cambia si fuera Bootstrap 5: data-bs-dismiss="modal" -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary" id="aceptarOficinaBtn" data-bs-dismiss="modal">Aceptar</button>
             </div>
         </div>
     </div>
