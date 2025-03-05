@@ -85,11 +85,14 @@ $(document).ready(function() {
     $('#btnAddFundamento').click(function() {
         $('#modalFundamento').modal('show'); 
     });
-    $('#btnGuardarFundamento').click(function() {
+    $('#btnGuardarFundamento').off('click').on('click', function() {
+        console.log('Evento #btnGuardarFundamento disparado');
         let tipo = $('#tipoOrdenamiento').val().trim();
-        let tipoTexto = $('#tipoOrdenamiento option:selected').text().trim();
         let nombre = $('#nombreOrdenamiento').val().trim();
-        if (tipo === "0" || tipo === "" || nombre === "") {
+        let tipoTexto = $('#tipoOrdenamiento option:selected').text().trim(); // Definición agregada
+        console.log('tipo:', tipo, 'nombre:', nombre);
+
+        if (tipo === "" || tipo === "0" || nombre === "") {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos requeridos',
