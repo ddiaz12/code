@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // Función para mostrar u ocultar el input "Especificar otra"
+    // Funciones de toggle (ya existentes)
     function toggleEspecificarOtra() {
         var selectedText = $('#tipoInspeccionSelect option:selected').text().trim();
         if(selectedText.toLowerCase() === 'otra'){
@@ -12,20 +12,10 @@ $(document).ready(function() {
     }
     
     toggleEspecificarOtra();
-    
-    $('#tipoInspeccionSelect').change(function(){
+    $('#tipoInspeccionSelect, select[name="Tipo_Inspeccion"]').change(function(){
         toggleEspecificarOtra();
     });
 
-    // Ejecutar al cargar la página
-    toggleEspecificarOtra();
-
-    // Asignar el evento change para actualizar el estado cuando el usuario cambie el valor
-    $('select[name="Tipo_Inspeccion"]').change(function() {
-        toggleEspecificarOtra();
-    });
-
-    // Función para mostrar/ocultar justificación de Ley de Fomento
     function toggleLeyFomento() {
         if ($('input[name="Ley_Fomento"]:checked').val() === 'si') {
             $('#justificarLeyFomento').show();
@@ -35,19 +25,14 @@ $(document).ready(function() {
             $('textarea[name="Justificacion_Ley_Fomento"]').removeAttr('required');
         }
     }
-
-    // Ejecutar al cargar la página
     toggleLeyFomento();
-
-    // Asignar evento change para actualizar al cambiar la selección
     $('input[name="Ley_Fomento"]').change(function() {
         toggleLeyFomento();
     });
 
-    // Dirigida a
     function toggleEspecificarDirigidaA() {
         const selectedText = $('select[name="Dirigida_A"] option:selected').text().trim();
-        if (selectedText === 'Otras') {
+        if (selectedText.toLowerCase() === 'otras') {
             $('#especificarDirigidaA').show();
             $('input[name="Especificar_Dirigida_A"]').attr('required', true);
         } else {
@@ -55,19 +40,14 @@ $(document).ready(function() {
             $('input[name="Especificar_Dirigida_A"]').removeAttr('required');
         }
     }
-
-    // Ejecutar al cargar la página
     toggleEspecificarDirigidaA();
-
-    // Asignar evento change para actualizar al cambiar la selección
     $('select[name="Dirigida_A"]').change(function() {
         toggleEspecificarDirigidaA();
     });
 
-    // Realizada en
     function toggleEspecificarRealizadaEn() {
         const selectedText = $('select[name="Realizada_En"] option:selected').text().trim();
-        if (selectedText === 'Otro') {
+        if (selectedText.toLowerCase() === 'otro') {
             $('#especificarRealizadaEn').show();
             $('input[name="Especificar_Realizada_En"]').attr('required', true);
         } else {
@@ -75,19 +55,14 @@ $(document).ready(function() {
             $('input[name="Especificar_Realizada_En"]').removeAttr('required');
         }
     }
-
-    // Ejecutar al cargar la página
     toggleEspecificarRealizadaEn();
-
-    // Asignar evento change para actualizar al cambiar la selección
     $('select[name="Realizada_En"]').change(function() {
         toggleEspecificarRealizadaEn();
     });
 
-    // Motivo de Inspección
     function toggleEspecificarMotivoInspeccion() {
         const selectedText = $('select[name="Motivo_Inspeccion"] option:selected').text().trim();
-        if (selectedText === 'Otro') {
+        if (selectedText.toLowerCase() === 'otro') {
             $('#especificarMotivoInspeccion').show();
             $('input[name="Especificar_Motivo_Inspeccion"]').attr('required', true);
         } else {
@@ -95,35 +70,25 @@ $(document).ready(function() {
             $('input[name="Especificar_Motivo_Inspeccion"]').removeAttr('required');
         }
     }
-
-    // Ejecutar al cargar la página
     toggleEspecificarMotivoInspeccion();
-
-    // Asignar evento change para actualizar la visibilidad al cambiar la selección
     $('select[name="Motivo_Inspeccion"]').change(function() {
         toggleEspecificarMotivoInspeccion();
     });
 
-    // Mostrar/ocultar botón y contenedor de Fundamento según la selección
+    // Mostrar/ocultar botón y contenedor de Fundamento
     $('#btnAddFundamento, #fundamentosContainer').toggle($('input[name="Fundamento_Juridico"]:checked').val() === 'si');
-
-    // Cada vez que se cambie el valor, se actualiza la visibilidad de ambos elementos
     $('input[name="Fundamento_Juridico"]').change(function() {
         $('#btnAddFundamento, #fundamentosContainer').toggle($(this).val() === 'si');
     });
 
-    // Abrir el modal al dar clic en "Añadir Fundamento"
+    // Abrir modal Fundamento y guardar fila
     $('#btnAddFundamento').click(function() {
-        $('#modalFundamento').modal('show'); // Abre el modal
+        $('#modalFundamento').modal('show'); 
     });
-
-    // Guardar el fundamento al dar clic en "Guardar" del modal
     $('#btnGuardarFundamento').click(function() {
-        // Validar campos obligatorios con validación explícita de "0"
         let tipo = $('#tipoOrdenamiento').val().trim();
         let tipoTexto = $('#tipoOrdenamiento option:selected').text().trim();
         let nombre = $('#nombreOrdenamiento').val().trim();
-
         if (tipo === "0" || tipo === "" || nombre === "") {
             Swal.fire({
                 icon: 'error',
@@ -133,8 +98,6 @@ $(document).ready(function() {
             });
             return;
         }
-
-        // Agregar una fila a la tabla con el Tipo (texto) y Nombre
         let fila = `
             <tr>
                 <td>${tipoTexto}</td>
@@ -147,19 +110,8 @@ $(document).ready(function() {
             </tr>
         `;
         $('#tablaFundamentos tbody').append(fila);
-
-        // Cerrar el modal, limpiar campos y mostrar alerta de éxito
         $('#modalFundamento').modal('hide');
-        $('#tipoOrdenamiento').val('');
-        $('#nombreOrdenamiento').val('');
-        $('#articulo').val('');
-        $('#fraccion').val('');
-        $('#inciso').val('');
-        $('#parrafo').val('');
-        $('#numero').val('');
-        $('#letra').val('');
-        $('#otro').val('');
-        
+        $('#tipoOrdenamiento, #nombreOrdenamiento, #articulo, #fraccion, #inciso, #parrafo, #numero, #letra, #otro').val('');
         Swal.fire({
             icon: 'success',
             title: 'Fundamento agregado',
@@ -168,13 +120,9 @@ $(document).ready(function() {
             timer: 1500
         });
     });
-
-    // Eliminar fila de la tabla al dar clic en el botón de basura
     $('#tablaFundamentos').on('click', '.btnBorrarFundamento', function() {
         $(this).closest('tr').remove();
     });
-
-    // Validar que el campo URL tenga un formato válido
     $('input[type="url"]').on('input', function() {
         if (!this.checkValidity()) {
             $(this).addClass('is-invalid');
@@ -182,9 +130,140 @@ $(document).ready(function() {
             $(this).removeClass('is-invalid');
         }
     });
+
+    // Función para validar el formulario completo
+    function validateInspeccion() {
+        let valid = true;
+        let errorFields = [];
+
+        // Validar Nombre de Inspección
+        let nombre = $('input[name="Nombre_Inspeccion"]').val().trim();
+        if (nombre === "") {
+            valid = false;
+            errorFields.push("El campo Nombre de la Inspección es obligatorio.");
+            $('input[name="Nombre_Inspeccion"]').addClass('is-invalid');
+        } else {
+            $('input[name="Nombre_Inspeccion"]').removeClass('is-invalid');
+        }
+
+        // Validar Sujeto Obligado
+        let sujeto = $('select[name="Sujeto_Obligado_ID"]').val();
+        if (!sujeto || sujeto === "") {
+            valid = false;
+            errorFields.push("El campo Sujeto Obligado es obligatorio.");
+            $('select[name="Sujeto_Obligado_ID"]').addClass('is-invalid');
+        } else {
+            $('select[name="Sujeto_Obligado_ID"]').removeClass('is-invalid');
+        }
+
+        // Validar Tipo de Inspección
+        let tipo = $('select[name="Tipo_Inspeccion"]').val().trim();
+        if (tipo === "0" || tipo === "") {
+            valid = false;
+            errorFields.push("El campo Tipo de Inspección es obligatorio.");
+            $('select[name="Tipo_Inspeccion"]').addClass('is-invalid');
+        } else {
+            $('select[name="Tipo_Inspeccion"]').removeClass('is-invalid');
+        }
+        
+        // Si se seleccionó “Otra”, validar el campo Especificar Otra
+        let tipoText = $('#tipoInspeccionSelect option:selected').text().trim().toLowerCase();
+        if (tipoText === "otra") {
+            let especificarOtra = $('input[name="Especificar_Otra"]').val().trim();
+            if (especificarOtra === "") {
+                valid = false;
+                errorFields.push("Debe especificar el Tipo de Inspección cuando se selecciona 'Otra'.");
+                $('input[name="Especificar_Otra"]').addClass('is-invalid');
+            } else {
+                $('input[name="Especificar_Otra"]').removeClass('is-invalid');
+            }
+        }
+
+        // Validar Justificación de Ley de Fomento si se selecciona “si”
+        let leyFomento = $('input[name="Ley_Fomento"]:checked').val();
+        if (leyFomento === 'si') {
+            let justificacion = $('textarea[name="Justificacion_Ley_Fomento"]').val().trim();
+            if (justificacion === "") {
+                valid = false;
+                errorFields.push("Debe proporcionar la Justificación de la Ley de Fomento.");
+                $('textarea[name="Justificacion_Ley_Fomento"]').addClass('is-invalid');
+            } else {
+                $('textarea[name="Justificacion_Ley_Fomento"]').removeClass('is-invalid');
+            }
+        }
+        
+        // Validar campo "Dirigida A" si se selecciona “Otras”
+        let dirigidaText = $('select[name="Dirigida_A"] option:selected').text().trim().toLowerCase();
+        if (dirigidaText === "otras") {
+            let especificarDirigida = $('input[name="Especificar_Dirigida_A"]').val().trim();
+            if (especificarDirigida === "") {
+                valid = false;
+                errorFields.push("Debe especificar a quién se dirige la inspección.");
+                $('input[name="Especificar_Dirigida_A"]').addClass('is-invalid');
+            } else {
+                $('input[name="Especificar_Dirigida_A"]').removeClass('is-invalid');
+            }
+        }
+
+        // Validar Realizada en si se selecciona “Otro”
+        let realizadaText = $('select[name="Realizada_En"] option:selected').text().trim().toLowerCase();
+        if (realizadaText === "otro") {
+            let especificarRealizada = $('input[name="Especificar_Realizada_En"]').val().trim();
+            if (especificarRealizada === "") {
+                valid = false;
+                errorFields.push("Debe especificar dónde se realizó la inspección.");
+                $('input[name="Especificar_Realizada_En"]').addClass('is-invalid');
+            } else {
+                $('input[name="Especificar_Realizada_En"]').removeClass('is-invalid');
+            }
+        }
+
+        // Validar Motivo de Inspección si se selecciona “Otro”
+        let motivoText = $('select[name="Motivo_Inspeccion"] option:selected').text().trim().toLowerCase();
+        if (motivoText === "otro") {
+            let especificarMotivo = $('input[name="Especificar_Motivo_Inspeccion"]').val().trim();
+            if (especificarMotivo === "") {
+                valid = false;
+                errorFields.push("Debe especificar el Motivo de la Inspección.");
+                $('input[name="Especificar_Motivo_Inspeccion"]').addClass('is-invalid');
+            } else {
+                $('input[name="Especificar_Motivo_Inspeccion"]').removeClass('is-invalid');
+            }
+        }
+
+        // Validar URL de Trámite, si se ingresa
+        let urlTramite = $('input[name="URL_Tramite_Servicio"]').val().trim();
+        if (urlTramite !== "") {
+            const urlPattern = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:\/?#[\]@!$&'()*+,;=]*)?$/;
+            if (!urlPattern.test(urlTramite)) {
+                valid = false;
+                errorFields.push("El campo URL de Trámite debe contener una URL válida.");
+                $('input[name="URL_Tramite_Servicio"]').addClass('is-invalid');
+            } else {
+                $('input[name="URL_Tramite_Servicio"]').removeClass('is-invalid');
+            }
+        }
+
+        if (!valid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Errores en el formulario',
+                html: errorFields.join("<br>"),
+                confirmButtonColor: '#8E354A'
+            });
+        }
+        return valid;
+    }
+
+    // Asociar validación al submit del formulario
+    $('form').on('submit', function(e){
+        if (!validateInspeccion()){
+            e.preventDefault();
+        }
+    });
 });
 
-// Función para cerrar el modal con confirmación (opcional)
+// Funciones para modal de Fundamento (existentes)
 function cerrarModalFundamento() {
     Swal.fire({
         title: '¿Estás seguro?',
@@ -200,6 +279,9 @@ function cerrarModalFundamento() {
             $('#modalFundamento').modal('hide');
         }
     });
+}
+function mostrarModalFundamento() {
+    $('#modalFundamento').modal('show');
 }
 
 
