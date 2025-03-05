@@ -324,3 +324,9 @@
     <label>Bien o elemento de inspección <span class="text-danger">*</span></label>
     <textarea name="Bien_Elemento" class="form-control" rows="2" required>{{ $inspeccion->Bien_Elemento ?? '' }}</textarea>
 </div>
+
+<script>
+function mostrarModalFundamento() {
+    $('#modalFundamento').modal('show');
+}
+</script>

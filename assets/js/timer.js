@@ -3,8 +3,11 @@ var timerElement = document.getElementById('timer');
 var timeLeft = 59 * 60; // 59 minutes in seconds
 
 function logout() {
-    window.location.href = '<?= base_url('auth/logout') ?>';
+    window.location.href = '<?= base_url("auth/logout") ?>';
 }
+
+let auth = "userAuthorized"; // Asegúrate de que auth esté declarado correctamente
+console.log(auth);
 
 function resetTimer() {
     clearTimeout(timeout);
