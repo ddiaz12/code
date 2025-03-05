@@ -326,6 +326,9 @@
     }
 </style>
 
+<!-- Incluir el archivo validateStep.js antes del script principal -->
+<script src="<?= base_url('assets/js/insp_steps/validateStep.js'); ?>"></script>
+
 <!-- ========================= SCRIPTS ========================= -->
 <script src="<?= base_url('assets/js/insp_steps/datos_de_identificacion.js'); ?>"></script>
 <script src="<?= base_url('assets/js/insp_steps/autoridad_publica.js'); ?>"></script>
@@ -368,6 +371,10 @@ function showStep(step) {
 }
 
 function navigateStep(direction) {
+    // Antes de avanzar, valida el step actual
+    if (direction > 0 && !validateStep(currentStep)) {
+        return; // Si la validación falla, no avanza
+    }
     const newStep = currentStep + direction;
     if (newStep >= 1 && newStep <= totalSteps) {
         showStep(newStep);
@@ -383,6 +390,19 @@ $(document).ready(function() {
         const step = $(this).data('step');
         showStep(step);
     });
+});
+
+// Añadir validación del lado del cliente al enviar el formulario
+document.getElementById("inspeccionForm").addEventListener("submit", function(event) {
+    if (!this.checkValidity()) {
+        event.preventDefault();
+        Swal.fire({
+            icon: "error",
+            title: "Campos obligatorios faltantes",
+            text: "Por favor, complete todos los campos obligatorios.",
+            confirmButtonColor: "#8E354A"
+        });
+    }
 });
 </script>
 @endsection

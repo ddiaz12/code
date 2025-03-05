@@ -36,6 +36,7 @@
                 {{ $tipo->Tipo }}
             </option>
         @endforeach
+        <option value="Otra" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Otra' ? 'selected' : '' }}>Otra</option>
     </select>
     <div id="especificarOtra" style="display: none;">
         <label>Especificar otra:</label>
@@ -316,4 +317,10 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Bien o elemento de inspección -->
+<div class="form-group">
+    <label>Bien o elemento de inspección <span class="text-danger">*</span></label>
+    <textarea name="Bien_Elemento" class="form-control" rows="2" required>{{ $inspeccion->Bien_Elemento ?? '' }}</textarea>
 </div>

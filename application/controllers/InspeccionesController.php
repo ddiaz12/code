@@ -92,52 +92,51 @@ class InspeccionesController extends CI_Controller {
 
     // Guardar una nueva inspección o actualizar una existente
     public function guardar() {
-        log_message('debug', 'InspeccionesController guardar method called');
+        // VALIDAR CAMPOS OBLIGATORIOS (validación extra en el servidor)
         $this->form_validation->set_rules('Nombre_Inspeccion', 'Nombre de la Inspección', 'required');
         
         if ($this->form_validation->run() === FALSE) {
             $this->session->set_flashdata('error', validation_errors());
             redirect('InspeccionesController/form');
         } else {
-            $data = $this->input->post();
-            log_message('debug', 'Form data: ' . print_r($data, true));
+            // 1. CAPTURAR TODOS LOS CAMPOS DEL FORMULARIO (todos los steps)
+            $postData = $this->input->post();
             
-            if ($data['id_inspeccion']) {
-                $this->InspeccionesModel->update_inspeccion($data['id_inspeccion'], $data);
+            // Procesar archivo, si se envió
+            if (!empty($_FILES['Documento_No_Publicidad']['name'])) {
+                $config['upload_path']   = './uploads/';
+                $config['allowed_types'] = 'pdf|jpg|png';
+                $this->load->library('upload', $config);
+                if (!$this->upload->do_upload('Documento_No_Publicidad')) {
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect('InspeccionesController/form');
+                } else {
+                    $uploadData = $this->upload->data();
+                    $postData['Documento_No_Publicidad'] = $uploadData['file_name'];
+                }
+            }
+            
+            // 2. PREPARAR LOS DATOS DE LA INSPECCIÓN
+            // Asumimos que todos los campos de los 9 steps se integran en $postData.  
+            // Puedes filtrar o transformar datos específicos si es necesario.
+            $id_inspeccion = isset($postData['id_inspeccion']) ? $postData['id_inspeccion'] : null;
+            
+            // 3. INSERTAR O ACTUALIZAR en la tabla principal (ma_inspeccion)
+            if ($id_inspeccion) {
+                $this->InspeccionesModel->update_inspeccion($id_inspeccion, $postData);
             } else {
-                $this->InspeccionesModel->insert_inspeccion($data);
+                $this->InspeccionesModel->insert_inspeccion($postData);
+                $id_inspeccion = $this->db->insert_id(); // en caso de necesitarlo para guardar relaciones
             }
-
-            // Guardar fundamentos jurídicos si existen
-            if (isset($data['Fundamentos_Juridicos'])) {
-                $this->InspeccionesModel->guardar_fundamentos_juridicos($data['id_inspeccion'], $data['Fundamentos_Juridicos']);
-            }
-
-            // Guardar oficinas seleccionadas si existen
-            if (isset($data['Oficinas_Seleccionadas'])) {
-                $this->InspeccionesModel->guardar_oficinas($data['id_inspeccion'], $data['Oficinas_Seleccionadas']);
-            }
-
-            // Guardar sujetos obligados seleccionados si existen
-            if (isset($data['Sujetos_Obligados_Seleccionados'])) {
-                $this->InspeccionesModel->guardar_sujetos_obligados($data['id_inspeccion'], $data['Sujetos_Obligados_Seleccionados']);
-            }
-
-            // Guardar derechos del sujeto regulado si existen
-            if (isset($data['Derechos_Sujeto_Regulado'])) {
-                $this->InspeccionesModel->guardar_derechos($data['id_inspeccion'], $data['Derechos_Sujeto_Regulado']);
-            }
-
-            // Guardar obligaciones del sujeto regulado si existen
-            if (isset($data['Obligaciones_Sujeto_Regulado'])) {
-                $this->InspeccionesModel->guardar_obligaciones($data['id_inspeccion'], $data['Obligaciones_Sujeto_Regulado']);
-            }
-
-            // Guardar facultades del sujeto obligado si existen
-            if (isset($data['Facultades_Sujeto_Obligado'])) {
-                $this->InspeccionesModel->guardar_facultades($data['id_inspeccion'], $data['Facultades_Sujeto_Obligado']);
-            }
-
+            
+            // 4. GUARDAR DATOS RELACIONADOS (ejemplo: checkboxes de No_Publicar)
+            // if(!empty($postData['No_Publicar'])) {
+            //     foreach($postData['No_Publicar'] as $seccion_id) {
+            //         $this->InspeccionesModel->guardar_no_publicar($id_inspeccion, $seccion_id);
+            //     }
+            // }
+            
+            // 5. MENSAJE DE ÉXITO Y REDIRECCIONAR
             $this->session->set_flashdata('success', 'Inspección guardada correctamente.');
             redirect('InspeccionesController/index');
         }
