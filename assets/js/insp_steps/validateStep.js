@@ -2,6 +2,7 @@ function validateStep(step) {
     let valid = true;
     // Recorre todos los campos requeridos del step actual
     $('#step-' + step + ' [required]').each(function() {
+        console.log('Validating field:', $(this).attr('name'), 'Value:', $(this).val());
         if (!$(this).val() || $(this).val().trim() === "") {
             $(this).addClass('is-invalid');
             valid = false;
@@ -19,3 +20,10 @@ function validateStep(step) {
     }
     return valid;
 }
+
+// Asegurarse de que no haya duplicidad en los manejadores de validación
+$('form').off('submit').on('submit', function(e) {
+    if (!validateStep(currentStep)) {
+        e.preventDefault();
+    }
+});

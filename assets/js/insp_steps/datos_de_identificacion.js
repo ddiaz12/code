@@ -1,25 +1,47 @@
 $(document).ready(function() {
     // Función para mostrar u ocultar el input "Especificar otra"
     function toggleEspecificarOtra() {
-        // Suponiendo que el ID para "Otra" es 9 en la base de datos
-        if ($('select[name="Tipo_Inspeccion"]').val() === '5') {
+        var selectedText = $('#tipoInspeccionSelect option:selected').text().trim();
+        if(selectedText.toLowerCase() === 'otra'){
             $('#especificarOtra').show();
+            $('input[name="Especificar_Otra"]').attr('required', true);
         } else {
             $('#especificarOtra').hide();
+            $('input[name="Especificar_Otra"]').removeAttr('required');
         }
     }
-
-    // Ejecutar al cargar la página (para que si viene seleccionado "Otra", se muestre)
+    
     toggleEspecificarOtra();
     
-    // Asignar el evento change para actualizar el estado cuando el usuario cambie el valor
-    $('select[name="Tipo_Inspeccion"]').change(function(){
+    $('#tipoInspeccionSelect').change(function(){
         toggleEspecificarOtra();
     });
 
-    // Ley de Fomento
-    $('input[name="Ley_Fomento"]').change(function(){
-        $('#justificarLeyFomento').toggle($(this).val() === 'si');
+    // Ejecutar al cargar la página
+    toggleEspecificarOtra();
+
+    // Asignar el evento change para actualizar el estado cuando el usuario cambie el valor
+    $('select[name="Tipo_Inspeccion"]').change(function() {
+        toggleEspecificarOtra();
+    });
+
+    // Función para mostrar/ocultar justificación de Ley de Fomento
+    function toggleLeyFomento() {
+        if ($('input[name="Ley_Fomento"]:checked').val() === 'si') {
+            $('#justificarLeyFomento').show();
+            $('textarea[name="Justificacion_Ley_Fomento"]').attr('required', true);
+        } else {
+            $('#justificarLeyFomento').hide();
+            $('textarea[name="Justificacion_Ley_Fomento"]').removeAttr('required');
+        }
+    }
+
+    // Ejecutar al cargar la página
+    toggleLeyFomento();
+
+    // Asignar evento change para actualizar al cambiar la selección
+    $('input[name="Ley_Fomento"]').change(function() {
+        toggleLeyFomento();
     });
 
     // Dirigida a
@@ -27,8 +49,10 @@ $(document).ready(function() {
         const selectedText = $('select[name="Dirigida_A"] option:selected').text().trim();
         if (selectedText === 'Otras') {
             $('#especificarDirigidaA').show();
+            $('input[name="Especificar_Dirigida_A"]').attr('required', true);
         } else {
             $('#especificarDirigidaA').hide();
+            $('input[name="Especificar_Dirigida_A"]').removeAttr('required');
         }
     }
 
@@ -36,22 +60,19 @@ $(document).ready(function() {
     toggleEspecificarDirigidaA();
 
     // Asignar evento change para actualizar al cambiar la selección
-    $('select[name="Dirigida_A"]').change(function(){
+    $('select[name="Dirigida_A"]').change(function() {
         toggleEspecificarDirigidaA();
     });
 
     // Realizada en
-    $('select[name="Realizada_En"]').change(function(){
-        $('#especificarRealizadaEn').toggle($(this).val() === 'Otro');
-    });
-
-    // Función para mostrar u ocultar el input "EspecificarRealizadaEn"
     function toggleEspecificarRealizadaEn() {
         const selectedText = $('select[name="Realizada_En"] option:selected').text().trim();
         if (selectedText === 'Otro') {
             $('#especificarRealizadaEn').show();
+            $('input[name="Especificar_Realizada_En"]').attr('required', true);
         } else {
             $('#especificarRealizadaEn').hide();
+            $('input[name="Especificar_Realizada_En"]').removeAttr('required');
         }
     }
 
@@ -59,22 +80,19 @@ $(document).ready(function() {
     toggleEspecificarRealizadaEn();
 
     // Asignar evento change para actualizar al cambiar la selección
-    $('select[name="Realizada_En"]').change(function(){
+    $('select[name="Realizada_En"]').change(function() {
         toggleEspecificarRealizadaEn();
     });
 
     // Motivo de Inspección
-    $('select[name="Motivo_Inspeccion"]').change(function(){
-        $('#especificarMotivoInspeccion').toggle($(this).val() === 'Otro');
-    });
-
-    // Función para mostrar u ocultar el input "EspecificarMotivoInspeccion"
     function toggleEspecificarMotivoInspeccion() {
         const selectedText = $('select[name="Motivo_Inspeccion"] option:selected').text().trim();
         if (selectedText === 'Otro') {
             $('#especificarMotivoInspeccion').show();
+            $('input[name="Especificar_Motivo_Inspeccion"]').attr('required', true);
         } else {
             $('#especificarMotivoInspeccion').hide();
+            $('input[name="Especificar_Motivo_Inspeccion"]').removeAttr('required');
         }
     }
 
@@ -82,12 +100,11 @@ $(document).ready(function() {
     toggleEspecificarMotivoInspeccion();
 
     // Asignar evento change para actualizar la visibilidad al cambiar la selección
-    $('select[name="Motivo_Inspeccion"]').change(function(){
+    $('select[name="Motivo_Inspeccion"]').change(function() {
         toggleEspecificarMotivoInspeccion();
     });
 
     // Mostrar/ocultar botón y contenedor de Fundamento según la selección
-    // Se evalúa inicialmente el estado del input Fundamento_Juridico
     $('#btnAddFundamento, #fundamentosContainer').toggle($('input[name="Fundamento_Juridico"]:checked').val() === 'si');
 
     // Cada vez que se cambie el valor, se actualiza la visibilidad de ambos elementos
@@ -102,12 +119,12 @@ $(document).ready(function() {
 
     // Guardar el fundamento al dar clic en "Guardar" del modal
     $('#btnGuardarFundamento').click(function() {
-        // Validar campos obligatorios
+        // Validar campos obligatorios con validación explícita de "0"
         let tipo = $('#tipoOrdenamiento').val().trim();
         let tipoTexto = $('#tipoOrdenamiento option:selected').text().trim();
         let nombre = $('#nombreOrdenamiento').val().trim();
 
-        if (!tipo || !nombre) {
+        if (tipo === "0" || tipo === "" || nombre === "") {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos requeridos',
@@ -131,10 +148,8 @@ $(document).ready(function() {
         `;
         $('#tablaFundamentos tbody').append(fila);
 
-        // Cerrar el modal
+        // Cerrar el modal, limpiar campos y mostrar alerta de éxito
         $('#modalFundamento').modal('hide');
-
-        // Limpiar campos del modal (opcional)
         $('#tipoOrdenamiento').val('');
         $('#nombreOrdenamiento').val('');
         $('#articulo').val('');
@@ -144,8 +159,7 @@ $(document).ready(function() {
         $('#numero').val('');
         $('#letra').val('');
         $('#otro').val('');
-
-        // Mostrar alerta de éxito
+        
         Swal.fire({
             icon: 'success',
             title: 'Fundamento agregado',
@@ -158,6 +172,15 @@ $(document).ready(function() {
     // Eliminar fila de la tabla al dar clic en el botón de basura
     $('#tablaFundamentos').on('click', '.btnBorrarFundamento', function() {
         $(this).closest('tr').remove();
+    });
+
+    // Validar que el campo URL tenga un formato válido
+    $('input[type="url"]').on('input', function() {
+        if (!this.checkValidity()) {
+            $(this).addClass('is-invalid');
+        } else {
+            $(this).removeClass('is-invalid');
+        }
     });
 });
 

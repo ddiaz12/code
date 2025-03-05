@@ -36,16 +36,12 @@
                 {{ $tipo->Tipo }}
             </option>
         @endforeach
-        <option value="Otra" {{ isset($inspeccion) && $inspeccion->Tipo_Inspeccion == 'Otra' ? 'selected' : '' }}>Otra</option>
     </select>
     <div id="especificarOtra" style="display: none;">
         <label>Especificar otra:</label>
         <input type="text" name="Especificar_Otra" class="form-control" value="{{ $inspeccion->Especificar_Otra ?? '' }}">
     </div>
 </div>
-
-<!-- Enlazar el archivo JavaScript -->
-<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Sujeto Obligado -->
 <div class="form-group">
@@ -104,8 +100,6 @@
             value="{{ $inspeccion->Especificar_Dirigida_A ?? '' }}">
     </div>
 </div>
-<!-- Enlazar el archivo JavaScript -->
-<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Caracter de la inspección -->
 <div class="form-group">
@@ -119,8 +113,6 @@
         @endforeach
     </select>
 </div>
-<!-- Enlazar el archivo JavaScript -->
-<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Realizada en -->
 <div class="form-group">
@@ -139,8 +131,6 @@
             value="{{ $inspeccion->Especificar_Realizada_En ?? '' }}">
     </div>
 </div>
-<!-- Enlazar el archivo JavaScript -->
-<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Objetivo -->
 <div class="form-group">
@@ -169,8 +159,6 @@
         @endforeach
     </select>
 </div>
-<!-- Enlazar el archivo JavaScript -->
-<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Motivo de la inspección -->
 <div class="form-group">
@@ -188,8 +176,6 @@
         <input type="text" name="Especificar_Motivo_Inspeccion" class="form-control" value="{{ $inspeccion->Especificar_Motivo_Inspeccion ?? '' }}">
     </div>
 </div>
-<!-- Enlazar el archivo JavaScript -->
-<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
 
 <!-- Nombre de trámite o servicio -->
 <div class="form-group">
@@ -319,14 +305,5 @@
   </div>
 </div>
 
-<!-- Bien o elemento de inspección -->
-<div class="form-group">
-    <label>Bien o elemento de inspección <span class="text-danger">*</span></label>
-    <textarea name="Bien_Elemento" class="form-control" rows="2" required>{{ $inspeccion->Bien_Elemento ?? '' }}</textarea>
-</div>
-
-<script>
-function mostrarModalFundamento() {
-    $('#modalFundamento').modal('show');
-}
-</script>
+<!-- Incluir el archivo JavaScript solo una vez al final del step -->
+<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
