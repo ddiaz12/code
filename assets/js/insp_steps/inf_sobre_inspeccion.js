@@ -89,4 +89,11 @@ $(document).ready(function() {
     if ($('select[name="Firmar_Formato"]').val() == 'si') {
         $('#formatoUpload').show();
     }
+
+    console.log("inf_sobre_inspeccion.js iniciado");
+
+    // Verificar e imprimir en consola los valores iniciales de los campos requeridos y visibles en este step
+    $('#step-inf_sobre_inspeccion [required]:visible').each(function() {
+        console.log('Inf_Sobre_Inspeccion: Validating field:', $(this).attr('name'), 'Value:', $(this).val());
+    });
 });

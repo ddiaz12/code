@@ -18,6 +18,7 @@ function validateStep(step) {
             confirmButtonColor: '#8E354A'
         });
     }
+    console.log(`Validation for step ${step}: ${valid ? 'valid' : 'invalid'}`);
     return valid;
 }
 
