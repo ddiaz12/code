@@ -326,6 +326,11 @@ class Menu extends CI_Controller
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;
         $id = $user->id;
+
+        //Obtener el sujeto obligado del usuario actual
+        $sujeto_obligado = $this->MenuModel->getSujetoObligadoPorUsuario($id);
+
+        $data['sujeto_obligado'] = $sujeto_obligado;
         $data['unread_notifications'] = $this->NotificacionesModel->countUnreadNotificationsgroups($groupName);
         $data['sujetos'] = $this->MenuModel->getSujetosObligados();
         $data['vialidades'] = $this->MenuModel->getCatVialidades();
@@ -405,12 +410,11 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'extension',
-            'trim|regex_match[/^[1-9]*$/]|max_length[6]|min_length[2]',
+            'trim|regex_match[/^[0-9]*$/]|max_length[6]|min_length[2]',
             array(
             'numeric' => 'El campo %s debe ser numérico.',
             'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
             'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
-            'regex_match' => 'El campo %s no debe contener el número 0.'
             )
         );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');
@@ -617,12 +621,11 @@ class Menu extends CI_Controller
         $this->form_validation->set_rules(
             'ext',
             'Extensión',
-            'trim|regex_match[/^[1-9]*$/]|max_length[6]|min_length[2]',
+            'trim|regex_match[/^[0-9]*$/]|max_length[6]|min_length[2]',
             array(
             'numeric' => 'El campo %s debe ser numérico.',
             'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
             'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
-            'regex_match' => 'El campo %s no debe contener el número 0.'
             )
         );
         $this->form_validation->set_rules('email', 'Correo electrónico', 'required');

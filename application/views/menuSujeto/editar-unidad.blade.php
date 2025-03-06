@@ -32,7 +32,7 @@ Registro Estatal de Regulaciones
                         <input type="hidden" name="id_unidad" value="{{ $unidades->ID_unidad }}">
                         <div class="form-group">
                             <label for="selectSujeto">Sujeto Obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="selectSujeto" name="sujeto" required>
+                            <select class="form-control" id="selectSujeto" name="sujeto" required disabled>
                                 <option disabled selected>Selecciona una opción</option>
                                 @foreach ($sujetos as $sujeto)
                                 <option value="{{ $sujeto->ID_sujeto }}"
@@ -172,8 +172,8 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputExtension">Extensión</label>
-                                <input type="number" class="form-control" id="inputExtension" name="extension" maxlength="4"
+                                <label for="ext">Extensión</label>
+                                <input type="number" class="form-control" id="ext" name="ext"
                                     value="{{ $unidades->extension }}">
                             </div>
                         </div>
@@ -275,7 +275,7 @@ Registro Estatal de Regulaciones
 <script>
     $(document).ready(function(){
         $('#phone').mask('(000) 000-0000'); 
-        $('#inputExtension').mask('0000'); 
+        $('#ext').mask('000000'); 
     });
 
     // Aplicar máscara al campo de número exterior

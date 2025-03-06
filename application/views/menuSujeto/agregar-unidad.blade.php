@@ -32,14 +32,12 @@ Registro Estatal de Regulaciones
                     <form class="row g-3" id="formUnidad">
                         <div class="form-group">
                             <label for="selectSujeto">Sujeto Obligado<span class="text-danger">*</span></label>
-                            <select class="form-control" id="selectSujeto" name="sujeto" required>
-                                <option disabled selected>Selecciona una opción</option>
-                                @foreach ($sujetos as $sujeto)
-                                    <option value="{{ $sujeto->ID_sujeto }}">
-                                        {{ $sujeto->nombre_sujeto }}
-                                    </option>
-                                @endforeach
+                            <select class="form-control" id="selectSujeto" name="sujeto" required disabled>
+                                <option value="{{ $sujeto_obligado->ID_sujeto }}" selected>
+                                    {{ $sujeto_obligado->nombre_sujeto }}
+                                </option>
                             </select>
+                            <input type="hidden" name="sujeto" value="{{ $sujeto_obligado->ID_sujeto }}">
                             <small id="msg_sujeto" class="text-danger"></small>
                         </div>
                         <div class="form-group">
@@ -59,8 +57,9 @@ Registro Estatal de Regulaciones
                                 <select class="form-control" id="selectVialidad" name="tipo_vialidad" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     <?php foreach ($vialidades as $vialidad): ?>
-                                    <option value="<?php    echo $vialidad->ID_Vialidades; ?>">
-                                        <?php    echo $vialidad->Vialidad; ?></option>
+                                        <option value="<?php echo $vialidad->ID_Vialidades; ?>">
+                                            <?php echo $vialidad->Vialidad; ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -80,8 +79,8 @@ Registro Estatal de Regulaciones
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="num_exterior">Número exterior<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="num_exterior" name="num_exterior" maxlength="4"
-                                    required>
+                                <input type="text" class="form-control" id="num_exterior" name="num_exterior"
+                                    maxlength="4" required>
                                 <small id="msg_num_exterior" class="text-danger"></small>
                             </div>
                         </div>
@@ -91,8 +90,9 @@ Registro Estatal de Regulaciones
                                 <select class="form-control" id="selectMunicipio" name="municipio" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($municipios as $municipio)
-                                        <option value="<?php    echo $municipio->ID_Municipio; ?>">
-                                            <?php    echo $municipio->Nombre_municipio; ?></option>
+                                    <option value="<?php echo $municipio->ID_Municipio; ?>">
+                                        <?php echo $municipio->Nombre_municipio; ?>
+                                    </option>
                                     @endforeach;
                                 </select>
                             </div>
@@ -103,10 +103,10 @@ Registro Estatal de Regulaciones
                                 <select class="form-control" id="selectLocalidad" name="localidad" required>
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($localidades as $localidad)
-                                        <option value="<?php    echo $localidad->ID_localidad; ?>"
-                                            data-clave="<?php    echo $localidad->clave; ?>">
-                                            <?php    echo $localidad->Localidades; ?>
-                                        </option>
+                                    <option value="<?php echo $localidad->ID_localidad; ?>"
+                                        data-clave="<?php echo $localidad->clave; ?>">
+                                        <?php echo $localidad->Localidades; ?>
+                                    </option>
                                     @endforeach;
                                 </select>
                                 <small id="msg_localidad" class="text-danger"></small>
@@ -121,7 +121,8 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectTipoAsentamiento">Tipo asentamiento<span class="text-danger">*</span></label>
+                                <label for="selectTipoAsentamiento">Tipo asentamiento<span
+                                        class="text-danger">*</span></label>
                                 <select class="form-control" id="selectTipoAsentamiento" name="tipo_asentamiento">
                                     <option disabled selected>Selecciona una opción</option>
                                 </select>
@@ -130,14 +131,15 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectAsentamiento">Nombre asentamiento<span class="text-danger">*</span></label>
+                                <label for="selectAsentamiento">Nombre asentamiento<span
+                                        class="text-danger">*</span></label>
                                 <select class="form-control" id="selectAsentamiento" name="nombre_asentamiento">
                                     <option disabled selected>Selecciona una opción</option>
                                     @foreach ($asentamientos as $asentamiento)
-                                        <option value="{{ $asentamiento->ID_nAsentamiento }}"
-                                            data-codigo-postal="{{ $asentamiento->CP }}">
-                                            {{ $asentamiento->nombre }}
-                                        </option>
+                                    <option value="{{ $asentamiento->ID_nAsentamiento }}"
+                                        data-codigo-postal="{{ $asentamiento->CP }}">
+                                        {{ $asentamiento->nombre }}
+                                    </option>
                                     @endforeach
                                 </select>
                                 <small id="msg_nombre_asentamiento" class="text-danger"></small>
@@ -160,17 +162,18 @@ Registro Estatal de Regulaciones
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputExtension">Extensión</label>
-                                <input type="number" class="form-control" id="inputExtension" name="extension" maxlength="4">
+                                <label for="ext">Extensión</label>
+                                <input type="number" class="form-control" id="ext" name="ext">
                             </div>
                         </div>
                         <div class="form-group">
-                        <label for="email">Correo electrónico<span class="text-danger">*</span></label>
+                            <label for="email">Correo electrónico<span class="text-danger">*</span></label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-envelope fa-2x"></i></span>
                                 </div>
-                                <input type="email" class="form-control" placeholder="Correo electrónico" name="email" required>
+                                <input type="email" class="form-control" placeholder="Correo electrónico" name="email"
+                                    required>
                             </div>
                             <small id="msg_email" class="text-danger"></small>
                         </div>
@@ -179,14 +182,14 @@ Registro Estatal de Regulaciones
                             <textarea class="form-control" id="inputNotas" name="notas"></textarea>
                         </div>
                         <!-- <div class="form-group">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="checkboxOficina"
-                                    name="checkboxOficina">
-                                <label class="form-check-label" for="checkboxOficina">
-                                    ¿Usar unidad administrativa como oficina?
-                                </label>
-                            </div>
-                        </div> -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="checkboxOficina"
+                                        name="checkboxOficina">
+                                    <label class="form-check-label" for="checkboxOficina">
+                                        ¿Usar unidad administrativa como oficina?
+                                    </label>
+                                </div>
+                            </div> -->
                         <!-- Tabla de Horarios de Atención -->
                         <div class="form-group">
                             <label>Horarios de Atención</label>
@@ -246,9 +249,9 @@ Registro Estatal de Regulaciones
 <script src="<?php echo base_url('assets/js/agregarRangoHorarios.js'); ?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $('#phone').mask('(000) 000-0000'); 
-        $('#inputExtension').mask('0000'); 
+    $(document).ready(function() {
+        $('#phone').mask('(000) 000-0000');
+        $('#ext').mask('000000');
 
         // Aplicar máscara al campo de número exterior
         $('#num_exterior').mask('Z', {
@@ -276,7 +279,7 @@ Registro Estatal de Regulaciones
             type: 'POST',
             dataType: 'json',
             data: sendData,
-            success: function (response) {
+            success: function(response) {
                 if (response.status == 'success') {
                     Swal.fire(
                         '¡Éxito!',
@@ -312,7 +315,7 @@ Registro Estatal de Regulaciones
                     }
                 }
             },
-            error: function (response) {
+            error: function(response) {
                 console.error('Error al procesar la solicitud.');
             }
         });
@@ -333,9 +336,9 @@ Registro Estatal de Regulaciones
         })
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Validación en tiempo real
-        $('#formUnidad input, #formUnidad select').on('input change', function () {
+        $('#formUnidad input, #formUnidad select').on('input change', function() {
             var $input = $(this);
             var $errorMsg = $("#msg_" + $input.attr('id'));
             if ($input.val() !== '') {

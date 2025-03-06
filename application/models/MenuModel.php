@@ -30,6 +30,15 @@ class MenuModel extends CI_Model
         return $query->row();
     }
 
+    public function getSujetoObligadoPorUsuario($id){
+        $this->db->select('cat_sujeto_obligado.ID_sujeto, cat_sujeto_obligado.nombre_sujeto');
+        $this->db->from('cat_sujeto_obligado');
+        $this->db->join('users', 'users.id_sujeto = cat_sujeto_obligado.ID_sujeto');
+        $this->db->where('users.id', $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     public function getUnidadesAdministrativas($created_by)
     {
         $this->db->select('cat_unidad_administrativa.*, cat_sujeto_obligado.nombre_sujeto');
