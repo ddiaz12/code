@@ -68,6 +68,7 @@ class InspeccionesController extends CI_Controller {
             $data['tipoSeleccionado'] = isset($data['inspeccion']->Tipo_Inspeccion)
                                         ? $data['inspeccion']->Tipo_Inspeccion
                                         : null;
+            
         }
     
         // Carga de sujetos obligados, destinatarios, caracteres de inspección, lugares de realización, periodicidades, motivos de inspección y tipos de ordenamiento
@@ -81,7 +82,8 @@ class InspeccionesController extends CI_Controller {
         $data['tipos_ordenamiento'] = $this->InspeccionesModel->get_tipo_ord_jur(); // Nuevo
         $data['cat_ins_secciones_no_publicas'] = $this->InspeccionesModel->get_cat_ins_secciones_no_publicas(); // Nuevo
         $data['unidades_administrativas'] = $this->InspeccionesModel->getUnidadesAdministrativas(); // Obtener unidades administrativas
-    
+        $data['sanciones'] = $this->InspeccionesModel->get_sanciones(); // Obtener sanciones del catálogo
+        $data['tipos_tiempo'] = $this->InspeccionesModel->get_tipos_tiempo(); // Obtener tipos de tiempo del catálogo
         // Notificaciones y otros datos
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();

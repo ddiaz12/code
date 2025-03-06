@@ -29,23 +29,20 @@
     </div>
 </div>
 
-<!-- Pasos a realizar -->
+<!-- Pasos a realizar por el inspector o verificador -->
 <div class="form-group">
-    <label><b>Pasos a realizar por el inspector o verificador durante la inspección, verificación o visita domiciliaria:</b></label>
-    <p style="color: grey;">
-        Aproximadamente, ¿Cuánto tiempo lleva la verificación en todas sus etapas –orden, diligencia y resolución-? Indique y desglose lo más posible los pasos realizados:
-    </p>
+    <label>Pasos a realizar por el inspector o verificador durante la inspección, verificación o visita domiciliaria:</label>
     <textarea name="Pasos_Inspector" class="form-control" rows="3"></textarea>
 </div>
 
 <!-- Tramites vinculados -->
 <div class="form-group">
     <label>Tramites vinculados a la inspección, verificación o visita domiciliaria<span class="text-danger">*</span></label>
-    <input type="text" name="Nombre_Tramite_Vinculado" class="form-control" placeholder="Nombre del tramite">
-    <input type="url" name="Url_Tramite_Vinculado" class="form-control" placeholder="URL del tramite">
+    <input type="text" name="Nombre_Tramite" class="form-control" placeholder="Nombre del trámite" required>
+    <input type="url" name="Url_Tramite" class="form-control" placeholder="URL del trámite" required>
 </div>
 
-<!-- Regulaciones que debe cumplir -->
+<!-- Regulaciones que debe cumplir el sujeto obligado -->
 <div class="form-group">
     <label>Regulaciones que debe cumplir el sujeto obligado</label>
     <input type="text" name="Nombre_Regulacion" class="form-control" placeholder="Nombre de la regulación">
@@ -61,49 +58,33 @@
 <!-- Sanciones -->
 <div class="form-group">
     <label>¿Qué tipo de sanciones pueden derivar a partir de esta inspección?<span class="text-danger">*</span></label>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Clausura definitiva">
-        <label class="form-check-label">Clausura definitiva</label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Clausura temporal">
-        <label class="form-check-label">Clausura temporal</label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Multa">
-        <label class="form-check-label">Multa</label>
-    </div>
+    @foreach($sanciones as $sancion)
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="Sanciones[]" value="{{ $sancion->Nombre }}">
+            <label class="form-check-label">{{ $sancion->Nombre }}</label>
+        </div>
+    @endforeach
     <div class="form-check">
         <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Otra">
-        <label class="form-check-label">Otra</label>
-        <input type="text" name="Otra_Sancion" class="form-control mt-2" placeholder="Especificar otra sanción">
+        <label class="form-check-label">Otra: Especificar otra sanción</label>
+        <input type="text" name="Otra_Sancion" class="form-control" placeholder="Especificar otra sanción">
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Revocación de licencia, permiso, autorización u otro">
-        <label class="form-check-label">Revocación de licencia, permiso, autorización u otro</label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Suspensión definitiva de actividades">
-        <label class="form-check-label">Suspensión definitiva de actividades</label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="Sanciones[]" value="Suspensión temporal de actividades">
-        <label class="form-check-label">Suspensión temporal de actividades</label>
-    </div>
-    <label>URL de la sanción</label>
-    <input type="url" name="Url_Sancion" class="form-control" placeholder="URL de la sanción">
 </div>
 
-<!-- Tiempo aproximado -->
+<!-- URL de la sanción -->
+<div class="form-group">
+    <label>URL de la sanción</label>
+    <input type="url" name="Url_Sancion" class="form-control" placeholder="URL">
+</div>
+
+<!-- Tiempo aproximado de la inspección -->
 <div class="form-group">
     <label>Tiempo aproximado de la inspección, verificación o visita domiciliaria<span class="text-danger">*</span></label>
-    <input type="number" name="Valor_Plazo" class="form-control" placeholder="Valor del plazo" min="1">
-    <select name="Unidad_Medida_Plazo" class="form-control">
-        <option value="Días naturales">Días naturales</option>
-        <option value="Días hábiles">Días hábiles</option>
-        <option value="Meses">Meses</option>
-        <option value="Años">Años</option>
-        <option value="No aplica">No aplica</option>
+    <input type="number" name="Valor_Plazo" class="form-control" placeholder="Valor del plazo" min="1" required>
+    <select name="Unidad_Medida_Plazo" class="form-control" required>
+        @foreach($tipos_tiempo as $tipo)
+            <option value="{{ $tipo->ID }}">{{ $tipo->Tipo }}</option>
+        @endforeach
     </select>
 </div>
 
@@ -118,7 +99,7 @@
 <div class="form-group">
     <label>Facultades, atribuciones y obligaciones del Sujeto Obligado que la realiza<span class="text-danger">*</span></label>
     <div class="input-group">
-        <input type="text" name="Facultades_Obligaciones" class="form-control" placeholder="Agregar Facultades, atribuciones y obligaciones">
+        <input type="text" name="Facultades_Obligaciones" class="form-control" placeholder="Agregar Facultades, atribuciones y obligaciones" required>
         <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="agregarFacultadBtn">
                 <i class="fas fa-plus"></i> Agregar

@@ -187,4 +187,16 @@ class InspeccionesModel extends CI_Model {
         return $query->result();
     }
 
+    // Obtener sanciones del catálogo
+    public function get_sanciones() {
+        $query = $this->db->get('cat_ins_sanciones');
+        return $query->result();
+    }
+
+    // Obtener tipos de tiempo del catálogo
+    public function get_tipos_tiempo() {
+        $query = $this->db->get('cat_ins_tiempo_tipo');
+        return $query->result();
+    }
+
 }
