@@ -172,4 +172,19 @@ class InspeccionesModel extends CI_Model {
         $query = $this->db->get('cat_ins_secciones_no_publicas');
         return $query->result();
     }
+
+    // Unidades Administrativas. Obtener todas las unidades administrativas
+    public function getUnidadesAdministrativas() {
+        $this->db->select('ID_unidad, nombre'); // Asegúrate de seleccionar las columnas correctas
+        $query = $this->db->get('cat_unidad_administrativa'); // Nombre exacto de la tabla
+        return $query->result();
+    }
+
+    // Método para buscar oficinas
+    public function buscarOficina($search_term) {
+        $this->db->like('nombre', $search_term);
+        $query = $this->db->get('cat_unidad_administrativa');
+        return $query->result();
+    }
+
 }

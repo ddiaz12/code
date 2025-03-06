@@ -80,6 +80,7 @@ class InspeccionesController extends CI_Controller {
         $data['cat_tipo_ord_jur'] = $this->InspeccionesModel->get_tipo_ord_jur(); // Nuevo
         $data['tipos_ordenamiento'] = $this->InspeccionesModel->get_tipo_ord_jur(); // Nuevo
         $data['cat_ins_secciones_no_publicas'] = $this->InspeccionesModel->get_cat_ins_secciones_no_publicas(); // Nuevo
+        $data['unidades_administrativas'] = $this->InspeccionesModel->getUnidadesAdministrativas(); // Obtener unidades administrativas
     
         // Notificaciones y otros datos
         $user = $this->ion_auth->user()->row();
@@ -91,98 +92,54 @@ class InspeccionesController extends CI_Controller {
     }
 
     // Guardar una nueva inspección o actualizar una existente
-    public function guardar()
-    {
-        // REGLAS BÁSICAS (campos siempre obligatorios)
+    public function guardar() {
+        // VALIDAR CAMPOS OBLIGATORIOS (validación extra en el servidor)
         $this->form_validation->set_rules('Nombre_Inspeccion', 'Nombre de la Inspección', 'required');
-        $this->form_validation->set_rules('Sujeto_Obligado_ID', 'Sujeto Obligado', 'required');
-        $this->form_validation->set_rules('Tipo_Inspeccion', 'Tipo de Inspección', 'required');
-        $this->form_validation->set_rules('Ley_Fomento', 'Ley de Fomento', 'required');
-        $this->form_validation->set_rules('Dirigida_A', 'Dirigida a', 'required');
-        $this->form_validation->set_rules('Caracter_Inspeccion', 'Carácter de la inspección', 'required');
-        $this->form_validation->set_rules('Realizada_En', 'Realizada en', 'required');
-        $this->form_validation->set_rules('Objetivo', 'Objetivo', 'required');
-        $this->form_validation->set_rules('Palabras_Clave', 'Palabras Clave', 'required');
-        $this->form_validation->set_rules('Periodicidad', 'Periodicidad', 'required');
-        $this->form_validation->set_rules('Motivo_Inspeccion', 'Motivo de la inspección', 'required');
-        $this->form_validation->set_rules('Nombre_Tramite_Servicio', 'Nombre del trámite o servicio', 'required');
-        $this->form_validation->set_rules('URL_Tramite_Servicio', 'URL del trámite o servicio', 'required');
-        $this->form_validation->set_rules('Fundamento_Juridico', 'Fundamento Jurídico', 'required');
-
-        // REGLAS CONDICIONALES
-        // 1. Si "Tipo_Inspeccion" es "Otra", se requiere "Especificar_Otra"
-        if ($this->input->post('Tipo_Inspeccion') === 'Otra') {
-            $this->form_validation->set_rules('Especificar_Otra', 'Especificar otra', 'required');
-        }
-
-        // 2. Si "Ley_Fomento" es "si", se requiere "Justificacion_Ley_Fomento"
-        if ($this->input->post('Ley_Fomento') === 'si') {
-            $this->form_validation->set_rules('Justificacion_Ley_Fomento', 'Justificación Ley de Fomento', 'required');
-        }
-
-        // 3. Si "Dirigida_A" es "Otras", se requiere "Especificar_Dirigida_A"
-        if ($this->input->post('Dirigida_A') === 'Otras') {
-            $this->form_validation->set_rules('Especificar_Dirigida_A', 'Especificar a quién va dirigida', 'required');
-        }
-
-        // 4. Si "Realizada_En" es "Otro", se requiere "Especificar_Realizada_En"
-        if ($this->input->post('Realizada_En') === 'Otro') {
-            $this->form_validation->set_rules('Especificar_Realizada_En', 'Especificar dónde se realiza', 'required');
-        }
-
-        // 5. Si "Motivo_Inspeccion" es "Otro", se requiere "Especificar_Motivo_Inspeccion"
-        if ($this->input->post('Motivo_Inspeccion') === 'Otro') {
-            $this->form_validation->set_rules('Especificar_Motivo_Inspeccion', 'Especificar motivo de la inspección', 'required');
-        }
-
-        // EJECUTAR VALIDACIÓN
-        if ($this->form_validation->run() == FALSE) {
+        
+        if ($this->form_validation->run() === FALSE) {
             $this->session->set_flashdata('error', validation_errors());
-            redirect('InspeccionesController/crear');
+            redirect('InspeccionesController/form');
         } else {
-            // CAPTURAR TODOS LOS CAMPOS DEL FORMULARIO (todos los steps)
-            $data_inspeccion = [
-                'Nombre_Inspeccion'        => $this->input->post('Nombre_Inspeccion'),
-                'Sujeto_Obligado_ID'       => $this->input->post('Sujeto_Obligado_ID'),
-                'Tipo_Inspeccion'          => $this->input->post('Tipo_Inspeccion'),
-                'Especificar_Otra'         => $this->input->post('Especificar_Otra'),
-                'Ley_Fomento'              => $this->input->post('Ley_Fomento'),
-                'Justificacion_Ley_Fomento'=> $this->input->post('Justificacion_Ley_Fomento'),
-                'Dirigida_A'               => $this->input->post('Dirigida_A'),
-                'Especificar_Dirigida_A'   => $this->input->post('Especificar_Dirigida_A'),
-                'Caracter_Inspeccion'      => $this->input->post('Caracter_Inspeccion'),
-                'Realizada_En'             => $this->input->post('Realizada_En'),
-                'Especificar_Realizada_En' => $this->input->post('Especificar_Realizada_En'),
-                'Objetivo'                 => $this->input->post('Objetivo'),
-                'Palabras_Clave'           => $this->input->post('Palabras_Clave'),
-                'Periodicidad'             => $this->input->post('Periodicidad'),
-                'Motivo_Inspeccion'        => $this->input->post('Motivo_Inspeccion'),
-                'Especificar_Motivo_Inspeccion' => $this->input->post('Especificar_Motivo_Inspeccion'),
-                'Nombre_Tramite_Servicio'  => $this->input->post('Nombre_Tramite_Servicio'),
-                'URL_Tramite_Servicio'     => $this->input->post('URL_Tramite_Servicio'),
-                'Fundamento_Juridico'      => $this->input->post('Fundamento_Juridico'),
-                // ... otros campos de los steps si aplica ...
-            ];
-
-            // Procesar archivo (si se envió)
+            // 1. CAPTURAR TODOS LOS CAMPOS DEL FORMULARIO (todos los steps)
+            $postData = $this->input->post();
+            
+            // Procesar archivo, si se envió
             if (!empty($_FILES['Documento_No_Publicidad']['name'])) {
                 $config['upload_path']   = './uploads/';
                 $config['allowed_types'] = 'pdf|jpg|png';
                 $this->load->library('upload', $config);
                 if (!$this->upload->do_upload('Documento_No_Publicidad')) {
                     $this->session->set_flashdata('error', $this->upload->display_errors());
-                    redirect('InspeccionesController/crear');
+                    redirect('InspeccionesController/form');
                 } else {
                     $uploadData = $this->upload->data();
-                    $data_inspeccion['Documento_No_Publicidad'] = $uploadData['file_name'];
+                    $postData['Documento_No_Publicidad'] = $uploadData['file_name'];
                 }
             }
-
-            // GUARDAR EN LA BASE DE DATOS (insertar nuevo registro)
-            $this->InspeccionesModel->insert_inspeccion($data_inspeccion);
-
+            
+            // 2. PREPARAR LOS DATOS DE LA INSPECCIÓN
+            // Asumimos que todos los campos de los 9 steps se integran en $postData.  
+            // Puedes filtrar o transformar datos específicos si es necesario.
+            $id_inspeccion = isset($postData['id_inspeccion']) ? $postData['id_inspeccion'] : null;
+            
+            // 3. INSERTAR O ACTUALIZAR en la tabla principal (ma_inspeccion)
+            if ($id_inspeccion) {
+                $this->InspeccionesModel->update_inspeccion($id_inspeccion, $postData);
+            } else {
+                $this->InspeccionesModel->insert_inspeccion($postData);
+                $id_inspeccion = $this->db->insert_id(); // en caso de necesitarlo para guardar relaciones
+            }
+            
+            // 4. GUARDAR DATOS RELACIONADOS (ejemplo: checkboxes de No_Publicar)
+            // if(!empty($postData['No_Publicar'])) {
+            //     foreach($postData['No_Publicar'] as $seccion_id) {
+            //         $this->InspeccionesModel->guardar_no_publicar($id_inspeccion, $seccion_id);
+            //     }
+            // }
+            
+            // 5. MENSAJE DE ÉXITO Y REDIRECCIONAR
             $this->session->set_flashdata('success', 'Inspección guardada correctamente.');
-            redirect('InspeccionesController');
+            redirect('InspeccionesController/index');
         }
     }
 
@@ -192,5 +149,16 @@ class InspeccionesController extends CI_Controller {
         $this->InspeccionesModel->delete_inspeccion($id);
         $this->session->set_flashdata('success', 'Inspección eliminada correctamente.');
         redirect('InspeccionesController/index');
+    }
+
+    // Autoridad publica --> Paso 2
+    public function crear() {
+        // O, en edición, dependiendo de tu lógica...
+        $data['tipos_inspeccion'] = $this->InspeccionesModel->getTiposInspeccion();
+        $data['destinatarios'] = $this->InspeccionesModel->getDestinatarios();
+        // ... otros catálogos que ya usas ...
+        $data['unidades_administrativas'] = $this->InspeccionesModel->getUnidadesAdministrativas(); // Obtener unidades administrativas
+    
+        $this->load->view('Inspecciones/steps/autoridadpublica', $data);
     }
 }

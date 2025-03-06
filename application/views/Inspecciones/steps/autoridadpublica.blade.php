@@ -43,13 +43,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(isset($oficinas) && count($oficinas) > 0)
-                            @foreach($oficinas as $oficina)
+                        @if(isset($unidades_administrativas) && count($unidades_administrativas) > 0)
+                            @foreach($unidades_administrativas as $unidad)
                                 <tr>
-                                    <td>{{ $oficina->nombre }}</td>
+                                    <td>{{ $unidad->nombre }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary seleccionarOficinaBtn"
-                                            data-oficina="{{ $oficina->nombre }}">
+                                            data-oficina="{{ $unidad->nombre }}">
                                             Seleccionar
                                         </button>
                                     </td>
@@ -57,7 +57,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="2">No se encontraron oficinas registradas.</td>
+                                <td colspan="2">No se encontraron unidades administrativas registradas.</td>
                             </tr>
                         @endif
                     </tbody>
@@ -71,3 +71,5 @@
         </div>
     </div>
 </div>
+
+<script src="{{ base_url('assets/js/insp_steps/autoridad_publica.js') }}"></script>
