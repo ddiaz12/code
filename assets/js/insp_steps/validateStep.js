@@ -29,8 +29,8 @@ function showStep(step) {
 }
 
 function navigateStep(direction) {
-    // Validar el step actual
-    if (!validateStep(currentStep)) {
+    // Validar el step actual solo si tiene campos obligatorios
+    if ($('#step-' + currentStep + ' [required]:visible').length > 0 && !validateStep(currentStep)) {
         return;
     }
     // Calcular el nuevo step

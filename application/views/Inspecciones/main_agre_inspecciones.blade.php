@@ -386,10 +386,10 @@ $(document).ready(function() {
     showStep(1);
 
     // Navegación por clic en el sidebar
-    $('.wizard-step').click(function() {
-        const step = $(this).data('step');
-        showStep(step);
-    });
+    //$('.wizard-step').click(function() {
+        //const step = $(this).data('step');
+        //showStep(step);
+    //});
 });
 
 // Añadir validación del lado del cliente al enviar el formulario
