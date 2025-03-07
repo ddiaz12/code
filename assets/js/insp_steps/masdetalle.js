@@ -1,6 +1,6 @@
 $(document).ready(function () {
-     // Mostrar/ocultar detalles de costo según "Tiene_Costo"
-     $('select[name="Tiene_Costo"]').change(function () {
+    // Mostrar/ocultar detalles de costo según "Tiene_Costo"
+    $('select[name="Tiene_Costo"]').change(function () {
         if ($(this).val() === 'si') {
             $('#costoDetails').show();
             $('input[name="Monto_Costo"]').attr('required', true);
@@ -24,7 +24,7 @@ $(document).ready(function () {
 
     // Facultades
     $('#agregarFacultadBtn').click(function() {
-        var facultad = $('input[name="Facultades_Obligaciones"]').val();
+        var facultad = $('input[name="Facultades_Obligaciones"]').val().trim();
         if (facultad) {
             $('#facultadesList').append(
                 '<li class="list-group-item">'
@@ -32,12 +32,43 @@ $(document).ready(function () {
                     '<button type="button" class="btn btn-danger btn-sm float-right quitarFacultadBtn">Quitar</button>'
                 + '</li>'
             );
+
+            // Actualizar el input hidden con JSON
+            let currentData = $('#FacultadesJSON').val();
+            let arr = currentData ? JSON.parse(currentData) : [];
+            arr.push(facultad);
+            $('#FacultadesJSON').val(JSON.stringify(arr));
+
             $('input[name="Facultades_Obligaciones"]').val('');
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'El campo "Facultades, atribuciones y obligaciones" no puede estar vacío.'
+            });
         }
     });
 
     $('#facultadesList').on('click', '.quitarFacultadBtn', function() {
+        let facultad = $(this).parent().text().trim();
         $(this).parent().remove();
+
+        // Actualizar el input hidden con JSON
+        let currentData = $('#FacultadesJSON').val();
+        let arr = currentData ? JSON.parse(currentData) : [];
+        arr = arr.filter(item => item !== facultad);
+        $('#FacultadesJSON').val(JSON.stringify(arr));
+    });
+
+    // Mostrar/ocultar el campo de texto para "Otra" sanción
+    $('input[name="Sanciones[]"]').change(function() {
+        if ($(this).data('es-otra') === 1) {
+            if ($(this).is(':checked')) {
+                $('input[name="Otra_Sancion"]').show().attr('required', true);
+            } else {
+                $('input[name="Otra_Sancion"]').hide().removeAttr('required').val('');
+            }
+        }
     });
 
     // Validar campos obligatorios al guardar el step
@@ -77,6 +108,26 @@ $(document).ready(function () {
                 return;
             }
         }
+
+        // Validar que la lista de facultades no esté vacía
+        if ($('#facultadesList li').length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Debe agregar al menos una facultad, atribución u obligación.'
+            });
+            return;
+        }
+
+        // Capturar todos los campos del formulario
+        var formData = {};
+        $('form#formMasdetalle').find('input, select, textarea').each(function() {
+            var name = $(this).attr('name');
+            var value = $(this).val();
+            formData[name] = value;
+        });
+
+        console.log('Form Data:', formData);
 
         // Si la validación es exitosa, opcionalmente se pueden enviar los datos vía AJAX o continuar al siguiente step
         console.log('Step masdetalle validado correctamente.');

@@ -1,5 +1,20 @@
 function validateStep(step) {
     let valid = true;
+    let errorFields = [];
+
+    // Validar campos del step 4
+    if (step === 4) {
+        // Validar Facultades_Obligaciones
+        let facultadesList = $('#facultadesList li');
+        if (facultadesList.length === 0) {
+            valid = false;
+            errorFields.push("El campo 'Facultades, atribuciones y obligaciones' es obligatorio.");
+            $('input[name="Facultades_Obligaciones"]').addClass('is-invalid');
+        } else {
+            $('input[name="Facultades_Obligaciones"]').removeClass('is-invalid');
+        }
+    }
+
     // Recorre solo los campos requeridos que están visibles en el step actual
     $('#step-' + step + ' [required]:visible').each(function() {
         console.log('Validating field:', $(this).attr('name'), 'Value:', $(this).val());
@@ -10,14 +25,17 @@ function validateStep(step) {
             $(this).removeClass('is-invalid');
         }
     });
+
+    // Mostrar errores si hay
     if (!valid) {
         Swal.fire({
             icon: 'error',
-            title: 'Campos requeridos',
-            text: 'Por favor, complete todos los campos obligatorios en este paso.',
+            title: 'Errores en el formulario',
+            html: errorFields.join("<br>"),
             confirmButtonColor: '#8E354A'
         });
     }
+
     console.log(`Validation for step ${step}: ${valid ? 'valid' : 'invalid'}`);
     return valid;
 }
