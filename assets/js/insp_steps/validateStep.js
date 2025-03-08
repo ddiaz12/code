@@ -1,3 +1,6 @@
+var currentStep = 1;
+var totalSteps = 9; // O el número de steps que tengas
+
 function validateStep(step) {
     // Step 1: Datos de Identificación
     if (step === 1) {
