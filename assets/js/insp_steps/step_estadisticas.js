@@ -1,11 +1,9 @@
 $(document).ready(function() {
-    // Validación de campos obligatorios
-    $('form').on('submit', function(e) {
+    // Validación de campos obligatorios solo dentro del contenedor del Step 6 (asumiendo que el id es "step-estadisticas")
+    $('#formEstadisticas').on('submit', function(e) {
         let valid = true;
-
-        // Validar que los campos obligatorios no estén vacíos
-        $('input[required], select[required]').each(function() {
-            if ($(this).val() === '') {
+        $('#step-estadisticas input[required]:visible, #step-estadisticas select[required]:visible').each(function() {
+            if ($(this).val().trim() === '') {
                 valid = false;
                 $(this).addClass('is-invalid');
             } else {

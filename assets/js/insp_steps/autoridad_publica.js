@@ -1,40 +1,42 @@
 $(document).ready(function() {
 
-    // Al hacer clic en "Mis oficinas", filtramos la tabla según lo escrito en #buscarOficinasInput y abrimos el modal
-    $('#buscarOficinasBtn').click(function() {
-        var searchTerm = $('#buscarOficinasInput').val().toLowerCase();
+    /**
+     * Filtra las filas de la tabla de oficinas según el término de búsqueda.
+     */
+    function filterOficinas() {
+        let searchTerm = $('#buscarOficinasInput').val().toLowerCase();
         $('#oficinasTable tbody tr').each(function() {
-            var oficinaNombre = $(this).find('td:first').text().toLowerCase();
+            let oficinaNombre = $(this).find('td:first').text().toLowerCase();
+            // Se muestra la fila si contiene el término, de lo contrario se oculta.
             if (oficinaNombre.includes(searchTerm)) {
                 $(this).show();
             } else {
                 $(this).hide();
             }
         });
+    }
+
+    // Evento: al hacer clic en "Mis oficinas", se filtra y se abre el modal.
+    $('#buscarOficinasBtn').click(function() {
+        filterOficinas();
         $('#oficinasModal').modal('show');
     });
 
-    // Buscar en tiempo real mientras el usuario escribe
+    // Evento: filtrar en tiempo real mientras el usuario escribe.
     $('#buscarOficinasInput').on('input', function() {
-        var searchTerm = $(this).val().toLowerCase();
-        $('#oficinasTable tbody tr').each(function() {
-            var oficinaNombre = $(this).find('td:first').text().toLowerCase();
-            if (oficinaNombre.includes(searchTerm)) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
+        filterOficinas();
     });
 
-    // Al hacer clic en un botón "Agregar" dentro de la tabla
+    // Evento delegados para el botón "Agregar" en la tabla de oficinas.
     $('#oficinasTable').off('click', '.seleccionarOficinaBtn').on('click', '.seleccionarOficinaBtn', function() {
-        var oficina = $(this).data('oficina');
-        console.log('Oficina seleccionada:', oficina); // Agregar console.log
+        // Se espera que el botón tenga un data attribute "data-oficina"
+        let oficina = $(this).data('oficina');
+        console.log('Oficina seleccionada:', oficina);
         if (!oficina) {
             console.warn('Oficina es undefined. Revisa data-oficina en el HTML.');
             return;
         }
+        // Agrega la oficina seleccionada a la lista
         $('#oficinasSeleccionadas').append(`
             <li class="list-group-item">
                 ${oficina}
@@ -46,19 +48,20 @@ $(document).ready(function() {
         $('#oficinasModal').modal('hide');
     });
 
-    // Botón "Aceptar" en el modal (simplemente cierra el modal)
+    // Cerrar modal al hacer clic en "Aceptar"
     $('#aceptarOficinaBtn').click(function() {
         $('#oficinasModal').modal('hide');
     });
 
-    // Quitar una oficina de la lista seleccionada
+    // Evento: quitar una oficina de la lista seleccionada
     $('#oficinasSeleccionadas').on('click', '.quitarOficinaBtn', function() {
         $(this).closest('li').remove();
     });
 
+    // Evento: cambio en Unidad Administrativa para posibles acciones adicionales
     $('select[name="Unidad_Administrativa"]').change(function() {
-        var unidad = $(this).val();
+        let unidad = $(this).val();
         console.log("Unidad Administrativa seleccionada:", unidad);
-        // Agrega lógica adicional si es necesario
+        // Aquí puedes agregar lógica adicional según la unidad seleccionada
     });
 });

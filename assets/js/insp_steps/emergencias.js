@@ -1,7 +1,8 @@
 $(document).ready(function() {
-    // Emergencias
+
+    // Toggle de detalles de emergencia basado en la selección de "Es_Emergencia"
     $('select[name="Es_Emergencia"]').change(function() {
-        if ($(this).val() == 'si') {
+        if ($(this).val() === 'si') {
             $('#emergenciaDetails').show();
             Swal.fire({
                 title: 'Información',
@@ -14,13 +15,12 @@ $(document).ready(function() {
         }
     });
 
-    // Validación de campos obligatorios
-    $('form').on('submit', function(e) {
+    // Validación de campos obligatorios dentro del contenedor del Step 9 ("Emergencias")
+    // Se asume que la vista está contenida en un elemento con id "step-emergencias"
+    $('#step-emergencias form').on('submit', function(e) {
         let valid = true;
-
-        // Validar que los campos obligatorios no estén vacíos
-        $('input[required], select[required], textarea[required]').each(function() {
-            if ($(this).val() === '') {
+        $('#step-emergencias input[required], #step-emergencias select[required], #step-emergencias textarea[required]').each(function() {
+            if ($(this).val().trim() === '') {
                 valid = false;
                 $(this).addClass('is-invalid');
             } else {
@@ -38,4 +38,6 @@ $(document).ready(function() {
             });
         }
     });
+
+    console.log("emergencias.js iniciado");
 });

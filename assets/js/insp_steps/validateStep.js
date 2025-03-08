@@ -1,67 +1,141 @@
 function validateStep(step) {
-    let valid = true;
-    let errorFields = [];
-
-    // Validar campos del step 4
-    if (step === 4) {
-        // Validar Facultades_Obligaciones
-        let facultadesList = $('#facultadesList li');
-        if (facultadesList.length === 0) {
-            valid = false;
-            errorFields.push("El campo 'Facultades, atribuciones y obligaciones' es obligatorio.");
-            $('input[name="Facultades_Obligaciones"]').addClass('is-invalid');
-        } else {
-            $('input[name="Facultades_Obligaciones"]').removeClass('is-invalid');
-        }
+    // Step 1: Datos de Identificación
+    if (step === 1) {
+        return validateDatosIdentificacion();
     }
-
-    // Recorre solo los campos requeridos que están visibles en el step actual
-    $('#step-' + step + ' [required]:visible').each(function() {
-        console.log('Validating field:', $(this).attr('name'), 'Value:', $(this).val());
-        if (!$(this).val() || $(this).val().trim() === "") {
-            $(this).addClass('is-invalid');
-            valid = false;
-        } else {
-            $(this).removeClass('is-invalid');
-        }
-    });
-
-    // Mostrar errores si hay
-    if (!valid) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Errores en el formulario',
-            html: errorFields.join("<br>"),
-            confirmButtonColor: '#8E354A'
+    // Step 2: Autoridad Pública (sin campos obligatorios)
+    else if (step === 2) {
+        let formData = {};
+        $('#step-2 :input').each(function() {
+            let fieldName = $(this).attr('name');
+            if (fieldName) {
+                formData[fieldName] = $(this).val();
+            }
         });
+        console.log('Datos del Step 2 guardados:', formData);
+        return true;
     }
-
-    console.log(`Validation for step ${step}: ${valid ? 'valid' : 'invalid'}`);
-    return valid;
-}
-
-function showStep(step) {
-    // Quitar la clase 'active' de todos los steps
-    $('.form-step').removeClass('active');
-    // Agregar la clase 'active' solo al step a mostrar
-    $('#step-' + step).addClass('active');
+    // Step 3: Información sobre la Inspección
+    else if (step === 3) {
+        return validateInfSobreInspeccion();
+    }
+    // Step 4: Más detalles
+    else if (step === 4) {
+        return validateMasdetalleStep();
+    }
+    // Step 5: Información de la Autoridad Pública y Contacto
+    else if (step === 5) {
+        return validateInfAutPubContacto();
+    }
+    // Step 6: Estadísticas
+    else if (step === 6) {
+        let valid = true;
+        $('#step-estadisticas [required]:visible').each(function() {
+            if (!$(this).val() || $(this).val().trim() === "") {
+                $(this).addClass('is-invalid');
+                valid = false;
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+        if (!valid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campos requeridos',
+                text: 'Por favor complete todos los campos obligatorios.',
+                confirmButtonColor: '#8E354A'
+            });
+        }
+        return valid;
+    }
+    // Step 7: Información adicional (sin campos obligatorios)
+    else if (step === 7) {
+        let formData = {};
+        $('#step-7 :input').each(function() {
+            let fieldName = $(this).attr('name');
+            if (fieldName) {
+                formData[fieldName] = $(this).val();
+            }
+        });
+        console.log('Datos del Step 7 guardados:', formData);
+        return true;
+    }
+    // Step 8: No Publicidad
+    else if (step === 8) {
+        let valid = true;
+        $('#step-no_publicidad [required]:visible').each(function() {
+            if (!$(this).val() || $(this).val().trim() === "") {
+                $(this).addClass('is-invalid');
+                valid = false;
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+        if (!valid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campos requeridos',
+                text: 'Por favor complete todos los campos obligatorios.',
+                confirmButtonColor: '#8E354A'
+            });
+        }
+        return valid;
+    }
+    // Step 9: Emergencias (sin campos obligatorios)
+    else if (step === 9) {
+        let formData = {};
+        $('#step-emergencias :input').each(function() {
+            let fieldName = $(this).attr('name');
+            if (fieldName) {
+                formData[fieldName] = $(this).val();
+            }
+        });
+        console.log('Datos del Step 9 guardados:', formData);
+        return true;
+    }
+    else {
+        let valid = true;
+        $('#step-' + step + ' [required]:visible').each(function() {
+            if (!$(this).val() || $(this).val().trim() === "") {
+                $(this).addClass('is-invalid');
+                valid = false;
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+        return valid;
+    }
 }
 
 function navigateStep(direction) {
-    // Validar el step actual solo si tiene campos obligatorios
-    if ($('#step-' + currentStep + ' [required]:visible').length > 0 && !validateStep(currentStep)) {
+    if (!validateStep(currentStep)) {
         return;
     }
-    // Calcular el nuevo step
+    
+    let formData = {};
+    $('#' + getStepContainer(currentStep) + ' :input').each(function() {
+        let fieldName = $(this).attr('name');
+        if (fieldName) {
+            formData[fieldName] = $(this).val();
+        }
+    });
+    console.log('Datos del Step ' + currentStep + ' guardados:', formData);
+    
     const newStep = currentStep + direction;
-    // Asegurarse de que el nuevo step esté en el rango permitido
-    if(newStep >= 1 && newStep <= totalSteps) {
+    if (newStep >= 1 && newStep <= totalSteps) {
         showStep(newStep);
-        currentStep = newStep;
     }
 }
 
-// Evitar duplicidad en los manejadores de envío
+function getStepContainer(step) {
+    if (step === 3) return 'step-inf_sobre_inspeccion';
+    else if (step === 6) return 'step-estadisticas';
+    else if (step === 7) return 'step-7';
+    else if (step === 8) return 'step-no_publicidad';
+    else if (step === 9) return 'step-emergencias';
+    else return 'step-' + step;
+}
+
 $('form').off('submit').on('submit', function(e) {
     if (!validateStep(currentStep)) {
         e.preventDefault();

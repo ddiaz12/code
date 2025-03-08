@@ -1,44 +1,51 @@
 $(document).ready(function () {
-    // Mostrar/ocultar detalles de costo según "Tiene_Costo"
+
+    // Función genérica para mostrar/ocultar secciones y asignar/quitar "required"
+    function toggleSection(selector, inputSelector, show) {
+        if (show) {
+            $(selector).show();
+            if (inputSelector) {
+                $(inputSelector).attr('required', true);
+            }
+        } else {
+            $(selector).hide();
+            if (inputSelector) {
+                $(inputSelector).removeAttr('required');
+            }
+        }
+    }
+
+    // Detalles de costo
     $('select[name="Tiene_Costo"]').change(function () {
-        if ($(this).val() === 'si') {
-            $('#costoDetails').show();
-            $('input[name="Monto_Costo"]').attr('required', true);
-            $('select[name="Monto_Fundamentado"]').attr('required', true);
-        } else {
-            $('#costoDetails').hide();
-            $('input[name="Monto_Costo"]').removeAttr('required');
+        let tieneCosto = $(this).val() === 'si';
+        toggleSection('#costoDetails', 'input[name="Monto_Costo"]', tieneCosto);
+        toggleSection('#costoDetails', 'select[name="Monto_Fundamentado"]', tieneCosto);
+        if (!tieneCosto) {
+            $('#fundamentoDetails').hide();
             $('select[name="Monto_Fundamentado"]').removeAttr('required');
-            $('#fundamentoDetails').hide();
         }
     }).trigger('change');
 
-    // Mostrar/ocultar detalles de fundamento según "Monto_Fundamentado"
+    // Detalles de fundamento según "Monto_Fundamentado"
     $('select[name="Monto_Fundamentado"]').change(function () {
-        if ($(this).val() === 'si') {
-            $('#fundamentoDetails').show();
-        } else {
-            $('#fundamentoDetails').hide();
-        }
+        toggleSection('#fundamentoDetails', null, $(this).val() === 'si');
     }).trigger('change');
 
-    // Facultades
+    // Facultades: Agregar
     $('#agregarFacultadBtn').click(function() {
-        var facultad = $('input[name="Facultades_Obligaciones"]').val().trim();
+        let facultad = $('input[name="Facultades_Obligaciones"]').val().trim();
         if (facultad) {
             $('#facultadesList').append(
-                '<li class="list-group-item">'
-                    + facultad +
-                    '<button type="button" class="btn btn-danger btn-sm float-right quitarFacultadBtn">Quitar</button>'
-                + '</li>'
+                '<li class="list-group-item">' +
+                    facultad +
+                    '<button type="button" class="btn btn-danger btn-sm float-right quitarFacultadBtn">Quitar</button>' +
+                '</li>'
             );
-
-            // Actualizar el input hidden con JSON
+            // Actualizar input hidden con JSON
             let currentData = $('#FacultadesJSON').val();
             let arr = currentData ? JSON.parse(currentData) : [];
             arr.push(facultad);
             $('#FacultadesJSON').val(JSON.stringify(arr));
-
             $('input[name="Facultades_Obligaciones"]').val('');
         } else {
             Swal.fire({
@@ -49,18 +56,18 @@ $(document).ready(function () {
         }
     });
 
+    // Facultades: Quitar
     $('#facultadesList').on('click', '.quitarFacultadBtn', function() {
         let facultad = $(this).parent().text().trim();
         $(this).parent().remove();
-
-        // Actualizar el input hidden con JSON
+        // Actualizar input hidden con JSON
         let currentData = $('#FacultadesJSON').val();
         let arr = currentData ? JSON.parse(currentData) : [];
         arr = arr.filter(item => item !== facultad);
         $('#FacultadesJSON').val(JSON.stringify(arr));
     });
 
-    // Mostrar/ocultar el campo de texto para "Otra" sanción
+    // Sanciones: Mostrar/Ocultar "Otra" sanción
     $('input[name="Sanciones[]"]').change(function() {
         if ($(this).data('es-otra') === 1) {
             if ($(this).is(':checked')) {
@@ -71,71 +78,63 @@ $(document).ready(function () {
         }
     });
 
-    // Validar campos obligatorios al guardar el step
-    $('#guardarMasdetalleBtn').click(function (e) {
-        e.preventDefault();
+    // Función de validación personalizada para el Step 4: Más detalles
+    function validateMasdetalleStep() {
+        let errors = [];
 
         // Validar "Tiene_Costo"
-        var tieneCosto = $('select[name="Tiene_Costo"]').val();
+        let tieneCosto = $('select[name="Tiene_Costo"]').val();
         if (!tieneCosto) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'El campo "¿Tiene algún costo o pago de derechos, productos y aprovechamientos aplicables?" es obligatorio.'
-            });
-            return;
-        }
-
-        // Si tiene costo, validar monto y fundamentación
-        if (tieneCosto === 'si') {
-            var monto = $('input[name="Monto_Costo"]').val();
+            errors.push('El campo "¿Tiene algún costo o pago de derechos, productos y aprovechamientos aplicables?" es obligatorio.');
+        } else if (tieneCosto === 'si') {
+            let monto = $('input[name="Monto_Costo"]').val();
             if (monto === '' || parseFloat(monto) < 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Debe indicar un monto válido.'
-                });
-                return;
+                errors.push('Debe indicar un monto válido.');
             }
-
-            var montoFundamentado = $('select[name="Monto_Fundamentado"]').val();
+            let montoFundamentado = $('select[name="Monto_Fundamentado"]').val();
             if (!montoFundamentado) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'El campo "¿El monto se encuentra fundamentado jurídicamente?" es obligatorio.'
-                });
-                return;
+                errors.push('El campo "¿El monto se encuentra fundamentado jurídicamente?" es obligatorio.');
             }
         }
 
         // Validar que la lista de facultades no esté vacía
         if ($('#facultadesList li').length === 0) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Debe agregar al menos una facultad, atribución u obligación.'
-            });
-            return;
+            errors.push('Debe agregar al menos una facultad, atribución u obligación.');
         }
 
-        // Capturar todos los campos del formulario
-        var formData = {};
+        if (errors.length > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Errores en el formulario',
+                html: errors.join("<br>"),
+                confirmButtonColor: '#8E354A'
+            });
+            return false;
+        }
+        return true;
+    }
+
+    // Hacer que la función esté disponible globalmente
+    window.validateMasdetalleStep = validateMasdetalleStep;
+
+    // Evento para el botón "Guardar" del Step 4
+    $('#guardarMasdetalleBtn').click(function (e) {
+        e.preventDefault();
+        if (!validateMasdetalleStep()) {
+            return;
+        }
+        // Recopilar datos del formulario (para depuración o envío vía AJAX)
+        let formData = {};
         $('form#formMasdetalle').find('input, select, textarea').each(function() {
-            var name = $(this).attr('name');
-            var value = $(this).val();
-            formData[name] = value;
+            let name = $(this).attr('name');
+            formData[name] = $(this).val();
         });
-
         console.log('Form Data:', formData);
-
-        // Si la validación es exitosa, opcionalmente se pueden enviar los datos vía AJAX o continuar al siguiente step
         console.log('Step masdetalle validado correctamente.');
-        // Ejemplo: enviar formulario
-        // $('#formMasdetalle').submit();
+        // Aquí puedes proceder a enviar el formulario o avanzar al siguiente step
     });
 
-    // Evitar duplicidad en los manejadores de envío
+    // Evitar duplicidad en el manejador de envío global
     $('form').off('submit').on('submit', function(e) {
         if (!validateAllSteps()) {
             e.preventDefault();

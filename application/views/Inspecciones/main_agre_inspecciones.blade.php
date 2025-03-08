@@ -10,7 +10,6 @@
 @endsection
 @section('contenido')
 
-<!-- Mostrar alertas de éxito o error si existen (Flashdata) -->
 @if($this->session->flashdata('success'))
     <script>
         Swal.fire({
@@ -73,9 +72,8 @@
                 foreach ($steps as $index => $step) {
                     $stepNumber = $index + 1;
                     echo '<button class="list-group-item list-group-item-action wizard-step" data-step="' . $stepNumber . '">
-                            <i class="' . $step["icon"] . ' me-2"></i>' .
-                        $step["label"] .
-                        '</button>';
+                            <i class="' . $step["icon"] . ' me-2"></i>' . $step["label"] .
+                         '</button>';
                 }
                 ?>
             </div>
@@ -201,8 +199,8 @@
         display: none; /* Por defecto, se ocultan */
     }
     .form-step.active {
-        display: grid; /* El paso activo se muestra como grid */
-        grid-template-columns: repeat(1, 1fr); /* 2 columnas para el step */
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
         gap: 1rem;
     }
     .form-step > h3,
@@ -241,7 +239,6 @@
         font-weight: bold;
         text-align: left;
     }
-    /* Responsive: en pantallas chicas, 1 sola columna */
     @media (max-width: 768px) {
         .form-step.active {
             grid-template-columns: 1fr;
@@ -254,7 +251,6 @@
             width: 100%;
         }
     }
-    /* Navegación */
     .form-navigation {
         margin-top: 2rem;
         padding-top: 1rem;
@@ -297,7 +293,6 @@
         cursor: not-allowed;
         opacity: 0.7;
     }
-    /* Sección de Estadísticas */
     .statistics-container {
         width: 100%;
         max-width: 800px;
@@ -326,10 +321,8 @@
     }
 </style>
 
-<!-- Incluir el archivo validateStep.js antes del script principal -->
+<!-- Incluir validateStep.js primero -->
 <script src="<?= base_url('assets/js/insp_steps/validateStep.js'); ?>"></script>
-
-<!-- ========================= SCRIPTS ========================= -->
 <script src="<?= base_url('assets/js/insp_steps/datos_de_identificacion.js'); ?>"></script>
 <script src="<?= base_url('assets/js/insp_steps/autoridad_publica.js'); ?>"></script>
 <script src="<?= base_url('assets/js/insp_steps/inf_sobre_inspeccion.js'); ?>"></script>
@@ -341,68 +334,34 @@
 <script src="<?= base_url('assets/js/insp_steps/emergencias.js'); ?>"></script>
 
 <script>
-let currentStep = 1;
-const totalSteps = 9;
-
-function showStep(step) {
-    // Remueve la clase active de todos los steps
-    $('.form-step').removeClass('active');
-    // Agrega la clase active solo al step actual
-    $('#step-' + step).addClass('active');
-    
-    // Actualiza la clase "active" en los botones de la sidebar
-    $('.wizard-step').removeClass('active');
-    $('.wizard-step[data-step="'+step+'"]').addClass('active');
-
-    // Control de botones de navegación
-    if (step === 1) {
-        $('#prevBtn').hide();
-    } else {
-        $('#prevBtn').show();
+    // La función showStep se define aquí, de forma única para controlar la visibilidad
+    function showStep(step) {
+        $('.form-step').removeClass('active');
+        $('#step-' + step).addClass('active');
+        
+        // Actualizar la clase active en la sidebar
+        $('.wizard-step').removeClass('active');
+        $('.wizard-step[data-step="'+step+'"]').addClass('active');
+        
+        // Control de botones de navegación
+        if (step === 1) {
+            $('#prevBtn').hide();
+        } else {
+            $('#prevBtn').show();
+        }
+        if (step === totalSteps) {
+            $('#nextBtn').hide();
+            $('#submitBtn').show();
+        } else {
+            $('#nextBtn').show();
+            $('#submitBtn').hide();
+        }
+        currentStep = step;
     }
-    if (step === totalSteps) {
-        $('#nextBtn').hide();
-        $('#submitBtn').show();  // Se muestra el botón de guardado en el último step
-    } else {
-        $('#nextBtn').show();
-        $('#submitBtn').hide();
-    }
-    currentStep = step;
-}
 
-function navigateStep(direction) {
-    // Antes de avanzar, valida el step actual
-    if (direction > 0 && !validateStep(currentStep)) {
-        return; // Si la validación falla, no avanza
-    }
-    const newStep = currentStep + direction;
-    if (newStep >= 1 && newStep <= totalSteps) {
-        showStep(newStep);
-    }
-}
-
-$(document).ready(function() {
-    // Inicializa el primer step
-    showStep(1);
-
-    // Navegación por clic en el sidebar
-    //$('.wizard-step').click(function() {
-        //const step = $(this).data('step');
-        //showStep(step);
-    //});
-});
-
-// Añadir validación del lado del cliente al enviar el formulario
-document.getElementById("inspeccionForm").addEventListener("submit", function(event) {
-    if (!this.checkValidity()) {
-        event.preventDefault();
-        Swal.fire({
-            icon: "error",
-            title: "Campos obligatorios faltantes",
-            text: "Por favor, complete todos los campos obligatorios.",
-            confirmButtonColor: "#8E354A"
-        });
-    }
-});
+    // Inicializa el primer step al cargar la página
+    $(document).ready(function() {
+        showStep(1);
+    });
 </script>
 @endsection

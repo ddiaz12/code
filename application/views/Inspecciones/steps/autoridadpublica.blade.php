@@ -23,8 +23,7 @@
 <ul id="oficinasSeleccionadas" class="list-group mt-2"></ul>
 
 <!-- Modal para seleccionar oficinas -->
-<div id="oficinasModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="oficinasModalLabel"
-    aria-hidden="true">
+<div id="oficinasModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="oficinasModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">

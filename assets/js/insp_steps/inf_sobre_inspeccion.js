@@ -1,19 +1,31 @@
 $(document).ready(function() {
-    // Mostrar/ocultar "¿Cuáles Sujetos Obligados?"
-    $('select[name="Otros_Sujetos_Participan"]').change(function () {
-        if ($(this).val() == 'si') {
-            $('#sujetosObligados').show();
-            $('input[name="Buscar_Sujeto_Obligado"]').attr('required', true);
+    /**
+     * Función para mostrar u ocultar un contenedor y asignar o quitar el atributo "required"
+     * @param {string} selectorContenedor - Selector del contenedor a mostrar u ocultar
+     * @param {string} selectorInput - Selector del input al cual se le asigna o quita "required"
+     * @param {boolean} show - Si es true, se muestra el contenedor y se asigna "required"; de lo contrario, se oculta y se quita.
+     */
+    function toggleContainer(selectorContenedor, selectorInput, show) {
+        if(show) {
+            $(selectorContenedor).show();
+            $(selectorInput).attr('required', true);
         } else {
-            $('#sujetosObligados').hide();
-            $('input[name="Buscar_Sujeto_Obligado"]').removeAttr('required');
+            $(selectorContenedor).hide();
+            $(selectorInput).removeAttr('required');
         }
-    });
+    }
 
+    /**********************
+     * Sujetos Obligados
+     **********************/
+    // Toggle para "Otros_Sujetos_Participan"
+    $('select[name="Otros_Sujetos_Participan"]').change(function () {
+        let show = $(this).val() === 'si';
+        toggleContainer('#sujetosObligados', 'input[name="Buscar_Sujeto_Obligado"]', show);
+    });
     // Ejecutar al cargar la página
-    if ($('select[name="Otros_Sujetos_Participan"]').val() == 'si') {
-        $('#sujetosObligados').show();
-        $('input[name="Buscar_Sujeto_Obligado"]').attr('required', true);
+    if ($('select[name="Otros_Sujetos_Participan"]').val() === 'si') {
+        toggleContainer('#sujetosObligados', 'input[name="Buscar_Sujeto_Obligado"]', true);
     }
 
     // Modal "Buscar Sujetos"
@@ -21,35 +33,45 @@ $(document).ready(function() {
         $('#sujetosModal').modal('show');
     });
 
-    $('.seleccionarSujetoBtn').click(function() {
-        var sujeto = $(this).data('sujeto');
+    // Seleccionar un sujeto desde el modal
+    $(document).on('click', '.seleccionarSujetoBtn', function() {
+        let sujeto = $(this).data('sujeto');
+        console.log('Sujeto seleccionado:', sujeto);
+        if (!sujeto) {
+            console.warn('El dato "sujeto" es undefined. Revisa el atributo data-sujeto en el HTML.');
+            return;
+        }
         $('input[name="Buscar_Sujeto_Obligado"]').val(sujeto);
         $('#sujetosModal').modal('hide');
     });
 
+    // Botón Aceptar en el modal simplemente cierra el mismo
     $('#aceptarSujetoBtn').click(function() {
         $('#sujetosModal').modal('hide');
     });
 
+    // Búsqueda dinámica de sujetos obligados con AJAX
     $('#buscarSujetosInput').on('input', function() {
-        var searchTerm = $(this).val().toLowerCase();
+        let searchTerm = $(this).val().toLowerCase();
         $.ajax({
             url: '<?= base_url("InspeccionesController/buscarSujetosObligados") ?>',
             type: 'POST',
             data: { search_term: searchTerm },
             dataType: 'json',
             success: function(data) {
-                console.log('Datos de sujetos obligados:', data); // Verificar la respuesta en la consola
+                console.log('Datos de sujetos obligados:', data);
                 $('#sujetosTable tbody').empty();
                 if (data.length > 0) {
                     data.forEach(function(sujeto) {
                         $('#sujetosTable tbody').append(
-                            '<tr>' +
-                                '<td>' + sujeto.nombre_sujeto + '</td>' +
-                                '<td>' +
-                                    '<button type="button" class="btn btn-primary seleccionarSujetoBtn" data-sujeto="' + sujeto.nombre_sujeto + '">Seleccionar</button>' +
-                                '</td>' +
-                            '</tr>'
+                            `<tr>
+                                <td>${sujeto.nombre_sujeto}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary seleccionarSujetoBtn" data-sujeto="${sujeto.nombre_sujeto}">
+                                        Seleccionar
+                                    </button>
+                                </td>
+                            </tr>`
                         );
                     });
                 } else {
@@ -60,64 +82,78 @@ $(document).ready(function() {
                         confirmButtonColor: '#8E354A'
                     });
                 }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error en la búsqueda de sujetos:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al buscar los sujetos obligados.',
+                    confirmButtonColor: '#8E354A'
+                });
             }
         });
     });
 
-    // Derechos
+    /**********************
+     * Derechos y Obligaciones
+     **********************/
+    // Agregar Derecho
     $('#agregarDerechoBtn').click(function() {
-        var derecho = $('input[name="Derecho_Sujeto_Regulado"]').val();
+        let derecho = $('input[name="Derecho_Sujeto_Regulado"]').val().trim();
         if (derecho) {
             $('#derechosList').append(
-                '<li class="list-group-item">'
-                    + derecho +
-                    '<button type="button" class="btn btn-danger btn-sm float-right quitarDerechoBtn">Quitar</button>'
-                + '</li>'
+                `<li class="list-group-item">
+                    ${derecho}
+                    <button type="button" class="btn btn-danger btn-sm float-right quitarDerechoBtn">
+                        Quitar
+                    </button>
+                </li>`
             );
             $('input[name="Derecho_Sujeto_Regulado"]').val('');
         }
     });
 
+    // Quitar Derecho
     $('#derechosList').on('click', '.quitarDerechoBtn', function() {
         $(this).parent().remove();
     });
 
-    // Obligaciones
+    // Agregar Obligación
     $('#agregarObligacionBtn').click(function() {
-        var obligacion = $('input[name="Obligacion_Sujeto_Regulado"]').val();
+        let obligacion = $('input[name="Obligacion_Sujeto_Regulado"]').val().trim();
         if (obligacion) {
             $('#obligacionesList').append(
-                '<li class="list-group-item">'
-                    + obligacion +
-                    '<button type="button" class="btn btn-danger btn-sm float-right quitarObligacionBtn">Quitar</button>'
-                + '</li>'
+                `<li class="list-group-item">
+                    ${obligacion}
+                    <button type="button" class="btn btn-danger btn-sm float-right quitarObligacionBtn">
+                        Quitar
+                    </button>
+                </li>`
             );
             $('input[name="Obligacion_Sujeto_Regulado"]').val('');
         }
     });
 
+    // Quitar Obligación
     $('#obligacionesList').on('click', '.quitarObligacionBtn', function() {
         $(this).parent().remove();
     });
 
-    // Firmar Formato
+    /**********************
+     * Firmar Formato y Validación de Archivo
+     **********************/
+    // Toggle para "Firmar_Formato"
     $('select[name="Firmar_Formato"]').change(function() {
-        if ($(this).val() == 'si') {
-            $('#formatoUpload').show();
-            $('input[name="Archivo_Formato"]').attr('required', true);
-        } else {
-            $('#formatoUpload').hide();
-            $('input[name="Archivo_Formato"]').removeAttr('required');
-        }
+        let show = $(this).val() === 'si';
+        toggleContainer('#formatoUpload', 'input[name="Archivo_Formato"]', show);
     });
-
     // Ejecutar al cargar la página
-    if ($('select[name="Firmar_Formato"]').val() == 'si') {
-        $('#formatoUpload').show();
-        $('input[name="Archivo_Formato"]').attr('required', true);
+    if ($('select[name="Firmar_Formato"]').val() === 'si') {
+        toggleContainer('#formatoUpload', 'input[name="Archivo_Formato"]', true);
     }
 
-    // Validar tipo de archivo
+    // Validar el tipo de archivo al cargar el input
     $('input[name="Archivo_Formato"]').on('change', function() {
         let file = this.files[0];
         if (file) {
@@ -134,10 +170,33 @@ $(document).ready(function() {
         }
     });
 
+    /**********************
+     * Mensaje de inicio y depuración
+     **********************/
     console.log("inf_sobre_inspeccion.js iniciado");
 
     // Verificar e imprimir en consola los valores iniciales de los campos requeridos y visibles en este step
     $('#step-inf_sobre_inspeccion [required]:visible').each(function() {
-        console.log('Inf_Sobre_Inspeccion: Validating field:', $(this).attr('name'), 'Value:', $(this).val());
+        console.log('inf_sobre_inspeccion: Validating field:', $(this).attr('name'), 'Value:', $(this).val());
     });
+
+    // ===============================
+    // Función de validación para el Step 3
+    // ===============================
+    function validateInfSobreInspeccion() {
+        let valid = true;
+        // Solo validar los campos requeridos que estén visibles en el contenedor del step 3
+        $('#step-inf_sobre_inspeccion input[required]:visible, #step-inf_sobre_inspeccion select[required]:visible, #step-inf_sobre_inspeccion textarea[required]:visible').each(function() {
+            if ($(this).val().trim() === "") {
+                valid = false;
+                $(this).addClass('is-invalid');
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+        return valid;
+    }
+
+    // Hacer que la función esté disponible globalmente
+    window.validateInfSobreInspeccion = validateInfSobreInspeccion;
 });
