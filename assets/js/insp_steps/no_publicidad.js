@@ -30,10 +30,10 @@ $(document).ready(function() {
     });
 
     // Validación de campos obligatorios en el Step 8 "No Publicidad"
-    // Se asume que el contenedor de este step tiene el id "step-no_publicidad"
-    $('#step-no_publicidad form').on('submit', function(e) {
+    // Se asume que el contenedor de este step tiene el id "step-8"
+    $('#step-8 form').on('submit', function(e) {
         let valid = true;
-        $('#step-no_publicidad input[required], #step-no_publicidad select[required]').each(function() {
+        $('#step-8 input[required], #step-8 select[required]').each(function() {
             if ($(this).val().trim() === '') {
                 valid = false;
                 $(this).addClass('is-invalid');
@@ -51,6 +51,6 @@ $(document).ready(function() {
             });
         }
     });
-    
+
     console.log("no_publicidad.js iniciado");
 });
