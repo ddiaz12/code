@@ -42,7 +42,6 @@ class Inspectores extends CI_Controller {
     }
 
     public function guardar() {
-        // Validación básica de ejemplo
         $this->form_validation->set_rules('nombre', 'Nombre', 'required');
         $this->form_validation->set_rules('primer_apellido', 'Primer Apellido', 'required');
         $this->form_validation->set_rules('segundo_apellido', 'Segundo Apellido', 'required');
@@ -54,19 +53,37 @@ class Inspectores extends CI_Controller {
         if ($this->form_validation->run() === FALSE) {
             $this->agregarInspector();
         } else {
-            // Recopilar los datos del formulario
+            // Recopilar los datos del formulario usando los nombres de columna correctos:
             $data = [
-                'nombre' => $this->input->post('nombre'),
-                'Apellido_Paterno' => $this->input->post('primer_apellido'),
-                'Apellido_Materno' => $this->input->post('segundo_apellido'),
-                'Telefono' => $this->input->post('numero_empleado'), // Cambio de clave a "Telefono"
-                'cargo' => $this->input->post('cargo'),
-                'sujeto_obligado' => $this->input->post('sujeto_obligado'),
-                'unidad_administrativa' => $this->input->post('unidad_administrativa'),
-                // Añade más campos según los que hayas agregado en la base de datos
+                'nombre'           => $this->input->post('nombre'),
+                'Primer_Apellido'  => $this->input->post('primer_apellido'),
+                'Segundo_Apellido' => $this->input->post('segundo_apellido'),
+                'Numero_Empleado'  => $this->input->post('numero_empleado'), // Se usa 'Numero_Empleado' en vez de 'Telefono'
+                'cargo'            => $this->input->post('cargo'),
+                'ID_Sujeto'        => $this->input->post('sujeto_obligado'),
+                'ID_Unidad'        => $this->input->post('unidad_administrativa'),
             ];
 
-            // Guardar los datos en la base de datos
+            // Procesar carga de imagen y asignar al campo "Foto_Archivo"
+            if (isset($_FILES['fotografia']) && !empty($_FILES['fotografia']['name'])) {
+                $config['upload_path']   = './uploads/';
+                $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+                $config['max_size']      = 2048;
+                
+                $this->load->library('upload', $config);
+                
+                if (!$this->upload->do_upload('fotografia')) {
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('error', $error);
+                    redirect('inspectores');
+                    return;
+                } else {
+                    $upload_data = $this->upload->data();
+                    $data['Foto_Archivo'] = $upload_data['file_name'];
+                }
+            }
+
+            // Guardar los datos usando el modelo (asegúrate de que en el modelo se use la misma tabla)
             $result = $this->Inspectores_Model->agregarInspector($data);
             if ($result) {
                 $this->session->set_flashdata('success', 'Se completó el registro');
@@ -97,7 +114,20 @@ class Inspectores extends CI_Controller {
 
         $html = '';
         foreach ($inspectores as $inspector) {
-            $html .= $this->blade->render('inspectores/pdf_template', ['inspector' => $inspector], true);
+            $html .= $this->blade->render('inspectores/pdf_template', [
+                'inspector' => [
+                    'ID' => $inspector->ID,
+                    'Homoclave' => $inspector->Homoclave,
+                    'Nombre' => $inspector->Nombre,
+                    'Primer_Apellido' => $inspector->Primer_Apellido,
+                    'Segundo_Apellido' => $inspector->Segundo_Apellido,
+                    'ID_Sujeto' => $inspector->ID_Sujeto,
+                    'ID_Unidad' => $inspector->ID_Unidad,
+                    'Estatus' => $inspector->Estatus,
+                    'ID_Tipo' => $inspector->ID_Tipo,
+                    'Vigencia' => $inspector->Vigencia
+                ]
+            ], true);
         }
 
         $this->pdf->loadHtml($html);
@@ -116,24 +146,24 @@ class Inspectores extends CI_Controller {
         $sheet->setCellValue('C1', 'Nombre');
         $sheet->setCellValue('D1', 'Primer Apellido');
         $sheet->setCellValue('E1', 'Segundo Apellido');
-        $sheet->setCellValue('F1', 'Sujeto Obligado');
-        $sheet->setCellValue('G1', 'Unidad Administrativa');
+        $sheet->setCellValue('F1', 'ID_Sujeto');
+        $sheet->setCellValue('G1', 'ID_Unidad');
         $sheet->setCellValue('H1', 'Estatus');
-        $sheet->setCellValue('I1', 'Tipo');
+        $sheet->setCellValue('I1', 'ID_Tipo');
         $sheet->setCellValue('J1', 'Vigencia');
 
         // Set data
         $row = 2;
         foreach ($inspectores as $inspector) {
-            $sheet->setCellValue('A' . $row, $inspector->Inspector_ID);
+            $sheet->setCellValue('A' . $row, $inspector->ID);
             $sheet->setCellValue('B' . $row, $inspector->Homoclave);
             $sheet->setCellValue('C' . $row, $inspector->Nombre);
-            $sheet->setCellValue('D' . $row, $inspector->Apellido_Paterno);
-            $sheet->setCellValue('E' . $row, $inspector->Apellido_Materno);
-            $sheet->setCellValue('F' . $row, $inspector->Sujeto_Obligado);
-            $sheet->setCellValue('G' . $row, $inspector->Unidad_Administrativa);
+            $sheet->setCellValue('D' . $row, $inspector->Primer_Apellido);
+            $sheet->setCellValue('E' . $row, $inspector->Segundo_Apellido);
+            $sheet->setCellValue('F' . $row, $inspector->ID_Sujeto);
+            $sheet->setCellValue('G' . $row, $inspector->ID_Unidad);
             $sheet->setCellValue('H' . $row, $inspector->Estatus);
-            $sheet->setCellValue('I' . $row, $inspector->Tipo);
+            $sheet->setCellValue('I' . $row, $inspector->ID_Tipo);
             $sheet->setCellValue('J' . $row, $inspector->Vigencia);
             $row++;
         }

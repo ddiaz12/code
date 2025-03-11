@@ -8,15 +8,16 @@ class Inspectores_Model extends CI_Model {
         $this->load->database(); // Cargar la base de datos
     }
 
-    // Obtener todos los inspectores
+    // Obtener todos los inspectores de la tabla ma_inspectores
     public function get_all_inspectores() {
-        $query = $this->db->get('inspectores');
+        $this->db->select('ID, Homoclave, Nombre, Primer_Apellido, Segundo_Apellido, ID_Sujeto, ID_Unidad, Estatus, ID_Tipo, Vigencia');
+        $query = $this->db->get('ma_inspectores');
         return $query->result(); // Retorna un array de objetos
     }
 
     // Método para agregar un nuevo inspector
     public function agregarInspector($data) {
-        return $this->db->insert('inspectores', $data);
+        return $this->db->insert('ma_inspectores', $data);
     }
 
     // Método para obtener un inspector por su ID

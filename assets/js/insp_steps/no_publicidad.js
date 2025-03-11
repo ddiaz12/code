@@ -1,31 +1,34 @@
 $(document).ready(function() {
 
-    // Inicializar la visibilidad de la sección de detalles según la selección inicial
-    if ($('select[name="Permitir_Publicidad"]').val() === 'no') {
-        $('#noPublicidadDetails').show();
-        // Si se muestra, aseguramos que el campo requerido tenga el atributo
-        $('input[name="Documento_No_Publicidad"]').attr('required', true);
-    } else {
-        $('#noPublicidadDetails').hide();
-        // Si se oculta, removemos el atributo required
-        $('input[name="Documento_No_Publicidad"]').removeAttr('required');
-    }
-
-    // Mostrar/ocultar detalles según la selección de publicidad
-    $('select[name="Permitir_Publicidad"]').change(function() {
-        if ($(this).val() === 'no') {
+    // Función para actualizar la visibilidad y el atributo "required" del input de archivo
+    function updateNoPublicidadVisibility() {
+        // Obtener y normalizar el valor del select Permitir_Publicidad
+        var permiso = $('select[name="Permitir_Publicidad"]').val().trim().toLowerCase();
+        console.log('Valor de Permitir_Publicidad:', permiso);
+        if (permiso === 'no') {
+            // Si se selecciona "no", se muestra la sección de detalles y se añade required al input
             $('#noPublicidadDetails').show();
             $('input[name="Documento_No_Publicidad"]').attr('required', true);
+        } else {
+            // Si se selecciona "si" (u otro valor), se oculta la sección de detalles y se remueve el atributo required
+            $('#noPublicidadDetails').hide();
+            $('input[name="Documento_No_Publicidad"]').removeAttr('required');
+        }
+    }
+    
+    // Ejecutar al cargar la página
+    updateNoPublicidadVisibility();
+    
+    // Actualizar la visibilidad cuando cambie el select
+    $('select[name="Permitir_Publicidad"]').change(function() {
+        updateNoPublicidadVisibility();
+        if ($(this).val().trim().toLowerCase() === 'no') {
             Swal.fire({
                 title: 'Información',
                 text: 'Conforme a la Estrategia Nacional de Mejora Regulatoria, los sujetos obligados podrán determinar la publicación parcial o total de la información, a fin de mantener la integridad o seguridad del servidor público.',
                 icon: 'info',
                 confirmButtonText: 'Aceptar'
             });
-        } else {
-            $('#noPublicidadDetails').hide();
-            // Remover el atributo required del input cuando se oculte la sección
-            $('input[name="Documento_No_Publicidad"]').removeAttr('required');
         }
     });
 
@@ -33,6 +36,7 @@ $(document).ready(function() {
     // Se asume que el contenedor de este step tiene el id "step-8"
     $('#step-8 form').on('submit', function(e) {
         let valid = true;
+        // Se validan solo los inputs y selects que estén dentro del contenedor step-8
         $('#step-8 input[required], #step-8 select[required]').each(function() {
             if ($(this).val().trim() === '') {
                 valid = false;
@@ -51,6 +55,6 @@ $(document).ready(function() {
             });
         }
     });
-
+    
     console.log("no_publicidad.js iniciado");
 });

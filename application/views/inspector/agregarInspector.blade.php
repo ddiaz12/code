@@ -1,39 +1,46 @@
 @layout('templates/master')
 @section('titulo')
-Registro Estatal de Regulaciones y Visitas Domiciliarias
+    {{ isset($inspector) ? 'Editar Inspector' : 'Agregar Inspector' }}
 @endsection
 @section('navbar')
-@include('templates/navbarAdmin')
+    @include('templates/navbarAdmin')
 @endsection
 @section('menu')
-@include('templates/menuAdmin')
+    @include('templates/menuAdmin')
 @endsection
 @section('contenido')
+
 @if ($this->session->flashdata('success'))
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: '¡Éxito!',
-        text: '<?= $this->session->flashdata('success') ?>',
-        showConfirmButton: false,
-        timer: 2000
-    }).then(() => {
-        window.location.href = '<?= base_url("inspectores") ?>';
-    });
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: '<?= $this->session->flashdata('success') ?>',
+            showConfirmButton: false,
+            timer: 2000
+        }).then(() => {
+            window.location.href = '<?= base_url("inspectores") ?>';
+        });
+    </script>
 @endif
 
-    <ol class="breadcrumb mb-4 mt-5" style="margin-left: 5px;">
-        <li class="breadcrumb-item">
-            <a href="<?php echo base_url('home'); ?>" class="text-decoration-none">
-                <i class="fas fa-home me-1"></i>Home
-            </a>
-        </li>
-        <li class="breadcrumb-item"><i class="fas fa-file-alt me-1"></i>Inspecciones</li>
-        <li class="breadcrumb-item"><i class="fas fa-plus-circle me-1"></i>Agregar</li>
-    </ol>
+<!-- Breadcrumb -->
+<ol class="breadcrumb mb-4 mt-5" style="margin-left: 5px;">
+    <li class="breadcrumb-item">
+        <a href="<?php echo base_url('home'); ?>" class="text-decoration-none">
+            <i class="fas fa-home me-1"></i>Home
+        </a>
+    </li>
+    <li class="breadcrumb-item">
+        <i class="fas fa-file-alt me-1"></i>Inspectores
+    </li>
+    <li class="breadcrumb-item">
+        <i class="fas fa-plus-circle me-1"></i>{{ isset($inspector) ? 'Editar Inspector' : 'Agregar Inspector' }}
+    </li>
+</ol>
 
+<div class="container-fluid px-4">
     <div class="row">
         <!-- Sidebar Wizard -->
         <div class="col-md-3 sidebar-wizard">
@@ -45,13 +52,11 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                     ["label" => "No publicidad", "icon" => "fa fa-user-secret"],
                     ["label" => "Emergencias", "icon" => "fa-solid fa-exclamation-triangle"]
                 ];
-
                 foreach ($steps as $index => $step) {
                     $stepNumber = $index + 1;
                     echo '<button class="list-group-item list-group-item-action wizard-step" data-step="' . $stepNumber . '">
-                            <i class="' . $step["icon"] . ' me-2"></i>' . 
-                            $step["label"] . 
-                        '</button>';
+                            <i class="' . $step["icon"] . ' me-2"></i>' . $step["label"] . '
+                          </button>';
                 }
                 ?>
             </div>
@@ -65,248 +70,20 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
                     <?php if(isset($inspector)): ?>
                         <?php echo form_hidden('Inspector_ID', $inspector->Inspector_ID); ?>
                     <?php endif; ?>
-                    
-                    <!-- Step 1: Datos de identificación -->
-                    <div class="form-step" id="step-1">
-                        <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Datos de identificación de Inspector(a), Verificador(a) y Visitador(a) Domiciliario(a)</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nombre">Nombre(s) de servidor(a) público(a) <span class="text-danger">*</span></label>
-                                    <?php echo form_input([
-                                        'name' => 'nombre', 
-                                        'id' => 'nombre', 
-                                        'class' => 'form-control', 
-                                        'required' => 'required', 
-                                        'value' => isset($inspector->nombre) ? $inspector->nombre : ''
-                                    ]); ?>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="primer_apellido">Primer Apellido <span class="text-danger">*</span></label>
-                                    <?php echo form_input([
-                                        'name' => 'primer_apellido', 
-                                        'id' => 'primer_apellido', 
-                                        'class' => 'form-control', 
-                                        'required' => 'required', 
-                                        'value' => isset($inspector->primer_apellido) ? $inspector->primer_apellido : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="segundo_apellido">Segundo Apellido <span class="text-danger">*</span></label>
-                                    <?php echo form_input([
-                                        'name' => 'segundo_apellido', 
-                                        'id' => 'segundo_apellido', 
-                                        'class' => 'form-control', 
-                                        'required' => 'required', 
-                                        'value' => isset($inspector->segundo_apellido) ? $inspector->segundo_apellido : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="fotografia">Fotografía (JPG, PDF o PNG) <span class="text-danger">*</span></label>
-                                    <?php echo form_upload(['name' => 'fotografia', 'id' => 'fotografia', 'class' => 'form-control-file', 'required' => 'required']); ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="numero_empleado">Número o clase del empleado <span class="text-danger">*</span></label>
-                                    <?php echo form_input([
-                                        'name' => 'numero_empleado', 
-                                        'id' => 'numero_empleado', 
-                                        'class' => 'form-control', 
-                                        'required' => 'required', 
-                                        'value' => isset($inspector->numero_empleado) ? $inspector->numero_empleado : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="cargo">Cargo del servidor público <span class="text-danger">*</span></label>
-                                    <?php echo form_input([
-                                        'name' => 'cargo', 
-                                        'id' => 'cargo', 
-                                        'class' => 'form-control', 
-                                        'required' => 'required', 
-                                        'value' => isset($inspector->cargo) ? $inspector->cargo : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="sujeto_obligado">Sujeto Obligado <span class="text-danger">*</span></label>
-                                    <?php echo form_input([
-                                        'name' => 'sujeto_obligado', 
-                                        'id' => 'sujeto_obligado', 
-                                        'class' => 'form-control', 
-                                        'required' => 'required', 
-                                        'value' => isset($inspector->sujeto_obligado) ? $inspector->sujeto_obligado : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="unidad_administrativa">Unidad administrativa <span class="text-danger">*</span></label>
-                                    <?php echo form_input([
-                                        'name' => 'unidad_administrativa', 
-                                        'id' => 'unidad_administrativa', 
-                                        'class' => 'form-control', 
-                                        'required' => 'required', 
-                                        'value' => isset($inspector->unidad_administrativa) ? $inspector->unidad_administrativa : ''
-                                    ]); ?>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Incluir los steps desde la carpeta "partials" -->
+                    <div id="wizardSteps">
+                        @include('inspector/partials/step1')
+                        @include('inspector/partials/step2')
+                        @include('inspector/partials/step3')
+                        @include('inspector/partials/step4')
                     </div>
 
-                    <!-- Step 2: Datos del superior jerárquico -->
-                    <div class="form-step" id="step-2" style="display: none;">
-                    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Datos del Superior(a) Jerarquico(a)</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        </h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="buscar_superior">Buscar superior(a) jerárquico(a) <span class="text-danger">*</span></label>
-                                    <?php echo form_input([
-                                        'name' => 'buscar_superior', 
-                                        'id' => 'buscar_superior', 
-                                        'class' => 'form-control', 
-                                        'required' => 'required', 
-                                        'value' => isset($inspector->buscar_superior) ? $inspector->buscar_superior : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="nombre_superior">Nombre(s)</label>
-                                    <?php echo form_input([
-                                        'name' => 'nombre_superior', 
-                                        'id' => 'nombre_superior', 
-                                        'class' => 'form-control', 
-                                        'value' => isset($inspector->nombre_superior) ? $inspector->nombre_superior : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="apellido_paterno_superior">Apellido paterno</label>
-                                    <?php echo form_input([
-                                        'name' => 'apellido_paterno_superior', 
-                                        'id' => 'apellido_paterno_superior', 
-                                        'class' => 'form-control', 
-                                        'value' => isset($inspector->apellido_paterno_superior) ? $inspector->apellido_paterno_superior : ''
-                                    ]); ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="apellido_materno_superior">Apellido materno</label>
-                                    <?php echo form_input([
-                                        'name' => 'apellido_materno_superior', 
-                                        'id' => 'apellido_materno_superior', 
-                                        'class' => 'form-control', 
-                                        'value' => isset($inspector->apellido_materno_superior) ? $inspector->apellido_materno_superior : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="telefono_superior">Teléfono de contacto</label>
-                                    <?php echo form_input([
-                                        'name' => 'telefono_superior', 
-                                        'id' => 'telefono_superior', 
-                                        'class' => 'form-control', 
-                                        'value' => isset($inspector->telefono_superior) ? $inspector->telefono_superior : ''
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="extension_superior">Extensión</label>
-                                    <?php echo form_input([
-                                        'name' => 'extension_superior', 
-                                        'id' => 'extension_superior', 
-                                        'class' => 'form-control', 
-                                        'value' => isset($inspector->extension_superior) ? $inspector->extension_superior : ''
-                                    ]); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: No publicidad -->
-                    <div class="form-step" id="step-3" style="display: none;">
-                    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">No publicidad</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>¿Permitir que todos los datos del inspector, verificador o visitador sean públicos?</label>
-                                    <?php echo form_dropdown('permitir_publicidad', ['si' => 'Sí', 'no' => 'No'], isset($inspector->permitir_publicidad) ? $inspector->permitir_publicidad : '', 'class="form-control"'); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="justificante_no_publicidad">Justificante no publicidad (PDF, JPG, PNG)</label>
-                                    <?php echo form_upload(['name' => 'justificante_no_publicidad', 'id' => 'justificante_no_publicidad', 'class' => 'form-control-file']); ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Determina la información de la ficha del Inspector(a) que no se puede publicar en el portal ciudadano:</label>
-                                    <select class="form-control" name="datos_no_publicar[]" multiple>
-                                        <option value="nombre" <?php echo isset($inspector->datos_no_publicar) && in_array('nombre', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Nombre</option>
-                                        <option value="primer_apellido" <?php echo isset($inspector->datos_no_publicar) && in_array('primer_apellido', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Primer Apellido</option>
-                                        <option value="segundo_apellido" <?php echo isset($inspector->datos_no_publicar) && in_array('segundo_apellido', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Segundo Apellido</option>
-                                        <option value="fotografia" <?php echo isset($inspector->datos_no_publicar) && in_array('fotografia', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Fotografía</option>
-                                        <option value="cargo" <?php echo isset($inspector->datos_no_publicar) && in_array('cargo', $inspector->datos_no_publicar) ? 'selected' : ''; ?>>Cargo</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 4: Emergencias -->
-                    <div class="form-step" id="step-4" style="display: none;">
-                    <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">Emergencias</h3>
-                        <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0; box-sizing: border-box ;">
-                            Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="es_emergencia">¿El inspector es requerido para atender una situación de emergencia?</label>
-                                    <?php echo form_checkbox([
-                                        'name' => 'es_emergencia', 
-                                        'id' => 'es_emergencia', 
-                                        'class' => 'form-check-input', 
-                                        'checked' => isset($inspector->es_emergencia) ? $inspector->es_emergencia : false
-                                    ]); ?>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="justificacion_emergencia">Justificar las razones por las cuales se habilita un inspector(a) para atender una situación de emergencia.</label>
-                                    <?php echo form_textarea([
-                                        'name' => 'justificacion_emergencia', 
-                                        'id' => 'justificacion_emergencia', 
-                                        'class' => 'form-control', 
-                                        'rows' => '3', 
-                                        'value' => isset($inspector->justificacion_emergencia) ? $inspector->justificacion_emergencia : ''
-                                    ]); ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="oficio_emergencia">Cargar el oficio o acta de declaración de emergencia (PDF, PNG, JPG).</label>
-                                    <?php echo form_upload(['name' => 'oficio_emergencia', 'id' => 'oficio_emergencia', 'class' => 'form-control-file']); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    <!-- Botones de navegación -->
                     <div class="form-navigation">
                         <button type="button" class="btn" id="prevBtn" onclick="navigateStep(-1)">Regresar</button>
                         <button type="button" class="btn" id="nextBtn" onclick="navigateStep(1)">Siguiente</button>
-                        <button type="submit" class="btn" id="submitBtn" style="display:none;">Guardar todo</button>
+                        <button type="submit" class="btn" id="submitBtn" style="display: none;">Guardar todo</button>
                     </div>
                     <?php echo form_close(); ?>
                 </div>
@@ -315,8 +92,8 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
     </div>
 </div>
 
+<!-- Estilos personalizados -->
 <style>
-    /* Estilos CSS aquí */
     :root {
         --primary-color: #8E354A;
         --border-color: #E5E7EB;
@@ -324,187 +101,30 @@ Registro Estatal de Regulaciones y Visitas Domiciliarias
         --text-color: #374151;
         --heading-color: #111827;
     }
-
-    .main-content {
-        /* Se ajusta el margen para centrar el contenido, quitando el offset negativo */
-        margin-top: 20px;
-    }
-
-    .card {
-        border: 1px solid var(--border-color);
-        border-radius: 0.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-body {
-        padding: 1.5rem;
-    }
-
-    .form-step {
-        display: none;
-    }
-
-    .form-step.active {
-        display: block;
-    }
-
-    .form-control {
-        padding: 0.375rem 0.5rem;
-        min-height: unset;
-    }
-
-    textarea.form-control {
-        min-height: 60px;
-        max-height: 120px;
-    }
-
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .form-group label {
-        margin-bottom: 0.25rem;
-        font-size: 0.9rem;
-        font-weight: bold;
-    }
-
-    .container-fluid {
-        background-color: var(--background-color);
-        min-height: 100vh;
-        padding-top: 1rem;
-    }
-
-    .sidebar-wizard {
-        background: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .wizard-step {
-        border: none !important;
-        color: var(--text-color);
-        padding: 1rem 1.5rem;
-        margin-bottom: 0.5rem;
-        border-radius: 0.375rem !important;
-        transition: all 0.2s;
-    }
-
-    .wizard-step:hover {
-        background-color: #F3F4F6;
-    }
-
-    .wizard-step.active {
-        background-color: var(--primary-color) !important;
-        color: white;
-    }
-
-    .form-navigation {
-        margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-color);
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-    }
-
-    .form-navigation .btn {
-        padding: 8px 24px;
-        border-radius: 4px;
-        font-weight: 500;
-        transition: all 0.2s;
-        border: none;
-    }
-
-    #prevBtn {
-        background-color: #6B7280;
-        color: white;
-    }
-
-    #prevBtn:hover {
-        background-color: #4B5563;
-    }
-
-    #nextBtn {
-        background-color: #4A0404;
-        color: white;
-    }
-
-    #nextBtn:hover {
-        background-color: #3A0303;
-    }
-
-    #submitBtn {
-        background-color: rgb(76, 228, 134);
-        color: white;
-    }
-
-    #submitBtn:hover {
-        background-color: #3A0303;
-    }
-
-    .form-navigation .btn:disabled {
-        background-color: #D1D5DB;
-        cursor: not-allowed;
-        opacity: 0.7;
-    }
+    .main-content { margin-top: 20px; }
+    .card { border: 1px solid var(--border-color); border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .card-body { padding: 1.5rem; }
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+    .sidebar-wizard { background: white; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .wizard-step { border: none !important; color: var(--text-color); padding: 1rem 1.5rem; margin-bottom: 0.5rem; border-radius: 0.375rem !important; transition: all 0.2s; }
+    .wizard-step:hover { background-color: #F3F4F6; }
+    .wizard-step.active { background-color: var(--primary-color) !important; color: white; }
+    .form-navigation { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; gap: 1rem; }
+    .form-navigation .btn { padding: 8px 24px; border-radius: 4px; font-weight: 500; border: none; }
+    #prevBtn { background-color: #6B7280; color: white; }
+    #nextBtn { background-color: #4A0404; color: white; }
+    #submitBtn { background-color: rgb(76, 228, 134); color: white; }
 </style>
 
-<script>
-    let currentStep = 1;
-    const totalSteps = 4;
+<!-- Scripts: Asegúrate del orden: primero los específicos de cada step, luego la validación global -->
+<script src="{{ base_url('assets/js/inspectoresSteps/step1.js') }}"></script>
+<script src="{{ base_url('assets/js/inspectoresSteps/step2.js') }}"></script>
+<script src="{{ base_url('assets/js/inspectoresSteps/step3.js') }}"></script>
+<script src="{{ base_url('assets/js/inspectoresSteps/step4.js') }}"></script>
+<script src="{{ base_url('assets/js/inspectoresSteps/validateStepInspectores.js') }}"></script>
 
-    function showStep(step) {
-        $('.form-step').hide();
-        $(`#step-${step}`).show();
-        $('.wizard-step').removeClass('active');
-        $(`.wizard-step[data-step="${step}"]`).addClass('active');
-
-        if (step === 1) {
-            $('#prevBtn').hide();
-        } else {
-            $('#prevBtn').show();
-        }
-
-        if (step === totalSteps) {
-            $('#nextBtn').hide();
-            $('#submitBtn').show();
-        } else {
-            $('#nextBtn').show();
-            $('#submitBtn').hide();
-        }
-
-        currentStep = step;
-    }
-
-    function navigateStep(direction) {
-        const newStep = currentStep + direction;
-        if (newStep >= 1 && newStep <= totalSteps) {
-            showStep(newStep);
-        }
-    }
-
-    $(document).ready(function () {
-        showStep(1);
-
-        $('.wizard-step').click(function () {
-            const step = $(this).data('step');
-            showStep(step);
-        });
-    });
-
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-</script>
+@endsection
+@section('footer')
+    @include('templates/footer')
 @endsection
