@@ -5,45 +5,50 @@ class EstadisticasModel extends CI_Model {
     
     public function __construct() {
         parent::__construct();
-        // Cargar la base de datos
         $this->load->database();
     }
 
-    // Método para obtener todas las estadísticas
+    // Obtener todas las estadísticas
     public function get_all_estadisticas() {
-        $query = $this->db->get('estadisticas'); // Ajusta el nombre de la tabla a tus necesidades
+        // Seleccionar las columnas definidas (ajusta si se requiere alias)
+        $this->db->select('ID, ID_inspeccion, ID_dependencia, Inspecciones_Sancionadas, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre, Total_Inspecciones, Fecha_Creacion, Fecha_Actualizacion');
+        $query = $this->db->get('rel_ins_estadisticas');
         return $query->result_array();
     }
 
-    // Método para obtener una estadística por su ID
+    // Obtener una estadística por su ID
     public function get_estadistica_by_id($id) {
-        $query = $this->db->get_where('estadisticas', array('Estadistica_ID' => $id));
+        $this->db->where('ID', $id);
+        $query = $this->db->get('rel_ins_estadisticas');
         return $query->row_array();
     }
 
-    // Método para insertar una nueva estadística
+    // Insertar una nueva estadística
     public function insert_estadistica($data) {
-        $data['Ultima_Actualizacion'] = date('Y-m-d H:i:s');
-        return $this->db->insert('estadisticas', $data);
+        // Asignar automáticamente las fechas de creación y actualización
+        $data['Fecha_Creacion'] = date('Y-m-d H:i:s');
+        $data['Fecha_Actualizacion'] = date('Y-m-d H:i:s');
+        // Guarda los datos en la tabla rel_ins_estadisticas
+        return $this->db->insert('rel_ins_estadisticas', $data);
     }
 
-    // Método para actualizar una estadística existente
+    // Actualizar una estadística existente
     public function update_estadistica($id, $data) {
-        $data['Ultima_Actualizacion'] = date('Y-m-d H:i:s');
-        $this->db->where('Estadistica_ID', $id);
-        return $this->db->update('estadisticas', $data);
+        $data['Fecha_Actualizacion'] = date('Y-m-d H:i:s');
+        $this->db->where('ID', $id);
+        return $this->db->update('rel_ins_estadisticas', $data);
     }
 
-    // Método para eliminar una estadística
+    // Eliminar una estadística
     public function delete_estadistica($id) {
-        $this->db->where('Estadistica_ID', $id);
-        return $this->db->delete('estadisticas');
+        $this->db->where('ID', $id);
+        return $this->db->delete('rel_ins_estadisticas');
     }
 
-    // Método para obtener la última actualización
+    // Obtener la última actualización
     public function get_ultima_actualizacion() {
-        $this->db->select_max('Ultima_Actualizacion');
-        $query = $this->db->get('estadisticas');
-        return $query->row()->Ultima_Actualizacion;
+        $this->db->select_max('Fecha_Actualizacion');
+        $query = $this->db->get('rel_ins_estadisticas');
+        return $query->row()->Fecha_Actualizacion;
     }
 }

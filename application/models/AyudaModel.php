@@ -10,17 +10,26 @@ class AyudaModel extends CI_Model {
 
     // Obtener todas las incidencias
     public function get_incidents() {
-        return $this->db->get('incidents')->result();
+        $this->db->select("ID, Titulo, Descripcion, ID_Proyecto, ID_Estatus, ID_Gravedad, ID_Reproducibilidad, ID_Clasificacion, Fecha_Creacion, Fecha_Actualizacion");
+        $query = $this->db->get('ma_incidencias');
+        return $query->result();
     }
     
     // Crear una nueva incidencia
     public function create_incident($data) {
-        return $this->db->insert('incidents', $data);
+        // Asignar fechas de creación y actualización
+        $data['Fecha_Creacion'] = date('Y-m-d H:i:s');
+        $data['Fecha_Actualizacion'] = date('Y-m-d H:i:s');
+        // Se espera que $data tenga las claves:
+        // 'Titulo', 'Descripcion', 'ID_Proyecto', 'ID_Estatus', 'ID_Gravedad', 
+        // 'ID_Reproducibilidad', 'ID_Clasificacion', etc.
+        return $this->db->insert('ma_incidencias', $data);
     }
 
     // Guardar archivos subidos
     public function save_file($data) {
-        return $this->db->insert('incident_files', $data);
+        // Se espera que $data tenga las claves: ID_incidencia, Nombre_Archivo, Ruta_Archivo
+        return $this->db->insert('rel_incidencias_archivos', $data);
     }
 
     // Obtener una incidencia por ID
@@ -31,22 +40,17 @@ class AyudaModel extends CI_Model {
     // Actualizar una incidencia
     public function update_incident($id, $data) {
         $this->db->where('ID', $id);
-        return $this->db->update('incidents', $data);
+        return $this->db->update('ma_incidencias', $data);
     }
 
     // Eliminar una incidencia
     public function delete_incident($id) {
-        return $this->db->delete('incidents', ['ID' => $id]);
+        return $this->db->delete('ma_incidencias', ['ID' => $id]);
     }
 
     public function get_projects() {
-        return [
-            'Registro Estatal de Visitas Domiciliarias',
-            'Estadísticas',
-            'Padrón de inspectores',
-            'Padrón de inspecciones',
-            'Regulaciones'
-        ];
+        $query = $this->db->get('cat_incidencias_proyectos'); // Consultar la tabla catalogo
+        return $query->result_array(); // Retorna un array asociativo con los resultados
     }
 
     public function get_reproducibles() {

@@ -72,3 +72,26 @@
         </div>
     </div>
 </div>
+
+<script>
+function validateStep2() {
+    let valid = true;
+    $('#step-2 [required]').each(function() {
+        if ($(this).val().trim() === '') {
+            $(this).addClass('is-invalid');
+            valid = false;
+        } else {
+            $(this).removeClass('is-invalid');
+        }
+    });
+    if (!valid) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Campos requeridos',
+            text: 'Por favor, complete todos los campos obligatorios en este paso.',
+            confirmButtonColor: '#8E354A'
+        });
+    }
+    return valid;
+}
+</script>

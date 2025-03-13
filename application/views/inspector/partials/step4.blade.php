@@ -35,3 +35,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Función de validación para el Step 4 (Emergencias)
+    function validateEmergencias() {
+        let valid = true;
+        // Validar los campos requeridos dentro de #step-4
+        $('#step-4 [required]').each(function() {
+            if ($(this).val().trim() === '') {
+                $(this).addClass('is-invalid');
+                valid = false;
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        });
+        if (!valid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campos requeridos',
+                text: 'Por favor, complete todos los campos obligatorios en este paso.',
+                confirmButtonColor: '#8E354A'
+            });
+        }
+        return valid;
+    }
+    window.validateEmergencias = validateEmergencias;
+</script>

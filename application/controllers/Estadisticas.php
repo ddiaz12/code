@@ -6,7 +6,7 @@ class Estadisticas extends CI_Controller {
         parent::__construct();
         $this->load->model('EstadisticasModel');
         $this->load->model('NotificacionesModel');
-        $this->load->model('InspeccionDetalladaModel');
+        $this->load->model('InspeccionesModel');
         $this->load->helper(['form', 'url']);
         $this->load->library(['form_validation', 'session', 'upload', 'ion_auth']);
     }
@@ -31,8 +31,8 @@ class Estadisticas extends CI_Controller {
             'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
         ];
 
-        // Obtener datos de inspeccion_detallada
-        $inspecciones_detalladas = $this->InspeccionDetalladaModel->get_all_inspecciones();
+        // Obtener datos de inspecciones (usando InspeccionesModel en lugar de InspeccionDetalladaModel)
+        $inspecciones_detalladas = $this->InspeccionesModel->get_all_inspecciones();
 
         // Calcular el total de inspecciones desde enero hasta diciembre
         foreach ($inspecciones_detalladas as &$inspeccion) {
@@ -91,27 +91,32 @@ class Estadisticas extends CI_Controller {
             $this->session->set_flashdata('error', 'Por favor, complete todos los campos requeridos.');
             $this->index();
         } else {
-            // Tomar los datos del POST
+            // Verificar que se reciba un ID_inspeccion válido
+            $id_inspeccion = $this->input->post('ID_inspeccion');
+            if (empty($id_inspeccion)) {
+                $this->session->set_flashdata('error', 'El campo ID_inspeccion es obligatorio.');
+                redirect('estadisticas');
+                return;
+            }
             $data = [
-                'Fecha_Estadistica' => date('Y-m-d'),
-                'Enero_Inspecciones' => $this->input->post('enero'),
-                'Febrero_Inspecciones' => $this->input->post('febrero'),
-                'Marzo_Inspecciones' => $this->input->post('marzo'),
-                'Abril_Inspecciones' => $this->input->post('abril'),
-                'Mayo_Inspecciones' => $this->input->post('mayo'),
-                'Junio_Inspecciones' => $this->input->post('junio'),
-                'Julio_Inspecciones' => $this->input->post('julio'),
-                'Agosto_Inspecciones' => $this->input->post('agosto'),
-                'Septiembre_Inspecciones' => $this->input->post('septiembre'),
-                'Octubre_Inspecciones' => $this->input->post('octubre'),
-                'Noviembre_Inspecciones' => $this->input->post('noviembre'),
-                'Diciembre_Inspecciones' => $this->input->post('diciembre'),
-                'Ultima_Actualizacion' => date('Y-m-d H:i:s'),
-                'Sanciones' => $this->input->post('sanciones'),
-                'Total' => $this->input->post('enero') + $this->input->post('febrero') + $this->input->post('marzo') +
-                           $this->input->post('abril') + $this->input->post('mayo') + $this->input->post('junio') +
-                           $this->input->post('julio') + $this->input->post('agosto') + $this->input->post('septiembre') +
-                           $this->input->post('octubre') + $this->input->post('noviembre') + $this->input->post('diciembre')
+                'ID_inspeccion'      => $id_inspeccion, // Se asume que este valor está presente en el formulario
+                'Enero'              => $this->input->post('enero'),
+                'Febrero'            => $this->input->post('febrero'),
+                'Marzo'              => $this->input->post('marzo'),
+                'Abril'              => $this->input->post('abril'),
+                'Mayo'               => $this->input->post('mayo'),
+                'Junio'              => $this->input->post('junio'),
+                'Julio'              => $this->input->post('julio'),
+                'Agosto'             => $this->input->post('agosto'),
+                'Septiembre'         => $this->input->post('septiembre'),
+                'Octubre'            => $this->input->post('octubre'),
+                'Noviembre'          => $this->input->post('noviembre'),
+                'Diciembre'          => $this->input->post('diciembre'),
+                'Total_Inspecciones' => 
+                    $this->input->post('enero') + $this->input->post('febrero') + $this->input->post('marzo') +
+                    $this->input->post('abril') + $this->input->post('mayo') + $this->input->post('junio') +
+                    $this->input->post('julio') + $this->input->post('agosto') + $this->input->post('septiembre') +
+                    $this->input->post('octubre') + $this->input->post('noviembre') + $this->input->post('diciembre')
             ];
 
             // Llamamos al modelo para guardar

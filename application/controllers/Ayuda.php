@@ -73,13 +73,15 @@ class Ayuda extends CI_Controller {
         $user = $this->ion_auth->user()->row();
 
         $data = [
-            'Titulo' => $this->input->post('title'),
-            'Descripcion' => $this->input->post('description'),
-            'Proyectos' => $this->input->post('project'),
-            'Reproducible' => $this->input->post('reproducible'),
-            'Gravedad' => $this->input->post('severity'),
-            'Clasificación' => $this->input->post('classification'),
-            'Usuario_Reporte' => $user ? $user->username : 'Anónimo'
+            'Titulo'              => $this->input->post('title'),
+            'Descripcion'         => $this->input->post('description'),
+            'ID_Proyecto'         => $this->input->post('project'),
+            'ID_Estatus'          => 1, // Abrir Incidencia por defecto
+            'ID_Gravedad'         => $this->input->post('severity'),
+            // Asegúrate de que el campo reproducible envíe el ID correspondiente de la tabla cat_incidencias_reproducibilidad
+            'ID_Reproducibilidad' => $this->input->post('reproducible'),
+            'ID_Clasificacion'    => $this->input->post('classification'),
+            'Usuario_Reporte'     => $user ? $user->username : 'Anónimo'
         ];
 
         if ($this->AyudaModel->create_incident($data)) {
@@ -92,31 +94,35 @@ class Ayuda extends CI_Controller {
     }
 
     private function upload_files($incident_id) {
-        $config['upload_path'] = './uploads/';
+        // Configuración para guardar en la carpeta "uploads"
+        $config['upload_path']   = './uploads/';
         $config['allowed_types'] = 'png|jpg|jpeg|pdf|doc|docx';
-        $config['max_size'] = 2048; // 2MB
+        $config['max_size']      = 2048; // 2MB
 
+        // Inicializar la librería de subida con la configuración indicada
         $this->load->library('upload', $config);
 
         $files = $_FILES;
         $count = count($_FILES['files']['name']);
 
         for ($i = 0; $i < $count; $i++) {
-            $_FILES['file']['name'] = $files['files']['name'][$i];
-            $_FILES['file']['type'] = $files['files']['type'][$i];
+            $_FILES['file']['name']     = $files['files']['name'][$i];
+            $_FILES['file']['type']     = $files['files']['type'][$i];
             $_FILES['file']['tmp_name'] = $files['files']['tmp_name'][$i];
-            $_FILES['file']['error'] = $files['files']['error'][$i];
-            $_FILES['file']['size'] = $files['files']['size'][$i];
+            $_FILES['file']['error']    = $files['files']['error'][$i];
+            $_FILES['file']['size']     = $files['files']['size'][$i];
 
             if ($this->upload->do_upload('file')) {
                 $upload_data = $this->upload->data();
                 $file_data = [
-                    'incident_id' => $incident_id,
-                    'file_name' => $upload_data['file_name'],
-                    'file_type' => $upload_data['file_type'],
-                    'file_path' => $upload_data['full_path']
+                    'incident_id'   => $incident_id,
+                    'Nombre_Archivo'=> $upload_data['file_name'],
+                    'Ruta_Archivo'  => $upload_data['full_path']
                 ];
                 $this->AyudaModel->save_file($file_data);
+            } else {
+                // Registrar el error de subida
+                log_message('error', $this->upload->display_errors());
             }
         }
     }

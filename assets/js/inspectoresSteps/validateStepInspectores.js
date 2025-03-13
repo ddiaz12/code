@@ -2,19 +2,26 @@
 
 // Variables globales para los pasos
 var currentStep = 1;
-var totalSteps = 4;
+var totalSteps = 4; // Asegurar que totalSteps incluya el Step 4
 
 function validateStep(step) {
+    // Step 1: Datos de Identificación
     if (step === 1) {
         return (typeof validateDatosBasicos === 'function') ? validateDatosBasicos() : true;
-    } else if (step === 2) {
-        return (typeof validateDatosSuperior === 'function') ? validateDatosSuperior() : true;
-    } else if (step === 3) {
+    }
+    // Step 2: Autoridad Pública
+    else if (step === 2) {
+        return (typeof validateStep2 === 'function') ? validateStep2() : true;
+    }
+    // Step 3: No publicidad
+    else if (step === 3) {
         return (typeof validateNoPublicidad === 'function') ? validateNoPublicidad() : true;
-    } else if (step === 4) {
+    }
+    // Step 4: Emergencias
+    else if (step === 4) {
         return (typeof validateEmergencias === 'function') ? validateEmergencias() : true;
-    } else {
-        // Validación genérica si se agregan más steps
+    }
+    else {
         let valid = true;
         $('#step-' + step + ' [required]:visible').each(function() {
             if (!$(this).val().trim()) {
@@ -82,10 +89,7 @@ $('form').off('submit').on('submit', function(e) {
     }
 });
 
-// Inicialización: Mostrar el primer step y permitir la navegación por la sidebar
 $(document).ready(function() {
     showStep(1);
-    $('.wizard-step').click(function() {
-        showStep($(this).data('step'));
-    });
+    // La navegación por sidebar se ha deshabilitado
 });

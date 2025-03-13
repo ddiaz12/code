@@ -199,4 +199,11 @@ class InspeccionesModel extends CI_Model {
         return $query->result();
     }
 
+    public function get_all_inspecciones() {
+        // Seleccionar las columnas correctas de la tabla ma_inspeccion
+        $this->db->select('ID, Homoclave, Nombre, Modalidad, ID_sujeto, ID_unidad, Estatus, Tipo, Vigencia');
+        $query = $this->db->get('ma_inspeccion');
+        return $query->result_array();
+    }
+
 }
