@@ -8,7 +8,12 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>¿Permitir que todos los datos del inspector, verificador o visitador sean públicos?</label>
-                <?php echo form_dropdown('permitir_publicidad', ['si' => 'Sí', 'no' => 'No'], isset($inspector->permitir_publicidad) ? $inspector->permitir_publicidad : '', 'class="form-control"'); ?>
+                <?php echo form_dropdown(
+                    'permitir_publicidad',
+                    ['si' => 'Sí', 'no' => 'No'],
+                    isset($inspector->permitir_publicidad) ? $inspector->permitir_publicidad : '',
+                    'class="form-control" id="permitir_publicidad"'
+                ); ?>
             </div>
             <div id="justificante_no_publicidad_container" class="form-group">
                 <label for="justificante_no_publicidad">Justificante no publicidad (PDF, JPG, PNG)</label>
