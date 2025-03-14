@@ -27,6 +27,27 @@ $(document).ready(function() {
         return valid;
     }
     
-    // Hacer que la función esté disponible globalmente
+    // Nueva función para controlar la visibilidad de los campos
+    function toggleNoPublicidadFields() {
+        let permiso = $('select[name="permitir_publicidad"]').val().trim().toLowerCase();
+        console.log("Valor de permitir_publicidad:", permiso);
+        if (permiso === 'si') {
+            $('#justificante_no_publicidad_container').hide();
+            $('#datos_no_publicar_container').hide();
+        } else if (permiso === 'no') {
+            $('#justificante_no_publicidad_container').show();
+            $('#datos_no_publicar_container').show();
+        }
+    }
+    
+    // Ejecutar al cargar con logs de depuración
+    console.log("Ejecutando toggleNoPublicidadFields en document.ready...");
+    toggleNoPublicidadFields();
+    $('select[name="permitir_publicidad"]').on('change', function() {
+        console.log("Cambio detectado en permitir_publicidad:", $(this).val());
+        toggleNoPublicidadFields();
+    });
+    
+    // Hacer que la función de validación esté disponible globalmente
     window.validateNoPublicidad = validateNoPublicidad;
 });

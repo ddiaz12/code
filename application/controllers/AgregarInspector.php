@@ -7,7 +7,7 @@ class AgregarInspector extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('AgregarInspectorModel');
-        $this->load->model('Inspector_model'); // Asegúrate de cargar el modelo aquí
+        $this->load->model('Inspectores_Model'); // Cambiado de Inspector_model a Inspectores_Model
         $this->load->helper(['form', 'url']);
         $this->load->library(['form_validation', 'session']);
         $this->load->model('NotificacionesModel');
@@ -19,6 +19,7 @@ class AgregarInspector extends CI_Controller {
         $this->load->model('OficinaModel'); // Cargar el modelo para sujetos obligados y unidades
         $data['sujetos'] = $this->OficinaModel->getSujetosObligados();
         $data['unidades'] = $this->OficinaModel->getUnidadAdministrativa(); // Obtener unidades administrativas
+        $data['tipos_nombramiento'] = $this->Inspectores_Model->get_tipos_nombramiento(); // Usar el modelo correctamente
         $user = $this->ion_auth->user()->row();
         $group = $this->ion_auth->get_users_groups($user->id)->row();
         $groupName = $group->name;

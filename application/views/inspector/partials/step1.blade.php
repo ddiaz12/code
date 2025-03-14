@@ -99,4 +99,19 @@
             </div>
         </div>
     </div>
+
+    <!-- Nuevo campo: Tipo de nombramiento (obligatorio) -->
+    <div class="form-group">
+        <label>Tipo de nombramiento <span class="text-danger">*</span></label>
+        @if(isset($tipos_nombramiento) && count($tipos_nombramiento) > 0)
+            @foreach($tipos_nombramiento as $key => $tipo)
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="tipo_nombramiento[]" value="{{ $tipo->ID ?? '' }}" @if($key === 0) required @endif>
+                    <label class="form-check-label">{{ $tipo->Nombre ?? 'Sin nombre' }}</label>
+                </div>
+            @endforeach
+        @else
+            <p class="text-muted">No hay nombramientos disponibles</p>
+        @endif
+    </div>
 </div>

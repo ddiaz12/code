@@ -31,5 +31,12 @@ class Inspectores_Model extends CI_Model {
         $this->db->where('Inspector_ID', $id_inspector);
         return $this->db->update('inspectores', $data);
     }
+
+    // Método para obtener los tipos de nombramiento
+    public function get_tipos_nombramiento() {
+        $this->db->select('ID, Nombre');
+        $query = $this->db->get('cat_inspectores_tipo');
+        return $query->result();
+    }
 }
 ?>
