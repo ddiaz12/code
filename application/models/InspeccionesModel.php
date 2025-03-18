@@ -206,4 +206,29 @@ class InspeccionesModel extends CI_Model {
         return $query->result_array();
     }
 
+    // Guardar datos de identificación del Step 1
+    public function guardar_datos_identificacion($id_inspeccion, $datos) {
+        // Añadir el ID de la inspección
+        $datos['ID_inspeccion'] = $id_inspeccion;
+        // Eliminar registros previos para este ID_inspeccion
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_datos_identificacion');
+        // Insertar el nuevo registro
+        return $this->db->insert('rel_ins_datos_identificacion', $datos);
+    }
+
+    // Guardar datos del Step 2: Autoridad Pública
+    public function guardar_autoridad_publica($id_inspeccion, $ID_unidad) {
+        // Eliminar registros previos para este ID_inspeccion
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_autoridad_publica');
+        
+        // Insertar el nuevo registro
+        $data = [
+            'ID_inspeccion' => $id_inspeccion,
+            'ID_unidad'     => $ID_unidad
+        ];
+        return $this->db->insert('rel_ins_autoridad_publica', $data);
+    }
+
 }

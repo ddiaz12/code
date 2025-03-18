@@ -307,7 +307,7 @@ function mostrarModalFundamento() {
      *************************************************/
 function validateDatosIdentificacion() {
     let valid = true;
-    // Ahora se validan solo los campos visibles
+    // Recorre los campos requeridos y visibles del step 1
     $('#step-1 input[required]:visible, #step-1 select[required]:visible, #step-1 textarea[required]:visible').each(function() {
         if ($(this).val().trim() === "") {
             valid = false;
@@ -316,6 +316,15 @@ function validateDatosIdentificacion() {
             $(this).removeClass('is-invalid');
         }
     });
+    // Si la validación falla, se muestra un mensaje de alerta usando Swal
+    if (!valid) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Campos requeridos',
+            text: 'Por favor complete todos los campos obligatorios.',
+            confirmButtonColor: '#8E354A'
+        });
+    }
     return valid;
 }
 

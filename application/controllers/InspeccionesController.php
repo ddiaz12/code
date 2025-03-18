@@ -132,6 +132,17 @@ class InspeccionesController extends CI_Controller {
                 $id_inspeccion = $this->db->insert_id(); // en caso de necesitarlo para guardar relaciones
             }
             
+            // Guardar datos del Step 1 en la tabla rel_ins_datos_identificacion
+            if (isset($postData['datos_identificacion']) && is_array($postData['datos_identificacion'])) {
+                $datos_step1 = $postData['datos_identificacion'];
+                $this->InspeccionesModel->guardar_datos_identificacion($id_inspeccion, $datos_step1);
+            }
+
+            // Guardar datos del Step 2: Autoridad Pública
+            if (isset($postData['ID_unidad']) && !empty($postData['ID_unidad'])) {
+                $this->InspeccionesModel->guardar_autoridad_publica($id_inspeccion, $postData['ID_unidad']);
+            }
+            
             // 4. GUARDAR DATOS RELACIONADOS (ejemplo: checkboxes de No_Publicar)
             // if(!empty($postData['No_Publicar'])) {
             //     foreach($postData['No_Publicar'] as $seccion_id) {

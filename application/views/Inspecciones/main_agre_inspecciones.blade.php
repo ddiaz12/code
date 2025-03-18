@@ -68,12 +68,10 @@
                     ["label" => "No publicidad", "icon" => "fa fa-user-secret"],
                     ["label" => "Emergencias", "icon" => "fa-solid fa-exclamation-triangle"]
                 ];
-
                 foreach ($steps as $index => $step) {
                     $stepNumber = $index + 1;
                     echo '<button class="list-group-item list-group-item-action wizard-step" data-step="' . $stepNumber . '">
-                            <i class="' . $step["icon"] . ' me-2"></i>' . $step["label"] .
-                         '</button>';
+                            <i class="' . $step["icon"] . ' me-2"></i>' . $step["label"] . '</button>';
                 }
                 ?>
             </div>
@@ -94,47 +92,47 @@
 
                     <!-- =================== STEP 1: Datos de identificación =================== -->
                     <div class="form-step" id="step-1">
-                        @include('Inspecciones/steps/datos_de_identificacion')
+                        @include('Inspecciones/partials/step1')
                     </div>
 
                     <!-- =================== STEP 2: Autoridad Pública =================== -->
                     <div class="form-step" id="step-2">
-                        @include('Inspecciones/steps/autoridadpublica')
+                        @include('Inspecciones/partials/step2')
                     </div>
 
                     <!-- =================== STEP 3: Información sobre la inspección =================== -->
                     <div class="form-step" id="step-3">
-                        @include('Inspecciones/steps/inf_sobre_inspeccion')
+                        @include('Inspecciones/partials/step3')
                     </div>
 
                     <!-- =================== STEP 4: Más detalles =================== -->
                     <div class="form-step" id="step-4">
-                        @include('Inspecciones/steps/masdetalle')
+                        @include('Inspecciones/partials/step4')
                     </div>
 
                     <!-- =================== STEP 5: Información de la Autoridad Pública y Contacto =================== -->
                     <div class="form-step" id="step-5">
-                        @include('Inspecciones/steps/inf_autpub_contacto')
+                        @include('Inspecciones/partials/step5')
                     </div>
 
                     <!-- =================== STEP 6: Estadísticas =================== -->
                     <div class="form-step" id="step-6">
-                        @include('Inspecciones/steps/step_estadisticas')
+                        @include('Inspecciones/partials/step6')
                     </div>
 
                     <!-- =================== STEP 7: Información adicional =================== -->
                     <div class="form-step" id="step-7">
-                        @include('Inspecciones/steps/inf_adicional')
+                        @include('Inspecciones/partials/step7')
                     </div>
 
                     <!-- =================== STEP 8: No publicidad =================== -->
                     <div class="form-step" id="step-8">
-                        @include('Inspecciones/steps/no_publicidad')
+                        @include('Inspecciones/partials/step8')
                     </div>
 
                     <!-- =================== STEP 9: Emergencias =================== -->
                     <div class="form-step" id="step-9">
-                        @include('Inspecciones/steps/emergencias')
+                        @include('Inspecciones/partials/step9')
                     </div>
 
                     <!-- Botones de navegación -->
@@ -323,15 +321,15 @@
 
 <!-- Incluir validateStep.js primero -->
 <script src="<?= base_url('assets/js/insp_steps/validateStep.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/datos_de_identificacion.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/autoridad_publica.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/inf_sobre_inspeccion.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/masdetalle.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/inf_autpub_contacto.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/step_estadisticas.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/inf_adicional.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/no_publicidad.js'); ?>"></script>
-<script src="<?= base_url('assets/js/insp_steps/emergencias.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step1.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step2.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step3.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step4.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step5.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step6.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step7.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step8.js'); ?>"></script>
+<script src="<?= base_url('assets/js/insp_steps/step9.js'); ?>"></script>
 
 <script>
     // La función showStep se define aquí, de forma única para controlar la visibilidad
