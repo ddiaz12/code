@@ -143,13 +143,94 @@ class InspeccionesController extends CI_Controller {
                 $this->InspeccionesModel->guardar_autoridad_publica($id_inspeccion, $postData['ID_unidad']);
             }
             
-            // 4. GUARDAR DATOS RELACIONADOS (ejemplo: checkboxes de No_Publicar)
-            // if(!empty($postData['No_Publicar'])) {
-            //     foreach($postData['No_Publicar'] as $seccion_id) {
-            //         $this->InspeccionesModel->guardar_no_publicar($id_inspeccion, $seccion_id);
-            //     }
-            // }
+            // Guardar datos del Step 3: Información sobre la inspección
+            if (isset($postData['informacion']) && is_array($postData['informacion'])) {
+                $this->InspeccionesModel->guardar_info_informacion($id_inspeccion, $postData['informacion']);
+            }
+            if (isset($postData['info_derechos']) && is_array($postData['info_derechos'])) {
+                $this->InspeccionesModel->guardar_info_derechos($id_inspeccion, $postData['info_derechos']);
+            }
+            if (isset($postData['info_fundamento']) && is_array($postData['info_fundamento'])) {
+                $this->InspeccionesModel->guardar_info_fundamento($id_inspeccion, $postData['info_fundamento']);
+            }
+            if (isset($postData['info_obligaciones']) && is_array($postData['info_obligaciones'])) {
+                $this->InspeccionesModel->guardar_info_obligaciones($id_inspeccion, $postData['info_obligaciones']);
+            }
+
+            // 4. GUARDAR DATOS DEL STEP 4: MÁS DETALLES
+            if (
+                isset($postData['Costo_Inspeccion']) ||
+                isset($postData['ID_Tramite']) ||
+                isset($postData['Requisitos_Archivo']) ||
+                isset($postData['Tiempo_Valor']) ||
+                isset($postData['ID_Tipo_Tiempo']) ||
+                isset($postData['Pasos_Inspector']) ||
+                isset($postData['Formato_Sujeto_Obligado_Nombre'])
+            ) {
+                $step4 = [
+                    'Costo_Inspeccion' => $postData['Costo_Inspeccion'],
+                    'ID_Tramite' => $postData['ID_Tramite'],
+                    'Requisitos_Archivo' => $postData['Requisitos_Archivo'],
+                    'Tiempo_Valor' => $postData['Tiempo_Valor'],
+                    'ID_Tipo_Tiempo' => $postData['ID_Tipo_Tiempo'],
+                    'Pasos_Inspector' => $postData['Pasos_Inspector'],
+                    'Formato_Sujeto_Obligado_Nombre' => $postData['Formato_Sujeto_Obligado_Nombre']
+                    // Se procesa por separado la carga de "Formato_Sujeto_Obligado_Archivo"
+                ];
+                $this->InspeccionesModel->guardar_mas_detalles($id_inspeccion, $step4);
+            }
             
+            // Guardar facultades (si se envían como array, por ejemplo)
+            if(isset($postData['facultades']) && is_array($postData['facultades'])) {
+                $this->InspeccionesModel->guardar_mas_detalles_facultades($id_inspeccion, $postData['facultades']);
+            }
+            // Guardar regulaciones (si se envían como array de arreglos)
+            if(isset($postData['regulaciones']) && is_array($postData['regulaciones'])) {
+                $this->InspeccionesModel->guardar_mas_detalles_regulaciones($id_inspeccion, $postData['regulaciones']);
+            }
+            // Guardar sanciones
+            if(isset($postData['sanciones']) && is_array($postData['sanciones'])) {
+                $this->InspeccionesModel->guardar_mas_detalles_sanciones($id_inspeccion, $postData['sanciones']);
+            }
+            // Guardar servidores
+            if(isset($postData['servidores']) && is_array($postData['servidores'])) {
+                $this->InspeccionesModel->guardar_mas_detalles_servidores($id_inspeccion, $postData['servidores']);
+            }
+
+            // === Guardar datos del Step 5: Información de la Autoridad Pública y Contacto ===
+            if(isset($postData['autoridad_contacto']) && is_array($postData['autoridad_contacto'])) {
+                $this->InspeccionesModel->guardar_autoridad_contacto($id_inspeccion, $postData['autoridad_contacto']);
+            }
+            if(isset($postData['autoridad_contacto_impugnacion']) && is_array($postData['autoridad_contacto_impugnacion'])) {
+                $this->InspeccionesModel->guardar_autoridad_contacto_impugnacion($id_inspeccion, $postData['autoridad_contacto_impugnacion']);
+            }
+            if(isset($postData['autoridad_contacto_telefonos']) && is_array($postData['autoridad_contacto_telefonos'])) {
+                $this->InspeccionesModel->guardar_autoridad_contacto_telefonos($id_inspeccion, $postData['autoridad_contacto_telefonos']);
+            }
+            
+            // Guardar estadísticas (Step 6)
+            if(isset($postData['estadisticas']) && is_array($postData['estadisticas'])) {
+                $this->InspeccionesModel->guardar_estadisticas($id_inspeccion, $postData['estadisticas']);
+            }
+            
+            // Guardar información adicional (Step 7)
+            if(isset($postData['info_adicional'])) {
+                $this->InspeccionesModel->guardar_info_adicional($id_inspeccion, $postData['info_adicional']);
+            }
+            
+            // Guardar datos de no publicidad (Step 8)
+            if(isset($postData['no_publicidad']) && is_array($postData['no_publicidad'])) {
+                $this->InspeccionesModel->guardar_no_publicidad($id_inspeccion, $postData['no_publicidad']);
+            }
+            if(isset($postData['no_publicidad_secciones']) && is_array($postData['no_publicidad_secciones'])) {
+                $this->InspeccionesModel->guardar_no_publicidad_secciones($id_inspeccion, $postData['no_publicidad_secciones']);
+            }
+            
+            // Guardar datos del Step 9: Emergencias
+            if(isset($postData['emergencias']) && is_array($postData['emergencias'])) {
+                $this->InspeccionesModel->guardar_emergencias($id_inspeccion, $postData['emergencias']);
+            }
+
             // 5. MENSAJE DE ÉXITO Y REDIRECCIONAR
             $this->session->set_flashdata('success', 'Inspección guardada correctamente.');
             redirect('InspeccionesController/index');

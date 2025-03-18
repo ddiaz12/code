@@ -231,4 +231,216 @@ class InspeccionesModel extends CI_Model {
         return $this->db->insert('rel_ins_autoridad_publica', $data);
     }
 
+    // Guardar datos de la tabla rel_ins_informacion
+    public function guardar_info_informacion($id_inspeccion, $info) {
+        // Eliminar registros previos para este ID_inspeccion
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_informacion');
+        // Suponemos que $info es un array asociativo para insertar (o ajusta si son varios registros)
+        $info['ID_inspeccion'] = $id_inspeccion;
+        return $this->db->insert('rel_ins_informacion', $info);
+    }
+
+    // Guardar datos de la tabla rel_ins_info_derechos
+    public function guardar_info_derechos($id_inspeccion, $derechos) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_info_derechos');
+        foreach ($derechos as $derecho) {
+            $data = [
+                'ID_inspeccion' => $id_inspeccion,
+                'Derecho'       => $derecho
+            ];
+            $this->db->insert('rel_ins_info_derechos', $data);
+        }
+    }
+
+    // Guardar datos de la tabla rel_ins_info_fundamento
+    public function guardar_info_fundamento($id_inspeccion, $fundamentos) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_info_fundamento');
+        foreach ($fundamentos as $fund) {
+            $data = [
+                'ID_inspeccion' => $id_inspeccion,
+                'Nombre'        => $fund['Nombre'],
+                'Articulo'      => $fund['Articulo'],
+                'URL'           => isset($fund['URL']) ? $fund['URL'] : null
+            ];
+            $this->db->insert('rel_ins_info_fundamento', $data);
+        }
+    }
+
+    // Guardar datos de la tabla rel_ins_info_obligaciones
+    public function guardar_info_obligaciones($id_inspeccion, $obligaciones) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_info_obligaciones');
+        foreach ($obligaciones as $obligacion) {
+            $data = [
+                'ID_inspeccion' => $id_inspeccion,
+                'Obligacion'    => $obligacion
+            ];
+            $this->db->insert('rel_ins_info_obligaciones', $data);
+        }
+    }
+
+    // Guardar datos generales del Step 4: Más detalles
+    public function guardar_mas_detalles($id_inspeccion, $data) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_mas_detalles');
+        $data['ID_inspeccion'] = $id_inspeccion;
+        return $this->db->insert('rel_ins_mas_detalles', $data);
+    }
+    
+    // Guardar facultades del Step 4
+    public function guardar_mas_detalles_facultades($id_inspeccion, $facultades) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_mas_detalles_facultades');
+        foreach ($facultades as $facultad) {
+            $this->db->insert('rel_ins_mas_detalles_facultades', [
+                'ID_inspeccion' => $id_inspeccion,
+                'Facultad' => $facultad
+            ]);
+        }
+    }
+    
+    // Guardar regulaciones del Step 4
+    public function guardar_mas_detalles_regulaciones($id_inspeccion, $regulaciones) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_mas_detalles_regulaciones');
+        foreach ($regulaciones as $reg) {
+            $this->db->insert('rel_ins_mas_detalles_regulaciones', [
+                'ID_inspeccion' => $id_inspeccion,
+                'Nombre_Regulacion' => $reg['Nombre_Regulacion'],
+                'URL_Regulacion' => isset($reg['URL_Regulacion']) ? $reg['URL_Regulacion'] : null
+            ]);
+        }
+    }
+    
+    // Guardar sanciones del Step 4
+    public function guardar_mas_detalles_sanciones($id_inspeccion, $sanciones) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_mas_detalles_sanciones');
+        foreach ($sanciones as $sancion) {
+            $this->db->insert('rel_ins_mas_detalles_sanciones', [
+                'ID_inspeccion' => $id_inspeccion,
+                'ID_Sancion' => $sancion['ID_Sancion'],
+                'Otra_Sancion' => isset($sancion['Otra_Sancion']) ? $sancion['Otra_Sancion'] : null,
+                'URL_Sancion' => isset($sancion['URL_Sancion']) ? $sancion['URL_Sancion'] : null
+            ]);
+        }
+    }
+    
+    // Guardar servidores del Step 4
+    public function guardar_mas_detalles_servidores($id_inspeccion, $servidores) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_mas_detalles_servidores');
+        foreach ($servidores as $servidor) {
+            $this->db->insert('rel_ins_mas_detalles_servidores', [
+                'ID_inspeccion' => $id_inspeccion,
+                'Nombre_Servidor' => $servidor['Nombre_Servidor'],
+                'URL_Ficha' => isset($servidor['URL_Ficha']) ? $servidor['URL_Ficha'] : null
+            ]);
+        }
+    }
+
+    // Guardar datos de contacto de la Autoridad Pública
+    public function guardar_autoridad_contacto($id_inspeccion, $data) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_autoridad_contacto');
+        return $this->db->insert('rel_ins_autoridad_contacto', $data);
+    }
+
+    // Guardar datos de impugnación de la Autoridad Pública
+    public function guardar_autoridad_contacto_impugnacion($id_inspeccion, $impugnaciones) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_autoridad_contacto_impugnacion');
+        if(is_array($impugnaciones)) {
+            foreach ($impugnaciones as $imp) {
+                $imp['ID_inspeccion'] = $id_inspeccion;
+                $this->db->insert('rel_ins_autoridad_contacto_impugnacion', $imp);
+            }
+        }
+    }
+
+    // Guardar teléfonos de contacto de la Autoridad Pública
+    public function guardar_autoridad_contacto_telefonos($id_inspeccion, $telefonos) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_autoridad_contacto_telefonos');
+        if(is_array($telefonos)) {
+            foreach ($telefonos as $tel) {
+                $data = [
+                    'ID_inspeccion' => $id_inspeccion,
+                    'Numero_Telefonico' => $tel
+                ];
+                $this->db->insert('rel_ins_autoridad_contacto_telefonos', $data);
+            }
+        }
+    }
+
+    // Guardar estadísticas de la inspección (Step 6)
+    public function guardar_estadisticas($id_inspeccion, $estadisticas) {
+        // Agregar el ID_inspeccion al array de estadísticas
+        $estadisticas['ID_inspeccion'] = $id_inspeccion;
+        // Opcional: se puede calcular el total desde los meses si es necesario
+        if(!isset($estadisticas['Total_Inspecciones'])) {
+            $total = 0;
+            foreach(['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'] as $mes) {
+                $total += isset($estadisticas[$mes]) ? (int)$estadisticas[$mes] : 0;
+            }
+            $estadisticas['Total_Inspecciones'] = $total;
+        }
+        // Eliminar registro previo
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_estadisticas');
+        // Insertar nuevas estadísticas
+        return $this->db->insert('rel_ins_estadisticas', $estadisticas);
+    }
+    
+    // Guardar información adicional del Step 7
+    public function guardar_info_adicional($id_inspeccion, $info) {
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_info_adicional');
+        $data = [
+            'ID_inspeccion' => $id_inspeccion,
+            'Informacion_Adicional' => $info
+        ];
+        return $this->db->insert('rel_ins_info_adicional', $data);
+    }
+
+    // Guardar datos de no publicidad (Step 8)
+    public function guardar_no_publicidad($id_inspeccion, $data) {
+        // Agregar el ID de inspección al array
+        $data['ID_inspeccion'] = $id_inspeccion;
+        // Eliminar registro previo
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_no_publicidad');
+        // Insertar nuevo registro
+        return $this->db->insert('rel_ins_no_publicidad', $data);
+    }
+
+    // Guardar secciones no públicas
+    public function guardar_no_publicidad_secciones($id_inspeccion, $secciones) {
+        // Eliminar registros previos
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_no_publicidad_secciones');
+        // Insertar cada sección seleccionada
+        foreach($secciones as $ID_Seccion) {
+            $data = [
+                'ID_inspeccion' => $id_inspeccion,
+                'ID_Seccion' => $ID_Seccion
+            ];
+            $this->db->insert('rel_ins_no_publicidad_secciones', $data);
+        }
+    }
+
+    // Guardar datos de emergencias (Step 9)
+    public function guardar_emergencias($id_inspeccion, $datos) {
+        // Agregar el ID_inspeccion al array de datos
+        $datos['ID_inspeccion'] = $id_inspeccion;
+        // Eliminar registro previo
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_emergencias');
+        // Insertar nuevos datos
+        return $this->db->insert('rel_ins_emergencias', $datos);
+    }
+
 }
