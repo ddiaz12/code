@@ -71,4 +71,4 @@
     </div>
 </div>
 
-<script src="{{ base_url('assets/js/insp_steps/autoridad_publica.js') }}"></script>
+<script src="{{ base_url('assets/js/insp_steps/step2.js') }}"></script>

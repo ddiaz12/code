@@ -28,7 +28,3 @@
         </div>
     </div>
 </div>
-<div class="form-group">
-    <label>Información de emergencia</label>
-    <input type="text" name="Informacion_Emergencia" class="form-control" placeholder="Información de emergencia">
-</div>

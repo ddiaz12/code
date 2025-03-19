@@ -144,6 +144,40 @@
                         </button>
                     </div>
                 </form>
+                <!-- Nueva sección para manejar el envío del formulario vía AJAX -->
+                <script>
+                    $(document).ready(function(){
+                        $('#inspeccionForm').on('submit', function(e){
+                            e.preventDefault(); // Prevenir el envío normal
+                            var formData = new FormData(this);
+                            $.ajax({
+                                url: $(this).attr('action'),
+                                type: $(this).attr('method'),
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                success: function(response) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Éxito!',
+                                        text: 'Inspección guardada correctamente.',
+                                        confirmButtonColor: '#8E354A'
+                                    }).then(() => {
+                                        window.location.href = '<?= base_url("InspeccionesController/index") ?>';
+                                    });
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'No se pudo guardar la inspección. ' + errorThrown,
+                                        confirmButtonColor: '#8E354A'
+                                    });
+                                }
+                            });
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>

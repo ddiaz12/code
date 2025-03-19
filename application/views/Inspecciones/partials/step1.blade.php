@@ -306,4 +306,4 @@
 </div>
 
 <!-- Incluir el archivo JavaScript solo una vez al final del step -->
-<script src="{{ base_url('assets/js/insp_steps/datos_de_identificacion.js') }}"></script>
+<script src="{{ base_url('assets/js/insp_steps/step1.js') }}"></script>
