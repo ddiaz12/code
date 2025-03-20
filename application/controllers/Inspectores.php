@@ -90,6 +90,80 @@ class Inspectores extends CI_Controller {
             } else {
                 $this->session->set_flashdata('error', 'Ocurrió un error al guardar la información.');
             }
+            // Guardar datos de identificación (Step 1) en rel_inspectores_identificacion
+            $data_identificacion = [
+                'Nombre'           => $this->input->post('nombre'),
+                'Numero_Empleado'  => $this->input->post('numero_empleado'),
+                'Primer_Apellido'  => $this->input->post('primer_apellido'),
+                'Segundo_Apellido' => $this->input->post('segundo_apellido'),
+                'Cargo'            => $this->input->post('cargo'),
+                'ID_Sujeto'        => $this->input->post('sujeto_obligado'),
+                'ID_Unidad'        => $this->input->post('unidad_administrativa'),
+                'Foto_Archivo'     => isset($upload_data['file_name']) ? $upload_data['file_name'] : ''
+            ];
+            $this->Inspectores_Model->guardar_identificacion($id_inspector, $data_identificacion);
+
+            // Guardar datos del Step 2: Superior Jerárquico
+            if($this->input->post('ID_superior')) {
+                $data_superior = [
+                    'ID_superior' => $this->input->post('ID_superior'),
+                    'Telefono'    => $this->input->post('Telefono'),
+                    'Extension'   => $this->input->post('Extension')
+                ];
+                $this->Inspectores_Model->guardar_superior_jerarquico($id_inspector, $data_superior);
+            }
+
+            // Guardar datos del Step 3: No publicidad
+            if(isset($_POST['no_publicidad'])) {
+                $no_pub_data = [
+                    'Publico' => $this->input->post('no_publicidad'), // Valor 'Si' o 'No'
+                    // Procesar archivo si se envió
+                    'Justificante_Archivo' => ''
+                ];
+                if(!empty($_FILES['Justificante_Archivo']['name'])) {
+                    $config['upload_path']   = './uploads/';
+                    $config['allowed_types'] = 'pdf|jpg|png';
+                    $this->load->library('upload', $config);
+                    if($this->upload->do_upload('Justificante_Archivo')){
+                        $uploadData = $this->upload->data();
+                        $no_pub_data['Justificante_Archivo'] = $uploadData['file_name'];
+                    }
+                }
+                $this->Inspectores_Model->guardar_no_publicidad($id_inspector, $no_pub_data);
+
+                // Guardar detalles de no publicidad (campo "no_publicidad_detalle" debe ser un arreglo)
+                if($this->input->post('no_publicidad_detalle')) {
+                    $detalles = $this->input->post('no_publicidad_detalle');
+                    $this->Inspectores_Model->guardar_no_publicidad_detalle($id_inspector, $detalles);
+                }
+            }
+
+            // Guardar datos del Step 4: Emergencias
+            if(isset($_POST['emergencias'])) {
+                $emerg_data = $this->input->post('emergencias');
+                // Procesar archivo si se envió
+                if(isset($_FILES['emergencias']['name']['Archivo_Oficio']) && !empty($_FILES['emergencias']['name']['Archivo_Oficio'])) {
+                    $config['upload_path']   = './uploads/';
+                    $config['allowed_types'] = 'pdf|jpg|png';
+                    $this->load->library('upload', $config);
+                    // Configurar el arreglo $_FILES para este input
+                    $_FILES['Archivo_Oficio']['name']     = $_FILES['emergencias']['name']['Archivo_Oficio'];
+                    $_FILES['Archivo_Oficio']['type']     = $_FILES['emergencias']['type']['Archivo_Oficio'];
+                    $_FILES['Archivo_Oficio']['tmp_name'] = $_FILES['emergencias']['tmp_name']['Archivo_Oficio'];
+                    $_FILES['Archivo_Oficio']['error']    = $_FILES['emergencias']['error']['Archivo_Oficio'];
+                    $_FILES['Archivo_Oficio']['size']     = $_FILES['emergencias']['size']['Archivo_Oficio'];
+
+                    if($this->upload->do_upload('Archivo_Oficio')) {
+                        $uploadData = $this->upload->data();
+                        $emerg_data['Archivo_Oficio'] = $uploadData['file_name'];
+                    } else {
+                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        redirect('inspectores');
+                        return;
+                    }
+                }
+                $this->Inspectores_Model->guardar_emergencias($id_inspector, $emerg_data);
+            }
             redirect('inspectores');
         }
     }

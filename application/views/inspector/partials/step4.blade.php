@@ -6,39 +6,20 @@
     <h5 class="alert alert-warning" style="color: grey; font-size: 14px; padding: 10px; margin: 0;">
         Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
     </h5>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="es_emergencia"></label>¿El inspector es requerido para atender una situación de emergencia?</label>
-                <?php echo form_checkbox([
-                    'name' => 'es_emergencia', 
-                    'id' => 'es_emergencia', 
-                    'class' => 'form-check-input', 
-                    'checked' => isset($inspector->es_emergencia) ? $inspector->es_emergencia : false
-                ]); ?>
-            </div>
-            <div class="form-group">
-                <label for="justificacion_emergencia">Justificar las razones para habilitar al inspector(a) en una emergencia <span class="text-danger">*</span></label>
-                <?php echo form_textarea([
-                    'name' => 'justificacion_emergencia', 
-                    'id' => 'justificacion_emergencia', 
-                    'class' => 'form-control', 
-                    'rows' => '3', 
-                    'required' => 'required',
-                    'value' => isset($inspector->justificacion_emergencia) ? $inspector->justificacion_emergencia : ''
-                ]); ?>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="oficio_emergencia">Cargar el oficio o acta de declaración de emergencia (PDF, PNG, JPG)</label>
-                <?php echo form_upload([
-                    'name' => 'oficio_emergencia', 
-                    'id' => 'oficio_emergencia', 
-                    'class' => 'form-control-file'
-                ]); ?>
-            </div>
-        </div>
+    <div class="form-group">
+        <label>¿El inspector es requerido para atender una situación de emergencia?</label>
+        <select name="emergencias[Es_Emergencia]" class="form-control" required>
+            <option value="No" selected>No</option>
+            <option value="Si">Si</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Justificar las razones para habilitar al inspector(a) en una emergencia</label>
+        <textarea name="emergencias[Justificacion]" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Cargar el oficio o acta de declaración de emergencia (PDF, PNG, JPG)</label>
+        <input type="file" name="emergencias[Archivo_Oficio]" class="form-control-file" accept=".pdf,.jpg,.png">
     </div>
 </div>
 
