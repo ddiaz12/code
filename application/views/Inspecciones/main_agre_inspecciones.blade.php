@@ -87,8 +87,8 @@
 
             <div class="form-container">
                 <!-- Formulario principal -->
-                <form id="inspeccionForm" method="post" action="<?= base_url('InspeccionesController/guardar'); ?>" enctype="multipart/form-data">
-                    <input type="hidden" name="id_inspeccion" value="{{ isset($inspeccion) ? $inspeccion->id_inspeccion : '' }}">
+                <form id="inspeccionForm" novalidate method="post" action="<?= base_url('InspeccionesController/guardar'); ?>" enctype="multipart/form-data">
+                    <input type="hidden" name="id_inspeccion" value="{{ isset($inspeccion) && isset($inspeccion->ID) ? $inspeccion->ID : '' }}">
 
                     <!-- =================== STEP 1: Datos de identificación =================== -->
                     <div class="form-step" id="step-1">
@@ -146,35 +146,41 @@
                 </form>
                 <!-- Nueva sección para manejar el envío del formulario vía AJAX -->
                 <script>
+                    // Nueva función para recolectar y guardar datos de los 9 steps
+                    function guardarInspeccionDatos(form) {
+                        var formData = new FormData(form);
+                        // Opcional: agregar validaciones adicionales de cada step aquí
+                        $.ajax({
+                            url: $(form).attr('action'),
+                            type: $(form).attr('method'),
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Éxito!',
+                                    text: 'Inspección guardada correctamente.',
+                                    confirmButtonColor: '#8E354A'
+                                }).then(function() {
+                                    window.location.href = '<?= base_url("InspeccionesController/index") ?>';
+                                });
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'No se pudo guardar la inspección. ' + errorThrown,
+                                    confirmButtonColor: '#8E354A'
+                                });
+                            }
+                        });
+                    }
+
                     $(document).ready(function(){
                         $('#inspeccionForm').on('submit', function(e){
                             e.preventDefault(); // Prevenir el envío normal
-                            var formData = new FormData(this);
-                            $.ajax({
-                                url: $(this).attr('action'),
-                                type: $(this).attr('method'),
-                                data: formData,
-                                contentType: false,
-                                processData: false,
-                                success: function(response) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: '¡Éxito!',
-                                        text: 'Inspección guardada correctamente.',
-                                        confirmButtonColor: '#8E354A'
-                                    }).then(() => {
-                                        window.location.href = '<?= base_url("InspeccionesController/index") ?>';
-                                    });
-                                },
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Error',
-                                        text: 'No se pudo guardar la inspección. ' + errorThrown,
-                                        confirmButtonColor: '#8E354A'
-                                    });
-                                }
-                            });
+                            guardarInspeccionDatos(this);
                         });
                     });
                 </script>

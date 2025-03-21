@@ -39,7 +39,7 @@
     </select>
     <div id="especificarOtra" style="display: none;">
         <label>Especificar otra:</label>
-        <input type="text" name="Especificar_Otra" class="form-control" value="{{ $inspeccion->Especificar_Otra ?? '' }}">
+        <input type="text" name="datos_extra[Especificar_Otra]" class="form-control" value="{{ $inspeccion->Especificar_Otra ?? '' }}">
     </div>
 </div>
 
