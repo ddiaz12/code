@@ -103,7 +103,7 @@ Registro Estatal de Regulaciones
                             <small id="msg_clave" class="text-danger"></small>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label for="password">Contraseña</label><span class="text-danger">*</span>
                             <?php echo form_input($password, '', [
@@ -123,11 +123,11 @@ Registro Estatal de Regulaciones
                             ]); ?>
                             <small id="msg_password_confirm" class="text-danger"></small>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="file">Archivo</label>
-                            <input type="file" class="form-control" id="userfile" name="userfile" accept="image/png, image/jpeg, application/pdf">
+                            <input type="file" class="form-control" id="userfile" name="userfile" accept="image/png, image/jpeg, application/pdf" onchange="validateFile(this)">
                             <button type="button" class="btn btn-secondary mt-2" onclick="document.getElementById('userfile').value = '';">Deseleccionar archivo</button>
                             <!-- Mostrar el nombre del archivo actual -->
                             <?php if (!empty($archivo)) : ?>
@@ -166,6 +166,37 @@ Registro Estatal de Regulaciones
     });
 </script>
 <script>
+    function validateFile(input) {
+        const maxSize = 4 * 1024 * 1024; // 4 MB en bytes
+        const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+
+        if (input.files.length > 0) {
+            const file = input.files[0];
+
+            // Validar tamaño del archivo
+            if (file.size > maxSize) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El archivo no debe exceder los 4 MB.',
+                });
+                input.value = ''; // Limpiar el campo de archivo
+                return; // Detener la ejecución
+            }
+
+            // Validar tipo de archivo
+            if (!allowedTypes.includes(file.type)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.',
+                });
+                input.value = ''; // Limpiar el campo de archivo
+                return; // Detener la ejecución
+            }
+        }
+    }
+
     function enviarFormulario() {
         var formData = new FormData($('#formUsuarios')[0]);
         mostrarPantallaDeCarga();

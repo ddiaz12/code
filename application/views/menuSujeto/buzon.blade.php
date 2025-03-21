@@ -31,36 +31,35 @@ Registro Estatal de Regulaciones
                     </tr>
                 <tbody>
                     <?php if (!empty($notificaciones)): ?>
-                    <?php    foreach ($notificaciones as $notificacion): ?>
-                    <tr>
-                        <td
-                            class="<?php        echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
-                            <?php        echo $notificacion->titulo; ?>
-                        </td>
-                        <td
-                            class="<?php        echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
-                            <?php        echo $notificacion->mensaje; ?>
-                        </td>
-                        <td
-                            class="<?php        echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
-                            <?php        echo $notificacion->fecha_envio; ?>
-                        </td>
-                        <td>
-                            <button class="btn btn-dorado btn-sm marcar-leido"
-                                data-id="<?php        echo $notificacion->id_notificacion; ?>" title="Marcar como leído">
-                                <i class="fas fa-check"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm eliminar-notificacion"
-                                data-id="<?php        echo $notificacion->id_notificacion; ?>" title="Eliminar notificación">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <?php    endforeach; ?>
+                        <?php foreach ($notificaciones as $notificacion): ?>
+                            <tr>
+                                <td
+                                    class="<?php echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
+                                    <?php echo $notificacion->titulo; ?>
+                                </td>
+                                <td
+                                    class="<?php echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
+                                    <?php echo $notificacion->mensaje; ?>
+                                </td>
+                                <td
+                                    class="<?php echo ($notificacion->leido == 0) ? 'notificacion-no-leida' : 'notificacion-leida'; ?>">
+                                    <?php echo $notificacion->fecha_envio; ?>
+                                </td>
+                                <td>
+                                    <button class="btn btn-dorado btn-sm marcar-leido" data-id="<?php echo $notificacion->id_notificacion; ?>" title="Marcar como leído" <?php echo ($notificacion->leido == 1) ? 'disabled' : ''; ?>>
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm eliminar-notificacion"
+                                        data-id="<?php echo $notificacion->id_notificacion; ?>" title="Eliminar notificación">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     <?php else: ?>
-                    <tr>
-                        <td colspan="2">No hay notificaciones disponibles.</td>
-                    </tr>
+                        <tr>
+                            <td colspan="2">No hay notificaciones disponibles.</td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -75,15 +74,15 @@ Registro Estatal de Regulaciones
 @section('js')
 <script src="<?php echo base_url('assets/js/tablaIdioma.js'); ?>"></script>
 <script>
-    $(document).ready(function () {
-        $('.marcar-leido').click(function () {
+    $(document).ready(function() {
+        $('.marcar-leido').click(function() {
             var id = $(this).data('id');
 
             $.ajax({
                 url: '<?php echo base_url('RegulacionController/marcar_leido/'); ?>' + id,
                 type: 'POST',
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     if (response.success) {
                         // Desactivar el botón para que no se pueda volver a marcar como leído
                         $('button[data-id="' + id + '"]').prop('disabled', true);
@@ -92,15 +91,15 @@ Registro Estatal de Regulaciones
                         console.error('Error en la respuesta del servidor:', response);
                     }
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     console.error('Error en la solicitud AJAX:', error);
                 }
             });
         });
     });
 
-    $(document).ready(function () {
-        $('#datatablesSimple').on('click', '.eliminar-notificacion', function () {
+    $(document).ready(function() {
+        $('#datatablesSimple').on('click', '.eliminar-notificacion', function() {
             var id = $(this).data('id');
 
             Swal.fire({
@@ -115,7 +114,7 @@ Registro Estatal de Regulaciones
                         url: '<?php echo base_url('RegulacionController/eliminar_notificacion/'); ?>' + id,
                         type: 'POST',
                         dataType: 'json',
-                        success: function (response) {
+                        success: function(response) {
                             if (response.success) {
                                 Swal.fire(
                                     '¡Eliminado!',
@@ -134,13 +133,13 @@ Registro Estatal de Regulaciones
                                 );
                             }
                         },
-                        error: function (xhr, status, error) {
+                        error: function(xhr, status, error) {
                             console.error('Error en la solicitud AJAX:', error);
                         }
                     });
                 }
             });
         });
-    }); 
+    });
 </script>
 @endsection

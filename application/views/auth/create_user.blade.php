@@ -156,7 +156,7 @@ Registro Estatal de Regulaciones
                         </div>
                         <small id="msg_clave_empleado" class="text-danger"></small>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label for="password">Contraseña<span class="text-danger">*</span></label>
                             <input type="password" class="form-control" id="password" name="password"
@@ -171,11 +171,11 @@ Registro Estatal de Regulaciones
                                 placeholder="Confirmar contraseña" required>
                             <small id="msg_password_confirm" class="text-danger"></small>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="file">Archivo</label>
-                            <input type="file" class="form-control" id="userfile" name="userfile" accept="image/png, image/jpeg, application/pdf" required>
+                            <input type="file" class="form-control" id="userfile" name="userfile" accept="image/png, image/jpeg, application/pdf" onchange="validateFile(this)">
                             <small id="msg_file" class="text-danger"></small>
                             <button type="button" class="btn btn-secondary mt-2" onclick="document.getElementById('userfile').value = '';">Deseleccionar archivo</button>
                         </div>
@@ -203,7 +203,7 @@ Registro Estatal de Regulaciones
     });
 
      // Manejar el cambio en el campo de selección de sujetos obligados
-     $('#sujetos').change(function() {
+    $('#sujetos').change(function() {
             var sujeto_id = $(this).val();
             if (sujeto_id) {
                 $.ajax({
@@ -226,6 +226,37 @@ Registro Estatal de Regulaciones
     
 </script>
 <script>
+        function validateFile(input) {
+        const maxSize = 4 * 1024 * 1024; // 4 MB en bytes
+        const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+
+        if (input.files.length > 0) {
+            const file = input.files[0];
+
+            // Validar tamaño del archivo
+            if (file.size > maxSize) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El archivo no debe exceder los 4 MB.',
+                });
+                input.value = ''; // Limpiar el campo de archivo
+                return; // Detener la ejecución
+            }
+
+            // Validar tipo de archivo
+            if (!allowedTypes.includes(file.type)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.',
+                });
+                input.value = ''; // Limpiar el campo de archivo
+                return; // Detener la ejecución
+            }
+        }
+    }
+
     function enviaDatosFormulario() {
         var formData = new FormData($('#formUsuarios')[0]);
         mostrarPantallaDeCarga();

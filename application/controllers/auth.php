@@ -519,9 +519,16 @@ class Auth extends CI_Controller
             $correo = $user->email;
             $name = $user->first_name;
 
+            // Generar una nueva contraseña temporal
+            $new_password = bin2hex(random_bytes(4)); // Genera una contraseña de 8 caracteres
+            $this->ion_auth->reset_password($user->email, $new_password);
+
             // Contenido del correo electrónico
             $titulo = 'Cuenta activada';
-            $contenido = "Hola $name, tu cuenta ha sido activada correctamente.";
+            $contenido = "Hola $name, tu cuenta ha sido activada correctamente.\n\n";
+            $contenido .= "Tu nueva contraseña temporal es: $new_password\n";
+            $contenido .= "Por favor, cambia tu contraseña después de iniciar sesión.";
+
 
             // Enviar correo electrónico usando la función enviaCorreo
             $response = enviaCorreo($correo, $titulo, $contenido);
@@ -548,9 +555,31 @@ class Auth extends CI_Controller
                 $allowed_types = ['image/jpeg', 'image/png', 'application/pdf']; // Define los tipos de archivos permitidos
                 $max_size = 4096; // Define el tamaño máximo del archivo en KB
 
+                if ($_FILES['userfile']['error'] !== UPLOAD_ERR_OK) {
+                    switch ($_FILES['userfile']['error']) {
+                        case UPLOAD_ERR_INI_SIZE:
+                            throw new Exception('El archivo excede el tamaño máximo permitido por el servidor.');
+                        case UPLOAD_ERR_FORM_SIZE:
+                            throw new Exception('El archivo excede el tamaño máximo permitido por el formulario.');
+                        case UPLOAD_ERR_PARTIAL:
+                            throw new Exception('El archivo solo se subió parcialmente.');
+                        case UPLOAD_ERR_NO_FILE:
+                            throw new Exception('No se seleccionó ningún archivo.');
+                        case UPLOAD_ERR_NO_TMP_DIR:
+                            throw new Exception('No se encontró la carpeta temporal.');
+                        case UPLOAD_ERR_CANT_WRITE:
+                            throw new Exception('No se pudo escribir el archivo en el disco.');
+                        case UPLOAD_ERR_EXTENSION:
+                            throw new Exception('Una extensión de PHP detuvo la subida del archivo.');
+                        default:
+                            throw new Exception('Error desconocido al subir el archivo.');
+                    }
+                }
+
                 if ($_FILES['userfile']['size'] > $max_size * 1024) {
                     throw new Exception('El tamaño del archivo no debe exceder los 4 MB.');
                 }
+                
                 if (!in_array($_FILES['userfile']['type'], $allowed_types)) {
                     throw new Exception('Formato de archivo no permitido. Solo se permiten archivos JPEG, PNG y PDF.');
                 }
@@ -724,13 +753,13 @@ class Auth extends CI_Controller
             'extension',
             'trim|regex_match[/^[0-9]*$/]|max_length[6]|min_length[2]',
             array(
-            'numeric' => 'El campo %s debe ser numérico.',
-            'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
-            'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
+                'numeric' => 'El campo %s debe ser numérico.',
+                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
+                'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
             )
         );
-        $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
-        $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
+        // $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
+        // $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
 
         if (isset($_FILES['userfile']) && $_FILES['userfile']['error'] != UPLOAD_ERR_NO_FILE) {
             // Validar el archivo
@@ -751,7 +780,7 @@ class Auth extends CI_Controller
         if ($this->form_validation->run() === TRUE) {
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
-            $password = $this->input->post('password');
+            // $password = $this->input->post('password');
 
             $additional_data = [
                 'first_name' => $this->input->post('first_name', true),
@@ -922,9 +951,9 @@ class Auth extends CI_Controller
             'extension',
             'trim|regex_match[/^[0-9]*$/]|max_length[6]|min_length[2]',
             array(
-            'numeric' => 'El campo %s debe ser numérico.',
-            'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
-            'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
+                'numeric' => 'El campo %s debe ser numérico.',
+                'max_length' => 'El campo %s no debe exceder los 6 caracteres.',
+                'min_length' => 'El campo %s debe tener al menos 2 caracteres.',
             )
         );
         //$this->form_validation->set_rules('tipoSujeto', 'tipo de sujeto obligado', 'trim|required');
@@ -955,30 +984,30 @@ class Auth extends CI_Controller
                 'numeric' => 'El campo %s debe ser numérico.'
             )
         );
-        if ($this->input->post('password')) {
-            $this->form_validation->set_rules('current_password', 'contraseña actual', 'required', [
-                'required' => 'Debe ingresar su contraseña actual.'
-            ]);
-            $this->form_validation->set_rules('password', 'nueva contraseña', 'required|min_length[' .
-                $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]', [
-                'required' => 'Debe ingresar una nueva contraseña.',
-                'min_length' => 'La nueva contraseña debe tener al menos ' . $this->config->item('min_password_length', 'ion_auth') . ' caracteres.',
-                'matches' => 'Las contraseñas no coinciden.'
-            ]);
-            $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
-        
-            if ($this->form_validation->run()) {
-                // Verificar si la contraseña actual ingresada es correcta
-                if (!$this->ion_auth->verify_password($this->input->post('current_password'), $user->password)) {
-                    $response = [
-                        'status' => 'error',
-                        'message' => 'La contraseña actual es incorrecta.'
-                    ];
-                    echo json_encode($response);
-                    return;
-                }
-            }
-        }        
+        // if ($this->input->post('password')) {
+        //     $this->form_validation->set_rules('current_password', 'contraseña actual', 'required', [
+        //         'required' => 'Debe ingresar su contraseña actual.'
+        //     ]);
+        //     $this->form_validation->set_rules('password', 'nueva contraseña', 'required|min_length[' .
+        //         $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]', [
+        //         'required' => 'Debe ingresar una nueva contraseña.',
+        //         'min_length' => 'La nueva contraseña debe tener al menos ' . $this->config->item('min_password_length', 'ion_auth') . ' caracteres.',
+        //         'matches' => 'Las contraseñas no coinciden.'
+        //     ]);
+        //     $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
+
+        //     if ($this->form_validation->run()) {
+        //         // Verificar si la contraseña actual ingresada es correcta
+        //         if (!$this->ion_auth->verify_password($this->input->post('current_password'), $user->password)) {
+        //             $response = [
+        //                 'status' => 'error',
+        //                 'message' => 'La contraseña actual es incorrecta.'
+        //             ];
+        //             echo json_encode($response);
+        //             return;
+        //         }
+        //     }
+        // }
 
         if ($this->form_validation->run() === TRUE) {
             $upload_result = $this->uploadFile($_FILES['userfile'], $id);
@@ -1021,9 +1050,9 @@ class Auth extends CI_Controller
                 $data['file_path'] = $file_path;
             }
 
-            if ($this->input->post('password')) {
-                $data['password'] = $this->input->post('password');
-            }
+            // if ($this->input->post('password')) {
+            //     $data['password'] = $this->input->post('password');
+            // }
 
             // Only allow updating groups if user is admin
             if ($this->ion_auth->is_admin()) {
@@ -1101,16 +1130,16 @@ class Auth extends CI_Controller
                     'type' => 'text',
                     'value' => $this->form_validation->set_value('email', $user->email),
                 ];
-                $this->data['password'] = [
-                    'name' => 'password',
-                    'id' => 'password',
-                    'type' => 'password',
-                ];
-                $this->data['password_confirm'] = [
-                    'name' => 'password_confirm',
-                    'id' => 'password_confirm',
-                    'type' => 'password',
-                ];
+                // $this->data['password'] = [
+                //     'name' => 'password',
+                //     'id' => 'password',
+                //     'type' => 'password',
+                // ];
+                // $this->data['password_confirm'] = [
+                //     'name' => 'password_confirm',
+                //     'id' => 'password_confirm',
+                //     'type' => 'password',
+                // ];
                 $this->data['cargo'] = [
                     'name' => 'cargo',
                     'id' => 'cargo',
@@ -1226,9 +1255,9 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('unidades', 'unidad administrativa', 'trim|required');
         $this->form_validation->set_rules('fecha', 'fecha alta en el cargo', 'trim|required');
 
-        $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
-            $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
-        $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
+        // $this->form_validation->set_rules('password', 'contraseña', 'required|min_length[' .
+        //     $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
+        // $this->form_validation->set_rules('password_confirm', 'confirmar contraseña', 'required');
 
 
         if ($this->form_validation->run() === TRUE) {
@@ -1272,9 +1301,9 @@ class Auth extends CI_Controller
                 $data['file_path'] = $file_path;
             }
 
-            if ($this->input->post('password')) {
-                $data['password'] = $this->input->post('password');
-            }
+            // if ($this->input->post('password')) {
+            //     $data['password'] = $this->input->post('password');
+            // }
 
             //Notificar a administrador
             $notificacion = [
@@ -1607,16 +1636,16 @@ class Auth extends CI_Controller
                     'type' => 'date',
                     'value' => $this->form_validation->set_value('fecha', $user->fecha_cargo),
                 ];
-                $this->data['password'] = [
-                    'name' => 'password',
-                    'id' => 'password',
-                    'type' => 'password',
-                ];
-                $this->data['password_confirm'] = [
-                    'name' => 'password_confirm',
-                    'id' => 'password_confirm',
-                    'type' => 'password',
-                ];
+                // $this->data['password'] = [
+                //     'name' => 'password',
+                //     'id' => 'password',
+                //     'type' => 'password',
+                // ];
+                // $this->data['password_confirm'] = [
+                //     'name' => 'password_confirm',
+                //     'id' => 'password_confirm',
+                //     'type' => 'password',
+                // ];
 
                 // Mostrar el formulario
                 $this->data['user'] = $this->UsuarioModel->getPorUsuario($user->id);

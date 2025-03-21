@@ -81,6 +81,27 @@ class Guia extends CI_Controller
                 $allowed_types = ['application/pdf']; // Define los tipos de archivos permitidos
                 $max_size = 4096; // Define el tamaño máximo del archivo en KB
 
+                if ($_FILES['userfile']['error'] !== UPLOAD_ERR_OK) {
+                    switch ($_FILES['userfile']['error']) {
+                        case UPLOAD_ERR_INI_SIZE:
+                            throw new Exception('El archivo excede el tamaño máximo permitido por el servidor.');
+                        case UPLOAD_ERR_FORM_SIZE:
+                            throw new Exception('El archivo excede el tamaño máximo permitido por el formulario.');
+                        case UPLOAD_ERR_PARTIAL:
+                            throw new Exception('El archivo solo se subió parcialmente.');
+                        case UPLOAD_ERR_NO_FILE:
+                            throw new Exception('No se seleccionó ningún archivo.');
+                        case UPLOAD_ERR_NO_TMP_DIR:
+                            throw new Exception('No se encontró la carpeta temporal.');
+                        case UPLOAD_ERR_CANT_WRITE:
+                            throw new Exception('No se pudo escribir el archivo en el disco.');
+                        case UPLOAD_ERR_EXTENSION:
+                            throw new Exception('Una extensión de PHP detuvo la subida del archivo.');
+                        default:
+                            throw new Exception('Error desconocido al subir el archivo.');
+                    }
+                }
+
                 if ($_FILES['userfile']['size'] > $max_size * 1024) {
                     throw new Exception('El tamaño del archivo no debe exceder los 4 MB.');
                 }
