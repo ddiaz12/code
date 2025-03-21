@@ -20,6 +20,19 @@
     <small class="form-text text-muted">Selecciona una oficina de la lista.</small>
 </div>
 
+<div class="form-group">
+    <label><b>Unidad Administrativa</b><span class="text-danger">*</span></label>
+    <select name="ID_unidad" class="form-control" required>
+        <option value="">Seleccione una unidad</option>
+        @foreach($unidades_administrativas as $unidad)
+            <option value="{{ $unidad->ID_unidad }}"
+                {{ isset($inspeccion) && isset($inspeccion->ID_unidad) && $inspeccion->ID_unidad == $unidad->ID_unidad ? 'selected' : '' }}>
+                {{ $unidad->nombre }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 <ul id="oficinasSeleccionadas" class="list-group mt-2"></ul>
 
 <!-- Modal para seleccionar oficinas -->

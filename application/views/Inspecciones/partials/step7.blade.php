@@ -1,4 +1,4 @@
- <!-- =================== STEP 7: Información adicional =================== -->
+<!-- =================== STEP 7: Información adicional =================== -->
  
                         <h3 class="card-title" style="background-color: #8E354A; color: white; padding: 10px; border-radius: 10px;">
                             Información adicional
@@ -7,7 +7,6 @@
                             Atención: Esta ficha debe ser requisitada con el uso de letras mayúsculas y minúsculas.
                         </h5>
                         <div class="form-group">
-                            <label>Información que se considere útil para que el interesado realice la inspección, verificación o visita domiciliaria:</label>
-                            <textarea name="Info_Adicional" class="form-control" rows="3">{{ $inspeccion->Info_Adicional ?? '' }}</textarea>
+                            <label><b>Información adicional</b></label>
+                            <textarea name="info_adicional" class="form-control" placeholder="Ingresa cualquier información adicional">{{ isset($inspeccion->Informacion_Adicional) ? $inspeccion->Informacion_Adicional : '' }}</textarea>
                         </div>
-                    
