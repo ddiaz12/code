@@ -388,9 +388,9 @@ Registro Estatal de Regulaciones
 
             // Interceptar clics en los enlaces
             $('a').on('click', function(event) {
-                if (formModified) {
+                var href = $(this).attr('href');
+                if (formModified && href && href !== '#') {
                     event.preventDefault(); // Prevenir la acción predeterminada del enlace
-                    var href = $(this).attr('href');
                     Swal.fire({
                         title: 'Advertencia',
                         text: 'Se perderán los datos ingresados',
@@ -1800,6 +1800,14 @@ $(document).ready(function() {
             formData.append('idRegulacion', id_regulacion);
 
             formData.append('idNaturaleza', id_nat);
+            if ($('#si').is(':checked') && ($('#selectedSectorsTable tbody tr').length === 0 && $('#selectedSubsectorsTable tbody tr').length === 0 && $('#selectedRamasTable tbody tr').length === 0 && $('#selectedSubramasTable tbody tr').length === 0 && $('#selectedClasesTable tbody tr').length === 0)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, seleccione al menos un sector, subsector, rama, subrama y clase',
+                });
+                return;
+            }
 
             if ($('#no').is(':checked')) {
                 formData.append('btn_clicked', true);
