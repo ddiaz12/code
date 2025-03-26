@@ -895,7 +895,7 @@ $(document).ready(function() {
                     '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                     '<td>' + item.Tipo_Dependencia + '</td>' +
                     '<td class="text-end">' +
-                    '<button class="btn btn-danger btn-sm delete-row">' +
+                    '<button class="btn btn-danger btn-sm delete-row" title="Eliminar">' +
                     '<i class="fas fa-trash-alt"></i></button>' +
                     '</td>' +
                     '</tr>';
@@ -912,7 +912,7 @@ $(document).ready(function() {
                     '<td class="hidden-column">' + item.ID_Dependencia + '</td>' +
                     '<td>' + item.Tipo_Dependencia + '</td>' +
                     '<td class="text-end">' +
-                    '<button class="btn btn-danger btn-sm delete-row">' +
+                    '<button class="btn btn-danger btn-sm delete-row" title="Eliminar">' +
                     '<i class="fas fa-trash-alt"></i></button>' +
                     '</td>' +
                     '</tr>';
@@ -1938,7 +1938,7 @@ $(document).ready(function() {
                         '<td>' + inputSec + '</td>' +
                         '<td>' + inputSuj + '</td>' +
                         '<td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">' +
-                        '<i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm delete-row">' +
+                        '<i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm delete-row" title="Eliminar">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
 
@@ -2070,7 +2070,7 @@ $(document).ready(function() {
                         '<td>' + inputArt + '</td>' +
                         '<td>' + inputLink + '</td>' +
                         '<td class="text-end"><button class="btn btn-gris btn-sm edit-row me-2">' +
-                        '<i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm delete-row">' +
+                        '<i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm delete-row" title="Eliminar">' +
                         '<i class="fas fa-trash-alt"></i></button></td>' +
                         '</tr>';
 

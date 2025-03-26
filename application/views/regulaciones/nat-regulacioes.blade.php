@@ -663,7 +663,7 @@ $(document).ready(function() {
             // Mostrar la tabla y agregar una fila
             $('#selectedSectorsTable').show();
             $('#selectedSectorsTable tbody').append('<tr><td>' + sectorName +
-                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar" >' +
+                '<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });
@@ -1142,7 +1142,7 @@ $(document).ready(function() {
             // Mostrar la tabla y agregar una fila
             $('#selectedRegulacionesTable').show();
             $('#selectedRegulacionesTable tbody').append('<tr><td>' + regulacionName +
-                '</td>+<td> </td>+<td><button class="btn btn-danger btn-sm delete-row">' +
+                '</td>+<td> </td>+<td><button class="btn btn-danger btn-sm delete-row" title="Eliminar">' +
                 '<i class="fas fa-trash-alt"></i></button></td>' +
                 '</tr>');
         });
@@ -1210,6 +1210,14 @@ $(document).ready(function() {
                     });
                     return;
                 } else {
+                    if ($('#si').is(':checked') && ($('#selectedSectorsTable tbody tr').length === 0 && $('#selectedSubsectorsTable tbody tr').length === 0 && $('#selectedRamasTable tbody tr').length === 0 && $('#selectedSubramasTable tbody tr').length === 0 && $('#selectedClasesTable tbody tr').length === 0)) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Por favor, seleccione al menos un sector, subsector, rama, subrama y clase',
+                        });
+                        return;
+                    }
                     var formData = new FormData($('#formGnat')[0]);
 
                     if ($('#no').is(':checked')) {

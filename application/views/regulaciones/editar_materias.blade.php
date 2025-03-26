@@ -295,9 +295,9 @@ Registro Estatal de Regulaciones
 
             // Interceptar clics en los enlaces
             $('a').on('click', function(event) {
-                if (formModified) {
+                var href = $(this).attr('href');
+                if (formModified && href && href !== '#') {
                     event.preventDefault(); // Prevenir la acción predeterminada del enlace
-                    var href = $(this).attr('href');
                     Swal.fire({
                         title: 'Advertencia',
                         text: 'Se perderán los datos ingresados',

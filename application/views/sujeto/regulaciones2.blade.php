@@ -182,30 +182,52 @@ Registro Estatal de Regulaciones
             let regulacionId = $(this).closest('tr').find('td:first').text();
 
             // Confirmar la actualización
-            if (confirm('¿Estás seguro de que deseas actualizar el estatus de esta regulación?')) {
-                // Hacer una solicitud AJAX para actualizar el estatus en la base de datos
-                $.ajax({
-                    url: 'RegulacionController/actualizar_estatus', // Ruta en tu backend
-                    type: 'POST',
-                    data: {
-                        id: regulacionId,
-                        csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>' // Token CSRF para seguridad
-                    },
-                    success: function (response) {
-                        let res = JSON.parse(response);
-                        if (res.status === 'success') {
-                            alert('Estatus actualizado exitosamente.');
-                            window.location.href = '<?php echo base_url("RegulacionController"); ?>';
-                        } else {
-                            alert('Hubo un error al actualizar el estatus.');
+            Swal.fire({
+                title: '¿Estás seguro de que deseas Eliminar esta regulación?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Hacer una solicitud AJAX para actualizar el estatus en la base de datos
+                    $.ajax({
+                        url: 'RegulacionController/actualizar_estatus', // Ruta en tu backend
+                        type: 'POST',
+                        data: {
+                            id: regulacionId,
+                            csrf_test_name: '<?= $this->security->get_csrf_hash(); ?>' // Token CSRF para seguridad
+                        },
+                        success: function (response) {
+                            let res = JSON.parse(response);
+                            if (res.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Éxito',
+                                    text: 'Estatus actualizado exitosamente.',
+                                }).then(() => {
+                                    window.location.href = '<?php echo base_url("RegulacionController"); ?>';
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Hubo un error al actualizar el estatus.',
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Hubo un error al actualizar el estatus.',
+                            });
                         }
-                    },
-                    error: function () {
-                        alert('Hubo un error al actualizar el estatus.');
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
+
         // Captura el evento de clic en el botón de editar
         $('#datatablesSimple').on('click', '.edit-row', function () {
             // Obtiene el ID de la regulación del atributo data-id

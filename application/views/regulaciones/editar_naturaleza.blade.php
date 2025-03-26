@@ -1816,7 +1816,7 @@ $(document).ready(function() {
                 inputTram +
                 '</td><td>' +
                 inputDir +
-                '</td><td><button class="btn btn-tinto btn-sm delete-row"><i class="fas fa-trash-alt"></i></button></td></tr>';
+                '</td><td><button class="btn btn-tinto btn-sm delete-row" title="Eliminar"><i class="fas fa-trash-alt"></i></button></td></tr>';
             $('#tramitesTable tbody').append(newRow);
 
             // Incrementa el contador de ID_Fun
@@ -1896,6 +1896,14 @@ $(document).ready(function() {
             formData.append('idRegulacion', id_regulacion);
 
             formData.append('idNaturaleza', id_nat);
+            if ($('#si').is(':checked') && ($('#selectedSectorsTable tbody tr').length === 0 && $('#selectedSubsectorsTable tbody tr').length === 0 && $('#selectedRamasTable tbody tr').length === 0 && $('#selectedSubramasTable tbody tr').length === 0 && $('#selectedClasesTable tbody tr').length === 0)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor, seleccione al menos un sector, subsector, rama, subrama y clase',
+                });
+                return;
+            }
 
             if ($('#no').is(':checked')) {
                 formData.append('btn_clicked', true);
