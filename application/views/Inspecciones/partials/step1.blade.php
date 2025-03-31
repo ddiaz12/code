@@ -188,7 +188,7 @@
     </div>
     <div>
         <label>URL relacionado:</label>
-        <input type="url" name="URL_Tramite_Servicio" class="form-control" required
+        <input type="url" name="URL_Tramite_Servicio" class="form-control" required pattern="^https?:\/\/.*\.com(\b|\/|$)"
             value="{{ $inspeccion->URL_Tramite_Servicio ?? '' }}">
     </div>
 </div>
@@ -283,7 +283,7 @@
           </div>
           <div class="col">
             <label>Número:</label>
-            <input type="text" id="numero" class="form-control">
+            <input type="number" id="numero" class="form-control" max="9999999999" oninput="if(this.value.length > 10) this.value = this.value.slice(0,10);">
           </div>
           <div class="col">
             <label>Letra:</label>
