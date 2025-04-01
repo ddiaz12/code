@@ -29,8 +29,14 @@ class InspeccionesModel extends CI_Model {
 
     // Actualizar una inspección existente
     public function update_inspeccion($id, $data) {
+        if (empty($data)) {
+            log_message('error', 'NO HAY DATOS PARA UPDATE en update_inspeccion para ID: ' . $id);
+            return false;
+        }
+        // Usar set() para definir los campos a actualizar
+        $this->db->set($data);
         $this->db->where('ID', $id);
-        return $this->db->update('ma_inspeccion', $data);
+        return $this->db->update('ma_inspeccion');
     }
 
     // Eliminar una inspección
@@ -329,7 +335,9 @@ class InspeccionesModel extends CI_Model {
         $query = $this->db->get('rel_ins_mas_detalles');
         if ($query->num_rows() > 0) {
             // Actualizar el registro existente
-            return $this->db->where('ID_inspeccion', $id_inspeccion)->update('rel_ins_mas_detalles', $data);
+            $this->db->set($data);
+            $this->db->where('ID_inspeccion', $id_inspeccion);
+            return $this->db->update('rel_ins_mas_detalles');
         } else {
             // Insertar un nuevo registro
             return $this->db->insert('rel_ins_mas_detalles', $data);
@@ -461,8 +469,10 @@ class InspeccionesModel extends CI_Model {
         $this->db->where('ID_inspeccion', $id_inspeccion);
         $query = $this->db->get('rel_ins_info_adicional');
         if ($query->num_rows() > 0) {
-            return $this->db->where('ID_inspeccion', $id_inspeccion)
-                            ->update('rel_ins_info_adicional', $data);
+            // Usar set() explícitamente antes de update()
+            $this->db->set($data);
+            $this->db->where('ID_inspeccion', $id_inspeccion);
+            return $this->db->update('rel_ins_info_adicional');
         } else {
             $data['ID_inspeccion'] = $id_inspeccion;
             return $this->db->insert('rel_ins_info_adicional', $data);
