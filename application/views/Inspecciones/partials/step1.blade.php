@@ -14,7 +14,7 @@
 </div>
 <!-- Nombre de la Inspección -->
 <div class="form-group">
-    <label><b>Nombre de la Inspección</b><span class="text-danger">*</span></label>
+    <label><b>Nombre de la Inspección, Verificación o Visita Domiciliaria</b><span class="text-danger">*</span></label>
     <input type="text" name="Nombre_Inspeccion" class="form-control" required
         value="{{ $inspeccion->Nombre_Inspeccion ?? '' }}">
 </div>
@@ -26,7 +26,7 @@
 <!-- Tipo de inspección -->
 <div class="form-group">
     <label>
-        <b>Tipo de inspección, verificación o visita domiciliaria</b>
+        <b>Tipo de Inspección, Verificación o Visita Domiciliaria</b>
         <span class="text-danger">*</span>
     </label>
     <select name="Tipo_Inspeccion" class="form-control" required id="tipoInspeccionSelect">
@@ -56,35 +56,9 @@
     </select>
 </div>
 
-<!-- Ley de Fomento -->
-<div class="form-group">
-    <label><b>Ley de Fomento a la Confianza Ciudadana</b></label>
-    <p style="font-size: 14px;">
-        ¿La inspección, verificación o visita domiciliaria se encuentra exenta de la Ley de Fomento a la Confianza
-        Ciudadana?<span class="text-danger">*</span>
-    </p>
-    <div>
-        <label>
-            <input type="radio" name="Ley_Fomento" value="si" {{ isset($inspeccion) && $inspeccion->Ley_Fomento == 'si' ? 'checked' : '' }}> Sí
-        </label>
-        <label>
-            <input type="radio" name="Ley_Fomento" value="no" {{ isset($inspeccion) && $inspeccion->Ley_Fomento == 'no' ? 'checked' : '' }}> No
-        </label>
-    </div>
-    <div id="justificarLeyFomento" style="display: none;">
-        <label>
-            Justificar si la inspección, verificación o visita domiciliaria son sujetas para todas o algunas de sus
-            modalidades a suspensión conforme lo establecido en el artículo 1 y 13 de la Ley de Fomento a la Confianza
-            Ciudadana:<span class="text-danger">*</span>
-        </label>
-        <textarea name="Justificacion_Ley_Fomento" class="form-control" rows="3"
-            required>{{ $inspeccion->Justificacion_Ley_Fomento ?? '' }}</textarea>
-    </div>
-</div>
-
 <!-- Dirigida a -->
 <div class="form-group">
-    <label><b>¿La inspección, verificación o visita domiciliaria va dirigida a personas físicas, morales o
+    <label><b>¿La Inspección, Verificación o Visita Domiciliaria va dirigida a personas físicas, morales o
             ambas?</b><span class="text-danger">*</span></label>
     <select name="Dirigida_A" class="form-control" required>
         <option value="">Selecciona</option>
@@ -95,7 +69,7 @@
         @endforeach
     </select>
     <div id="especificarDirigidaA" style="display: none;">
-        <label>Indicar a quién va dirigida la inspección, verificación o visita domiciliaria:</label>
+        <label>Indicar a quién va dirigida la Inspección, Verificación o Visita Domiciliaria:</label>
         <input type="text" name="Especificar_Dirigida_A" class="form-control"
             value="{{ $inspeccion->Especificar_Dirigida_A ?? '' }}">
     </div>
@@ -103,7 +77,7 @@
 
 <!-- Caracter de la inspección -->
 <div class="form-group">
-    <label><b>La inspección, verificación o visita domiciliaria es:</b><span class="text-danger">*</span></label>
+    <label><b>La Inspección, Verificación o Visita Domiciliaria es:</b><span class="text-danger">*</span></label>
     <select name="Caracter_Inspeccion" class="form-control" required>
         <option value="">Selecciona</option>
         @foreach($caracteres_inspeccion as $caracter)
@@ -116,7 +90,7 @@
 
 <!-- Realizada en -->
 <div class="form-group">
-    <label><b>Indique si la verificación, inspección o visita domiciliaria se realiza en:</b><span class="text-danger">*</span></label>
+    <label><b>Indique si la Inspección, Verificación o Visita Domiciliaria se realiza en:</b><span class="text-danger">*</span></label>
     <select name="Realizada_En" class="form-control" required>
         <option value="">Selecciona</option>
         @foreach($lugares_realizacion as $lugar)
@@ -134,15 +108,15 @@
 
 <!-- Objetivo -->
 <div class="form-group">
-    <label><b>¿Cuál es el objetivo de la inspección, verificación o visita domiciliaria?</b><span
+    <label><b>¿Cuál es el objetivo de la Inspección, Verificación o Visita Domiciliaria?</b><span
             class="text-danger">*</span></label>
     <textarea name="Objetivo" class="form-control" rows="3" required>{{ $inspeccion->Objetivo ?? '' }}</textarea>
 </div>
 
 <!-- Palabras clave -->
 <div class="form-group">
-    <label><b>Palabras clave que describan o identifiquen las inspecciones, verificaciones y visitas
-            domiciliarias:</b><span class="text-danger">*</span></label>
+    <label><b>Palabras clave que describan o identifiquen las 
+        Inspecciónes, Verificaciónes o Visitas Domiciliarias:</b><span class="text-danger">*</span></label>
     <textarea name="Palabras_Clave" class="form-control" rows="2"
         required>{{ $inspeccion->Palabras_Clave ?? '' }}</textarea>
 </div>
@@ -162,7 +136,7 @@
 
 <!-- Motivo de la inspección -->
 <div class="form-group">
-    <label><b>Especificar qué motiva la inspección, verificación o visita domiciliaria:</b><span class="text-danger">*</span></label>
+    <label><b>Especificar qué motiva la Inspección, Verificación o Visita Domiciliaria:</b><span class="text-danger">*</span></label>
     <select name="Motivo_Inspeccion" class="form-control" required>
         <option value="">Selecciona</option>
         @foreach($motivos_inspeccion as $motivo)
@@ -179,7 +153,7 @@
 
 <!-- Nombre de trámite o servicio -->
 <div class="form-group">
-    <label><b>Nombre de trámite o servicio asociado en esta inspección, verificación o visita domiciliaria:</b><span
+    <label><b>Nombre de trámite o servicio asociado en esta Inspección, Verificación o Visita Domiciliaria:</b><span
             class="text-danger">*</span></label>
     <div>
         <label>Nombre del servicio o trámite:</label>
@@ -195,7 +169,7 @@
 
 <!-- ========== Fundamento jurídico ========== -->
 <div class="form-group">
-    <label><b>¿Existe un fundamento jurídico que dé origen a la inspección, verificación o visita domiciliaria?</b><span
+    <label><b>¿Existe un fundamento jurídico que dé origen a la Inspección, Verificación o Visita Domiciliaria?</b><span
             class="text-danger">*</span></label>
     <div>
         <label>
@@ -214,23 +188,22 @@
         <i class="fas fa-plus-circle"></i> Añadir Fundamento
     </button>
 </div>
-<!-- ===================== Sección de Fundamentos (se muestra solo si la respuesta es "Sí") ===================== -->
+<!-- ===================== Sección de Fundamentos (se muestra solo si se ha llenado un fundamento jurídico) ===================== -->
 <div id="fundamentosContainer" style="display: none; margin-top: 20px;">
     <h5>Fundamentos jurídicos</h5>
-
-    <!-- Tabla donde se mostrarán los fundamentos añadidos -->
-    <table class="table table-bordered mt-3" id="tablaFundamentos">
-        <thead>
-            <tr>
-                <th style="width: 30%">Tipo de ordenamiento</th>
-                <th style="width: 50%">Nombre del ordenamiento</th>
-                <th style="width: 20%">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Se agregarán filas dinámicamente con JS -->
-        </tbody>
-    </table>
+    <!-- La tabla se mostrará solo cuando se hayan agregado fundamentos -->
+        <table class="table table-bordered mt-3" id="tablaFundamentos">
+            <thead>
+                <tr>
+                    <th style="width: 30%">Tipo de ordenamiento</th>
+                    <th style="width: 50%">Nombre del ordenamiento</th>
+                    <th style="width: 20%">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se agregarán filas dinámicamente con JS -->
+            </tbody>
+        </table>
 </div>
 
 <!-- ===================== Modal de Fundamentos Jurídicos ===================== -->

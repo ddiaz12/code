@@ -198,19 +198,6 @@ $(document).ready(function() {
             }
         }
 
-        // Validar Justificación de Ley de Fomento si se selecciona “si”
-        let leyFomento = $('input[name="Ley_Fomento"]:checked').val();
-        if (leyFomento === 'si') {
-            let justificacion = $('textarea[name="Justificacion_Ley_Fomento"]').val().trim();
-            if (justificacion === "") {
-                valid = false;
-                errorFields.push("Debe proporcionar la Justificación de la Ley de Fomento.");
-                $('textarea[name="Justificacion_Ley_Fomento"]').addClass('is-invalid');
-            } else {
-                $('textarea[name="Justificacion_Ley_Fomento"]').removeClass('is-invalid');
-            }
-        }
-        
         // Validar campo "Dirigida A" si se selecciona “Otras”
         let dirigidaText = $('select[name="Dirigida_A"] option:selected').text().trim().toLowerCase();
         if (dirigidaText === "otras") {

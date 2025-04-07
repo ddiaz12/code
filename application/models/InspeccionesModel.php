@@ -179,10 +179,22 @@ class InspeccionesModel extends CI_Model {
         return $query->result();
     }
 
-    // Unidades Administrativas. Obtener todas las unidades administrativas
+    // Unidades Administrativas. Obtener todas las unidades administrativas (step 2)
     public function getUnidadesAdministrativas() {
-        $this->db->select('ID_unidad, nombre'); // Asegúrate de seleccionar las columnas correctas
-        $query = $this->db->get('cat_unidad_administrativa'); // Nombre exacto de la tabla
+        // Hacemos un join con cat_localidades y cat_municipios para obtener los nombres
+        $this->db->select('
+            u.ID_unidad,
+            u.nombre,
+            u.nombre_vialidad,
+            u.Num_interior,
+            u.Num_Exterior,
+            cl.Localidades as localidad_nombre,
+            cm.Nombre_municipio as municipio_nombre
+        ');
+        $this->db->from('cat_unidad_administrativa u');
+        $this->db->join('cat_localidades cl', 'u.ID_localidad = cl.ID_localidad', 'left');
+        $this->db->join('cat_municipios cm', 'u.ID_Municipio = cm.ID_Municipio', 'left');
+        $query = $this->db->get();
         return $query->result();
     }
 
@@ -218,7 +230,6 @@ class InspeccionesModel extends CI_Model {
         $mapping = [
             'Tipo_Inspeccion'          => 'ID_tipo_inspeccion',
             'Ley_Fomento'              => 'Ley_Fomento',
-            'Justificacion_Ley_Fomento'=> 'Justificacion_Ley_Fomento',
             'Destinatario'             => 'ID_destinatario',
             'Lugar_Realizacion'        => 'ID_lugar_realizacion',
             'Lugar_Realizacion_Otro'   => 'Lugar_Realizacion_Otro',

@@ -20,20 +20,24 @@
     <small class="form-text text-muted">Selecciona una oficina de la lista.</small>
 </div>
 
-<div class="form-group">
-    <label><b>Unidad Administrativa</b><span class="text-danger">*</span></label>
-    <select name="ID_unidad" class="form-control" required>
-        <option value="">Seleccione una unidad</option>
-        @foreach($unidades_administrativas as $unidad)
-            <option value="{{ $unidad->ID_unidad }}"
-                {{ isset($inspeccion) && isset($inspeccion->ID_unidad) && $inspeccion->ID_unidad == $unidad->ID_unidad ? 'selected' : '' }}>
-                {{ $unidad->nombre }}
-            </option>
-        @endforeach
-    </select>
+<!-- Nueva tabla para mostrar oficinas seleccionadas -->
+<div id="oficinasSeleccionadasContainer" style="display:none; margin-top:20px;">
+    <h5>Oficinas seleccionadas</h5>
+    <table class="table table-bordered" id="tablaOficinasSeleccionadas">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Se agregarán filas vía JS -->
+        </tbody>
+    </table>
 </div>
 
-<ul id="oficinasSeleccionadas" class="list-group mt-2"></ul>
+<ul id="oficinasSeleccionadas" class="list-group mt-2" style="display:none;"></ul>
 
 <!-- Modal para seleccionar oficinas -->
 <div id="oficinasModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="oficinasModalLabel">
@@ -61,7 +65,12 @@
                                     <td>{{ $unidad->nombre }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary seleccionarOficinaBtn"
-                                            data-oficina="{{ $unidad->nombre }}">
+                                            data-nombre="{{ $unidad->nombre }}"
+                                            data-nvialidad="{{ $unidad->nombre_vialidad ?? '' }}"
+                                            data-numin="{{ $unidad->Num_interior ?? '' }}"
+                                            data-numeext="{{ $unidad->Num_Exterior ?? '' }}"
+                                            data-entidad="{{ $unidad->localidad_nombre ?? '' }}"
+                                            data-municipio="{{ $unidad->municipio_nombre ?? '' }}">
                                             Seleccionar
                                         </button>
                                     </td>

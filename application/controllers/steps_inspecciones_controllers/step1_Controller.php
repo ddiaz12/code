@@ -24,7 +24,6 @@ class step1_Controller extends CI_Controller {
             $datos = [
                 'ID_tipo_inspeccion'          => $this->input->post('Tipo_Inspeccion'),
                 'Ley_Fomento'                 => $this->input->post('Ley_Fomento'),
-                'Justificacion_Ley_Fomento'   => $this->input->post('Justificacion_Ley_Fomento'),
                 'ID_destinatario'             => $this->input->post('Destinatario'),
                 'ID_lugar_realizacion'        => $this->input->post('Realizada_En'),
                 'Lugar_Realizacion_Otro'      => $this->input->post('Especificar_Realizada_En'),

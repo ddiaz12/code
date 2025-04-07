@@ -27,25 +27,49 @@ $(document).ready(function() {
         filterOficinas();
     });
 
-    // Evento delegados para el botón "Agregar" en la tabla de oficinas.
+    // Evento delegado para el botón "Seleccionar" de la oficina
     $('#oficinasTable').off('click', '.seleccionarOficinaBtn').on('click', '.seleccionarOficinaBtn', function() {
-        // Se espera que el botón tenga un data attribute "data-oficina"
-        let oficina = $(this).data('oficina');
-        console.log('Oficina seleccionada:', oficina);
-        if (!oficina) {
-            console.warn('Oficina es undefined. Revisa data-oficina en el HTML.');
+        // Intentar obtener data-nombre usando .data() y, si no existe, usar .attr()
+        let nombre = $(this).data('nombre') || $(this).attr('data-nombre');
+        if (!nombre) {
+            console.error('El atributo data-oficina o data-nombre no está definido. Verifica el HTML del botón.');
             return;
         }
-        // Agrega la oficina seleccionada a la lista
-        $('#oficinasSeleccionadas').append(`
-            <li class="list-group-item">
-                ${oficina}
-                <button type="button" class="btn btn-danger btn-sm float-right quitarOficinaBtn">
-                    Quitar
-                </button>
-            </li>
-        `);
+        let nvialidad = $(this).data('nvialidad') || $(this).attr('data-nvialidad');
+        let numin    = $(this).data('numin')    || $(this).attr('data-numin');
+        let numeext  = $(this).data('numeext')  || $(this).attr('data-numeext');
+        let entidad  = $(this).data('entidad')  || $(this).attr('data-entidad');
+        let municipio= $(this).data('municipio')|| $(this).attr('data-municipio');
+        
+        // Formar la cadena de dirección (ajustar formato según necesidad)
+        let direccion = nvialidad + ' ' + numin + ' ' + numeext + ' ' + entidad + ' ' + municipio;
+        
+        // Agregar la fila a la tabla de oficinas seleccionadas
+        let fila = `
+            <tr>
+                <td>${nombre}</td>
+                <td>${direccion}</td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm btnEliminarOficina">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+        $('#tablaOficinasSeleccionadas tbody').append(fila);
+        // Mostrar el contenedor de la tabla si estaba oculto
+        $("#oficinasSeleccionadasContainer").show();
+        // Cerrar el modal
         $('#oficinasModal').modal('hide');
+    });
+
+    // Evento para eliminar una fila de la tabla de oficinas seleccionadas
+    $('#tablaOficinasSeleccionadas').on('click', '.btnEliminarOficina', function() {
+        $(this).closest('tr').remove();
+        // Si ya no hay filas, ocultar el contenedor
+        if ($('#tablaOficinasSeleccionadas tbody tr').length === 0) {
+            $("#oficinasSeleccionadasContainer").hide();
+        }
     });
 
     // Cerrar modal al hacer clic en "Aceptar"
