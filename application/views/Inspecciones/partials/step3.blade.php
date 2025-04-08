@@ -80,16 +80,30 @@
 <!-- Sección Derechos -->
 <div class="form-group">
     <label>Derechos del sujeto regulado durante la inspección, verificación o visita domiciliaria</label>
-    <input type="text" id="derechoInput" class="form-control" placeholder="Escribe el derecho">
-    <button type="button" id="agregarDerechoBtn" class="btn btn-primary mt-2">Agregar Derecho</button>
+    <div class="input-group">
+        <input type="text" id="derechoInput" class="form-control" placeholder="Agregar derecho del sujeto regulado">
+        <div class="input-group-append">
+            <button type="button" id="agregarDerechoBtn" class="btn btn-outline-secondary"></button>
+                <i class="fas fa-plus"></i> Agregar
+            </button>
+        </div>
+    </div>
+    <ul id="derechosList" class="list-group mt-2"></ul>
 </div>
 
-<div class="table-responsive mt-3">
+<div class="table-responsive mt-3" id="tablaDerechosContainer" style="display: none;">
     <table class="table table-bordered" id="tablaDerechos">
         <thead>
             <tr>
                 <th>Derecho</th>
                 <th>Tipo de ordenamiento</th>
+                <th>Nombre del Ordenamiento</th>
+                <th>Artículo</th>
+                <th>Inciso</th>
+                <th>Párrafo</th>
+                <th>Número</th>
+                <th>Letra</th>
+                <th>Otros</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -197,7 +211,4 @@
         <option value="si" {{ isset($inspeccion) && $inspeccion->Firmar_Formato == 'si' ? 'selected' : '' }}>Sí</option>
     </select>
 </div>
-<div class="form-group" id="formatoUpload" style="display: none;">
-    <label>Subir formato (PDF, JPG, PNG)</label>
-    <input type="file" name="Archivo_Formato" class="form-control-file" accept=".pdf,.jpg,.png">
-</div>
+<div class="form-group" id="formatoUpload" style="display: none;"></div>

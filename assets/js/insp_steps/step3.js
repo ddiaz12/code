@@ -235,32 +235,33 @@ $(document).ready(function() {
     $('#guardarModalBtn').click(function() {
         let derechoTexto = $('#derechoInput').val();
         derechoTexto = (typeof derechoTexto === 'string' ? derechoTexto.trim() : '');
-
+        
         let tipoOrdenamiento = $('#selectTipoOrdenamiento').val();
         if (tipoOrdenamiento === '') {
             alert('Por favor, seleccione un Tipo de ordenamiento.');
             return;
         }
         
-        // Depurar el valor recibido
+        // Obtener los valores dentro del modal
         let nombreOrdenamiento = $('#modalAgregarDerecho').find('#nombreOrdenamiento').val();
-        console.log("Nombre del Ordenamiento capturado:", nombreOrdenamiento);
-        // Validación sin aplicar trim(), para evitar que espacios en blanco borren el valor
-        if (nombreOrdenamiento === "") {
+        nombreOrdenamiento = (typeof nombreOrdenamiento === 'string' ? nombreOrdenamiento.trim() : '');
+        if (nombreOrdenamiento.length === 0) {
             alert('Por favor, ingrese el Nombre del ordenamiento.');
             return;
         }
         
         let tipoOrdenamientoTexto = $('#selectTipoOrdenamiento option:selected').text();
         
-        let articulo = $('#articulo').val() || '';
-        let fraccion = $('#fraccion').val() || '';
-        let incisio = $('#incisio').val() || '';
-        let parrafo = $('#parrafo').val() || '';
-        let numero = $('#numero').val() || '';
-        let letra = $('#letra').val() || '';
-        let otros = $('#otros').val() || '';
-
+        // Capturar campos opcionales usando .find() del modal
+        let articulo = $('#modalAgregarDerecho').find('#articulo').val() || '';
+        let parrafo  = $('#modalAgregarDerecho').find('#parrafo').val() || '';
+        let numero   = $('#modalAgregarDerecho').find('#numero').val() || '';
+        let letra    = $('#modalAgregarDerecho').find('#letra').val() || '';
+        // Incluso si se usara Fracción e Inciso, puedes aplicarlo de igual forma:
+        let fraccion = $('#modalAgregarDerecho').find('#fraccion').val() || '';
+        let incisio  = $('#modalAgregarDerecho').find('#incisio').val() || '';
+        let otros    = $('#modalAgregarDerecho').find('#otros').val() || '';
+        
         let derechoObj = {
             texto: derechoTexto,
             ID_tOrdJur: tipoOrdenamiento,
@@ -281,7 +282,14 @@ $(document).ready(function() {
         let nuevaFila = `
             <tr>
                 <td>${derechoTexto}</td>
-                <td>${tipoOrdenamientoTexto} - ${nombreOrdenamiento}</td>
+                <td>${tipoOrdenamientoTexto}</td>
+                <td>${nombreOrdenamiento}</td>
+                <td>${articulo}</td>
+                <td>${incisio}</td>
+                <td>${parrafo}</td>
+                <td>${numero}</td>
+                <td>${letra}</td>
+                <td>${otros}</td>
                 <td><button type="button" class="btn btn-danger btn-sm eliminarFila">Eliminar</button></td>
             </tr>
         `;
@@ -289,17 +297,17 @@ $(document).ready(function() {
         
         $("#tablaDerechosContainer").show();
 
-        // Limpiar campos y cerrar modal
+        // Limpiar campos y cerrar modal, usando .find() para limpiar los inputs dentro del modal
         $('#derechoInput').val('');
         $('#selectTipoOrdenamiento').val('');
-        $('#nombreOrdenamiento').val('');
-        $('#articulo').val('');
-        $('#fraccion').val('');
-        $('#incisio').val('');
-        $('#parrafo').val('');
-        $('#numero').val('');
-        $('#letra').val('');
-        $('#otros').val('');
+        $('#modalAgregarDerecho').find('#nombreOrdenamiento').val('');
+        $('#modalAgregarDerecho').find('#articulo').val('');
+        $('#modalAgregarDerecho').find('#fraccion').val('');
+        $('#modalAgregarDerecho').find('#incisio').val('');
+        $('#modalAgregarDerecho').find('#parrafo').val('');
+        $('#modalAgregarDerecho').find('#numero').val('');
+        $('#modalAgregarDerecho').find('#letra').val('');
+        $('#modalAgregarDerecho').find('#otros').val('');
         $('#modalAgregarDerecho').modal('hide');
     });
 
