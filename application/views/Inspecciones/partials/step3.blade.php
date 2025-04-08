@@ -77,19 +77,94 @@
     </div>
 </div>
 
-<!-- Derechos y obligaciones -->
+<!-- Sección Derechos -->
 <div class="form-group">
     <label>Derechos del sujeto regulado durante la inspección, verificación o visita domiciliaria</label>
-    <div class="input-group">
-        <input type="text" name="Derecho_Sujeto_Regulado" class="form-control" placeholder="Agregar derecho del sujeto regulado">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="agregarDerechoBtn">
-                <i class="fas fa-plus"></i> Agregar
-            </button>
-        </div>
-    </div>
-    <ul id="derechosList" class="list-group mt-2"></ul>
+    <input type="text" id="derechoInput" class="form-control" placeholder="Escribe el derecho">
+    <button type="button" id="agregarDerechoBtn" class="btn btn-primary mt-2">Agregar Derecho</button>
 </div>
+
+<div class="table-responsive mt-3">
+    <table class="table table-bordered" id="tablaDerechos">
+        <thead>
+            <tr>
+                <th>Derecho</th>
+                <th>Tipo de ordenamiento</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Filas agregadas dinámicamente -->
+        </tbody>
+    </table>
+</div>
+<input type="hidden" name="step3[derechos]" id="inputDerechosOculto">
+
+<!-- Modal para seleccionar Tipo de ordenamiento -->
+<div id="modalAgregarDerecho" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalAgregarDerechoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAgregarDerechoLabel">Seleccionar Tipo de Ordenamiento</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="selectTipoOrdenamiento">Tipo de ordenamiento:</label>
+          <select id="selectTipoOrdenamiento" class="form-control">
+            <option value="">Seleccione...</option>
+            @if(isset($cat_tipo_ord_jur) && count($cat_tipo_ord_jur) > 0)
+              @foreach($cat_tipo_ord_jur as $tipo)
+                <option value="{{ $tipo->ID_tOrdJur }}">{{ $tipo->Tipo_Ordenamiento }}</option>
+              @endforeach
+            @endif
+          </select>
+        </div>
+        <!-- Campos opcionales -->
+        <div class="form-group">
+          <label for="nombreOrdenamiento">Nombre del Ordenamiento:</label>
+          <input type="text" id="nombreOrdenamiento" class="form-control" placeholder="Nombre del Ordenamiento">
+        </div>
+        <div class="form-group">
+          <label for="articulo">Artículo:</label>
+          <input type="text" id="articulo" class="form-control" placeholder="Artículo">
+        </div>
+        <div class="form-group">
+          <label for="fraccion">Fracción:</label>
+          <input type="text" id="fraccion" class="form-control" placeholder="Fracción">
+        </div>
+        <div class="form-group">
+          <label for="incisio">Inciso:</label>
+          <input type="text" id="incisio" class="form-control" placeholder="Inciso">
+        </div>
+        <div class="form-group">
+          <label for="parrafo">Párrafo:</label>
+          <input type="text" id="parrafo" class="form-control" placeholder="Párrafo">
+        </div>
+        <div class="form-group">
+          <label for="numero">Número:</label>
+          <input type="number" id="numero" class="form-control" placeholder="Número">
+        </div>
+        <div class="form-group">
+          <label for="letra">Letra:</label>
+          <input type="text" id="letra" class="form-control" placeholder="Letra">
+        </div>
+        <div class="form-group">
+          <label for="otros">Otros:</label>
+          <input type="text" id="otros" class="form-control" placeholder="Otros">
+        </div>
+        <!-- Fin campos opcionales -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" id="guardarModalBtn" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin sección Derechos -->
 
 <div class="form-group">
     <label>Obligaciones que debe cumplir el sujeto regulado</label>
@@ -104,7 +179,7 @@
     <ul id="obligacionesList" class="list-group mt-2"></ul>
 </div>
 
-<!-- Fundamento Jurídico "Genérico" (puedes omitir si ya usas el modal) -->
+<!-- Fundamento Jurídico -->
 <div class="form-group">
     <label>Fundamento Jurídico de la existencia de la inspección, verificación o visita domiciliaria:<span class="text-danger">*</span></label>
     <div class="input-group">

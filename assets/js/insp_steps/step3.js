@@ -99,20 +99,20 @@ $(document).ready(function() {
      * Derechos y Obligaciones
      **********************/
     // Agregar Derecho
-    $('#agregarDerechoBtn').click(function() {
-        let derecho = $('input[name="Derecho_Sujeto_Regulado"]').val().trim();
-        if (derecho) {
-            $('#derechosList').append(
-                `<li class="list-group-item">
-                    ${derecho}
-                    <button type="button" class="btn btn-danger btn-sm float-right quitarDerechoBtn">
-                        Quitar
-                    </button>
-                </li>`
-            );
-            $('input[name="Derecho_Sujeto_Regulado"]').val('');
-        }
-    });
+    // $('#agregarDerechoBtn').click(function() {
+    //     let derecho = $('input[name="Derecho_Sujeto_Regulado"]').val().trim();
+    //     if (derecho) {
+    //         $('#derechosList').append(
+    //             `<li class="list-group-item">
+    //                 ${derecho}
+    //                 <button type="button" class="btn btn-danger btn-sm float-right quitarDerechoBtn">
+    //                     Quitar
+    //                 </button>
+    //             </li>`
+    //         );
+    //         $('input[name="Derecho_Sujeto_Regulado"]').val('');
+    //     }
+    // });
 
     // Quitar Derecho
     $('#derechosList').on('click', '.quitarDerechoBtn', function() {
@@ -199,4 +199,118 @@ $(document).ready(function() {
 
     // Hacer que la función esté disponible globalmente
     window.validateInfSobreInspeccion = validateInfSobreInspeccion;
+
+    // Arreglo para almacenar los derechos agregados
+    let derechosArray = [];
+
+    // Habilitar/deshabilitar el botón "Agregar Derecho" según el contenido del campo "derechoInput"
+    $('#derechoInput').on('input', function() {
+        let texto = $(this).val().trim();
+        if (texto === "") {
+            $('#agregarDerechoBtn').prop('disabled', true).css('background-color', 'grey');
+        } else {
+            $('#agregarDerechoBtn').prop('disabled', false).css('background-color', '');
+        }
+    });
+
+    // Asegurarse de que el botón inicie deshabilitado si el campo está vacío
+    if ($('#derechoInput').val().trim() === "") {
+        $('#agregarDerechoBtn').prop('disabled', true).css('background-color', 'grey');
+    }
+    
+    // Al hacer clic en el botón "Agregar Derecho"
+    $('#agregarDerechoBtn').click(function() {
+        let derechoTexto = $('#derechoInput').val();
+        // Si el valor es undefined, asignar cadena vacía y usar trim
+        derechoTexto = (typeof derechoTexto === 'string' ? derechoTexto.trim() : '');
+        if (derechoTexto === '') {
+            alert('Por favor, escribe un derecho.');
+            return;
+        }
+        // Abrir el modal para seleccionar el tipo de ordenamiento
+        $('#modalAgregarDerecho').modal('show');
+    });
+
+    // Al confirmar en el modal
+    $('#guardarModalBtn').click(function() {
+        let derechoTexto = $('#derechoInput').val();
+        derechoTexto = (typeof derechoTexto === 'string' ? derechoTexto.trim() : '');
+
+        let tipoOrdenamiento = $('#selectTipoOrdenamiento').val();
+        if (tipoOrdenamiento === '') {
+            alert('Por favor, seleccione un Tipo de ordenamiento.');
+            return;
+        }
+        
+        // Depurar el valor recibido
+        let nombreOrdenamiento = $('#modalAgregarDerecho').find('#nombreOrdenamiento').val();
+        console.log("Nombre del Ordenamiento capturado:", nombreOrdenamiento);
+        // Validación sin aplicar trim(), para evitar que espacios en blanco borren el valor
+        if (nombreOrdenamiento === "") {
+            alert('Por favor, ingrese el Nombre del ordenamiento.');
+            return;
+        }
+        
+        let tipoOrdenamientoTexto = $('#selectTipoOrdenamiento option:selected').text();
+        
+        let articulo = $('#articulo').val() || '';
+        let fraccion = $('#fraccion').val() || '';
+        let incisio = $('#incisio').val() || '';
+        let parrafo = $('#parrafo').val() || '';
+        let numero = $('#numero').val() || '';
+        let letra = $('#letra').val() || '';
+        let otros = $('#otros').val() || '';
+
+        let derechoObj = {
+            texto: derechoTexto,
+            ID_tOrdJur: tipoOrdenamiento,
+            TipoOrdenamiento: tipoOrdenamientoTexto,
+            NombreOrdenamiento: nombreOrdenamiento,
+            Articulo: articulo,
+            Fraccion: fraccion,
+            Incisio: incisio,
+            Parrafo: parrafo,
+            Numero: numero,
+            Letra: letra,
+            Otros: otros
+        };
+
+        derechosArray.push(derechoObj);
+        $('#inputDerechosOculto').val(JSON.stringify(derechosArray));
+        
+        let nuevaFila = `
+            <tr>
+                <td>${derechoTexto}</td>
+                <td>${tipoOrdenamientoTexto} - ${nombreOrdenamiento}</td>
+                <td><button type="button" class="btn btn-danger btn-sm eliminarFila">Eliminar</button></td>
+            </tr>
+        `;
+        $('#tablaDerechos tbody').append(nuevaFila);
+        
+        $("#tablaDerechosContainer").show();
+
+        // Limpiar campos y cerrar modal
+        $('#derechoInput').val('');
+        $('#selectTipoOrdenamiento').val('');
+        $('#nombreOrdenamiento').val('');
+        $('#articulo').val('');
+        $('#fraccion').val('');
+        $('#incisio').val('');
+        $('#parrafo').val('');
+        $('#numero').val('');
+        $('#letra').val('');
+        $('#otros').val('');
+        $('#modalAgregarDerecho').modal('hide');
+    });
+
+    // Permitir eliminar una fila y quitar el derecho del array
+    $('#tablaDerechos').on('click', '.eliminarFila', function() {
+        let rowIndex = $(this).closest('tr').index();
+        // Eliminar del array
+        derechosArray.splice(rowIndex, 1);
+        // Actualizar el input oculto
+        $('#inputDerechosOculto').val(JSON.stringify(derechosArray));
+        // Eliminar la fila de la tabla
+        $(this).closest('tr').remove();
+    });
 });

@@ -39,6 +39,12 @@ class Step3_Controller extends CI_Controller {
 
         // Guardar la información usando el modelo
         if ($this->step3_Model->guardar_informacion($id_inspeccion, $data)) {
+            // Si se envían derechos desde el Step 3
+            if (isset($_POST['step3']['derechos'])) {
+                $derechosJson = $_POST['step3']['derechos'];
+                $derechosArray = json_decode($derechosJson, true);
+                $this->step3_Model->guardar_info_derechos($id_inspeccion, $derechosArray);
+            }
             $this->session->set_flashdata('success', 'Datos del Step 3 guardados correctamente.');
         } else {
             $this->session->set_flashdata('error', 'Error al guardar los datos del Step 3.');
