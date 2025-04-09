@@ -33,4 +33,25 @@ class Step3_Model extends CI_Model {
             $this->db->insert('rel_ins_info_derechos', $data);
         }
     }
+
+    // Nuevo método para guardar obligaciones del Step 3
+    public function guardar_info_obligaciones($id_inspeccion, $obligaciones) {
+        // Eliminar registros previos para esta inspección
+        $this->db->where('ID_inspeccion', $id_inspeccion);
+        $this->db->delete('rel_ins_info_obligaciones');
+        
+        // Insertar cada obligación
+        foreach ($obligaciones as $obl) {
+            $data = [
+                'ID_inspeccion'       => $id_inspeccion,
+                'Obligacion'          => $obl['obligacion'],         // Texto ingresado
+                'ID_tOrdJur'          => $obl['ID_tOrdJur'],         // Clave foránea del catálogo
+                'Nombre_Ordenamiento' => $obl['TipoOrdenamiento'],   // Texto del tipo seleccionado
+                'Articulo'            => isset($obl['Articulo']) ? $obl['Articulo'] : null,
+                'Fraccion'            => isset($obl['Fraccion']) ? $obl['Fraccion'] : null,
+                // Agrega más campos si es necesario (Inciso, Párrafo, etc.)
+            ];
+            $this->db->insert('rel_ins_info_obligaciones', $data);
+        }
+    }
 }

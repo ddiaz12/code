@@ -15,6 +15,9 @@ $(document).ready(function() {
         }
     }
 
+    // Declarar el arreglo global para almacenar las obligaciones
+    let obligacionesArray = [];
+
     /**********************
      * Sujetos Obligados
      **********************/
@@ -98,47 +101,133 @@ $(document).ready(function() {
     /**********************
      * Derechos y Obligaciones
      **********************/
-    // Agregar Derecho
-    // $('#agregarDerechoBtn').click(function() {
-    //     let derecho = $('input[name="Derecho_Sujeto_Regulado"]').val().trim();
-    //     if (derecho) {
-    //         $('#derechosList').append(
-    //             `<li class="list-group-item">
-    //                 ${derecho}
-    //                 <button type="button" class="btn btn-danger btn-sm float-right quitarDerechoBtn">
-    //                     Quitar
-    //                 </button>
-    //             </li>`
-    //         );
-    //         $('input[name="Derecho_Sujeto_Regulado"]').val('');
-    //     }
-    // });
+    // Inicialmente deshabilitar el botón "Agregar Derecho"
+    $('input[name="Derecho_Sujeto_Regulado"]').prop('disabled', false); // Aseguramos que el input esté disponible
+    $('#agregarDerechoBtn').prop('disabled', true);
+
+    // Activar/desactivar el botón "Agregar Derecho" según el contenido del input
+    $('input[name="Derecho_Sujeto_Regulado"]').on('input', function() {
+        let valor = $(this).val().trim();
+        if (valor !== "") {
+            $('#agregarDerechoBtn').prop('disabled', false);
+        } else {
+            $('#agregarDerechoBtn').prop('disabled', true);
+        }
+    });
 
     // Quitar Derecho
     $('#derechosList').on('click', '.quitarDerechoBtn', function() {
         $(this).parent().remove();
     });
 
-    // Agregar Obligación
-    $('#agregarObligacionBtn').click(function() {
-        let obligacion = $('input[name="Obligacion_Sujeto_Regulado"]').val().trim();
-        if (obligacion) {
-            $('#obligacionesList').append(
-                `<li class="list-group-item">
-                    ${obligacion}
-                    <button type="button" class="btn btn-danger btn-sm float-right quitarObligacionBtn">
-                        Quitar
-                    </button>
-                </li>`
-            );
-            $('input[name="Obligacion_Sujeto_Regulado"]').val('');
+    // Inicialmente deshabilitar el botón "Agregar Obligación"
+    $('#agregarObligacionBtn').prop('disabled', true);
+
+    // Activar/desactivar el botón "Agregar Obligación" según el contenido del input
+    $('#obligacionInput').on('input', function() {
+        let obligacionTexto = $(this).val().trim();
+        if (obligacionTexto !== "") {
+            $('#agregarObligacionBtn').prop('disabled', false);
+        } else {
+            $('#agregarObligacionBtn').prop('disabled', true);
         }
     });
 
-    // Quitar Obligación
-    $('#obligacionesList').on('click', '.quitarObligacionBtn', function() {
-        $(this).parent().remove();
+    // Función para actualizar la visibilidad de la tabla de obligaciones
+    function actualizarVisibilidadTablaObligaciones() {
+        if ($('#tablaObligaciones tbody tr').length === 0) {
+            $('#tablaObligaciones').hide(); // Oculta la tabla si no hay filas
+        } else {
+            $('#tablaObligaciones').show(); // Muestra la tabla si hay filas
+        }
+    }
+
+    // Al hacer clic en "Agregar Obligación"
+    $('#agregarObligacionBtn').click(function() {
+        let obligacionTexto = $('#obligacionInput').val();
+        if (!obligacionTexto || obligacionTexto.trim() === '') {
+            alert('Por favor, escribe una obligación.');
+            return;
+        }
+        $('#modalAgregarObligacion').modal('show');
     });
+
+    // En el modal, al confirmar "Guardar"
+    $('#guardarObligacionModalBtn').click(function() {
+        let obligacionTexto = $('#obligacionInput').val().trim();
+        let idTipoOrd = $('#selectTipoOrdenamientoObligacion').val();
+        let tipoOrdTexto = $('#selectTipoOrdenamientoObligacion option:selected').text();
+        let articulo = $('#inputArticuloObligacion').val().trim();
+        let inciso = $('#inputIncisoObligacion').val().trim();
+        let parrafo = $('#inputParrafoObligacion').val().trim();
+        let numero = $('#inputNumeroObligacion').val().trim();
+        let letra = $('#inputLetraObligacion').val().trim();
+        let otros = $('#inputOtrosObligacion').val().trim();
+
+        if (!idTipoOrd) {
+            alert('Seleccione un tipo de ordenamiento.');
+            return;
+        }
+
+        let obligacionObj = {
+            obligacion: obligacionTexto,
+            ID_tOrdJur: idTipoOrd,
+            TipoOrdenamiento: tipoOrdTexto,
+            NombreOrdenamiento: $('#nombreOrdenamientoObligacion').val(),
+            Articulo: articulo,
+            Inciso: inciso,
+            Parrafo: parrafo,
+            Numero: numero,
+            Letra: letra,
+            Otros: otros
+        };
+
+        obligacionesArray.push(obligacionObj);
+        $('#inputObligacionesOculto').val(JSON.stringify(obligacionesArray));
+
+        let nuevaFila = `
+            <tr>
+                <td>${obligacionTexto}</td>
+                <td>${tipoOrdTexto}</td>
+                <td>${$('#nombreOrdenamientoObligacion').val()}</td>
+                <td>${articulo}</td>
+                <td>${inciso}</td>
+                <td>${parrafo}</td>
+                <td>${numero}</td>
+                <td>${letra}</td>
+                <td>${otros}</td>
+                <td><button type="button" class="btn btn-danger btn-sm eliminarObligacion">Eliminar</button></td>
+            </tr>
+        `;
+        $('#tablaObligaciones tbody').append(nuevaFila);
+
+        // Actualiza la visibilidad de la tabla
+        actualizarVisibilidadTablaObligaciones();
+
+        $('#selectTipoOrdenamientoObligacion').val('');
+        $('#inputArticuloObligacion').val('');
+        $('#inputIncisoObligacion').val('');
+        $('#inputParrafoObligacion').val('');
+        $('#inputNumeroObligacion').val('');
+        $('#inputLetraObligacion').val('');
+        $('#inputOtrosObligacion').val('');
+        $('#modalAgregarObligacion').modal('hide');
+        $('#obligacionInput').val('');
+    });
+
+    // Eliminar fila de la tabla y actualizar el arreglo
+    $('#tablaObligaciones').on('click', '.eliminarObligacion', function() {
+        let rowIndex = $(this).closest('tr').index();
+        obligacionesArray.splice(rowIndex, 1);
+        $('#inputObligacionesOculto').val(JSON.stringify(obligacionesArray));
+        $(this).closest('tr').remove();
+
+        // Actualiza la visibilidad de la tabla
+        actualizarVisibilidadTablaObligaciones();
+    });
+
+    // Inicializa la visibilidad de la tabla al cargar la página
+    actualizarVisibilidadTablaObligaciones();
 
     /**********************
      * Firmar Formato y Validación de Archivo
@@ -148,9 +237,12 @@ $(document).ready(function() {
         let show = $(this).val() === 'si';
         toggleContainer('#formatoUpload', 'input[name="Archivo_Formato"]', show);
     });
-    // Ejecutar al cargar la página
+
+    // Ejecutar al cargar la página para establecer el estado inicial
     if ($('select[name="Firmar_Formato"]').val() === 'si') {
         toggleContainer('#formatoUpload', 'input[name="Archivo_Formato"]', true);
+    } else {
+        toggleContainer('#formatoUpload', 'input[name="Archivo_Formato"]', false);
     }
 
     // Validar el tipo de archivo al cargar el input
@@ -242,25 +334,31 @@ $(document).ready(function() {
             return;
         }
         
-        // Obtener los valores dentro del modal
-        let nombreOrdenamiento = $('#modalAgregarDerecho').find('#nombreOrdenamiento').val();
-        nombreOrdenamiento = (typeof nombreOrdenamiento === 'string' ? nombreOrdenamiento.trim() : '');
-        if (nombreOrdenamiento.length === 0) {
+        // Verificar que el input exista dentro del modal
+        let nombreOrdenamientoElem = $('#modalAgregarDerecho').find('#nombreOrdenamiento');
+        if(nombreOrdenamientoElem.length === 0) {
+            alert('El campo "Nombre del ordenamiento" no se encuentra en el modal.');
+            return;
+        }
+        let nombreOrdenamiento = nombreOrdenamientoElem.val();
+        if (typeof nombreOrdenamiento !== 'string') {
+            nombreOrdenamiento = "";
+        } else {
+            nombreOrdenamiento = nombreOrdenamiento.trim();
+        }
+        if (nombreOrdenamiento === "") {
             alert('Por favor, ingrese el Nombre del ordenamiento.');
             return;
         }
+                let tipoOrdenamientoTexto = $('#selectTipoOrdenamiento option:selected').text();
         
-        let tipoOrdenamientoTexto = $('#selectTipoOrdenamiento option:selected').text();
-        
-        // Capturar campos opcionales usando .find() del modal
         let articulo = $('#modalAgregarDerecho').find('#articulo').val() || '';
-        let parrafo  = $('#modalAgregarDerecho').find('#parrafo').val() || '';
-        let numero   = $('#modalAgregarDerecho').find('#numero').val() || '';
-        let letra    = $('#modalAgregarDerecho').find('#letra').val() || '';
-        // Incluso si se usara Fracción e Inciso, puedes aplicarlo de igual forma:
         let fraccion = $('#modalAgregarDerecho').find('#fraccion').val() || '';
-        let incisio  = $('#modalAgregarDerecho').find('#incisio').val() || '';
-        let otros    = $('#modalAgregarDerecho').find('#otros').val() || '';
+        let incisio = $('#modalAgregarDerecho').find('#incisio').val() || '';
+        let parrafo = $('#modalAgregarDerecho').find('#parrafo').val() || '';
+        let numero = $('#modalAgregarDerecho').find('#numero').val() || '';
+        let letra = $('#modalAgregarDerecho').find('#letra').val() || '';
+        let otros = $('#modalAgregarDerecho').find('#otros').val() || '';
         
         let derechoObj = {
             texto: derechoTexto,
@@ -275,7 +373,7 @@ $(document).ready(function() {
             Letra: letra,
             Otros: otros
         };
-
+        
         derechosArray.push(derechoObj);
         $('#inputDerechosOculto').val(JSON.stringify(derechosArray));
         
@@ -297,7 +395,7 @@ $(document).ready(function() {
         
         $("#tablaDerechosContainer").show();
 
-        // Limpiar campos y cerrar modal, usando .find() para limpiar los inputs dentro del modal
+        // Limpiar campos y cerrar modal
         $('#derechoInput').val('');
         $('#selectTipoOrdenamiento').val('');
         $('#modalAgregarDerecho').find('#nombreOrdenamiento').val('');

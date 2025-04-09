@@ -180,17 +180,102 @@
 </div>
 <!-- Fin sección Derechos -->
 
+<!-- Sección Obligaciones -->
 <div class="form-group">
     <label>Obligaciones que debe cumplir el sujeto regulado</label>
     <div class="input-group">
-        <input type="text" name="Obligacion_Sujeto_Regulado" class="form-control" placeholder="Agregar obligaciones">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="agregarObligacionBtn">
-                <i class="fas fa-plus"></i> Agregar
-            </button>
-        </div>
+        <input type="text" id="obligacionInput" class="form-control" placeholder="Escribe la obligación">
+        <button type="button" id="agregarObligacionBtn" class="btn btn-primary mt-2" disabled>Agregar Obligación</button>
     </div>
-    <ul id="obligacionesList" class="list-group mt-2"></ul>
+</div>
+
+<div class="table-responsive mt-3">
+    <table class="table table-bordered" id="tablaObligaciones">
+        <thead>
+            <tr>
+                <th>Obligación</th>
+                <th>Tipo de ordenamiento</th>
+                <th>Nombre del ordenamiento</th> <!-- Nueva columna -->
+                <th>Artículo</th>
+                <th>Inciso</th>
+                <th>Párrafo</th>
+                <th>Número</th>
+                <th>Letra</th>
+                <th>Otros</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Filas agregadas dinámicamente -->
+        </tbody>
+    </table>
+</div>
+<input type="hidden" name="step3[obligaciones]" id="inputObligacionesOculto">
+
+<!-- Modal para capturar datos de la Obligación -->
+<div class="modal fade" id="modalAgregarObligacion" tabindex="-1" role="dialog" aria-labelledby="modalAgregarObligacionLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAgregarObligacionLabel">Datos de la Obligación</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Tipo de ordenamiento -->
+        <div class="form-group">
+          <label for="selectTipoOrdenamientoObligacion">Tipo de ordenamiento:</label>
+          <select id="selectTipoOrdenamientoObligacion" class="form-control">
+            <option value="">Seleccione...</option>
+            @if(isset($cat_tipo_ord_jur) && count($cat_tipo_ord_jur) > 0)
+              @foreach($cat_tipo_ord_jur as $tipo)
+                <option value="{{ $tipo->ID_tOrdJur }}">{{ $tipo->Tipo_Ordenamiento }}</option>
+              @endforeach
+            @endif
+          </select>
+        </div>
+        <!-- Campo: Nombre del ordenamiento -->
+        <div class="form-group">
+          <label for="nombreOrdenamientoObligacion">Nombre del Ordenamiento:</label>
+          <input type="text" id="nombreOrdenamientoObligacion" class="form-control" placeholder="Nombre del Ordenamiento">
+        </div>
+        <!-- Opcionales: Artículo, Fracción, Inciso, Párrafo, Número, Letra, Otros -->
+        <div class="form-group">
+          <label for="inputArticuloObligacion">Artículo:</label>
+          <input type="text" id="inputArticuloObligacion" class="form-control" placeholder="Artículo">
+        </div>
+        <div class="form-group">
+          <label for="inputFraccionObligacion">Fracción:</label>
+          <input type="text" id="inputFraccionObligacion" class="form-control" placeholder="Fracción">
+        </div>
+        <div class="form-group">
+          <label for="inputIncisoObligacion">Inciso:</label>
+          <input type="text" id="inputIncisoObligacion" class="form-control" placeholder="Inciso">
+        </div>
+        <div class="form-group">
+          <label for="inputParrafoObligacion">Párrafo:</label>
+          <input type="text" id="inputParrafoObligacion" class="form-control" placeholder="Párrafo">
+        </div>
+        <div class="form-group">
+          <label for="inputNumeroObligacion">Número:</label>
+          <input type="number" id="inputNumeroObligacion" class="form-control" placeholder="Número">
+        </div>
+        <div class="form-group">
+          <label for="inputLetraObligacion">Letra:</label>
+          <input type="text" id="inputLetraObligacion" class="form-control" placeholder="Letra">
+        </div>
+        <div class="form-group">
+          <label for="inputOtrosObligacion">Otros:</label>
+          <input type="text" id="inputOtrosObligacion" class="form-control" placeholder="Otros">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" id="guardarObligacionModalBtn" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Fundamento Jurídico -->
@@ -211,4 +296,7 @@
         <option value="si" {{ isset($inspeccion) && $inspeccion->Firmar_Formato == 'si' ? 'selected' : '' }}>Sí</option>
     </select>
 </div>
-<div class="form-group" id="formatoUpload" style="display: none;"></div>
+<div class="form-group" id="formatoUpload" style="display: none;">
+    <label>Subir formato (PDF, JPG, PNG):</label>
+    <input type="file" name="Archivo_Formato" class="form-control-file" accept=".pdf,.jpg,.png">
+</div>
