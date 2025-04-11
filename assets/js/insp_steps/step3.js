@@ -127,11 +127,18 @@ $(document).ready(function() {
     $('#obligacionInput').on('input', function() {
         let obligacionTexto = $(this).val().trim();
         if (obligacionTexto !== "") {
-            $('#agregarObligacionBtn').prop('disabled', false);
+            $('#agregarObligacionBtn').prop('disabled', false).css('background-color', '#8E354A');
         } else {
-            $('#agregarObligacionBtn').prop('disabled', true);
+            $('#agregarObligacionBtn').prop('disabled', true).css('background-color', 'grey');
         }
     });
+
+    // Asegurarse de que el botón "Agregar Obligación" inicie con el color correcto
+    if ($('#obligacionInput').val().trim() === "") {
+        $('#agregarObligacionBtn').prop('disabled', true).css('background-color', 'grey');
+    } else {
+        $('#agregarObligacionBtn').prop('disabled', false).css('background-color', '#8E354A');
+    }
 
     // Función para actualizar la visibilidad de la tabla de obligaciones
     function actualizarVisibilidadTablaObligaciones() {
@@ -301,13 +308,15 @@ $(document).ready(function() {
         if (texto === "") {
             $('#agregarDerechoBtn').prop('disabled', true).css('background-color', 'grey');
         } else {
-            $('#agregarDerechoBtn').prop('disabled', false).css('background-color', '');
+            $('#agregarDerechoBtn').prop('disabled', false).css('background-color', '#8E354A');
         }
     });
 
-    // Asegurarse de que el botón inicie deshabilitado si el campo está vacío
+    // Asegurarse de que el botón "Agregar Derecho" inicie con el color correcto
     if ($('#derechoInput').val().trim() === "") {
         $('#agregarDerechoBtn').prop('disabled', true).css('background-color', 'grey');
+    } else {
+        $('#agregarDerechoBtn').prop('disabled', false).css('background-color', '#8E354A');
     }
     
     // Al hacer clic en el botón "Agregar Derecho"
