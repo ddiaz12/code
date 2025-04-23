@@ -283,20 +283,57 @@ $(document).ready(function() {
     // Función de validación para el Step 3
     // ===============================
     function validateInfSobreInspeccion() {
-        let valid = true;
-        // Solo validar los campos requeridos que estén visibles en el contenedor del step 3
-        $('#step-inf_sobre_inspeccion input[required]:visible, #step-inf_sobre_inspeccion select[required]:visible, #step-inf_sobre_inspeccion textarea[required]:visible').each(function() {
-            if ($(this).val().trim() === "") {
+        let valid = true,
+            faltan = [];
+
+        // 1) todos los campos required que estén visibles dentro de #step-3
+        $('#step-3 input[required]:visible,' +
+          '#step-3 select[required]:visible,' +
+          '#step-3 textarea[required]:visible')
+        .each(function() {
+            if (!$(this).val().trim()) {
                 valid = false;
                 $(this).addClass('is-invalid');
+                // extraer label sin el asterisco
+                const label = $(this)
+                  .closest('.form-group')
+                  .find('label')
+                  .text()
+                  .replace('*','')
+                  .trim();
+                faltan.push(label);
             } else {
                 $(this).removeClass('is-invalid');
             }
         });
+
+        // 2) al menos un Derecho
+        const derechos = JSON.parse($('#inputDerechosOculto').val() || '[]');
+        if (derechos.length === 0) {
+            valid = false;
+            faltan.push('Al menos un Derecho');
+        }
+
+        // 3) al menos una Obligación
+        const obligaciones = JSON.parse($('#inputObligacionesOculto').val() || '[]');
+        if (obligaciones.length === 0) {
+            valid = false;
+            faltan.push('Al menos una Obligación');
+        }
+
+        if (!valid) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Faltan campos obligatorios',
+                html: `<p>Por favor completa:</p>
+                       <ul>${faltan.map(f=>`<li>${f}</li>`).join('')}</ul>`,
+                confirmButtonColor: '#8E354A'
+            });
+        }
         return valid;
     }
 
-    // Hacer que la función esté disponible globalmente
+    // Exponerla para validateStep.js
     window.validateInfSobreInspeccion = validateInfSobreInspeccion;
 
     // Arreglo para almacenar los derechos agregados

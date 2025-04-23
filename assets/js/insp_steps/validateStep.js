@@ -1,24 +1,16 @@
 var currentStep = 1;
-var totalSteps = 9; // O el número de steps que tengas
+var totalSteps = 9; // El número total de pasos
 
 function validateStep(step) {
     // Step 1: Datos de Identificación
     if (step === 1) {
         return validateDatosIdentificacion();
     }
-    // Step 2: Autoridad Pública (sin campos obligatorios)
+    // Step 2: Autoridad Pública (sin validación extra)
     else if (step === 2) {
-        let formData = {};
-        $('#step-2 :input').each(function() {
-            let fieldName = $(this).attr('name');
-            if (fieldName) {
-                formData[fieldName] = $(this).val();
-            }
-        });
-        console.log('Datos del Step 2 guardados:', formData);
         return true;
     }
-    // Step 3: Información sobre la Inspección
+    // Step 3: Información sobre la inspección
     else if (step === 3) {
         return validateInfSobreInspeccion();
     }
@@ -26,15 +18,15 @@ function validateStep(step) {
     else if (step === 4) {
         return validateMasdetalleStep();
     }
-    // Step 5: Información de la Autoridad Pública y Contacto
+    // Step 5: Autoridad Pública y Contacto
     else if (step === 5) {
         return validateInfAutPubContacto();
     }
     // Step 6: Estadísticas
     else if (step === 6) {
         let valid = true;
-        $('#step-estadisticas [required]:visible').each(function() {
-            if (!$(this).val() || $(this).val().trim() === "") {
+        $('#step-6 [required]:visible').each(function() {
+            if (!$(this).val().trim()) {
                 $(this).addClass('is-invalid');
                 valid = false;
             } else {
@@ -45,29 +37,21 @@ function validateStep(step) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos requeridos',
-                text: 'Por favor complete todos los campos obligatorios.',
+                text: 'Por favor completa todos los campos obligatorios.',
                 confirmButtonColor: '#8E354A'
             });
         }
         return valid;
     }
-    // Step 7: Información adicional (sin campos obligatorios)
+    // Step 7: Información adicional (sin validación extra)
     else if (step === 7) {
-        let formData = {};
-        $('#step-7 :input').each(function() {
-            let fieldName = $(this).attr('name');
-            if (fieldName) {
-                formData[fieldName] = $(this).val();
-            }
-        });
-        console.log('Datos del Step 7 guardados:', formData);
         return true;
     }
-    // Step 8: No Publicidad
+    // Step 8: No publicidad
     else if (step === 8) {
         let valid = true;
-        $('#step-no_publicidad [required]:visible').each(function() {
-            if (!$(this).val() || $(this).val().trim() === "") {
+        $('#step-8 [required]:visible').each(function() {
+            if (!$(this).val().trim()) {
                 $(this).addClass('is-invalid');
                 valid = false;
             } else {
@@ -78,28 +62,21 @@ function validateStep(step) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos requeridos',
-                text: 'Por favor complete todos los campos obligatorios.',
+                text: 'Por favor completa todos los campos obligatorios.',
                 confirmButtonColor: '#8E354A'
             });
         }
         return valid;
     }
-    // Step 9: Emergencias (sin campos obligatorios)
+    // Step 9: Emergencias (sin validación extra)
     else if (step === 9) {
-        let formData = {};
-        $('#step-emergencias :input').each(function() {
-            let fieldName = $(this).attr('name');
-            if (fieldName) {
-                formData[fieldName] = $(this).val();
-            }
-        });
-        console.log('Datos del Step 9 guardados:', formData);
         return true;
     }
+    // Por defecto si añadieras más pasos
     else {
         let valid = true;
         $('#step-' + step + ' [required]:visible').each(function() {
-            if (!$(this).val() || $(this).val().trim() === "") {
+            if (!$(this).val().trim()) {
                 $(this).addClass('is-invalid');
                 valid = false;
             } else {
@@ -111,36 +88,22 @@ function validateStep(step) {
 }
 
 function navigateStep(direction) {
-    if (!validateStep(currentStep)) {
-        return;
-    }
-    
-    let formData = {};
-    $('#' + getStepContainer(currentStep) + ' :input').each(function() {
-        let fieldName = $(this).attr('name');
-        if (fieldName) {
-            formData[fieldName] = $(this).val();
-        }
-    });
-    console.log('Datos del Step ' + currentStep + ' guardados:', formData);
-    
+    if (!validateStep(currentStep)) return;
+
+    // avanzar o retroceder
     const newStep = currentStep + direction;
     if (newStep >= 1 && newStep <= totalSteps) {
         showStep(newStep);
     }
 }
 
+// Ajuste para que recoja inputs del paso correcto
 function getStepContainer(step) {
-    if (step === 3) return 'step-inf_sobre_inspeccion';
-    else if (step === 6) return 'step-estadisticas';
-    else if (step === 7) return 'step-7';
-    else if (step === 8) return 'step-no_publicidad';
-    else if (step === 9) return 'step-emergencias';
-    else return 'step-' + step;
+    // usamos siempre el mismo id="step-#"
+    return 'step-' + step;
 }
 
+// Enlace con el formulario (para bloqueo de submit)
 $('form').off('submit').on('submit', function(e) {
-    if (!validateStep(currentStep)) {
-        e.preventDefault();
-    }
+    if (!validateStep(currentStep)) e.preventDefault();
 });
