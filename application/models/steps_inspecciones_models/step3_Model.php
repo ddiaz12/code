@@ -7,51 +7,85 @@ class Step3_Model extends CI_Model {
         parent::__construct();
     }
 
-    // Guarda o actualiza la información del Step 3
+    /**
+     * Inserta o reemplaza la info principal en rel_ins_informacion
+     *
+     * @param int   $id_inspeccion
+     * @param array $data  Claves: Elemento_Inspeccionado, Otros_Sujetos_Obligados, Formato_Firma, Formato_Archivo
+     * @return bool
+     */
     public function guardar_informacion($id_inspeccion, $data) {
-        // Agregar la llave foránea
-        $data['ID_inspeccion'] = $id_inspeccion;
-        // Eliminar registro previo (si existe)
-        $this->db->where('ID_inspeccion', $id_inspeccion);
-        $this->db->delete('rel_ins_informacion');
-        // Insertar nuevos datos
-        return $this->db->insert('rel_ins_informacion', $data);
+        $insert = [
+            'ID_inspeccion'          => $id_inspeccion,
+            'Elemento_Inspeccionado' => $data['Elemento_Inspeccionado']    ?? '',
+            'Otros_Sujetos_Obligados'=> $data['Otros_Sujetos_Obligados']   ?? 'No',
+            'Formato_Firma'          => $data['Formato_Firma']             ?? 'No',
+            'Formato_Archivo'        => $data['Formato_Archivo']           ?? null,
+        ];
+
+        // Borra la fila previa
+        $this->db->where('ID_inspeccion', $id_inspeccion)
+                 ->delete('rel_ins_informacion');
+
+        // Inserta la nueva
+        return $this->db->insert('rel_ins_informacion', $insert);
     }
 
-    // Nuevo método para guardar derechos del Step 3
-    public function guardar_info_derechos($id_inspeccion, $derechos) {
-        $this->db->where('ID_inspeccion', $id_inspeccion);
-        $this->db->delete('rel_ins_info_derechos');
-        foreach ($derechos as $derecho) {
-            $data = [
-                'ID_inspeccion'        => $id_inspeccion,
-                'Derecho'              => $derecho['texto'], // Campo del texto del derecho
-                'ID_tOrdJur'           => $derecho['ID_tOrdJur'],
-                'Nombre_Ordenamiento'  => $derecho['TipoOrdenamiento']
-                // Agregar más campos si es necesario.
-            ];
-            $this->db->insert('rel_ins_info_derechos', $data);
+    /**
+     * Inserta array de derechos en rel_ins_info_derechos
+     *
+     * @param int   $id_inspeccion
+     * @param array $derechos  Cada item con claves texto, ID_tOrdJur, TipoOrdenamiento, Articulo, Fraccion, Inciso, Parrafo, Numero, Letra, Otros
+     */
+    public function guardar_info_derechos($id_inspeccion, array $derechos) {
+        // Borra viejos
+        $this->db->where('ID_inspeccion', $id_inspeccion)
+                 ->delete('rel_ins_info_derechos');
+
+        // Inserta cada uno
+        foreach ($derechos as $d) {
+            $this->db->insert('rel_ins_info_derechos', [
+                'ID_inspeccion'       => $id_inspeccion,
+                'ID_tOrdJur'          => $d['ID_tOrdJur']           ?? null,
+                'Derecho'             => $d['texto']                ?? '',
+                'Nombre_Ordenamiento' => $d['TipoOrdenamiento']     ?? '',
+                'Articulo'            => $d['Articulo']             ?? '',
+                'Fraccion'            => $d['Fraccion']             ?? '',
+                'Inciso'              => $d['Inciso']               ?? '',
+                'Parrafo'             => $d['Parrafo']              ?? '',
+                'Numero'              => $d['Numero']               ?? null,
+                'Letra'               => $d['Letra']                ?? '',
+                'Otro'                => $d['Otros']                ?? ''
+            ]);
         }
     }
 
-    // Nuevo método para guardar obligaciones del Step 3
-    public function guardar_info_obligaciones($id_inspeccion, $obligaciones) {
-        // Eliminar registros previos para esta inspección
-        $this->db->where('ID_inspeccion', $id_inspeccion);
-        $this->db->delete('rel_ins_info_obligaciones');
-        
-        // Insertar cada obligación
-        foreach ($obligaciones as $obl) {
-            $data = [
+    /**
+     * Inserta array de obligaciones en rel_ins_info_obligaciones
+     *
+     * @param int   $id_inspeccion
+     * @param array $obligaciones  Cada item con claves obligacion, ID_tOrdJur, TipoOrdenamiento, Articulo, Fraccion, Inciso, Parrafo, Numero, Letra, Otros
+     */
+    public function guardar_info_obligaciones($id_inspeccion, array $obligaciones) {
+        // Borra viejos
+        $this->db->where('ID_inspeccion', $id_inspeccion)
+                 ->delete('rel_ins_info_obligaciones');
+
+        // Inserta cada uno
+        foreach ($obligaciones as $o) {
+            $this->db->insert('rel_ins_info_obligaciones', [
                 'ID_inspeccion'       => $id_inspeccion,
-                'Obligacion'          => $obl['obligacion'],         // Texto ingresado
-                'ID_tOrdJur'          => $obl['ID_tOrdJur'],         // Clave foránea del catálogo
-                'Nombre_Ordenamiento' => $obl['TipoOrdenamiento'],   // Texto del tipo seleccionado
-                'Articulo'            => isset($obl['Articulo']) ? $obl['Articulo'] : null,
-                'Fraccion'            => isset($obl['Fraccion']) ? $obl['Fraccion'] : null,
-                // Agrega más campos si es necesario (Inciso, Párrafo, etc.)
-            ];
-            $this->db->insert('rel_ins_info_obligaciones', $data);
+                'ID_tOrdJur'          => $o['ID_tOrdJur']           ?? null,
+                'Obligacion'          => $o['obligacion']           ?? '',
+                'Nombre_Ordenamiento' => $o['TipoOrdenamiento']     ?? '',
+                'Articulo'            => $o['Articulo']             ?? '',
+                'Fraccion'            => $o['Fraccion']             ?? '',
+                'Inciso'              => $o['Inciso']               ?? '',
+                'Parrafo'             => $o['Parrafo']              ?? '',
+                'Numero'              => $o['Numero']               ?? null,
+                'Letra'               => $o['Letra']                ?? '',
+                'Otro'                => $o['Otros']                ?? ''
+            ]);
         }
     }
 }

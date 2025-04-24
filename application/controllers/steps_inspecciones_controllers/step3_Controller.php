@@ -5,60 +5,59 @@ class Step3_Controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        // Cargar el modelo del step3
-        $this->load->model('steps_inspecciones_models/step3_Model');
+        $this->load->model('steps_inspecciones_models/Step3_Model');
         $this->load->library('upload');
+        $this->load->library('session');
     }
 
-    // Método para guardar datos del Step 3
+    /**
+     * Recibe el POST de step3, guarda info básica, después derechos y obligaciones.
+     */
     public function guardar() {
-        $id_inspeccion = $this->input->post('ID_inspeccion'); // asegurarse de enviarlo en el formulario
-        // Recolectar datos básicos
-        $data = [
-            'Elemento_Inspeccionado' => $this->input->post('Elemento_Inspeccionado'),
-            'Otros_Sujetos_Obligados' => $this->input->post('Otros_Sujetos_Obligados'),
-            'Formato_Firma'         => $this->input->post('Formato_Firma')
+        $id_inspeccion = $this->input->post('ID_inspeccion');
+
+        // 1) Datos básicos
+        $info = [
+            'Elemento_Inspeccionado'  => $this->input->post('Bien_Elemento'),
+            'Otros_Sujetos_Obligados' => $this->input->post('Otros_Sujetos_Participan'),
+            'Formato_Firma'           => $this->input->post('Firmar_Formato'),
         ];
 
-        // Procesar archivo si se envía
-        if (!empty($_FILES['Formato_Archivo']['name'])) {
-            $config['upload_path']   = './uploads/inspecciones/step3'; // Ruta actualizada
-            $config['allowed_types'] = 'pdf|jpg|png';
+        // 2) Subida opcional de Archivo_Formato
+        if (!empty($_FILES['Archivo_Formato']['name'])) {
+            $config = [
+                'upload_path'   => './uploads/inspecciones/step3/',
+                'allowed_types' => 'pdf|jpg|png'
+            ];
             $this->upload->initialize($config);
-            if ($this->upload->do_upload('Formato_Archivo')) {
-                $uploadData = $this->upload->data();
-                $data['Formato_Archivo'] = $uploadData['file_name'];
+            if ($this->upload->do_upload('Archivo_Formato')) {
+                $info['Formato_Archivo'] = $this->upload->data('file_name');
             } else {
-                // Opcional: manejar error de carga
                 $this->session->set_flashdata('error', $this->upload->display_errors());
-                redirect('ruta/del/formulario');
+                return redirect("InspeccionesController/form/{$id_inspeccion}");
             }
-        } else {
-            $data['Formato_Archivo'] = null;
         }
 
-        // Guardar la información usando el modelo
-        if ($this->step3_Model->guardar_informacion($id_inspeccion, $data)) {
-            // Si se envían derechos desde el Step 3
-            if (isset($_POST['step3']['derechos'])) {
-                $derechosJson = $_POST['step3']['derechos'];
-                $derechosArray = json_decode($derechosJson, true);
-                $this->step3_Model->guardar_info_derechos($id_inspeccion, $derechosArray);
-            }
+        // 3) Guardar info principal
+        $ok = $this->Step3_Model->guardar_informacion($id_inspeccion, $info);
 
-            // Si se envían obligaciones desde el Step 3
-            if (isset($_POST['step3']['obligaciones'])) {
-                $obligacionesJson = $_POST['step3']['obligaciones'];
-                $obligacionesArray = json_decode($obligacionesJson, true);
-                // Llamar al método del modelo para guardar las obligaciones
-                $this->step3_Model->guardar_info_obligaciones($id_inspeccion, $obligacionesArray);
-            }
-
-            $this->session->set_flashdata('success', 'Datos del Step 3 guardados correctamente.');
-        } else {
-            $this->session->set_flashdata('error', 'Error al guardar los datos del Step 3.');
+        // 4) Derechos y obligaciones si vienen
+        $step3 = $this->input->post('step3');
+        if (!empty($step3['derechos'])) {
+            $arr = json_decode($step3['derechos'], true);
+            $this->Step3_Model->guardar_info_derechos($id_inspeccion, $arr);
         }
-        // Redirigir al paso o a la vista correspondiente
-        redirect('InspeccionesController/form/' . $id_inspeccion);
+        if (!empty($step3['obligaciones'])) {
+            $arr = json_decode($step3['obligaciones'], true);
+            $this->Step3_Model->guardar_info_obligaciones($id_inspeccion, $arr);
+        }
+
+        // 5) Feedback y redirección
+        if ($ok) {
+            $this->session->set_flashdata('success','Step 3 guardado correctamente.');
+        } else {
+            $this->session->set_flashdata('error','Error al guardar Step 3.');
+        }
+        redirect("InspeccionesController/form/{$id_inspeccion}");
     }
 }

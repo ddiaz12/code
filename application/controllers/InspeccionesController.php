@@ -153,7 +153,27 @@ class InspeccionesController extends CI_Controller
             $this->step2_Model->guardar($id_inspeccion, $postData['step2']);
         }
         if (isset($postData['step3'])) {
-            $this->step3_Model->guardar($id_inspeccion, $postData['step3']);
+            $this->step3_Model->guardar_informacion($id_inspeccion, $postData['step3']);
+
+            if (!empty($postData['step3']['derechos'])) {
+                // Decodificar JSON si es necesario
+                $derechos = is_string($postData['step3']['derechos']) ? json_decode($postData['step3']['derechos'], true) : $postData['step3']['derechos'];
+                if (is_array($derechos)) {
+                    $this->step3_Model->guardar_info_derechos($id_inspeccion, $derechos);
+                } else {
+                    log_message('error', 'Los datos de derechos no son un array válido.');
+                }
+            }
+
+            if (!empty($postData['step3']['obligaciones'])) {
+                // Decodificar JSON si es necesario
+                $obligaciones = is_string($postData['step3']['obligaciones']) ? json_decode($postData['step3']['obligaciones'], true) : $postData['step3']['obligaciones'];
+                if (is_array($obligaciones)) {
+                    $this->step3_Model->guardar_info_obligaciones($id_inspeccion, $obligaciones);
+                } else {
+                    log_message('error', 'Los datos de obligaciones no son un array válido.');
+                }
+            }
         }
         if (isset($postData['step4'])) {
             $this->step4_Model->guardar($id_inspeccion, $postData['step4']);
