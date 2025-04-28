@@ -147,7 +147,11 @@ class InspeccionesController extends CI_Controller
         
         // Llamar a los métodos de cada step (se invocan los modelos, no controladores)
         if (isset($postData['step1'])) {
-            $this->step1_Model->guardar($id_inspeccion, $postData['step1']);
+            $this->step1_Model->guardarDatosIdentificacion($id_inspeccion, $postData['step1']);
+            if (!empty($postData['step1']['fundamentos'])) {
+                $fundamentos = is_string($postData['step1']['fundamentos']) ? json_decode($postData['step1']['fundamentos'], true) : $postData['step1']['fundamentos'];
+                $this->step1_Model->guardarFundamentosJuridicos($id_inspeccion, $fundamentos);
+            }
         }
         if (isset($postData['step2'])) {
             $this->step2_Model->guardar($id_inspeccion, $postData['step2']);

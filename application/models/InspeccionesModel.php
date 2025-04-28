@@ -16,10 +16,23 @@ class InspeccionesModel extends CI_Model {
     }
 
     // Obtener una inspección por su ID
-    public function get_inspeccion_by_id($id) {
-        $this->db->where('ID', $id);
+    public function get_inspeccion_by_id($id_inspeccion) {
+        $this->db->where('ID', $id_inspeccion);
         $query = $this->db->get('ma_inspeccion');
-        return $query->row_array();
+        $data = $query->row_array();
+
+        // Agregar datos de identificación y fundamentos jurídicos
+        $this->db->select('*')
+                 ->from('rel_ins_datos_identificacion')
+                 ->where('ID_inspeccion', $id_inspeccion);
+        $data['datos_identificacion'] = $this->db->get()->row_array();
+
+        $this->db->select('*')
+                 ->from('rel_ins_fundamento_juridico')
+                 ->where('ID_inspeccion', $id_inspeccion);
+        $data['fundamentos_juridicos'] = $this->db->get()->result_array();
+
+        return $data;
     }
 
     // Insertar una nueva inspección
