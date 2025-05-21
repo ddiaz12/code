@@ -19,3 +19,4 @@ application/logs/*
 *.sql
 application/config/config.php
 application/config/config.php
+application\config\config.php
